@@ -187,19 +187,19 @@ export const MENU: MenuItem[] = [
                     {
                         id: 29,
                         label: 'Perfiles',
-                        link: '/maps/google',
+                        link: '/ajustes/parametros/perfiles',
                         parentId: 28
                     },
                     {
                         id: 30,
                         label: 'PGP',
-                        link: '/maps/leaflet',
+                        link: '/ajustes/parametros/rgp',
                         parentId: 28
                     },
                     {
                         id: 31,
                         label: 'Notas Técnicas',
-                        link: '/maps/leaflet',
+                        link: '/ajustes/parametros/notas-tecnicas',
                         parentId: 28
                     },
                 ]

@@ -4,10 +4,14 @@ import { RouterModule, Routes } from '@angular/router';
 // Modulos
 import { AuthRoutingModule } from './auth/auth.routing';
 import { LayoutComponent } from './layouts/layout/layout.component';
+import { AuthGuard } from './core/guards/auth.guard';
 
 
 const routes: Routes = [
-  { path: '', component: LayoutComponent, loadChildren: () => import('./pages/pages.module').then(m => m.PagesModule) },
+  { path: '', 
+    canActivate :[ AuthGuard ],
+    canLoad : [ AuthGuard ],
+    component: LayoutComponent, loadChildren: () => import('./pages/pages.module').then(m => m.PagesModule) },
   { path: '**', redirectTo:'/login', pathMatch:'full' },
 ];
 

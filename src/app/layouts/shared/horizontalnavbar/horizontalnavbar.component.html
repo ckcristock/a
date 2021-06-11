@@ -1,4 +1,4 @@
-<div class="topnav" style="background-color: #252b3b;">
+<div class="topnav">
     <div class="container-fluid">
         <nav class="navbar navbar-light navbar-expand-lg topnav-menu">
 
@@ -8,7 +8,7 @@
                     <ng-container *ngFor="let item of menuItems">
                         <li class="nav-item dropdown">
 
-                            <a class="nav-link dropdown-toggle arrow-none" style="color: beige;" href="javascript: void(0);" [routerLink]="item.link" id="topnav-components" role="button" (click)="onMenuClick($event)">
+                            <a class="nav-link dropdown-toggle arrow-none" href="javascript: void(0);" [routerLink]="item.link" id="topnav-components" role="button" (click)="onMenuClick($event)">
                                 <i class="{{ item.icon }} mr-2"></i>{{ item.label | translate }}
                                 <div *ngIf="item.subItems" class="arrow-down">
                                 </div>

@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
-import { LAYOUT_HORIZONTAL } from './layouts.model';
+import { LAYOUT_HORIZONTAL, LAYOUT_VERTICAL } from './layouts.model';
+import { EventService } from '../../core/services/event.service';
 
 
 @Component({
@@ -9,16 +10,14 @@ import { LAYOUT_HORIZONTAL } from './layouts.model';
 })
 export class LayoutComponent implements OnInit {
 
-  // layout related config
-  layoutType =  LAYOUT_HORIZONTAL;
 
   constructor() { }
 
   ngOnInit() {
-
+    /* document.body.setAttribute('data-topbar', 'dark'); */
+    document.body.setAttribute('data-layout', 'horizontal');
+    document.body.removeAttribute('data-sidebar');
+    document.body.setAttribute('data-topbar', 'light');
+    /* document.body.removeAttribute('data-layout-size'); */
   }
- 
-
- 
-
 }
