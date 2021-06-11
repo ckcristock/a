@@ -30,12 +30,15 @@
 
         <div class="d-flex">
 
-            <div class="dropdown d-none d-lg-inline-block ml-1">
+            <!--FULL SCREEM
+                
+                <div class="dropdown d-none d-lg-inline-block ml-1">
                 <button type="button" class="btn header-item noti-icon waves-effect" data-toggle="fullscreen" (click)="fullscreen()">
                   <i class="ri-fullscreen-line"></i>
                 </button>
-            </div>
+            </div> -->
 
+            <!--Notifications-->
             <div class="dropdown d-inline-block" ngbDropdown>
                 <button type="button" ngbDropdownToggle class="btn header-item noti-icon waves-effect" id="page-header-notifications-dropdown" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                   <i class="ri-notification-3-line"></i>
@@ -45,66 +48,23 @@
                     <div class="p-3">
                         <div class="row align-items-center">
                             <div class="col">
-                                <h6 class="m-0">{{ 'HEADER.NOTIFICATIONS.TITLE' | translate}} </h6>
+                                <h6 class="m-0">Notificaciones</h6>
                             </div>
                             <div class="col-auto">
-                                <a href="javascript: void(0);" class="small">{{ 'HEADER.NOTIFICATIONS.VIEW_ALL' | translate}}</a>
+                                <a href="javascript: void(0);" class="small">Ver todas</a>
                             </div>
                         </div>
                     </div>
                     <perfect-scrollbar style="position: relative; height: 230px;" [config]="configData">
-                        <a href="" class="text-reset notification-item">
-                            <div class="media">
-                                <div class="avatar-xs mr-3">
-                                    <span class="avatar-title bg-primary rounded-circle font-size-16">
-                                      <i class="ri-shopping-cart-line"></i>
-                                    </span>
-                                </div>
-                                <div class="media-body">
-                                    <h6 class="mt-0 mb-1">{{ 'HEADER.NOTIFICATIONS.FIRST.TITLE' | translate}}</h6>
-                                    <div class="font-size-12 text-muted">
-                                        <p class="mb-1">{{ 'HEADER.NOTIFICATIONS.FIRST.TEXT' | translate}}</p>
-                                        <p class="mb-0"><i class="mdi mdi-clock-outline"></i> {{ 'HEADER.NOTIFICATIONS.FIRST.TIME' | translate}}</p>
-                                    </div>
-                                </div>
-                            </div>
-                        </a>
-                        <a href="" class="text-reset notification-item">
-                            <div class="media">
-                                <img src="assets/images/users/avatar-3.jpg" class="mr-3 rounded-circle avatar-xs" alt="user-pic">
-                                <div class="media-body">
-                                    <h6 class="mt-0 mb-1">{{ 'HEADER.NOTIFICATIONS.SECOND.TITLE' | translate}}</h6>
-                                    <div class="font-size-12 text-muted">
-                                        <p class="mb-1">{{ 'HEADER.NOTIFICATIONS.SECOND.TEXT' | translate}}</p>
-                                        <p class="mb-0"><i class="mdi mdi-clock-outline"></i>{{ 'HEADER.NOTIFICATIONS.SECOND.TIME' | translate}}</p>
-                                    </div>
-                                </div>
-                            </div>
-                        </a>
-                        <a href="" class="text-reset notification-item">
-                            <div class="media">
-                                <div class="avatar-xs mr-3">
-                                    <span class="avatar-title bg-success rounded-circle font-size-16">
-                    <i class="ri-checkbox-circle-line"></i>
-                  </span>
-                                </div>
-                                <div class="media-body">
-                                    <h6 class="mt-0 mb-1">{{ 'HEADER.NOTIFICATIONS.THIRD.TITLE' | translate}}</h6>
-                                    <div class="font-size-12 text-muted">
-                                        <p class="mb-1">{{ 'HEADER.NOTIFICATIONS.THIRD.TEXT' | translate}}</p>
-                                        <p class="mb-0"><i class="mdi mdi-clock-outline"></i>{{ 'HEADER.NOTIFICATIONS.THIRD.TIME' | translate}}</p>
-                                    </div>
-                                </div>
-                            </div>
-                        </a>
+
                         <a href="" class="text-reset notification-item">
                             <div class="media">
                                 <img src="assets/images/users/avatar-4.jpg" class="mr-3 rounded-circle avatar-xs" alt="user-pic">
                                 <div class="media-body">
-                                    <h6 class="mt-0 mb-1">{{ 'HEADER.NOTIFICATIONS.FOUR.TITLE' | translate}}</h6>
+                                    <h6 class="mt-0 mb-1">{{ 'notification.tile' }}</h6>
                                     <div class="font-size-12 text-muted">
-                                        <p class="mb-1">{{ 'HEADER.NOTIFICATIONS.FOUR.TEXT' | translate}}</p>
-                                        <p class="mb-0"><i class="mdi mdi-clock-outline"></i>{{ 'HEADER.NOTIFICATIONS.FOUR.TIME' | translate}}</p>
+                                        <p class="mb-1">{{ 'notification.detail' }}</p>
+                                        <p class="mb-0"><i class="mdi mdi-clock-outline"></i>{{ 'notificaction.time' }}</p>
                                     </div>
                                 </div>
                             </div>
@@ -112,25 +72,26 @@
                     </perfect-scrollbar>
                     <div class="p-2 border-top">
                         <a class="btn btn-sm btn-link font-size-14 btn-block text-center" href="javascript:void(0)">
-                            <i class="mdi mdi-arrow-right-circle mr-1"></i> {{ 'HEADER.NOTIFICATIONS.LOAD_MORE' | translate}}
+                            <i class="mdi mdi-arrow-right-circle mr-1"></i> Ver Más
                         </a>
                     </div>
                 </div>
             </div>
 
+            <!--USER-->
             <div class="dropdown d-inline-block user-dropdown" ngbDropdown>
                 <button type="button" ngbDropdownToggle class="btn header-item waves-effect" id="page-header-user-dropdown" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                  <img class="rounded-circle header-profile-user" src="assets/images/users/avatar-2.jpg" alt="Header Avatar">
-                  <span class="d-none d-xl-inline-block ml-1">Kevin</span>
+                  <img class="rounded-circle header-profile-user" [src]="user.imagenUrl" alt="Header Avatar">
+                  <span class="d-none d-xl-inline-block ml-1">{{user.first_name}}</span>
                   <i class="mdi mdi-chevron-down d-none d-xl-inline-block"></i>
                 </button>
                 <div class="dropdown-menu dropdown-menu-right" ngbDropdownMenu>
                     <!-- item-->
                     <a class="dropdown-item" href="javascript: void(0);"><i class="ri-user-line align-middle mr-1"></i>
-                      {{ 'Perfil' | translate}}</a>
+                      Perfil</a>
 
                     <div class="dropdown-divider"></div>
-                    <a class="dropdown-item text-danger" href="javascript: void(0);" (click)="logout()"><i
+                    <a class="dropdown-item text-danger" (click)="logout()"><i
                       class="ri-shut-down-line align-middle mr-1 text-danger"></i>
                     Cerrar Sesión </a>
                 </div>

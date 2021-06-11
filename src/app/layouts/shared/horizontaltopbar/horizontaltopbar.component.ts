@@ -5,6 +5,8 @@ import { Router, NavigationEnd } from '@angular/router';
 
 
 import { environment } from '../../../../environments/environment';
+import { UserService } from '../../../core/services/user.service';
+import { User } from 'src/app/core/models/users.model';
 
 
 @Component({
@@ -29,14 +31,18 @@ export class HorizontaltopbarComponent implements OnInit {
     { text: 'Italian', flag: 'assets/images/flags/italy.jpg', lang: 'it' },
     { text: 'Russian', flag: 'assets/images/flags/russia.jpg', lang: 'ru' },
   ];
-
-  constructor(@Inject(DOCUMENT) private document: any, private router: Router,
- 
+  
+  public user : User;
+  constructor(@Inject(DOCUMENT) private document: any,
+    private router: Router,
+    private _user: UserService,
     public cookiesService: CookieService) { }
 
   ngOnInit(): void {
     this.element = document.documentElement;
-
+    this.user = this._user.user;
+    console.log(this.user);
+    
     this.configData = {
       suppressScrollX: true,
       wheelSpeed: 0.3
@@ -92,7 +98,7 @@ export class HorizontaltopbarComponent implements OnInit {
     this.countryName = text;
     this.flagvalue = flag;
     this.cookieValue = lang;
-   
+
   }
 
   /**
@@ -114,12 +120,7 @@ export class HorizontaltopbarComponent implements OnInit {
    * Logout the user
    */
   logout() {
-   /*  if (environment.defaultauth === 'firebase') {
-      this.authService.logout();
-    } else {
-      this.authFackservice.logout();
-    } */
-    this.router.navigate(['/login']);
+    this._user.logout();
   }
 
 }

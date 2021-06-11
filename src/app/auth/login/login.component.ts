@@ -1,6 +1,8 @@
 import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
-
+import { UserService } from '../../core/services/user.service';
+import { Router } from '@angular/router';
+import Swal from 'sweetalert2';
 
 @Component({
   selector: 'app-login',
@@ -16,36 +18,47 @@ export class LoginComponent implements OnInit {
 
   // set the currenr year
   year: number = new Date().getFullYear();
-  constructor(private formBuilder: FormBuilder) { }
+  constructor(private formBuilder: FormBuilder,
+    private _user: UserService,
+    private router: Router
+  ) { }
 
   ngOnInit() {
     document.body.removeAttribute('data-layout');
     document.body.classList.add('auth-body-bg');
 
     this.loginForm = this.formBuilder.group({
-      email: ['', [Validators.required, Validators.email]],
+      user: [localStorage.getItem('user') || '', [Validators.required]],
       password: ['', [Validators.required]],
+      remember: [ localStorage.getItem('user') ? true : false]
     });
 
-    // reset login status
-    // this.authenticationService.logout();
-    // get return url from route parameters or default to '/'
-    // tslint:disable-next-line: no-string-literal
-   // this.returnUrl = this.route.snapshot.queryParams['returnUrl'] || '/';
   }
 
- 
 
-  /**
-   * Form submit
-   */
   onSubmit() {
     this.submitted = true;
 
-    // stop here if form is invalid
-    
+    this._user.login(this.loginForm.value)
+   /*    .subscribe(resp => { */
+
+        if (this.loginForm.get('remember').value) {
+          localStorage.setItem('user', this.loginForm.get('user').value);
+        } else {
+          localStorage.removeItem('user');
+        }
+
+        // Navegar al Dashboard
+        this.router.navigateByUrl('/');
+
+     /*  }, (err) => { */
+        // Si sucede un error
+       /*  Swal.fire('Error', err.error.msg, 'error'); */
+      /* }); */
+
+
   }
-    // convenience getter for easy access to form fields
-    get f() { return this.loginForm.controls; }
+  // convenience getter for easy access to form fields
+  get f() { return this.loginForm.controls; }
 
 }

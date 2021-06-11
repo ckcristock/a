@@ -12,7 +12,8 @@ const routes: Routes = [
     canActivate :[ AuthGuard ],
     canLoad : [ AuthGuard ],
     component: LayoutComponent, loadChildren: () => import('./pages/pages.module').then(m => m.PagesModule) },
-  { path: '**', redirectTo:'/login', pathMatch:'full' },
+    
+  { path: '**', redirectTo:'/', pathMatch:'full' },
 ];
 
 

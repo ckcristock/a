@@ -1,8 +1,7 @@
 import { Injectable } from "@angular/core";
 import { ActivatedRouteSnapshot, CanActivate, CanLoad, Route, Router, RouterStateSnapshot, UrlSegment, UrlTree } from "@angular/router";
 import { Observable } from "rxjs";
-import { tap } from "rxjs/operators";
-import { UsuarioServicio } from "../services/usuario.service";
+import { UserService } from '../services/user.service';
 
 
 @Injectable({
@@ -10,11 +9,11 @@ import { UsuarioServicio } from "../services/usuario.service";
 })
 export class AuthGuard implements CanActivate, CanLoad {
 
-    constructor(private usuarioService: UsuarioServicio,
+    constructor(private _user: UserService,
         private router: Router) { }
 
     canLoad(route: Route, segments: UrlSegment[]): boolean | UrlTree | Observable<boolean | UrlTree> | Promise<boolean | UrlTree> {
-        let validacion = this.usuarioService.validarToken()
+        let validacion = this._user.validarToken()
 
         if (!validacion) {
             this.router.navigateByUrl('/login');
@@ -35,7 +34,7 @@ export class AuthGuard implements CanActivate, CanLoad {
                }
              })
            ); */
-        let validacion = this.usuarioService.validarToken()
+        let validacion = this._user.validarToken()
 
         if (!validacion) {
             this.router.navigateByUrl('/login');
