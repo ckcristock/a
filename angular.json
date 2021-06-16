@@ -28,7 +28,6 @@
                             "src/assets"
                         ],
                         "styles": [
-                            "src/styles.scss",
                             "src/assets/scss/bootstrap.scss",
                             "src/assets/scss/app.scss",
                             "src/styles.scss"

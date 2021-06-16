@@ -1,0 +1,149 @@
+<div class="page-body" *ngIf="Cargando">
+
+    <div class="col-md-12">
+        <div class="card">
+
+            <div class="row">
+                <div class="col-12 text-center">
+                    <h4 class="font-weight-bold text-warning ml-2" style="">Hola</h4>
+                </div>
+            </div>
+
+            <div class="row">
+                <div class="col-12 ml-2 text-center">
+                    <h3 class="font-weight-bold text-primary " style="">{{Formulario.Nombre}}</h3>
+                    <p style="font-size: 1.5rem;">{{Formulario.Descripcion}}</p>
+                    <div class="separator mb-3"></div>
+                </div>
+            </div>
+
+
+            <form #FormEvaluacionRespuesta="ngForm">
+
+                <div class="row">
+                    <div class="col-6" *ngFor="let pre of Formulario.questions; let i=index">
+                        <div class="card">
+                            <div class="card-title m-2">
+                                <h6 class="text-primary" style="font-size: 1.5rem;">{{i+1}} - {{pre.Pregunta}}</h6>
+                            </div>
+
+                            <ng-container *ngIf="pre.Tipo == '1' || pre.Tipo == '2' ">
+                                <div *ngFor="let r of pre.question_responses; let j=index">
+                                    <div class="ml-3 text-left">
+                                        <input type="radio" [name]="i" [value]="r"
+                                            (change)="setSwitchRadio($event,pre,r,j,i)" required>
+                                        <label for="{{r.Respuesta}}" class="mx-3"
+                                            style="font-size: 1.3rem;">{{r.Respuesta}}</label>
+                                    </div>
+                                </div>
+                            </ng-container>
+
+
+                            <!-- <div class="card-body p-1" *ngIf="pre.Tipo == '3' ">
+                                <div class="row" *ngFor="let r of pre.Respuestas; let j=index">
+                                    <div class="ml-4 text-center">
+                                        <input type="checkbox" [checked]="(r.Selected == true)" [name]="i" [value]="r"
+                                        (change)="setSwitchCheckb($event.target.checked,pre,r,j,i)" required>
+                                        <label for="{{r.Respuesta}}">{{r.Respuesta}}</label>
+                                    </div>
+                                </div>
+                            </div> -->
+
+                            <!-- <div class="card-body" *ngIf="pre.Tipo == '4'">
+                                <div class="row">
+                                    <div class="col-12 text-center">
+                                        <textarea name="Observaciones" type="text" rows="4" class="form-control"
+                                            (change)="setSwitchRadio($event.target.value,pre)"
+                                            [(ngModel)]="pre.Respuesta" required>
+                                    </textarea>
+                                    </div>
+                                </div>
+                            </div> -->
+
+                            <!-- <div class="card-body p-1" *ngIf="pre.Tipo == '5'">
+                                <div class="row">
+                                    <div class="col-2 ml-4  text-center">
+                                        <input type="date" name="Fecha" class="form-control form-control-sm"
+                                            (change)="setSwitchRadio($event.target.value,pre)"
+                                            [(ngModel)]="pre.Respuesta" required>
+                                        </div>
+                                </div>
+                            </div> -->
+
+                            <!-- <div class="card-body p-1" *ngIf="pre.Tipo == '6'">
+                                <div class="row">
+                                    <div class="col-2 ml-3  text-center">
+                                        <input type="text" name="Telefono" class="form-control custom-control"
+                                            (change)="setSwitchRadio($event.target.value,pre)"
+                                            [(ngModel)]="pre.Respuesta" placeholder="Telefono">
+                                    </div>
+                                </div>
+                            </div> -->
+
+                            <!-- <div class="card-body p-1" *ngIf="pre.Tipo == '7'">
+                                <div class="row">
+                                    <div class="col-2 ml-4  text-center">
+                                        <input type="email" class="form-control" name="Email" id="Email"
+                                        (change)="setSwitchRadio($event.target.value,pre)"
+                                        [(ngModel)]="preg.Respuesta" placeholder="Email">
+                                    </div>
+                                </div>
+                            </div> -->
+
+                        </div>
+                    </div>
+                </div>
+
+
+                <div class="card-body p-1">
+                    <div class="ml-4 text-center">
+                        <button type="button" [disabled]="" class="btn btn-info" (click)="confirmSendQuestion()">{{
+                            FormEvaluacionRespuesta.form.valid | json }} Enviar Encuesta
+                        </button>
+                    </div>
+                </div>
+
+            </form>
+
+
+        </div>
+    </div>
+</div>
+
+<app-modal-basic #modalConfirmUser [dialogClass]="'modal-lg modal-full'">
+
+    <div class="app-modal-header">
+        <div class="row">
+            <h4 class=" text text-center justify-content-center modal-title mx-5 mt-3 ">Ingresa los siguientes datos:
+            </h4>
+            <button type="button" class="close basic-close">
+                <span aria-hidden="true" (click)="cerrarModal()">&times;</span>
+            </button>
+        </div>
+    </div>
+
+    <div class="app-modal-body">
+
+        <div class="row mt-3">
+            <div class="col-6 ml-4  text-center">
+
+                <label>Empresa</label>
+                <ng-select [options]="cpTypes" name="idCompany" bindLabel="name" bindValue="id"
+                    placeholder="Seleccione " [(ngModel)]="idCompany" (ngModelChange)="getSedes()" required></ng-select>
+
+            </div>
+            <div class="col-5 ml-4  text-center">
+                <label>Sede</label>
+                <ng-select [options]="cpSedes" name="idSede" bindLabel="name" bindValue="id" placeholder="Seleccione "
+                    [(ngModel)]="idSede" ng-change="getSedes()" required></ng-select>
+            </div>
+        </div>
+
+    </div>
+    <div class="app-modal-footer">
+        <div class="text-right">
+            <button type="button" class="btn btn-secondary btn-sm mx-2" (click)="cerrarModal()">Cancelar</button>
+            <button type="button" class="btn btn-info btn-sm" (click)="confirm()">Confirmar</button>
+        </div>
+    </div>
+</app-modal-basic>
