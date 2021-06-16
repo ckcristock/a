@@ -84,7 +84,7 @@ export const MENU: MenuItem[] = [
                 id: 14,
                 label: 'Documentos de Gestón',
                 link: '/sst/documentos-gestion',
-                parentId:13
+                parentId: 13
             },
         ]
     },
@@ -98,7 +98,7 @@ export const MENU: MenuItem[] = [
                 id: 16,
                 label: 'Información Base',
                 link: '/',
-                parentId:15,
+                parentId: 15,
                 subItems: [
                     {
                         id: 17,
@@ -160,7 +160,7 @@ export const MENU: MenuItem[] = [
             {
                 id: 25,
                 label: 'Tipos',
-                parentId:15,
+                parentId: 15,
                 subItems: [
                     {
                         id: 26,
@@ -174,7 +174,7 @@ export const MENU: MenuItem[] = [
                         link: 'ajustes/tipos/tipos-consulta',
                         parentId: 25
                     },
-                    
+
 
                 ]
             },
@@ -202,6 +202,25 @@ export const MENU: MenuItem[] = [
                         link: '/ajustes/parametros/notas-tecnicas',
                         parentId: 28
                     },
+                ]
+            },
+            {
+                id: 28,
+                label: 'Encuestas',
+                icon: 'ri-map-pin-line',
+                subItems: [
+                    {
+                        id: 29,
+                        label: 'Crear encuesta',
+                        link: '/ajustes/encuestas/create-quest',
+                        parentId: 28
+                    },
+                    // {
+                    //     id: 29,
+                    //     label: 'Aplcar encuesta',
+                    //     link: '/ajustes/encuestas/apply-quest',
+                    //     parentId: 28
+                    // },
                 ]
             }
         ]
