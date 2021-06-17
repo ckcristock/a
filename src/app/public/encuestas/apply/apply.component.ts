@@ -38,11 +38,11 @@ export class ApplyComponent implements OnInit, OnDestroy {
   };
 
   public cpTypes = [{
-    value: 0, label: ''
+    value: 0, text: ''
   }]
 
   public cpSedes = [{
-    value: 0, label: ''
+    value: 0, text: ''
   }]
   public idCompany = ''
   public idSede = ''

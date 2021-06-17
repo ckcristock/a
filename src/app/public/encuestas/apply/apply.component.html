@@ -128,14 +128,24 @@
             <div class="col-6 ml-4  text-center">
 
                 <label>Empresa</label>
-                <!-- <ng-select [options]="cpTypes" name="idCompany" bindLabel="name" bindValue="id"
-                    placeholder="Seleccione " [(ngModel)]="idCompany" (ngModelChange)="getSedes()" required></ng-select> -->
+
+                <select [(ngModel)]="idCompany" class="form-control" (ngModelChange)="getSedes()">
+                    <option *ngFor="let company of cpTypes" [value]="company.value">{{company.text}}</option>
+                </select>
+
+                <!-- <select [options]="cpTypes" name="idCompany" bindLabel="name" bindValue="id"
+                    placeholder="Seleccione " [(ngModel)]="idCompany" (ngModelChange)="getSedes()" required></select> -->
 
             </div>
             <div class="col-5 ml-4  text-center">
-                <label>Sede</label>
+                <label>Sede </label>
+
+                <select [(ngModel)]="idSede" class="form-control">
+                    <option *ngFor="let sede of cpSedes" [value]="sede.value">{{sede.text}}</option>
+                </select>
                 <!-- <ng-select [options]="cpSedes" name="idSede" bindLabel="name" bindValue="id" placeholder="Seleccione "
                     [(ngModel)]="idSede" ng-change="getSedes()" required></ng-select> -->
+
             </div>
         </div>
 
