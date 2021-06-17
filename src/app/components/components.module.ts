@@ -5,7 +5,7 @@ import { HttpClientModule } from '@angular/common/http';
 import { UiModule } from '../shared/ui/ui.module';
 import { NgbAlertModule } from '@ng-bootstrap/ng-bootstrap';
 import { ModalBasicComponent } from './modal-basic/modal-basic.component';
-import { SelectModule } from 'ng-select';
+// import { SelectModule } from 'ng-select';
 
 @NgModule({
   declarations: [
@@ -13,13 +13,13 @@ import { SelectModule } from 'ng-select';
   ],
   exports: [
     ModalBasicComponent,
-    SelectModule
+    // SelectModule
 
   ],
   imports: [
     FormsModule,
     CommonModule,
-    SelectModule
+    // SelectModule
   ]
 })
 export class ComponentsModule { }
