@@ -129,20 +129,24 @@
 
                 <label>Empresa</label>
 
-                <select [(ngModel)]="idCompany" class="form-control" (ngModelChange)="getSedes()">
-                    <option *ngFor="let company of cpTypes" [value]="company.value">{{company.text}}</option>
-                </select>
+                <ng-select [items]="cpTypes" bindLabel="text" bindValue="value" [(ngModel)]="idCompany"
+                    placeholder="Seleccione " loadingText="loading" ngDefaultControl (ngModelChange)="getSedes()">
+                </ng-select>
 
-                <!-- <select [options]="cpTypes" name="idCompany" bindLabel="name" bindValue="id"
-                    placeholder="Seleccione " [(ngModel)]="idCompany" (ngModelChange)="getSedes()" required></select> -->
+                <!--Using ng-option and for loop-->
+                <!-- <ng-select [(ngModel)]="idCompany" ngDefaultControl (ngModelChange)="getSedes()"
+                    placeholder="Seleccione ">
+                    <ng-option *ngFor="let company of cpTypes" [value]="company.value">{{company.text }}</ng-option>
+                </ng-select> -->
 
             </div>
             <div class="col-5 ml-4  text-center">
                 <label>Sede </label>
 
-                <select [(ngModel)]="idSede" class="form-control">
-                    <option *ngFor="let sede of cpSedes" [value]="sede.value">{{sede.text}}</option>
-                </select>
+                <ng-select [(ngModel)]="idSede" ngDefaultControl placeholder="Seleccione ">
+                    <ng-option *ngFor="let sede of cpSedes" [value]="sede.value">{{sede.text }}</ng-option>
+                </ng-select>
+
                 <!-- <ng-select [options]="cpSedes" name="idSede" bindLabel="name" bindValue="id" placeholder="Seleccione "
                     [(ngModel)]="idSede" ng-change="getSedes()" required></ng-select> -->
 

@@ -21,7 +21,9 @@
 
 export const environment = {
   production: false,
-  base_url: 'http://ateneo.test/api'
+  base_url: 'https://ateneoerp.com/api'
+  // base_url:  'http://ateneo.test/api'
+
   // base_url: 'http://localhost:3000/api'
 };
 

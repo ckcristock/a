@@ -38,14 +38,16 @@ export class ApplyComponent implements OnInit, OnDestroy {
   };
 
   public cpTypes = [{
-    value: 0, text: ''
+    value: 0, text: 'Seleccione'
   }]
 
   public cpSedes = [{
-    value: 0, text: ''
+    value: 0, text: 'Seleccione'
   }]
-  public idCompany = ''
-  public idSede = ''
+
+  public idCompany: Number;
+  public idSede: Number;
+
   mySubscription: any;
 
 
@@ -64,7 +66,7 @@ export class ApplyComponent implements OnInit, OnDestroy {
   }
 
   verifyUser() {
-    if (localStorage.getItem('idCompany') != null && localStorage.getItem('idSede') != null) {
+    if (localStorage.getItem('idCompany') != null && localStorage.getItem('idCompany') != 'undefined' && localStorage.getItem('idSede') != 'undefined' && localStorage.getItem('idSede') != null) {
       this.getQuestionBaseOnUser();
     } else {
       this.getCompanys();
@@ -201,10 +203,16 @@ export class ApplyComponent implements OnInit, OnDestroy {
       reverseButtons: true
     }).then((result) => {
       if (result.isConfirmed) {
-        this.getQuestionBaseOnUser()
-        localStorage.setItem('idCompany', this.idCompany)
-        localStorage.setItem('idSede', this.idSede)
-        this.modalConfirmUser.hide()
+        if (!this.idCompany || !this.idSede) {
+          Swal.fire({
+            icon: 'error',
+            title: 'Oops...',
+            text: ' Debes completar todos los campos  >.< !',
+          })
+          return false;
+        } else {
+          this.getQuestionBaseOnUser()
+        }
       } else if (
         result.dismiss === Swal.DismissReason.cancel
       ) {
@@ -252,6 +260,11 @@ export class ApplyComponent implements OnInit, OnDestroy {
   getQuestionBaseOnUser() {
     this.client.get(`${environment.base_url}/get-formulario/1`).subscribe((data) => {
       // this.client.get(`${environment.base_url}/get-formulario/${this.idCompany}/${this.idSede}`).subscribe((data) => {
+
+      localStorage.setItem('idCompany', ((this.idCompany) ? String(this.idCompany) : localStorage.getItem('idCompany')))
+      localStorage.setItem('idSede', ((this.idSede) ? String(this.idSede) : localStorage.getItem('idSede')))
+
+      this.modalConfirmUser.hide()
       this.Cargando = true;
       this.Formulario = data['data'];
     })
@@ -259,7 +272,6 @@ export class ApplyComponent implements OnInit, OnDestroy {
 
   sendQuestionBaseOnUser() {
 
-    console.log(this.Formulario.questions.length, this.EnvioRespuestas.length);
     if (this.Formulario.questions.length != this.EnvioRespuestas.length) {
       Swal.fire({
         icon: 'error',
