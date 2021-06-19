@@ -13,6 +13,9 @@ import { LoginComponent } from './login/login.component';
 import { AuthInterceptor } from './auth.interceptor';
 import { PublicRoutingModule } from './public/public-routing.module';
 import { PublicModule } from './public/public.module';
+import { NgSelectModule } from '@ng-select/ng-select';
+import { FormsModule } from '@angular/forms';
+
 
 
 export function createTranslateLoader(http: HttpClient): any {
@@ -29,6 +32,8 @@ export function createTranslateLoader(http: HttpClient): any {
     AppRoutingModule,
     AuthModule,
     LayoutsModule,
+    NgSelectModule,
+    FormsModule,
     TranslateModule.forRoot({
       loader: {
         provide: TranslateLoader,
