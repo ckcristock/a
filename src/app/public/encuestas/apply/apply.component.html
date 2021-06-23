@@ -142,7 +142,6 @@
             </div>
             <div class="col-5 ml-4  text-center">
                 <label>Sede </label>
-
                 <ng-select [(ngModel)]="idSede" ngDefaultControl placeholder="Seleccione ">
                     <ng-option *ngFor="let sede of cpSedes" [value]="sede.value">{{sede.text }}</ng-option>
                 </ng-select>
