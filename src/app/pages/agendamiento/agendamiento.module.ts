@@ -10,12 +10,15 @@ import { ListaEsperaComponent } from './lista-espera/lista-espera.component';
 import { IndicadoresGestionComponent } from './indicadores-gestion/indicadores-gestion.component';
 import { ReportesComponent } from './reportes/reportes.component';
 
+import { NgSelectModule } from '@ng-select/ng-select';
+
 
 @NgModule({
-    declarations:[AbrirAgendasComponent, AsignacionCitasComponent, ListaTrabajoComponent, ListaEsperaComponent, IndicadoresGestionComponent, ReportesComponent],
-    imports:[
+    declarations: [AbrirAgendasComponent, AsignacionCitasComponent, ListaTrabajoComponent, ListaEsperaComponent, IndicadoresGestionComponent, ReportesComponent],
+    imports: [
         CommonModule,
         FormsModule,
+        NgSelectModule,
         AgendamientoRoutingModule
     ],
 
