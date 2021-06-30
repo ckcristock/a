@@ -1,27 +1,25 @@
-import { Component, OnInit } from '@angular/core';
-import { FormBuilder, Validators, FormGroup } from '@angular/forms';
+import { Component, ElementRef, OnInit, ViewChild } from '@angular/core';
+import { EventInput } from '@fullcalendar/core';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
-
+import { OpenAgendaService } from '../../open-agenda.service';
 import Swal from 'sweetalert2';
-
 import listPlugin from '@fullcalendar/list';
 import dayGridPlugin from '@fullcalendar/daygrid';
 import timeGrigPlugin from '@fullcalendar/timegrid';
 import interactionPlugin from '@fullcalendar/interaction';
 import bootstrapPlugin from '@fullcalendar/bootstrap';
-import { EventInput } from '@fullcalendar/core';
+import { FormBuilder, Validators, FormGroup } from '@angular/forms';
 
-
-import { Event } from './event.model';
-import { category, calendarEvents } from './data';
-import { OpenAgendaService } from '../open-agenda.service';
-
+/* import { NextStepDirective } from 'angular-archwizard'; */
 @Component({
-  selector: 'app-callendar',
-  templateUrl: './callendar.component.html',
-  styleUrls: ['./callendar.component.scss']
+  selector: 'app-agendar-citas',
+  templateUrl: './agendar-citas.component.html',
+  styleUrls: ['./agendar-citas.component.scss']
 })
-export class CallendarComponent implements OnInit {
+
+export class AgendarCitasComponent implements OnInit {
+  /* @ViewChild('next') next; */
+  @ViewChild('next') next: ElementRef;
 
   // bread crumb items
   breadCrumbItems: Array<{}>;
@@ -195,8 +193,6 @@ export class CallendarComponent implements OnInit {
   }
 
   private _fetchData() {
-    // Event category
-    this.category = category;
     // Calender Event Data
     this._openAgendaService.getAppointments(1).subscribe((resp: any) => {
 
@@ -225,5 +221,10 @@ export class CallendarComponent implements OnInit {
       category: ''
     });
     this.modalService.dismissAll();
+  }
+
+  siguiente() {
+    this.next.nativeElement.click();
+
   }
 }

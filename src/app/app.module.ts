@@ -16,7 +16,7 @@ import { PublicModule } from './public/public.module';
 import { NgSelectModule } from '@ng-select/ng-select';
 import { FormsModule } from '@angular/forms';
 
-
+import { ArchwizardModule } from 'angular-archwizard';
 
 export function createTranslateLoader(http: HttpClient): any {
   return new TranslateHttpLoader(http, 'assets/i18n/', '.json');
@@ -28,6 +28,7 @@ export function createTranslateLoader(http: HttpClient): any {
     LoginComponent
   ],
   imports: [
+    ArchwizardModule,
     BrowserModule,
     AppRoutingModule,
     AuthModule,

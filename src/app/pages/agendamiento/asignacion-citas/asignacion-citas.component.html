@@ -1,1 +1,30 @@
-<p>asignacion-citas works!</p>
+<div class="row">
+    <div class="col-12">
+        <div class="row">
+            <div class="col-12 mb-4">
+
+            </div>
+            <div class="col-12 d-flex menu mb-4">
+                <button class="btn btn-primary" (click)="show('asignar')"> Asignación</button>
+                <button class="btn btn-primary" (click)="show('tipificar')"> Tipificación</button>
+                <button class="btn btn-primary" (click)="show('citas')"> Citas</button>
+
+            </div>
+
+            <div class="col-8">
+                <div *ngIf="operation=='asignar'">
+                    <app-agendar-citas></app-agendar-citas>
+                </div>
+                <div *ngIf="operation=='tipificar'">
+                    <app-tipificacion></app-tipificacion>
+                </div>
+                <div *ngIf="operation=='citas'">
+                    <app-citas></app-citas>
+                </div>
+            </div>
+            <div class="col-4">
+                <app-set-paciente></app-set-paciente>
+            </div>
+        </div>
+    </div>
+</div>
