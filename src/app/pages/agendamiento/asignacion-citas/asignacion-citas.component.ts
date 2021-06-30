@@ -6,10 +6,14 @@ import { Component, OnInit } from '@angular/core';
   styleUrls: ['./asignacion-citas.component.scss']
 })
 export class AsignacionCitasComponent implements OnInit {
+  operation = 'asignar';
 
   constructor() { }
-
   ngOnInit(): void {
+  }
+
+  show(type){
+    this.operation = type;
   }
 
 }
