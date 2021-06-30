@@ -5,25 +5,57 @@
 
             </div>
             <div class="col-12 d-flex menu mb-4">
-                <button class="btn btn-primary" (click)="show('asignar')"> Asignación</button>
-                <button class="btn btn-primary" (click)="show('tipificar')"> Tipificación</button>
-                <button class="btn btn-primary" (click)="show('citas')"> Citas</button>
+                <!-- <button class="btn btn-primary" (click)="show('asignar')"> Asignación</button> -->
+                <!--   <button class="btn btn-primary" (click)="show('tipificar')"> Tipificación</button> -->
+                <!-- <button class="btn btn-primary" (click)="show('citas')"> Citas</button> -->
 
             </div>
 
             <div class="col-8">
-                <div *ngIf="operation=='asignar'">
+                <div class="row">
+                    <div class="col-12">
+                        <app-tipificacion (tramite)="changeTramite($event)"></app-tipificacion>
+                    </div>
+                </div>
+                <div *ngIf="operation=='Asignar Citas'">
                     <app-agendar-citas></app-agendar-citas>
                 </div>
-                <div *ngIf="operation=='tipificar'">
-                    <app-tipificacion></app-tipificacion>
-                </div>
-                <div *ngIf="operation=='citas'">
+
+                <div *ngIf="operation=='Reasignar Citas'">
                     <app-citas></app-citas>
                 </div>
             </div>
+            <!--  <app-set-paciente></app-set-paciente> -->
             <div class="col-4">
-                <app-set-paciente></app-set-paciente>
+
+
+                <div class="card">
+                    <div class="card-body">
+                        <!-- <h4 class="card-title">Datos del Paciente</h4> -->
+                        <!--   <p class="card-title-desc">Example of custom tabs</p> -->
+                        <ul ngbNav #customNav="ngbNav" [activeId]="1" class="nav-tabs nav-tabs-custom nav-justified">
+                            <li [ngbNavItem]="1">
+                                <a ngbNavLink> Paciente</a>
+                                <ng-template ngbNavContent>
+                                    <div class="mt-4">
+                                        <app-set-paciente></app-set-paciente>
+                                    </div>
+                                </ng-template>
+                            </li>
+                            <li [ngbNavItem]="2">
+                                <a ngbNavLink>Citas</a>
+                                <ng-template ngbNavContent>
+                                    <div class="mt-4">
+                                        <app-resumen-citas></app-resumen-citas>
+                                    </div>
+                                </ng-template>
+                            </li>
+
+
+                        </ul>
+                        <div [ngbNavOutlet]="customNav"></div>
+                    </div>
+                </div>
             </div>
         </div>
     </div>

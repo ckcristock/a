@@ -3,49 +3,12 @@
         <form class="">
 
             <div class="row">
-                <div class="col-6">
-                    <div class="input-group mb-3">
-                        <div class="input-group-prepend">
-                            <span class="input-group-text" id="inputGroup-sizing-default">              
-                                  <i class="mdi mdi-close noti-icon"></i>
-                            </span>
-                        </div>
-                        <select class="custom-select " name="Id_Tipo_Identificacion " [(ngModel)]="cita.Id_Tipo_Identificacion ">
-                            <option value=" ">Tipo</option>
-                            <option [value]="type.Id" *ngFor="let type of typesDocuments ">{{type.Nombre}}</option>
-                        </select>
-                    </div>
-                </div>
-                <div class="col-6">
-                    <div class="input-group mb-3">
-                        <div class="input-group-prepend">
-                            <span class="input-group-text" id="inputGroup-sizing-default">
-                                <i class="mdi mdi-close noti-icon"></i>
-
-                            </span>
-                        </div>
-                        <select class="custom-select " name="Id_Tipo_Identificacion " [(ngModel)]="cita.Id_Tipo_Identificacion ">
-                            <option value=" ">Tipo</option>
-                            <option [value]="type.Id" *ngFor="let type of typesDocuments ">{{type.Nombre}}</option>
-                        </select>
-                    </div>
-                </div>
-
-                <div class="alert alert-danger col-12" role="alert">
-                    <h4 class="alert-heading">ÚLTIMA CITA DEL PACIENTE</h4>
-                    <p>{{'MENSAJE'}}</p>
-                    <hr>
-                    <p class="mb-0">
-                        <button class="btn btn-danger">VER HISTÓRICO</button>
-                    </p>
-                </div>
 
                 <div class="col-12 mt-12">
                     <div class="input-group mb-3">
                         <div class="input-group-prepend">
                             <span class="input-group-text" id="inputGroup-sizing-default">
-                                <i class="mdi mdi-close noti-icon"></i>
-
+                                <i class="fas fa-stethoscope"></i>
                             </span>
                         </div>
                         <select class="custom-select " name="Id_Tipo_Identificacion " [(ngModel)]="cita.Id_Tipo_Identificacion ">
@@ -54,12 +17,11 @@
                         </select>
                     </div>
                 </div>
-                <div class="col-4 mt-12">
+                <div class="col-6 mt-12">
                     <div class="input-group mb-3">
                         <div class="input-group-prepend">
                             <span class="input-group-text" id="inputGroup-sizing-default">
-                                <i class="mdi mdi-close noti-icon"></i>
-
+                                <i class="fas fa-hospital-alt"></i>
                             </span>
                         </div>
                         <select class="custom-select " name="Id_Tipo_Identificacion " [(ngModel)]="cita.Id_Tipo_Identificacion ">
@@ -68,11 +30,11 @@
                         </select>
                     </div>
                 </div>
-                <div class="col-4 mt-12">
+                <div class="col-6 mt-12">
                     <div class="input-group mb-3">
                         <div class="input-group-prepend">
                             <span class="input-group-text" id="inputGroup-sizing-default">
-                                <i class="mdi mdi-close noti-icon"></i>
+                                <i class="fas fa-user-md"></i>
 
                             </span>
                         </div>
@@ -82,11 +44,11 @@
                         </select>
                     </div>
                 </div>
-                <div class="col-4 mt-12">
+                <div class="col-6 mt-12">
                     <div class="input-group mb-3">
                         <div class="input-group-prepend">
                             <span class="input-group-text" id="inputGroup-sizing-default">
-                                <i class="mdi mdi-close noti-icon"></i>
+                                <i class="fas fa-notes-medical "></i>
 
                             </span>
                         </div>
@@ -96,68 +58,24 @@
                         </select>
                     </div>
                 </div>
-                <div class="col-3 mt-12">
+                <div class="col-6 mt-12">
                     <div class="input-group mb-3">
                         <div class="input-group-prepend">
                             <span class="input-group-text" id="inputGroup-sizing-default">
-                                <i class="mdi mdi-close noti-icon"></i>
-
+                                <i class="fas fa-calendar-alt"></i>
                             </span>
                         </div>
-                        <select class="custom-select " name="Id_Tipo_Identificacion " [(ngModel)]="cita.Id_Tipo_Identificacion ">
-                            <option value=" ">Tipo</option>
-                            <option [value]="type.Id" *ngFor="let type of typesDocuments ">{{type.Nombre}}</option>
-                        </select>
-                    </div>
-                </div>
-                <div class="col-3 mt-12">
-                    <div class="input-group mb-3">
-                        <div class="input-group-prepend">
-                            <span class="input-group-text" id="inputGroup-sizing-default">
-                                <i class="mdi mdi-close noti-icon"></i>
 
-                            </span>
-                        </div>
-                        <select class="custom-select " name="Id_Tipo_Identificacion " [(ngModel)]="cita.Id_Tipo_Identificacion ">
-                            <option value=" ">Tipo</option>
-                            <option [value]="type.Id" *ngFor="let type of typesDocuments ">{{type.Nombre}}</option>
-                        </select>
-                    </div>
-                </div>
-                <div class="col-3 mt-12">
-                    <div class="input-group mb-3">
-                        <div class="input-group-prepend">
-                            <span class="input-group-text" id="inputGroup-sizing-default">
-                                <i class="mdi mdi-close noti-icon"></i>
+                        <input type="date" name="Celular" [(ngModel)]="cita.Id_Tipo_Identificacion" class="form-control form-control" id="exampleInputPassword1">
 
-                            </span>
-                        </div>
-                        <select class="custom-select " name="Id_Tipo_Identificacion " [(ngModel)]="cita.Id_Tipo_Identificacion ">
-                            <option value=" ">Tipo</option>
-                            <option [value]="type.Id" *ngFor="let type of typesDocuments ">{{type.Nombre}}</option>
-                        </select>
                     </div>
                 </div>
-                <div class="col-3 mt-12">
-                    <div class="input-group mb-3">
-                        <div class="input-group-prepend">
-                            <span class="input-group-text" id="inputGroup-sizing-default">
-                                <i class="mdi mdi-close noti-icon"></i>
 
-                            </span>
-                        </div>
-                        <select class="custom-select " name="Id_Tipo_Identificacion " [(ngModel)]="cita.Id_Tipo_Identificacion ">
-                            <option value=" ">Tipo</option>
-                            <option [value]="type.Id" *ngFor="let type of typesDocuments ">{{type.Nombre}}</option>
-                        </select>
-                    </div>
-                </div>
                 <div class="col-8 mt-12">
                     <div class="input-group mb-3">
                         <div class="input-group-prepend">
                             <span class="input-group-text" id="inputGroup-sizing-default">
-                                <i class="mdi mdi-close noti-icon"></i>
-
+                                <i class="fas fa-cogs"></i>
                             </span>
                         </div>
                         <input type="number" name="Celular" [(ngModel)]="cita.Id_Tipo_Identificacion" class="form-control form-control" id="exampleInputPassword1">
@@ -168,7 +86,7 @@
                     <div class="input-group mb-3">
                         <div class="input-group-prepend">
                             <span class="input-group-text" id="inputGroup-sizing-default">
-                                <i class="mdi mdi-close noti-icon"></i>
+                                <i class="fas fa-hand-holding-usd"></i>
 
                             </span>
                         </div>

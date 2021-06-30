@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, Output } from '@angular/core';
 
 @Component({
   selector: 'app-asignacion-citas',
@@ -6,13 +6,19 @@ import { Component, OnInit } from '@angular/core';
   styleUrls: ['./asignacion-citas.component.scss']
 })
 export class AsignacionCitasComponent implements OnInit {
-  operation = 'asignar';
+  operation = '';
 
+  
   constructor() { }
   ngOnInit(): void {
   }
 
-  show(type){
+
+  
+
+  changeTramite(type){
+    console.log('ischan',type);
+    
     this.operation = type;
   }
 
