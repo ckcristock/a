@@ -9,15 +9,20 @@ import { ListaTrabajoComponent } from './lista-trabajo/lista-trabajo.component';
 import { ListaEsperaComponent } from './lista-espera/lista-espera.component';
 import { IndicadoresGestionComponent } from './indicadores-gestion/indicadores-gestion.component';
 import { ReportesComponent } from './reportes/reportes.component';
+import { FullCalendarModule } from '@fullcalendar/angular';
+import { ReactiveFormsModule } from '@angular/forms';
 
 import { NgSelectModule } from '@ng-select/ng-select';
+import { CallendarComponent } from './callendar/callendar.component';
 
 
 @NgModule({
-    declarations: [AbrirAgendasComponent, AsignacionCitasComponent, ListaTrabajoComponent, ListaEsperaComponent, IndicadoresGestionComponent, ReportesComponent],
+    declarations: [AbrirAgendasComponent, AsignacionCitasComponent, ListaTrabajoComponent, ListaEsperaComponent, IndicadoresGestionComponent, ReportesComponent, CallendarComponent],
     imports: [
+        ReactiveFormsModule,
         CommonModule,
         FormsModule,
+        FullCalendarModule,
         NgSelectModule,
         AgendamientoRoutingModule
     ],

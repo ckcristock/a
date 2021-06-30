@@ -43,6 +43,13 @@ export class OpenAgendaService {
    * getProfesionals
    */
   public getProfesionals(ips: string, speciality: string) {
-    return this.clientHttp.get(`${environment.base_url}/get-specialties/${ips}/${speciality}`)
+    return this.clientHttp.get(`${environment.base_url}/get-profesionals/${ips}/${speciality}`)
+  }
+
+  public getAppointments(idProfessional: Number) {
+    return this.clientHttp.get(`${environment.base_url}/agendamientos/${idProfessional}`)
+  }
+  public saveAgendamiento(formulario: String) {
+    return this.clientHttp.post(`${environment.base_url}/agendamientos`, formulario)
   }
 }

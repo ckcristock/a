@@ -1,11 +1,9 @@
 import { Component, OnInit } from '@angular/core';
+import { NgForm } from '@angular/forms';
 import { subscribeOn } from 'rxjs/operators';
 import { OpenAgendaService } from '../open-agenda.service';
 
-
-// import { required } from "vuelidate/lib/validators";
-// import AbrirAgenda from "./AbrirAgendas";
-// import { ModelSelect } from "vue-search-select";
+import { diasSemana } from './dias';
 
 
 @Component({
@@ -38,10 +36,7 @@ export class AbrirAgendasComponent implements OnInit {
     value: "",
     text: ""
   }
-  public profesional = {
-    value: "",
-    text: ""
-  }
+  public profesional = ''
 
   public timeDuration = ""
   public type_appointments = []
@@ -54,6 +49,7 @@ export class AbrirAgendasComponent implements OnInit {
   public specialties = []
   public profesionals = []
   public optionesTime = [{ value: 5, text: "5 Minutos" }]
+  public diasSemana = diasSemana
 
   constructor(private _openAgendaService: OpenAgendaService) { }
 
@@ -74,10 +70,7 @@ export class AbrirAgendasComponent implements OnInit {
       value: "",
       text: ""
     };
-    this.profesional = {
-      value: "",
-      text: ""
-    };
+    this.profesional = ''
     this.subappointment = {
       value: "",
       text: "",
@@ -117,14 +110,14 @@ export class AbrirAgendasComponent implements OnInit {
   }
 
   getSpecialties() {
-    this._openAgendaService.getSpecialties(this.sede.value, this.subappointment.procedure).subscribe((resp: any) => {
-      this.specialties = resp.data.data;
+    this._openAgendaService.getSpecialties(String(this.sede), this.subappointment.procedure).subscribe((resp: any) => {
+      this.specialties = resp.data;
     });
   }
 
   getProfesionals() {
-    this._openAgendaService.getProfesionals(this.ips.value, this.speciality.value).subscribe((resp: any) => {
-      this.profesionals = resp.data.data;
+    this._openAgendaService.getProfesionals(this.ips.value, String(this.speciality)).subscribe((resp: any) => {
+      this.profesionals = resp.data;
     });
   }
 
@@ -132,24 +125,10 @@ export class AbrirAgendasComponent implements OnInit {
     return data.find((item) => item.value === value);
   }
 
-  // watch: {
-  //   appointment(val) {
-  //     this.reset();
-  //     if (val) this.getSubTypeAppointment();
-  //   },
-  //   subappointment(val) {
-  //     if (val) this.getIps();
-  //   },
-  //   ips(val) {
-  //     if (val) this.getSedes();
-  //   },
-  //   sede(val) {
-  //     if (val) this.getSpecialties();
-  //   },
-  //   speciality(val) {
-  //     if (val) this.getProfesionals();
-  //   }
-  // }
-
+  saveAgenda(formulario: NgForm) {
+    this._openAgendaService.saveAgendamiento( JSON.stringify(formulario.value) ).subscribe((resp: any) => {
+      this.profesionals = resp.data;
+    });
+  }
 
 }
