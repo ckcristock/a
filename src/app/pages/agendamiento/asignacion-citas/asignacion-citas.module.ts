@@ -11,7 +11,6 @@ import { AgendarCitasComponent } from './agendar-citas/agendar-citas.component';
 import { CrearCitaComponent } from './agendar-citas/crear-cita/crear-cita.component';
 import { AsignarCalendarioComponent } from './agendar-citas/asignar-calendario/asignar-calendario.component';
 import { TipificacionComponent } from "./tipificacion/tipificacion.component";
-import { CitasComponent } from './citas/citas.component';
 import { NgbNavModule } from "@ng-bootstrap/ng-bootstrap";
 import { AsignacionCitasComponent } from './asignacion-citas.component';
 import { ResumenCitasComponent } from './resumen-citas/resumen-citas.component';
@@ -23,7 +22,6 @@ import { ResumenCitasComponent } from './resumen-citas/resumen-citas.component';
         CrearCitaComponent,
         AsignarCalendarioComponent,
         TipificacionComponent,
-        CitasComponent,
         AsignacionCitasComponent,
         ResumenCitasComponent
     ],
@@ -40,7 +38,6 @@ import { ResumenCitasComponent } from './resumen-citas/resumen-citas.component';
         CrearCitaComponent,
         AsignarCalendarioComponent,
         TipificacionComponent,
-        CitasComponent,
         AsignacionCitasComponent
     ]
 })

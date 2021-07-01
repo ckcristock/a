@@ -1,0 +1,211 @@
+<app-modal-basic #detalleCitaModal [dialogClass]="'modal-lg modal-full'">
+    <div class="app-modal-header">
+        <div class="row">
+            <h4 class=" text text-center justify-content-center modal-title   px-3">
+                Detalles de la cita para {{findCita.paciente.Nombres}}
+            </h4>
+            <button type="button" class="close basic-close" (click)="detalleCitaModal.hide()">
+                <span aria-hidden="true" >&times;</span>
+            </button>
+        </div>
+    </div>
+    <div class="app-modal-body">
+
+        <div class="row">
+            <div class="col-12">
+
+                <ngb-accordion #acc="ngbAccordion" activeIds="static-1" [closeOthers]="true">
+                    <ngb-panel id="static-1">
+                        <ng-template ngbPanelTitle class="text-black">
+                            <i class="fas fa-notes-medical"></i> Datos de la cita
+                        </ng-template>
+                        <ng-template ngbPanelContent>
+                            <div class="row mt-3 px-3">
+                                <div class="col-6">
+                                    <div class="form-group row">
+                                        <label for="staticEmail" class="col-sm-4 col-form-label">Fecha Prog.:</label>
+                                        <div class="col-sm-8">
+                                            <input type="text" readonly class="form-control-plaintext" id="staticEmail" [(ngModel)]="findCita.Fecha_Programacion">
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class=" col-6 ">
+                                    <div class="form-group row ">
+                                        <label for="staticEmail " class="col-sm-4 col-form-label ">Fecha Cita:</label>
+                                        <div class="col-sm-8 ">
+                                            <input type="text " readonly class="form-control-plaintext " id="staticEmail " [(ngModel)]="findCita.Fecha_Cita">
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-6 ">
+                                    <div class="form-group row ">
+                                        <label for="staticEmail " class="col-sm-4 col-form-label ">Doctor:</label>
+                                        <div class="col-sm-8 ">
+                                            <input type="text " readonly class="form-control-plaintext " id="staticEmail " [(ngModel)]="findCita.Doctor">
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <div class="col-6 ">
+                                    <div class="form-group row ">
+                                        <label for="staticEmail " class="col-sm-4 col-form-label ">Trámite:</label>
+                                        <div class="col-sm-8 ">
+                                            <input type="text " readonly class="form-control-plaintext " id="staticEmail " [(ngModel)]="findCita.Tramite">
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-6 ">
+                                    <div class="form-group row ">
+                                        <label for="staticEmail " class="col-sm-4 col-form-label ">Consulta:</label>
+                                        <div class="col-sm-8 ">
+                                            <input type="text " readonly class="form-control-plaintext " id="staticEmail " [(ngModel)]="findCita.Tipo_Consulta">
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-6 ">
+                                    <div class="form-group row ">
+                                        <label for="staticEmail " class="col-sm-4 col-form-label ">Agenda:</label>
+                                        <div class="col-sm-8 ">
+                                            <input type="text " readonly class="form-control-plaintext " id="staticEmail " [(ngModel)]="findCita.Tipo_Agenda">
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-6 ">
+                                    <div class="form-group row ">
+                                        <label for="staticEmail " class="col-sm-4 col-form-label ">Ips:</label>
+                                        <div class="col-sm-8 ">
+                                            <input type="text " readonly class="form-control-plaintext " id="staticEmail " [(ngModel)]="findCita.Ips">
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-6 ">
+                                    <div class="form-group row ">
+                                        <label for="staticEmail " class="col-sm-4 col-form-label ">Sede:</label>
+                                        <div class="col-sm-8 ">
+                                            <input type="text " readonly class="form-control-plaintext " id="staticEmail " [(ngModel)]="findCita.Sede">
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-6 ">
+                                    <div class="form-group row ">
+                                        <label for="staticEmail " class="col-sm-4 col-form-label ">Especialidad:</label>
+                                        <div class="col-sm-8 ">
+                                            <input type="text " readonly class="form-control-plaintext " id="staticEmail " [(ngModel)]="findCita.Especialidad">
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-6 ">
+                                    <div class="form-group row ">
+
+                                        <label for="staticEmail " class="col-sm-4 col-form-label ">Cuota:</label>
+                                        <div class="col-sm-8 d-flex ">
+                                            <div class="input-group">
+
+                                                <div class="input-group-prepend mr-2 ">
+                                                    <span class="input-group-text " id="inputGroup-sizing-default ">
+                                                    <!-- <i class="fas fa-hand-holding-usd "></i> -->
+                                                        $
+                                                </span>
+                                                </div>
+                                                <input type="number " [(ngModel)]="findCita.Cuota" name="Celular " class="form-control-plaintext " id="exampleInputPassword1 ">
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-12 ">
+                                    <div class="form-group row ">
+                                        <label for="staticEmail " class="col-sm-12 col-form-label ">Observación:</label>
+                                        <div class="col-sm-12 ">
+                                            <textarea type="text " cols="12" rows="3" readonly class="form-control-plaintext " id="staticEmail " [(ngModel)]="findCita.Observacion"></textarea>
+                                        </div>
+                                    </div>
+                                </div>
+
+                            </div>
+                        </ng-template>
+                    </ngb-panel>
+                    <ngb-panel id="static-2">
+                        <ng-template ngbPanelTitle>
+                            <i class="fas fa-hospital-user"></i> Datos Del Paciente
+                        </ng-template>
+                        <ng-template ngbPanelContent>
+                            <div class="row mt-3 px-3">
+                                <div class="col-6">
+                                    <div class="form-group row">
+                                        <label for="staticEmail" class="col-sm-4 col-form-label">Tipo de Doc.:</label>
+                                        <div class="col-sm-8">
+                                            <input type="text" readonly [(ngModel)]="findCita.paciente.Tipo_Identificacion" class="form-control-plaintext" id="staticEmail">
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-6">
+                                    <div class="form-group row">
+                                        <label for="staticEmail" class="col-sm-4 col-form-label">Identificacion:</label>
+                                        <div class="col-sm-8">
+                                            <input type="text" readonly [(ngModel)]="findCita.paciente.Identificacion" class="form-control-plaintext" id="staticEmail">
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-6">
+                                    <div class="form-group row">
+                                        <label for="staticEmail" class="col-sm-4 col-form-label">Nombres:</label>
+                                        <div class="col-sm-8">
+                                            <input type="text" readonly [(ngModel)]="findCita.paciente.Nombres" class="form-control-plaintext" id="staticEmail">
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-6">
+                                    <div class="form-group row">
+                                        <label for="staticEmail" class="col-sm-4 col-form-label">Apellidos:</label>
+                                        <div class="col-sm-8">
+                                            <input type="text" readonly [(ngModel)]="findCita.paciente.Apellidos" class="form-control-plaintext" id="staticEmail">
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-6">
+                                    <div class="form-group row">
+                                        <label for="staticEmail" class="col-sm-4 col-form-label">Ips:</label>
+                                        <div class="col-sm-8">
+                                            <input type="text" readonly [(ngModel)]="findCita.paciente.Ips" class="form-control-plaintext" id="staticEmail">
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-6">
+                                    <div class="form-group row">
+                                        <label for="staticEmail" class="col-sm-4 col-form-label">Eps:</label>
+                                        <div class="col-sm-8">
+                                            <input type="text" readonly [(ngModel)]="findCita.paciente.Eps" class="form-control-plaintext" id="staticEmail">
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-6">
+                                    <div class="form-group row">
+                                        <label for="staticEmail" class="col-sm-4 col-form-label">Estado:</label>
+                                        <div class="col-sm-8">
+                                            <input type="text" readonly [(ngModel)]="findCita.paciente.Estado" class="form-control-plaintext" id="staticEmail">
+                                        </div>
+                                    </div>
+                                </div>
+
+                            </div>
+
+                        </ng-template>
+                    </ngb-panel>
+
+                </ngb-accordion>
+            </div>
+
+        </div>
+
+
+
+
+
+    </div>
+    <div class="app-modal-footer ">
+        <div class="text-right  px-3">
+            <!--  <button type="button " class="btn btn-danger btn-sm mr-2" (click)="detalleCitaModal.hide() ">Cerrar</button>
+            <button type="button " class="btn btn-success btn-sm " (click)="detalleCita()">Cancelar Cita</button> -->
+        </div>
+    </div>
+</app-modal-basic>
