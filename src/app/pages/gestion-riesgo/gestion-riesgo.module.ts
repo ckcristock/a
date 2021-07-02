@@ -4,7 +4,6 @@ import { GestionRiesgoRoutingModule } from "./gestion-riesgo-routing.module";
 import { ComponentsModule } from '../../components/components.module';
 
 
-
 @NgModule({
         declarations:[],
         imports:[CommonModule,
