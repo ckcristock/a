@@ -8,20 +8,22 @@ import { ModalBasicComponent } from './modal-basic/modal-basic.component';
 import { SetPacienteComponent } from './paciente/set-paciente/set-paciente.component';
 import { DetalleCitaComponent } from './citas/detalle-cita/detalle-cita.component';
 import { ListaCitasComponent } from './citas/lista-citas/lista-citas.component';
+import { BuildingComponent } from './building/building.component';
 
 @NgModule({
   declarations: [
     ModalBasicComponent,
     SetPacienteComponent,
     DetalleCitaComponent,
-    ListaCitasComponent
+    ListaCitasComponent,
+    BuildingComponent
   ],
   exports: [
     ModalBasicComponent,
     SetPacienteComponent,
     DetalleCitaComponent,
-    ListaCitasComponent
-    
+    ListaCitasComponent,
+    BuildingComponent
 
   ],
   imports: [
