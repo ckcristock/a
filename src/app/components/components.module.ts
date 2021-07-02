@@ -9,6 +9,7 @@ import { SetPacienteComponent } from './paciente/set-paciente/set-paciente.compo
 import { DetalleCitaComponent } from './citas/detalle-cita/detalle-cita.component';
 import { ListaCitasComponent } from './citas/lista-citas/lista-citas.component';
 import { BuildingComponent } from './building/building.component';
+import { RestorePasswordComponent } from './restore-password/restore-password.component';
 
 @NgModule({
   declarations: [
@@ -16,14 +17,16 @@ import { BuildingComponent } from './building/building.component';
     SetPacienteComponent,
     DetalleCitaComponent,
     ListaCitasComponent,
-    BuildingComponent
+    BuildingComponent,
+    RestorePasswordComponent
   ],
   exports: [
     ModalBasicComponent,
     SetPacienteComponent,
     DetalleCitaComponent,
     ListaCitasComponent,
-    BuildingComponent
+    BuildingComponent,
+    RestorePasswordComponent
 
   ],
   imports: [

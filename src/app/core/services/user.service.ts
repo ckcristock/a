@@ -32,61 +32,41 @@ export class UserService {
 
     guardarLocalStorage(token: string, menu: any) {
         localStorage.setItem('token', token);
-        //localStorage.setItem('menu', JSON.stringify(menu));
     }
+    validarToken(): Observable<boolean> {
+        return   this.http.get(`${base_url}/auth/renew`, {
+        }).pipe(
+            map((resp: any) => {
+                const { id, usuario, change_password, funcionario } = resp.user;
+                this.user = new User(id, usuario, change_password, funcionario);
+                console.log('userrr', this.user);
 
-    validarToken(): boolean {
-        /* validarToken(): Observable<boolean> { */
-
-        if (this.token) {
-            const resp = {
-                user: {
-                    email: '', first_name: 'carlos', second_name: 'Daniel',
-                    fist_surname: 'Cardona', second_surname: 'Tamayo',
-                    password: 'asdasdas', image: '',
-                }
-            }
-
-            const { email, first_name, second_name, fist_surname, second_surname, password, image } = resp.user;
-            this.user = new User(first_name, second_name, fist_surname, second_surname, email, password, image);
-            return true
-        } else {
-            return false
-        }
-
-        /*
-            return this.http.get(`${base_url}/login/renew`, {
-                headers: {
-                    'x-token': this.token
-                }
-            }).pipe(
-                map((resp: any) => {
-                    //const { email, google, nombre, role, img = '', uid } = resp.user;
-                    this.user = new user(nombre, email, '', img, google, role, uid); 
-                   / this.guardarLocalStorage(resp.token, resp.menu); 
-                    return true;
-                }),
-                catchError(error => of(false))
-            );*/
-
+                this.guardarLocalStorage(resp.token, resp.menu);
+                return true;
+            }),
+            catchError(error => of(false))
+        );
     }
 
     logout() {
         localStorage.removeItem('token');
-        //localStorage.removeItem('menu');
+       
         this.router.navigateByUrl('/login');
     }
 
-
     login(formData: LoginForm) {
-
-       /*  return this.http.post(`${base_url}/login`, formData)
+        return this.http.post(`${base_url}/auth/login`, formData)
             .pipe(
-                tap((resp: any) => { */
-                    let resp = {token:'asdas',menu:'asdad'}
+                tap((resp: any) => {
+                    /* const { id, usuario, change_password, funcionario } = resp.user;
+                    this.user = new User(id, usuario, change_password, funcionario); */
                     this.guardarLocalStorage(resp.token, resp.menu);
-         /*        })
+                })
             );
- */
+
+    }
+
+    changePassword(params) {
+        return this.http.get(`${base_url}/auth/change-password`, {params})
     }
 }

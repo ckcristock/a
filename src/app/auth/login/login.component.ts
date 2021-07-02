@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { UserService } from '../../core/services/user.service';
 import { Router } from '@angular/router';
+import Swal from 'sweetalert2';
 // import Swal from 'sweetalert2';
 
 @Component({
@@ -10,7 +11,6 @@ import { Router } from '@angular/router';
   styleUrls: ['./login.component.scss']
 })
 export class LoginComponent implements OnInit {
-
   loginForm: FormGroup;
   submitted = false;
   error = '';
@@ -40,7 +40,7 @@ export class LoginComponent implements OnInit {
     this.submitted = true;
 
     this._user.login(this.loginForm.value)
-   /*    .subscribe(resp => { */
+       .subscribe(resp => { 
 
         if (this.loginForm.get('remember').value) {
           localStorage.setItem('user', this.loginForm.get('user').value);
@@ -51,10 +51,12 @@ export class LoginComponent implements OnInit {
         // Navegar al Dashboard
         this.router.navigateByUrl('/');
 
-     /*  }, (err) => { */
+       }, (err) => { 
         // Si sucede un error
-       /*  Swal.fire('Error', err.error.msg, 'error'); */
-      /* }); */
+        console.log(err);
+        
+         Swal.fire('Error', 'Credenciales incorrectas', 'error'); 
+       }); 
 
 
   }
