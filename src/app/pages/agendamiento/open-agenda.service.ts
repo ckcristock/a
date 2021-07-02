@@ -1,6 +1,18 @@
-import { HttpClient } from '@angular/common/http';
+import { HttpClient, HttpParams } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { environment } from 'src/environments/environment';
+
+import { Observable, of, OperatorFunction } from 'rxjs';
+import { catchError, debounceTime, distinctUntilChanged, map, tap, switchMap } from 'rxjs/operators';
+
+const WIKI_URL = `${environment.base_url}/cie10s`;
+const PROCEDURE_URL = `${environment.base_url}/cups`;
+
+const PARAMS = new HttpParams({
+  fromObject: {
+    origin: '*'
+  }
+});
 
 @Injectable({
   providedIn: 'root'
@@ -49,7 +61,40 @@ export class OpenAgendaService {
   public getAppointments(idProfessional: Number) {
     return this.clientHttp.get(`${environment.base_url}/agendamientos/${idProfessional}`)
   }
+
+  public getOpenedSpace(especialidad: Number) {
+    return this.clientHttp.get(`${environment.base_url}/opened-spaces/${especialidad}`)
+  }
+
+  public getDiagnostics() {
+    return this.clientHttp.get(`${environment.base_url}/cie10s`)
+  }
+
   public saveAgendamiento(formulario: String) {
     return this.clientHttp.post(`${environment.base_url}/agendamientos`, formulario)
+  }
+
+  public saveCita(formulario: String) {
+    return this.clientHttp.post(`${environment.base_url}/appointments`, formulario)
+  }
+
+  search(term: string) {
+    if (term === '') {
+      return of([]);
+    }
+    return this.clientHttp
+      .get<[any, string[]]>(WIKI_URL, { params: PARAMS.set('search', term) }).pipe(
+        map((response: any) => response.data)
+      );
+  }
+
+  searchProcedure(term: string) {
+    if (term === '') {
+      return of([]);
+    }
+    return this.clientHttp
+      .get<[any, string[]]>(PROCEDURE_URL, { params: PARAMS.set('search', term) }).pipe(
+        map((response: any) => response.data)
+      );
   }
 }

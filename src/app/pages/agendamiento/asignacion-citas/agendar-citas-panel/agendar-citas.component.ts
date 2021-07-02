@@ -225,6 +225,5 @@ export class AgendarCitasComponent implements OnInit {
 
   siguiente() {
     this.next.nativeElement.click();
-
   }
 }

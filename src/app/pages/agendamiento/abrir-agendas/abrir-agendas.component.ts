@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { NgForm } from '@angular/forms';
 import { subscribeOn } from 'rxjs/operators';
 import { OpenAgendaService } from '../open-agenda.service';
+import { environment } from 'src/environments/environment';
 
 import { diasSemana } from './dias';
 
@@ -28,15 +29,10 @@ export class AbrirAgendasComponent implements OnInit {
     value: "",
     text: ""
   }
-  public sede = {
-    value: "",
-    text: ""
-  }
-  public speciality = {
-    value: "",
-    text: ""
-  }
-  public profesional = ''
+
+  public sede
+  public speciality
+  public profesional
 
   public timeDuration = ""
   public type_appointments = []
@@ -48,7 +44,7 @@ export class AbrirAgendasComponent implements OnInit {
   public sedes = []
   public specialties = []
   public profesionals = []
-  public optionesTime = [{ value: 5, text: "5 Minutos" }]
+  public optionesTime = [{ value: 15, text: "5 Minutos" }, { value: 25, text: "5 Minutos" }, { value: 30, text: "5 Minutos" }]
   public diasSemana = diasSemana
 
   constructor(private _openAgendaService: OpenAgendaService) { }
@@ -86,7 +82,6 @@ export class AbrirAgendasComponent implements OnInit {
   }
 
   getSubTypeAppointment() {
-
     this.appointment = this.searchItem(this.type_appointments, this.appointmentId);
     this._openAgendaService.getSubTypeAppointment(this.appointment.value).subscribe((resp: any) => {
       this.type_subappointments = resp.data;
@@ -95,7 +90,6 @@ export class AbrirAgendasComponent implements OnInit {
   }
 
   getIps() {
-
     this.subappointment = this.searchItem(this.type_subappointments, this.subappointmentId);
     this._openAgendaService.getIps(this.subappointment.company_owner).subscribe((resp: any) => {
       this.ipss = resp.data;
@@ -126,7 +120,7 @@ export class AbrirAgendasComponent implements OnInit {
   }
 
   saveAgenda(formulario: NgForm) {
-    this._openAgendaService.saveAgendamiento( JSON.stringify(formulario.value) ).subscribe((resp: any) => {
+    this._openAgendaService.saveAgendamiento(JSON.stringify(formulario.value)).subscribe((resp: any) => {
       this.profesionals = resp.data;
     });
   }

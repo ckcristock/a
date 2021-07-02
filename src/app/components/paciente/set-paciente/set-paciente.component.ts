@@ -1,5 +1,6 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, Input, OnInit } from '@angular/core';
 import { FormControl, FormGroup } from '@angular/forms';
+import { QueryPatient } from 'src/app/pages/agendamiento/asignacion-citas/query-patient.service';
 
 @Component({
   selector: 'app-set-paciente',
@@ -7,7 +8,8 @@ import { FormControl, FormGroup } from '@angular/forms';
   styleUrls: ['./set-paciente.component.scss']
 })
 export class SetPacienteComponent implements OnInit {
-  paciente:any = {
+
+  paciente: any = {
     Id_Tipo_Identificacion: '',
     Identificacion: '',
     paciente: 'asdasdas',
@@ -28,15 +30,19 @@ export class SetPacienteComponent implements OnInit {
     Celular: '',
   };
 
-  typesDocuments:Array<any> = [
-    {Nombre:'CI',Id:'1'},
-    {Nombre:'CC',Id:'2'},
-    {Nombre:'CC',Id:'2'},
+  typesDocuments: Array<any> = [
+    { Nombre: 'CI', Id: '1' },
+    { Nombre: 'CC', Id: '2' },
+    { Nombre: 'CC', Id: '2' },
   ]
 
-  constructor() { }
+  public currentPatient
+
+  constructor(private _queryPatient: QueryPatient) {
+  }
 
   ngOnInit(): void {
+    this._queryPatient.patient.subscribe(r =>  this.paciente = r.paciente)
   }
 
 }

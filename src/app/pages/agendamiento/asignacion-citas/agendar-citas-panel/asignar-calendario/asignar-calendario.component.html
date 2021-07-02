@@ -1,3 +1,4 @@
+
 <div class="card-body">
     <div class="app-calendar">
         <full-calendar #calendar defaultView="dayGridMonth" [header]="{
@@ -6,12 +7,13 @@
             right: 'dayGridMonth,dayGridWeek,dayGridDay,listWeek'}" [plugins]="calendarPlugins"
             [eventResizableFromStart]="'true'" [eventLimit]="false" themeSystem='bootstrap'
             [weekends]="calendarWeekends" [bootstrapFontAwesome]="true" deepChangeDetection="true"
-            [events]="calendarEvents" (dateClick)="openModal(content, $event)"
-            (eventClick)="openEditModal(editcontent, $event)" locale="es" >
+            [events]="calendarEvents"
+            (eventClick)="save(content, $event)" locale="es" >
         </full-calendar>
 
     </div>
 </div>
+
 
 
 <!-- Event Modal -->
@@ -82,3 +84,5 @@
         <button type="button" class="btn btn-success ml-1" (click)="editEventSave()">Save</button>
     </div>
 </ng-template>
+
+<!-- <button class="btn btn-success" (click)="save()"> guardar </button> -->

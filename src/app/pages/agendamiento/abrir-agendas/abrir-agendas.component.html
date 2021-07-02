@@ -9,7 +9,7 @@
                             <div class="col-md-4 my-2">
                                 <label>Tipo de Agenda</label>
                                 <ng-select [items]="type_appointments" bindLabel="text" bindValue="value"
-                                    [(ngModel)]="appointmentId" placeholder="Seleccione " name="appointment"
+                                    [(ngModel)]="appointmentId" placeholder="Seleccione " name="type_agenda_id"
                                     loadingText="loading" ngDefaultControl (ngModelChange)="getSubTypeAppointment()">
                                 </ng-select>
                             </div>
@@ -17,7 +17,7 @@
                             <div class="col-md-4 my-2" *ngIf="appointment.value != ''">
                                 <label>Tipo de Consulta</label>
                                 <ng-select [items]="type_subappointments" bindLabel="text" bindValue="value"
-                                    [(ngModel)]="subappointmentId" placeholder="Seleccione " name="subappointment_id"
+                                    [(ngModel)]="subappointmentId" placeholder="Seleccione " name="type_appointment_id"
                                     loadingText="loading" (ngModelChange)="getIps()" ngDefaultControl>
                                 </ng-select>
                             </div>
@@ -67,19 +67,19 @@
                                     min="2017-01-01" [(ngModel)]="fechaFin" />
                             </div>
 
-                            <div class="col-md-3 my-2" *ngIf="profesional">
+                            <div class="col-md-1 my-2" *ngIf="profesional">
                                 <label>Hora Inicio</label>
-                                <input class="form-control" [(ngModel)]="horaInicio" type="time" name="hour_star"
+                                <input class="form-control" [(ngModel)]="horaInicio" type="time" name="hour_start"
                                     value="08:00" />
                             </div>
 
-                            <div class="col-md-3 my-2" *ngIf="profesional">
+                            <div class="col-md-1 my-2" *ngIf="profesional">
                                 <label>Hora Fin</label>
                                 <input class="form-control" [(ngModel)]="horaFin" type="time" name="hour_end"
                                     value="18:00" />
                             </div>
 
-                            <div class="col-md-3 my-2" *ngIf="profesional">
+                            <div class="col-md-2 my-2" *ngIf="profesional">
                                 <label>Duracion Por consulta</label>
                                 <ng-select [items]="optionesTime" bindLabel="text" bindValue="value"
                                     [(ngModel)]="timeDuration" placeholder="Seleccione " name="long"
@@ -87,15 +87,15 @@
                                 </ng-select>
                             </div>
 
-                            <div class="col-md-3 my-2" *ngIf="profesional">
+                            <div class="col-md-2 my-2" *ngIf="profesional">
                                 <label>Dias</label>
                                 <ng-select [items]="diasSemana" multiple="true" bindLabel="text" bindValue="value"
-                                    [(ngModel)]="day" placeholder="Seleccione " name="day" loadingText="loading"
+                                    [(ngModel)]="day" placeholder="Seleccione " name="days" loadingText="loading"
                                     ngDefaultControl>
                                 </ng-select>
                             </div>
 
-                            <div class="col-md-12 my-2">
+                            <div class="col-md-12 my-2" *ngIf="profesional">
                                 <button type="button" class="btn btn-info" (click)="saveAgenda(agenda)">Agendar</button>
                             </div>
                         </div>
@@ -105,12 +105,12 @@
         </div>
     </div>
 
-    <div class="row">
+    <div class="row" *ngIf="profesional">
         <div class="col-12">
             <div class="card">
                 <div class="card-body">
                     <div class="app-calendar">
-                        <app-callendar></app-callendar>
+                        <app-callendar [profesional]="profesional"></app-callendar>
                     </div>
                 </div>
             </div>

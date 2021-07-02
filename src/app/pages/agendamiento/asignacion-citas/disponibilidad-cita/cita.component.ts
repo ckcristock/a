@@ -1,6 +1,6 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, EventEmitter, OnInit, Output } from '@angular/core';
 import { NgForm } from '@angular/forms';
-import { OpenAgendaService } from '../open-agenda.service';
+import { OpenAgendaService } from '../../open-agenda.service';
 
 @Component({
   selector: 'app-cita',
@@ -9,7 +9,7 @@ import { OpenAgendaService } from '../open-agenda.service';
 })
 export class CitaComponent implements OnInit {
 
-  
+
   public appointment = {
     value: "",
     text: "",
@@ -21,19 +21,11 @@ export class CitaComponent implements OnInit {
     company_owner: "",
     procedure: ""
   }
-  public ips = {
-    value: "",
-    text: ""
-  }
-  public sede = {
-    value: "",
-    text: ""
-  }
-  public speciality = {
-    value: "",
-    text: ""
-  }
-  public profesional = ''
+
+  public ips
+  public sede
+  public speciality
+  public profesional
 
   public timeDuration = ""
   public type_appointments = []
@@ -46,33 +38,11 @@ export class CitaComponent implements OnInit {
   public specialties = []
   public profesionals = []
   public optionesTime = [{ value: 5, text: "5 Minutos" }]
-
+  @Output('siguiente') sigx = new EventEmitter();
   constructor(private _openAgendaService: OpenAgendaService) { }
 
   ngOnInit(): void {
     this.getTypeAppointment();
-  }
-
-  reset() {
-    this.ips = {
-      value: "",
-      text: ""
-    };
-    this.sede = {
-      value: "",
-      text: ""
-    };
-    this.speciality = {
-      value: "",
-      text: ""
-    };
-    this.profesional = ''
-    this.subappointment = {
-      value: "",
-      text: "",
-      company_owner: "",
-      procedure: ""
-    };
   }
 
   getTypeAppointment() {
@@ -82,7 +52,7 @@ export class CitaComponent implements OnInit {
   }
 
   getSubTypeAppointment() {
-
+    this.reset();
     this.appointment = this.searchItem(this.type_appointments, this.appointmentId);
     this._openAgendaService.getSubTypeAppointment(this.appointment.value).subscribe((resp: any) => {
       this.type_subappointments = resp.data;
@@ -122,9 +92,33 @@ export class CitaComponent implements OnInit {
   }
 
   saveAgenda(formulario: NgForm) {
-    this._openAgendaService.saveAgendamiento( JSON.stringify(formulario.value) ).subscribe((resp: any) => {
-      this.profesionals = resp.data;
+    this._openAgendaService.saveAgendamiento(JSON.stringify(formulario.value)).subscribe((resp: any) => {
+      console.log('agenda saved');
+      // this.profesionals = resp.data;
     });
+  }
+
+  reset() {
+
+    this.type_subappointments = []
+    this.ipss = []
+    this.sedes = []
+    this.specialties = []
+
+    this.ips = null;
+    this.sede = null;
+    this.speciality = null;
+    this.profesional = null
+    this.subappointment = {
+      value: "",
+      text: "",
+      company_owner: "",
+      procedure: ""
+    };
+  }
+
+  siguiente() {
+    this.sigx.emit('');
   }
 
 }

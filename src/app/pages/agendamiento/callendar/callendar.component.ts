@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, Input, OnInit } from '@angular/core';
 import { FormBuilder, Validators, FormGroup } from '@angular/forms';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 
@@ -13,7 +13,6 @@ import { EventInput } from '@fullcalendar/core';
 
 
 import { Event } from './event.model';
-import { category, calendarEvents } from './data';
 import { OpenAgendaService } from '../open-agenda.service';
 
 @Component({
@@ -21,8 +20,10 @@ import { OpenAgendaService } from '../open-agenda.service';
   templateUrl: './callendar.component.html',
   styleUrls: ['./callendar.component.scss']
 })
+
 export class CallendarComponent implements OnInit {
 
+  @Input() profesional: Number;
   // bread crumb items
   breadCrumbItems: Array<{}>;
 
@@ -195,10 +196,10 @@ export class CallendarComponent implements OnInit {
   }
 
   private _fetchData() {
-    // Event category
-    this.category = category;
     // Calender Event Data
-    this._openAgendaService.getAppointments(1).subscribe((resp: any) => {
+
+    console.log(this.profesional);
+    this._openAgendaService.getAppointments(this.profesional).subscribe((resp: any) => {
 
       this.calendarEvents = resp.data.map((element, index) => {
         if (element.status) {

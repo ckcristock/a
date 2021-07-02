@@ -3,14 +3,14 @@
     <div class="col-lg-12">
         <div class="card">
             <div class="card-body">
-                <h3 class=" mb-4">Asignar citas</h3>
+                <h3 class=" mb-4">Agendar cita</h3>
 
                 <aw-wizard [navBarLayout]="'large-empty-symbols'">
                     <aw-wizard-step stepTitle="Disponibilidad">
                         <ng-template awWizardStepSymbol>1</ng-template>
                         <div class="row mt-3">
                             <div class="col-12">
-                                <app-cita></app-cita>
+                                <app-cita (siguiente)="siguiente()"></app-cita>
                             </div>
                         </div>
                         <ul class="list-inline wizard mb-0">
