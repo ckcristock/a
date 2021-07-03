@@ -6,97 +6,138 @@
             <div class="form-row">
 
                 <div class="form-group col-md-6">
-                    <label for="exampleInputPassword1">Tipo Identificación</label>
-                    <select class="custom-select custom-select-sm" name="Id_Tipo_Identificacion" [(ngModel)]="paciente.Id_Tipo_Identificacion">
-                        <option [value]="type.Id" *ngFor="let type of typesDocuments">{{type.Nombre}}</option>
+                    <label for="">Tipo Identificación</label>
+                    <select class="custom-select custom-select-sm" name="Id_Tipo_Identificacion"
+                        [(ngModel)]="paciente.Tipo_Identificacion">
+                        <option *ngFor="let type of typeDocuments" [value]="type.value">{{type.text}}</option>
                     </select>
                 </div>
+
                 <div class="form-group col-md-6">
-                    <label for="exampleInputPassword1">Identificación</label>
-                    <input type="text" name="Identificacion" [(ngModel)]="paciente.Identificacion" class="form-control form-control-sm" id="exampleInputPassword1">
+                    <label for="">Identificación</label>
+                    <input type="text" name="Identificacion" [(ngModel)]="paciente.Identificacion"
+                        class="form-control form-control-sm" id="">
                 </div>
+
                 <div class="form-group col-md-6 ">
-                    <label for="exampleInputEmail1">Nombre</label>
-                    <input type="text" name="Nombres" [(ngModel)]="paciente.Nombres" class="form-control form-control-sm" id="exampleInputEmail1" aria-describedby="emailHelp">
+                    <label for="exampleInputEmail1">Primer Nombre</label>
+                    <input type="text" name="firstname" [(ngModel)]="paciente.firstname"
+                        class="form-control form-control-sm" id="exampleInputEmail1" aria-describedby="emailHelp">
                 </div>
+
+                <div class="form-group col-md-6 ">
+                    <label for="exampleInputEmail1">Segundo Nombre</label>
+                    <input type="text" name="middlename" [(ngModel)]="paciente.middlename"
+                        class="form-control form-control-sm" id="exampleInputEmail1" aria-describedby="emailHelp">
+                </div>
+
                 <div class="form-group col-md-6">
-                    <label for="exampleInputPassword1">Apellidos</label>
-                    <input type="text" name="Apellidos" [(ngModel)]="paciente.Apellidos" class="form-control form-control-sm" id="exampleInputPassword1">
+                    <label for="">Primer Apellido</label>
+                    <input type="text" name="surname" [(ngModel)]="paciente.surname"
+                        class="form-control form-control-sm" id="">
                 </div>
-                <div class="form-group col-md-5">
-                    <label for="exampleInputPassword1">Fecha Nacimiento</label>
-                    <input type="date" name="Fecha_Nacimiento" [(ngModel)]="paciente.Fecha_Nacimiento" class="form-control form-control-sm" id="exampleInputPassword1">
+
+                <div class="form-group col-md-6">
+                    <label for="">Segundo Apellido</label>
+                    <input type="text" name="secondsurname" [(ngModel)]="paciente.secondsurname"
+                        class="form-control form-control-sm" id="">
                 </div>
-                <div class="form-group col-md-5">
-                    <label for="exampleInputPassword1">Eps</label>
-                    <select class="custom-select custom-select-sm" name="xer" name="Id_Eps" [(ngModel)]="paciente.Id_Eps">
-                        <option [value]="type.Id" *ngFor="let type of typesDocuments">{{type.Nombre}}</option>
-                    </select>
+
+                <div class="form-group col-md-6">
+                    <label for="">Eps</label>
+                    <ng-select name="xer" name="Id_Eps" [(ngModel)]="paciente.EPS">
+                        <ng-option [value]="type.value" *ngFor="let type of eps ">{{type.text}}</ng-option>
+                    </ng-select>
                 </div>
-                <div class="form-group col-md-2 ">
-                    <label for="exampleInputEmail1">Sexo</label>
-                    <select class="custom-select custom-select-sm" name="xer" name="Id_Sexo" [(ngModel)]="paciente.Id_Sexo">
-                        <option [value]="type.Id" *ngFor="let type of typesDocuments">{{type.Nombre}}</option>
-                    </select>
+
+                <div class="form-group col-md-6">
+                    <label for="">Regimen</label>
+                    <ng-select name="xer" name="Id_Regimen" [(ngModel)]="paciente.Regimen">
+                        <ng-option [value]="type.value" *ngFor="let type of typeRegimens">{{type.text}}</ng-option>
+                    </ng-select>
+                </div>
+
+                <div class="form-group col-md-4">
+                    <label for=""> Nivel</label>
+                    <ng-select name="xer" name="Id_Nivel" [(ngModel)]="paciente.Nivel">
+                        <ng-option [value]="type.value" *ngFor="let type of levels">{{type.text}}</ng-option>
+                    </ng-select>
+                </div>
+
+                <div class="form-group col-md-4">
+                    <label for="">Fecha Nacimiento</label>
+                    <input type="date" name="Fecha_Nacimiento" [(ngModel)]="paciente.Date_of_Birth"
+                        class="form-control form-control-sm" id="">
                 </div>
 
                 <div class="form-group col-md-4 ">
+                    <label for="exampleInputEmail1">Sexo</label>
+                    <ng-select name="xer" name="Id_Sexo" [(ngModel)]="paciente.Id_Sexo">
+                        <ng-option [value]="type.value" *ngFor="let type of genders">{{type.text}}</ng-option>
+                    </ng-select>
+                </div>
+
+                <div class="form-group col-md-6">
+                    <label for="">Departamento</label>
+                    <ng-select name="xer" name="Id_Departamento" [(ngModel)]="paciente.Departamento">
+                        <ng-option [value]="type.value" *ngFor="let type of departments">{{type.text}}</ng-option>
+                    </ng-select>
+                </div>
+
+                <div class="form-group col-md-6">
+                    <label for="">Ciudad</label>
+                    <ng-select name="xer" name="Id_Ciudad" [(ngModel)]="paciente.Ciudad">
+                        <ng-option [value]="type.value" *ngFor="let type of cities ">{{type.text}}</ng-option>
+                    </ng-select>
+                </div>
+
+
+                <div class="form-group col-md-12 ">
                     <label for="exampleInputEmail1">Contrato</label>
-                    <select class="custom-select custom-select-sm" name="xer" name="Id_Contrato" [(ngModel)]="paciente.Id_Contrato">
-                        <option [value]="type.Id" *ngFor="let type of typesDocuments">{{type.Nombre}}</option>
-                    </select>
+                    <ng-select name="xer" name="Id_Contrato" [(ngModel)]="paciente.Id_Contrato">
+                        <ng-option [value]="type.value" *ngFor="let type of agreements">{{type.text}}</ng-option>
+                    </ng-select>
                 </div>
-                <div class="form-group col-md-4">
-                    <label for="exampleInputPassword1">Id_Regimen</label>
-                    <select class="custom-select custom-select-sm" name="xer" name="Id_Regimen" [(ngModel)]="paciente.Id_Regimen">
-                        <option [value]="type.Id" *ngFor="let type of typesDocuments">{{type.Nombre}}</option>
-                    </select>
+
+                <div class="form-group col-md-6 ">
+                    <label for="exampleInputEmail1">Empresa</label>
+                    <ng-select name="xer" name="Id_Contrato">
+                        <ng-option [value]="type.value" *ngFor="let type of agreements">{{type.text}}</ng-option>
+                    </ng-select>
                 </div>
-                <div class="form-group col-md-4">
-                    <label for="exampleInputPassword1">Id_Nivel</label>
-                    <select class="custom-select custom-select-sm" name="xer" name="Id_Nivel" [(ngModel)]="paciente.Id_Nivel">
-                        <option [value]="type.Id" *ngFor="let type of typesDocuments">{{type.Nombre}}</option>
-                    </select>
-                </div>
-                <div class="form-group col-md-4">
-                    <label for="exampleInputPassword1">Id_Pais</label>
-                    <select class="custom-select custom-select-sm" name="xer" name="Id_Pais" [(ngModel)]="paciente.Id_Pais">
-                        <option [value]="type.Id" *ngFor="let type of typesDocuments">{{type.Nombre}}</option>
-                    </select>
-                </div>
-                <div class="form-group col-md-4">
-                    <label for="exampleInputPassword1">Id_Departamento</label>
-                    <select class="custom-select custom-select-sm" name="xer" name="Id_Departamento" [(ngModel)]="paciente.Id_Departamento">
-                        <option [value]="type.Id" *ngFor="let type of typesDocuments">{{type.Nombre}}</option>
-                    </select>
+
+                <div class="form-group col-md-6 ">
+                    <label for="exampleInputEmail1">Sede</label>
+                    <ng-select name="xer" name="Id_Contrato">
+                        <ng-option [value]="type.value" *ngFor="let type of agreements">{{type.text}}</ng-option>
+                    </ng-select>
                 </div>
 
                 <div class="form-group col-md-4">
-                    <label for="exampleInputPassword1">Id_Ciudad</label>
-                    <select class="custom-select custom-select-sm" name="xer" name="Id_Ciudad" [(ngModel)]="paciente.Id_Ciudad">
-                        <option [value]="type.Id" *ngFor="let type of typesDocuments">{{type.Nombre}}</option>
-                    </select>
+                    <label for="">Direccion</label>
+                    <input type="text" name="Direccion" [(ngModel)]="paciente.Direccion"
+                        class="form-control form-control-sm" id="">
                 </div>
                 <div class="form-group col-md-4">
-                    <label for="exampleInputPassword1">Direccion</label>
-                    <input type="text" name="Direccion" [(ngModel)]="paciente.Direccion" class="form-control form-control-sm" id="exampleInputPassword1">
+                    <label for="">Email</label>
+                    <input type="text" name="Email" [(ngModel)]="paciente.Correo" class="form-control form-control-sm"
+                        id="">
                 </div>
                 <div class="form-group col-md-4">
-                    <label for="exampleInputPassword1">Email</label>
-                    <input type="text" name="Email" [(ngModel)]="paciente.Email" class="form-control form-control-sm" id="exampleInputPassword1">
-                </div>
-                <div class="form-group col-md-4">
-                    <label for="exampleInputPassword1">Telefono</label>
-                    <input type="number" name="Telefono" [(ngModel)]="paciente.Telefono" class="form-control form-control-sm" id="exampleInputPassword1">
-                </div>
-                <div class="form-group col-md-4">
-                    <label for="exampleInputPassword1">Celular</label>
-                    <input type="number" name="Celular" [(ngModel)]="paciente.Celular" class="form-control form-control-sm" id="exampleInputPassword1">
+                    <label for="">Telefono</label>
+                    <input type="number" name="Telefono" [(ngModel)]="paciente.Telefono"
+                        class="form-control form-control-sm" id="">
                 </div>
 
-                <div class="form-group col-md-12">
+                <!-- <div class="form-group col-md-4">
+                    <label for="">Celular</label>
+                    <input type="number" name="Celular" [(ngModel)]="paciente.Celular" class="form-control form-control-sm" id="">
+                </div> -->
+
+                <!-- <div class="form-group col-md-12">
                     <button type="submit" class="btn btn-success btn-block">Actualizar</button>
-                </div>
+                </div> -->
+
             </div>
         </form>
 
