@@ -1,0 +1,18 @@
+<div class="row">
+  <div class="col-8">
+    <div class="card">
+      <div class="card-body">
+        <h4 class="card-title">Lista de Agendas</h4>
+          <div class="col-12">
+            asdasd
+          </div>
+      </div>
+    </div>
+  </div>
+  <div class="col-4">
+    <div *ngFor="let stat of statData" class="col-md-4">
+
+      <app-stat [title]="stat.title" [value]="stat.value" [icon]="stat.icon"></app-stat>
+    </div>
+  </div>
+</div>

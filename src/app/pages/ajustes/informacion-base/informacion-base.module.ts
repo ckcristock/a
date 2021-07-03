@@ -12,15 +12,24 @@ import { RegimenesNivelesComponent } from './regimenes-niveles/regimenes-niveles
 import { AseguradorasComponent } from './aseguradoras/aseguradoras.component';
 import { NgbPaginationModule, NgbDropdownModule } from '@ng-bootstrap/ng-bootstrap';
 import { ChartsModule } from 'ng2-charts';
+import { ComponentsModule } from "src/app/components/components.module";
+import { FormsModule } from "@angular/forms";
+import { NgSelectModule } from "@ng-select/ng-select";
 
 
 @NgModule({
-    declarations:[
+    declarations: [
         EmpresasComponent, SedesComponent, FuncionariosComponent,
         ProfesionalesComponent, PacientesComponent, EspecialidadesComponent,
         CupsComponent, RegimenesNivelesComponent, AseguradorasComponent],
-        
-    imports:[CommonModule,InformacionBaseRoutingModule,NgbPaginationModule,NgbDropdownModule,ChartsModule]
+
+    imports: [CommonModule, InformacionBaseRoutingModule,
+        NgbPaginationModule, NgbDropdownModule, ChartsModule,
+        ComponentsModule,
+        FormsModule,
+        NgSelectModule]
 })
 
-export class InformacionBaseModule {}
+
+
+export class InformacionBaseModule { }

@@ -15,7 +15,11 @@
     appId: '',
     measurementId: ''
   }
+<<<<<<< HEAD
   
+=======
+
+>>>>>>> af2bd9c522dc4a7cadbdf8d6406a2d1f62915dc6
 };
  */
 

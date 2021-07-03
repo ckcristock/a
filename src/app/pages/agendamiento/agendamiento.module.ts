@@ -19,6 +19,7 @@ import { TopWaitingComponent } from './lista-espera/top-waiting/top-waiting.comp
 
 import { NgModule } from "@angular/core";
 import { CallendarComponent } from './callendar/callendar.component';
+import { AgendasComponent } from './agendas/agendas.component';
 
 @NgModule({
     declarations: [
@@ -30,6 +31,8 @@ import { CallendarComponent } from './callendar/callendar.component';
         CallendarComponent,
 
         TopWaitingComponent,
+
+        AgendasComponent,
       
     ],
     imports: [

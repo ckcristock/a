@@ -38,6 +38,17 @@ export const MENU: MenuItem[] = [
                 parentId: 2
             },
             {
+<<<<<<< HEAD
+=======
+                id: 6,
+                label: 'Lista de Agendas',
+                link: '/agendamiento/agendas',
+                parentId: 2
+            },
+
+
+            {
+>>>>>>> af2bd9c522dc4a7cadbdf8d6406a2d1f62915dc6
                 id: 7,
                 label: 'Indicadores Gestión',
                 link: '/agendamiento/indicadores-gestion',
