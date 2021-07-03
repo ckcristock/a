@@ -2,6 +2,8 @@ import { NgModule } from '@angular/core';
 import { Routes, RouterModule } from '@angular/router';
 
 import { AbrirAgendasComponent } from './abrir-agendas/abrir-agendas.component';
+import { AgendasComponent } from './agendas/agendas.component';
+import { VerAgendaComponent } from './agendas/ver-agenda/ver-agenda.component';
 import { AsignacionCitasComponent } from './asignacion-citas/asignacion-citas.component';
 import { IndicadoresGestionComponent } from './indicadores-gestion/indicadores-gestion.component';
 import { ListaEsperaComponent } from './lista-espera/lista-espera.component';
@@ -16,6 +18,8 @@ const routes: Routes = [
     { path: 'lista-trabajo', component: ListaTrabajoComponent },
     { path: 'indicadores-gestion', component: IndicadoresGestionComponent },
     { path: 'reportes', component: ReportesComponent },
+    { path: 'agendas', component: AgendasComponent },
+    { path: 'detalle-agenda/:id', component: VerAgendaComponent },
 ];
 
 @NgModule({
