@@ -5,13 +5,15 @@ import { RouterModule } from '@angular/router';
 import { SharedModule } from './shared/shared.module';
 
 import { LayoutComponent } from './layout/layout.component';
+import { ComponentsModule } from '../components/components.module';
 
 @NgModule({
-  declarations: [  LayoutComponent],
+  declarations: [  LayoutComponent, ],
   imports: [
     CommonModule,
     SharedModule,
-    RouterModule
+    RouterModule,
+    ComponentsModule
   ],
   exports: [ ]
 })

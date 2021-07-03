@@ -22,7 +22,7 @@
                 </div>
 
                 <div *ngIf="operation=='Reasignar Citas'">
-                    <app-citas></app-citas>
+                    <app-lista-citas [canOverride]="'true'" [citas]="citas"></app-lista-citas>
                 </div>
             </div>
             <!--  <app-set-paciente></app-set-paciente> -->

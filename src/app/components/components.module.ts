@@ -3,27 +3,37 @@ import { CommonModule } from '@angular/common';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { HttpClientModule } from '@angular/common/http';
 import { UiModule } from '../shared/ui/ui.module';
-import { NgbAlertModule } from '@ng-bootstrap/ng-bootstrap';
+import { NgbAccordionModule, NgbAlertModule } from '@ng-bootstrap/ng-bootstrap';
 import { ModalBasicComponent } from './modal-basic/modal-basic.component';
 import { SetPacienteComponent } from './paciente/set-paciente/set-paciente.component';
-// import { SelectModule } from 'ng-select';
+import { DetalleCitaComponent } from './citas/detalle-cita/detalle-cita.component';
+import { ListaCitasComponent } from './citas/lista-citas/lista-citas.component';
+import { BuildingComponent } from './building/building.component';
+import { RestorePasswordComponent } from './restore-password/restore-password.component';
 
 @NgModule({
   declarations: [
     ModalBasicComponent,
-    SetPacienteComponent
+    SetPacienteComponent,
+    DetalleCitaComponent,
+    ListaCitasComponent,
+    BuildingComponent,
+    RestorePasswordComponent
   ],
   exports: [
     ModalBasicComponent,
-    SetPacienteComponent
-    // SelectModule
+    SetPacienteComponent,
+    DetalleCitaComponent,
+    ListaCitasComponent,
+    BuildingComponent,
+    RestorePasswordComponent
 
   ],
   imports: [
+    NgbAccordionModule,
     FormsModule,
     CommonModule,
     
-    // SelectModule
   ]
 })
 export class ComponentsModule { }

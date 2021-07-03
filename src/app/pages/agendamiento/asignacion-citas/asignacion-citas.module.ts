@@ -23,10 +23,10 @@ import { FullCalendarModule } from '@fullcalendar/angular';
         CrearCitaComponent,
         AsignarCalendarioComponent,
         TipificacionComponent,
-        CitasComponent,
         AsignacionCitasComponent,
         ResumenCitasComponent,
         CitaComponent,
+        CitasComponent,
     ],
     imports: [
         NgbNavModule,

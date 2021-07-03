@@ -1,1 +1,106 @@
-<p>lista-espera works!</p>
+<div class="row">
+
+    <!--   <div class="col-12">-->
+    <div class="col-9">
+        <div class="row">
+            <div class="col-12">
+
+                <div class="card">
+                    <div class="card-body">
+                        <div class="row">
+                            <div class="col-12">
+                                <div class="row">
+
+                                    <div class="col-md-2 mb-2">
+                                        <label for="validationServerUsername">Fecha</label>
+                                        <div class="input-group">
+                                            <input type="date" [(ngModel)]="filters.date" class="form-control" id="validationServerUsername" placeholder="Ingrese la fecha" aria-describedby="inputGroupPrepend3" required>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-4 mb-3">
+                                        <label for="validationServerUsername">Institución</label>
+                                        <div class="input-group">
+                                            <input style="width: 85%;" id="typeahead-http" type="text" class="form-control " [class.is-invalid]="searchFailed" [(ngModel)]="filters.institution" [ngbTypeahead]="searchInstitution" placeholder="Diagnosticos" name="diagnosticoId" ngDefaultControl [resultTemplate]="institution"
+                                                [inputFormatter]="Inputdiagnostic" />
+                                        </div>
+                                    </div>
+                                    <div class="col-md-2 mb-3">
+                                        <label for="validationServerUsername">Paciente</label>
+                                        <div class="input-group">
+                                            <input type="text" class="form-control" [(ngModel)]="filters.patient" id="validationServerUsername" placeholder="Nombre / Identificación " aria-describedby="inputGroupPrepend3" required>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-4 mb-3">
+                                        <label for="validationServerUsername">Especialidad</label>
+                                        <div class="input-group">
+                                            <input style="width: 85%;" id="typeahead-http" type="text" class="form-control " [class.is-invalid]="searchFailed" [(ngModel)]="filters.speciality" [ngbTypeahead]="searchSpeciality" placeholder="Diagnosticos" name="diagnosticoId" ngDefaultControl [resultTemplate]="institution"
+                                                [inputFormatter]="Inputdiagnostic" />
+                                        </div>
+                                    </div>
+                                    <div class="col-12">
+                                        <button class="btn btn-primary btn-block btn-sm">Buscar</button>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="col-12">
+                <div class="card">
+                    <div class="card-body">
+
+                        <table class="table table-hover mb-0 table-centered table-nowrap">
+                            <thead class="thead-dark">
+                                <tr>
+                                    <th>Fecha</th>
+                                    <th>Identificación</th>
+                                    <th>Paciente</th>
+                                    <th>Contacto</th>
+                                    <th>Especialidad</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr *ngFor="let item of waitingList">
+                                    <td>
+                                        <p class="font-size-14 mb-0">{{item.date}}</p>
+                                    </td>
+                                    <td>
+                                        <p class="font-size-14 mb-0">{{item.identification}}</p>
+                                    </td>
+                                    <td>
+                                        <p class="font-size-14 mb-0">{{item.name}}</p>
+                                    </td>
+                                    <td>
+                                        <span class="mr-2" *ngFor="let cont of item.contact">
+                                            {{cont}} - 
+                                        </span>
+                                    </td>
+                                    <td>
+                                        <p class="font-size-14 mb-0">{{item.speciality}}</p>
+                                    </td>
+                                </tr>
+
+                            </tbody>
+                        </table>
+                        <ngb-pagination [collectionSize]="pagination.collectionSize" [pageSize]="pagination.pageSize" [(page)]="pagination.page" aria-label="Default pagination"></ngb-pagination>
+
+                    </div>
+                </div>
+            </div>
+
+        </div>
+    </div>
+    <div class="col-3">
+        <app-top-waiting></app-top-waiting>
+    </div>
+
+
+</div>
+<ng-template #institution let-r="result" let-t="term">
+    <span class="f-9">
+        {{r.id}}
+        <strong>{{r.text}}</strong>
+    </span>
+</ng-template>

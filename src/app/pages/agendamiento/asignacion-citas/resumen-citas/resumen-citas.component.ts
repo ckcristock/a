@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, EventEmitter, OnInit, ViewChild } from '@angular/core';
 
 @Component({
   selector: 'app-resumen-citas',
@@ -6,6 +6,9 @@ import { Component, OnInit } from '@angular/core';
   styleUrls: ['./resumen-citas.component.scss']
 })
 export class ResumenCitasComponent implements OnInit {
+  @ViewChild('modalCita') modalCita: any;
+  openModalDetalle = new EventEmitter<any>();
+
   data: any = {
     Id_Especialidad: '',
   }
@@ -19,9 +22,19 @@ export class ResumenCitasComponent implements OnInit {
     { Id_Cita: '1', Estado: 'Activa', Descripcion: 'Cita trauma Cita trauma Cita trauma Cita traumaCita trauma Cita traumaCita trauma Cita traumaCita trauma Cita traumaCita trauma Cita traumaCita trauma Cita traumaCita trauma Cita traumaCita trauma Cita traumaCita trauma Cita traumaCita trauma Cita traumaCita trauma Cita traumaCita trauma Cita trauma', Especialidad: 'Traumatólogo', Fecha: '2018-09-28 17:21:21' },
     { Id_Cita: '1', Estado: 'Activa', Descripcion: 'Cita trauma Cita trauma Cita trauma Cita traumaCita trauma Cita traumaCita trauma Cita traumaCita trauma Cita traumaCita trauma Cita traumaCita trauma Cita traumaCita trauma Cita traumaCita trauma Cita traumaCita trauma Cita traumaCita trauma Cita traumaCita trauma Cita traumaCita trauma Cita trauma', Especialidad: 'Traumatólogo', Fecha: '2018-09-28 17:21:21' },
   ]
+
   constructor() { }
 
   ngOnInit(): void {
+  }
+
+  
+  detalleCita(cita){
+    let  modalDetalle  = {
+      Id_Cita_Detalle:cita.Id_Cita,
+      Show:true
+    }
+    this.openModalDetalle.emit(modalDetalle)
   }
 
 }
