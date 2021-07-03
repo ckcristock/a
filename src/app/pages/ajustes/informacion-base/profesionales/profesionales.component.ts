@@ -128,8 +128,6 @@ professional_types = [
     state:'Activo'
   }
   ]
-<<<<<<< HEAD
-=======
 
   departaments :any = [
     {value:1,text:'Santander'},
@@ -140,14 +138,11 @@ professional_types = [
   municipalities :any = [
 
   ]
->>>>>>> af2bd9c522dc4a7cadbdf8d6406a2d1f62915dc6
   constructor() { }
 
   ngOnInit(): void {
   }
 
-<<<<<<< HEAD
-=======
   guardar(){
     console.log(this.professional);
 
@@ -161,5 +156,4 @@ professional_types = [
     {value:3,text:'Magdalena'}]
     }
 
->>>>>>> af2bd9c522dc4a7cadbdf8d6406a2d1f62915dc6
 }
