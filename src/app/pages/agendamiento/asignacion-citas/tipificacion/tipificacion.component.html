@@ -1,0 +1,34 @@
+<div class="row">
+
+    <div class="col-lg-12">
+        <div class="card">
+            <div class="card-body">
+                <div class="col-12">
+                    <div class="form-row">
+                        <div class="form-group col-md-4">
+                            <label for="exampleInputPassword1">Trámite</label>
+                            <select class="custom-select custom-select-sm" name="Id_Tramite" (change)="tramiteWasChanged()" [(ngModel)]="data.Id_Tramite">
+                                <option [value]="type.Id" *ngFor="let type of tramites">{{type.Nombre}}</option>
+                            </select>
+                        </div>
+                        <div class="form-group col-md-4" *ngIf="tramiteSelected.Componente == 'Reasignar Citas'">
+                            <label for="exampleInputPassword1">Tipo de Ámbito</label>
+                            <select class="custom-select custom-select-sm" name="Id_Tipo_Identificacion" [(ngModel)]="data.Id_Ambito">
+                                    <option value="" >Seleccione un ámbito</option>
+                                    <option [value]="type.Id" *ngFor="let type of ambitos">{{type.Nombre}}</option>
+                            </select>
+                        </div>
+                        <div class="form-group col-md-4" *ngIf="tramiteSelected.Componente == 'Reasignar Citas'">
+                            <label for="exampleInputPassword1">Tipo de Servicio</label>
+                            <select class="custom-select custom-select-sm" name="Id_Tipo_Identificacion" [(ngModel)]="data.Id_Tipo_Servicio">
+                             
+                                <option value="" >Seleccione un Servicio</option>
+                                <option [value]="type.Id" *ngFor="let type of tipoServicios">{{type.Nombre}}</option>
+                            </select>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
