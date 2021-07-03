@@ -39,8 +39,7 @@ export class UserService {
             map((resp: any) => {
                 const { id, usuario, change_password, funcionario } = resp.user;
                 this.user = new User(id, usuario, change_password, funcionario);
-                console.log('userrr', this.user);
-
+                // console.log('userrr', this.user);
                 this.guardarLocalStorage(resp.token, resp.menu);
                 return true;
             }),

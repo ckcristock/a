@@ -5,6 +5,8 @@ import { OpenAgendaService } from '../open-agenda.service';
 import { environment } from 'src/environments/environment';
 
 import { diasSemana } from './dias';
+import Swal from 'sweetalert2';
+import { QueryProfessional } from '../query-professional.service';
 
 
 @Component({
@@ -17,7 +19,8 @@ export class AbrirAgendasComponent implements OnInit {
   public appointment = {
     value: "",
     text: "",
-    brand: ""
+    brand: "",
+    face_to_face: ""
   }
   public subappointment = {
     value: "",
@@ -34,6 +37,7 @@ export class AbrirAgendasComponent implements OnInit {
   public speciality
   public profesional
 
+
   public timeDuration = ""
   public type_appointments = []
   public appointmentId: Number
@@ -44,20 +48,17 @@ export class AbrirAgendasComponent implements OnInit {
   public sedes = []
   public specialties = []
   public profesionals = []
-  public optionesTime = [{ value: 15, text: "5 Minutos" }, { value: 25, text: "5 Minutos" }, { value: 30, text: "5 Minutos" }]
+  public optionesTime = [{ value: 15, text: "15 Minutos" }, { value: 25, text: "25 Minutos" }, { value: 30, text: "30 Minutos" }]
   public diasSemana = diasSemana
 
-  constructor(private _openAgendaService: OpenAgendaService) { }
+  constructor(private _openAgendaService: OpenAgendaService, public _queryProfessional: QueryProfessional) { }
 
   ngOnInit(): void {
     this.getTypeAppointment();
   }
 
   reset() {
-    this.ips = {
-      value: "",
-      text: ""
-    };
+
     this.sede = {
       value: "",
       text: ""
@@ -66,13 +67,49 @@ export class AbrirAgendasComponent implements OnInit {
       value: "",
       text: ""
     };
+
     this.profesional = ''
-    this.subappointment = {
+
+    // this.appointment = {
+    //   value: "",
+    //   text: "",
+    //   brand: "",
+    //   face_to_face: ""
+    // }
+    // this.subappointment = {
+    //   value: "",
+    //   text: "",
+    //   company_owner: "",
+    //   procedure: ""
+    // }
+
+    this.ips = {
       value: "",
-      text: "",
-      company_owner: "",
-      procedure: ""
-    };
+      text: ""
+    }
+
+    this.ips = {
+      value: "",
+      text: ""
+    }
+
+    this.sede = 0
+    this.speciality = 0
+    this.profesional = 0
+
+    this.timeDuration = ""
+    // this.type_appointments = []
+    this.appointmentId = 0
+    // this.type_subappointments = []
+    this.subappointmentId = 0
+    // this.ipss = []
+    this.ipsId = 0;
+    // this.sedes = []
+    // this.specialties = []
+    // this.profesionals = []
+    this.optionesTime = [{ value: 15, text: "15 Minutos" }, { value: 25, text: "25 Minutos" }, { value: 30, text: "30 Minutos" }]
+    this.diasSemana = diasSemana
+
   }
 
   getTypeAppointment() {
@@ -82,9 +119,14 @@ export class AbrirAgendasComponent implements OnInit {
   }
 
   getSubTypeAppointment() {
-    this.appointment = this.searchItem(this.type_appointments, this.appointmentId);
+    this.appointment = this.searchAppointment(this.type_appointments, this.appointmentId);
     this._openAgendaService.getSubTypeAppointment(this.appointment.value).subscribe((resp: any) => {
       this.type_subappointments = resp.data;
+      this.subappointmentId = this.type_subappointments[0].value
+      if (this.appointment.face_to_face) {
+        this.getIps()
+      }
+      this.getSpecialties()
     });
 
   }
@@ -115,14 +157,39 @@ export class AbrirAgendasComponent implements OnInit {
     });
   }
 
+
+
+  dispatchProfessional() {
+    this._queryProfessional.professional.next(this.profesional)
+  }
+
   searchItem(data, value) {
     return data.find((item) => item.value === value);
   }
 
+  searchAppointment(data, value) {
+    return data.find((item) => item.value === value);
+  }
+
   saveAgenda(formulario: NgForm) {
-    this._openAgendaService.saveAgendamiento(JSON.stringify(formulario.value)).subscribe((resp: any) => {
-      this.profesionals = resp.data;
+    Swal.fire({
+      title: 'Seguro?',
+      text: 'Deseas aperturar agenda con esta información!',
+      icon: 'warning',
+      showCancelButton: true,
+      confirmButtonColor: '#34c38f',
+      cancelButtonColor: '#f46a6a',
+      confirmButtonText: 'Si, Hazlo!'
+    }).then(result => {
+      if (result.value) {
+        this._openAgendaService.saveAgendamiento(JSON.stringify(formulario.value)).subscribe((resp: any) => {
+          this._queryProfessional.professional.next(this.profesional)
+          this.reset();
+          Swal.fire('Buen trabajo!', 'Se ha aperturado agenda correctamente.', 'success');
+        });
+      }
     });
+
   }
 
 }

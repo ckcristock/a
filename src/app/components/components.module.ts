@@ -10,6 +10,7 @@ import { DetalleCitaComponent } from './citas/detalle-cita/detalle-cita.componen
 import { ListaCitasComponent } from './citas/lista-citas/lista-citas.component';
 import { BuildingComponent } from './building/building.component';
 import { RestorePasswordComponent } from './restore-password/restore-password.component';
+import { NgSelectModule } from '@ng-select/ng-select';
 
 @NgModule({
   declarations: [
@@ -33,6 +34,7 @@ import { RestorePasswordComponent } from './restore-password/restore-password.co
     NgbAccordionModule,
     FormsModule,
     CommonModule,
+    NgSelectModule
     
   ]
 })

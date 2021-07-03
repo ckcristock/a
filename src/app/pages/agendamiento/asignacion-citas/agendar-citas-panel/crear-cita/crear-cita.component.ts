@@ -7,7 +7,7 @@ import { Observable, of, OperatorFunction } from 'rxjs';
 import { catchError, debounceTime, distinctUntilChanged, map, tap, switchMap } from 'rxjs/operators';
 import { NgForm } from '@angular/forms';
 import { ips_remisors, professionals_remisors, especiality_remisors, procedurs_remisors } from './dataBurn';
-import { QueryPatient } from '../../query-patient.service';
+import { QueryPatient } from '../../../query-patient.service';
 import { formaterInput } from '../../../../../formaterInput'
 
 

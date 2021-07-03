@@ -11,7 +11,7 @@ import timeGrigPlugin from '@fullcalendar/timegrid';
 import interactionPlugin from '@fullcalendar/interaction';
 import bootstrapPlugin from '@fullcalendar/bootstrap';
 import { EventInput } from '@fullcalendar/core';
-import { QueryPatient } from '../../query-patient.service';
+import { QueryPatient } from '../../../query-patient.service';
 
 @Component({
   selector: 'app-asignar-calendario',

@@ -14,6 +14,7 @@ import { EventInput } from '@fullcalendar/core';
 
 import { Event } from './event.model';
 import { OpenAgendaService } from '../open-agenda.service';
+import { QueryProfessional } from '../query-professional.service';
 
 @Component({
   selector: 'app-callendar',
@@ -23,7 +24,8 @@ import { OpenAgendaService } from '../open-agenda.service';
 
 export class CallendarComponent implements OnInit {
 
-  @Input() profesional: Number;
+  @Input() professional: Number;
+  public myprofesional: any
   // bread crumb items
   breadCrumbItems: Array<{}>;
 
@@ -55,8 +57,16 @@ export class CallendarComponent implements OnInit {
 
   // slotDuration = '02:00' // 2 hours
 
-  constructor(private modalService: NgbModal, private formBuilder: FormBuilder, private _openAgendaService: OpenAgendaService) { }
+  constructor(private modalService: NgbModal, private formBuilder: FormBuilder, private _openAgendaService: OpenAgendaService, private _queryProfessional: QueryProfessional) {
+    this._queryProfessional.professional.subscribe((r: any) => {
+      this.myprofesional = r;
+      this._fetchData();
+    })
+  }
   ngOnInit(): void {
+
+    console.log(this.professional);
+    this._fetchData();
 
     /**
      * Event Model validation
@@ -74,7 +84,7 @@ export class CallendarComponent implements OnInit {
       editCategory: [],
     });
 
-    this._fetchData();
+    // this._fetchData();
   }
 
   /**
@@ -156,7 +166,6 @@ export class CallendarComponent implements OnInit {
   saveEvent() {
     if (this.formData.valid) {
       const title = this.formData.get('title').value;
-      // tslint:disable-next-line: no-shadowed-variable
       const category = this.formData.get('category').value;
 
       this.calendarEvents = this.calendarEvents.concat({
@@ -196,14 +205,16 @@ export class CallendarComponent implements OnInit {
   }
 
   private _fetchData() {
-    // Calender Event Data
 
-    console.log(this.profesional);
-    this._openAgendaService.getAppointments(this.profesional).subscribe((resp: any) => {
+    if (this.myprofesional == 'null' || this.myprofesional == 'undefined') {
+      this.myprofesional = this.professional
+    }
+
+    this._openAgendaService.getAppointments(this.professional).subscribe((resp: any) => {
 
       this.calendarEvents = resp.data.map((element, index) => {
         if (element.status) {
-          resp.data[index]['className'] = "bg-success text-white"
+          // resp.data[index]['className'] = "bg-success text-white"
           resp.data[index]['title'] = "Disponible"
           resp.data[index]['allDay '] = false
           return element
