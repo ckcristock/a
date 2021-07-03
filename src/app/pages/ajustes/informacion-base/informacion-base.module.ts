@@ -10,6 +10,8 @@ import { EspecialidadesComponent } from './especialidades/especialidades.compone
 import { CupsComponent } from './cups/cups.component';
 import { RegimenesNivelesComponent } from './regimenes-niveles/regimenes-niveles.component';
 import { AseguradorasComponent } from './aseguradoras/aseguradoras.component';
+import { NgbPaginationModule, NgbDropdownModule } from '@ng-bootstrap/ng-bootstrap';
+import { ChartsModule } from 'ng2-charts';
 
 
 @NgModule({
@@ -18,7 +20,7 @@ import { AseguradorasComponent } from './aseguradoras/aseguradoras.component';
         ProfesionalesComponent, PacientesComponent, EspecialidadesComponent,
         CupsComponent, RegimenesNivelesComponent, AseguradorasComponent],
         
-    imports:[CommonModule,InformacionBaseRoutingModule]
+    imports:[CommonModule,InformacionBaseRoutingModule,NgbPaginationModule,NgbDropdownModule,ChartsModule]
 })
 
 export class InformacionBaseModule {}

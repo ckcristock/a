@@ -1,1 +1,117 @@
-<p>pacientes works!</p>
+<div class="row">
+    <div class="col-4">
+        <div class="row">
+            <div class="col-12">
+                <div class="card">
+                    <div class="card-body">
+                        <h4 class="card-title mb-4">Donut Charts</h4>
+                        <div class="row text-center">
+                            <div class="col-4">
+                                <h5 class="mb-0">9595</h5>
+                                <p class="text-muted text-truncate">Activated</p>
+                            </div>
+                            <div class="col-4">
+                                <h5 class="mb-0">36524</h5>
+                                <p class="text-muted text-truncate">Pending</p>
+                            </div>
+                            <div class="col-4">
+                                <h5 class="mb-0">62541</h5>
+                                <p class="text-muted text-truncate">Deactivated</p>
+                            </div>
+                        </div>
+                        <div class="chartjs-chart">
+                            <!-- Bar Chart -->
+                            <canvas baseChart [datasets]="donutChart.datasets" chartType="doughnut" [options]="donutChart.options" height="260">
+                </canvas>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="col-12"></div>
+        </div>
+    </div>
+    <div class="col-8">
+        <div class="card">
+            <div class="card-body">
+                <div class="row mb-4">
+                    <div class="col-6 ">
+                        <h4 class="">Lista de pacientes</h4>
+                    </div>
+                    <div class="col-6 d-flex justify-content-end">
+                        <form class="form-inline">
+                            <div class="form-group">
+                                <label for="inputPassword6">Buscar:</label>
+                                <input type="password" id="inputPassword6" placeholder="Buscador de niveles" class="form-control mx-sm-3" aria-describedby="passwordHelpInline">
+
+                            </div>
+                        </form>
+                    </div>
+                </div>
+
+                <div class="">
+                    <table class="table table-hover mb-0 table-centered table-nowrap ">
+                        <thead class="thead-dark ">
+                            <tr>
+                                <th>Ident.</th>
+                                <th>Paciente</th>
+                                <th>EPS</th>
+                                <th>Régimen</th>
+                                <th>Estado</th>
+                                <th></th>
+
+                                <th class="text-right "> </th>
+
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr *ngFor="let item of patients ">
+                                <td>
+                                    <p class="font-size-14 mb-0 ">{{item.identification}}</p>
+                                </td>
+                                <td>
+                                    <p class="font-size-14 mb-0 ">{{item.name}}</p>
+                                </td>
+                                <td>
+                                    <p class="font-size-14 mb-0 ">{{item.eps}}</p>
+                                </td>
+                                <td>
+                                    <p class="font-size-14 mb-0 ">{{item.regime}}</p>
+                                </td>
+                                <td>
+                                    <p class="font-size-14 mb-0 ">{{item.state}}</p>
+                                </td>
+
+
+                                <td class="text-right ">
+
+                                    <div class="btn-group " role="group " ngbDropdown>
+                                        <button id="btnGroupVerticalDrop1 " type="button " class="btn btn-primary btn-sm dropdown-toggle " ngbDropdownToggle>
+                                            Acciones <i class="mdi mdi-chevron-down "></i>
+                                          </button>
+                                        <div style="cursor: pointer; " class="dropdown-menu font-weight-bolder " aria-labelledby="btnGroupVerticalDrop1 " ngbDropdownMenu>
+                                            <a class="dropdown-item "> <i class="fa fa-search mr-2 "></i>Ver más</a>
+                                            <a class="dropdown-item "> <i class="fa fa-edit mr-2 "></i>Editar </a>
+                                            <a class="dropdown-item "> <i class="fa fa-ban mr-2 "></i>Suspender </a>
+                                        </div>
+                                    </div>
+                                </td>
+                            </tr>
+
+                        </tbody>
+                    </table>
+                </div>
+                <div class="row align-items-right mt-2 ">
+
+                    <div class="col-sm-12 ">
+                        <div class="text-md-right float-md-right pagination-rounded ">
+                            <ngb-pagination [collectionSize]="pagination.collectionSize " [pageSize]="pagination.pageSize " [(page)]="pagination.page " aria-label="Default pagination "></ngb-pagination>
+                        </div>
+                    </div>
+                </div>
+
+
+
+            </div>
+        </div>
+    </div>
+</div>
