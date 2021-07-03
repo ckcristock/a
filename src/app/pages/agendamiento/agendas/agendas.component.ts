@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-agendas',
@@ -6,23 +7,45 @@ import { Component, OnInit } from '@angular/core';
   styleUrls: ['./agendas.component.scss']
 })
 export class AgendasComponent implements OnInit {
-   statData = [
+  statData = [
     {
-        icon: 'ri-stack-line',
-        title: 'Number of Sales',
-        value: '1452'
+      icon: 'fa fa-calendar-week',
+      title: '# Citas abiertas',
+      value: '2344'
     }, {
-        icon: 'ri-store-2-line',
-        title: 'Sales Revenue',
-        value: '$ 38452'
+      icon: 'fa fa-calendar-day',
+      title: '# Citas disponibles',
+      value: '3434'
     }, {
-        icon: 'ri-briefcase-4-line',
-        title: 'Average Price',
-        value: '$ 15.4'
+      icon: 'fa fa-calendar-check' ,
+      title: '# Citas asignadas',
+      value: '34455'
     }
-];
+  ];
+  pagination = {
+    pageSize: 20,
+    page: 1,
+    collectionSize: 100,
 
-  constructor() { }
+  }
+  filters: any = {
+    date: '',
+    institution: '',
+    patient: '',
+    speciality: '',
+
+  }
+  searching = false;
+  searchFailed = false;
+
+  agendas = [
+    { 'date': '2020-05-01', functioray_open: 'Daniel Brox', id: 1, professional: 'Charls Jr', spaciality: 'Cardilogía', state: 'Abierta' },
+    { 'date': '2020-05-01', functioray_open: 'Daniel Brox', id: 2, professional: 'Charls Jr', spaciality: 'Cardilogía', state: 'Abierta' },
+    { 'date': '2020-05-01', functioray_open: 'Daniel Brox', id: 3, professional: 'Charls Jr', spaciality: 'Cardilogía', state: 'Abierta' },
+    { 'date': '2020-05-01', functioray_open: 'Daniel Brox', id: 4, professional: 'Charls Jr', spaciality: 'Cardilogía', state: 'Abierta' },
+  ]
+
+  constructor(private route:Router) { }
 
   ngOnInit(): void {
   }

@@ -10,6 +10,10 @@ import { DetalleCitaComponent } from './citas/detalle-cita/detalle-cita.componen
 import { ListaCitasComponent } from './citas/lista-citas/lista-citas.component';
 import { BuildingComponent } from './building/building.component';
 import { RestorePasswordComponent } from './restore-password/restore-password.component';
+import { StatsComponent } from './stats/stats.component';
+import { TimeLineComponent } from './time-line/time-line.component';
+import { PerfectScrollbarModule } from 'ngx-perfect-scrollbar';
+import { PipesModule } from '../core/pipes/pipes.module';
 
 @NgModule({
   declarations: [
@@ -18,7 +22,9 @@ import { RestorePasswordComponent } from './restore-password/restore-password.co
     DetalleCitaComponent,
     ListaCitasComponent,
     BuildingComponent,
-    RestorePasswordComponent
+    RestorePasswordComponent,
+    StatsComponent,
+    TimeLineComponent,
   ],
   exports: [
     ModalBasicComponent,
@@ -26,14 +32,17 @@ import { RestorePasswordComponent } from './restore-password/restore-password.co
     DetalleCitaComponent,
     ListaCitasComponent,
     BuildingComponent,
-    RestorePasswordComponent
-
+    RestorePasswordComponent,
+    StatsComponent,
+    TimeLineComponent,
+    
   ],
   imports: [
     NgbAccordionModule,
     FormsModule,
     CommonModule,
-    
+    PerfectScrollbarModule,
+    PipesModule
   ]
 })
 export class ComponentsModule { }

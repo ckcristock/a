@@ -27,7 +27,9 @@ import { NgSelectModule } from "@ng-select/ng-select";
         NgbPaginationModule, NgbDropdownModule, ChartsModule,
         ComponentsModule,
         FormsModule,
-        NgSelectModule]
+        NgSelectModule,
+        NgbDropdownModule
+    ]
 })
 
 
