@@ -1,0 +1,87 @@
+<div class="row">
+    <div class="col-9">
+        <div class="row">
+            <div class="col-12">
+                <div class="card">
+                    <div class="card-body">
+                        <div class="col-12">
+                            <label for="validationServerUsername">Tipo Ident.</label>
+                            <input type="text" class="form-control input-group">
+                        </div>
+                        <!-- <div class="col-2 mb-2">
+                                <label for="validationServerUsername">Tipo Ident.</label>
+                                <div class="input-group">
+                                    <select [(ngModel)]="professional.type_identification_id" class="custom-select" name="Id_Tipo_Identificacion">
+                                      <option [value]="type.Id" *ngFor="let type of typesDocuments">{{type.Nombre}}</option>
+                                    </select>
+                                </div>
+                            </div> -->
+                    </div>
+                </div>
+            </div>
+            <div class="col-12">
+                <div class="card">
+                    <div class="card-body">
+                        <table class="table table-hover mb-0 table-centered table-nowrap">
+                            <thead class="thead-dark">
+                                <tr>
+                                    <th>Fecha</th>
+                                    <th>Func. Elaboró</th>
+                                    <th>Profesional</th>
+                                    <th>Especialidad</th>
+                                    <th>Estado</th>
+                                    <th></th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr *ngFor="let item of agendas">
+                                    <td>
+                                        <p class="font-size-14 mb-0">{{item.date}}</p>
+                                    </td>
+                                    <td>
+                                        <p class="font-size-14 mb-0">{{item.functioray_open}}</p>
+                                    </td>
+                                    <td>
+                                        <p class="font-size-14 mb-0">{{item.professional}}</p>
+                                    </td>
+                                    <td>
+                                        <p class="font-size-14 mb-0">{{item.spaciality}}</p>
+                                    </td>
+                                    <td>
+                                        <p class="font-size-14 mb-0">{{item.state}}</p>
+                                    </td>
+                                    <td class="text-right ">
+                                        <div class="btn-group " role="group " ngbDropdown>
+                                            <button id="btnGroupVerticalDrop1 " type="button " class="btn btn-primary btn-sm dropdown-toggle " ngbDropdownToggle>
+                                    Acciones <i class="mdi mdi-chevron-down "></i>
+                                  </button>
+                                            <div style="cursor: pointer; " class="dropdown-menu font-weight-bolder " aria-labelledby="btnGroupVerticalDrop1 " ngbDropdownMenu>
+                                                <a class="dropdown-item " [routerLink]="['/agendamiento/detalle-agenda',item.id]"> <i class=" fa fa-search mr-2 "></i>Ver más</a>
+                                                <a class="dropdown-item "> <i class="fa fa-edit mr-2 "></i>Editar </a>
+                                                <a class="dropdown-item "> <i class="fa fa-ban mr-2 "></i>Suspender </a>
+                                            </div>
+                                        </div>
+                                    </td>
+                                </tr>
+
+                            </tbody>
+                        </table>
+                        <div class="row align-items-right mt-2 ">
+                            <div class="col-sm-12 ">
+                                <div class="text-md-right float-md-right pagination-rounded ">
+                                    <ngb-pagination [collectionSize]="pagination.collectionSize " [pageSize]="pagination.pageSize " [(page)]="pagination.page " aria-label="Default pagination "></ngb-pagination>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+    </div>
+    <div class="col-3">
+        <div *ngFor="let stat of statData" class="col-12">
+            <app-stats [title]="stat.title" [value]="stat.value" [icon]="stat.icon"></app-stats>
+        </div>
+    </div>
+</div>

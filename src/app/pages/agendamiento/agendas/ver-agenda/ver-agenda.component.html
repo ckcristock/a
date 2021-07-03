@@ -1,0 +1,61 @@
+<div class="row">
+    <div class="col-4">
+        <app-time-line [data]="time"></app-time-line>
+    </div>
+    <div class="col-8">
+        <div class="row">
+            <div class="col-12">
+                <ngb-alert class="mb-2" #alert [dismissible]="false" [type]="'warning'"> No se pueden modificar agendas con citas asignadas </ngb-alert>
+                <div class="card">
+                    <div class="card-body">
+                        <div class="row">
+
+                            <div class="col-3">
+                                <div class="form-group ">
+                                    <label for="staticEmail" class="col-form-label">Tipo de Agenda:</label>
+                                    <input type="text" readonly class="form-control-plaintext" id="staticEmail" [(ngModel)]="agenda.appointment.name">
+                                </div>
+                            </div>
+                            <div class="col-3">
+                                <div class="form-group ">
+                                    <label for="staticEmail" class="col-form-label">Tipo de Consulta:</label>
+                                    <input type="text" readonly class="form-control-plaintext" id="staticEmail" [(ngModel)]="agenda.consult.name">
+                                </div>
+                            </div>
+
+                            <div class="col-3">
+                                <div class="form-group ">
+                                    <label for="staticEmail" class="col-form-label">Ips:</label>
+                                    <input type="text" readonly class="form-control-plaintext" id="staticEmail" [(ngModel)]="agenda.companies.name">
+                                </div>
+                            </div>
+                            <div class="col-3">
+                                <div class="form-group ">
+                                    <label for="staticEmail" class="col-form-label">Sede:</label>
+                                    <input type="text" readonly class="form-control-plaintext" id="staticEmail" [(ngModel)]="agenda.appointment.name">
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+            <div class="col-12">
+                <div class="card">
+                    <div class="card-body">
+                        <div class="app-calendar">
+                            <full-calendar #calendar defaultView="dayGridMonth" [header]="{
+                    left: 'prevYear,prev,next,nextYear today',
+                    center: 'title',
+                    right: 'dayGridMonth,dayGridWeek,dayGridDay,listWeek'}" [plugins]="calendarPlugins" [eventResizableFromStart]="'true'" [eventLimit]="false" themeSystem='bootstrap' [weekends]="calendarWeekends" [bootstrapFontAwesome]="true" deepChangeDetection="true"
+                                [events]="calendarEvents" locale="es">
+                            </full-calendar>
+
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+    </div>
+</div>

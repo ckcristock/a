@@ -38,6 +38,14 @@ export const MENU: MenuItem[] = [
                 parentId: 2
             },
             {
+                id: 6,
+                label: 'Lista de Agendas',
+                link: '/agendamiento/agendas',
+                parentId: 2
+            },
+
+
+            {
                 id: 7,
                 label: 'Indicadores Gestión',
                 link: '/agendamiento/indicadores-gestion',
@@ -148,12 +156,12 @@ export const MENU: MenuItem[] = [
                         link: '/ajustes/informacion-base/regimenes-niveles',
                         parentId: 16
                     },
-                    {
+                   /*  {
                         id: 24,
                         label: 'Aseguradoras',
                         link: '/ajustes/informacion-base/aseguradoras',
                         parentId: 16
-                    },
+                    }, */
 
                 ]
             },

@@ -12,7 +12,8 @@ import { ComponentsModule } from '../components/components.module';
         CommonModule,
         FormsModule,
         PagesRoutingModule,
-        ComponentsModule
+        ComponentsModule,
+        
     ],
     exports:[]
 })

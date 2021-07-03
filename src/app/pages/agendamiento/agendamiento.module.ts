@@ -5,7 +5,7 @@ import { AgendamientoRoutingModule } from "./agendamiento-routing.module";
 import { ComponentsModule } from "src/app/components/components.module";
 import { ArchwizardModule } from "angular-archwizard";
 import { NgSelectModule } from '@ng-select/ng-select';
-import { NgbNavModule, NgbPaginationModule, NgbTypeaheadModule } from "@ng-bootstrap/ng-bootstrap";
+import { NgbNavModule, NgbPaginationModule, NgbTypeaheadModule, NgbDropdownModule, NgbAlertModule } from '@ng-bootstrap/ng-bootstrap';
 
 import { AsignacionCitasModule } from './asignacion-citas/asignacion-citas.module';
 import { AbrirAgendasComponent } from './abrir-agendas/abrir-agendas.component';
@@ -19,6 +19,8 @@ import { TopWaitingComponent } from './lista-espera/top-waiting/top-waiting.comp
 
 import { NgModule } from "@angular/core";
 import { CallendarComponent } from './callendar/callendar.component';
+import { AgendasComponent } from './agendas/agendas.component';
+import { VerAgendaComponent } from './agendas/ver-agenda/ver-agenda.component';
 
 @NgModule({
     declarations: [
@@ -28,8 +30,9 @@ import { CallendarComponent } from './callendar/callendar.component';
         IndicadoresGestionComponent,
         ReportesComponent,
         CallendarComponent,
-
         TopWaitingComponent,
+        AgendasComponent,
+        VerAgendaComponent,
       
     ],
     imports: [
@@ -42,9 +45,11 @@ import { CallendarComponent } from './callendar/callendar.component';
         ComponentsModule,
         ArchwizardModule,
         AsignacionCitasModule,
-
         NgbTypeaheadModule,
-        NgbPaginationModule
+        NgbPaginationModule,
+        NgbDropdownModule,
+        NgbAlertModule,
+        
     ],
 
     bootstrap: [],
