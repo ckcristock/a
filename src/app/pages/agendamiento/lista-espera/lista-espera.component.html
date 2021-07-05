@@ -84,8 +84,12 @@
 
                             </tbody>
                         </table>
-                        <ngb-pagination [collectionSize]="pagination.collectionSize" [pageSize]="pagination.pageSize" [(page)]="pagination.page" aria-label="Default pagination"></ngb-pagination>
+                        <div class="col-sm-12 ">
+                            <div class="text-md-right float-md-right pagination-rounded ">
+                                <ngb-pagination [collectionSize]="pagination.collectionSize" [pageSize]="pagination.pageSize" [(page)]="pagination.page" aria-label="Default pagination"></ngb-pagination>
 
+                            </div>
+                        </div>
                     </div>
                 </div>
             </div>

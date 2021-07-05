@@ -1,5 +1,4 @@
-
-<div class="row"  [hidden]="!existPtientForShow">
+<div class="row" [hidden]="!existPtientForShow">
     <div class="col-12">
         <div class="row">
             <div class="col-12 mb-4">
@@ -25,6 +24,11 @@
                 <div *ngIf="operation=='Reasignar Citas'">
                     <app-lista-citas [canOverride]="'true'" [citas]="citas"></app-lista-citas>
                 </div>
+
+                <div *ngIf="operation=='Tipificar'">
+                    asdasd
+                </div>
+
             </div>
             <!--  <app-set-paciente></app-set-paciente> -->
             <div class="col-4">
@@ -63,17 +67,17 @@
 </div>
 
 
-    <div class="row " *ngIf="!existPtientForShow">
-        <div class="col-12">
-            <div class="card">
-                <div class="card-body">
-                    <div class="row justify-content-center">
-                        <div class="col-8 text-center">
-                            <h4>En espera de una llamada entrante</h4>
-                            <img src="./../../../../assets/images/CallCenter.png" class="img-fluid" alt="" srcset="">
-                        </div>
+<div class="row " *ngIf="!existPtientForShow">
+    <div class="col-12">
+        <div class="card">
+            <div class="card-body">
+                <div class="row justify-content-center">
+                    <div class="col-8 text-center">
+                        <h4>En espera de una llamada entrante</h4>
+                        <img src="./../../../../assets/images/CallCenter.png" class="img-fluid" alt="" srcset="">
                     </div>
                 </div>
             </div>
         </div>
     </div>
+</div>
