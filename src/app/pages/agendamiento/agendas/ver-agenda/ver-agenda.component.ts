@@ -77,17 +77,30 @@ export class VerAgendaComponent implements OnInit {
   getAgenda (){
     //consulta http
     this.agenda = {
+      date_start:'2020-01-05',
+      date_end:'2020-01-05',
+      hour_start:'21:40',
+      end_start:'21:50',
+
       appointment:{
-        name:'Telemedicina',
+        name:'asdas',
         id:'1'
       },
       consult:{
         name:'Telemedicina',
         id:'1'
       },
-      companies:{
-        name:'Telemedicina',
+      company:{
+        name:'IPS Crlos',
         id:'1'
+      },
+      location:{
+        name:'Nueva sede ',
+        id:'1'
+      },
+      professional:{
+        first_name:'Carlos ',
+        first_surname:' Cardona'
       },
       spaces:[{
         state:'agendado'// revisar!!

@@ -15,7 +15,7 @@
                         <input id="typeahead-http" type="text" class="form-control mx-sm-3 col-11"
                             [class.is-invalid]="searchFailed" [(ngModel)]="diagnosticoId" [ngbTypeahead]="search"
                             placeholder="Diagnosticos" name="diagnosticoId" ngDefaultControl
-                            [resultTemplate]="diagnostic" [inputFormatter]="Inputdiagnostic" (change)="diagnosticoId = formaterInput(diagnosticoId)" />
+                            [resultTemplate]="diagnostic" [inputFormatter]="Inputdiagnostic" />
                         <small *ngIf="searching" class="form-text text-muted">Buscando...</small>
                         <div class="invalid-feedback" *ngIf="searchFailed">No se ha podido encontrar.</div>
 
@@ -95,7 +95,8 @@
                         <input type="text" class="form-control mx-sm-3 col-11" [class.is-invalid]="searchFailed"
                             [(ngModel)]="procedureId" [ngbTypeahead]="searchProcedure" placeholder="Procedimiento"
                             name="procedureId" ngDefaultControl [resultTemplate]="procedure"
-                            [inputFormatter]="InputProcedure" (change)="procedureId = formaterInput(procedureId)"/>
+                            [inputFormatter]="InputProcedure" 
+                            />
                         <small *ngIf="searching" class="form-text text-muted">Buscando...</small>
                         <div class="invalid-feedback" *ngIf="searchFailed">No se ha podido encontrar.</div>
 
@@ -127,7 +128,7 @@
                     </div>
                 </div>
                 <div class="col-12 mt-12">
-                    <button class="btn btn-success btn-block" (click)="save(registerCita)"> guardar </button>
+                    <button class="btn btn-success btn-block" (click)="save(registerCita)"> Guardar </button>
                 </div>
 
             </div>
@@ -137,14 +138,14 @@
 
     <ng-template #diagnostic let-r="result" let-t="term">
         <span class="f-9">
-            {{r.id}}
+            {{r.value}}
             <strong>{{r.text}}</strong>
         </span>
     </ng-template>
 
     <ng-template #procedure let-r="result" let-t="term">
         <span class="f-9">
-            {{r.id}}
+            {{r.value}}
             <strong>{{r.text}}</strong>
         </span>
     </ng-template>

@@ -21,6 +21,7 @@ export class SetPacienteComponent implements OnInit {
 
   paciente: any = {
     Id_Tipo_Identificacion: '',
+    Tipo_Identificacion: '',
     Identificacion: '',
     paciente: '',
     Apellidos: '',
