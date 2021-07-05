@@ -84,8 +84,8 @@ export class CrearCitaComponent implements OnInit {
         this._openAgendaService.saveCita(JSON.stringify(form.value))
           .subscribe((data) => {
             this._queryPatient.existPatient.emit('');
+            this.siguiente.emit(data);
           });
-        this.siguiente.emit('');
       }
     })
   }

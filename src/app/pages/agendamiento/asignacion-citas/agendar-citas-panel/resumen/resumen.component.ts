@@ -1,6 +1,6 @@
-import { Component, OnInit, OnDestroy } from '@angular/core';
+import { Component, OnInit, OnDestroy, Input } from '@angular/core';
 import { QueryPatient } from '../../../query-patient.service';
-import {  Subscription } from 'rxjs';
+import { Subscription } from 'rxjs';
 
 @Component({
   selector: 'app-resumen',
@@ -8,29 +8,26 @@ import {  Subscription } from 'rxjs';
   styleUrls: ['./resumen.component.scss']
 })
 export class ResumenComponent implements OnInit {
-  paciente : any
-  $qp : Subscription
-  constructor(private _queryPatient:QueryPatient) { }
+  paciente: any
+  $qp: Subscription
 
-  cita = {
-    appointment:'Presencial',
-    patient:'CARLOS Daniel CARDONA',
-    professional:'Daniel tamayo',
-    day:'Miercoles 37 de julio',
-    hour:'A las 7 de la tarde',
-    location:'IPS Carlos',
-    direction:'Calle 23 #123',
-    cuota:'4.500'
+  @Input() dataCita: any;
+  public cita;
+
+  constructor(private _queryPatient: QueryPatient) {
+    this.cita = this.dataCita;
   }
-  
+
   ngOnInit(): void {
-    this.$qp = this._queryPatient.patient.subscribe(r => {this.paciente = r.paciente
-    console.log(r,'siiiiiiiii');
-    
+    console.log(this.cita);
+    this.$qp = this._queryPatient.patient.subscribe(r => {
+      this.paciente = r.paciente
+      console.log(r, 'siiiiiiiii');
+
     })
   }
 
-  OnDestroy(){
+  OnDestroy() {
     this.$qp.unsubscribe();
   }
 

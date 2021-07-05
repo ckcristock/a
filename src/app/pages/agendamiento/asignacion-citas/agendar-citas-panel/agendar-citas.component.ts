@@ -21,6 +21,17 @@ export class AgendarCitasComponent implements OnInit {
   /* @ViewChild('next') next; */
   @ViewChild('next') next: ElementRef;
 
+  public dataCita: any = {
+    appointment: '',
+    patient: '',
+    professional: '',
+    day: '',
+    hour: '',
+    location: '',
+    direction: '',
+    cuota: ''
+  }
+
   // bread crumb items
   breadCrumbItems: Array<{}>;
 
@@ -223,7 +234,10 @@ export class AgendarCitasComponent implements OnInit {
     this.modalService.dismissAll();
   }
 
-  siguiente() {
+  siguiente(dataCita: any = {}) {
+    if (dataCita != []) {
+      this.dataCita = dataCita;
+    }
     this.next.nativeElement.click();
   }
 }
