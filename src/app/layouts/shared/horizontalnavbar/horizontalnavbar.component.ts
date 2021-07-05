@@ -41,7 +41,7 @@ export class HorizontalnavbarComponent implements OnInit, AfterViewInit {
     const nextEl = event.target.nextSibling;
     const parent = event.target.parentNode;
     if (nextEl.id !== 'navmenu') {
-    } else if (nextEl && !nextEl.classList.contains('show')) {
+    } else if (nextEl && nextEl.classList.contains('show')) {
       const parentEl = event.target.parentNode;
       if (parentEl) { parentEl.classList.remove('show'); }
       nextEl.classList.toggle('show');
