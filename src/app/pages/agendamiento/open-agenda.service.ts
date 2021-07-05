@@ -69,8 +69,8 @@ export class OpenAgendaService {
     return this.clientHttp.get(`${environment.base_url}/agendamientos/${idProfessional}`)
   }
 
-  public getOpenedSpace(especialidad: Number) {
-    return this.clientHttp.get(`${environment.base_url}/opened-spaces/${especialidad}`)
+  public getOpenedSpace(especialidad: Number, profesional: Number) {
+    return this.clientHttp.get(`${environment.base_url}/opened-spaces/${especialidad}/${profesional}`)
   }
 
   public getDiagnostics() {
