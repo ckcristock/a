@@ -13,7 +13,7 @@ export class ImagePipe implements PipeTransform {
   
     if (!img) {
       return `assets/images/users/no-image.png`;
-    } else if (!img.includes('https')) {
+    } else if (img.includes('https')) {
       return img;
     } else if (img) {
       return `${base_url}/upload/usuarios/${img}`;

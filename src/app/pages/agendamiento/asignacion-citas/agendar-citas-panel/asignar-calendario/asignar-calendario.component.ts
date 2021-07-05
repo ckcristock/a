@@ -12,6 +12,7 @@ import interactionPlugin from '@fullcalendar/interaction';
 import bootstrapPlugin from '@fullcalendar/bootstrap';
 import { EventInput } from '@fullcalendar/core';
 import { QueryPatient } from '../../../query-patient.service';
+import { QueryAvailabilitySpacesService } from '../../../query-availability-spaces.service';
 
 @Component({
   selector: 'app-asignar-calendario',
@@ -22,7 +23,11 @@ export class AsignarCalendarioComponent implements OnInit {
 
   breadCrumbItems: Array<{}>;
   @Output('siguiente') siguiente = new EventEmitter();
-  @Input() specialidad: Number;
+  // @Input() specialidad: Number;
+  // @Input() profesional: Number;
+
+  public speciality: Number;
+  public professional: Number;
 
   // event form
   formData: FormGroup;
@@ -38,7 +43,7 @@ export class AsignarCalendarioComponent implements OnInit {
   // calendar plugin
   calendarPlugins = [dayGridPlugin, bootstrapPlugin, timeGrigPlugin, interactionPlugin, listPlugin];
 
-  constructor(private modalService: NgbModal, private formBuilder: FormBuilder, private _openAgendaService: OpenAgendaService, private _queryPatien: QueryPatient) { }
+  constructor(private modalService: NgbModal, private formBuilder: FormBuilder, private _openAgendaService: OpenAgendaService, private _queryPatien: QueryPatient, private _queryAvailabilitySpacesService: QueryAvailabilitySpacesService) { }
 
 
   ngOnInit() {
@@ -61,23 +66,29 @@ export class AsignarCalendarioComponent implements OnInit {
       editCategory: [],
     });
 
-    this._fetchData();
-
+    this._queryAvailabilitySpacesService.getspeciality.subscribe(r => {
+      this.speciality = r
+      this._fetchData();
+    });
+    this._queryAvailabilitySpacesService.getProfessional.subscribe(r => {
+      this.professional = r
+      this._fetchData();
+    });
   }
 
-  save(content: any, event: any) {
+  save(event: any) {
     this._queryPatien.space.next(event.event.id);
     this.siguiente.emit('');
   }
 
   openEditModal() {
-    console.log('save');
-    this.siguiente.emit('');
+    // console.log('save');
+    // this.siguiente.emit('');
   }
 
   private _fetchData() {
 
-    this._openAgendaService.getOpenedSpace(this.specialidad).subscribe((resp: any) => {
+    this._openAgendaService.getOpenedSpace(this.speciality, this.professional).subscribe((resp: any) => {
       this.calendarEvents = resp.data.map((element, index) => {
         if (element.status) {
           resp.data[index]['className'] = "bg-success text-white"
@@ -90,7 +101,7 @@ export class AsignarCalendarioComponent implements OnInit {
         return element
       });
     });
-    // form submit
+
     this.submitted = false;
   }
 }
