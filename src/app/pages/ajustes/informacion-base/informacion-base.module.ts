@@ -10,11 +10,12 @@ import { EspecialidadesComponent } from './especialidades/especialidades.compone
 import { CupsComponent } from './cups/cups.component';
 import { RegimenesNivelesComponent } from './regimenes-niveles/regimenes-niveles.component';
 import { AseguradorasComponent } from './aseguradoras/aseguradoras.component';
-import { NgbPaginationModule, NgbDropdownModule } from '@ng-bootstrap/ng-bootstrap';
+import { NgbPaginationModule, NgbDropdownModule, NgbCollapseModule } from '@ng-bootstrap/ng-bootstrap';
 import { ChartsModule } from 'ng2-charts';
 import { ComponentsModule } from "src/app/components/components.module";
 import { FormsModule } from "@angular/forms";
 import { NgSelectModule } from "@ng-select/ng-select";
+import { PipesModule } from "src/app/core/pipes/pipes.module";
 
 
 @NgModule({
@@ -28,7 +29,9 @@ import { NgSelectModule } from "@ng-select/ng-select";
         ComponentsModule,
         FormsModule,
         NgSelectModule,
-        NgbDropdownModule
+        NgbDropdownModule,
+        NgbCollapseModule,
+        PipesModule
     ]
 })
 
