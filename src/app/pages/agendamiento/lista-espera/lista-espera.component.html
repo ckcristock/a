@@ -67,15 +67,15 @@
                                         <p class="font-size-14 mb-0">{{item.date}}</p>
                                     </td>
                                     <td>
-                                        <p class="font-size-14 mb-0">{{item.identification}}</p>
+                                        <p class="font-size-14 mb-0">{{item.patient.Identificacion}}</p>
                                     </td>
                                     <td>
-                                        <p class="font-size-14 mb-0">{{item.name}}</p>
+                                        <p class="font-size-14 mb-0">{{item.patient.firstname}} {{item.patient.surname}}</p>
                                     </td>
                                     <td>
-                                        <span class="mr-2" *ngFor="let cont of item.contact">
-                                            {{cont}} - 
-                                        </span>
+                                        <!--                   <span class="mr-2" *ngFor="let cont of item.contact"> -->
+                                        {{item.patient.Telefono}}
+                                        <!--   </span> -->
                                     </td>
                                     <td>
                                         <p class="font-size-14 mb-0">{{item.speciality}}</p>
@@ -86,8 +86,7 @@
                         </table>
                         <div class="col-sm-12 ">
                             <div class="text-md-right float-md-right pagination-rounded ">
-                                <ngb-pagination [collectionSize]="pagination.collectionSize" [pageSize]="pagination.pageSize" [(page)]="pagination.page" aria-label="Default pagination"></ngb-pagination>
-
+                                <ngb-pagination [collectionSize]="pagination.collectionSize" (pageChange)="getWaitingList($event)" [pageSize]="pagination.pageSize" [(page)]="pagination.page" aria-label="Default pagination"></ngb-pagination>
                             </div>
                         </div>
                     </div>
