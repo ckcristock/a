@@ -77,8 +77,29 @@ export class AsignarCalendarioComponent implements OnInit {
   }
 
   save(event: any) {
-    this._queryPatien.space.next(event.event.id);
-    this.siguiente.emit('');
+    const space = this.calendarEvents[this.calendarEvents.findIndex(x => x.id + '' === event.event.id + '')]
+    const swalWithBootstrapButtons = Swal.mixin({
+      customClass: {
+        confirmButton: 'btn btn-success mx-2',
+        cancelButton: 'btn btn-danger'
+      },
+      buttonsStyling: false
+    })
+    swalWithBootstrapButtons.fire({
+      title: '¿está seguro?',
+      text: "Se dispone a asignar una cita para " + space.start,
+      icon: 'warning',
+      showCancelButton: true,
+      confirmButtonText: 'Si, ¡Hazlo !',
+      cancelButtonText: 'No, ¡dejeme comprobar!',
+      reverseButtons: true
+    }).then((result) => {
+      if (result.isConfirmed) {
+        this._queryPatien.space.next(event.event.id);
+        this.siguiente.emit('');
+      }
+    })
+
   }
 
   openEditModal() {

@@ -1,5 +1,5 @@
 import { Component, Input, OnInit } from '@angular/core';
-import { FormControl, FormGroup } from '@angular/forms';
+import { FormControl, FormGroup, NgForm } from '@angular/forms';
 import { DataDinamicService } from 'src/app/data-dinamic.service';
 import { QueryPatient } from 'src/app/pages/agendamiento/query-patient.service';
 import { genders, levels, typeRegimens, typeDocuments, epss } from './dataPacienteBurns';
@@ -107,6 +107,12 @@ export class SetPacienteComponent implements OnInit {
   getlevels() {
     this._dataDinamicService.getlevels().subscribe((req: any) => {
       this.levels = req.data
+    })
+  }
+
+  save(formPatient: NgForm) {
+    this._dataDinamicService.savePatient(JSON.stringify(formPatient.value)).subscribe((req: any) => {
+      console.log(req.data);
     })
   }
 

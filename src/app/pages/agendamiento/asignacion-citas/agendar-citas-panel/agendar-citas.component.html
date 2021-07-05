@@ -36,9 +36,10 @@
 
 
                     <aw-wizard-step stepTitle="Finalizar">
-                        <ng-template awWizardStepSymbol>3</ng-template>
+                        
+                        <ng-template awWizardStepSymbol *ngIf="dataCita">3</ng-template>
 
-                        <app-resumen></app-resumen>
+                        <app-resumen [dataCita] = "dataCita"></app-resumen>
 
                     </aw-wizard-step>
 

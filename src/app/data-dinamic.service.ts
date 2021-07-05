@@ -35,5 +35,8 @@ export class DataDinamicService {
   public getlevels() {
     return this.httpClient.get(`${environment.base_url}/levels`)
   }
+  public savePatient(form) {
+    return this.httpClient.post(`${environment.base_url}/patients`, form)
+  }
 
 }

@@ -14,7 +14,7 @@ export class AsignacionCitasComponent implements OnInit {
   operation = '';
 
   public existPtient;
-  public existPtientForShow: boolean=false;
+  public existPtientForShow: boolean = false;
   public getDate;
   public paciente: any = {
     paciente: {},
@@ -24,7 +24,10 @@ export class AsignacionCitasComponent implements OnInit {
   public citas: any = []
   constructor(private http: HttpClient, private _queryPatient: QueryPatient) {
     this.existPtient = _queryPatient.existPatient.subscribe(r => this.Init());
-    this.subjePatient = _queryPatient.patient.subscribe(r => this.paciente = r);
+    this.subjePatient = _queryPatient.patient.subscribe(r => {
+      this.paciente = r
+      localStorage.setItem('patient', JSON.stringify(this.paciente.llamada));
+    });
   }
 
   ngOnInit(): void {

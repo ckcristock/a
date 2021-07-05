@@ -53,7 +53,7 @@ export class TipificacionComponent implements OnInit {
   public obsPatient;
   constructor(private _qp: QueryPatient) {
     this.obsPatient = _qp.patient.subscribe((r) => {
-      // console.log(this.tramitex);
+      console.log(this.tramitex);
       this.data.Id_Tramite = r.llamada.Tipo_Tramite;
       this.data.Id_Ambito = 1;
       this.data.Id_Tipo_Servicio = 1;
