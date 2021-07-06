@@ -9,6 +9,7 @@ import timeGrigPlugin from '@fullcalendar/timegrid';
 import interactionPlugin from '@fullcalendar/interaction';
 import bootstrapPlugin from '@fullcalendar/bootstrap';
 import { FormBuilder, Validators, FormGroup } from '@angular/forms';
+import { QueryPatient } from '../../query-patient.service';
 
 /* import { NextStepDirective } from 'angular-archwizard'; */
 @Component({
@@ -64,7 +65,9 @@ export class AgendarCitasComponent implements OnInit {
   // slotDuration = '02:00' // 2 hours
 
   constructor(private modalService: NgbModal, private formBuilder: FormBuilder, private _openAgendaService: OpenAgendaService) { }
+
   ngOnInit(): void {
+
 
     /**
      * Event Model validation
@@ -235,9 +238,7 @@ export class AgendarCitasComponent implements OnInit {
   }
 
   siguiente(dataCita: any = {}) {
-    if (dataCita != []) {
-      this.dataCita = dataCita;
-    }
     this.next.nativeElement.click();
   }
+
 }

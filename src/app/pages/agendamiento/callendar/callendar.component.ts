@@ -15,6 +15,7 @@ import { EventInput } from '@fullcalendar/core';
 import { Event } from './event.model';
 import { OpenAgendaService } from '../open-agenda.service';
 import { QueryProfessional } from '../query-professional.service';
+import { dataCitaToAssignService } from '../dataCitaToAssignService.service';
 
 @Component({
   selector: 'app-callendar',
@@ -57,7 +58,12 @@ export class CallendarComponent implements OnInit {
 
   // slotDuration = '02:00' // 2 hours
 
-  constructor(private modalService: NgbModal, private formBuilder: FormBuilder, private _openAgendaService: OpenAgendaService, private _queryProfessional: QueryProfessional) {
+  constructor(private modalService: NgbModal,
+    private formBuilder: FormBuilder,
+    private _openAgendaService: OpenAgendaService,
+    private _queryProfessional: QueryProfessional,
+    private dataCitaToAssignService: dataCitaToAssignService
+  ) {
     this._queryProfessional.professional.subscribe((r: any) => {
       this.myprofesional = r;
       this._fetchData();
@@ -65,7 +71,7 @@ export class CallendarComponent implements OnInit {
   }
   ngOnInit(): void {
 
-    console.log(this.professional);
+    console.log(this.dataCitaToAssignService.dateCall);
     this._fetchData();
 
     /**

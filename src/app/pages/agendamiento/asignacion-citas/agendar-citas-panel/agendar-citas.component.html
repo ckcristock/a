@@ -24,7 +24,7 @@
                     <aw-wizard-step stepTitle="Detalles">
                         <ng-template awWizardStepSymbol>2</ng-template>
 
-                        <app-crear-cita (siguiente)="siguiente()"></app-crear-cita>
+                        <app-crear-cita (siguiente)="siguiente($event)"></app-crear-cita>
 
                         <ul class="list-inline wizard mb-0">
                             <li style="visibility: hidden;" class="previous list-inline-item"><button class="btn btn-primary" awPreviousStep>Previous</button>
