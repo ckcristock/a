@@ -16,6 +16,7 @@ import { ResumenCitasComponent } from './resumen-citas/resumen-citas.component';
 import { CitaComponent } from "./disponibilidad-cita/cita.component";
 import { FullCalendarModule } from '@fullcalendar/angular';
 import { ResumenComponent } from './agendar-citas-panel/resumen/resumen.component';
+import { OtroConceptoComponent } from './otro-concepto/otro-concepto.component';
 
 
 @NgModule({
@@ -28,7 +29,8 @@ import { ResumenComponent } from './agendar-citas-panel/resumen/resumen.componen
         ResumenCitasComponent,
         CitaComponent,
         CitasComponent,
-        ResumenComponent
+        ResumenComponent,
+        OtroConceptoComponent
     ],
     imports: [
         NgbNavModule,
