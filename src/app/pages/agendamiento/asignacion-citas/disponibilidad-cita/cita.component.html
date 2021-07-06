@@ -11,24 +11,27 @@
 
                             <label>Tipo de Agenda</label>
                             <ng-select [items]="type_appointments" bindLabel="text" bindValue="value"
-                                [(ngModel)]="appointmentId" placeholder="Seleccione " name="type_agenda_id"
-                                loadingText="loading" ngDefaultControl (ngModelChange)="getSubTypeAppointment()">
+                                [(ngModel)]="dataCitaToAssign.appointmentId" placeholder="Seleccione "
+                                name="type_agenda_id" loadingText="loading" ngDefaultControl
+                                (ngModelChange)="getSubTypeAppointment()">
                             </ng-select>
                         </div>
 
                         <div class="col-md-2 my-2">
                             <label>Tipo de Consulta</label>
                             <ng-select [items]="type_subappointments" bindLabel="text" bindValue="value"
-                                [(ngModel)]="subappointmentId" placeholder="Seleccione " name="type_appointment_id"
-                                loadingText="loading" (ngModelChange)="getIps()" ngDefaultControl>
+                                [(ngModel)]="dataCitaToAssign.subappointmentId" placeholder="Seleccione "
+                                name="type_appointment_id" loadingText="loading" (ngModelChange)="getIps()"
+                                ngDefaultControl>
                             </ng-select>
                         </div>
 
                         <div class="col-md-4 my-2">
                             <label>Especialidad</label>
-                            <ng-select [items]="specialties" bindLabel="text" bindValue="value" [(ngModel)]="speciality"
-                                placeholder="Seleccione " name="speciality_id" loadingText="loading" ngDefaultControl
-                                (ngModelChange)="dispatchSpeciality(speciality); getProfesionals();">
+                            <ng-select [items]="specialties" bindLabel="text" bindValue="value"
+                                [(ngModel)]="dataCitaToAssign.speciality" placeholder="Seleccione " name="speciality_id"
+                                loadingText="loading" ngDefaultControl
+                                (ngModelChange)="dispatchSpeciality(dataCitaToAssign.speciality); getProfesionals();">
                             </ng-select>
                         </div>
 
@@ -36,24 +39,25 @@
                         <div class="col-md-4 my-2">
                             <label>Profesional</label>
                             <ng-select [items]="profesionals" bindLabel="text" bindValue="value"
-                                [(ngModel)]="profesional" [placeholder]="'Seleccione'" name="professional_id"
-                                loadingText="loading" ngDefaultControl (ngModelChange)="dispatchProfessional()">
+                                [(ngModel)]="dataCitaToAssign.profesional" [placeholder]="'Seleccione'"
+                                name="professional_id" loadingText="loading" ngDefaultControl
+                                (ngModelChange)="dispatchProfessional()">
                             </ng-select>
                         </div>
 
-                        <div class="col-md-6 my-2" *ngIf="appointment.face_to_face">
+                        <div class="col-md-6 my-2" *ngIf="dataCitaToAssign.appointment.face_to_face">
                             <label>Ips</label>
-                            <ng-select [items]="ipss" bindLabel="text" bindValue="value" [(ngModel)]="ipsId"
-                                placeholder="Seleccione " name="ips_id" loadingText="loading"
-                                (ngModelChange)="getSedes()" ngDefaultControl>
+                            <ng-select [items]="ipss" bindLabel="text" bindValue="value"
+                                [(ngModel)]="dataCitaToAssign.ipsId" placeholder="Seleccione " name="ips_id"
+                                loadingText="loading" (ngModelChange)="getSedes()" ngDefaultControl>
                             </ng-select>
                         </div>
 
-                        <div class="col-md-6 my-2" *ngIf="appointment.face_to_face">
+                        <div class="col-md-6 my-2" *ngIf="dataCitaToAssign.appointment.face_to_face">
                             <label>Sede</label>
-                            <ng-select [items]="sedes" bindLabel="text" bindValue="value" [(ngModel)]="sede"
-                                placeholder="Seleccione " name="sede_id" loadingText="loading" ngDefaultControl
-                                (ngModelChange)="getSpecialties()">
+                            <ng-select [items]="sedes" bindLabel="text" bindValue="value"
+                                [(ngModel)]="dataCitaToAssign.sede" placeholder="Seleccione " name="sede_id"
+                                loadingText="loading" ngDefaultControl (ngModelChange)="getSpecialties()">
                             </ng-select>
                         </div>
 
@@ -66,7 +70,7 @@
 
     <div class="row">
         <div class="col-12">
-            <div class="app-calendar" *ngIf="speciality">
+            <div class="app-calendar" *ngIf="dataCitaToAssign.speciality">
                 <app-asignar-calendario (siguiente)="siguiente()"></app-asignar-calendario>
             </div>
         </div>

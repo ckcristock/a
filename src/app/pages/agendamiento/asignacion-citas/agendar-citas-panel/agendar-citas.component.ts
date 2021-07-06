@@ -9,6 +9,7 @@ import timeGrigPlugin from '@fullcalendar/timegrid';
 import interactionPlugin from '@fullcalendar/interaction';
 import bootstrapPlugin from '@fullcalendar/bootstrap';
 import { FormBuilder, Validators, FormGroup } from '@angular/forms';
+import { QueryPatient } from '../../query-patient.service';
 
 /* import { NextStepDirective } from 'angular-archwizard'; */
 @Component({
@@ -20,6 +21,17 @@ import { FormBuilder, Validators, FormGroup } from '@angular/forms';
 export class AgendarCitasComponent implements OnInit {
   /* @ViewChild('next') next; */
   @ViewChild('next') next: ElementRef;
+
+  public dataCita: any = {
+    appointment: '',
+    patient: '',
+    professional: '',
+    day: '',
+    hour: '',
+    location: '',
+    direction: '',
+    cuota: ''
+  }
 
   // bread crumb items
   breadCrumbItems: Array<{}>;
@@ -53,7 +65,9 @@ export class AgendarCitasComponent implements OnInit {
   // slotDuration = '02:00' // 2 hours
 
   constructor(private modalService: NgbModal, private formBuilder: FormBuilder, private _openAgendaService: OpenAgendaService) { }
+
   ngOnInit(): void {
+
 
     /**
      * Event Model validation
@@ -223,7 +237,8 @@ export class AgendarCitasComponent implements OnInit {
     this.modalService.dismissAll();
   }
 
-  siguiente() {
+  siguiente(dataCita: any = {}) {
     this.next.nativeElement.click();
   }
+
 }

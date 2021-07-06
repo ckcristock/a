@@ -13,11 +13,11 @@
                         </div>
 
                         <input id="typeahead-http" type="text" class="form-control mx-sm-3 col-11"
-                            [class.is-invalid]="searchFailed" [(ngModel)]="diagnosticoId" [ngbTypeahead]="search"
-                            placeholder="Diagnosticos" name="diagnosticoId" ngDefaultControl
+                            [class.is-invalid]="searchFailedDiagnostic" [(ngModel)]="diagnosticoId"
+                            [ngbTypeahead]="search" placeholder="Diagnosticos" name="diagnosticoId" ngDefaultControl
                             [resultTemplate]="diagnostic" [inputFormatter]="Inputdiagnostic" />
-                        <small *ngIf="searching" class="form-text text-muted">Buscando...</small>
-                        <div class="invalid-feedback" *ngIf="searchFailed">No se ha podido encontrar.</div>
+                        <small *ngIf="searchingDiagnostic" class="form-text text-muted">Buscando...</small>
+                        <div class="invalid-feedback" *ngIf="searchFailedDiagnostic">No se ha podido encontrar.</div>
 
                     </div>
                 </div>
@@ -30,10 +30,13 @@
                             </span>
                         </div>
 
-                        <ng-select class="col-10" [items]="ips_remisors" bindLabel="text" bindValue="value"
+                        <input type="text" name="ips_remisor" [(ngModel)]="cita.ips_remisor"
+                            class="form-control form-control col-10">
+
+                        <!-- <ng-select class="col-10" [items]="ips_remisors" bindLabel="text" bindValue="value"
                             [(ngModel)]="cita.ips_remisor" placeholder="Seleccione " name="ips_remisor"
                             loadingText="loading" ngDefaultControl>
-                        </ng-select>
+                        </ng-select> -->
 
                     </div>
                 </div>
@@ -46,10 +49,13 @@
                             </span>
                         </div>
 
-                        <ng-select class="col-10" [items]="professionals_remisors" bindLabel="text" bindValue="value"
+                        <input type="text" name="professional_remisor" [(ngModel)]="cita.professional_remisor"
+                            class="form-control form-control col-10">
+
+                        <!-- <ng-select class="col-10" [items]="professionals_remisors" bindLabel="text" bindValue="value"
                             [(ngModel)]="cita.professional_remisor" placeholder="Seleccione "
                             name="professional_remisor" loadingText="loading" ngDefaultControl>
-                        </ng-select>
+                        </ng-select> -->
 
                     </div>
                 </div>
@@ -62,10 +68,13 @@
                             </span>
                         </div>
 
-                        <ng-select class="col-10" [items]="procedurs_remisors" bindLabel="text" bindValue="value"
+                        <input type="text" name="especiality" [(ngModel)]="cita.especiality"
+                            class="form-control form-control col-10">
+
+                        <!-- <ng-select class="col-10" [items]="procedurs_remisors" bindLabel="text" bindValue="value"
                             [(ngModel)]="cita.especiality" placeholder="Seleccione " name="especiality"
                             loadingText="loading" ngDefaultControl>
-                        </ng-select>
+                        </ng-select> -->
 
                     </div>
                 </div>
@@ -92,16 +101,12 @@
                             </span>
                         </div>
 
-                        <input type="text" class="form-control mx-sm-3 col-11" [class.is-invalid]="searchFailed"
-                            [(ngModel)]="procedureId" [ngbTypeahead]="searchProcedure" placeholder="Procedimiento"
-                            name="procedureId" ngDefaultControl [resultTemplate]="procedure"
-                            [inputFormatter]="InputProcedure" 
-                            />
-                        <small *ngIf="searching" class="form-text text-muted">Buscando...</small>
-                        <div class="invalid-feedback" *ngIf="searchFailed">No se ha podido encontrar.</div>
-
-                        <!-- <input type="text" name="procedure" [(ngModel)]="cita.procedure"
-                            class="form-control form-control" id="2"> -->
+                        <input type="text" class="form-control mx-sm-3 col-11"
+                            [class.is-invalid]="searchFailedProcedure" [(ngModel)]="procedureId"
+                            [ngbTypeahead]="searchProcedure" placeholder="Procedimiento" name="procedureId"
+                            ngDefaultControl [resultTemplate]="procedure" [inputFormatter]="InputProcedure" />
+                        <small *ngIf="searchingProcedure" class="form-text text-muted">Buscando...</small>
+                        <div class="invalid-feedback" *ngIf="searchFailedProcedure">No se ha podido encontrar.</div>
 
                     </div>
                 </div>
@@ -120,11 +125,15 @@
                 </div>
 
                 <input type="hidden" name="space" [(ngModel)]="space">
+                <input type="hidden" name="call" [(ngModel)]="call">
+                <input type="hidden" name="patient" [(ngModel)]="patient">
+                <input type="hidden" name="anotherData" [(ngModel)]="dataCitaToAssign">
 
                 <div class="col-12 mt-12">
                     <div class="form-group">
                         <label for="observaciones">Observaciones</label>
-                        <textarea class="form-control" id="observaciones" name="observation"></textarea>
+                        <textarea class="form-control" id="observaciones" name="observation"
+                            [(ngModel)]="cita.observacion" required></textarea>
                     </div>
                 </div>
                 <div class="col-12 mt-12">

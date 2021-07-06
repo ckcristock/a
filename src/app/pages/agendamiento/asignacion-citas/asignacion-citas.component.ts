@@ -14,9 +14,9 @@ export class AsignacionCitasComponent implements OnInit {
   operation = '';
 
   public existPtient;
-  public existPtientForShow: boolean=false;
+  public existPtientForShow: boolean = false;
   public getDate;
-  public paciente: any = {
+  public dataFormCall: any = {
     paciente: {},
     llamada: {}
   };
@@ -24,19 +24,16 @@ export class AsignacionCitasComponent implements OnInit {
   public citas: any = []
   constructor(private http: HttpClient, private _queryPatient: QueryPatient) {
     this.existPtient = _queryPatient.existPatient.subscribe(r => this.Init());
-    this.subjePatient = _queryPatient.patient.subscribe(r => this.paciente = r);
   }
 
   ngOnInit(): void {
     this.Init();
-
   }
 
 
   changeTramite(type) {
     this.operation = type.Componente;
     if (type.Componente == 'Reasignar Citas') {
-      console.log('klsdhflg');
       //buscar citas by paciente
       this.citas = [{ Id_Cita: '1', Estado: 'Activa', Descripcion: 'Cita trauma Cita trauma Cita trauma Cita traumaCita trauma Cita traumaCita trauma Cita traumaCita trauma Cita traumaCita trauma Cita traumaCita trauma Cita traumaCita trauma Cita traumaCita trauma Cita traumaCita trauma Cita traumaCita trauma Cita traumaCita trauma Cita traumaCita trauma Cita trauma', Especialidad: 'Traumatólogo', Fecha: '2018-09-28 17:21:21' },
       { Id_Cita: '1', Estado: 'Activa', Descripcion: 'Cita trauma Cita trauma Cita trauma Cita traumaCita trauma Cita traumaCita trauma Cita traumaCita trauma Cita traumaCita trauma Cita traumaCita trauma Cita traumaCita trauma Cita traumaCita trauma Cita traumaCita trauma Cita traumaCita trauma Cita traumaCita trauma Cita traumaCita trauma Cita trauma', Especialidad: 'Traumatólogo', Fecha: '2018-09-28 17:21:21' },
