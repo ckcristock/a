@@ -46,13 +46,13 @@ export class TipificacionComponent implements OnInit {
     { Nombre: 'Reasignación de Citas', Id: '3', Componente: 'Reasignar Citas' },
     { Nombre: 'Canselación de Citas', Id: '4', Componente: 'Reasignar Citas' },
     { Nombre: 'Consulta Información Citas', Id: '5', Componente: 'Reasignar Citas' },
+    { Nombre: 'Otros', Id: '6', Componente: 'Tipificar' },
 
   ]
 
   public obsPatient;
   constructor(private _qp: QueryPatient) {
     this.obsPatient = _qp.patient.subscribe((r) => {
-      // console.log(this.tramitex);
       this.data.Id_Tramite = r.llamada.Tipo_Tramite;
       this.data.Id_Ambito = 1;
       this.data.Id_Tipo_Servicio = 1;

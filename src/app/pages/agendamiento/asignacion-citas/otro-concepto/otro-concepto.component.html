@@ -1,0 +1,31 @@
+<div class="card">
+    <form #saveForm="ngForm">
+        <div class="card-body row">
+
+            <div class="col-12">
+                <h4>Otros Conceptos</h4>
+                <div class="form-group">
+                    <label for="exampleFormControlSelect1">Concepto</label>
+                    <select ngModel name="type" required class="form-control" id="exampleFormControlSelect1">
+                      <option>No aplica servicio</option>
+                      <option>Orientación e información al usuario</option>
+                      <option>PQR</option>
+                    </select>
+                </div>
+            </div>
+            <div class="col-12 ">
+                <div class="form-group row ">
+                    <label for="staticEmail " required class="col-sm-12 col-form-label ">Observación:</label>
+                    <div class="col-sm-12 ">
+                        <textarea ngModel name="observation" type="text " cols="12" rows="3" class="form-control " id="staticEmail "></textarea>
+                    </div>
+                </div>
+            </div>
+            <div class="col-12">
+                <button class="btn btn-primary btn-sm btn-block" [disabled]="saveForm.invalid" (click)="save(saveForm)">Guardar</button>
+            </div>
+
+
+        </div>
+    </form>
+</div>

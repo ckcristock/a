@@ -1,6 +1,7 @@
 import { Component, Input, OnInit } from '@angular/core';
-import { FormControl, FormGroup } from '@angular/forms';
+import { FormControl, FormGroup, NgForm } from '@angular/forms';
 import { DataDinamicService } from 'src/app/data-dinamic.service';
+import { dataCitaToAssignService } from 'src/app/pages/agendamiento/dataCitaToAssignService.service';
 import { QueryPatient } from 'src/app/pages/agendamiento/query-patient.service';
 import { genders, levels, typeRegimens, typeDocuments, epss } from './dataPacienteBurns';
 
@@ -52,7 +53,7 @@ export class SetPacienteComponent implements OnInit {
   public cities
   public agreements
 
-  constructor(private _queryPatient: QueryPatient, private _dataDinamicService: DataDinamicService) {
+  constructor(private _queryPatient: QueryPatient, private _dataDinamicService: DataDinamicService, private dataCitaToAssignService: dataCitaToAssignService) {
   }
 
   ngOnInit(): void {
@@ -65,7 +66,10 @@ export class SetPacienteComponent implements OnInit {
     this.getRegimens();
     this.getlevels();
 
-    this._queryPatient.patient.subscribe(r => this.paciente = r.paciente)
+    this._queryPatient.patient.subscribe(r => {
+      this.paciente = r.paciente
+      this.dataCitaToAssignService.dateCall = r
+    })
   }
 
   getDepartments() {
@@ -107,6 +111,15 @@ export class SetPacienteComponent implements OnInit {
   getlevels() {
     this._dataDinamicService.getlevels().subscribe((req: any) => {
       this.levels = req.data
+    })
+  }
+
+  save(formPatient: NgForm) {
+    this._dataDinamicService.savePatient(JSON.stringify(formPatient.value)).subscribe((req: any) => {
+
+      this.dataCitaToAssignService.dateCall['paciente'] = req.data
+      console.log(dataCitaToAssignService);
+
     })
   }
 
