@@ -17,8 +17,8 @@ export class DataDinamicService {
     return this.httpClient.get(`${environment.base_url}/departments`)
   }
 
-  public getCities() {
-    return this.httpClient.get(`${environment.base_url}/cities`)
+  public getCities(params?) {
+    return this.httpClient.get(`${environment.base_url}/cities`,{params})
   }
   public getAgreements() {
     return this.httpClient.get(`${environment.base_url}/agreements`)
@@ -34,6 +34,9 @@ export class DataDinamicService {
   }
   public getlevels() {
     return this.httpClient.get(`${environment.base_url}/levels`)
+  }
+  public getContracts() {
+    return this.httpClient.get(`${environment.base_url}/contract`)
   }
   public savePatient(form) {
     return this.httpClient.post(`${environment.base_url}/patients`, form)

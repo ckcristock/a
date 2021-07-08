@@ -7,7 +7,7 @@ import { QueryPatient } from '../../query-patient.service';
   styleUrls: ['./tipificacion.component.scss']
 })
 export class TipificacionComponent implements OnInit {
-  @Output('tramite') tramite = new EventEmitter();
+  //@Output('tramite') tramite = new EventEmitter();
   @Input() tramitex: any;
   data: any = {
     Id_Llamada: '',
@@ -20,7 +20,7 @@ export class TipificacionComponent implements OnInit {
     Id_Tipificacion: '',
   }
   tramiteSelected = {
-    Nombre: '', Id: '', Componente: ''
+    Nombre: '', Id: '', componente: ''
   }
 
   typesDocuments: Array<any> = [
@@ -41,23 +41,24 @@ export class TipificacionComponent implements OnInit {
     { Nombre: 'Procedimientos Diagnósticos', Id: '4' },
   ]
   tramites: Array<any> = [
-    { Nombre: 'Cita Primera Vez', Id: '1', Componente: 'Asignar Citas' },
-    { Nombre: 'Cita Control', Id: '2', Componente: 'Asignar Citas' },
-    { Nombre: 'Reasignación de Citas', Id: '3', Componente: 'Reasignar Citas' },
-    { Nombre: 'Canselación de Citas', Id: '4', Componente: 'Reasignar Citas' },
-    { Nombre: 'Consulta Información Citas', Id: '5', Componente: 'Reasignar Citas' },
-    { Nombre: 'Otros', Id: '6', Componente: 'Tipificar' },
+    { Nombre: 'Cita Primera Vez', Id: '1', componente: 'Asignar Citas' },
+    { Nombre: 'Cita Control', Id: '2', componente: 'Asignar Citas' },
+    { Nombre: 'Reasignación de Citas', Id: '3', componente: 'Reasignar Citas' },
+    { Nombre: 'Canselación de Citas', Id: '4', componente: 'Reasignar Citas' },
+    { Nombre: 'Consulta Información Citas', Id: '5', componente: 'Reasignar Citas' },
+    { Nombre: 'Otros', Id: '6', componente: 'Tipificar' },
 
   ]
 
   public obsPatient;
   constructor(private _qp: QueryPatient) {
     this.obsPatient = _qp.patient.subscribe((r) => {
-      this.data.Id_Tramite = r.llamada.Tipo_Tramite;
-      this.data.Id_Ambito = r.llamada.Ambito;
-      this.data.Id_Tipo_Servicio = r.llamada.Tipo_Servicio;
-      this.tramiteWasChanged();
-
+      if (r.llamada.Tipo_Tramite) {
+        this.data.Id_Tramite = r.llamada.Tipo_Tramite;
+        this.data.Id_Ambito = r.llamada.Ambito;
+        this.data.Id_Tipo_Servicio = r.llamada.Tipo_Servicio;
+        this.tramiteWasChanged();
+      }
     })
   }
 
@@ -67,17 +68,19 @@ export class TipificacionComponent implements OnInit {
   tramiteWasChanged() {
     let tramite = this.tramites.find(e => e.Id == this.data.Id_Tramite)
     this.tramiteSelected = tramite;
-    this.data.Id_Ambito = tramite.Componente == 'Asignar Citas' ? '' : this.data.Id_Ambito
-    this.data.Id_Tipo_Servicio = tramite.Componente == 'Asignar Citas' ? '' : this.data.Id_Tipo_Servicio
-    this.tramite.emit(tramite)
+    this.data.Id_Ambito = tramite.componente == 'Asignar Citas' ? '' : this.data.Id_Ambito
+    this.data.Id_Tipo_Servicio = tramite.componente == 'Asignar Citas' ? '' : this.data.Id_Tipo_Servicio
+    //this.tramite.emit(tramite)
+    this._qp.tramiteSelected.next(tramite);
+
   }
 
   tramiteWasChanged2() {
     let tramite = this.tramites.find(e => e.Id == 6)
     this.tramiteSelected = tramite;
-    this.data.Id_Ambito = tramite.Componente == 'Asignar Citas' ? '' : this.data.Id_Ambito
-    this.data.Id_Tipo_Servicio = tramite.Componente == 'Asignar Citas' ? '' : this.data.Id_Tipo_Servicio
-    this.tramite.emit(tramite)
+    this.data.Id_Ambito = tramite.componente == 'Asignar Citas' ? '' : this.data.Id_Ambito
+    this.data.Id_Tipo_Servicio = tramite.componente == 'Asignar Citas' ? '' : this.data.Id_Tipo_Servicio
+    //this.tramite.emit(tramite)
   }
 
 }

@@ -1,9 +1,11 @@
-import { Component, Input, OnInit } from '@angular/core';
+import { Component, Input, OnInit, OnDestroy } from '@angular/core';
 import { FormControl, FormGroup, NgForm } from '@angular/forms';
 import { DataDinamicService } from 'src/app/data-dinamic.service';
 import { dataCitaToAssignService } from 'src/app/pages/agendamiento/dataCitaToAssignService.service';
 import { QueryPatient } from 'src/app/pages/agendamiento/query-patient.service';
 import { genders, levels, typeRegimens, typeDocuments, epss } from './dataPacienteBurns';
+import { Subscription } from 'rxjs';
+import { Patient } from '../../../core/models/patient.model';
 
 @Component({
   selector: 'app-set-paciente',
@@ -20,7 +22,9 @@ export class SetPacienteComponent implements OnInit {
   public typeDocuments;
   public eps;
 
-  paciente: any = {
+  contracts: Array<any> = []
+
+  paciente: any = new Patient(); /* {
     Id_Tipo_Identificacion: '',
     Tipo_Identificacion: '',
     Identificacion: '',
@@ -40,7 +44,7 @@ export class SetPacienteComponent implements OnInit {
     Email: '',
     Telefono: '',
     Celular: '',
-  };
+  }; */
 
   typesDocuments: Array<any> = [
     { Nombre: 'CI', Id: '1' },
@@ -53,38 +57,41 @@ export class SetPacienteComponent implements OnInit {
   public cities
   public agreements
 
+  $qp: Subscription
   constructor(private _queryPatient: QueryPatient, private _dataDinamicService: DataDinamicService, private dataCitaToAssignService: dataCitaToAssignService) {
   }
 
-  ngOnInit(): void {
+  ngOnInit() {
 
-    this.getDepartments();
-    this.getCities();
-    this.getAgreements();
-    this.getTypeDocuments();
-    this.getEps();
-    this.getRegimens();
-    this.getlevels();
 
-    this._queryPatient.patient.subscribe(r => {
+    this.$qp = this._queryPatient.patient.subscribe(async r => {
 
-      console.log(r.paciente);
-
+      await this.getDepartments();
+      this.getContracts();
+      this.getAgreements();
+      this.getTypeDocuments();
+      this.getEps();
+      this.getRegimens();
+      this.getlevels();
       this.paciente = r.paciente
-
+      /*  this.paciente.level_id.value=this.paciente.level_id */
       this.dataCitaToAssignService.dateCall = r
-      
+
     })
   }
 
-  getDepartments() {
-    this._dataDinamicService.getDepartments().subscribe((req: any) => {
+  async getDepartments() {
+    await this._dataDinamicService.getDepartments().toPromise().then((req: any) => {
+
       this.departments = req.data
+      this.getCities();
+
     })
   }
 
   getCities() {
-    this._dataDinamicService.getCities().subscribe((req: any) => {
+    let parm = { department_id: this.paciente.department_id }
+    this._dataDinamicService.getCities(parm).subscribe((req: any) => {
       this.cities = req.data
     })
   }
@@ -118,12 +125,24 @@ export class SetPacienteComponent implements OnInit {
       this.levels = req.data
     })
   }
+  getContracts() {
+    this._dataDinamicService.getContracts().subscribe((req: any) => {
+      this.contracts = req.data
+    })
+  }
 
   save(formPatient: NgForm) {
     this._dataDinamicService.savePatient(JSON.stringify(formPatient.value)).subscribe((req: any) => {
       this.dataCitaToAssignService.dateCall['paciente'] = req.data.patient
-      console.log(this.dataCitaToAssignService.dateCall['paciente']);
     })
+  }
+
+
+  ngOnDestroy(): void {
+    //Called once, before the instance is destroyed.
+    //Add 'implements OnDestroy' to the class.
+    //this._queryPatient.resetPatient();
+    this.$qp.unsubscribe();
   }
 
 }

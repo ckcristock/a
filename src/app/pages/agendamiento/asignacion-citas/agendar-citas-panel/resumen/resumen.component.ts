@@ -6,6 +6,7 @@ import { dataCitaToAssignService } from '../../../dataCitaToAssignService.servic
 import { TipificacionComponent } from '../../tipificacion/tipificacion.component';
 import { AsignacionCitasComponent } from '../../asignacion-citas.component';
 import { HttpClient } from '@angular/common/http';
+import { asignarCitaDynamic } from '../../../../../core/models/asignarCitaDynamic.model';
 
 @Component({
   selector: 'app-resumen',
@@ -46,13 +47,12 @@ export class ResumenComponent implements OnInit {
 
   ngOnInit(): void {
 
-    this.patient = this.dataCitaToAssignService.dateCall['paciente']
-    this.call = this.dataCitaToAssignService.dateCall['llamada']
+   /*  this.patient = this.dataCitaToAssignService.dateCall['paciente']
+    this.call = this.dataCitaToAssignService.dateCall['llamada'] */
 
     this.$qp = this._queryPatient.patient.subscribe(r => {
-      console.log(r);
       this.paciente = r.paciente
-
+      this.call = r
     })
     this.dataCitaToAssignService.dataFinal.subscribe(r => {
 
@@ -68,24 +68,25 @@ export class ResumenComponent implements OnInit {
   }
 
   cleanAll() {
-
-    if (this.call['Id_Llamada']) {
-      this._OpenAgendaService.getClean(this.call['Id_Llamada']).subscribe((r) => {
-        console.log(r);
+    console.log(this.appointment,'call');
+   /*  
+    if (this.appointment['Id_Llamada']) {
+      this._OpenAgendaService.getClean(this.appointment['Id_Llamada']).subscribe((r) => {
       })
 
-    }
-
-    const typin = new AsignacionCitasComponent(this.HtppClient, this._queryPatient)
-    const va = {
-      Componente: ''
-    }
-    typin.changeTramite(va)
+    } */
+    /*
+        const typin = new AsignacionCitasComponent(this.HtppClient, this._queryPatient)
+        const va = {
+          Componente: ''
+        }
+        typin.changeTramite(va) */
     this._queryPatient.existPatient.next();
+    this._queryPatient.resetModels();
 
   }
 
-  OnDestroy() {
+  ngOnDestroy(): void {
     this.$qp.unsubscribe();
   }
 

@@ -79,16 +79,16 @@ const levels = [
 const genders = [
     {
         value: 1,
-        text: 'Hombre'
+        text: 'M'
     },
     {
         value: 2,
-        text: 'Mujer'
-    },
+        text: 'F'
+    }/* ,
     {
         value: 3,
         text: 'Otro'
-    }
+    } */
 ]
 
 const epss = [

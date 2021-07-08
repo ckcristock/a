@@ -41,11 +41,13 @@ export class CrearCitaComponent implements OnInit {
   constructor(private _openAgendaService: OpenAgendaService,
     private _queryPatient: QueryPatient,
     private dataCitaToAssignService: dataCitaToAssignService,
+
   ) {
     this.dataCitaToAssignService.dataCitaToAssign.subscribe((r) => {
       this.dataCitaToAssign = r
     }
     );
+
   }
 
   typesDocuments: Array<any> = [
@@ -60,8 +62,12 @@ export class CrearCitaComponent implements OnInit {
 
   ngOnInit(): void {
 
-    this.call = this.dataCitaToAssignService.dateCall.llamada
-    this.patient = this.dataCitaToAssignService.dateCall.paciente
+    this._queryPatient.patient.subscribe(r => {
+      this.call = r.llamada
+      this.patient = r.paciente
+    })
+    /*  this.call = this.dataCitaToAssignService.dateCall.llamada
+     this.patient = this.dataCitaToAssignService.dateCall.paciente */
     this._queryPatient.space.subscribe(r => {
       this.space = r
     });
@@ -86,6 +92,8 @@ export class CrearCitaComponent implements OnInit {
       reverseButtons: true
     }).then((result) => {
       if (result.isConfirmed) {
+        console.log('f', form);
+
         this._openAgendaService.saveCita(JSON.stringify(form.value))
           .subscribe((data: any) => {
             this.dataCitaToAssignService.dataFinal.next(data.data)
@@ -141,8 +149,15 @@ export class CrearCitaComponent implements OnInit {
     if (data) {
 
       this.siguiente.emit();
+
       this.dataCitaToAssignService.dataFinal.next(data.data)
-      
+      // this._queryPatient.patient.next(data.data)
+      console.log(data.data, 'updatee');
+
+      this._openAgendaService.getClean(data.data.appointment['call_id']).subscribe((r) => {
+      })
+
+
     } else {
       const swalWithBootstrapButtons = Swal.mixin({
         customClass: {
