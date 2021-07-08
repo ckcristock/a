@@ -86,13 +86,9 @@ export class CrearCitaComponent implements OnInit {
       reverseButtons: true
     }).then((result) => {
       if (result.isConfirmed) {
-
-        console.log(this.call);
-        console.log(this.patient);
-
         this._openAgendaService.saveCita(JSON.stringify(form.value))
           .subscribe((data: any) => {
-            this._queryPatient.cita.next()
+            this.dataCitaToAssignService.dataFinal.next(data.data)
             this.validarResponse(data);
           });
       }
@@ -143,7 +139,10 @@ export class CrearCitaComponent implements OnInit {
 
   validarResponse(data) {
     if (data) {
+
       this.siguiente.emit();
+      this.dataCitaToAssignService.dataFinal.next(data.data)
+      
     } else {
       const swalWithBootstrapButtons = Swal.mixin({
         customClass: {

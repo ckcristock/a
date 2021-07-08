@@ -67,8 +67,13 @@ export class SetPacienteComponent implements OnInit {
     this.getlevels();
 
     this._queryPatient.patient.subscribe(r => {
+
+      console.log(r.paciente);
+
       this.paciente = r.paciente
+
       this.dataCitaToAssignService.dateCall = r
+      
     })
   }
 
@@ -116,10 +121,8 @@ export class SetPacienteComponent implements OnInit {
 
   save(formPatient: NgForm) {
     this._dataDinamicService.savePatient(JSON.stringify(formPatient.value)).subscribe((req: any) => {
-
-      this.dataCitaToAssignService.dateCall['paciente'] = req.data
-      console.log(dataCitaToAssignService);
-
+      this.dataCitaToAssignService.dateCall['paciente'] = req.data.patient
+      console.log(this.dataCitaToAssignService.dateCall['paciente']);
     })
   }
 
