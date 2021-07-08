@@ -21,6 +21,7 @@ import { NgModule } from "@angular/core";
 import { CallendarComponent } from './callendar/callendar.component';
 import { AgendasComponent } from './agendas/agendas.component';
 import { VerAgendaComponent } from './agendas/ver-agenda/ver-agenda.component';
+import { DetailStatsComponent } from './agendas/detail-stats/detail-stats.component';
 
 @NgModule({
     declarations: [
@@ -33,6 +34,7 @@ import { VerAgendaComponent } from './agendas/ver-agenda/ver-agenda.component';
         TopWaitingComponent,
         AgendasComponent,
         VerAgendaComponent,
+        DetailStatsComponent,
       
     ],
     imports: [

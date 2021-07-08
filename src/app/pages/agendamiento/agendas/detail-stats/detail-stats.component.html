@@ -1,0 +1,33 @@
+<app-modal-basic #detail [dialogClass]="'modal-md'">
+    <div class="app-modal-header">
+        <div class="row">
+            <h4 class=" text text-center justify-content-center modal-title   p-1">Detalle de por especialidad
+            </h4>
+        </div>
+    </div>
+    <div class="app-modal-body">
+        <!-- <p class="card-subtitle mb-2 ">Detalle de por especialidad</p> -->
+        <div class="row ">
+            <table class="table">
+                <thead>
+                    <tr>
+                        <th scope="col">Especialidad</th>
+                        <th scope="col">Total</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr *ngFor="let item of data">
+                        <td>{{item.name}}</td>
+                        <td>{{item.total}}</td>
+                    </tr>
+
+                </tbody>
+            </table>
+        </div>
+    </div>
+    <div class="app-modal-footer ">
+        <div class="text-right ">
+            <button type="button " class="btn btn-danger btn-sm mr-2" (click)="detail.hide() ">Cerrar</button>
+        </div>
+    </div>
+</app-modal-basic>

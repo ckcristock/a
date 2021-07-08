@@ -6,64 +6,63 @@
                     <div class="col-12">
                         <div class="row">
                             <div class="col-md-4 mb-3">
-                                <label for="validationServerUsername">Institución</label>
+                                <label>Institución</label>
                                 <div class="input-group">
-                                    <input style="width: 85%;" id="typeahead-http" type="text" class="form-control " [class.is-invalid]="searchFailed" [ngbTypeahead]="searchInstitution" placeholder="Diagnosticos" name="diagnosticoId" ngDefaultControl [resultTemplate]="institution" [inputFormatter]="Inputdiagnostic"
+                                    <input style="width: 85%;" type="text" class="form-control " [class.is-invalid]="searchFailed" [ngbTypeahead]="searchInstitution" placeholder="Diagnosticos" name="diagnosticoId" ngDefaultControl [resultTemplate]="institution" [inputFormatter]="Inputdiagnostic"
                                     />
                                 </div>
                             </div>
                             <div class="col-md-4 mb-3">
-                                <label for="validationServerUsername">Sede</label>
+                                <label>Sede</label>
                                 <div class="input-group">
-                                    <input style="width: 85%;" id="typeahead-http" type="text" class="form-control " [class.is-invalid]="searchFailed" [ngbTypeahead]="searchInstitution" placeholder="Diagnosticos" name="diagnosticoId" ngDefaultControl [resultTemplate]="institution" [inputFormatter]="Inputdiagnostic"
+                                    <input style="width: 85%;" type="text" class="form-control " [class.is-invalid]="searchFailed" [ngbTypeahead]="searchInstitution" placeholder="Sede" name="SedeId" ngDefaultControl [resultTemplate]="institution" [inputFormatter]="Inputdiagnostic" />
+                                </div>
+                            </div>
+                            <div class="col-md-4 mb-3">
+                                <label>Especialidad</label>
+                                <div class="input-group">
+                                    <input style="width: 85%;" type="text" class="form-control " [class.is-invalid]="searchFailed" [ngbTypeahead]="searchSpeciality" placeholder="Especialidad" name="EspecialidadId" ngDefaultControl [resultTemplate]="institution" [inputFormatter]="Inputdiagnostic"
                                     />
                                 </div>
                             </div>
                             <div class="col-md-4 mb-3">
-                                <label for="validationServerUsername">Especialidad</label>
+                                <label>Doctor</label>
                                 <div class="input-group">
-                                    <input style="width: 85%;" id="typeahead-http" type="text" class="form-control " [class.is-invalid]="searchFailed" [ngbTypeahead]="searchSpeciality" placeholder="Diagnosticos" name="diagnosticoId" ngDefaultControl [resultTemplate]="institution" [inputFormatter]="Inputdiagnostic"
-                                    />
-                                </div>
-                            </div>
-                            <div class="col-md-4 mb-3">
-                                <label for="validationServerUsername">Doctor</label>
-                                <div class="input-group">
-                                    <input style="width: 85%;" id="typeahead-http" type="text" class="form-control " [class.is-invalid]="searchFailed" [ngbTypeahead]="searchInstitution" placeholder="Diagnosticos" name="diagnosticoId" ngDefaultControl [resultTemplate]="institution" [inputFormatter]="Inputdiagnostic"
+                                    <input style="width: 85%;" type="text" class="form-control " [class.is-invalid]="searchFailed" [ngbTypeahead]="searchInstitution" placeholder="Institución" name="InstitucionId" ngDefaultControl [resultTemplate]="institution" [inputFormatter]="Inputdiagnostic"
                                     />
                                 </div>
                             </div>
 
                             <div class="col-md-2 mb-2">
-                                <label for="validationServerUsername">Fecha</label>
+                                <label>Fecha</label>
                                 <div class="input-group">
-                                    <input type="date" class="form-control" id="validationServerUsername" placeholder="Ingrese la fecha" aria-describedby="inputGroupPrepend3" required>
+                                    <input type="date" class="form-control" placeholder="Ingrese la fecha" aria-describedby="inputGroupPrepend3" required>
                                 </div>
                             </div>
 
                             <div class="col-md-2 mb-3">
-                                <label for="validationServerUsername">Paciente</label>
+                                <label>Paciente</label>
                                 <div class="input-group">
-                                    <input type="text" class="form-control" id="validationServerUsername" placeholder="Nombre / Identificación " aria-describedby="inputGroupPrepend3" required>
+                                    <input type="text" class="form-control" placeholder="Nombre / Identificación " aria-describedby="inputGroupPrepend3" required>
                                 </div>
                             </div>
                             <div class="col-md-2 mb-3">
-                                <label for="validationServerUsername">Tipo de Cita</label>
+                                <label>Tipo de Cita</label>
                                 <div class="input-group">
-                                    <input type="text" class="form-control" id="validationServerUsername" placeholder="Nombre / Identificación " aria-describedby="inputGroupPrepend3" required>
+                                    <input type="text" class="form-control" placeholder="Nombre / Identificación " aria-describedby="inputGroupPrepend3" required>
                                 </div>
                             </div>
                             <div class="col-md-2 mb-3">
-                                <label for="validationServerUsername">Tipo de Modalidad</label>
+                                <label>Tipo de Modalidad</label>
                                 <div class="input-group">
-                                    <input type="text" class="form-control" id="validationServerUsername" placeholder="Nombre / Identificación " aria-describedby="inputGroupPrepend3" required>
+                                    <input type="text" class="form-control" placeholder="Nombre / Identificación " aria-describedby="inputGroupPrepend3" required>
                                 </div>
                             </div>
 
                             <div class="col-md-2 mb-3">
-                                <label for="validationServerUsername">Estado</label>
+                                <label>Estado</label>
                                 <div class="input-group">
-                                    <input type="text" class="form-control" id="validationServerUsername" placeholder="Nombre / Identificación " aria-describedby="inputGroupPrepend3" required>
+                                    <input type="text" class="form-control" placeholder="Nombre / Identificación " aria-describedby="inputGroupPrepend3" required>
                                 </div>
                             </div>
 

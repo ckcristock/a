@@ -1,5 +1,7 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, EventEmitter } from '@angular/core';
 import { Router } from '@angular/router';
+import { ListaTrabajoService } from './lista-trabajo.service';
+import { OpenAgendaService } from '../open-agenda.service';
 
 @Component({
   selector: 'app-agendas',
@@ -7,47 +9,163 @@ import { Router } from '@angular/router';
   styleUrls: ['./agendas.component.scss']
 })
 export class AgendasComponent implements OnInit {
-  statData = [
-    {
-      icon: 'fa fa-calendar-week',
-      title: '# Citas abiertas',
-      value: '2344'
-    }, {
-      icon: 'fa fa-calendar-day',
-      title: '# Citas disponibles',
-      value: '3434'
-    }, {
-      icon: 'fa fa-calendar-check' ,
-      title: '# Citas asignadas',
-      value: '34455'
-    }
-  ];
+  statData : any
+  showDeitalStat  = new EventEmitter<any>()
+
+
   pagination = {
-    pageSize: 20,
+    pageSize: 15,
     page: 1,
-    collectionSize: 100,
+    collectionSize: 0,
 
   }
   filters: any = {
-    date: '',
-    institution: '',
-    patient: '',
+    appointmentId: '',
+    subappointmentId: '',
     speciality: '',
+    professional: '',
+    ipsId: '',
+    sede: '',
 
   }
   searching = false;
   searchFailed = false;
+  agendas = []
 
-  agendas = [
-    { 'date': '2020-05-01', functioray_open: 'Daniel Brox', id: 1, professional: 'Charls Jr', spaciality: 'Cardilogía', state: 'Abierta' },
-    { 'date': '2020-05-01', functioray_open: 'Daniel Brox', id: 2, professional: 'Charls Jr', spaciality: 'Cardilogía', state: 'Abierta' },
-    { 'date': '2020-05-01', functioray_open: 'Daniel Brox', id: 3, professional: 'Charls Jr', spaciality: 'Cardilogía', state: 'Abierta' },
-    { 'date': '2020-05-01', functioray_open: 'Daniel Brox', id: 4, professional: 'Charls Jr', spaciality: 'Cardilogía', state: 'Abierta' },
-  ]
 
-  constructor(private route:Router) { }
 
+  public appointment = {
+    value: "",
+    text: "",
+    brand: "",
+    face_to_face: ""
+  }
+  public subappointment = {
+    value: "",
+    text: "",
+    company_owner: "",
+    procedure: ""
+  }
+  public ips = {
+    value: "",
+    text: ""
+  }
+
+
+
+  public sedes = []
+  public specialties = []
+  public profesionals = []
+
+  public ipss = []
+
+
+  type_appointments: any = []
+  type_subappointments: any = []
+
+  constructor(private route: Router, private _workList: ListaTrabajoService, private _openAgendaService: OpenAgendaService) {
+    this.getAgendamientos(1)
+    this.getTypeAppointment()
+
+  }
+  getStatics(params){
+    this._workList.getStatistics(params).subscribe(r=>{
+      this.statData = r.data
+    })
+  }
+
+  getTypeAppointment() {
+    this._openAgendaService.getTypeAppointment('').subscribe((resp: any) => {
+      this.type_appointments = resp.data;
+    });
+  }
+
+  getSubTypeAppointment() {
+    this.filters.subappointmentId = ''
+   /*  this.filters.speciality = ''
+    this.filters.prof = ''
+    this.filters.professional= '', */
+    //*
+     this.filters.ipsId= '',
+    this.filters.sede= '', 
+    this.filters.professional= ''
+    this.appointment = this.searchAppointment(this.type_appointments, this.filters.appointmentId);
+    this._openAgendaService.getSubTypeAppointment(this.appointment.value).subscribe((resp: any) => {
+      this.type_subappointments = resp.data;
+      this.filters.subappointmentId = this.type_subappointments[0].value
+      if (this.appointment.face_to_face) {
+        this.getIps()
+      }else{
+
+        this.getSpecialties()
+      }
+    });
+
+  }
+
+
+  getIps() {
+/*     this.filters.sede= '', */
+    this.subappointment = this.searchItem(this.type_subappointments, this.filters.subappointmentId);
+    this._openAgendaService.getIps(this.subappointment.company_owner).subscribe((resp: any) => {
+      this.ipss = resp.data;
+    });
+  }
+
+  getSedes() {
+    this.ips = this.searchItem(this.ipss, this.filters.ipsId);
+    this._openAgendaService.getSedes(this.ips.value, this.subappointment.procedure).subscribe((resp: any) => {
+      this.sedes = resp.data;
+    });
+  }
+
+  getSpecialties() {
+    this._openAgendaService.getSpecialties(String(this.filters.sede), this.subappointment.procedure).subscribe((resp: any) => {
+      this.specialties = resp.data;
+    });
+  }
+
+  getProfesionals() {
+    this._openAgendaService.getProfesionals(this.ips.value, String(this.filters.speciality)).subscribe((resp: any) => {
+      this.profesionals = resp.data;
+    });
+  }
+
+
+  searchItem(data, value) {
+    return data.find((item) => item.value === value);
+  }
+
+
+
+  searchAppointment(data, value) {
+    return data.find((item) => item.value === value);
+  }
+
+  getAgendamientos(page) {
+    //get http
+    this.pagination.page = page;
+    let params: any = Object.assign({}, this.pagination, this.filters);;
+  
+    this.getStatics( this.filters );
+    this._workList.getAgendamientos(params).subscribe(d => {
+      this.pagination.collectionSize = d.total;
+      this.agendas = d.data
+      
+    })
+
+  }
   ngOnInit(): void {
   }
 
+  searchDetailStat(stat) {
+    
+    let params:any = this.filters;
+     params.status = stat.status;
+   
+     this._workList.getStatisticsDetail( params ).subscribe(r=>{
+      this.showDeitalStat.emit(r.data)
+    })
+
+  }
 }
