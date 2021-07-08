@@ -85,6 +85,14 @@ export class OpenAgendaService {
     return this.clientHttp.post(`${environment.base_url}/appointments`, formulario)
   }
 
+  public getClean(id) {
+    return this.clientHttp.get(`${environment.base_url}/clean-info/${id}`)
+  }
+
+  public getInfoCita(id) {
+    return this.clientHttp.get(`${environment.base_url}/get-data-cita/${id}`)
+  }
+
   search(term: string) {
     if (term === '') {
       return of([]);

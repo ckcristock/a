@@ -8,7 +8,7 @@
                 <div class="form-group col-md-6">
                     <label for="">Tipo Identificación</label>
                     <select class="custom-select custom-select-sm" name="Id_Tipo_Identificacion"
-                        [(ngModel)]="paciente.Tipo_Identificacion">
+                        [(ngModel)]="paciente.Id_Tipo_Identificacion">
                         <option *ngFor="let type of typeDocuments" [value]="type.value">{{type.text}}</option>
                     </select>
                 </div>
@@ -45,28 +45,28 @@
 
                 <div class="form-group col-md-6">
                     <label for="">Eps</label>
-                    <ng-select name="xer" name="Id_Eps" [(ngModel)]="paciente.EPS">
+                    <ng-select name="xer" name="Id_Eps" [(ngModel)]="paciente.Id_Eps">
                         <ng-option [value]="type.value" *ngFor="let type of eps ">{{type.text}}</ng-option>
                     </ng-select>
                 </div>
 
                 <div class="form-group col-md-6">
                     <label for="">Regimen</label>
-                    <ng-select name="xer" name="Id_Regimen" [(ngModel)]="paciente.Regimen">
+                    <ng-select name="xer" name="Id_Regimen" [(ngModel)]="paciente.Id_Regimen">
                         <ng-option [value]="type.value" *ngFor="let type of typeRegimens">{{type.text}}</ng-option>
                     </ng-select>
                 </div>
 
                 <div class="form-group col-md-4">
                     <label for=""> Nivel</label>
-                    <ng-select name="xer" name="Id_Nivel" [(ngModel)]="paciente.Nivel">
+                    <ng-select name="xer" name="Id_Nivel" [(ngModel)]="paciente.Id_Nivel">
                         <ng-option [value]="type.value" *ngFor="let type of levels">{{type.text}}</ng-option>
                     </ng-select>
                 </div>
 
                 <div class="form-group col-md-4">
                     <label for="">Fecha Nacimiento</label>
-                    <input type="date" name="Fecha_Nacimiento" [(ngModel)]="paciente.Date_of_Birth"
+                    <input type="date" name="Date_of_Birth" [(ngModel)]="paciente.Date_of_Birth"
                         class="form-control form-control-sm" id="">
                 </div>
 
@@ -79,14 +79,14 @@
 
                 <div class="form-group col-md-6">
                     <label for="">Departamento</label>
-                    <ng-select name="xer" name="Id_Departamento" [(ngModel)]="paciente.Departamento">
+                    <ng-select name="xer" name="Id_Departamento" [(ngModel)]="paciente.Id_Departamento">
                         <ng-option [value]="type.value" *ngFor="let type of departments">{{type.text}}</ng-option>
                     </ng-select>
                 </div>
 
                 <div class="form-group col-md-6">
                     <label for="">Ciudad</label>
-                    <ng-select name="xer" name="Id_Ciudad" [(ngModel)]="paciente.Ciudad">
+                    <ng-select name="xer" name="Id_Ciudad" [(ngModel)]="paciente.Id_Ciudad">
                         <ng-option [value]="type.value" *ngFor="let type of cities ">{{type.text}}</ng-option>
                     </ng-select>
                 </div>
@@ -101,14 +101,14 @@
 
                 <div class="form-group col-md-6 ">
                     <label for="exampleInputEmail1">Empresa</label>
-                    <ng-select name="xer" name="Id_Contrato">
+                    <ng-select name="xer" name="Id_Contrato" [(ngModel)]="paciente.IPS">
                         <ng-option [value]="type.value" *ngFor="let type of agreements">{{type.text}}</ng-option>
                     </ng-select>
                 </div>
 
                 <div class="form-group col-md-6 ">
                     <label for="exampleInputEmail1">Sede</label>
-                    <ng-select name="xer" name="Id_Contrato">
+                    <ng-select name="xer" name="Id_Contrato" [(ngModel)]="paciente.Sede">
                         <ng-option [value]="type.value" *ngFor="let type of agreements">{{type.text}}</ng-option>
                     </ng-select>
                 </div>
@@ -120,7 +120,7 @@
                 </div>
                 <div class="form-group col-md-4">
                     <label for="">Email</label>
-                    <input type="text" name="Email" [(ngModel)]="paciente.Correo" class="form-control form-control-sm"
+                    <input type="text" name="Correo" [(ngModel)]="paciente.Correo" class="form-control form-control-sm"
                         id="">
                 </div>
                 <div class="form-group col-md-4">

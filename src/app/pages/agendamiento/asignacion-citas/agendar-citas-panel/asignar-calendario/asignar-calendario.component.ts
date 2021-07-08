@@ -13,6 +13,7 @@ import bootstrapPlugin from '@fullcalendar/bootstrap';
 import { EventInput } from '@fullcalendar/core';
 import { QueryPatient } from '../../../query-patient.service';
 import { QueryAvailabilitySpacesService } from '../../../query-availability-spaces.service';
+import { dataCitaToAssignService } from '../../../dataCitaToAssignService.service';
 
 @Component({
   selector: 'app-asignar-calendario',
@@ -23,8 +24,6 @@ export class AsignarCalendarioComponent implements OnInit {
 
   breadCrumbItems: Array<{}>;
   @Output('siguiente') siguiente = new EventEmitter();
-  // @Input() specialidad: Number;
-  // @Input() profesional: Number;
 
   public speciality: Number;
   public professional: Number;
@@ -43,7 +42,13 @@ export class AsignarCalendarioComponent implements OnInit {
   // calendar plugin
   calendarPlugins = [dayGridPlugin, bootstrapPlugin, timeGrigPlugin, interactionPlugin, listPlugin];
 
-  constructor(private modalService: NgbModal, private formBuilder: FormBuilder, private _openAgendaService: OpenAgendaService, private _queryPatien: QueryPatient, private _queryAvailabilitySpacesService: QueryAvailabilitySpacesService) { }
+  constructor(private modalService: NgbModal,
+    private formBuilder: FormBuilder,
+    private _openAgendaService: OpenAgendaService,
+    private _queryPatien: QueryPatient,
+    private _queryAvailabilitySpacesService: QueryAvailabilitySpacesService,
+    private dataCitaToAssignService: dataCitaToAssignService
+  ) { }
 
 
   ngOnInit() {
@@ -103,8 +108,6 @@ export class AsignarCalendarioComponent implements OnInit {
   }
 
   openEditModal() {
-    // console.log('save');
-    // this.siguiente.emit('');
   }
 
   private _fetchData() {

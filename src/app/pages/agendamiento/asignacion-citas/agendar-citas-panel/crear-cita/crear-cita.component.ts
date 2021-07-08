@@ -5,11 +5,11 @@ import { OpenAgendaService } from '../../../open-agenda.service';
 import { HttpClient, HttpParams } from '@angular/common/http';
 import { Observable, of, OperatorFunction } from 'rxjs';
 import { catchError, debounceTime, distinctUntilChanged, map, tap, switchMap } from 'rxjs/operators';
-import { NgForm } from '@angular/forms';
-import { ips_remisors, professionals_remisors, especiality_remisors, procedurs_remisors } from './dataBurn';
+import { NgForm, Validators } from '@angular/forms';
 import { QueryPatient } from '../../../query-patient.service';
 import { formaterInput } from '../../../../../formaterInput'
 import Swal from 'sweetalert2';
+import { dataCitaToAssignService } from '../../../dataCitaToAssignService.service';
 
 
 @Component({
@@ -27,6 +27,8 @@ export class CrearCitaComponent implements OnInit {
   public procedurs_remisors
   public space
   public call
+  public patient
+  public dataCitaToAssign
 
   diagnosticoId: any;
   procedureId: any;
@@ -36,9 +38,14 @@ export class CrearCitaComponent implements OnInit {
   searchFailedDiagnostic = false;
   searchFailedProcedure = false;
 
-  constructor(private _openAgendaService: OpenAgendaService, private _queryPatient: QueryPatient) {
-    this.call = JSON.parse(localStorage.getItem('patient'));
-
+  constructor(private _openAgendaService: OpenAgendaService,
+    private _queryPatient: QueryPatient,
+    private dataCitaToAssignService: dataCitaToAssignService,
+  ) {
+    this.dataCitaToAssignService.dataCitaToAssign.subscribe((r) => {
+      this.dataCitaToAssign = r
+    }
+    );
   }
 
   typesDocuments: Array<any> = [
@@ -52,11 +59,9 @@ export class CrearCitaComponent implements OnInit {
   }
 
   ngOnInit(): void {
-    this.ips_remisors = ips_remisors
-    this.professionals_remisors = professionals_remisors
-    this.especiality_remisors = especiality_remisors
-    this.procedurs_remisors = procedurs_remisors
 
+    this.call = this.dataCitaToAssignService.dateCall.llamada
+    this.patient = this.dataCitaToAssignService.dateCall.paciente
     this._queryPatient.space.subscribe(r => {
       this.space = r
     });
@@ -82,9 +87,9 @@ export class CrearCitaComponent implements OnInit {
     }).then((result) => {
       if (result.isConfirmed) {
         this._openAgendaService.saveCita(JSON.stringify(form.value))
-          .subscribe((data) => {
-            this._queryPatient.existPatient.emit('');
-            this.siguiente.emit(data);
+          .subscribe((data: any) => {
+            this.dataCitaToAssignService.dataFinal.next(data.data)
+            this.validarResponse(data);
           });
       }
     })
@@ -130,6 +135,31 @@ export class CrearCitaComponent implements OnInit {
 
   formaterInput(model: any) {
     return formaterInput(model);
+  }
+
+  validarResponse(data) {
+    if (data) {
+
+      this.siguiente.emit();
+      this.dataCitaToAssignService.dataFinal.next(data.data)
+      
+    } else {
+      const swalWithBootstrapButtons = Swal.mixin({
+        customClass: {
+          confirmButton: 'btn btn-success mx-2',
+          cancelButton: 'btn btn-danger'
+        },
+        buttonsStyling: false
+      })
+      swalWithBootstrapButtons.fire({
+        title: '¿está seguro?',
+        text: "Se dispone a asignar una cita",
+        icon: 'warning',
+        showCancelButton: true,
+        reverseButtons: true
+      }).then((result) => {
+      })
+    }
   }
 
 }

@@ -1,16 +1,16 @@
 import { HttpClient, HttpParams } from '@angular/common/http';
 import { Injectable, EventEmitter } from '@angular/core';
 import { Subject } from 'rxjs';
+import { QueryPatient } from './query-patient.service';
 
 @Injectable({
   providedIn: 'root'
 })
-export class QueryPatient {
+export class dataCitaToAssignService {
 
-  public existPatient: EventEmitter<any> = new EventEmitter();
-  public patient = new Subject<any>();
-  public cita = new Subject<any>();
-  public space = new Subject<any>();
+  public dateCall: any
+  public dataCitaToAssign = new Subject<any>();
+  public dataFinal = new Subject<any>();
 
   constructor() { }
 

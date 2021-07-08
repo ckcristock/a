@@ -53,10 +53,9 @@ export class TipificacionComponent implements OnInit {
   public obsPatient;
   constructor(private _qp: QueryPatient) {
     this.obsPatient = _qp.patient.subscribe((r) => {
-      console.log(this.tramitex);
       this.data.Id_Tramite = r.llamada.Tipo_Tramite;
-      this.data.Id_Ambito = 1;
-      this.data.Id_Tipo_Servicio = 1;
+      this.data.Id_Ambito = r.llamada.Ambito;
+      this.data.Id_Tipo_Servicio = r.llamada.Tipo_Servicio;
       this.tramiteWasChanged();
 
     })
@@ -67,6 +66,14 @@ export class TipificacionComponent implements OnInit {
 
   tramiteWasChanged() {
     let tramite = this.tramites.find(e => e.Id == this.data.Id_Tramite)
+    this.tramiteSelected = tramite;
+    this.data.Id_Ambito = tramite.Componente == 'Asignar Citas' ? '' : this.data.Id_Ambito
+    this.data.Id_Tipo_Servicio = tramite.Componente == 'Asignar Citas' ? '' : this.data.Id_Tipo_Servicio
+    this.tramite.emit(tramite)
+  }
+
+  tramiteWasChanged2() {
+    let tramite = this.tramites.find(e => e.Id == 6)
     this.tramiteSelected = tramite;
     this.data.Id_Ambito = tramite.Componente == 'Asignar Citas' ? '' : this.data.Id_Ambito
     this.data.Id_Tipo_Servicio = tramite.Componente == 'Asignar Citas' ? '' : this.data.Id_Tipo_Servicio
