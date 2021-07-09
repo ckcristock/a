@@ -4,6 +4,7 @@ import { Subject, BehaviorSubject } from 'rxjs';
 import { Patient } from '../../core/models/patient.model';
 import { Call } from '../../core/models/call.model';
 import { asignarCitaDynamic } from '../../core/models/asignarCitaDynamic.model';
+import { TipificationData } from 'src/app/core/models/typificationData.model';
 
 @Injectable({
   providedIn: 'root'
@@ -16,6 +17,7 @@ export class QueryPatient {
   public space = new Subject<any>();
 
   public tramiteSelected = new BehaviorSubject<asignarCitaDynamic>(new asignarCitaDynamic())
+  public tipificationData = new BehaviorSubject<TipificationData>(new TipificationData())
 
   constructor() { }
 

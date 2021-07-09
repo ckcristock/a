@@ -29,6 +29,7 @@ export class CrearCitaComponent implements OnInit {
   public call
   public patient
   public dataCitaToAssign
+  public tipification:any = {}
 
   diagnosticoId: any;
   procedureId: any;
@@ -47,6 +48,8 @@ export class CrearCitaComponent implements OnInit {
       this.dataCitaToAssign = r
     }
     );
+
+    
 
   }
 
@@ -72,6 +75,11 @@ export class CrearCitaComponent implements OnInit {
       this.space = r
     });
 
+    this._queryPatient.tipificationData.subscribe(r => {
+      console.log('tipification',r);
+      
+      this.tipification = r
+    })
   }
 
   save(form: NgForm) {

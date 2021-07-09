@@ -6,11 +6,10 @@ import { QueryPatient } from '../query-patient.service';
 import { Subscription } from 'rxjs';
 import { asignarCitaDynamic } from '../../../core/models/asignarCitaDynamic.model';
 
-
 @Component({
   selector: 'app-asignacion-citas',
   templateUrl: './asignacion-citas.component.html',
-  styleUrls: ['./asignacion-citas.component.scss']
+  styleUrls: ['./asignacion-citas.component.scss'],
 })
 export class AsignacionCitasComponent implements OnInit {
   operation = '';
@@ -20,63 +19,81 @@ export class AsignacionCitasComponent implements OnInit {
   public getDate;
   public dataFormCall: any = {
     paciente: {},
-    llamada: {}
+    llamada: {},
   };
   public subjePatient;
-  public citas: any = []
+  public citas: any = [];
   public $tramiteSelected: Subscription;
   constructor(private http: HttpClient, private _queryPatient: QueryPatient) {
-    this.existPtient = _queryPatient.existPatient.subscribe(r => this.Init());
+    this.existPtient = _queryPatient.existPatient.subscribe((r) => this.Init());
   }
 
   ngOnInit(): void {
     this.Init();
     this.changeTramite();
-
   }
 
-
   changeTramite() {
-
-    this.$tramiteSelected = this._queryPatient.tramiteSelected.subscribe((r: any) => {
-      this.operation = r.componente;
-      if (r.componente) {
-
-        if (r.componente == 'Reasignar Citas') {
-          //buscar citas by paciente
-          this.citas = [{ Id_Cita: '1', Estado: 'Activa', Descripcion: 'Cita trauma Cita trauma Cita trauma Cita traumaCita trauma Cita traumaCita trauma Cita traumaCita trauma Cita traumaCita trauma Cita traumaCita trauma Cita traumaCita trauma Cita traumaCita trauma Cita traumaCita trauma Cita traumaCita trauma Cita traumaCita trauma Cita traumaCita trauma Cita trauma', Especialidad: 'Traumatólogo', Fecha: '2018-09-28 17:21:21' },
-          { Id_Cita: '1', Estado: 'Activa', Descripcion: 'Cita trauma Cita trauma Cita trauma Cita traumaCita trauma Cita traumaCita trauma Cita traumaCita trauma Cita traumaCita trauma Cita traumaCita trauma Cita traumaCita trauma Cita traumaCita trauma Cita traumaCita trauma Cita traumaCita trauma Cita traumaCita trauma Cita traumaCita trauma Cita trauma', Especialidad: 'Traumatólogo', Fecha: '2018-09-28 17:21:21' },
-          { Id_Cita: '1', Estado: 'Activa', Descripcion: 'Cita trauma Cita trauma Cita trauma Cita traumaCita trauma Cita traumaCita trauma Cita traumaCita trauma Cita traumaCita trauma Cita traumaCita trauma Cita traumaCita trauma Cita traumaCita trauma Cita traumaCita trauma Cita traumaCita trauma Cita traumaCita trauma Cita traumaCita trauma Cita trauma', Especialidad: 'Traumatólogo', Fecha: '2018-09-28 17:21:21' },]
+    this.$tramiteSelected = this._queryPatient.tramiteSelected.subscribe(
+      (r: any) => {
+        this.operation = r.component;
+        if (r.component) {
+          if (r.component == 'Reasignar Citas') {
+            //buscar citas by paciente
+            this.citas = [
+              {
+                Id_Cita: '1',
+                Estado: 'Activa',
+                Descripcion:
+                  'Cita trauma Cita trauma Cita trauma Cita traumaCita trauma Cita traumaCita trauma Cita traumaCita trauma Cita traumaCita trauma Cita traumaCita trauma Cita traumaCita trauma Cita traumaCita trauma Cita traumaCita trauma Cita traumaCita trauma Cita traumaCita trauma Cita traumaCita trauma Cita trauma',
+                Especialidad: 'Traumatólogo',
+                Fecha: '2018-09-28 17:21:21',
+              },
+              {
+                Id_Cita: '1',
+                Estado: 'Activa',
+                Descripcion:
+                  'Cita trauma Cita trauma Cita trauma Cita traumaCita trauma Cita traumaCita trauma Cita traumaCita trauma Cita traumaCita trauma Cita traumaCita trauma Cita traumaCita trauma Cita traumaCita trauma Cita traumaCita trauma Cita traumaCita trauma Cita traumaCita trauma Cita traumaCita trauma Cita trauma',
+                Especialidad: 'Traumatólogo',
+                Fecha: '2018-09-28 17:21:21',
+              },
+              {
+                Id_Cita: '1',
+                Estado: 'Activa',
+                Descripcion:
+                  'Cita trauma Cita trauma Cita trauma Cita traumaCita trauma Cita traumaCita trauma Cita traumaCita trauma Cita traumaCita trauma Cita traumaCita trauma Cita traumaCita trauma Cita traumaCita trauma Cita traumaCita trauma Cita traumaCita trauma Cita traumaCita trauma Cita traumaCita trauma Cita trauma',
+                Especialidad: 'Traumatólogo',
+                Fecha: '2018-09-28 17:21:21',
+              },
+            ];
+          }
+        } else {
+          //this.Init()
+          this.existPtientForShow = false;
         }
-      } else {
-        //this.Init()
-        this.existPtientForShow = false
-
       }
-    })
-
+    );
   }
 
   Init() {
     this.getDate = setInterval(() => {
-      this.existPtientForShow = false
-      this.GetData()
+      this.existPtientForShow = false;
+      this.GetData();
     }, 3000);
   }
 
   GetData() {
-    this.http.get(`${environment.base_url}/get-patient`).subscribe((req: any) => {
-      if (req.code == 200) {
-
-        this._queryPatient.patient.next(req.data);
-        this.existPtientForShow = true;
-        clearInterval(this.getDate);
-      }
-    });
+    this.http
+      .get(`${environment.base_url}/get-patient`)
+      .subscribe((req: any) => {
+        if (req.code == 200) {
+          this._queryPatient.patient.next(req.data);
+          this.existPtientForShow = true;
+          clearInterval(this.getDate);
+        }
+      });
   }
   ngOnDestroy(): void {
     this.$tramiteSelected.unsubscribe();
   }
- 
-
 }

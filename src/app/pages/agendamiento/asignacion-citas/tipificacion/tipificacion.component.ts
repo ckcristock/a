@@ -1,10 +1,12 @@
 import { Component, OnInit, Output, EventEmitter, Input } from '@angular/core';
+import { TipificationData } from 'src/app/core/models/typificationData.model';
+import { TipificationService } from 'src/app/core/services/tipification.service';
 import { QueryPatient } from '../../query-patient.service';
 
 @Component({
   selector: 'app-tipificacion',
   templateUrl: './tipificacion.component.html',
-  styleUrls: ['./tipificacion.component.scss']
+  styleUrls: ['./tipificacion.component.scss'],
 })
 export class TipificacionComponent implements OnInit {
   //@Output('tramite') tramite = new EventEmitter();
@@ -18,71 +20,93 @@ export class TipificacionComponent implements OnInit {
     Id_Ambito: '',
     Id_Tipo_Servicio: '',
     Id_Tipificacion: '',
-  }
+  };
   tramiteSelected = {
-    Nombre: '', Id: '', componente: ''
-  }
+    name: '',
+    id: '',
+    component: '',
+    hasTypeServices: 0,
+    hasAmbits: 0
+  };
 
   typesDocuments: Array<any> = [
     { Nombre: 'CI', Id: '1' },
     { Nombre: 'CC', Id: '2' },
     { Nombre: 'CC', Id: '2' },
-  ]
-  ambitos: Array<any> = [
-    { Nombre: 'Centro Especialista', Id: '1' },
-    { Nombre: 'Hospitalización', Id: '2' },
-    { Nombre: 'Urgencias', Id: '3' },
-    { Nombre: 'Domicilio', Id: '4' },
-  ]
+  ];
+
   tipoServicios: Array<any> = [
     { Nombre: 'Consulta Especializada', Id: '1' },
     { Nombre: 'Eco Cardiograma', Id: '2' },
     { Nombre: 'Terapias Físicas', Id: '3' },
     { Nombre: 'Procedimientos Diagnósticos', Id: '4' },
-  ]
-  tramites: Array<any> = [
-    { Nombre: 'Cita Primera Vez', Id: '1', componente: 'Asignar Citas' },
-    { Nombre: 'Cita Control', Id: '2', componente: 'Asignar Citas' },
-    { Nombre: 'Reasignación de Citas', Id: '3', componente: 'Reasignar Citas' },
-    { Nombre: 'Cancelación de Citas', Id: '4', componente: 'Reasignar Citas' },
-    { Nombre: 'Consulta Información Citas', Id: '5', componente: 'Reasignar Citas' },
-    { Nombre: 'Otros', Id: '6', componente: 'Tipificar' },
-
-  ]
-
+  ];
+  formalities: any = [];
+  ambits: any = [];
+  typeServices: any = [];
   public obsPatient;
-  constructor(private _qp: QueryPatient) {
+  constructor(
+    private _qp: QueryPatient,
+    private _tipification: TipificationService
+  ) {
     this.obsPatient = _qp.patient.subscribe((r) => {
       if (r.llamada.Tipo_Tramite) {
         this.data.Id_Tramite = r.llamada.Tipo_Tramite;
         this.data.Id_Ambito = r.llamada.Ambito;
         this.data.Id_Tipo_Servicio = r.llamada.Tipo_Servicio;
-        console.log(r.llamada,'llamada');
-        
-        this.tramiteWasChanged();
+        console.log(r.llamada, 'llamada');
+        this.getFormalities();
+        this.getAmbits();
       }
-    })
+    });
   }
 
-  ngOnInit(): void {
+  getFormalities() {
+    this._tipification.getFormalities().subscribe((r: any) => {
+      this.formalities = r.data;
+      this.tramiteWasChanged();
+    });
   }
+
+  getTypeServices() {
+    this._tipification.getTypeServices(this.data.Id_Tramite).subscribe((r: any) => {
+      this.typeServices = r.data;
+    });
+  }
+  getAmbits() {
+    this._tipification.getAmbits().subscribe((r: any) => {
+      this.ambits = r.data;
+    });
+  }
+  ngOnInit(): void { }
 
   tramiteWasChanged() {
-    let tramite = this.tramites.find(e => e.Id == this.data.Id_Tramite)
-    this.tramiteSelected = tramite;
-    this.data.Id_Ambito = tramite.componente == 'Reasignar Citas' ? '' : this.data.Id_Ambito
-    this.data.Id_Tipo_Servicio = tramite.componente == 'Reasignar Citas' ? '' : this.data.Id_Tipo_Servicio
-    //this.tramite.emit(tramite)
-    this._qp.tramiteSelected.next(tramite);
+    this.getTypeServices();
 
+    let tramite = this.formalities.find((e) => e.id == this.data.Id_Tramite);
+    this.tramiteSelected = tramite;
+    this.data.Id_Ambito =
+      tramite.component == 'Reasignar Citas' ? '' : this.data.Id_Ambito;
+    this.data.Id_Tipo_Servicio =
+      tramite.component == 'Reasignar Citas' ? '' : this.data.Id_Tipo_Servicio;
+    //this.tramite.emit(tramite)
+    this.changes()
+    this._qp.tramiteSelected.next(tramite);
   }
+  
+  changes(){
+    let d = new TipificationData(this.data.Id_Ambito, this.data.Id_Tramite, this.data.Id_Tipo_Servicio)
+    this._qp.tipificationData.next(d);
+  }
+
 
   tramiteWasChanged2() {
-    let tramite = this.tramites.find(e => e.Id == 6)
+    let tramite = this.formalities.find((e) => e.Id == 6);
     this.tramiteSelected = tramite;
-    this.data.Id_Ambito = tramite.componente == 'Asignar Citas' ? '' : this.data.Id_Ambito
-    this.data.Id_Tipo_Servicio = tramite.componente == 'Asignar Citas' ? '' : this.data.Id_Tipo_Servicio
+    this.data.Id_Ambito =
+      tramite.component == 'Asignar Citas' ? '' : this.data.Id_Ambito;
+    this.data.Id_Tipo_Servicio =
+      tramite.component == 'Asignar Citas' ? '' : this.data.Id_Tipo_Servicio;
     //this.tramite.emit(tramite)
   }
-
 }

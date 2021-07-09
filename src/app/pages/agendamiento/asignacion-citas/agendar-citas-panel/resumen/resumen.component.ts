@@ -22,7 +22,7 @@ export class ResumenComponent implements OnInit {
   public anotheData
   public appointment
   public patient
-  public space
+  public space : any = {}
   public waitingList
 
   public cita = {
