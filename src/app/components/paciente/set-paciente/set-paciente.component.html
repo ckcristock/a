@@ -58,16 +58,16 @@
                     </ng-select>
                 </div>
 
-                <div class="form-group col-md-4">
+                <div class="form-group col-md-6">
                     <label for="">Fecha Nacimiento</label>
-                    <input type="date" name="Date_of_Birth" [(ngModel)]="paciente.Date_of_Birth" class="form-control " id="Date_of_Birth">
+                    <input type="date" name="Date_of_Birth" [(ngModel)]="paciente.date_of_birth" class="form-control " id="date_of_birth">
                 </div>
 
-                <div class="form-group col-md-4 ">
+                <div class="form-group col-md-2 ">
                     <label for="Genero">Genero</label>
 
 
-                    <select class="custom-select custom-select-sm" name="Id_Sexo" [(ngModel)]="paciente.gener">
+                    <select class="custom-select " name="Id_Sexo" [(ngModel)]="paciente.gener">
                         <option *ngFor="let type of genders" [value]="type.text">{{type.text}}</option>
                     </select>
                 </div>
@@ -96,15 +96,15 @@
 
                 <div class="form-group col-md-6 ">
                     <label for="Empresa">Empresa</label>
-                    <ng-select name="Id_Contrato" [(ngModel)]="paciente.company_id">
-                        <ng-option [value]="type.value" *ngFor="let type of agreements">{{type.text}}</ng-option>
+                    <ng-select name="Id_Contrato" [(ngModel)]="paciente.company_id" (change)="getLocations($event)">
+                        <ng-option [value]="type.value" *ngFor="let type of companies">{{type.text}}</ng-option>
                     </ng-select>
                 </div>
 
                 <div class="form-group col-md-6 ">
                     <label for="Sede">Sede</label>
                     <ng-select name="Id_Contrato" [(ngModel)]="paciente.Sede">
-                        <ng-option [value]="type.value" *ngFor="let type of agreements">{{type.text}}</ng-option>
+                        <ng-option [value]="type.value" *ngFor="let type of locations">{{type.text}}</ng-option>
                     </ng-select>
                 </div>
 

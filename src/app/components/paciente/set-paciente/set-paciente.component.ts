@@ -56,6 +56,9 @@ export class SetPacienteComponent implements OnInit {
   public departments
   public cities
   public agreements
+  public companies
+  public locations
+
 
   $qp: Subscription
   constructor(private _queryPatient: QueryPatient, private _dataDinamicService: DataDinamicService, private dataCitaToAssignService: dataCitaToAssignService) {
@@ -66,41 +69,57 @@ export class SetPacienteComponent implements OnInit {
 
     this.$qp = this._queryPatient.patient.subscribe(async r => {
 
-      await this.getDepartments();
-      this.getContracts();
-      this.getAgreements();
-      this.getTypeDocuments();
-      this.getEps();
-      this.getRegimens();
-      this.getlevels();
-      this.paciente = r.paciente
-      /*  this.paciente.level_id.value=this.paciente.level_id */
-      this.dataCitaToAssignService.dateCall = r
+      if (r.paciente.identifier) {
 
+
+        await this.getDepartments();
+        this.getContracts();
+        this.getCompanies();
+        this.getTypeDocuments();
+        this.getEps();
+        this.getRegimens();
+        this.getlevels();
+        this.paciente = r.paciente
+        console.log(r.paciente);
+        this.getLocations(r.paciente.company_id)
+        /*  this.paciente.level_id.value=this.paciente.level_id */
+        this.dataCitaToAssignService.dateCall = r
+        this.getCities();
+      }
     })
   }
 
   async getDepartments() {
     await this._dataDinamicService.getDepartments().toPromise().then((req: any) => {
-
       this.departments = req.data
-      this.getCities();
-
     })
   }
 
   getCities() {
-    let parm = { department_id: this.paciente.department_id }
-    this._dataDinamicService.getCities(parm).subscribe((req: any) => {
-      this.cities = req.data
+    if (this.paciente.department_id) {
+      let parm = { department_id: this.paciente.department_id }
+      this._dataDinamicService.getCities(parm).subscribe((req: any) => {
+        this.cities = req.data
+      })
+    }
+
+  }
+
+  getCompanies() {
+    this._dataDinamicService.getCompanies().subscribe((req: any) => {
+      this.companies = req.data
+
     })
   }
 
-  getAgreements() {
-    this._dataDinamicService.getAgreements().subscribe((req: any) => {
-      this.agreements = req.data
+  getLocations(company_id) {
+    console.log(company_id);
+
+    this._dataDinamicService.getLocations(company_id).subscribe((req: any) => {
+      this.locations = req.data
     })
   }
+
 
   getTypeDocuments() {
     this._dataDinamicService.getTypeDocuments().subscribe((req: any) => {

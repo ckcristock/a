@@ -73,7 +73,7 @@ export class AsignarCalendarioComponent implements OnInit {
 
     this._queryAvailabilitySpacesService.getspeciality.subscribe(r => {
       this.speciality = r
-      this._fetchData();
+     // this._fetchData();
     });
     this._queryAvailabilitySpacesService.getProfessional.subscribe(r => {
       this.professional = r
@@ -113,6 +113,23 @@ export class AsignarCalendarioComponent implements OnInit {
   private _fetchData() {
 
     this._openAgendaService.getOpenedSpace(this.speciality, this.professional).subscribe((resp: any) => {
+      console.log(resp, 'spaces');
+      if (resp.data.length == 0) {
+        const swalWithBootstrapButtons = Swal.mixin({
+          customClass: {
+            confirmButton: 'btn btn-success mx-2'
+          }
+        })
+        swalWithBootstrapButtons.fire({
+          title: 'No hay espacios disponibles',
+          text: "No se encontraron espacios disponibles con esas características",
+          icon: 'warning',
+          confirmButtonText: 'Cerrar',
+        })
+
+      }
+
+
       this.calendarEvents = resp.data.map((element, index) => {
         if (element.status) {
           resp.data[index]['className'] = "bg-success text-white"

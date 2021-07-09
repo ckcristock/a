@@ -1,160 +1,129 @@
-<div class="row mt-3">
-    <div class="col-12">
-        <form class="" #registerCita="ngForm">
-
-            <div class="row">
-
-                <div class="col-12 mt-12">
-                    <div class="input-group mb-3">
-                        <div class="input-group-prepend col-1">
-                            <span class="input-group-text" id="inputGroup-sizing-default">
-                                <i class="fas fa-stethoscope"></i>
-                            </span>
-                        </div>
-
-                        <input id="typeahead-http" type="text" class="form-control mx-sm-3 col-11"
-                            [class.is-invalid]="searchFailedDiagnostic" [(ngModel)]="diagnosticoId"
-                            [ngbTypeahead]="search" placeholder="Diagnosticos" name="diagnosticoId" ngDefaultControl
-                            [resultTemplate]="diagnostic" [inputFormatter]="Inputdiagnostic" />
-                        <small *ngIf="searchingDiagnostic" class="form-text text-muted">Buscando...</small>
-                        <div class="invalid-feedback" *ngIf="searchFailedDiagnostic">No se ha podido encontrar.</div>
-
-                    </div>
-                </div>
-
-                <div class="col-6 mt-12">
-                    <div class="input-group mb-3">
-                        <div class="input-group-prepend col-2">
-                            <span class="input-group-text" id="inputGroup-sizing-default">
-                                <i class="fas fa-hospital-alt"></i>
-                            </span>
-                        </div>
-
-                        <input type="text" name="ips_remisor" [(ngModel)]="cita.ips_remisor"
-                            class="form-control form-control col-10">
-
-                        <!-- <ng-select class="col-10" [items]="ips_remisors" bindLabel="text" bindValue="value"
-                            [(ngModel)]="cita.ips_remisor" placeholder="Seleccione " name="ips_remisor"
-                            loadingText="loading" ngDefaultControl>
-                        </ng-select> -->
-
-                    </div>
-                </div>
-
-                <div class="col-6 mt-12">
-                    <div class="input-group mb-3">
-                        <div class="input-group-prepend col-2">
-                            <span class="input-group-text" id="inputGroup-sizing-default">
-                                <i class="fas fa-user-md"></i>
-                            </span>
-                        </div>
-
-                        <input type="text" name="professional_remisor" [(ngModel)]="cita.professional_remisor"
-                            class="form-control form-control col-10">
-
-                        <!-- <ng-select class="col-10" [items]="professionals_remisors" bindLabel="text" bindValue="value"
-                            [(ngModel)]="cita.professional_remisor" placeholder="Seleccione "
-                            name="professional_remisor" loadingText="loading" ngDefaultControl>
-                        </ng-select> -->
-
-                    </div>
-                </div>
-
-                <div class="col-6 mt-12">
-                    <div class="input-group mb-3">
-                        <div class="input-group-prepend col-2">
-                            <span class="input-group-text" id="inputGroup-sizing-default">
-                                <i class="fas fa-notes-medical "></i>
-                            </span>
-                        </div>
-
-                        <input type="text" name="especiality" [(ngModel)]="cita.especiality"
-                            class="form-control form-control col-10">
-
-                        <!-- <ng-select class="col-10" [items]="procedurs_remisors" bindLabel="text" bindValue="value"
-                            [(ngModel)]="cita.especiality" placeholder="Seleccione " name="especiality"
-                            loadingText="loading" ngDefaultControl>
-                        </ng-select> -->
-
-                    </div>
-                </div>
-
-                <div class="col-6 mt-12">
-                    <div class="input-group mb-3">
-                        <div class="input-group-prepend col-2">
-                            <span class="input-group-text" id="inputGroup-sizing-default">
-                                <i class="fas fa-calendar-alt"></i>
-                            </span>
-                        </div>
-
-                        <input type="date" name="date_remisor" [(ngModel)]="cita.date_remisor"
-                            class="form-control form-control col-10" id="1">
-
-                    </div>
-                </div>
-
-                <div class="col-12 mt-12">
-                    <div class="input-group mb-3">
-                        <div class="input-group-prepend">
-                            <span class="input-group-text" id="inputGroup-sizing-default">
-                                <i class="fas fa-cogs"></i>
-                            </span>
-                        </div>
-
-                        <input type="text" class="form-control mx-sm-3 col-11"
-                            [class.is-invalid]="searchFailedProcedure" [(ngModel)]="procedureId"
-                            [ngbTypeahead]="searchProcedure" placeholder="Procedimiento" name="procedureId"
-                            ngDefaultControl [resultTemplate]="procedure" [inputFormatter]="InputProcedure" />
-                        <small *ngIf="searchingProcedure" class="form-text text-muted">Buscando...</small>
-                        <div class="invalid-feedback" *ngIf="searchFailedProcedure">No se ha podido encontrar.</div>
-
-                    </div>
-                </div>
-                <!-- <div class="col-4 mt-12">
-                    <div class="input-group mb-3">
-                        <div class="input-group-prepend">
-                            <span class="input-group-text" id="inputGroup-sizing-default">
-                                <i class="fas fa-hand-holding-usd"></i>
-                            </span>
-                        </div>
-
-                        <input type="number" name="price" [(ngModel)]="cita.cuota" class="form-control form-control"
-                            id="3">
-
-                    </div>
-                </div> -->
-
-                <input type="hidden" name="space" [(ngModel)]="space">
-                <input type="hidden" name="call" [(ngModel)]="call">
-                <input type="hidden" name="patient" [(ngModel)]="patient">
-                <input type="hidden" name="anotherData" [(ngModel)]="dataCitaToAssign">
-
-                <div class="col-12 mt-12">
-                    <div class="form-group">
-                        <label for="observaciones">Observaciones</label>
-                        <textarea class="form-control" id="observaciones" name="observation"
-                            [(ngModel)]="cita.observacion" required></textarea>
-                    </div>
-                </div>
-                <div class="col-12 mt-12">
-                    <button class="btn btn-success btn-block" (click)="save(registerCita)"> Guardar </button>
-                </div>
-
+<form class="row mt-3" #registerCita="ngForm">
+    <div class="col-12 mt-12">
+        <div class="input-group mb-3">
+            <div class="input-group-prepend">
+                <span class="input-group-text" id="inputGroup-sizing-default">
+                    <i class="fas fa-stethoscope"></i>
+                </span>
             </div>
-        </form>
+            <input id="typeahead-http" type="text" class="form-control" [class.is-invalid]="searchFailedDiagnostic" [(ngModel)]="diagnosticoId" [ngbTypeahead]="search" placeholder="Diagnostico del Paciente" name="diagnosticoId" ngDefaultControl [resultTemplate]="diagnostic"
+                [inputFormatter]="Inputdiagnostic" />
+            <small *ngIf="searchingDiagnostic" class="form-text text-muted">Buscando...</small>
+            <div class="invalid-feedback" *ngIf="searchFailedDiagnostic">No se ha podido encontrar.</div>
+        </div>
     </div>
 
+    <div class="col-6 mt-12">
+        <div class="input-group mb-3">
+            <div class="input-group-prepend">
+                <span class="input-group-text" id="inputGroup-sizing-default">
+                    <i class="fas fa-hospital-alt"></i>
+                </span>
+            </div>
 
-    <ng-template #diagnostic let-r="result" let-t="term">
-        <span class="f-9">
-            {{r.value}}
-            <strong>{{r.text}}</strong>
-        </span>
-    </ng-template>
+            <input type="text" name="ips_remisor" [(ngModel)]="cita.ips_remisor" placeholder="IPS Remisora" class="form-control">
 
-    <ng-template #procedure let-r="result" let-t="term">
-        <span class="f-9">
-            {{r.value}}
-            <strong>{{r.text}}</strong>
-        </span>
-    </ng-template>
+            <!-- <ng-select class="col-10" [items]="ips_remisors" bindLabel="text" bindValue="value"
+                        [(ngModel)]="cita.ips_remisor" placeholder="Seleccione " name="ips_remisor"
+                        loadingText="loading" ngDefaultControl>
+                    </ng-select> -->
+
+        </div>
+    </div>
+
+    <div class="col-6 mt-12">
+        <div class="input-group mb-3">
+            <div class="input-group-prepend">
+                <span class="input-group-text" id="inputGroup-sizing-default">
+                    <i class="fas fa-user-md"></i>
+                </span>
+            </div>
+
+            <input type="text" name="professional_remisor" placeholder="Médico Remisor" [(ngModel)]="cita.professional_remisor" class="form-control">
+
+            <!-- <ng-select class="col-10" [items]="professionals_remisors" bindLabel="text" bindValue="value"
+                        [(ngModel)]="cita.professional_remisor" placeholder="Seleccione "
+                        name="professional_remisor" loadingText="loading" ngDefaultControl>
+                    </ng-select> -->
+
+        </div>
+    </div>
+
+    <div class="col-6 mt-12">
+        <div class="input-group mb-3">
+            <div class="input-group-prepend">
+                <span class="input-group-text" id="inputGroup-sizing-default">
+                    <i class="fas fa-notes-medical"></i>
+                </span>
+            </div>
+
+            <input type="text" name="especiality" placeholder="Especialidad de Médico Remisor" [(ngModel)]="cita.especiality" class="form-control form-control">
+
+            <!-- <ng-select class="col-10" [items]="procedurs_remisors" bindLabel="text" bindValue="value"
+                        [(ngModel)]="cita.especiality" placeholder="Seleccione " name="especiality"
+                        loadingText="loading" ngDefaultControl>
+                    </ng-select> -->
+
+        </div>
+    </div>
+
+    <div class="col-6 mt-12">
+        <div class="input-group mb-3">
+            <div class="input-group-prepend">
+                <span class="input-group-text" placeholder="Fecha Remitido Servicio" id="inputGroup-sizing-default">
+                    <i class="fas fa-calendar-alt"></i>
+                </span>
+            </div>
+
+            <input type="date" name="date_remisor" [(ngModel)]="cita.date_remisor" class="form-control form-control">
+
+        </div>
+    </div>
+
+    <div class="col-12 mt-12">
+        <div class="input-group mb-3">
+            <div class="input-group-prepend">
+                <span class="input-group-text" id="inputGroup-sizing-default">
+                    <i class="fas fa-cogs"></i>
+                </span>
+            </div>
+            <input type="text" class="form-control" [class.is-invalid]="searchFailedProcedure" [(ngModel)]="procedureId" [ngbTypeahead]="searchProcedure" placeholder="Código CUPS Asignado" name="procedureId" ngDefaultControl [resultTemplate]="procedure" [inputFormatter]="InputProcedure"
+            />
+            <small *ngIf="searchingProcedure" class="form-text text-muted">Buscando...</small>
+            <div class="invalid-feedback" *ngIf="searchFailedProcedure">No se ha podido encontrar.</div>
+
+        </div>
+    </div>
+
+    <input type="hidden" name="space" [(ngModel)]="space">
+    <input type="hidden" name="call" [(ngModel)]="call">
+    <input type="hidden" name="patient" [(ngModel)]="patient">
+    <input type="hidden" name="anotherData" [(ngModel)]="dataCitaToAssign">
+
+    <div class="col-12 mt-12">
+        <div class="form-group">
+            <label for="observaciones">Observaciones</label>
+            <textarea class="form-control" id="observaciones" name="observation" [(ngModel)]="cita.observacion" required></textarea>
+        </div>
+    </div>
+    <div class="col-12 mt-12">
+        <button class="btn btn-success btn-block" (click)="save(registerCita)"> Guardar </button>
+    </div>
+
+</form>
+
+
+
+<ng-template #diagnostic let-r="result" let-t="term">
+    <span class="f-9">
+        {{r.value}}
+        <strong>{{r.text}}</strong>
+    </span>
+</ng-template>
+
+<ng-template #procedure let-r="result" let-t="term">
+    <span class="f-9">
+        {{r.value}}
+        <strong>{{r.text}}</strong>
+    </span>
+</ng-template>

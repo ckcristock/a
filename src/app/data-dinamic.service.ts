@@ -16,6 +16,13 @@ export class DataDinamicService {
   public getDepartments() {
     return this.httpClient.get(`${environment.base_url}/departments`)
   }
+  public getCompanies() {
+    return this.httpClient.get(`${environment.base_url}/company`)
+  }
+
+  public getLocations(idCompany) {
+    return this.httpClient.get(`${environment.base_url}/get-sedes/${idCompany}`)
+  }
 
   public getCities(params?) {
     return this.httpClient.get(`${environment.base_url}/cities`,{params})

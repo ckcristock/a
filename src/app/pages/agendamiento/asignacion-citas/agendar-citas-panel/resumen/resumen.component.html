@@ -6,26 +6,37 @@
     </div>
 
     <div class="col-12 text-center">
-        <h4 class="text-success"><i class="fa fa-clipboard-check"></i> ¡Cita creada con éxito!</h4>
+        <h4 class="text-success"><i class="fa fa-clipboard-check"></i> ¡Cita {{space.id ? 'creada' : ' añadida a lista de espera' }} con éxito!</h4>
     </div>
 
     <div class="col-12">
 
-        <div class="my-4" style="font-size: 15px;"> Se ha agendado una Cita en la modalidad <strong class="font-weight-bold ">{{ anotheData.appointment.text }}</strong> para el paciente <strong class="text-uppercase">{{patient.firstname}}  {{patient.surname}} </strong> con el profesional
-            <strong class="text-uppercase"> {{space.professional.name}} </strong> el día <strong class="font-weight-bold "> {{space.hour_start | date :'EEEE, MMMM d, y'}}  A LAS  {{space.hour_start | date :'h:mm a'}} </strong>
+        <div class="my-4" style="font-size: 15px;"> Se ha {{space.id ? ' agendado una Cita ' : ' añadido a lista de espera'}} en la modalidad
+            <strong class="font-weight-bold ">{{ anotheData.appointment.text }}</strong> para el paciente
+            <strong class="text-uppercase">{{patient.firstname}}  {{patient.surname}} </strong>
 
-            <span *ngIf="!anotheData.appointment.face_to_face;else presential"> EN LA SALA SALA VIRUTAL DE LA
-                CENTRAL DE ESPECIALISTAS </span>
+            <span *ngIf="space.id">
+                con el profesional
+
+                <strong class="text-uppercase"> {{space.professional.name}} </strong> el día <strong class="font-weight-bold "> {{space.hour_start | date :'EEEE, MMMM d, y'}}  A LAS  {{space.hour_start | date :'h:mm a'}} </strong>
+
+                <span *ngIf="!anotheData.appointment.face_to_face;else presential"> EN LA SALA SALA VIRUTAL DE LA
+                    CENTRAL DE ESPECIALISTAS </span>
 
             <ng-template #presential>
                 en la sede <strong class="font-weight-bold ">{{cita.location}}</strong> en la Dirección <strong class="font-weight-bold "> {{cita.direction}}</strong>
             </ng-template>
 
+            </span>
+
+
         </div>
+
 
     </div>
 
-    <div class="col-12 text-center ">
+
+    <div class="col-12 text-center " *ngIf="space.id">
         <h5>Recuerde que su cuota moderadora es de:</h5>
         <!-- <p> -->
         <h3 class="text-danger font-weight-bold display-4">${{ appointment.price }}</h3>

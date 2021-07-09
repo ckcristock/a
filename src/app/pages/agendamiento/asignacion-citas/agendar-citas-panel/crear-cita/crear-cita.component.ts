@@ -152,7 +152,7 @@ export class CrearCitaComponent implements OnInit {
 
       this.dataCitaToAssignService.dataFinal.next(data.data)
       // this._queryPatient.patient.next(data.data)
-      console.log(data.data, 'updatee');
+      console.log(data, 'updatee');
 
       this._openAgendaService.getClean(data.data.appointment['call_id']).subscribe((r) => {
       })
