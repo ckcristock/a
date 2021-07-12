@@ -212,13 +212,10 @@ export class AgendarCitasComponent implements OnInit {
 
       this.calendarEvents = resp.data.map((element, index) => {
         if (element.status) {
-          resp.data[index]['className'] = "bg-success text-white"
-          resp.data[index]['title'] = "Disponible"
           resp.data[index]['allDay '] = false
           return element
         }
         resp.data[index]['allDay '] = false
-        resp.data[index]['title'] = "No Disponible"
         return element
       });
     });

@@ -156,12 +156,12 @@ export const MENU: MenuItem[] = [
                         link: '/ajustes/informacion-base/regimenes-niveles',
                         parentId: 16
                     },
-                   /*  {
-                        id: 24,
-                        label: 'Aseguradoras',
-                        link: '/ajustes/informacion-base/aseguradoras',
-                        parentId: 16
-                    }, */
+                    /*  {
+                         id: 24,
+                         label: 'Aseguradoras',
+                         link: '/ajustes/informacion-base/aseguradoras',
+                         parentId: 16
+                     }, */
 
                 ]
             },

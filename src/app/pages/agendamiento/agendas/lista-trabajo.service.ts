@@ -16,20 +16,18 @@ export class ListaTrabajoService {
     })
   }
   public getAgendamiento(params): Observable<any> {
-    return this.http.get(`${environment.base_url}/agendamientos/`, {
+    return this.http.get(`${environment.base_url}/agendamientos`, {
       params
     })
   }
 
   public getStatistics(params):Observable<any> {
-    return this.http.get(`${environment.base_url}/spaces-statistics/`, {
-      params
-    })
+    return this.http.get(`${environment.base_url}/spaces-statistics`)
   }
 
   
   public getStatisticsDetail(params?):Observable<any> {
-    return this.http.get(`${environment.base_url}/spaces-statistics-detail/`, {
+    return this.http.get(`${environment.base_url}/spaces-statistics-detail`, {
       params
     })
   }

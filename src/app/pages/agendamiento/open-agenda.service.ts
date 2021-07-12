@@ -93,6 +93,10 @@ export class OpenAgendaService {
     return this.clientHttp.get(`${environment.base_url}/get-data-cita/${id}`)
   }
 
+  public getTypeLocations() {
+    return this.clientHttp.get(`${environment.base_url}/type-locations`)
+  }
+
   search(term: string) {
     if (term === '') {
       return of([]);
@@ -103,12 +107,13 @@ export class OpenAgendaService {
       );
   }
 
-  searchProcedure(term: string) {
+  searchProcedure(term: string, speciality: string = '') {
     if (term === '') {
       return of([]);
     }
+
     return this.clientHttp
-      .get<[any, string[]]>(PROCEDURE_URL, { params: PARAMS.set('search', term) }).pipe(
+      .get<[any, string[]]>(PROCEDURE_URL, { params: { 'search': term, 'speciality': speciality } }).pipe(
         map((response: any) => response.data)
       );
   }

@@ -73,7 +73,7 @@ export class AsignarCalendarioComponent implements OnInit {
 
     this._queryAvailabilitySpacesService.getspeciality.subscribe(r => {
       this.speciality = r
-     // this._fetchData();
+      // this._fetchData();
     });
     this._queryAvailabilitySpacesService.getProfessional.subscribe(r => {
       this.professional = r
@@ -132,13 +132,10 @@ export class AsignarCalendarioComponent implements OnInit {
 
       this.calendarEvents = resp.data.map((element, index) => {
         if (element.status) {
-          resp.data[index]['className'] = "bg-success text-white"
-          resp.data[index]['title'] = "Disponible"
           resp.data[index]['allDay '] = false
           return element
         }
         resp.data[index]['allDay '] = false
-        resp.data[index]['title'] = "No Disponible"
         return element
       });
     });

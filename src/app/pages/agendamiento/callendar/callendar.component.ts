@@ -215,22 +215,15 @@ export class CallendarComponent implements OnInit {
     if (this.myprofesional == 'null' || this.myprofesional == 'undefined') {
       this.myprofesional = this.professional
     }
-
     this._openAgendaService.getAppointments(this.professional).subscribe((resp: any) => {
-
       this.calendarEvents = resp.data.map((element, index) => {
         if (element.status) {
-          // resp.data[index]['className'] = "bg-success text-white"
-          resp.data[index]['title'] = "Disponible"
-          resp.data[index]['allDay '] = false
           return element
         }
-        resp.data[index]['allDay '] = false
-        resp.data[index]['title'] = "No Disponible"
         return element
       });
     });
-    // form submit
+
     this.submitted = false;
   }
 
