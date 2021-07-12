@@ -16,7 +16,7 @@ export class TipificacionComponent implements OnInit {
     Id_Funcionario: '',
     Fecha: '',
     Id_Paciente: '',
-    Id_Tramite: '',
+    Id_Tramite: 1,
     Id_Ambito: '',
     Id_Tipo_Servicio: '',
     Id_Tipificacion: '',
@@ -50,14 +50,16 @@ export class TipificacionComponent implements OnInit {
     private _tipification: TipificationService
   ) {
     this.obsPatient = _qp.patient.subscribe((r) => {
+      console.log('tipificar', r);
+
       if (r.llamada.Tipo_Tramite) {
         this.data.Id_Tramite = r.llamada.Tipo_Tramite;
         this.data.Id_Ambito = r.llamada.Ambito;
         this.data.Id_Tipo_Servicio = r.llamada.Tipo_Servicio;
         console.log(r.llamada, 'llamada');
-        this.getFormalities();
-        this.getAmbits();
       }
+      this.getFormalities();
+      this.getAmbits();
     });
   }
 
@@ -83,18 +85,23 @@ export class TipificacionComponent implements OnInit {
   tramiteWasChanged() {
     this.getTypeServices();
 
-    let tramite = this.formalities.find((e) => e.id == this.data.Id_Tramite);
-    this.tramiteSelected = tramite;
-    this.data.Id_Ambito =
-      tramite.component == 'Reasignar Citas' ? '' : this.data.Id_Ambito;
-    this.data.Id_Tipo_Servicio =
-      tramite.component == 'Reasignar Citas' ? '' : this.data.Id_Tipo_Servicio;
-    //this.tramite.emit(tramite)
-    this.changes()
-    this._qp.tramiteSelected.next(tramite);
+    //if (this.data.Tipo_Tramite) {
+
+      let tramite = this.formalities.find((e) => e.id == this.data.Id_Tramite);
+      this.tramiteSelected = tramite;
+      this.data.Id_Ambito =
+        tramite.component == 'Reasignar Citas' ? '' : this.data.Id_Ambito;
+      this.data.Id_Tipo_Servicio =
+        tramite.component == 'Reasignar Citas' ? '' : this.data.Id_Tipo_Servicio;
+      //this.tramite.emit(tramite)
+      this.changes()
+      this._qp.tramiteSelected.next(tramite);
+
+    //}
+
   }
-  
-  changes(){
+
+  changes() {
     let d = new TipificationData(this.data.Id_Ambito, this.data.Id_Tramite, this.data.Id_Tipo_Servicio)
     this._qp.tipificationData.next(d);
   }
