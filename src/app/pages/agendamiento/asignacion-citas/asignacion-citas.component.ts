@@ -15,11 +15,11 @@ import { TipificationService } from 'src/app/core/services/tipification.service'
   styleUrls: ['./asignacion-citas.component.scss'],
 })
 export class AsignacionCitasComponent implements OnInit {
-  operation = '';
+  operation : any = {};
   typeCall = 'Presencial';
   public existPtient;
   public existPtientForShow: boolean = false;
-  public isByCall = false;
+  public isByCall = true;
   public getDate;
   public dataFormCall: any = {
     paciente: {},
@@ -46,8 +46,10 @@ export class AsignacionCitasComponent implements OnInit {
   changeTramite() {
     this.$tramiteSelected = this._queryPatient.tramiteSelected.subscribe(
       (r: any) => {
-        this.operation = r.component;
-        console.log(r, 'changeess');
+        console.log('rrrrrrrx',r);
+        
+        this.operation = r;
+
 
         if (!r.component) {
           //buscar citas by paciente
@@ -88,8 +90,6 @@ export class AsignacionCitasComponent implements OnInit {
 
     this.$tramiteData = this._queryPatient.tipificationData.subscribe(r => {
       this.tramiteData = r;
-      console.log('rrrr', r);
-
     })
   }
 
@@ -109,7 +109,11 @@ export class AsignacionCitasComponent implements OnInit {
       .get(`${environment.base_url}/get-patient`)
       .subscribe((req: any) => {
         if (req.code == 200) {
-          this._queryPatient.patient.next(req.data);
+          let data = req.data;
+          if (!data.paciente) {
+            data = this.newPatient(data,req)
+          }
+          this._queryPatient.patient.next(data);
           this.existPtientForShow = true;
           clearInterval(this.getDate);
         }
@@ -127,13 +131,8 @@ export class AsignacionCitasComponent implements OnInit {
       .subscribe((req: any) => {
         if (req.code == 200) {
           let data = req.data;
-          console.log(data, 'data');
-
           if (req.data.isNew) {
-            data.paciente = new Patient()
-            data.paciente.identifier = req.data.llamada.Identificacion_Paciente;
-            console.log(data.paciente);
-
+            data = this.newPatient(data,req)
           }
           this._queryPatient.patient.next(data);
           this.existPtientForShow = true;
@@ -143,5 +142,11 @@ export class AsignacionCitasComponent implements OnInit {
       })
   }
 
+  newPatient(data, req) {
 
+    data.paciente = new Patient()
+    data.paciente.identifier = req.data.llamada.Identificacion_Paciente;
+    data.paciente.isNew = true
+    return data;
+  }
 }

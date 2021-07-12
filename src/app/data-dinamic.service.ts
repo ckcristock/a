@@ -49,4 +49,7 @@ export class DataDinamicService {
     return this.httpClient.post(`${environment.base_url}/patients`, form)
   }
 
+  public getPatientAgain(document) {
+    return this.httpClient.get(`${environment.base_url}/get-patient-fill/${document}`)
+  }
 }

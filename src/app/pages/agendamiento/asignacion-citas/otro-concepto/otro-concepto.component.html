@@ -5,25 +5,9 @@
         </div>
         <div class="card-body row">
 
-            <div class="col-12">
+            <input name="type" type="hidden" [(ngModel)]="tramiteData.type_service_id">
+            <input name="type" type="hidden" [(ngModel)]="tramiteData.formality_id">
 
-                <div class="form-group">
-                    <!--  <label for="exampleFormControlSelect1">Concepto</label>
-                    <select ngModel name="type" required class="form-control" id="exampleFormControlSelect1">
-                      <option>No aplica servicio</option>
-                      <option>Orientación e información al usuario</option>
-                      <option>PQR</option>
-                    </select> -->
-
-                    <!--  <label for="exampleInputPassword1">Tipo de Servicio</label>
-                    <select class="custom-select custom-select-sm" name="id" ngModel> -->
-                    <!-- <option value="">Seleccione un Servicio</option> -->
-                    <!--  <option [value]="type.id" *ngFor="let type of typeServices">
-                    {{ type.name }}
-                    </option> -->
-                </div>
-
-            </div>
             <div class="col-12 ">
                 <div class="form-group row ">
                     <label for="staticEmail " required class="col-sm-12 col-form-label ">Observación:</label>

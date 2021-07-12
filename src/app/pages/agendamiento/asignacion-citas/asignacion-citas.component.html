@@ -1,103 +1,102 @@
 <div class="row" [hidden]="!existPtientForShow">
-  <div class="col-12">
-    <div class="row">
-      <div class="col-12 mb-4">
-
-      </div>
-      <div class="col-12 d-flex menu mb-4">
-        <!-- <button class="btn btn-primary" (click)="show('asignar')"> Asignación</button> -->
-        <!--   <button class="btn btn-primary" (click)="show('tipificar')"> Tipificación</button> -->
-        <!-- <button class="btn btn-primary" (click)="show('citas')"> Citas</button> -->
-
-      </div>
-
-      <div class="col-8">
+    <div class="col-12">
         <div class="row">
-          <div class="col-12">
-            <app-tipificacion></app-tipificacion>
-          </div>
-        </div>
-        <div *ngIf="operation=='Asignar Citas'">
-          <app-agendar-citas></app-agendar-citas>
-        </div>
+            <div class="col-12 mb-4">
 
-        <div *ngIf="operation=='Reasignar Citas'">
-          <app-lista-citas [canOverride]="'true'" [citas]="citas"></app-lista-citas>
-        </div>
+            </div>
+            <div class="col-12 d-flex menu mb-4">
+                <!-- <button class="btn btn-primary" (click)="show('asignar')"> Asignación</button> -->
+                <!--   <button class="btn btn-primary" (click)="show('tipificar')"> Tipificación</button> -->
+                <!-- <button class="btn btn-primary" (click)="show('citas')"> Citas</button> -->
 
-        <div *ngIf="operation=='Tipificar'">
-          <app-otro-concepto></app-otro-concepto>
-        </div>
+            </div>
 
-      </div>
-      <div class="col-4">
-        <div class="card">
-          <div class="card-body">
-            <ul ngbNav #customNav="ngbNav" [activeId]="1" class="nav-tabs nav-tabs-custom nav-justified">
-              <li [ngbNavItem]="1">
-                <a ngbNavLink> Paciente</a>
-                <ng-template ngbNavContent>
-                  <div class="mt-4">
-                    <app-set-paciente></app-set-paciente>
-                  </div>
-                </ng-template>
-              </li>
-              <li [ngbNavItem]="2">
-                <a ngbNavLink>Citas</a>
-                <ng-template ngbNavContent>
-                  <div class="mt-4">
-                    <app-resumen-citas></app-resumen-citas>
-                  </div>
-                </ng-template>
-              </li>
-            </ul>
-            <div [ngbNavOutlet]="customNav"></div>
-          </div>
+            <div class="col-8">
+                <div class="row">
+                    <div class="col-12">
+                        <app-tipificacion></app-tipificacion>
+                    </div>
+                </div>
+                <div *ngIf="operation.component=='Asignar Citas'">
+                    <app-agendar-citas></app-agendar-citas>
+                </div>
+
+                <div *ngIf="operation.component=='Reasignar Citas'">
+                    <app-lista-citas [canOverride]="'true'" [citas]="citas"></app-lista-citas>
+                </div>
+
+                <div *ngIf="operation.component=='Tipificar'">
+                    <app-otro-concepto></app-otro-concepto>
+                </div>
+
+            </div>
+            <div class="col-4">
+                <div class="card">
+                    <div class="card-body">
+                        <ul ngbNav #customNav="ngbNav" [activeId]="1" class="nav-tabs nav-tabs-custom nav-justified">
+                            <li [ngbNavItem]="1">
+                                <a ngbNavLink> Paciente</a>
+                                <ng-template ngbNavContent>
+                                    <div class="mt-4">
+                                        <app-set-paciente></app-set-paciente>
+                                    </div>
+                                </ng-template>
+                            </li>
+                            <li [ngbNavItem]="2">
+                                <a ngbNavLink>Citas</a>
+                                <ng-template ngbNavContent>
+                                    <div class="mt-4">
+                                        <app-resumen-citas></app-resumen-citas>
+                                    </div>
+                                </ng-template>
+                            </li>
+                        </ul>
+                        <div [ngbNavOutlet]="customNav"></div>
+                    </div>
+                </div>
+            </div>
         </div>
-      </div>
     </div>
-  </div>
 </div>
 
 
 <div class="row " *ngIf="!existPtientForShow">
 
-  <div class="col-12" *ngIf="isByCall;else presential">
-    <div class="card">
-      <div class="card-body">
-        <div class="row justify-content-center">
-          <div class="col-8 text-center">
-            <h4>En espera de una llamada entrante</h4>
-            <img src="./../../../../assets/images/CallCenter.png" class="img-fluid" alt="" srcset="">
-          </div>
+    <div class="col-12" *ngIf="isByCall;else presential">
+        <div class="card">
+            <div class="card-body">
+                <div class="row justify-content-center">
+                    <div class="col-8 text-center">
+                        <h4>En espera de una llamada entrante</h4>
+                        <img src="./../../../../assets/images/CallCenter.png" class="img-fluid" alt="" srcset="">
+                    </div>
+                </div>
+            </div>
         </div>
-      </div>
     </div>
-  </div>
 </div>
 
 <ng-template #presential>
-  <div class="col-12">
-    <app-tipificacion></app-tipificacion>
-  </div>
-  <div class="col-12">
-    <div class="card">
-      <div class="card-body">
-        <form #formD="ngForm">
-          <input  name="type" type="hidden" [(ngModel)]="typeCall">
-          <input  name="Ambito" type="hidden" [(ngModel)]="tramiteData.ambit_id">
-          <input  name="Tipo_Tramite" type="hidden" [(ngModel)]="tramiteData.formality_id">
-          <input  name="Tipo_Servicio" type="hidden" [(ngModel)]="tramiteData.type_service_id">
-          <div class="form-group">
-            <label for="exampleFormControlInput1">Documento del paciente</label>
-            <input type="text" class="form-control" ngModel name="Identificacion_Paciente" id="exampleFormControlInput1"
-              placeholder="Ingrese el documento">
-          </div>
-
-          <button class="btn btn-success btn-sm btn-block" (click)="newCall(formD)">Buscar</button>
-        </form>
-      </div>
+    <div class="col-12">
+        <app-tipificacion></app-tipificacion>
     </div>
-  </div>
+    <div class="col-12">
+        <div class="card">
+            <div class="card-body">
+                <form #formD="ngForm">
+                    <input name="type" type="hidden" [(ngModel)]="typeCall">
+                    <input name="Ambito" type="hidden" [(ngModel)]="tramiteData.ambit_id">
+                    <input name="Tipo_Tramite" type="hidden" [(ngModel)]="tramiteData.formality_id">
+                    <input name="Tipo_Servicio" type="hidden" [(ngModel)]="tramiteData.type_service_id">
+                    <div class="form-group">
+                        <label for="exampleFormControlInput1">Documento del paciente</label>
+                        <input type="text" class="form-control" ngModel name="Identificacion_Paciente" id="exampleFormControlInput1" placeholder="Ingrese el documento">
+                    </div>
+
+                    <button class="btn btn-success btn-sm btn-block" (click)="newCall(formD)">Iniciar Gestión </button>
+                </form>
+            </div>
+        </div>
+    </div>
 
 </ng-template>
