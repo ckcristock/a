@@ -51,7 +51,7 @@ export class AsignacionCitasComponent implements OnInit {
 
         if (!r.component) {
           //buscar citas by paciente
-          this.Init()
+          //this.Init()
           this.existPtientForShow = false;
         }
 
