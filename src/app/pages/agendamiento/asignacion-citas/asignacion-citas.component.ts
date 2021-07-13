@@ -8,6 +8,8 @@ import { asignarCitaDynamic } from '../../../core/models/asignarCitaDynamic.mode
 import { NgForm } from '@angular/forms';
 import { Patient } from 'src/app/core/models/patient.model';
 import { TipificationService } from 'src/app/core/services/tipification.service';
+import { PermissionService } from '../../../core/services/permission.service';
+
 
 @Component({
   selector: 'app-asignacion-citas',
@@ -15,11 +17,21 @@ import { TipificationService } from 'src/app/core/services/tipification.service'
   styleUrls: ['./asignacion-citas.component.scss'],
 })
 export class AsignacionCitasComponent implements OnInit {
-  operation : any = {};
+ 
+  public configComponent: any =
+    {
+      'menu': 'agendamiento',
+      'permissons': {
+        'receive_calls': false
+      }
+    }
+  operation: any = {};
   typeCall = 'Presencial';
   public existPtient;
   public existPtientForShow: boolean = false;
-  public isByCall = true;
+
+
+
   public getDate;
   public dataFormCall: any = {
     paciente: {},
@@ -31,10 +43,16 @@ export class AsignacionCitasComponent implements OnInit {
   public $tramiteData: Subscription;
   tramiteData: any = {}
 
+
+
   constructor(private http: HttpClient, private _queryPatient: QueryPatient,
-    private _tipification: TipificationService
+    private _tipification: TipificationService,
+
+    private _permisson: PermissionService
 
   ) {
+    
+    this.configComponent = this._permisson.validatePermissions(this.configComponent)
     this.existPtient = _queryPatient.existPatient.subscribe((r) => this.Init());
   }
 
@@ -46,11 +64,7 @@ export class AsignacionCitasComponent implements OnInit {
   changeTramite() {
     this.$tramiteSelected = this._queryPatient.tramiteSelected.subscribe(
       (r: any) => {
-        console.log('rrrrrrrx',r);
-        
         this.operation = r;
-
-
         if (!r.component) {
           //buscar citas by paciente
           //this.Init()
@@ -94,7 +108,8 @@ export class AsignacionCitasComponent implements OnInit {
   }
 
   Init() {
-    if (this.isByCall) {
+    
+    if (this.configComponent.permissons.receive_calls) {
       this.getDate = setInterval(() => {
         this.existPtientForShow = false;
         this.GetData();
@@ -111,7 +126,7 @@ export class AsignacionCitasComponent implements OnInit {
         if (req.code == 200) {
           let data = req.data;
           if (!data.paciente) {
-            data = this.newPatient(data,req)
+            data = this.newPatient(data, req)
           }
           this._queryPatient.patient.next(data);
           this.existPtientForShow = true;
@@ -125,14 +140,13 @@ export class AsignacionCitasComponent implements OnInit {
   }
 
   newCall(form) {
-    console.log('f', form);
     let formd = new FormData()
     this.http.post(`${environment.base_url}/presentianCall`, JSON.stringify(form.value))
       .subscribe((req: any) => {
         if (req.code == 200) {
           let data = req.data;
           if (req.data.isNew) {
-            data = this.newPatient(data,req)
+            data = this.newPatient(data, req)
           }
           this._queryPatient.patient.next(data);
           this.existPtientForShow = true;

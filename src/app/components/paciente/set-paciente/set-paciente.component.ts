@@ -90,11 +90,13 @@ export class SetPacienteComponent implements OnInit {
   }
 
   getLocations(company_id) {
-    console.log(company_id);
+    if (company_id) {
 
-    this._dataDinamicService.getLocations(company_id).subscribe((req: any) => {
-      this.locations = req.data
-    })
+
+      this._dataDinamicService.getLocations(company_id).subscribe((req: any) => {
+        this.locations = req.data
+      })
+    }
   }
 
   getPatientAgain(document) {

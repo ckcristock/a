@@ -1,4 +1,4 @@
-<div class="row" [hidden]="!existPtientForShow">
+<div class="row" *ngIf="existPtientForShow">
     <div class="col-12">
         <div class="row">
             <div class="col-12 mb-4">
@@ -62,7 +62,7 @@
 
 <div class="row " *ngIf="!existPtientForShow">
 
-    <div class="col-12" *ngIf="isByCall;else presential">
+    <div class="col-12" *ngIf="configComponent.permissons.receive_calls;else presential">
         <div class="card">
             <div class="card-body">
                 <div class="row justify-content-center">
@@ -90,10 +90,10 @@
                     <input name="Tipo_Servicio" type="hidden" [(ngModel)]="tramiteData.type_service_id">
                     <div class="form-group">
                         <label for="exampleFormControlInput1">Documento del paciente</label>
-                        <input type="text" class="form-control" ngModel name="Identificacion_Paciente" id="exampleFormControlInput1" placeholder="Ingrese el documento">
+                        <input required type="number" class="form-control" ngModel name="Identificacion_Paciente" id="exampleFormControlInput1" placeholder="Ingrese el documento">
                     </div>
 
-                    <button class="btn btn-success btn-sm btn-block" (click)="newCall(formD)">Iniciar Gestión </button>
+                    <button class="btn btn-success btn-sm btn-block" [disabled]="formD.invalid" (click)="newCall(formD)">Iniciar Gestión </button>
                 </form>
             </div>
         </div>

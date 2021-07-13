@@ -44,7 +44,6 @@ export class TipificacionComponent implements OnInit {
         this.data.Id_Tramite = r.llamada.Tipo_Tramite;
         this.data.Id_Ambito = r.llamada.Ambito;
         this.data.Id_Tipo_Servicio = r.llamada.Tipo_Servicio;
-        console.log(r.llamada, 'llamada');
       }
       this.getFormalities();
       this.getAmbits();
@@ -76,7 +75,6 @@ export class TipificacionComponent implements OnInit {
     //if (this.data.Tipo_Tramite) {
 
     this.tramiteSelected = this.formalities.find((e) => e.id == this.data.Id_Tramite);
-    console.log(this.tramiteSelected, 'tr');
 
 
     /*   this.data.Id_Ambito =
@@ -86,7 +84,6 @@ export class TipificacionComponent implements OnInit {
       tramite.hasTypeServices ? this.data.Id_Tipo_Servicio : ''; */
     //this.tramite.emit(tramite)
 
-    console.log(this.data, 'chnges');
 
     this.changes()
     this._qp.tramiteSelected.next(this.tramiteSelected);
