@@ -9,6 +9,7 @@ import { NgForm } from '@angular/forms';
 import { Patient } from 'src/app/core/models/patient.model';
 import { TipificationService } from 'src/app/core/services/tipification.service';
 import { PermissionService } from '../../../core/services/permission.service';
+import { AppointmentService } from '../../../core/services/appointment.service';
 
 
 @Component({
@@ -17,7 +18,7 @@ import { PermissionService } from '../../../core/services/permission.service';
   styleUrls: ['./asignacion-citas.component.scss'],
 })
 export class AsignacionCitasComponent implements OnInit {
- 
+
   public configComponent: any =
     {
       'menu': 'agendamiento',
@@ -43,15 +44,16 @@ export class AsignacionCitasComponent implements OnInit {
   public $tramiteData: Subscription;
   tramiteData: any = {}
 
-
+  public patient;
 
   constructor(private http: HttpClient, private _queryPatient: QueryPatient,
     private _tipification: TipificationService,
 
-    private _permisson: PermissionService
+    private _permisson: PermissionService,
+    private _appointment: AppointmentService
 
   ) {
-    
+
     this.configComponent = this._permisson.validatePermissions(this.configComponent)
     this.existPtient = _queryPatient.existPatient.subscribe((r) => this.Init());
   }
@@ -71,33 +73,11 @@ export class AsignacionCitasComponent implements OnInit {
           this.existPtientForShow = false;
         }
 
-        if (r.component && r.component == 'Reasignar Citas') {
-          this.citas = [
-            {
-              Id_Cita: '1',
-              Estado: 'Activa',
-              Descripcion:
-                'Cita trauma Cita trauma Cita trauma Cita traumaCita trauma Cita traumaCita trauma Cita traumaCita trauma Cita traumaCita trauma Cita traumaCita trauma Cita traumaCita trauma Cita traumaCita trauma Cita traumaCita trauma Cita traumaCita trauma Cita traumaCita trauma Cita traumaCita trauma Cita trauma',
-              Especialidad: 'Traumatólogo',
-              Fecha: '2018-09-28 17:21:21',
-            },
-            {
-              Id_Cita: '1',
-              Estado: 'Activa',
-              Descripcion:
-                'Cita trauma Cita trauma Cita trauma Cita traumaCita trauma Cita traumaCita trauma Cita traumaCita trauma Cita traumaCita trauma Cita traumaCita trauma Cita traumaCita trauma Cita traumaCita trauma Cita traumaCita trauma Cita traumaCita trauma Cita traumaCita trauma Cita traumaCita trauma Cita trauma',
-              Especialidad: 'Traumatólogo',
-              Fecha: '2018-09-28 17:21:21',
-            },
-            {
-              Id_Cita: '1',
-              Estado: 'Activa',
-              Descripcion:
-                'Cita trauma Cita trauma Cita trauma Cita traumaCita trauma Cita traumaCita trauma Cita traumaCita trauma Cita traumaCita trauma Cita traumaCita trauma Cita traumaCita trauma Cita traumaCita trauma Cita traumaCita trauma Cita traumaCita trauma Cita traumaCita trauma Cita traumaCita trauma Cita trauma',
-              Especialidad: 'Traumatólogo',
-              Fecha: '2018-09-28 17:21:21',
-            },
-          ];
+        if (r.component /* && r.component == 'Reasignar Citas' */) {
+          this._appointment.getAppointments({ identifier: this.patient.paciente.identifier }).subscribe(r => {
+            this.citas = r;
+          })
+
         }
       }
     );
@@ -108,7 +88,7 @@ export class AsignacionCitasComponent implements OnInit {
   }
 
   Init() {
-    
+
     if (this.configComponent.permissons.receive_calls) {
       this.getDate = setInterval(() => {
         this.existPtientForShow = false;
@@ -127,7 +107,9 @@ export class AsignacionCitasComponent implements OnInit {
           let data = req.data;
           if (!data.paciente) {
             data = this.newPatient(data, req)
+
           }
+          this.patient = data;
           this._queryPatient.patient.next(data);
           this.existPtientForShow = true;
           clearInterval(this.getDate);
@@ -148,9 +130,9 @@ export class AsignacionCitasComponent implements OnInit {
           if (req.data.isNew) {
             data = this.newPatient(data, req)
           }
+          this.patient = data;
           this._queryPatient.patient.next(data);
           this.existPtientForShow = true;
-
           clearInterval(this.getDate);
         }
       })

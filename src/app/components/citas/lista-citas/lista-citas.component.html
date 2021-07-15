@@ -18,10 +18,10 @@
                         </thead>
                         <tbody>
                             <tr *ngFor="let cita of citas">
-                                <th scope="row">{{cita.Fecha}}</th>
-                                <td>{{cita.Especialidad}}</td>
-                                <td>{{cita.Descripcion}}</td>
-                                <td>{{cita.Estado}}</td>
+                                <th scope="row">{{cita.hour_start | date}}</th>
+                                <td>{{cita.speciality}}</td>
+                                <td>{{cita.observation}}</td>
+                                <td>{{cita.state}}</td>
                                 <td class="text-right">
                                     <span class="mr-2 accion">
                                         <i title="Paciente llegó"   (click)="detalleCita(cita)" class="fas fa-notes-medical"></i>

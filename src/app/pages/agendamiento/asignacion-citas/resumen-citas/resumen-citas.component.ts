@@ -1,4 +1,4 @@
-import { Component, EventEmitter, OnInit, ViewChild } from '@angular/core';
+import { Component, EventEmitter, Input, OnInit, ViewChild } from '@angular/core';
 
 @Component({
   selector: 'app-resumen-citas',
@@ -8,20 +8,10 @@ import { Component, EventEmitter, OnInit, ViewChild } from '@angular/core';
 export class ResumenCitasComponent implements OnInit {
   @ViewChild('modalCita') modalCita: any;
   openModalDetalle = new EventEmitter<any>();
-
+  @Input('citas') citas : Array<any>
   data: any = {
     Id_Especialidad: '',
   }
-  typesDocuments: Array<any> = [
-    { Nombre: 'CI', Id: '1' },
-    { Nombre: 'CC', Id: '2' },
-    { Nombre: 'CC', Id: '2' },
-  ]
-  citas: any = [
-    { Id_Cita: '1', Estado: 'Activa', Descripcion: 'Cita trauma Cita trauma Cita trauma Cita traumaCita trauma Cita traumaCita trauma Cita traumaCita trauma Cita traumaCita trauma Cita traumaCita trauma Cita traumaCita trauma Cita traumaCita trauma Cita traumaCita trauma Cita traumaCita trauma Cita traumaCita trauma Cita traumaCita trauma Cita trauma', Especialidad: 'Traumatólogo', Fecha: '2018-09-28 17:21:21' },
-    { Id_Cita: '1', Estado: 'Activa', Descripcion: 'Cita trauma Cita trauma Cita trauma Cita traumaCita trauma Cita traumaCita trauma Cita traumaCita trauma Cita traumaCita trauma Cita traumaCita trauma Cita traumaCita trauma Cita traumaCita trauma Cita traumaCita trauma Cita traumaCita trauma Cita traumaCita trauma Cita traumaCita trauma Cita trauma', Especialidad: 'Traumatólogo', Fecha: '2018-09-28 17:21:21' },
-    { Id_Cita: '1', Estado: 'Activa', Descripcion: 'Cita trauma Cita trauma Cita trauma Cita traumaCita trauma Cita traumaCita trauma Cita traumaCita trauma Cita traumaCita trauma Cita traumaCita trauma Cita traumaCita trauma Cita traumaCita trauma Cita traumaCita trauma Cita traumaCita trauma Cita traumaCita trauma Cita traumaCita trauma Cita trauma', Especialidad: 'Traumatólogo', Fecha: '2018-09-28 17:21:21' },
-  ]
 
   constructor() { }
 
@@ -31,7 +21,7 @@ export class ResumenCitasComponent implements OnInit {
   
   detalleCita(cita){
     let  modalDetalle  = {
-      Id_Cita_Detalle:cita.Id_Cita,
+      Id_Cita_Detalle:cita.id,
       Show:true
     }
     this.openModalDetalle.emit(modalDetalle)
