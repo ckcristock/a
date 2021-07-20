@@ -5,8 +5,9 @@
         </div>
         <div class="card-body row">
 
-            <input name="type" type="hidden" [(ngModel)]="tramiteData.type_service_id">
-            <input name="type" type="hidden" [(ngModel)]="tramiteData.formality_id">
+            <input name="type_service_id" type="hidden" [ngModel]="tramiteData.type_service_id">
+            <input name="formality_id" type="hidden" [ngModel]="tramiteData.formality_id">
+            <input name="call_id" type="hidden" [ngModel]="call.id">
 
             <div class="col-12 ">
                 <div class="form-group row ">

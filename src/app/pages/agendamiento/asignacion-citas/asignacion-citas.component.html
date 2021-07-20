@@ -22,7 +22,7 @@
                 </div>
 
                 <div *ngIf="operation.component=='Reasignar Citas'">
-                    <app-lista-citas [canOverride]="'true'" [citas]="citas"></app-lista-citas>
+                    <app-lista-citas [canOverride]="'true'" [test]="operation.name" (canceled)="canceledAppointment($event)" [citas]="citas"></app-lista-citas>
                 </div>
 
                 <div *ngIf="operation.component=='Tipificar'">

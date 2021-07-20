@@ -10,6 +10,7 @@ import { Patient } from 'src/app/core/models/patient.model';
 import { TipificationService } from 'src/app/core/services/tipification.service';
 import { PermissionService } from '../../../core/services/permission.service';
 import { AppointmentService } from '../../../core/services/appointment.service';
+import { OpenAgendaService } from '../open-agenda.service';
 
 
 @Component({
@@ -50,7 +51,8 @@ export class AsignacionCitasComponent implements OnInit {
     private _tipification: TipificationService,
 
     private _permisson: PermissionService,
-    private _appointment: AppointmentService
+    private _appointment: AppointmentService,
+    private _openAgenda: OpenAgendaService
 
   ) {
 
@@ -72,18 +74,20 @@ export class AsignacionCitasComponent implements OnInit {
           //this.Init()
           this.existPtientForShow = false;
         }
-
         if (r.component /* && r.component == 'Reasignar Citas' */) {
-          this._appointment.getAppointments({ identifier: this.patient.paciente.identifier }).subscribe(r => {
-            this.citas = r;
-          })
-
+          this.getCitas();
         }
       }
     );
 
     this.$tramiteData = this._queryPatient.tipificationData.subscribe(r => {
       this.tramiteData = r;
+    })
+  }
+
+  getCitas() {
+    this._appointment.getAppointments({ identifier: this.patient.paciente.identifier }).subscribe(r => {
+      this.citas = r;
     })
   }
 
@@ -145,4 +149,16 @@ export class AsignacionCitasComponent implements OnInit {
     data.paciente.isNew = true
     return data;
   }
+
+
+  canceledAppointment(event) {
+    if (this.operation.name == 'Reasignación de Citas') {
+      this.getCitas();
+    } else {
+      this._queryPatient.existPatient.next();
+      this._queryPatient.resetModels();
+      this._openAgenda.getClean(this.patient.llamada.id).subscribe(r => { });
+    }
+  }
+
 }

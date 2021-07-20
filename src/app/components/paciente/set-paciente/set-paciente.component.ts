@@ -7,6 +7,7 @@ import { genders, levels, typeRegimens, typeDocuments, epss } from './dataPacien
 import { Subscription } from 'rxjs';
 import { Patient } from '../../../core/models/patient.model';
 import Swal from 'sweetalert2';
+import { OpenAgendaService } from '../../../pages/agendamiento/open-agenda.service';
 
 @Component({
   selector: 'app-set-paciente',
@@ -36,7 +37,9 @@ export class SetPacienteComponent implements OnInit {
 
   public llamada: any;
   $qp: Subscription
-  constructor(private _queryPatient: QueryPatient, private _dataDinamicService: DataDinamicService, private dataCitaToAssignService: dataCitaToAssignService) {
+  constructor(private _queryPatient: QueryPatient, private _dataDinamicService: DataDinamicService,
+     private dataCitaToAssignService: dataCitaToAssignService,
+     private _openAgenda:OpenAgendaService) {
   }
 
   ngOnInit() {
@@ -83,7 +86,7 @@ export class SetPacienteComponent implements OnInit {
   }
 
   getCompanies() {
-    this._dataDinamicService.getCompanies().subscribe((req: any) => {
+    this._openAgenda.getIps('1').subscribe((req: any) => {
       this.companies = req.data
 
     })

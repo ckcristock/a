@@ -14,4 +14,12 @@ export class AppointmentService {
     return this.htpp.get(environment.base_url+'/appointments',{params})
   }
 
+  getAppointment(id) {
+    return this.htpp.get(environment.base_url+'/appointments/'+id)
+  }
+  cancelAppointment(id,form) {
+    return this.htpp.post(environment.base_url+'/cancel-appointment/'+id,form)
+  }
+
+
 }

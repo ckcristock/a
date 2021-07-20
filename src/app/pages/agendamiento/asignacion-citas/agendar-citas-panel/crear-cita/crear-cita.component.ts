@@ -182,22 +182,16 @@ export class CrearCitaComponent implements OnInit {
   validarResponse(data) {
     if (data) {
       try {
-        console.log(this.patient);
         if (this.patient.isNew) throw ('Es necesario guardar toda la información del paciente para continuar')
 
         this._queryPatient.validate(this.patient);
         this._queryPatient.validateTipification({ component: this.tipification, data: this.tipification });
-
         this.siguiente.emit();
-
         this.dataCitaToAssignService.dataFinal.next(data.data)
         // this._queryPatient.patient.next(data.data)
-        console.log(data, 'updatee');
-
         this._openAgendaService.getClean(data.data.appointment['call_id']).subscribe((r) => {
         })
       } catch (error) {
-        console.log(error);
         Swal.fire('Paciente incorrecto', error, 'error');
       }
 
