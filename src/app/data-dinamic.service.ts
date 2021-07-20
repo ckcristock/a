@@ -16,8 +16,8 @@ export class DataDinamicService {
   public getDepartments() {
     return this.httpClient.get(`${environment.base_url}/departments`)
   }
-  public getCompanies() {
-    return this.httpClient.get(`${environment.base_url}/company`)
+  public getCompanies( typeLocation = 0) {
+    return this.httpClient.get(`${environment.base_url}/company/${typeLocation}`)
   }
 
   public getLocations(idCompany) {
@@ -49,4 +49,7 @@ export class DataDinamicService {
     return this.httpClient.post(`${environment.base_url}/patients`, form)
   }
 
+  public getPatientAgain(document) {
+    return this.httpClient.get(`${environment.base_url}/get-patient-fill/${document}`)
+  }
 }

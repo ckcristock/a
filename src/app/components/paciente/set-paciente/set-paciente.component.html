@@ -1,87 +1,89 @@
 <div class="row">
     <div class="col-12">
-
+        <div *ngIf="paciente.isNew" class="alert alert-warning" role="alert">
+            El paciente no se encuentra registrado <strong>Por favor valide la información</strong>
+        </div>
 
         <form #formPatient="ngForm">
             <div class="form-row">
 
                 <div class="form-group col-md-6">
                     <label for="">Tipo Identificación</label>
-                    <select class="custom-select custom-select-sm" name="Id_Tipo_Identificacion" [(ngModel)]="paciente.type_document_id">
+                    <select class="custom-select custom-select-sm" name="type_document_id" [(ngModel)]="paciente.type_document_id">
                         <option *ngFor="let type of typeDocuments" [value]="type.value">{{type.text}}</option>
                     </select>
                 </div>
 
                 <div class="form-group col-md-6">
                     <label for="">Identificación</label>
-                    <input type="text" name="Identificacion" [(ngModel)]="paciente.identifier" class="form-control form-control-sm" id="identifier">
+                    <input type="number" name="identifier" (change)="getPatientAgain($event.target.value)" [disabled]="(!paciente.isNew)" [(ngModel)]="paciente.identifier" class="form-control form-control-sm" id="identifier">
                 </div>
 
                 <div class="form-group col-md-6 ">
                     <label for="Primer">Primer Nombre</label>
-                    <input type="text" name="firstname" [(ngModel)]="paciente.firstname" class="form-control form-control-sm" id="firstname">
+                    <input type="text" name="firstname" pattern="[A-Za-z]+" [(ngModel)]="paciente.firstname" class="form-control form-control-sm" id="firstname">
                 </div>
 
                 <div class="form-group col-md-6 ">
                     <label for="Segundo">Segundo Nombre</label>
-                    <input type="text" name="middlename" [(ngModel)]="paciente.middlename" class="form-control form-control-sm" id="middlename">
+                    <input type="text" name="middlename" pattern="[A-Za-z]+" [(ngModel)]="paciente.middlename" class="form-control form-control-sm" id="middlename">
                 </div>
 
                 <div class="form-group col-md-6">
                     <label for="">Primer Apellido</label>
-                    <input type="text" name="surname" [(ngModel)]="paciente.surname" class="form-control form-control-sm" id="surname">
+                    <input type="text" name="surname" pattern="[A-Za-z]+" [(ngModel)]="paciente.surname" class="form-control form-control-sm" id="surname">
                 </div>
 
                 <div class="form-group col-md-6">
                     <label for="">Segundo Apellido</label>
-                    <input type="text" name="secondsurname" [(ngModel)]="paciente.secondsurname" class="form-control form-control-sm" id="secondsurname">
+                    <input type="text" name="secondsurname" pattern="[A-Za-z]+" [(ngModel)]="paciente.secondsurname" class="form-control form-control-sm" id="secondsurname">
                 </div>
 
                 <div class="form-group col-md-6">
                     <label for="">Eps</label>
-                    <ng-select name="Id_Eps" [(ngModel)]="paciente.eps_id">
+                    <ng-select name="eps_id" [(ngModel)]="paciente.eps_id">
                         <ng-option [value]="type.value" *ngFor="let type of eps ">{{type.text}}</ng-option>
                     </ng-select>
                 </div>
 
                 <div class="form-group col-md-6">
                     <label for="">Regimen</label>
-                    <ng-select name="Id_Regimen" [(ngModel)]="paciente.regimen_id">
+                    <ng-select name="regimen_id" [(ngModel)]="paciente.regimen_id">
                         <ng-option [value]="type.value" *ngFor="let type of typeRegimens">{{type.text}}</ng-option>
                     </ng-select>
                 </div>
 
                 <div class="form-group col-md-4">
                     <label for=""> Nivel</label>
-                    <ng-select name="Id_Nivel" [(ngModel)]="paciente.level_id">
+                    <ng-select name="level_id" [(ngModel)]="paciente.level_id">
                         <ng-option [value]="type.value" *ngFor="let type of levels">{{type.text}}</ng-option>
                     </ng-select>
                 </div>
 
                 <div class="form-group col-md-6">
                     <label for="">Fecha Nacimiento</label>
-                    <input type="date" name="Date_of_Birth" [(ngModel)]="paciente.date_of_birth" class="form-control " id="date_of_birth">
+                    <input type="date" name="date_of_birth" [(ngModel)]="paciente.date_of_birth" class="form-control " id="date_of_birth">
                 </div>
 
                 <div class="form-group col-md-2 ">
                     <label for="Genero">Genero</label>
 
 
-                    <select class="custom-select " name="Id_Sexo" [(ngModel)]="paciente.gener">
+                    <select class="custom-select " name="gener" [(ngModel)]="paciente.gener">
                         <option *ngFor="let type of genders" [value]="type.text">{{type.text}}</option>
                     </select>
                 </div>
 
                 <div class="form-group col-md-6">
                     <label for="">Departamento</label>
-                    <ng-select name="Id_Departamento" (change)="getCities()" [(ngModel)]="paciente.department_id">
+                    <ng-select name="department_id" (change)="getCities()" [(ngModel)]="paciente.department_id">
                         <ng-option [value]="type.value" *ngFor="let type of departments">{{type.text}}</ng-option>
                     </ng-select>
                 </div>
 
                 <div class="form-group col-md-6">
                     <label for="">Ciudad</label>
-                    <ng-select name="Id_Ciudad" [(ngModel)]="paciente.municipality_id">
+                    <ng-select name="municipality_id" [(ngModel)]="paciente.municipality_id">
                         <ng-option [value]="type.value" *ngFor="let type of cities ">{{type.text}}</ng-option>
                     </ng-select>
                 </div>
@@ -89,41 +91,41 @@
 
                 <div class="form-group col-md-12 ">
                     <label for="Contrato">Contrato</label>
-                    <ng-select name="Id_Contrato" [(ngModel)]="paciente.contract_id">
+                    <ng-select name="contract_id" [(ngModel)]="paciente.contract_id">
                         <ng-option [value]="type.value" *ngFor="let type of contracts">{{type.text}}</ng-option>
                     </ng-select>
                 </div>
 
                 <div class="form-group col-md-6 ">
                     <label for="Empresa">Empresa</label>
-                    <ng-select name="Id_Contrato" [(ngModel)]="paciente.company_id" (change)="getLocations($event)">
+                    <ng-select name="company_id" [(ngModel)]="paciente.company_id" (change)="getLocations($event)">
                         <ng-option [value]="type.value" *ngFor="let type of companies">{{type.text}}</ng-option>
                     </ng-select>
                 </div>
 
                 <div class="form-group col-md-6 ">
                     <label for="Sede">Sede</label>
-                    <ng-select name="Id_Contrato" [(ngModel)]="paciente.Sede">
+                    <ng-select name="location_id" [(ngModel)]="paciente.location_id">
                         <ng-option [value]="type.value" *ngFor="let type of locations">{{type.text}}</ng-option>
                     </ng-select>
                 </div>
 
                 <div class="form-group col-md-4">
                     <label for="">Direccion</label>
-                    <input type="text" name="Direccion" [(ngModel)]="paciente.address" class="form-control form-control-sm">
+                    <input type="text" name="address" [(ngModel)]="paciente.address" class="form-control form-control-sm">
                 </div>
                 <div class="form-group col-md-4">
                     <label for="">Email</label>
-                    <input type="text" name="Correo" [(ngModel)]="paciente.email" class="form-control form-control-sm">
+                    <input type="email" name="email" [(ngModel)]="paciente.email" class="form-control form-control-sm">
                 </div>
                 <div class="form-group col-md-4">
                     <label for="">Telefono</label>
-                    <input type="number" name="Telefono" [(ngModel)]="paciente.phone" class="form-control form-control-sm">
+                    <input type="number" name="phone" [(ngModel)]="paciente.phone" class="form-control form-control-sm">
                 </div>
 
 
                 <div class="form-group col-md-12">
-                    <button type="button" class="btn btn-success btn-block" (click)="save(formPatient)">Actualizar</button>
+                    <button type="button" class="btn btn-success btn-block" (click)="save(formPatient)">{{paciente.isNew ? 'Guardar' :'Actualizar'}}</button>
                 </div>
 
             </div>

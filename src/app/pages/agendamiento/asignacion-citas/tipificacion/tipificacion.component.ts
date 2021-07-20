@@ -2,6 +2,7 @@ import { Component, OnInit, Output, EventEmitter, Input } from '@angular/core';
 import { TipificationData } from 'src/app/core/models/typificationData.model';
 import { TipificationService } from 'src/app/core/services/tipification.service';
 import { QueryPatient } from '../../query-patient.service';
+import { Subscription } from 'rxjs';
 
 @Component({
   selector: 'app-tipificacion',
@@ -16,7 +17,7 @@ export class TipificacionComponent implements OnInit {
     Id_Funcionario: '',
     Fecha: '',
     Id_Paciente: '',
-    Id_Tramite: '',
+    Id_Tramite: 1,
     Id_Ambito: '',
     Id_Tipo_Servicio: '',
     Id_Tipificacion: '',
@@ -29,22 +30,11 @@ export class TipificacionComponent implements OnInit {
     hasAmbits: 0
   };
 
-  typesDocuments: Array<any> = [
-    { Nombre: 'CI', Id: '1' },
-    { Nombre: 'CC', Id: '2' },
-    { Nombre: 'CC', Id: '2' },
-  ];
-
-  tipoServicios: Array<any> = [
-    { Nombre: 'Consulta Especializada', Id: '1' },
-    { Nombre: 'Eco Cardiograma', Id: '2' },
-    { Nombre: 'Terapias Físicas', Id: '3' },
-    { Nombre: 'Procedimientos Diagnósticos', Id: '4' },
-  ];
+ 
   formalities: any = [];
   ambits: any = [];
   typeServices: any = [];
-  public obsPatient;
+  public obsPatient:Subscription;
   constructor(
     private _qp: QueryPatient,
     private _tipification: TipificationService
@@ -54,10 +44,9 @@ export class TipificacionComponent implements OnInit {
         this.data.Id_Tramite = r.llamada.Tipo_Tramite;
         this.data.Id_Ambito = r.llamada.Ambito;
         this.data.Id_Tipo_Servicio = r.llamada.Tipo_Servicio;
-        console.log(r.llamada, 'llamada');
-        this.getFormalities();
-        this.getAmbits();
       }
+      this.getFormalities();
+      this.getAmbits();
     });
   }
 
@@ -83,30 +72,41 @@ export class TipificacionComponent implements OnInit {
   tramiteWasChanged() {
     this.getTypeServices();
 
-    let tramite = this.formalities.find((e) => e.id == this.data.Id_Tramite);
-    this.tramiteSelected = tramite;
-    this.data.Id_Ambito =
-      tramite.component == 'Reasignar Citas' ? '' : this.data.Id_Ambito;
+    //if (this.data.Tipo_Tramite) {
+
+    this.tramiteSelected = this.formalities.find((e) => e.id == this.data.Id_Tramite);
+
+
+    /*   this.data.Id_Ambito =
+
+      tramite.hasAmbits  ? this.data.Id_Ambito  : '' ;
     this.data.Id_Tipo_Servicio =
-      tramite.component == 'Reasignar Citas' ? '' : this.data.Id_Tipo_Servicio;
+      tramite.hasTypeServices ? this.data.Id_Tipo_Servicio : ''; */
     //this.tramite.emit(tramite)
+
+
     this.changes()
-    this._qp.tramiteSelected.next(tramite);
+    this._qp.tramiteSelected.next(this.tramiteSelected);
+
+    //}
+
   }
-  
-  changes(){
+
+  format() {
+    this.data.Id_Ambito = '';
+    this.data.Id_Tipo_Servicio = '';
+  }
+
+
+  changes() {
     let d = new TipificationData(this.data.Id_Ambito, this.data.Id_Tramite, this.data.Id_Tipo_Servicio)
     this._qp.tipificationData.next(d);
   }
 
-
-  tramiteWasChanged2() {
-    let tramite = this.formalities.find((e) => e.Id == 6);
-    this.tramiteSelected = tramite;
-    this.data.Id_Ambito =
-      tramite.component == 'Asignar Citas' ? '' : this.data.Id_Ambito;
-    this.data.Id_Tipo_Servicio =
-      tramite.component == 'Asignar Citas' ? '' : this.data.Id_Tipo_Servicio;
-    //this.tramite.emit(tramite)
+  ngOnDestroy(): void {
+    //Called once, before the instance is destroyed.
+    //Add 'implements OnDestroy' to the class.
+    this.obsPatient.unsubscribe();
   }
+  
 }

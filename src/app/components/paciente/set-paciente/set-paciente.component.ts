@@ -6,6 +6,8 @@ import { QueryPatient } from 'src/app/pages/agendamiento/query-patient.service';
 import { genders, levels, typeRegimens, typeDocuments, epss } from './dataPacienteBurns';
 import { Subscription } from 'rxjs';
 import { Patient } from '../../../core/models/patient.model';
+import Swal from 'sweetalert2';
+import { OpenAgendaService } from '../../../pages/agendamiento/open-agenda.service';
 
 @Component({
   selector: 'app-set-paciente',
@@ -24,33 +26,7 @@ export class SetPacienteComponent implements OnInit {
 
   contracts: Array<any> = []
 
-  paciente: any = new Patient(); /* {
-    Id_Tipo_Identificacion: '',
-    Tipo_Identificacion: '',
-    Identificacion: '',
-    paciente: '',
-    Apellidos: '',
-    Id_Sexo: '',
-    Fecha_Nacimiento: '',
-    Id_Lengua: '',
-    Id_Eps: '',
-    Id_Contrato: '',
-    Id_Regimen: '',
-    Id_Nivel: '',
-    Id_Pais: '',
-    Id_Departamento: '',
-    Id_Ciudad: '',
-    Direccion: '',
-    Email: '',
-    Telefono: '',
-    Celular: '',
-  }; */
-
-  typesDocuments: Array<any> = [
-    { Nombre: 'CI', Id: '1' },
-    { Nombre: 'CC', Id: '2' },
-    { Nombre: 'CC', Id: '2' },
-  ]
+  paciente: any = new Patient();
 
   public currentPatient
   public departments
@@ -59,9 +35,11 @@ export class SetPacienteComponent implements OnInit {
   public companies
   public locations
 
-
+  public llamada: any;
   $qp: Subscription
-  constructor(private _queryPatient: QueryPatient, private _dataDinamicService: DataDinamicService, private dataCitaToAssignService: dataCitaToAssignService) {
+  constructor(private _queryPatient: QueryPatient, private _dataDinamicService: DataDinamicService,
+     private dataCitaToAssignService: dataCitaToAssignService,
+     private _openAgenda:OpenAgendaService) {
   }
 
   ngOnInit() {
@@ -70,6 +48,7 @@ export class SetPacienteComponent implements OnInit {
     this.$qp = this._queryPatient.patient.subscribe(async r => {
 
       if (r.paciente.identifier) {
+        console.log(r.paciente, 'set');
 
 
         await this.getDepartments();
@@ -80,7 +59,8 @@ export class SetPacienteComponent implements OnInit {
         this.getRegimens();
         this.getlevels();
         this.paciente = r.paciente
-        console.log(r.paciente);
+        this.llamada = r.llamada
+        //console.log(r.paciente);
         this.getLocations(r.paciente.company_id)
         /*  this.paciente.level_id.value=this.paciente.level_id */
         this.dataCitaToAssignService.dateCall = r
@@ -106,20 +86,40 @@ export class SetPacienteComponent implements OnInit {
   }
 
   getCompanies() {
-    this._dataDinamicService.getCompanies().subscribe((req: any) => {
+    this._openAgenda.getIps('1').subscribe((req: any) => {
       this.companies = req.data
 
     })
   }
 
   getLocations(company_id) {
-    console.log(company_id);
+    if (company_id) {
 
-    this._dataDinamicService.getLocations(company_id).subscribe((req: any) => {
-      this.locations = req.data
+
+      this._dataDinamicService.getLocations(company_id).subscribe((req: any) => {
+        this.locations = req.data
+      })
+    }
+  }
+
+  getPatientAgain(document) {
+    this._dataDinamicService.getPatientAgain(document).subscribe((req: any) => {
+      console.log(req.data, 'dssds');
+      let paciente = req.data;
+      if (!paciente) {
+        paciente = this.newPatient(paciente, document)
+      }
+      this._queryPatient.patient.next({ llamada: this.llamada, paciente: paciente });
     })
   }
 
+  newPatient(paciente, document) {
+
+    paciente = new Patient()
+    paciente.identifier = document
+    paciente.isNew = true
+    return paciente;
+  }
 
   getTypeDocuments() {
     this._dataDinamicService.getTypeDocuments().subscribe((req: any) => {
@@ -151,10 +151,33 @@ export class SetPacienteComponent implements OnInit {
   }
 
   save(formPatient: NgForm) {
-    this._dataDinamicService.savePatient(JSON.stringify(formPatient.value)).subscribe((req: any) => {
-      this.dataCitaToAssignService.dateCall['paciente'] = req.data.patient
-    })
+    try {
+      this._queryPatient.validate(this.paciente);
+      this._dataDinamicService.savePatient(JSON.stringify(formPatient.value)).subscribe((req: any) => {
+        if (req.code == 200) {
+
+          this.dataCitaToAssignService.dateCall['paciente'] = req.data.patient
+          this.paciente.id = req.data.patient.id;
+          this.paciente.isNew = false
+          this._queryPatient.patient.next({ llamada: this.llamada, paciente: this.paciente })
+          Swal.fire('Felicidades', 'Actualizado correctamente', 'success');
+        } else {
+
+          Swal.fire('Ha ocurrido un error', 'Contáctese con el departamento de sistemas', 'error');
+        }
+
+      })
+    } catch (error) {
+      console.log(error);
+
+      Swal.fire('Faltan campos del paciente', error, 'error');
+
+    }
+
+
   }
+
+
 
 
   ngOnDestroy(): void {

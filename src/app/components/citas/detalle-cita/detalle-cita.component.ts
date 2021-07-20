@@ -1,4 +1,5 @@
 import { Component, EventEmitter, Input, OnInit, ViewChild } from '@angular/core';
+import { AppointmentService } from '../../../core/services/appointment.service';
 
 @Component({
   selector: 'app-detalle-cita',
@@ -8,40 +9,42 @@ import { Component, EventEmitter, Input, OnInit, ViewChild } from '@angular/core
 export class DetalleCitaComponent implements OnInit {
   @Input('modalData') modalData: EventEmitter<any>;
   @ViewChild('detalleCitaModal') detalleCitaModal: any;
-  cita: {
-
-  }
-
+  appointment_id:string;
   findCita: any = {
-    Fecha_Programacion: '',
-    Fecha_Cita: '',
-    Doctor: '',
-    Tramite: '',
-    Tipo_Consulta: '',
-    Tipo_Agenda: '',
-    Ips: '',
-    Sede: '',
-    Especialidad: '',
-    Observacion: '',
-    Cuota: '',
-
-    paciente: {
-      Nombres: '',
-      Apellidos: '',
-      Eps:'',
-      Ips:'',
-      Tipo_Identificacion : '',
-      Identificacion:'',
-      Estado:''
-
+    created_at: '',
+    price: '',
+    opservation: '',
+    space: {
+      hour_start: '',
+      agendamiento: {
+        professional: { name: '' },
+        sub_type_appointment: { name: '' },
+        type_appointment: { name: '' },
+        company: { name: '' },
+        location: { name: '' },
+        speciality: { name: '' }
+      }
+    },
+    call_in: {
+      formality: { name: '' },
+      patient: {
+        state:'',
+        type_document_id: '',
+        identifier: '',
+        firstname: '',
+        company: { name: '' },
+        eps: { name: '' },
+      },
     }
   }
-  constructor() {
+  constructor(private _appointment: AppointmentService) {
 
   }
 
   ngOnInit(): void {
     this.modalData.subscribe(d => {
+      console.log(d,'subss');
+      this.appointment_id = d.Id_Cita_Detalle
       d.Show ? this.detalleCitaModal.show() : this.detalleCitaModal.hide()
       this.getCita()
     })
@@ -49,28 +52,11 @@ export class DetalleCitaComponent implements OnInit {
   getCita() {
     //http consulta
     //buscar cita
-    this.findCita = {
-      Fecha_Programacion: '2020-01-01 15:30:00',
-      Fecha_Cita: '2020-01-01 15:30:00',
-      Doctor: 'Daniel Tamayo',
-      Tramite: 'Tramite',
-      Tipo_Consulta: 'Especializada',
-      Tipo_Agenda: 'General',
-      Ips: 'IPS especial',
-      Sede: 'Florida Blanca',
-      Especialidad: 'Muy Especial',
-      Observacion: 'Excelente paciente Excelente pacienteExcelente pacienteExcelente pacienteExcelente pacienteExcelente',
-      Cuota: '55000',
+    this._appointment.getAppointment(this.appointment_id).subscribe
+    
+    (d => {
+      this.findCita = d
+    })
 
-      paciente: {
-        Nombres: 'Jhoe ',
-        Apellidos: 'Doe',
-        Eps:'Nueva Eps',
-        Ips:'Nueva Ips',
-        Tipo_Identificacion : 'CC',
-        Identificacion:'1234455464',
-        Estado:'Activo'
-      }
-    }
   }
 }

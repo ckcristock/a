@@ -1,5 +1,6 @@
 import { environment } from '../../../environments/environment';
 import { Functionary } from '../interfaces/functioray.interface';
+import { Menu } from '../interfaces/menu';
 
 const base_url = environment.base_url;
 
@@ -11,7 +12,9 @@ export class User {
         public usuario: string,
         public change_password: boolean,
         public functionary: Functionary,
+        public menu: Array<any>,
         public password?: string,
+        
     ) {}
 
     get imagenUrl() {
@@ -26,5 +29,6 @@ export class User {
             return `${ base_url }/upload/usuarios/no-image`;
         }
     }
+
 }
 

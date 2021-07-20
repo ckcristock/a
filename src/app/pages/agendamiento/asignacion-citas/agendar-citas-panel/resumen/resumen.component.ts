@@ -68,7 +68,7 @@ export class ResumenComponent implements OnInit {
   }
 
   cleanAll() {
-    console.log(this.appointment,'call');
+  
    /*  
     if (this.appointment['Id_Llamada']) {
       this._OpenAgendaService.getClean(this.appointment['Id_Llamada']).subscribe((r) => {

@@ -22,7 +22,9 @@ export class ListaTrabajoService {
   }
 
   public getStatistics(params):Observable<any> {
-    return this.http.get(`${environment.base_url}/spaces-statistics`)
+    return this.http.get(`${environment.base_url}/spaces-statistics`, {
+      params
+    })
   }
 
   

@@ -6,7 +6,7 @@
                     <div class="form-row">
                         <div class="form-group col-md-4">
                             <label for="exampleInputPassword1">Trámite</label>
-                            <select class="custom-select custom-select-sm" name="Id_Tramite" (change)="tramiteWasChanged()" [(ngModel)]="data.Id_Tramite">
+                            <select class="custom-select custom-select-sm" name="Id_Tramite" (change)="format();tramiteWasChanged();" [(ngModel)]="data.Id_Tramite">
                 <option [value]="type.id" *ngFor="let type of formalities">
                   {{ type.name }}
                 </option>

@@ -32,6 +32,7 @@ export class UserService {
         return localStorage.getItem('token') || '';
     }
 
+
     guardarLocalStorage(token: string, menu: any) {
         localStorage.setItem('token', token);
     }
@@ -39,9 +40,10 @@ export class UserService {
         return   this.http.get(`${base_url}/auth/renew`, {
         }).pipe(
             map((resp: any) => {
-                const { id, usuario, change_password, funcionario } = resp.user;
-                this.user = new User(id, usuario, change_password, funcionario);
+                const { id, usuario, change_password, funcionario , menu } = resp.user;
+                this.user = new User(id, usuario, change_password, funcionario ,menu);
                 // console.log('userrr', this.user);
+                this.user.menu = [ {name:'agendamiento',permissons:[{name:'receive_calls'}]}, {name:'xx',permissons:[{name:'2'}]} ]
                 this.guardarLocalStorage(resp.token, resp.menu);
                 return true;
             }),
