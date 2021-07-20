@@ -1,5 +1,6 @@
 import { Component, OnInit, AfterViewInit } from '@angular/core';
 import { Router, NavigationEnd } from '@angular/router';
+import { UserService } from 'src/app/core/services/user.service';
 
 import { EventService } from '../../../core/services/event.service';
 import { MENU } from './menu';
@@ -16,7 +17,7 @@ export class HorizontalnavbarComponent implements OnInit, AfterViewInit {
   menuItems = [];
 
   // tslint:disable-next-line: max-line-length
-  constructor(private router: Router, private eventService: EventService) {
+  constructor(private router: Router, private eventService: EventService, private userService: UserService) {
     router.events.subscribe(event => {
       if (event instanceof NavigationEnd) {
         this.activateMenu();
@@ -174,6 +175,7 @@ export class HorizontalnavbarComponent implements OnInit, AfterViewInit {
    * Initialize
    */
   initialize(): void {
+    console.log(this.userService.);
     this.menuItems = MENU;
   }
 

@@ -212,25 +212,25 @@ export const MENU: MenuItem[] = [
                     },
                 ]
             },
-            {
-                id: 28,
-                label: 'Encuestas',
-                icon: 'ri-map-pin-line',
-                subItems: [
-                    {
-                        id: 29,
-                        label: 'Crear encuesta',
-                        link: '/ajustes/encuestas/create-quest',
-                        parentId: 28
-                    },
-                    // {
-                    //     id: 29,
-                    //     label: 'Aplcar encuesta',
-                    //     link: '/ajustes/encuestas/apply-quest',
-                    //     parentId: 28
-                    // },
-                ]
-            }
+            // {
+            //     id: 28,
+            //     label: 'Encuestas',
+            //     icon: 'ri-map-pin-line',
+            //     subItems: [
+            //         {
+            //             id: 29,
+            //             label: 'Crear encuesta',
+            //             link: '/ajustes/encuestas/create-quest',
+            //             parentId: 28
+            //         },
+            //         // {
+            //         //     id: 29,
+            //         //     label: 'Aplcar encuesta',
+            //         //     link: '/ajustes/encuestas/apply-quest',
+            //         //     parentId: 28
+            //         // },
+            //     ]
+            // }
         ]
     },
 ];

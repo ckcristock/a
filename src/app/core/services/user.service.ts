@@ -22,7 +22,9 @@ export class UserService {
 
     constructor(private http: HttpClient,
         private router: Router,
-        private ngZone: NgZone) {
+        private ngZone: NgZone,
+        // private getMenu:
+         ) {
 
     }
 

@@ -9,7 +9,7 @@
                             <div class="col-md-2 my-2">
 
                                 <label>Tipo de Agenda</label>
-                                <ng-select [items]="type_appointments" bindLabel="text" bindValue="value"
+                                <ng-select  ngif [items]="type_appointments" bindLabel="text" bindValue="value"
                                     [(ngModel)]="appointmentId" placeholder="Seleccione " name="type_agenda_id"
                                     loadingText="loading" ngDefaultControl
                                     (ngModelChange)="getSubTypeAppointment() ; getTypeLocations()">
