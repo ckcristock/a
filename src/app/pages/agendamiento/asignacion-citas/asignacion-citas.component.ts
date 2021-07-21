@@ -123,6 +123,7 @@ export class AsignacionCitasComponent implements OnInit {
   ngOnDestroy(): void {
     this.$tramiteSelected.unsubscribe();
     this.$tramiteData.unsubscribe();
+    clearInterval(this.getDate);
   }
 
   newCall(form) {

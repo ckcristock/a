@@ -23,7 +23,6 @@ export const environment = {
   production: false,
   
    base_url: 'https://ateneo.test/api'
-
   //  base_url: 'https://backend.ateneoerp.com/api'
 
 };

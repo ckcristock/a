@@ -5,17 +5,20 @@
                 <div>
                     <div class="text-center mb-5">
                         <p class="mb-2">
-                            <i class="fa fa-clock"></i> Promedio de tiempo de espera</p>
-                        <h5>{{averageTime}}</h5>
+                            <i class="fa fa-clock"></i> Promedio de tiempo de espera
+                        </p>
+                        <h5>{{statistics.averageTime}}</h5>
                     </div>
 
                     <div class="mb-5 text-center">
                         <p class="mb-2  "> <i class="fa fa-user-clock"></i> Cita más antigua</p>
                         <!--  <h4>4 dias 1 hora 5 minutos</h4> -->
                         <div class="text-danger">
-                            <div class="row">
-                                <div class="col-6">{{OldWaitng.date}}</div>
-                                <div class="col-6">{{OldWaitng.name}}</div>
+                            <div class="row align-items-center">
+                                <div class="col-6">{{statistics.lastAppointment.date | date}}</div>
+                                <div class="col-6">{{statistics.lastAppointment.patient_name}}</div>
+                                <!-- <div class="col-4">{{statistics.lastAppointment.speciality}}</div> -->
+  
                             </div>
                         </div>
                     </div>
@@ -26,9 +29,9 @@
                     <div class="table-responsive mt-4">
                         <table class="table table-hover mb-0 table-centered table-nowrap">
                             <tbody>
-                                <tr *ngFor="let top of topWaiting">
+                                <tr *ngFor="let top of statistics.topAwait">
                                     <td>
-                                        <h5 class="font-size-14 mb-0">{{top.name}}</h5>
+                                        <h5 class="font-size-14 mb-0">{{top.speciality}}</h5>
                                     </td>
                                     <td>
                                         <div id="spak-chart1"></div>

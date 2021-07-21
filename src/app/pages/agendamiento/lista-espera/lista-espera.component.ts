@@ -5,6 +5,7 @@ import { SearchService } from '../../../core/services/search.service';
 import { HttpClient } from '@angular/common/http';
 import { environment } from 'src/environments/environment';
 import { OpenAgendaService } from '../open-agenda.service';
+import { WaitingListService } from './waiting-list.service';
 
 @Component({
   selector: 'app-lista-espera',
@@ -31,14 +32,24 @@ export class ListaEsperaComponent implements OnInit {
   searchFailed = false;
   specialties : any = []
   waitingList = []
+  companies = []
   constructor(public _search: SearchService,
     private _openAgendaService: OpenAgendaService,
-    private http: HttpClient) { }
+    private http: HttpClient,
+    private _openS:OpenAgendaService,
+    private _waiting:WaitingListService
+    ) { }
   ngOnInit(): void {
     this.getWaitingList(1)
     this.getSpecialties();
+    this.getCompanies();
   }
 
+  getCompanies(){
+    this._openS.getIps("1").subscribe((r:any)=>{
+      this.companies = r.data
+    })
+  }
 
   getSpecialties() {
     this._openAgendaService.getSpecialties('0','0').subscribe((resp: any) => {
@@ -46,33 +57,14 @@ export class ListaEsperaComponent implements OnInit {
     });
   }
 
-
-  searchInstitution: OperatorFunction<string, readonly string[]> = (text$: Observable<string>) =>
-    text$.pipe(
-      debounceTime(300),
-      distinctUntilChanged(),
-      tap(() => this.searching = true),
-      switchMap(term => term.length < 3 ? [] :
-        this._search.institutions(term).pipe(
-          tap(() => this.searchFailed = false),
-          catchError(() => {
-            this.searchFailed = true;
-            return of([]);
-          }))
-      ),
-      tap(() => this.searching = false)
-    )
-
 /*  */
   Inputdiagnostic = (x: { text: string }) => x.text;
 
   getWaitingList(page) {
-    //get http
     this.pagination.page = page;
     
     let params:any  =  Object.assign({}, this.pagination,this.filters);;
-   
-    this.http.get(`${environment.base_url}/waiting-appointment`, { params })
+    this._waiting.getWaitingList(params)
       .subscribe((r: any) => {
         this.pagination.collectionSize = r.total;
         this.waitingList = r.data
@@ -80,11 +72,8 @@ export class ListaEsperaComponent implements OnInit {
 
   }
 
-  
-
   changed(e) {
     console.log(e);
-
   }
 
 
