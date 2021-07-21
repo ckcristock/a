@@ -175,7 +175,6 @@ export class HorizontalnavbarComponent implements OnInit, AfterViewInit {
    * Initialize
    */
   initialize(): void {
-    console.log(this.userService.);
     this.menuItems = MENU;
   }
 
