@@ -2,83 +2,152 @@
     <div class="col-12">
         <div class="card">
             <div class="card-body">
-                <div class="row">
-                    <div class="col-12">
-                        <div class="row">
-                            <div class="col-md-4 mb-3">
-                                <label>Institución</label>
-                                <div class="input-group">
-                                    <input style="width: 85%;" type="text" class="form-control " [class.is-invalid]="searchFailed" [ngbTypeahead]="searchInstitution" placeholder="Diagnosticos" name="diagnosticoId" ngDefaultControl [resultTemplate]="institution" [inputFormatter]="Inputdiagnostic"
-                                    />
-                                </div>
-                            </div>
-                            <div class="col-md-4 mb-3">
-                                <label>Sede</label>
-                                <div class="input-group">
-                                    <input style="width: 85%;" type="text" class="form-control " [class.is-invalid]="searchFailed" [ngbTypeahead]="searchInstitution" placeholder="Sede" name="SedeId" ngDefaultControl [resultTemplate]="institution" [inputFormatter]="Inputdiagnostic" />
-                                </div>
-                            </div>
-                            <div class="col-md-4 mb-3">
-                                <label>Especialidad</label>
-                                <div class="input-group">
-                                    <input style="width: 85%;" type="text" class="form-control " [class.is-invalid]="searchFailed" [ngbTypeahead]="searchSpeciality" placeholder="Especialidad" name="EspecialidadId" ngDefaultControl [resultTemplate]="institution" [inputFormatter]="Inputdiagnostic"
-                                    />
-                                </div>
-                            </div>
-                            <div class="col-md-4 mb-3">
-                                <label>Doctor</label>
-                                <div class="input-group">
-                                    <input style="width: 85%;" type="text" class="form-control " [class.is-invalid]="searchFailed" [ngbTypeahead]="searchInstitution" placeholder="Institución" name="InstitucionId" ngDefaultControl [resultTemplate]="institution" [inputFormatter]="Inputdiagnostic"
-                                    />
-                                </div>
-                            </div>
+                <form #formD="ngForm">
+                    <div class="row">
+                        <div class="col-12">
+                            <div class="row">
+                                <div class="col-md-2 my-2">
 
-                            <div class="col-md-2 mb-2">
-                                <label>Fecha</label>
-                                <div class="input-group">
-                                    <input type="date" class="form-control" placeholder="Ingrese la fecha" aria-describedby="inputGroupPrepend3" required>
+                                    <label>Tipo de Agenda</label>
+                                    <ng-select [items]="type_appointments" bindLabel="text" bindValue="value"
+                                        [(ngModel)]="filters.type_appointment_id" placeholder="Seleccione "
+                                        name="type_appointment_id" loadingText="loading" ngDefaultControl
+                                        (ngModelChange)="getSubTypeAppointment()">
+                                    </ng-select>
                                 </div>
-                            </div>
 
-                            <div class="col-md-2 mb-3">
-                                <label>Paciente</label>
-                                <div class="input-group">
-                                    <input type="text" class="form-control" placeholder="Nombre / Identificación " aria-describedby="inputGroupPrepend3" required>
+                                <div class="col-md-2 my-2">
+                                    <label>Tipo de Consulta</label>
+                                    <ng-select [items]="type_subappointments" bindLabel="text" bindValue="value"
+                                        [(ngModel)]="filters.sub_type_appointment_id" placeholder="Seleccione "
+                                        name="sub_type_appointment_id" loadingText="loading" (ngModelChange)="getIps()"
+                                        ngDefaultControl>
+                                    </ng-select>
                                 </div>
-                            </div>
-                            <div class="col-md-2 mb-3">
-                                <label>Tipo de Cita</label>
-                                <div class="input-group">
-                                    <input type="text" class="form-control" placeholder="Nombre / Identificación " aria-describedby="inputGroupPrepend3" required>
-                                </div>
-                            </div>
-                            <div class="col-md-2 mb-3">
-                                <label>Tipo de Modalidad</label>
-                                <div class="input-group">
-                                    <input type="text" class="form-control" placeholder="Nombre / Identificación " aria-describedby="inputGroupPrepend3" required>
-                                </div>
-                            </div>
 
-                            <div class="col-md-2 mb-3">
-                                <label>Estado</label>
-                                <div class="input-group">
-                                    <input type="text" class="form-control" placeholder="Nombre / Identificación " aria-describedby="inputGroupPrepend3" required>
-                                </div>
+                                <!--  <div class="col-md-2 my-2">
+                                <label>Consulta</label>
+                                <ng-select [items]="type_subappointments" bindLabel="text" bindValue="value"
+                                    [(ngModel)]="dataCitaToAssign.subappointmentId" placeholder="Seleccione "
+                                    name="type_appointment_id" loadingText="loading" (ngModelChange)="getIps()"
+                                    ngDefaultControl>
+                                </ng-select>
                             </div>
+ -->
+
+                                <!--  -->
+
+                                <div class="col-md-4 my-2">
+                                    <label>Especialidad</label>
+                                    <ng-select [items]="specialties" bindLabel="text" bindValue="value"
+                                        [(ngModel)]="filters.speciality" placeholder="Seleccione " name="speciality_id"
+                                        loadingText="loading" ngDefaultControl (ngModelChange)="getProfesionals()">
+                                    </ng-select>
+                                </div>
+
+                                <div class="col-md-4 my-2">
+                                    <label>Profesional</label>
+                                    <ng-select [items]="profesionals" bindLabel="text" bindValue="value"
+                                        [(ngModel)]="filters.profesional" [placeholder]="'Seleccione'"
+                                        name="professional_id" loadingText="loading" ngDefaultControl>
+                                    </ng-select>
+                                </div>
+
+                                <div class="col-md-6 my-2" *ngIf="appointment.face_to_face">
+                                    <label>Ips</label>
+                                    <ng-select [items]="ipss" bindLabel="text" bindValue="value"
+                                        [(ngModel)]="filters.company_id" placeholder="Seleccione " name="company_id"
+                                        loadingText="loading" (ngModelChange)="getSedes()" ngDefaultControl>
+                                    </ng-select>
+                                </div>
 
 
+                                <div class="col-md-6 my-2" *ngIf="appointment.face_to_face">
+                                    <label>Sede</label>
+                                    <ng-select [items]="sedes" bindLabel="text" bindValue="value"
+                                        [(ngModel)]="filters.location_id" placeholder="Seleccione " name="location_id"
+                                        loadingText="loading" ngDefaultControl (ngModelChange)="getSpecialties()">
+                                    </ng-select>
+                                </div>
 
-                            <div class="col-12">
-                                <button class="btn btn-primary btn-block btn-sm" (click)="getCitas()">Buscar</button>
+                                <div class="col-md-4 mb-2">
+                                    <label>Fecha</label>
+                                    <div class="input-group">
+                                        <input type="date" name="space_date" ngModel class="form-control"
+                                            placeholder="Ingrese la fecha" aria-describedby="inputGroupPrepend3"
+                                            required>
+                                    </div>
+                                </div>
+
+                                <div class="col-md-4 mb-3">
+                                    <label>Paciente</label>
+                                    <div class="input-group">
+                                        <input type="text" name="identifier" [ngModel]="filters.state"
+                                            class="form-control" placeholder="Nombre / Identificación "
+                                            aria-describedby="inputGroupPrepend3" required>
+                                    </div>
+                                </div>
+
+
+                                <div class="col-md-2 mb-3">
+                                    <label>Estado</label>
+                                    <div class="input-group">
+
+                                        <select name="state" [ngModel]="filters.state" class="form-control" id="">
+                                            <option *ngFor="let state of states" [value]="state.value">{{state.name}}
+                                            </option>
+                                        </select>
+                                    </div>
+                                </div>
+
+
+
+                                <div class="col-12">
+                                    <button class="btn btn-primary btn-block btn-sm"
+                                        (click)="getCitas(formD)">Buscar</button>
+                                </div>
                             </div>
                         </div>
                     </div>
-                </div>
+                </form>
             </div>
         </div>
     </div>
     <div class="col-12">
-        <app-lista-citas [canOverride]="'false'" [citas]="citas"></app-lista-citas>
+        <!--  <app-lista-citas [canOverride]="'false'" [citas]="citas"></app-lista-citas> -->
+        <div class="card">
+            <div class="card-body">
+                <div class="col-12">
+                    <table class="table">
+                        <thead class="thead-dark">
+                            <tr class="text-center">
+                                <th style="width: 20%;">Fecha</th>
+                                <th style="width: 15%;">Especialidad</th>
+                                <th style="width: 45%;">Descripción</th>
+                                <th style="width: 5%;">Estado</th>
+                                <th style="width: 15%;"> - </th>
+                            </tr>
+                        </thead>
+                        <tbody>
+
+                            <tr   class="text-center" *ngFor="let cita of citas">
+                                <th scope="row">{{cita.hour_start | date}}</th>
+                                <td>{{cita.speciality_name}}</td>
+                                <td>{{cita.observation}}</td>
+                                <td>{{cita.state}}</td>
+                                <td class="text-right">
+                                    <span class="mr-2 accion">
+                                        <i title="Detalle de cita" (click)="detalleCita(cita)"
+                                            class="fas fa-notes-medical"></i>
+                                    </span>
+
+                                </td>
+                            </tr>
+                    </table>
+                </div>
+            </div>
+        </div>
+
     </div>
 </div>
 
@@ -88,3 +157,7 @@
         <strong>{{r.text}}</strong>
     </span>
 </ng-template>
+
+
+<app-detalle-cita [modalData]="openModalDetalle"></app-detalle-cita>
+

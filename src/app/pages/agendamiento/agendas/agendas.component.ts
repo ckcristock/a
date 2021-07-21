@@ -9,8 +9,8 @@ import { OpenAgendaService } from '../open-agenda.service';
   styleUrls: ['./agendas.component.scss']
 })
 export class AgendasComponent implements OnInit {
-  statData : any
-  showDeitalStat  = new EventEmitter<any>()
+  statData: any
+  showDeitalStat = new EventEmitter<any>()
 
 
   pagination = {
@@ -68,8 +68,8 @@ export class AgendasComponent implements OnInit {
     this.getTypeAppointment()
 
   }
-  getStatics(params){
-    this._workList.getStatistics(params).subscribe(r=>{
+  getStatics(params) {
+    this._workList.getStatistics(params).subscribe(r => {
       this.statData = r.data
     })
   }
@@ -82,20 +82,18 @@ export class AgendasComponent implements OnInit {
 
   getSubTypeAppointment() {
     this.filters.subappointmentId = ''
-   /*  this.filters.speciality = ''
-    this.filters.prof = ''
-    this.filters.professional= '', */
-    //*
-     this.filters.ipsId= '',
-    this.filters.sede= '', 
-    this.filters.professional= ''
+    this.filters.ipsId = '',
+    this.filters.sede = '',
+    this.filters.professional = ''
     this.appointment = this.searchAppointment(this.type_appointments, this.filters.appointmentId);
     this._openAgendaService.getSubTypeAppointment(this.appointment.value).subscribe((resp: any) => {
       this.type_subappointments = resp.data;
       this.filters.subappointmentId = this.type_subappointments[0].value
+      this.getSpecialties()
+      
       if (this.appointment.face_to_face) {
         this.getIps()
-      }else{
+      } else {
 
         this.getSpecialties()
       }
@@ -105,7 +103,7 @@ export class AgendasComponent implements OnInit {
 
 
   getIps() {
-/*     this.filters.sede= '', */
+    /*     this.filters.sede= '', */
     this.subappointment = this.searchItem(this.type_subappointments, this.filters.subappointmentId);
     this._openAgendaService.getIps(this.subappointment.company_owner).subscribe((resp: any) => {
       this.ipss = resp.data;
@@ -146,12 +144,12 @@ export class AgendasComponent implements OnInit {
     //get http
     this.pagination.page = page;
     let params: any = Object.assign({}, this.pagination, this.filters);;
-  
-    this.getStatics( this.filters );
+
+    this.getStatics(this.filters);
     this._workList.getAgendamientos(params).subscribe(d => {
       this.pagination.collectionSize = d.total;
       this.agendas = d.data
-      
+
     })
 
   }
@@ -159,11 +157,11 @@ export class AgendasComponent implements OnInit {
   }
 
   searchDetailStat(stat) {
-    
-    let params:any = this.filters;
-     params.status = stat.status;
-   
-     this._workList.getStatisticsDetail( params ).subscribe(r=>{
+
+    let params: any = this.filters;
+    params.status = stat.status;
+
+    this._workList.getStatisticsDetail(params).subscribe(r => {
       this.showDeitalStat.emit(r.data)
     })
 
