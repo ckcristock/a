@@ -27,7 +27,7 @@
 
                             <div class="col-md-4 my-2">
                                 <label>Profesional</label>
-                                <ng-select [items]="profesionals" bindLabel="text" bindValue="value" [(ngModel)]="filters.professional" [placeholder]="" name="professional_id" loadingText="loading" ngDefaultControl>
+                                <ng-select [items]="persons" bindLabel="text" bindValue="value" [(ngModel)]="filters.person" [placeholder]="" name="person_id" loadingText="loading" ngDefaultControl>
                                 </ng-select>
                             </div>
 
@@ -51,7 +51,7 @@
                         <!-- <div class="col-2 mb-2">
                                 <label for="validationServerUsername">Tipo Ident.</label>
                                 <div class="input-group">
-                                    <select [(ngModel)]="professional.type_identification_id" class="custom-select" name="Id_Tipo_Identificacion">
+                                    <select [(ngModel)]="person.type_identification_id" class="custom-select" name="Id_Tipo_Identificacion">
                                       <option [value]="type.Id" *ngFor="let type of typesDocuments">{{type.Nombre}}</option>
                                     </select>
                                 </div>

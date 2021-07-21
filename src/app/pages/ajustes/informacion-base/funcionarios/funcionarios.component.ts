@@ -1,8 +1,8 @@
 import { Component, OnInit } from '@angular/core';
 
-import { functionariesList } from './data';
+import { personsList } from './data';
 
-class FunctionaryModel {
+class PersonModel {
   id: number;
   name: string; // nombre
   company: string; // nombre empresa
@@ -21,9 +21,9 @@ export class FuncionariosComponent implements OnInit {
 
     
   breadCrumbItems: Array<{}>;
-  functionariesList: FunctionaryModel[];
+  personsList: PersonModel[];
 
-  public functionaries: FunctionaryModel[] = [];
+  public persons: PersonModel[] = [];
 
   public dependencies : any =[
     {
@@ -98,19 +98,19 @@ export class FuncionariosComponent implements OnInit {
 
   ngOnInit(): void {
     this.breadCrumbItems = [{ label: 'Ecommerce' }, { label: 'Product', active: true }];
-    this.functionaries = Object.assign([], functionariesList);
+    this.persons = Object.assign([], personsList);
 
     this.isCollapsed = false;
     this.collapsed = false;
     this.collapsed3 = false;
 
-    this.functionariesList = functionariesList;
+    this.personsList = personsList;
   }
 
   searchFilter(e) {
     const searchStr = e.target.value;
-    this.functionaries = functionariesList.filter((functionary) => {
-      return functionary.name.toLowerCase().search(searchStr.toLowerCase()) !== -1;
+    this.persons = personsList.filter((person) => {
+      return person.name.toLowerCase().search(searchStr.toLowerCase()) !== -1;
     });
   }
 

@@ -22,7 +22,7 @@ export class CrearCitaComponent implements OnInit {
 
   public diagosticos: Array<any>;
   public ips_remisors
-  public professionals_remisors
+  public persons_remisors
   public especiality_remisors
   public procedurs_remisors
   public space

@@ -16,7 +16,7 @@ export class CitaComponent implements OnInit {
   public dataCitaToAssign = new dataCitaToAssign();
   public type_appointments: [];
   public specialties: [];
-  public profesionals: [];
+  public persons: [];
   public ipss: [];
   public sedes: [];
   public type_subappointments: [
@@ -34,14 +34,14 @@ export class CitaComponent implements OnInit {
   }
 
 
-  dispatchProfessional() {
-    this._queryAvailabilitySpacesService.getProfessional.next(this.dataCitaToAssign.profesional);
+  dispatchPerson() {
+    this._queryAvailabilitySpacesService.getPerson.next(this.dataCitaToAssign.person);
   }
 
   dispatchSpeciality(speciality) {
-    this.dataCitaToAssign.profesional = { value: '' }
+    this.dataCitaToAssign.person = { value: '' }
     this._queryAvailabilitySpacesService.getspeciality.next(speciality);
-    this._queryAvailabilitySpacesService.getProfessional.next(0);
+    this._queryAvailabilitySpacesService.getPerson.next(0);
   }
 
   getTypeAppointment() {
@@ -85,7 +85,7 @@ export class CitaComponent implements OnInit {
 
   getProfesionals() {
     this._openAgendaService.getProfesionals(this.dataCitaToAssign.ips.value, String(this.dataCitaToAssign.speciality)).subscribe((resp: any) => {
-      this.profesionals = resp.data;
+      this.persons = resp.data;
     });
   }
 

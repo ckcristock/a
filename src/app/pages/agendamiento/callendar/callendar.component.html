@@ -1,11 +1,31 @@
+<style>
+    .item-calendar,
+    .fc-event {
+        width: 80%;
+        display: inline-flex;
+        margin: 2px;
+    }
+    
+    .item-calendar::before {
+        margin-right: 5px !important;
+    }
+    
+    .item-calendar.fc-content {
+        font-family: 'Nunito';
+    }
+</style>
 <div class="card-body">
     <div class="app-calendar">
         <full-calendar #calendar defaultView="dayGridMonth" [header]="{
             left: 'prevYear,prev,next,nextYear today',
             center: 'title',
-            right: 'dayGridMonth,dayGridWeek,dayGridDay,listWeek'}" [timeZone]="'UTC'" [plugins]="calendarPlugins" [eventResizableFromStart]="'true'" [eventLimit]="false" themeSystem='bootstrap' [weekends]="calendarWeekends" [bootstrapFontAwesome]="true"
-            deepChangeDetection="true" [events]="calendarEvents" (dateClick)="openModal(content, $event)" (eventClick)="openEditModal(editcontent, $event)" locale="es">
-
+            right: 'dayGridMonth,dayGridWeek,dayGridDay,listWeek'}" [plugins]="calendarPlugins" [eventResizableFromStart]="'true'" [eventLimit]="false" themeSystem='bootstrap' [weekends]="calendarWeekends" [bootstrapFontAwesome]="true" deepChangeDetection="true"
+            [events]="calendarEvents" (dateClick)="openModal(content, $event)" (eventClick)="openEditModal(editcontent, $event)" locale="es" [eventTimeFormat]="{
+                hour: '2-digit',
+                minute: '2-digit',
+                meridiem: false,
+                hour12: true 
+              }">
         </full-calendar>
 
     </div>

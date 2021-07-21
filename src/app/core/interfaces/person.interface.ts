@@ -1,5 +1,5 @@
-export interface Functionary {
-    identification: string;
+export interface Person {
+    identifier: string;
     remember: boolean;
     first_name: string;
     second_name: string;

@@ -17,7 +17,7 @@ export class DetalleCitaComponent implements OnInit {
     space: {
       hour_start: '',
       agendamiento: {
-        professional: { name: '' },
+        person: { name: '' },
         sub_type_appointment: { name: '' },
         type_appointment: { name: '' },
         company: { name: '' },

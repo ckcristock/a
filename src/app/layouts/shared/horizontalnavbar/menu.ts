@@ -129,7 +129,7 @@ export const MENU: MenuItem[] = [
                     {
                         id: 20,
                         label: 'Profesionales',
-                        link: '/ajustes/informacion-base/profesionales',
+                        link: '/ajustes/informacion-base/persons',
                         parentId: 16
                     },
                     {
@@ -156,12 +156,12 @@ export const MENU: MenuItem[] = [
                         link: '/ajustes/informacion-base/regimenes-niveles',
                         parentId: 16
                     },
-                   /*  {
-                        id: 24,
-                        label: 'Aseguradoras',
-                        link: '/ajustes/informacion-base/aseguradoras',
-                        parentId: 16
-                    }, */
+                    /*  {
+                         id: 24,
+                         label: 'Aseguradoras',
+                         link: '/ajustes/informacion-base/aseguradoras',
+                         parentId: 16
+                     }, */
 
                 ]
             },
@@ -212,25 +212,25 @@ export const MENU: MenuItem[] = [
                     },
                 ]
             },
-            {
-                id: 28,
-                label: 'Encuestas',
-                icon: 'ri-map-pin-line',
-                subItems: [
-                    {
-                        id: 29,
-                        label: 'Crear encuesta',
-                        link: '/ajustes/encuestas/create-quest',
-                        parentId: 28
-                    },
-                    // {
-                    //     id: 29,
-                    //     label: 'Aplcar encuesta',
-                    //     link: '/ajustes/encuestas/apply-quest',
-                    //     parentId: 28
-                    // },
-                ]
-            }
+            // {
+            //     id: 28,
+            //     label: 'Encuestas',
+            //     icon: 'ri-map-pin-line',
+            //     subItems: [
+            //         {
+            //             id: 29,
+            //             label: 'Crear encuesta',
+            //             link: '/ajustes/encuestas/create-quest',
+            //             parentId: 28
+            //         },
+            //         // {
+            //         //     id: 29,
+            //         //     label: 'Aplcar encuesta',
+            //         //     link: '/ajustes/encuestas/apply-quest',
+            //         //     parentId: 28
+            //         // },
+            //     ]
+            // }
         ]
     },
 ];

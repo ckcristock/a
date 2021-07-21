@@ -1,12 +1,14 @@
 import { Component, OnInit } from '@angular/core';
 import { NgForm } from '@angular/forms';
-import { subscribeOn } from 'rxjs/operators';
+import { catchError, debounceTime, distinctUntilChanged, subscribeOn, switchMap, tap } from 'rxjs/operators';
 import { OpenAgendaService } from '../open-agenda.service';
 import { environment } from 'src/environments/environment';
 
 import { diasSemana } from './dias';
 import Swal from 'sweetalert2';
-import { QueryProfessional } from '../query-professional.service';
+import { QueryPerson } from '../query-person.service';
+import { Observable, of, OperatorFunction } from 'rxjs';
+import { Router } from '@angular/router';
 
 
 @Component({
@@ -36,11 +38,16 @@ export class AbrirAgendasComponent implements OnInit {
   public sede
   public speciality
   public profesional
+  public isProcedure = false;
+  public locationId: Number;
 
 
-  public timeDuration = ""
+  public timeDuration = { value: 20, text: "20 Minutos" }
   public type_appointments = []
+  public type_locations = []
   public appointmentId: Number
+  public cups = []
+  public cupId: Number
   public type_subappointments = []
   public subappointmentId: Number
   public ipss = []
@@ -48,10 +55,22 @@ export class AbrirAgendasComponent implements OnInit {
   public sedes = []
   public specialties = []
   public profesionals = []
-  public optionesTime = [{ value: 15, text: "15 Minutos" }, { value: 25, text: "25 Minutos" }, { value: 30, text: "30 Minutos" }]
-  public diasSemana = diasSemana
 
-  constructor(private _openAgendaService: OpenAgendaService, public _queryProfessional: QueryProfessional) { }
+  public optionesTime = [
+    { value: 5, text: "5 Minutos" },
+    { value: 10, text: "10 Minutos" },
+    { value: 15, text: "15 Minutos" },
+    { value: 20, text: "20 Minutos" },
+    { value: 25, text: "25 Minutos" },
+    { value: 30, text: "30 Minutos" },
+    { value: 40, text: "40 Minutos" },
+    { value: 60, text: "60 Minutos" },
+  ]
+  public diasSemana = diasSemana
+  public searchingProcedure = false;
+  public searchFailedProcedure = false;
+
+  constructor(private _openAgendaService: OpenAgendaService, public _queryPerson: QueryPerson, private router: Router) { }
 
   ngOnInit(): void {
     this.getTypeAppointment();
@@ -59,56 +78,55 @@ export class AbrirAgendasComponent implements OnInit {
 
   reset() {
 
+    this.router.navigateByUrl('/abrir-agendas', { skipLocationChange: true });
+
     this.sede = {
       value: "",
       text: ""
     };
+
     this.speciality = {
       value: "",
       text: ""
     };
 
-    this.profesional = ''
 
-    // this.appointment = {
-    //   value: "",
-    //   text: "",
-    //   brand: "",
-    //   face_to_face: ""
-    // }
-    // this.subappointment = {
-    //   value: "",
-    //   text: "",
-    //   company_owner: "",
-    //   procedure: ""
-    // }
+    this.profesional = {
+      value: "",
+      text: ""
+    }
+
+    this.profesional = new this.profesional
 
     this.ips = {
       value: "",
       text: ""
     }
 
-    this.ips = {
-      value: "",
-      text: ""
-    }
+    this.sede = new this.sede
+    this.speciality = new this.speciality
 
-    this.sede = 0
-    this.speciality = 0
-    this.profesional = 0
 
-    this.timeDuration = ""
-    // this.type_appointments = []
-    this.appointmentId = 0
-    // this.type_subappointments = []
-    this.subappointmentId = 0
-    // this.ipss = []
-    this.ipsId = 0;
-    // this.sedes = []
-    // this.specialties = []
-    // this.profesionals = []
-    this.optionesTime = [{ value: 15, text: "15 Minutos" }, { value: 25, text: "25 Minutos" }, { value: 30, text: "30 Minutos" }]
+    this.timeDuration =
+
+      this.subappointmentId = null
+    this.appointmentId = null
+    this.ipsId = null
     this.diasSemana = diasSemana
+
+    this.timeDuration = { value: 20, text: "20 Minutos" }
+    this.type_appointments = null
+    this.type_locations = null
+    this.appointmentId = null
+    this.cups = null
+    this.cupId = null
+    this.type_subappointments = null
+    this.subappointmentId = null
+    this.ipss = null
+    this.ipsId = null
+    this.sedes = null
+    this.specialties = null
+    this.profesionals = null
 
   }
 
@@ -123,9 +141,6 @@ export class AbrirAgendasComponent implements OnInit {
     this._openAgendaService.getSubTypeAppointment(this.appointment.value).subscribe((resp: any) => {
       this.type_subappointments = resp.data;
       this.subappointmentId = this.type_subappointments[0].value
-      if (this.appointment.face_to_face) {
-        this.getIps()
-      }
       this.getSpecialties()
     });
 
@@ -133,7 +148,10 @@ export class AbrirAgendasComponent implements OnInit {
 
   getIps() {
     this.subappointment = this.searchItem(this.type_subappointments, this.subappointmentId);
-    this._openAgendaService.getIps(this.subappointment.company_owner).subscribe((resp: any) => {
+
+    this.isProcedure = Boolean(this.subappointment.procedure);
+
+    this._openAgendaService.getIps(String(this.locationId)).subscribe((resp: any) => {
       this.ipss = resp.data;
     });
   }
@@ -157,10 +175,18 @@ export class AbrirAgendasComponent implements OnInit {
     });
   }
 
+  getTypeLocations() {
+    if (this.appointment.face_to_face) {
+      this._openAgendaService.getTypeLocations().subscribe((resp: any) => {
+        this.type_locations = resp.data;
+      });
+    }
+  }
 
 
-  dispatchProfessional() {
-    this._queryProfessional.professional.next(this.profesional)
+
+  dispatchPerson() {
+    this._queryPerson.person.next(this.profesional)
   }
 
   searchItem(data, value) {
@@ -183,7 +209,7 @@ export class AbrirAgendasComponent implements OnInit {
     }).then(result => {
       if (result.value) {
         this._openAgendaService.saveAgendamiento(JSON.stringify(formulario.value)).subscribe((resp: any) => {
-          this._queryProfessional.professional.next(this.profesional)
+          this._queryPerson.person.next(this.profesional)
           this.reset();
           Swal.fire('Buen trabajo!', 'Se ha aperturado agenda correctamente.', 'success');
         });
@@ -191,5 +217,25 @@ export class AbrirAgendasComponent implements OnInit {
     });
 
   }
+
+
+  searchProcedure: OperatorFunction<string, readonly string[]> = (text$: Observable<string>) =>
+    text$.pipe(
+      debounceTime(300),
+      distinctUntilChanged(),
+      tap(() => this.searchingProcedure = true),
+      switchMap(term => term.length < 3 ? [] :
+        this._openAgendaService.searchProcedure(term, String(this.speciality)).pipe(
+          tap(() => this.searchFailedProcedure = false),
+          catchError(() => {
+            this.searchFailedProcedure = true;
+            return of([]);
+          }))
+      ),
+      tap(() => this.searchingProcedure = false)
+    )
+
+  InputProcedure = (x: { text: string }) => x.text;
+
 
 }

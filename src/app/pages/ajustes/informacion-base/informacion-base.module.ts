@@ -4,7 +4,7 @@ import { CommonModule } from '@angular/common';
 import { InformacionBaseRoutingModule } from "./informacion-base-routing.module";
 import { SedesComponent } from './sedes/sedes.component';
 import { FuncionariosComponent } from './funcionarios/funcionarios.component';
-import { ProfesionalesComponent } from './profesionales/profesionales.component';
+import { PersonsComponent } from './persons/persons.component';
 import { PacientesComponent } from './pacientes/pacientes.component';
 import { EspecialidadesComponent } from './especialidades/especialidades.component';
 import { CupsComponent } from './cups/cups.component';
@@ -21,7 +21,7 @@ import { PipesModule } from "src/app/core/pipes/pipes.module";
 @NgModule({
     declarations: [
         EmpresasComponent, SedesComponent, FuncionariosComponent,
-        ProfesionalesComponent, PacientesComponent, EspecialidadesComponent,
+        PersonsComponent, PacientesComponent, EspecialidadesComponent,
         CupsComponent, RegimenesNivelesComponent, AseguradorasComponent],
 
     imports: [CommonModule, InformacionBaseRoutingModule,

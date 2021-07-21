@@ -28,7 +28,7 @@ export class ResumenComponent implements OnInit {
   public cita = {
     agendamiento: {
       appointment: '',
-      professional: {
+      person: {
         name: '',
       }
     },
