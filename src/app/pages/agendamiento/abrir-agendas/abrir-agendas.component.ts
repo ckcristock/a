@@ -37,7 +37,7 @@ export class AbrirAgendasComponent implements OnInit {
 
   public sede
   public speciality
-  public person
+  public profesional
   public isProcedure = false;
   public locationId: Number;
 
@@ -54,7 +54,7 @@ export class AbrirAgendasComponent implements OnInit {
   public ipsId: Number
   public sedes = []
   public specialties = []
-  public persons = []
+  public profesionals = []
 
   public optionesTime = [
     { value: 5, text: "5 Minutos" },
@@ -91,12 +91,12 @@ export class AbrirAgendasComponent implements OnInit {
     };
 
 
-    this.person = {
+    this.profesional = {
       value: "",
       text: ""
     }
 
-    this.person = new this.person
+    this.profesional = new this.profesional
 
     this.ips = {
       value: "",
@@ -126,7 +126,7 @@ export class AbrirAgendasComponent implements OnInit {
     this.ipsId = null
     this.sedes = null
     this.specialties = null
-    this.persons = null
+    this.profesionals = null
 
   }
 
@@ -148,11 +148,9 @@ export class AbrirAgendasComponent implements OnInit {
 
   getIps() {
     this.subappointment = this.searchItem(this.type_subappointments, this.subappointmentId);
-    console.log(this.subappointment.company_owner);
+
     this.isProcedure = Boolean(this.subappointment.procedure);
-    if (typeof this.locationId == 'undefined') {
-      this.locationId
-    }
+
     this._openAgendaService.getIps(String(this.locationId)).subscribe((resp: any) => {
       this.ipss = resp.data;
     });
@@ -173,7 +171,7 @@ export class AbrirAgendasComponent implements OnInit {
 
   getProfesionals() {
     this._openAgendaService.getProfesionals(this.ips.value, String(this.speciality)).subscribe((resp: any) => {
-      this.persons = resp.data;
+      this.profesionals = resp.data;
     });
   }
 
@@ -188,7 +186,7 @@ export class AbrirAgendasComponent implements OnInit {
 
 
   dispatchPerson() {
-    this._queryPerson.person.next(this.person)
+    this._queryPerson.person.next(this.profesional)
   }
 
   searchItem(data, value) {
@@ -211,7 +209,7 @@ export class AbrirAgendasComponent implements OnInit {
     }).then(result => {
       if (result.value) {
         this._openAgendaService.saveAgendamiento(JSON.stringify(formulario.value)).subscribe((resp: any) => {
-          this._queryPerson.person.next(this.person)
+          this._queryPerson.person.next(this.profesional)
           this.reset();
           Swal.fire('Buen trabajo!', 'Se ha aperturado agenda correctamente.', 'success');
         });
