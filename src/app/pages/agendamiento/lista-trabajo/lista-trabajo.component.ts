@@ -13,12 +13,12 @@ import { OpenAgendaService } from '../open-agenda.service';
 })
 export class ListaTrabajoComponent implements OnInit {
 
+  citas: Array<any> = [];
+  public type_appointments: [];
+  loading = false;
   constructor(private _search: SearchService,
     private _openAgendaService: OpenAgendaService,
     private _appointment: AppointmentService) { }
-  citas: Array<any> = [];
-  public type_appointments: [];
-
   ngOnInit(): void {
     this.getTypeAppointment()
   }
@@ -36,6 +36,12 @@ export class ListaTrabajoComponent implements OnInit {
     type_appointment_id: '',
     professional_id: '',
     identifier: ''
+  }
+  pagination = {
+    pageSize: 15,
+    page: 1,
+    collectionSize: 0,
+
   }
   searching = false;
   searchFailed = false;
@@ -117,8 +123,6 @@ export class ListaTrabajoComponent implements OnInit {
     this._openAgendaService.getSubTypeAppointment(this.appointment.value).subscribe((resp: any) => {
       this.type_subappointments = resp.data;
       this.filters.sub_type_appointment_id = this.type_subappointments[0].value
-      console.log(this.appointment,);
-
       if (this.appointment.face_to_face) {
         this.getIps()
       } else {
@@ -166,18 +170,21 @@ export class ListaTrabajoComponent implements OnInit {
   }
 
   getCitas(form: NgForm) {
+    this.loading = true;
     let values = form.value
-
     let send: any = {}
     for (const key in values) {
-    
-      
-      if (values[key] != 'undefined' && values[key]) {
+      if (typeof values[key] != 'undefined' && values[key] != '') {
         send[key] = values[key]
       }
     }
+
+    Object.assign(send, { ...this.pagination })
+
     this._appointment.getAppointments(send).subscribe((r: any) => {
-      this.citas = r
+      this.loading = false;
+      this.citas = r.data.data
+      this.pagination.collectionSize = r.data.total
     })
   }
 
@@ -189,5 +196,7 @@ export class ListaTrabajoComponent implements OnInit {
 
     this.openModalDetalle.emit(modalDetalle)
   }
-
+  setPage(page) {
+    this.pagination.page = page
+  }
 }

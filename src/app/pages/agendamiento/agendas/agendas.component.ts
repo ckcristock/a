@@ -11,7 +11,7 @@ import { OpenAgendaService } from '../open-agenda.service';
 export class AgendasComponent implements OnInit {
   statData: any
   showDeitalStat = new EventEmitter<any>()
-
+  loading = false;
 
   pagination = {
     pageSize: 15,
@@ -142,14 +142,16 @@ export class AgendasComponent implements OnInit {
 
   getAgendamientos(page) {
     //get http
+    this.loading = true;
     this.pagination.page = page;
     let params: any = Object.assign({}, this.pagination, this.filters);;
-
+    
     this.getStatics(this.filters);
     this._workList.getAgendamientos(params).subscribe(d => {
       this.pagination.collectionSize = d.total;
       this.agendas = d.data
-
+      this.loading = false;
+      
     })
 
   }

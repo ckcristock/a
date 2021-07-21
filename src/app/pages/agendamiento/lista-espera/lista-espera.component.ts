@@ -14,7 +14,7 @@ import { WaitingListService } from './waiting-list.service';
 })
 
 export class ListaEsperaComponent implements OnInit {
-
+  loading = false;
   pagination = {
     pageSize: 15,
     page: 1,
@@ -62,10 +62,11 @@ export class ListaEsperaComponent implements OnInit {
 
   getWaitingList(page) {
     this.pagination.page = page;
-    
+    this.loading = true;
     let params:any  =  Object.assign({}, this.pagination,this.filters);;
     this._waiting.getWaitingList(params)
-      .subscribe((r: any) => {
+    .subscribe((r: any) => {
+        this.loading = false;
         this.pagination.collectionSize = r.total;
         this.waitingList = r.data
       })
