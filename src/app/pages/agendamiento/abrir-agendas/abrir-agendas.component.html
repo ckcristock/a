@@ -15,7 +15,7 @@
 
                             <div class="col-md-2 my-2">
                                 <label>Tipo de Consulta</label>
-                                <ng-select [items]="type_subappointments" bindLabel="text" bindValue="value" [(ngModel)]="subappointmentId" placeholder="Seleccione " name="type_appointment_id" loadingText="loading" (ngModelChange)="getIps()" ngDefaultControl>
+                                <ng-select [items]="type_subappointments" bindLabel="text" bindValue="value" [(ngModel)]="subappointmentId" placeholder="Seleccione " name="type_appointment_id" loadingText="loading" ngDefaultControl  (ngModelChange)="getIps()">
                                 </ng-select>
                             </div>
 
@@ -31,7 +31,7 @@
 
                             <div class="col-md-4 my-2">
                                 <label>Profesional</label>
-                                <ng-select [items]="profesionals" bindLabel="text" bindValue="value" [(ngModel)]="profesional" [placeholder]="(profesional == 0) ? 'Seleccione' : 'Select' " name="professional_id" loadingText="loading" ngDefaultControl (ngModelChange)="dispatchProfessional()">
+                                <ng-select [items]="persons" bindLabel="text" bindValue="value" [(ngModel)]="person" [placeholder]="(person == 0) ? 'Seleccione' : 'Select' " name="person_id" loadingText="loading" ngDefaultControl (ngModelChange)="dispatchPerson()">
                                 </ng-select>
                             </div>
 
@@ -50,39 +50,39 @@
 
                         </div>
                         <div class="row p-3">
-                            <div class="col-md-2 my-2" *ngIf="profesional">
+                            <div class="col-md-2 my-2" *ngIf="person">
                                 <label>Inicio de Agendamiento</label>
                                 <input class="form-control" type="date" name="date_start" value="2018-01-01" min="2017-01-01" [(ngModel)]="fechaInicio" />
                             </div>
 
-                            <div class="col-md-2 my-2" *ngIf="profesional">
+                            <div class="col-md-2 my-2" *ngIf="person">
                                 <label>Fin de Agendamiento</label>
                                 <input class="form-control" type="date" name="date_end" value="2018-01-01" min="2017-01-01" [(ngModel)]="fechaFin" />
                             </div>
 
-                            <div class="col-md-2 my-2" *ngIf="profesional">
+                            <div class="col-md-2 my-2" *ngIf="person">
                                 <label>Hora Inicio</label>
                                 <input class="form-control" [(ngModel)]="horaInicio" type="time" name="hour_start" value="08:00" />
                             </div>
 
-                            <div class="col-md-2 my-2" *ngIf="profesional">
+                            <div class="col-md-2 my-2" *ngIf="person">
                                 <label>Hora Fin</label>
                                 <input class="form-control" [(ngModel)]="horaFin" type="time" name="hour_end" value="18:00" />
                             </div>
 
-                            <div class="col-md-1 my-2" *ngIf="profesional">
+                            <div class="col-md-1 my-2" *ngIf="person">
                                 <label>Duración</label>
                                 <ng-select [items]="optionesTime" bindLabel="text" bindValue="value" [(ngModel)]="timeDuration" placeholder="Seleccione " name="long" loadingText="loading" ngDefaultControl>
                                 </ng-select>
                             </div>
 
-                            <div class="col-md-3 my-2" *ngIf="profesional">
+                            <div class="col-md-3 my-2" *ngIf="person">
                                 <label>Dias</label>
                                 <ng-select [items]="diasSemana" multiple="true" bindLabel="text" bindValue="value" [(ngModel)]="day" placeholder="Seleccione " name="days" loadingText="loading" ngDefaultControl>
                                 </ng-select>
                             </div>
 
-                            <div class="col-md-12 my-2" *ngIf="profesional">
+                            <div class="col-md-12 my-2" *ngIf="person">
                                 <button type="button" class="btn btn-info btn-sm btn-block" (click)="saveAgenda(agenda)">Aperturar Agenda</button>
                             </div>
                         </div>
@@ -92,12 +92,12 @@
         </div>
     </div>
 
-    <div class="row" *ngIf="profesional; else elseTemplate">
+    <div class="row" *ngIf="person; else elseTemplate">
         <div class="col-12">
             <div class="card">
                 <div class="card-body">
                     <div class="app-calendar">
-                        <app-callendar [professional]='profesional'></app-callendar>
+                        <app-callendar [person]='person'></app-callendar>
                     </div>
                 </div>
             </div>

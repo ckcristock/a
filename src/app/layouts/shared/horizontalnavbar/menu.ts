@@ -129,7 +129,7 @@ export const MENU: MenuItem[] = [
                     {
                         id: 20,
                         label: 'Profesionales',
-                        link: '/ajustes/informacion-base/profesionales',
+                        link: '/ajustes/informacion-base/persons',
                         parentId: 16
                     },
                     {

@@ -98,7 +98,7 @@ export class VerAgendaComponent implements OnInit {
         name:'Nueva sede ',
         id:'1'
       },
-      professional:{
+      person:{
         first_name:'Carlos ',
         first_surname:' Cardona'
       },

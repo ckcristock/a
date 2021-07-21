@@ -91,23 +91,23 @@
             </div>
 
             <div class="row no-gutters">
-            <div class="col-xl-4 col-sm-6" *ngFor="let functionary of functionaries">
+            <div class="col-xl-4 col-sm-6" *ngFor="let functionary of persons">
                 <div class="product-box">
                 <div class="product-img">
                     <div class="product-ribbon badge badge-primary">
-                    {{functionary.state}}
+                    {{person.state}}
                     </div>
-                    <a [routerLink]="['ajustes/informacion-base/funcionario',functionary.id]">
-                    <img src="{{functionary.image| image:'users' }}" alt="" class="img-fluid mx-auto d-block">
+                    <a [routerLink]="['ajustes/informacion-base/funcionario',person.id]">
+                    <img src="{{person.image| image:'users' }}" alt="" class="img-fluid mx-auto d-block">
                     </a>
                 </div>
 
                 <div class="text-center">
-                    <p class="font-size-12 mb-0">{{functionary.company}}</p>
+                    <p class="font-size-12 mb-0">{{person.company}}</p>
                     <h5 class="font-size-15 mb-0">
-                        <a href="javascript: void(0);" class="text-dark">{{functionary.name}}</a>
+                        <a href="javascript: void(0);" class="text-dark">{{person.name}}</a>
                     </h5>
-                    <p class="mt-0 mb-0">{{functionary.position}}</p>
+                    <p class="mt-0 mb-0">{{person.position}}</p>
                 </div>
                 </div>
             </div>

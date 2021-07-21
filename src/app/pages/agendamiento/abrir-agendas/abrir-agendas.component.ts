@@ -6,7 +6,7 @@ import { environment } from 'src/environments/environment';
 
 import { diasSemana } from './dias';
 import Swal from 'sweetalert2';
-import { QueryProfessional } from '../query-professional.service';
+import { QueryPerson } from '../query-person.service';
 import { Observable, of, OperatorFunction } from 'rxjs';
 import { Router } from '@angular/router';
 
@@ -37,7 +37,7 @@ export class AbrirAgendasComponent implements OnInit {
 
   public sede
   public speciality
-  public profesional
+  public person
   public isProcedure = false;
   public locationId: Number;
 
@@ -54,7 +54,7 @@ export class AbrirAgendasComponent implements OnInit {
   public ipsId: Number
   public sedes = []
   public specialties = []
-  public profesionals = []
+  public persons = []
 
   public optionesTime = [
     { value: 5, text: "5 Minutos" },
@@ -70,7 +70,7 @@ export class AbrirAgendasComponent implements OnInit {
   public searchingProcedure = false;
   public searchFailedProcedure = false;
 
-  constructor(private _openAgendaService: OpenAgendaService, public _queryProfessional: QueryProfessional, private router: Router) { }
+  constructor(private _openAgendaService: OpenAgendaService, public _queryPerson: QueryPerson, private router: Router) { }
 
   ngOnInit(): void {
     this.getTypeAppointment();
@@ -91,12 +91,12 @@ export class AbrirAgendasComponent implements OnInit {
     };
 
 
-    this.profesional = {
+    this.person = {
       value: "",
       text: ""
     }
 
-    this.profesional = new this.profesional
+    this.person = new this.person
 
     this.ips = {
       value: "",
@@ -126,7 +126,7 @@ export class AbrirAgendasComponent implements OnInit {
     this.ipsId = null
     this.sedes = null
     this.specialties = null
-    this.profesionals = null
+    this.persons = null
 
   }
 
@@ -148,9 +148,11 @@ export class AbrirAgendasComponent implements OnInit {
 
   getIps() {
     this.subappointment = this.searchItem(this.type_subappointments, this.subappointmentId);
-
+    console.log(this.subappointment.company_owner);
     this.isProcedure = Boolean(this.subappointment.procedure);
-
+    if (typeof this.locationId == 'undefined') {
+      this.locationId
+    }
     this._openAgendaService.getIps(String(this.locationId)).subscribe((resp: any) => {
       this.ipss = resp.data;
     });
@@ -171,7 +173,7 @@ export class AbrirAgendasComponent implements OnInit {
 
   getProfesionals() {
     this._openAgendaService.getProfesionals(this.ips.value, String(this.speciality)).subscribe((resp: any) => {
-      this.profesionals = resp.data;
+      this.persons = resp.data;
     });
   }
 
@@ -185,8 +187,8 @@ export class AbrirAgendasComponent implements OnInit {
 
 
 
-  dispatchProfessional() {
-    this._queryProfessional.professional.next(this.profesional)
+  dispatchPerson() {
+    this._queryPerson.person.next(this.person)
   }
 
   searchItem(data, value) {
@@ -209,7 +211,7 @@ export class AbrirAgendasComponent implements OnInit {
     }).then(result => {
       if (result.value) {
         this._openAgendaService.saveAgendamiento(JSON.stringify(formulario.value)).subscribe((resp: any) => {
-          this._queryProfessional.professional.next(this.profesional)
+          this._queryPerson.person.next(this.person)
           this.reset();
           Swal.fire('Buen trabajo!', 'Se ha aperturado agenda correctamente.', 'success');
         });

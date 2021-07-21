@@ -37,7 +37,12 @@ export class OpenAgendaService {
    * getIps
    */
   public getIps(value: string) {
-    return this.clientHttp.get(`${environment.base_url}/get-ips/${value}`)
+
+    if (value == 'undefined' || !value) {
+      value = '0';
+    }
+
+    return this.clientHttp.get(`${environment.base_url}/get-companys/${value}`)
   }
   /**
    * getSedes
@@ -62,15 +67,15 @@ export class OpenAgendaService {
     if (ips == '') {
       ips = '0';
     }
-    return this.clientHttp.get(`${environment.base_url}/get-profesionals/${ips}/${speciality}`)
+    return this.clientHttp.get(`${environment.base_url}/get-professionals/${ips}/${speciality}`)
   }
 
-  public getAppointments(idProfessional: Number) {
-    return this.clientHttp.get(`${environment.base_url}/agendamientos/${idProfessional}`)
+  public getAppointments(idPerson: Number) {
+    return this.clientHttp.get(`${environment.base_url}/agendamientos/${idPerson}`)
   }
 
-  public getOpenedSpace(especialidad: Number, profesional: Number) {
-    return this.clientHttp.get(`${environment.base_url}/opened-spaces/${especialidad}/${profesional}`)
+  public getOpenedSpace(especialidad: Number, person: Number) {
+    return this.clientHttp.get(`${environment.base_url}/opened-spaces/${especialidad}/${person}`)
   }
 
   public getDiagnostics() {

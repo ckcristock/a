@@ -24,7 +24,7 @@ export class UserService {
         private router: Router,
         private ngZone: NgZone,
         // private getMenu:
-         ) {
+    ) {
 
     }
 
@@ -37,13 +37,13 @@ export class UserService {
         localStorage.setItem('token', token);
     }
     validarToken(): Observable<boolean> {
-        return   this.http.get(`${base_url}/auth/renew`, {
+        return this.http.get(`${base_url}/auth/renew`, {
         }).pipe(
             map((resp: any) => {
-                const { id, usuario, change_password, funcionario , menu } = resp.user;
-                this.user = new User(id, usuario, change_password, funcionario ,menu);
-                // console.log('userrr', this.user);
-                this.user.menu = [ {name:'agendamiento',permissons:[{name:'receive_calls'}]}, {name:'xx',permissons:[{name:'2'}]} ]
+                
+                const { id, usuario, change_password, person, menu } = resp.user;
+                this.user = new User(id, usuario, change_password, person, menu);
+                this.user.menu = [{ name: 'agendamiento', permissons: [{ name: 'receive_calls' }] }, { name: 'xx', permissons: [{ name: '2' }] }]
                 this.guardarLocalStorage(resp.token, resp.menu);
                 return true;
             }),
@@ -53,7 +53,7 @@ export class UserService {
 
     logout() {
         localStorage.removeItem('token');
-       
+
         this.router.navigateByUrl('/login');
     }
 
@@ -70,6 +70,6 @@ export class UserService {
     }
 
     changePassword(params) {
-        return this.http.get(`${base_url}/auth/change-password`, {params})
+        return this.http.get(`${base_url}/auth/change-password`, { params })
     }
 }

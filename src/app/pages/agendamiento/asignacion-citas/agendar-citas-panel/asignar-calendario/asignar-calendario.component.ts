@@ -26,7 +26,7 @@ export class AsignarCalendarioComponent implements OnInit {
   @Output('siguiente') siguiente = new EventEmitter();
 
   public speciality: Number;
-  public professional: Number;
+  public person: Number;
 
   // event form
   formData: FormGroup;
@@ -75,8 +75,8 @@ export class AsignarCalendarioComponent implements OnInit {
       this.speciality = r
       // this._fetchData();
     });
-    this._queryAvailabilitySpacesService.getProfessional.subscribe(r => {
-      this.professional = r
+    this._queryAvailabilitySpacesService.getPerson.subscribe(r => {
+      this.person = r
       this._fetchData();
     });
   }
@@ -112,7 +112,7 @@ export class AsignarCalendarioComponent implements OnInit {
 
   private _fetchData() {
 
-    this._openAgendaService.getOpenedSpace(this.speciality, this.professional).subscribe((resp: any) => {
+    this._openAgendaService.getOpenedSpace(this.speciality, this.person).subscribe((resp: any) => {
       console.log(resp, 'spaces');
       if (resp.data.length == 0) {
         const swalWithBootstrapButtons = Swal.mixin({

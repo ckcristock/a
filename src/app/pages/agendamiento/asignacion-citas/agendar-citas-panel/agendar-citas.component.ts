@@ -25,7 +25,7 @@ export class AgendarCitasComponent implements OnInit {
   public dataCita: any = {
     appointment: '',
     patient: '',
-    professional: '',
+    person: '',
     day: '',
     hour: '',
     location: '',

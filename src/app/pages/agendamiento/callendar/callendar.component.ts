@@ -14,7 +14,7 @@ import { EventInput } from '@fullcalendar/core';
 
 import { Event } from './event.model';
 import { OpenAgendaService } from '../open-agenda.service';
-import { QueryProfessional } from '../query-professional.service';
+import { QueryPerson } from '../query-person.service';
 import { dataCitaToAssignService } from '../dataCitaToAssignService.service';
 
 @Component({
@@ -25,8 +25,8 @@ import { dataCitaToAssignService } from '../dataCitaToAssignService.service';
 
 export class CallendarComponent implements OnInit {
 
-  @Input() professional: Number;
-  public myprofesional: any
+  @Input() person: Number;
+  public myperson: any
   // bread crumb items
   breadCrumbItems: Array<{}>;
 
@@ -61,11 +61,11 @@ export class CallendarComponent implements OnInit {
   constructor(private modalService: NgbModal,
     private formBuilder: FormBuilder,
     private _openAgendaService: OpenAgendaService,
-    private _queryProfessional: QueryProfessional,
+    private _queryPerson: QueryPerson,
     private dataCitaToAssignService: dataCitaToAssignService
   ) {
-    this._queryProfessional.professional.subscribe((r: any) => {
-      this.myprofesional = r;
+    this._queryPerson.person.subscribe((r: any) => {
+      this.myperson = r;
       this._fetchData();
     })
   }
@@ -212,10 +212,10 @@ export class CallendarComponent implements OnInit {
 
   private _fetchData() {
 
-    if (this.myprofesional == 'null' || this.myprofesional == 'undefined') {
-      this.myprofesional = this.professional
+    if (this.myperson == 'null' || this.myperson == 'undefined') {
+      this.myperson = this.person
     }
-    this._openAgendaService.getAppointments(this.professional).subscribe((resp: any) => {
+    this._openAgendaService.getAppointments(this.person).subscribe((resp: any) => {
       this.calendarEvents = resp.data.map((element, index) => {
         if (element.status) {
           return element

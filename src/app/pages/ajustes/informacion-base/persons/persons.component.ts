@@ -1,15 +1,15 @@
 import { Component, OnInit, ViewChild } from '@angular/core';
 
 @Component({
-  selector: 'app-profesionales',
-  templateUrl: './profesionales.component.html',
-  styleUrls: ['./profesionales.component.scss']
+  selector: 'app-persons',
+  templateUrl: './persons.component.html',
+  styleUrls: ['./persons.component.scss']
 })
-export class ProfesionalesComponent implements OnInit {
+export class PersonsComponent implements OnInit {
 
   @ViewChild('newModal') newModal
 
-  professional :any = {
+  person :any = {
     type_identification_id:'',
     identification:'',
     first_name:'',
@@ -27,7 +27,7 @@ export class ProfesionalesComponent implements OnInit {
     municipality_id:'',
     companies:[],
     medical_register:'',
-    professional_type_id:'',
+    person_type_id:'',
     specialities:[]
   }
   photo_blob : any;
@@ -58,7 +58,7 @@ specialities = [
 },
 ]
 
-professional_types = [
+person_types = [
   {text:'Doctor',value:1},
   {text:'Enfermeria',value:2},
   {text:'Jefe Enfermeria',value:2},
@@ -88,7 +88,7 @@ professional_types = [
   }
   searching = false;
   searchFailed = false;
-  professionals = [{
+  persons = [{
     identification:'1222334',
     names:'Jhoe Due',
     city: 'VIDASER EU',
@@ -144,12 +144,12 @@ professional_types = [
   }
 
   guardar(){
-    console.log(this.professional);
+    console.log(this.person);
 
   }
 
   searchMun(){
-    console.log(this.professional);
+    console.log(this.person);
 
     this.municipalities = [{value:1,text:'Santander'},
     {value:2,text:'Norte Santander'},

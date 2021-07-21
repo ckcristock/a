@@ -34,7 +34,7 @@ export class ListaTrabajoComponent implements OnInit {
     state: '',
     type_agenda_id: '',
     type_appointment_id: '',
-    professional_id: '',
+    person_id: '',
     identifier: ''
   }
   searching = false;
@@ -68,7 +68,7 @@ export class ListaTrabajoComponent implements OnInit {
     { value: 'Cancelado', name: 'Cancelado' },
     { value: 'Atendido', name: 'Atendido' },
   ]
-  public profesionals = []
+  public persons = []
 
   searchInstitution: OperatorFunction<string, readonly string[]> = (text$: Observable<string>) =>
     text$.pipe(
@@ -112,7 +112,7 @@ export class ListaTrabajoComponent implements OnInit {
     this.filters.sub_type_appointment_id = ''
     this.filters.company_id = '',
       this.filters.location_id = '',
-      this.filters.professional = ''
+      this.filters.person = ''
     this.appointment = this.searchAppointment(this.type_appointments, this.filters.type_appointment_id);
     this._openAgendaService.getSubTypeAppointment(this.appointment.value).subscribe((resp: any) => {
       this.type_subappointments = resp.data;
@@ -161,7 +161,7 @@ export class ListaTrabajoComponent implements OnInit {
 
   getProfesionals() {
     this._openAgendaService.getProfesionals(this.ips.value, String(this.filters.speciality)).subscribe((resp: any) => {
-      this.profesionals = resp.data;
+      this.persons = resp.data;
     });
   }
 

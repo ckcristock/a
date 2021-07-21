@@ -23,7 +23,7 @@ export class AgendasComponent implements OnInit {
     appointmentId: '',
     subappointmentId: '',
     speciality: '',
-    professional: '',
+    person: '',
     ipsId: '',
     sede: '',
 
@@ -55,7 +55,7 @@ export class AgendasComponent implements OnInit {
 
   public sedes = []
   public specialties = []
-  public profesionals = []
+  public persons = []
 
   public ipss = []
 
@@ -84,7 +84,7 @@ export class AgendasComponent implements OnInit {
     this.filters.subappointmentId = ''
     this.filters.ipsId = '',
     this.filters.sede = '',
-    this.filters.professional = ''
+    this.filters.person = ''
     this.appointment = this.searchAppointment(this.type_appointments, this.filters.appointmentId);
     this._openAgendaService.getSubTypeAppointment(this.appointment.value).subscribe((resp: any) => {
       this.type_subappointments = resp.data;
@@ -125,7 +125,7 @@ export class AgendasComponent implements OnInit {
 
   getProfesionals() {
     this._openAgendaService.getProfesionals(this.ips.value, String(this.filters.speciality)).subscribe((resp: any) => {
-      this.profesionals = resp.data;
+      this.persons = resp.data;
     });
   }
 

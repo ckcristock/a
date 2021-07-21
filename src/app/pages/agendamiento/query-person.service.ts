@@ -5,10 +5,10 @@ import { Subject } from 'rxjs';
 @Injectable({
   providedIn: 'root'
 })
-export class QueryProfessional {
+export class QueryPerson {
 
 
-  public professional = new Subject<any>();
+  public person = new Subject<any>();
 
   constructor() { }
 
