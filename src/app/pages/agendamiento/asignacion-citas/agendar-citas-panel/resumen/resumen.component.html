@@ -16,9 +16,9 @@
             <strong class="text-uppercase">{{patient.firstname}}  {{patient.surname}} </strong>
 
             <span *ngIf="space.id">
-                con el person
+                con el profesional
 
-                <strong class="text-uppercase"> {{space.person.name}} </strong> el día <strong class="font-weight-bold "> {{space.hour_start | date :'EEEE, MMMM d, y'}}  A LAS  {{space.hour_start | date :'h:mm a'}} </strong>
+                <strong class="text-uppercase"> {{space.person.first_name}} {{space.person.first_surname}} </strong> el día <strong class="font-weight-bold "> {{space.hour_start | date :'EEEE, MMMM d, y'}}  A LAS  {{space.hour_start | date :'h:mm a'}} </strong>
 
                 <span *ngIf="!anotheData.appointment.face_to_face;else presential"> EN LA SALA SALA VIRUTAL DE LA
                     CENTRAL DE ESPECIALISTAS </span>

@@ -104,6 +104,8 @@ export class CitaComponent implements OnInit {
   }
 
   siguiente() {
+    console.log('dddddd',this.dataCitaToAssign);
+    
     this.dataCitaToAssignService.dataCitaToAssign.next(this.dataCitaToAssign);
     this.sigx.emit('');
   }
