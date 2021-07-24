@@ -11,18 +11,33 @@ import { AppointmentService } from '../../../core/services/appointment.service';
 export class ListaCitasComponent implements OnInit {
   @ViewChild('cancelarCitaModal') cancelarCitaModal: any;
   @Input('canOverride') canOverride: any;
-  @Input('citas') citas: Array<any>
-  @Input('test') test: any = ''
+  citas: any = [];
+  @Input('patient') patient: any = '';
+  @Input('operation') operation: any = '';
+  @Input('getAppointments') getAppointments: EventEmitter<any>;
   @Output('canceled') canceled = new EventEmitter<any>();
   openModalDetalle = new EventEmitter<any>();
 
+  loading = false;
   data: any = {
     Id_Especialidad: '',
   }
   cancelCita: any;
-  constructor(private _appointment: AppointmentService) { }
+  constructor(private _appointment: AppointmentService) {
+  }
 
   ngOnInit(): void {
+    this.getAppointments.subscribe(r => {
+      this.getCitas();
+    })
+  }
+
+  getCitas() {
+    this.loading = true;
+    this._appointment.getAppointments({ identifier:this.patient }).subscribe((r: any) => {
+      this.citas = r.data.data;
+      this.loading = false;
+    })
   }
 
   cancelarCita(form: NgForm) {
@@ -49,7 +64,7 @@ export class ListaCitasComponent implements OnInit {
             'Operación exitosa',
             'Cita cancelada exitosamente',
             'success'
-          ).then(r => this.canceled.emit());
+          ).then(r => {this.canceled.emit(); this.getCitas()});
           this.cancelarCitaModal.hide();
         },
           err => {
@@ -67,15 +82,18 @@ export class ListaCitasComponent implements OnInit {
   }
 
   openCancelCita(cita) {
+    console.log('cita',cita);
+    
     this.cancelCita = cita;
     this.cancelarCitaModal.show()
   }
   detalleCita(cita) {
+    console.log('cita2',cita);
+    
     let modalDetalle = {
       Id_Cita_Detalle: cita.id,
       Show: true
     }
-
     this.openModalDetalle.emit(modalDetalle)
   }
 

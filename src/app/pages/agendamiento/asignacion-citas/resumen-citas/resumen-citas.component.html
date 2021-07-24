@@ -3,7 +3,7 @@
     <div class="col-12">
 
 
-        <table class="table">
+        <table class="table" *ngIf="!loading && citas.length > 0; else notData">
             <thead class="thead-dark">
                 <tr>
                     <th style="width: 20%;">Fecha</th>
@@ -34,5 +34,10 @@
 
     </div>
 </div>
+
+
+<ng-template #notData>
+    <app-not-data [loading]="loading"></app-not-data>
+</ng-template>
 
 <app-detalle-cita [modalData]="openModalDetalle"></app-detalle-cita>

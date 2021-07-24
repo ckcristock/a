@@ -17,7 +17,10 @@ export class DataDinamicService {
     return this.httpClient.get(`${environment.base_url}/departments`)
   }
   public getCompanies( typeLocation = 0) {
-    return this.httpClient.get(`${environment.base_url}/company/${typeLocation}`)
+    return this.httpClient.get(`${environment.base_url}/get-companys/${typeLocation}`)
+  }
+  public getPeopleTypes( ) {
+    return this.httpClient.get(`${environment.base_url}/people-type-custom`)
   }
 
   public getLocations(idCompany) {
@@ -52,4 +55,12 @@ export class DataDinamicService {
   public getPatientAgain(document) {
     return this.httpClient.get(`${environment.base_url}/get-patient-fill/${document}`)
   }
+
+    public getSpecialties(sede: string, procedure: string) {
+      if (sede == 'undefined' || !sede) {
+        sede = '0';
+        procedure = '0'
+      }
+      return this.httpClient.get(`${environment.base_url}/get-specialties/${sede}/${procedure}`)
+    }
 }

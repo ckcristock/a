@@ -22,7 +22,7 @@
                 </div>
 
                 <div *ngIf="operation.component=='Reasignar Citas'">
-                    <app-lista-citas [canOverride]="'true'" [test]="operation.name" (canceled)="canceledAppointment($event)" [citas]="citas"></app-lista-citas>
+                    <app-lista-citas [canOverride]="'true'" [getAppointments]="getClitasE" [operation]="operation.name" [patient]="patient.paciente.identifier" (canceled)="canceledAppointment($event)"></app-lista-citas>
                 </div>
 
                 <div *ngIf="operation.component=='Tipificar'">
@@ -46,7 +46,7 @@
                                 <a ngbNavLink>Citas</a>
                                 <ng-template ngbNavContent>
                                     <div class="mt-4">
-                                        <app-resumen-citas [citas]="citas"></app-resumen-citas>
+                                        <app-resumen-citas [patient]="patient.paciente.identifier"></app-resumen-citas>
                                     </div>
                                 </ng-template>
                             </li>

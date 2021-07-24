@@ -6,10 +6,10 @@
             </div>
             <div class="card-body">
                 <div class="col-12 mb-2">
-                    <button *ngIf="test == 'Consulta Información Citas' " (click)="finish()" class="btn btn-sm btn-block btn-info">Finalizar Consulta </button>
+                    <button *ngIf="operation == 'Consulta Información Citas' " (click)="finish()" class="btn btn-sm btn-block btn-info">Finalizar Consulta </button>
                 </div>
                 <div class="col-12">
-                    <table class="table">
+                    <table class="table" *ngIf="!loading && citas.length > 0; else notData">
 
                         <thead class="thead-dark">
                             <tr>
@@ -77,3 +77,8 @@
         </div>
     </div>
 </app-modal-basic>
+
+
+<ng-template #notData>
+    <app-not-data [loading]="loading"></app-not-data>
+</ng-template>

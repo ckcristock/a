@@ -43,14 +43,8 @@ export class SetPacienteComponent implements OnInit {
   }
 
   ngOnInit() {
-
-
     this.$qp = this._queryPatient.patient.subscribe(async r => {
-
       if (r.paciente.identifier) {
-        console.log(r.paciente, 'set');
-
-
         await this.getDepartments();
         this.getContracts();
         this.getCompanies();
