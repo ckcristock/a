@@ -33,7 +33,7 @@ export class CrearCitaComponent implements OnInit {
 
   diagnosticoId: any;
   procedureId: any;
-
+  loading = false;
   searchingDiagnostic = false;
   searchingProcedure = false;
   searchFailedDiagnostic = false;
@@ -122,12 +122,12 @@ export class CrearCitaComponent implements OnInit {
         reverseButtons: true
       }).then((result) => {
         if (result.isConfirmed) {
-          console.log('f', form);
-
+          this.loading = true;
           this._openAgendaService.saveCita(JSON.stringify(form.value))
             .subscribe((data: any) => {
               this.dataCitaToAssignService.dataFinal.next(data.data)
               this.validarResponse(data);
+              this.loading = false;
             });
         }
       })

@@ -11,6 +11,9 @@ export class PersonService {
 
   storePeople(form) {
     return this.httpClient.post(`${environment.base_url}/person`, form)
-
   }
+  getPeople(params = {}) {
+    return this.httpClient.get(`${environment.base_url}/people-paginate`, { params })
+  }
+
 }

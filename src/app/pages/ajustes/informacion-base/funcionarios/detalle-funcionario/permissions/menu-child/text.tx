@@ -1,0 +1,32 @@
+
+<!-- <ul role="menubar">
+    <li *ngFor="let item of navItems">
+
+        <a *ngIf="item.link">{{ item.name }}</a>
+        <app-menu-child *ngIf="item.child" [navItems]="item.child"></app-menu-child>
+    </li>
+</ul> -->
+
+
+<!-- <div class="row">
+    <div *ngFor="let item of navItems; " class="col-lg-4 ">
+        <div class="card ">
+            <div class="card-body ">
+                <div class="row">
+                    <div class="col-12">
+                        <h4 class="card-title ">{{item.name}}</h4>
+                    </div>
+
+                    <div *ngFor="let permit of item.permissions;let i=index" class="col-6 custom-control custom-switch mb-2 " dir="ltr ">
+                        <span class="d-inline-block" tabindex="0" data-toggle="tooltip" title="{{permit.description}}">
+                            <input type="checkbox" class="custom-control-input "   [checked]="permit.Activo"  (change)="setPermit(item,i,permit)"  id="{{'customSwitch1'+i}}">
+                            <label class="custom-control-label " for="{{'customSwitch1'+i}}">{{permit.public_name}}</label>
+                        </span>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+    </div>
+
+</div> -->

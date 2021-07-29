@@ -149,7 +149,7 @@ export class PersonsComponent implements OnInit {
 
 
     sendForm.append('image', 'SDASD')
-    this._person.storePeople(sendForm).subscribe(r => {
+    this._person.storePeople(form.value).subscribe(r => {
       console.log(r);
     })
   }

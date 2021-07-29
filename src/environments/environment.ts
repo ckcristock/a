@@ -26,6 +26,7 @@ export const environment = {
   
    //base_url: 'http://ateneo-back.test/api'
    base_url: 'http://ateneo-back.me:8080/api'
+   
 
   // base_url: 'http://localhost:3000/api'
 

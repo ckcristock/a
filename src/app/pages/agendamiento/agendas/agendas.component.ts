@@ -17,7 +17,6 @@ export class AgendasComponent implements OnInit {
     pageSize: 15,
     page: 1,
     collectionSize: 0,
-
   }
   filters: any = {
     appointmentId: '',

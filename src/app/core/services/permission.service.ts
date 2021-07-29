@@ -2,13 +2,15 @@ import { Injectable } from '@angular/core';
 
 import { UserService } from './user.service';
 import { PermissionComponent } from '../interfaces/permissionComponent';
+import { environment } from 'src/environments/environment';
+import { HttpClient } from '@angular/common/http';
 
 @Injectable({
   providedIn: 'root'
 })
 export class PermissionService {
 
-  constructor(private _user: UserService) { }
+  constructor(private _user: UserService, private HttpClient:HttpClient) { }
 
   validatePermissions(perms) {
     let menu_ = this._user.user.menu.find(p => p.name == perms.menu);
@@ -24,4 +26,7 @@ export class PermissionService {
     return perms
   }
 
+  getMenu(params = {}) {
+    return this.HttpClient.get(`${environment.base_url}/get-menu`, { params })
+  }
 }

@@ -1,0 +1,53 @@
+<div>
+    <!--  <pre>{{temporalMenues|json}}</pre> -->
+
+    <!--  <div class="row titulo">
+        <ul>
+            <li *ngFor="let menu of menues">
+                <a href="">{{menu.name}}</a>
+                <span *ngIf="menu.child.length>0">></span>
+
+            </li>
+        </ul>
+    </div>
+ -->
+    <app-menu-child [navItems]="menues"></app-menu-child>
+    <!-- </div> -->
+    <!--  <div class="row titulo">
+        <div *ngFor="let item of temporalMenues; " class="col-lg-4 ">
+            <div class="card ">
+                <div class="card-body ">
+                    <div class="row">
+                        <div class="col-12">
+                            <h4 class="card-title ">{{item.name}}</h4>
+                        
+                        </div>
+
+                        <div *ngFor="let permit of item.permissions;let i=index" class="col-6 custom-control custom-switch mb-2 " dir="ltr ">
+                            <span class="d-inline-block" tabindex="0" data-toggle="tooltip" title="{{permit.description}}">
+                            <input type="checkbox" class="custom-control-input "   [checked]="permit.Activo"  (change)="setPermit(item,i,permit)"  id="{{'customSwitch1'+i}}">
+                            <label class="custom-control-label " for="{{'customSwitch1'+i}}">{{permit.public_name}}</label>
+                        </span>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+
+    </div> -->
+    <div class="row">
+        <button class="btn-block btn btn-sm btn-primary" (click)="save()">Guardar</button>
+    </div>
+
+
+</div>
+<pre>
+
+    {{menues | json}}
+</pre>
+
+
+<ng-template #name>
+
+</ng-template>

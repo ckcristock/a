@@ -23,11 +23,13 @@ export class SetPacienteComponent implements OnInit {
   public typeRegimens;
   public typeDocuments;
   public eps;
-
+  loading = false;
   contracts: Array<any> = []
 
   paciente: any = new Patient();
-
+  paciente2: any = {
+    eps: { name: 'ECOOPSOS EPS SAS', value: 2 }
+  }
   public currentPatient
   public departments
   public cities
@@ -38,27 +40,35 @@ export class SetPacienteComponent implements OnInit {
   public llamada: any;
   $qp: Subscription
   constructor(private _queryPatient: QueryPatient, private _dataDinamicService: DataDinamicService,
-     private dataCitaToAssignService: dataCitaToAssignService,
-     private _openAgenda:OpenAgendaService) {
+    private dataCitaToAssignService: dataCitaToAssignService,
+    private _openAgenda: OpenAgendaService) {
+    this.getEps();
+    
+
   }
 
   ngOnInit() {
+
     this.$qp = this._queryPatient.patient.subscribe(async r => {
       if (r.paciente.identifier) {
-        await this.getDepartments();
-        this.getContracts();
+
+     /*    this.getEps(); */
         this.getCompanies();
         this.getTypeDocuments();
-        this.getEps();
         this.getRegimens();
         this.getlevels();
-        this.paciente = r.paciente
-        this.llamada = r.llamada
-        //console.log(r.paciente);
         this.getLocations(r.paciente.company_id)
         /*  this.paciente.level_id.value=this.paciente.level_id */
-        this.dataCitaToAssignService.dateCall = r
+        console.log('1');
+
         this.getCities();
+        await this.getDepartments();
+
+        this.paciente = r.paciente
+        this.llamada = r.llamada
+        console.log('3');
+        this.dataCitaToAssignService.dateCall = r
+        r.paciente.location_id ? this.getContracts(r.paciente.location_id) : ''
       }
     })
   }
@@ -66,6 +76,8 @@ export class SetPacienteComponent implements OnInit {
   async getDepartments() {
     await this._dataDinamicService.getDepartments().toPromise().then((req: any) => {
       this.departments = req.data
+      console.log('2');
+
     })
   }
 
@@ -74,6 +86,7 @@ export class SetPacienteComponent implements OnInit {
       let parm = { department_id: this.paciente.department_id }
       this._dataDinamicService.getCities(parm).subscribe((req: any) => {
         this.cities = req.data
+
       })
     }
 
@@ -82,14 +95,12 @@ export class SetPacienteComponent implements OnInit {
   getCompanies() {
     this._openAgenda.getIps('1').subscribe((req: any) => {
       this.companies = req.data
-
+      /* this.companies.unset({ text: 'Seleccione', value: '' }) */
     })
   }
 
   getLocations(company_id) {
     if (company_id) {
-
-
       this._dataDinamicService.getLocations(company_id).subscribe((req: any) => {
         this.locations = req.data
       })
@@ -108,7 +119,6 @@ export class SetPacienteComponent implements OnInit {
   }
 
   newPatient(paciente, document) {
-
     paciente = new Patient()
     paciente.identifier = document
     paciente.isNew = true
@@ -138,15 +148,18 @@ export class SetPacienteComponent implements OnInit {
       this.levels = req.data
     })
   }
-  getContracts() {
-    this._dataDinamicService.getContracts().subscribe((req: any) => {
+  getContracts(location_id) {
+    this._dataDinamicService.getContracts({ location_id }).subscribe((req: any) => {
       this.contracts = req.data
     })
   }
 
   save(formPatient: NgForm) {
     try {
+      this.loading = true;
+      console.log(formPatient.controls,formPatient.value);
       this._queryPatient.validate(this.paciente);
+      
       this._dataDinamicService.savePatient(JSON.stringify(formPatient.value)).subscribe((req: any) => {
         if (req.code == 200) {
 
@@ -160,8 +173,11 @@ export class SetPacienteComponent implements OnInit {
           Swal.fire('Ha ocurrido un error', 'Contáctese con el departamento de sistemas', 'error');
         }
 
+        this.loading = false;
       })
+
     } catch (error) {
+      this.loading = false;
       console.log(error);
 
       Swal.fire('Faltan campos del paciente', error, 'error');
