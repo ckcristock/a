@@ -22,8 +22,8 @@ export class AsignacionCitasComponent implements OnInit {
   public getClitasE = new EventEmitter<any>();
   public configComponent: any =
     {
-      'menu': 'agendamiento',
-      'permissons': {
+      'menu': 'Asignación de Citas',
+      'permissions': {
         'receive_calls': false
       }
     }
@@ -58,6 +58,7 @@ export class AsignacionCitasComponent implements OnInit {
 
     this.configComponent = this._permisson.validatePermissions(this.configComponent)
     this.existPtient = _queryPatient.existPatient.subscribe((r) => this.Init());
+    
   }
 
   ngOnInit(): void {
@@ -96,7 +97,7 @@ export class AsignacionCitasComponent implements OnInit {
 
   Init() {
 
-    if (this.configComponent.permissons.receive_calls) {
+    if (this.configComponent.permissions.receive_calls) {
       this.getDate = setInterval(() => {
         this.existPtientForShow = false;
         this.GetData();

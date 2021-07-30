@@ -33,7 +33,7 @@ export class UserService {
     }
 
 
-    guardarLocalStorage(token: string, menu: any) {
+    guardarLocalStorage(token: string) {
         localStorage.setItem('token', token);
     }
     validarToken(): Observable<boolean> {
@@ -43,8 +43,7 @@ export class UserService {
                 
                 const { id, usuario, change_password, person, menu } = resp.user;
                 this.user = new User(id, usuario, change_password, person, menu);
-                this.user.menu = [{ name: 'agendamiento', permissons: [{ name: 'receive_calls' }] }, { name: 'xx', permissons: [{ name: '2' }] }]
-                this.guardarLocalStorage(resp.token, resp.menu);
+                this.guardarLocalStorage(resp.token);
                 return true;
             }),
             catchError(error => of(false))
@@ -63,7 +62,7 @@ export class UserService {
                 tap((resp: any) => {
                     /* const { id, usuario, change_password, funcionario } = resp.user;
                     this.user = new User(id, usuario, change_password, funcionario); */
-                    this.guardarLocalStorage(resp.token, resp.menu);
+                    this.guardarLocalStorage(resp.token);
                 })
             );
 
