@@ -59,8 +59,6 @@ export class PermissionsComponent implements OnInit {
   sendData() {
     this.saving = true;
     let filteredMenu = this.filtertData(JSON.parse(JSON.stringify(this.menues)))
-    console.log(filteredMenu,this.menues);
-    
     filteredMenu = this.filterGrandpa(filteredMenu);
 
     this._permissions.save({ filteredMenu, person_id: this.person_id }).subscribe((r: any) => {
@@ -77,7 +75,6 @@ export class PermissionsComponent implements OnInit {
   }
 
   public indexMenu = (acc, els) => {
-    console.log(els);
     if (els.child.length > 0) {
       els.child.reduce(this.indexMenu, els.child, {})
     }
