@@ -1,7 +1,12 @@
 import { Component, OnInit } from '@angular/core';
 import { PersonService } from '../../../persons/person.service';
 import { PermissionService } from '../../../../../../core/services/permission.service';
-
+interface NavItem {
+  name: string;
+  link: boolean;
+  id: string;
+  child: NavItem[];
+}
 @Component({
   selector: 'app-permissions',
   templateUrl: './permissions.component.html',
@@ -9,8 +14,8 @@ import { PermissionService } from '../../../../../../core/services/permission.se
 })
 export class PermissionsComponent implements OnInit {
 
-  temporalMenues: any = []
-  menues: any = []
+  temporalMenues: Array<NavItem> = [];
+  menues: Array<NavItem> = [];
   constructor(private _person: PersonService, private _permissions: PermissionService) { }
 
   ngOnInit(): void {
@@ -20,69 +25,94 @@ export class PermissionsComponent implements OnInit {
   getMenues() {
     this._permissions.getMenu().subscribe((r: any) => {
       this.menues = r;
-      this.menues.map(r => console.log(r))
-      this.extractData(r);
-      console.log(this.temporalMenues);
-      this.filterArrayx(this.menues);
+
+     
+      /*  console.log(this.menues.reduce(this.indexMenu,{})); */
+
     })
   }
 
   save() {
-    let menues: any = [...this.menues];
-    /*  const menuIndexed = menues.reduce(this.indexMenu, {}) */
-    console.log(this.filtertData(this.menues));
-    /* console.log( menuIndexed ); */
+    //copy object
+ /*    let menuesFilter: any = JSON.parse(JSON.stringify(this.menues))
+    console.log(menuesFilter === this.menues);
+    console.log(this.filtertData(menuesFilter));
+ */
 
+
+    let m = this.filtertData(JSON.parse(JSON.stringify(this.menues)))
+    console.log(
+      this.filterGrandpa(m)
+    );
   }
 
-  public indexMenu = (acc, el) => {
-    console.log(el);
+  public indexMenu = (acc, els) => {
+    console.log(els);
 
-    let els: any = Object.assign({}, el)
+    /*  let els: any = Object.assign({}, el) */
     /* let els:any = [...el] */
-    els.permissions = els.permissions.reduce(this.indexPermissons, {})
+
+    if (els.child.length > 0) {
+      console.log(els.child);
+
+      els.child.reduce(this.indexMenu, els.child, {})
+    }
+    if (els.permissions) {
+      els.permissions = els.permissions.reduce(this.indexPermissons, {})
+      console.log(els);
+
+    }
     return ({ ...acc, [els.name]: els })
   }
 
-  public indexPermissons = (acc, el) => ({ [el.name]: el });
+  public indexPermissons = (acc, el) => ({ ...acc, [el.name]: el });
 
-
-  public extractData(menu: any) {
-    for (let element of menu) {
-      if (element.child) {
-        this.extractData(element.child)
-      }
-      if (element.link) {
-        this.temporalMenues.push(element)
-      }
-    };
-  }
-
+  /* 
+    public extractData(menu: any) {
+      for (let element of menu) {
+        if (element.child) {
+          this.extractData(element.child)
+        }
+        if (element.link) {
+          this.temporalMenues.push(element)
+        }
+      };
+    }
+   */
   public filtertData(menu: any, parent: any = {}, x = -1) {
-
     for (let element of menu) {
       x++;
       if (element.child) {
-
         this.filtertData(element.child, element)
       }
-      if (element.link) {
-        try {
+
+      try {
+        if (element.child.length == 0 && !element.link && element.parent_id) {
+          console.log('padreeeeeeeeeeees', element, parent, x);
+          let pos = parent.child.findIndex(f => f.id == element.id)
+          throw (pos);
+          /* this. */
+        }
+
+        if (element.link) {
           element.permissions.forEach(ele => {
             if (ele.name == 'show' && !ele.Activo) {
-              throw ("");
+              throw (x);
             }
           });
 
-        } catch (except) {
-          console.log(element, parent, x);
-          parent.child.splice(x, 1)
-          this.filtertData(menu, parent)
-
         }
-
+      } catch (posDel) {
+        console.log(element, parent, posDel);
+        parent.child.splice(posDel, 1)
+        this.filtertData(menu, parent)
       }
     };
+    return menu
+  }
+
+  filterGrandpa(menu: Array<NavItem>) {
+    return menu.filter(d => (d.child.length > 0 || d.name == 'Tablero') );
   }
 
   public setPermit(item, pos, permit) {
@@ -110,17 +140,23 @@ export class PermissionsComponent implements OnInit {
     } catch (error) { }
   }
   x = 0;
-  filterArrayx(arra: any) {
-    console.log(this.x++, arra);
 
-    console.log(arra.reduce((acc, el) => {
+  filterArrayx(arra: any, el = []) {
+    arra.reduce((acc, el) => {
       if (el.child.length > 0) {
         this.filterArrayx(el.child)
       }
+      if (el.child.length == 0 && !el.link) {
+        /*   this.filterArrayx(el.child) */
+      }
       console.log(el, 'in');
+      if (el.permissions) {
+        console.log(el, 'permissions');
+        return ({})
 
-      return ({ ...acc, el })
-    }, []));
+      }
 
+      return ({ ...acc, [el.name]: el })
+    }, []);
   }
 }
