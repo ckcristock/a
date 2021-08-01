@@ -39,7 +39,7 @@ export class AbrirAgendasComponent implements OnInit {
   public speciality
   public profesional
   public isProcedure = false;
-  public locationId: Number;
+  public location_id: Number;
 
 
   public timeDuration = { value: 20, text: "20 Minutos" }
@@ -155,7 +155,7 @@ export class AbrirAgendasComponent implements OnInit {
 
     this.isProcedure = Boolean(this.subappointment.procedure);
 
-    this._openAgendaService.getIps(String(this.locationId)).subscribe((resp: any) => {
+    this._openAgendaService.getIps(String(this.location_id)).subscribe((resp: any) => {
       this.ipss = resp.data;
     });
   }
