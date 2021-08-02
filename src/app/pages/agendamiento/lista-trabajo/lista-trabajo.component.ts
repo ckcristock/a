@@ -70,7 +70,7 @@ export class ListaTrabajoComponent implements OnInit {
   /*   'Agendado','Cancelado','Atendido' */
   states = [
     { value: '', name: 'Seleccione' },
-    { value: 'Agendado', name: 'Agendado' },
+    { value: 'Aperturada', name: 'Aperturada' },
     { value: 'Cancelado', name: 'Cancelado' },
     { value: 'Atendido', name: 'Atendido' },
   ]

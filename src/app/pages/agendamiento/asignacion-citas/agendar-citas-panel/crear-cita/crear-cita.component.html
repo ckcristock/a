@@ -155,6 +155,7 @@
         name="observation"
         [(ngModel)]="cita.observacion"
         required
+        minlength="10"
       ></textarea>
     </div>
   </div>
@@ -185,7 +186,6 @@
 
 <ng-template #procedure let-r="result" let-t="term">
   <span class="f-9">
-    {{ r.value }}
     <strong>{{ r.text }}</strong>
   </span>
 </ng-template>

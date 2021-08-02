@@ -71,7 +71,7 @@
                         <div class="row p-3">
                             <div class="col-md-2 my-2" *ngIf="profesional">
                                 <label>Inicio de Agendamiento</label>
-                                <input class="form-control" type="date" name="date_start" value="2018-01-01" ngModel required #date_start="ngModel" />
+                                <input class="form-control" type="date" name="date_start" value="2018-01-01" [(ngModel)]="fechaInicio" required #date_start="ngModel" />
 
                             </div>
 
@@ -82,23 +82,23 @@
 
                             <div class="col-md-2 my-2" *ngIf="profesional">
                                 <label>Hora Inicio</label>
-                                <input class="form-control" required step="300" ngModel type="time" name="hour_start" value="08:00" />
+                                <input class="form-control" required step="300" ngModel type="time" [(ngModel)]="hour_start" name="hour_start" value="08:00" />
                             </div>
 
                             <div class="col-md-2 my-2" *ngIf="profesional">
                                 <label>Hora Fin</label>
-                                <input class="form-control" required ngModel type="time" name="hour_end" value="18:00" />
+                                <input class="form-control" required ngModel type="time" name="hour_end" [(ngModel)]="hour_end" value="18:00" />
                             </div>
 
                             <div class="col-md-1 my-2" *ngIf="profesional">
                                 <label>Duración</label>
-                                <ng-select [items]="optionesTime" required bindLabel="text" bindValue="value" ngModel placeholder="Seleccione " name="long" loadingText="loading" ngDefaultControl>
+                                <ng-select [items]="optionesTime" required bindLabel="text" bindValue="value" ngModel placeholder="Seleccione " [(ngModel)]="long" name="long" loadingText="loading" ngDefaultControl>
                                 </ng-select>
                             </div>
 
                             <div class="col-md-3 my-2" *ngIf="profesional">
                                 <label>Dias</label>
-                                <ng-select [items]="diasSemana" required multiple="true" bindLabel="text" bindValue="value" ngModel placeholder="Seleccione " name="days" loadingText="loading" ngDefaultControl>
+                                <ng-select [items]="diasSemana" required multiple="true" bindLabel="text" bindValue="value" ngModel placeholder="Seleccione " [(ngModel)]="days" name="days" loadingText="loading" ngDefaultControl>
                                 </ng-select>
                             </div>
 

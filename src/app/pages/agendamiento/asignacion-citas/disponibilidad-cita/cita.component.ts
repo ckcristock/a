@@ -94,7 +94,7 @@ export class CitaComponent implements OnInit {
   getProfesionals() {
     this._openAgendaService.getProfesionals(this.dataCitaToAssign.ips.value, String(this.dataCitaToAssign.speciality)).subscribe((resp: any) => {
       this.persons = resp.data;
-      this.persons.unshift({value:'',text:'Seleccione'})
+      this.persons.unshift({value:'',text:'Todos'})
     });
   }
 

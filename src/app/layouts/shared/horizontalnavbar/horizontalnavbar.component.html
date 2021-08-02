@@ -19,9 +19,9 @@
                     <ng-container *ngFor="let item of navItems">
                         <li class="nav-item dropdown">
 
-                            <a class="nav-link dropdown-toggle arrow-none" href="javascript: void(0);" [routerLink]="item.link" id="topnav-components" role="button" (click)="onMenuClick($event)">
+                            <a class="nav-link dropdown-toggle arrow-none" href="javascript: void(0);" [routerLink]="(item.name == 'Tablero' ? '/' : item.link)" id="topnav-components" role="button" (click)="onMenuClick($event)">
                                 <i class="ri-dashboard-line mr-2"></i>{{ item.name }}
-                                <div *ngIf="item.child" class="arrow-down">
+                                <div *ngIf="item.child.length>0" class="arrow-down">
                                 </div>
                             </a>
 
