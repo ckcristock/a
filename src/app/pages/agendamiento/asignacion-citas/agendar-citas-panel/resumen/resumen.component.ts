@@ -55,7 +55,8 @@ export class ResumenComponent implements OnInit {
       this.call = r
     })
     this.dataCitaToAssignService.dataFinal.subscribe(r => {
-
+      console.log('data ti assign',r);
+      
       this.anotheData = r.anotheData
       this.appointment = r.appointment
       this.patient = r.patient

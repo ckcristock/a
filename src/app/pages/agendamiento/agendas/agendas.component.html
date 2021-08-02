@@ -62,57 +62,61 @@
             <div class="col-12">
                 <div class="card">
                     <div class="card-body">
-                        <table class="table table-hover mb-0 table-centered table-nowrap">
-                            <thead class="thead-dark">
-                                <tr>
-                                    <th>Fecha</th>
-                                    <th>Func. Elaboró</th>
-                                    <th>Profesional</th>
-                                    <th>Especialidad</th>
-                                    <th>Estado</th>
-                                    <th></th>
-                                </tr>
-                            </thead>
-                            <tbody>
-                                <tr *ngFor="let item of agendas">
-                                    <td>
-                                        <p class="font-size-14 mb-0">{{item.created_at |date}}</p>
-                                    </td>
-                                    <td>
-                                        <p class="font-size-14 mb-0">
-                                            <!-- {{item.person.name}} -->
-                                        </p>
-                                    </td>
-                                    <td>
-                                        <p class="font-size-14 mb-0">{{item.person.name}}</p>
-                                    </td>
-                                    <td>
-                                        <p class="font-size-14 mb-0">{{item.speciality.name}}</p>
-                                    </td>
-                                    <td>
-                                        <p class="font-size-14 mb-0">{{item.state}}</p>
-                                    </td>
-                                    <td class="text-right ">
-                                        <div class="btn-group " role="group " ngbDropdown>
-                                            <button id="btnGroupVerticalDrop1 " type="button " class="btn btn-primary btn-sm dropdown-toggle " ngbDropdownToggle>
-                                    Acciones <i class="mdi mdi-chevron-down "></i>
-                                  </button>
-                                            <div style="cursor: pointer; " class="dropdown-menu font-weight-bolder " aria-labelledby="btnGroupVerticalDrop1 " ngbDropdownMenu>
-                                                <a class="dropdown-item " [routerLink]="['/agendamiento/detalle-agenda',item.id]"> <i class=" fa fa-search mr-2 "></i>Ver más</a>
-                                                <!-- <a class="dropdown-item "> <i class="fa fa-edit mr-2 "></i>Editar </a> -->
-                                                <a class="dropdown-item "> <i class="fa fa-ban mr-2 "></i>Suspender </a>
+                        <div *ngIf="!loading && agendas.length > 0; else notData">
+
+
+                            <table class="table table-hover mb-0 table-centered table-nowrap">
+                                <thead class="thead-dark">
+                                    <tr>
+                                        <th>Fecha</th>
+                                        <th>Func. Elaboró</th>
+                                        <th>Profesional</th>
+                                        <th>Especialidad</th>
+                                        <th>Estado</th>
+                                        <th></th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <tr *ngFor="let item of agendas">
+                                        <td>
+                                            <p class="font-size-14 mb-0">{{item.created_at |date}}</p>
+                                        </td>
+                                        <td>
+                                            <p class="font-size-14 mb-0">
+                                                <!-- {{item.functionary.name}} -->
+                                            </p>
+                                        </td>
+                                        <td>
+                                            <p class="font-size-14 mb-0">{{item.person.name}}</p>
+                                        </td>
+                                        <td>
+                                            <p class="font-size-14 mb-0">{{item.speciality.name}}</p>
+                                        </td>
+                                        <td>
+                                            <p class="font-size-14 mb-0">{{item.state}}</p>
+                                        </td>
+                                        <td class="text-right ">
+                                            <div class="btn-group " role="group " ngbDropdown>
+                                                <button id="btnGroupVerticalDrop1 " type="button " class="btn btn-primary btn-sm dropdown-toggle " ngbDropdownToggle>
+                                                Acciones <i class="mdi mdi-chevron-down "></i>
+                                            </button>
+                                                <div style="cursor: pointer; " class="dropdown-menu font-weight-bolder " aria-labelledby="btnGroupVerticalDrop1 " ngbDropdownMenu>
+                                                    <a class="dropdown-item " [routerLink]="['/agendamiento/detalle-agenda',item.id]"> <i class=" fa fa-search mr-2 "></i>Ver más</a>
+                                                    <!-- <a class="dropdown-item "> <i class="fa fa-edit mr-2 "></i>Editar </a> -->
+                                                    <a class="dropdown-item "> <i class="fa fa-ban mr-2 "></i>Suspender </a>
+                                                </div>
                                             </div>
-                                        </div>
-                                    </td>
-                                </tr>
+                                        </td>
+                                    </tr>
 
-                            </tbody>
-                        </table>
-                        <div class="row align-items-right mt-2 ">
-                            <div class="col-sm-12 ">
-                                <div class="text-md-right float-md-right pagination-rounded ">
-                                    <ngb-pagination [collectionSize]="pagination.collectionSize " (pageChange)="getAgendamientos($event) " [pageSize]="pagination.pageSize " [(page)]="pagination.page " aria-label="Default pagination "></ngb-pagination>
+                                </tbody>
+                            </table>
+                            <div class="row align-items-right mt-2 ">
+                                <div class="col-sm-12 ">
+                                    <div class="text-md-right float-md-right pagination-rounded ">
+                                        <ngb-pagination [collectionSize]="pagination.collectionSize " (pageChange)="getAgendamientos($event) " [pageSize]="pagination.pageSize " [(page)]="pagination.page " aria-label="Default pagination "></ngb-pagination>
 
+                                    </div>
                                 </div>
                             </div>
                         </div>
@@ -131,3 +135,8 @@
 
 
 <app-detail-stats [showDeitalStat]="showDeitalStat"></app-detail-stats>
+
+
+<ng-template #notData>
+    <app-not-data [loading]="loading"></app-not-data>
+</ng-template>

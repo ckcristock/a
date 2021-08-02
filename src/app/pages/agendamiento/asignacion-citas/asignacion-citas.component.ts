@@ -1,5 +1,5 @@
 import { HttpClient } from '@angular/common/http';
-import { Component, OnInit, Output, OnDestroy } from '@angular/core';
+import { Component, OnInit, Output, OnDestroy, EventEmitter } from '@angular/core';
 import { TimerObservable } from 'rxjs/observable/TimerObservable';
 import { environment } from 'src/environments/environment';
 import { QueryPatient } from '../query-patient.service';
@@ -19,11 +19,11 @@ import { OpenAgendaService } from '../open-agenda.service';
   styleUrls: ['./asignacion-citas.component.scss'],
 })
 export class AsignacionCitasComponent implements OnInit {
-
+  public getClitasE = new EventEmitter<any>();
   public configComponent: any =
     {
-      'menu': 'agendamiento',
-      'permissons': {
+      'menu': 'Asignación de Citas',
+      'permissions': {
         'receive_calls': false
       }
     }
@@ -58,6 +58,7 @@ export class AsignacionCitasComponent implements OnInit {
 
     this.configComponent = this._permisson.validatePermissions(this.configComponent)
     this.existPtient = _queryPatient.existPatient.subscribe((r) => this.Init());
+    
   }
 
   ngOnInit(): void {
@@ -74,7 +75,10 @@ export class AsignacionCitasComponent implements OnInit {
           //this.Init()
           this.existPtientForShow = false;
         }
-        if (r.component /* && r.component == 'Reasignar Citas' */) {
+
+
+        if (r.component == 'Reasignar Citas') {
+          console.log('fidn', r.component, this.patient.paciente.identifier);
           this.getCitas();
         }
       }
@@ -86,14 +90,14 @@ export class AsignacionCitasComponent implements OnInit {
   }
 
   getCitas() {
-    this._appointment.getAppointments({ identifier: this.patient.paciente.identifier }).subscribe(r => {
-      this.citas = r;
-    })
+    setTimeout(() => {
+      this.getClitasE.emit({ identifier: this.patient.paciente.identifier });
+    }, 200);
   }
 
   Init() {
 
-    if (this.configComponent.permissons.receive_calls) {
+    if (this.configComponent.permissions.receive_calls) {
       this.getDate = setInterval(() => {
         this.existPtientForShow = false;
         this.GetData();
@@ -111,7 +115,6 @@ export class AsignacionCitasComponent implements OnInit {
           let data = req.data;
           if (!data.paciente) {
             data = this.newPatient(data, req)
-
           }
           this.patient = data;
           this._queryPatient.patient.next(data);
@@ -153,9 +156,8 @@ export class AsignacionCitasComponent implements OnInit {
 
 
   canceledAppointment(event) {
-    if (this.operation.name == 'Reasignación de Citas') {
-      this.getCitas();
-    } else {
+    if (this.operation.name != 'Reasignación de Citas') {
+      //this.getCitas();
       this._queryPatient.existPatient.next();
       this._queryPatient.resetModels();
       this._openAgenda.getClean(this.patient.llamada.id).subscribe(r => { });

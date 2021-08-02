@@ -16,7 +16,7 @@ export class CitaComponent implements OnInit {
   public dataCitaToAssign = new dataCitaToAssign();
   public type_appointments: [];
   public specialties: [];
-  public persons: [];
+  public persons:any[];
   public ipss: [];
   public sedes: [];
   public type_subappointments: [
@@ -34,14 +34,21 @@ export class CitaComponent implements OnInit {
   }
 
 
-  dispatchPerson() {
-    this._queryAvailabilitySpacesService.getPerson.next(this.dataCitaToAssign.person);
+  dispatchPerson(form:NgForm) {
+    console.log('dispatch',form.valid,form.value);
+    
+    if (form.valid) {
+      this._queryAvailabilitySpacesService.getPerson.next({person:this.dataCitaToAssign.person,params:form.value});
+   
+    }else{
+      this._queryAvailabilitySpacesService.getPerson.next({person:0,params:0})
+    }
   }
 
   dispatchSpeciality(speciality) {
-    this.dataCitaToAssign.person = { value: '' }
-    this._queryAvailabilitySpacesService.getspeciality.next(speciality);
-    this._queryAvailabilitySpacesService.getPerson.next(0);
+    this.dataCitaToAssign.person = ''
+    /* this._queryAvailabilitySpacesService.getspeciality.next(speciality); */
+   /*  this._queryAvailabilitySpacesService.getPerson.next({person:0,params:0}); */
   }
 
   getTypeAppointment() {
@@ -50,7 +57,7 @@ export class CitaComponent implements OnInit {
     });
   }
 
-  getSubTypeAppointment() {
+  getSubTypeAppointment(form : NgForm) {
     this.dataCitaToAssign.appointment = this.searchAppointment(this.type_appointments, this.dataCitaToAssign.appointmentId);
     this._openAgendaService.getSubTypeAppointment(this.dataCitaToAssign.appointment.value).subscribe((resp: any) => {
       this.type_subappointments = resp.data;
@@ -59,6 +66,7 @@ export class CitaComponent implements OnInit {
         this.getIps()
       }
       this.getSpecialties()
+      this.dispatchPerson(form)
     });
 
   }
@@ -86,6 +94,7 @@ export class CitaComponent implements OnInit {
   getProfesionals() {
     this._openAgendaService.getProfesionals(this.dataCitaToAssign.ips.value, String(this.dataCitaToAssign.speciality)).subscribe((resp: any) => {
       this.persons = resp.data;
+      this.persons.unshift({value:'',text:'Seleccione'})
     });
   }
 
@@ -104,6 +113,8 @@ export class CitaComponent implements OnInit {
   }
 
   siguiente() {
+    console.log('dddddd',this.dataCitaToAssign);
+    
     this.dataCitaToAssignService.dataCitaToAssign.next(this.dataCitaToAssign);
     this.sigx.emit('');
   }

@@ -75,9 +75,14 @@ export class AsignarCalendarioComponent implements OnInit {
       this.speciality = r
       // this._fetchData();
     });
-    this._queryAvailabilitySpacesService.getPerson.subscribe(r => {
-      this.person = r
-      this._fetchData();
+    this._queryAvailabilitySpacesService.getPerson.subscribe((r:any) => {
+      this.person = r?.person
+      console.log(r);
+      if (this.person) {
+        this._fetchData(r?.params);
+      }else{
+        this.calendarEvents = [];
+      }
     });
   }
 
@@ -110,9 +115,8 @@ export class AsignarCalendarioComponent implements OnInit {
   openEditModal() {
   }
 
-  private _fetchData() {
-
-    this._openAgendaService.getOpenedSpace(this.speciality, this.person).subscribe((resp: any) => {
+  private _fetchData(params) {
+    this._openAgendaService.getOpenedSpaceCustom(params).subscribe((resp: any) => {
       console.log(resp, 'spaces');
       if (resp.data.length == 0) {
         const swalWithBootstrapButtons = Swal.mixin({

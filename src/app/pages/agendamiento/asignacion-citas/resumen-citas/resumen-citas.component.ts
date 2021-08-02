@@ -1,4 +1,5 @@
 import { Component, EventEmitter, Input, OnInit, ViewChild } from '@angular/core';
+import { AppointmentService } from '../../../../core/services/appointment.service';
 
 @Component({
   selector: 'app-resumen-citas',
@@ -6,16 +7,29 @@ import { Component, EventEmitter, Input, OnInit, ViewChild } from '@angular/core
   styleUrls: ['./resumen-citas.component.scss']
 })
 export class ResumenCitasComponent implements OnInit {
+  loading = false;
   @ViewChild('modalCita') modalCita: any;
   openModalDetalle = new EventEmitter<any>();
-  @Input('citas') citas : Array<any>
+  //@Input('citas') citas : Array<any>;
+  @Input('patient') patient: any = '';
   data: any = {
     Id_Especialidad: '',
   }
+  citas : any = []
+  constructor(private _appointment : AppointmentService) {
+    //console.log('patiiiiii',this.patient);
+   }
+  
 
-  constructor() { }
-
+   getCitas() {
+    this.loading = true;
+    this._appointment.getAppointments({ identifier:this.patient }).subscribe((r: any) => {
+      this.citas = r.data.data;
+      this.loading = false;
+    })
+  }
   ngOnInit(): void {
+    this.getCitas();
   }
 
   
@@ -26,5 +40,8 @@ export class ResumenCitasComponent implements OnInit {
     }
     this.openModalDetalle.emit(modalDetalle)
   }
+
+  
+
 
 }

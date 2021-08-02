@@ -49,7 +49,7 @@ export class OpenAgendaService {
    * getSpecialties
    */
   public getSpecialties(sede: string, procedure: string) {
-    if (sede == 'undefined') {
+    if (sede == 'undefined' || !sede) {
       sede = '0';
       procedure = '0'
     }
@@ -71,6 +71,9 @@ export class OpenAgendaService {
 
   public getOpenedSpace(especialidad: Number, profesional: Number) {
     return this.clientHttp.get(`${environment.base_url}/opened-spaces/${especialidad}/${profesional}`)
+  }
+  public getOpenedSpaceCustom(params = {}) {
+    return this.clientHttp.get(`${environment.base_url}/opened-spaces`,{params})
   }
 
   public getDiagnostics() {

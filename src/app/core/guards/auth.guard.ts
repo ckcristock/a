@@ -12,8 +12,10 @@ export class AuthGuard implements CanActivate, CanLoad {
 
     constructor(private _user: UserService,
         private router: Router) { }
-
+        
     canLoad(route: Route, segments: UrlSegment[]): boolean | UrlTree | Observable<boolean | UrlTree> | Promise<boolean | UrlTree> {
+    console.log('canActive');
+       
         return this._user.validarToken()
             .pipe(
                 tap(estaAutenticado => {
@@ -27,7 +29,8 @@ export class AuthGuard implements CanActivate, CanLoad {
     canActivate(
         next: ActivatedRouteSnapshot,
         state: RouterStateSnapshot) {
-
+    console.log('canActive');
+    
         return this._user.validarToken()
             .pipe(
                 tap(estaAutenticado => {

@@ -1,27 +1,14 @@
 <form class="row mt-3" #registerCita="ngForm">
-  <div class="col-12 mt-12">
-    <div class="input-group mb-3">
-      <div class="input-group-prepend">
-        <span class="input-group-text" id="inputGroup-sizing-default">
+    <div class="col-12 mt-12">
+        <div class="input-group mb-3">
+            <div class="input-group-prepend">
+                <span class="input-group-text" id="inputGroup-sizing-default">
           <i class="fas fa-stethoscope"></i>
         </span>
-      </div>
-      <input
-        id="typeahead-http"
-        type="text"
-        required
-        class="form-control"
-        [class.is-invalid]="searchFailedDiagnostic"
-        [(ngModel)]="diagnosticoId"
-        [ngbTypeahead]="search"
-        placeholder="Diagnostico del Paciente"
-        name="diagnosticoId"
-        ngDefaultControl
-        [resultTemplate]="diagnostic"
-        [inputFormatter]="Inputdiagnostic"
-      />
-      <small *ngIf="searchingDiagnostic" class="form-text text-muted"
-        >Buscando...</small
+            </div>
+            <input id="typeahead-http" type="text" required class="form-control" [class.is-invalid]="searchFailedDiagnostic" [(ngModel)]="diagnosticoId" [ngbTypeahead]="search" placeholder="Diagnostico del Paciente" name="diagnosticoId" ngDefaultControl [resultTemplate]="diagnostic"
+                [inputFormatter]="Inputdiagnostic" />
+            <small *ngIf="searchingDiagnostic" class="form-text text-muted">Buscando...</small
       >
       <div class="invalid-feedback" *ngIf="searchFailedDiagnostic">
         No se ha podido encontrar.
@@ -177,7 +164,14 @@
       [disabled]="registerCita.invalid"
       (click)="save(registerCita)"
     >
-      Crear cita
+    
+        <span *ngIf="!loading ;else status" >Crear cita</span>
+       
+        <ng-template #status>
+            <span class="spinner-border spinner-border-sm" role="status" aria-hidden="true"></span>
+                Creando Cita...
+        </ng-template>
+ 
     </button>
   </div>
 </form>
@@ -195,4 +189,3 @@
     <strong>{{ r.text }}</strong>
   </span>
 </ng-template>
-

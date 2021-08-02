@@ -5,29 +5,33 @@
                 <div>
                     <div class="text-center mb-5">
                         <p class="mb-2">
-                            <i class="fa fa-clock"></i> Promedio de tiempo de espera
+                            <i class="fa fa-clock"></i> Tiempo promedio de espera
                         </p>
                         <h5>{{statistics.averageTime}}</h5>
                     </div>
 
                     <div class="mb-5 text-center">
                         <p class="mb-2  "> <i class="fa fa-user-clock"></i> Cita más antigua</p>
-                        <!--  <h4>4 dias 1 hora 5 minutos</h4> -->
-                        <div class="text-danger">
-                            <div class="row align-items-center">
+                        <div>
+                            <div class="row align-items-center text-danger" *ngIf="statistics.lastAppointment.date; else notLast">
                                 <div class="col-6">{{statistics.lastAppointment.date | date}}</div>
                                 <div class="col-6">{{statistics.lastAppointment.patient_name}}</div>
                                 <!-- <div class="col-4">{{statistics.lastAppointment.speciality}}</div> -->
-  
                             </div>
+                            <ng-template #notLast>
+                                <span class="text-success">
+                                    No hay cita pendiente
+                                </span>
+                            </ng-template>
                         </div>
                     </div>
 
                     <div class="text-center">
                         <p class="mb-2"> <i class="fa fa-sort-amount-up-alt"></i> Top Especialidades en espera</p>
                     </div>
-                    <div class="table-responsive mt-4">
-                        <table class="table table-hover mb-0 table-centered table-nowrap">
+                    <div class="table-responsive mt-4 text-left">
+
+                        <table *ngIf="statistics.topAwait.length > 0; else notTop" class="table table-hover mb-0 table-centered table-nowrap">
                             <tbody>
                                 <tr *ngFor="let top of statistics.topAwait">
                                     <td>
@@ -45,9 +49,12 @@
                         </table>
                     </div>
 
-                    <div class="text-center mt-4">
-                        <!--  <a href="javascript: void(0);" class="btn btn-primary btn-sm">Ver mas</a> -->
-                    </div>
+                    <ng-template #notTop>
+                        <span class="text-success ">
+                            No hay especialidades pendientes
+                        </span>
+                    </ng-template>
+
                 </div>
             </div>
         </div>

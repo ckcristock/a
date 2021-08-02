@@ -39,7 +39,7 @@ export class AbrirAgendasComponent implements OnInit {
   public speciality
   public profesional
   public isProcedure = false;
-  public locationId: Number;
+  public location_id: Number;
 
 
   public timeDuration = { value: 20, text: "20 Minutos" }
@@ -69,11 +69,15 @@ export class AbrirAgendasComponent implements OnInit {
   public diasSemana = diasSemana
   public searchingProcedure = false;
   public searchFailedProcedure = false;
-
+  public today: any;
   constructor(private _openAgendaService: OpenAgendaService, public _queryPerson: QueryPerson, private router: Router) { }
 
   ngOnInit(): void {
     this.getTypeAppointment();
+    this.today = new Date();
+    this.today.setHours(0, 0, 0, 0);
+    //this.today = Date.parse(this.today)
+
   }
 
   reset() {
@@ -151,7 +155,7 @@ export class AbrirAgendasComponent implements OnInit {
 
     this.isProcedure = Boolean(this.subappointment.procedure);
 
-    this._openAgendaService.getIps(String(this.locationId)).subscribe((resp: any) => {
+    this._openAgendaService.getIps(String(this.location_id)).subscribe((resp: any) => {
       this.ipss = resp.data;
     });
   }
@@ -208,16 +212,19 @@ export class AbrirAgendasComponent implements OnInit {
       confirmButtonText: 'Si, Hazlo!'
     }).then(result => {
       if (result.value) {
+        /*  */
         this._openAgendaService.saveAgendamiento(JSON.stringify(formulario.value)).subscribe((resp: any) => {
-          this._queryPerson.person.next(this.profesional)
-          this.reset();
-          Swal.fire('Buen trabajo!', 'Se ha aperturado agenda correctamente.', 'success');
+          if (resp.code != 200) {
+            Swal.fire('Error', resp.err, 'error');
+          } else {
+            this._queryPerson.person.next(this.profesional)
+            this.reset();
+          }
         });
       }
     });
 
   }
-
 
   searchProcedure: OperatorFunction<string, readonly string[]> = (text$: Observable<string>) =>
     text$.pipe(

@@ -1,5 +1,10 @@
 import { Component, OnInit, ViewChild } from '@angular/core';
-
+import { NgForm } from '@angular/forms';
+import { DataDinamicService } from '../../../../data-dinamic.service';
+import { OpenAgendaService } from '../../../agendamiento/open-agenda.service';
+import { PersonService } from './person.service';
+import { Observable, ReplaySubject } from 'rxjs';
+import {functionsUtils} from '../../../../core/utils/functionsUtils';
 @Component({
   selector: 'app-persons',
   templateUrl: './persons.component.html',
@@ -9,68 +14,40 @@ export class PersonsComponent implements OnInit {
 
   @ViewChild('newModal') newModal
 
-  person :any = {
-    type_identification_id:'',
-    identification:'',
-    first_name:'',
-    second_name:'',
-    first_surname:'',
-    second_surname:'',
-    birth_day:'',
-    civil_state:'',
-    email:'',
-    telphone:'',
-    celphone:'',
-    Ips:'',
-    departament_id:'',
+  person: any = {
+    type_identification_id: '',
+    identification: '',
+    first_name: '',
+    second_name: '',
+    first_surname: '',
+    second_surname: '',
+    birth_day: '',
+    civil_state: '',
+    email: '',
+    telphone: '',
+    celphone: '',
+    Ips: '',
+    departament_id: '',
 
-    municipality_id:'',
-    companies:[],
-    medical_register:'',
-    person_type_id:'',
-    specialities:[]
+    municipality_id: '',
+    companies: [],
+    medical_register: '',
+    person_type_id: '',
+    specialities: []
   }
-  photo_blob : any;
-  firma_blob : any;
+  image_blob: any;
+  signature_blob: any;
 
-  companies=[
-    {
-    text:'Empresa A', value:'1'
-  },
-    {
-    text:'Empresa B', value:'2'
-  },
-    {
-    text:'Empresa C', value:'3'
-  },
-]
+  companies: any = []
 
-specialities = [
-  {
-  text:'Cardiología ',value:1,
-},
-  {
-  text:'Cardiología',value:2,
-},
+  specialities: any = []
 
-  {
-  text:'Cardiología',value:3,
-},
-]
-
-person_types = [
-  {text:'Doctor',value:1},
-  {text:'Enfermeria',value:2},
-  {text:'Jefe Enfermeria',value:2},
-]
-  typesDocuments: Array<any> = [
-    { Nombre: 'CC', Id: '1' },
-    { Nombre: 'CI', Id: '2' },
-    { Nombre: 'CE', Id: '3' },
-  ]
+  peopleTypes: any = [];
+  typesDocuments: Array<any> = []
   civilStates: Array<any> = [
-    { Nombre: 'Soltero/a', Id: '1' },
-    { Nombre: 'Casado/a', Id: '2' },
+    { name: 'Seleccione', value: '' },
+    { name: 'Soltero/a', value: 'Soltero/a' },
+    { name: 'Casado/a', value: 'Casado/a' },
   ]
   pagination = {
     pageSize: 20,
@@ -89,71 +66,144 @@ person_types = [
   searching = false;
   searchFailed = false;
   persons = [{
-    identification:'1222334',
-    names:'Jhoe Due',
+    identification: '1222334',
+    names: 'Jhoe Due',
     city: 'VIDASER EU',
-    company:'Company Test',
-    state:'Activo'
+    company: 'Company Test',
+    state: 'Activo'
   }, {
-    identification:'1222334',
-    names:'Jhoe Due',
+    identification: '1222334',
+    names: 'Jhoe Due',
     city: 'MEDISERRRANO',
-    company:'Company Test',
-    state:'Activo'
+    company: 'Company Test',
+    state: 'Activo'
   }, {
-    identification:'1222334',
-    names:'Jhoe Due',
+    identification: '1222334',
+    names: 'Jhoe Due',
     city: 'MEGSALUD',
-    company:'Company Test',
-    state:'Activo'
+    company: 'Company Test',
+    state: 'Activo'
   }, {
-    identification:'1222334',
-    names:'Jhoe Due',
+    identification: '1222334',
+    names: 'Jhoe Due',
     city: 'SALUDVITAL',
-    company:'Company Test',
-    state:'Activo'
+    company: 'Company Test',
+    state: 'Activo'
 
   }, {
-    identification:'1222334',
-    names:'Jhoe Due',
+    identification: '1222334',
+    names: 'Jhoe Due',
     city: 'HEMOPLIFE',
-    company:'Company Test',
-    state:'Activo'
+    company: 'Company Test',
+    state: 'Activo'
 
   }, {
-    identification:'1222334',
-    names:'Jhoe Due',
+    identification: '1222334',
+    names: 'Jhoe Due',
     city: 'ECOMEDIS',
-    company:'Company Test',
-    state:'Activo'
+    company: 'Company Test',
+    state: 'Activo'
   }
   ]
 
-  departaments :any = [
-    {value:1,text:'Santander'},
-    {value:2,text:'Norte Santander'},
-    {value:3,text:'Magdalena'},
-  ]
+  specialties: any = [];
+  cities: any = [];
+  departments: any = [];
+  municipalities: any = [];
+  locations: any = [];
+  saving = false;
+  constructor(private _dataDinamic: DataDinamicService, private _person: PersonService) {
 
-  municipalities :any = [
-
-  ]
-  constructor() { }
+  }
 
   ngOnInit(): void {
   }
+  base64Output = ''
+  onFileSelected(e, fileInput) {
+    var file = e.dataTransfer ? e.dataTransfer.files[0] : e.target.files[0];
+    var pattern = /image-*/;
 
-  guardar(){
-    console.log(this.person);
+    if (!file.type.match(pattern)) {
+      alert('invalid format');
+      return;
+    }
+    functionsUtils.fileToBase64(file).subscribe(base64 => {
+      this.base64Output = base64;
+      console.log(this.base64Output);
+    });
+    /* reader.onload = this._handleReaderLoaded.bind(this); */
+    // reader.readAsDataURL(file);
 
   }
+  imageSrc = ''
+ 
 
-  searchMun(){
-    console.log(this.person);
+  guardar(form: NgForm) {
+    this.saving = true;
+    let values = form.value
+    let sendForm = new FormData();
+    /*  for (const key in values) {
+       console.log(key,values[key]);
+       sendForm.append(key+'', values[key]+'')
+     } */
 
-    this.municipalities = [{value:1,text:'Santander'},
-    {value:2,text:'Norte Santander'},
-    {value:3,text:'Magdalena'}]
+
+    sendForm.append('image', 'SDASD')
+    this._person.storePeople(form.value).subscribe(r => {
+      console.log(r);
+    })
+  }
+
+  getData() {
+    this.getDepartments();
+    this.getSpecialties();
+    this.getCompanies();
+    this.getPeopleTypes();
+    this.getTypeDocuments();
+  }
+
+
+  getCities(department) {
+    if (department) {
+      this._dataDinamic.getCities({ department_id: department.value }).subscribe((req: any) => {
+        this.cities = req.data
+        this.cities.unshift({ text: 'Seleccione', value: '' })
+      })
     }
+  }
+
+  async getDepartments() {
+    await this._dataDinamic.getDepartments().toPromise().then((req: any) => {
+      this.departments = req.data
+      this.departments.unshift({ text: 'Seleccione', value: '' })
+    })
+  }
+
+  getPeopleTypes() {
+    this._dataDinamic.getPeopleTypes().subscribe((req: any) => {
+      this.peopleTypes = req.data
+      this.peopleTypes.unshift({ text: 'Seleccione', value: '' })
+    })
+  }
+
+  getCompanies() {
+    this._dataDinamic.getCompanies(1).subscribe((req: any) => {
+      this.companies = req.data
+      /*   this.companies.unshift({ text: 'Seleccione', value: '' }) */
+    })
+  }
+
+  getSpecialties() {
+    this._dataDinamic.getSpecialties('', '').subscribe((resp: any) => {
+      this.specialities = resp.data;
+    });
+  }
+
+  getTypeDocuments() {
+    this._dataDinamic.getTypeDocuments().subscribe((resp: any) => {
+      this.typesDocuments = resp.data;
+      this.typesDocuments.unshift({ text: 'Seleccione', value: '' })
+    });
+  }
 
 }
