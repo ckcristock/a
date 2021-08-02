@@ -33,7 +33,7 @@
 
                         <div class="col-md-4 my-2">
                             <label>Profesional</label>
-                            <ng-select [items]="persons" required bindLabel="text" bindValue="value" [(ngModel)]="dataCitaToAssign.person" [placeholder]="'Seleccione'" name="person_id" loadingText="loading" ngDefaultControl (ngModelChange)="dispatchPerson(agenda);">
+                            <ng-select [items]="persons"  bindLabel="text" bindValue="value" [(ngModel)]="dataCitaToAssign.person" [placeholder]="'Seleccione'" name="person_id" loadingText="loading" ngDefaultControl (change)="dispatchPerson(agenda);">
                             </ng-select>
                         </div>
 

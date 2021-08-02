@@ -34,7 +34,7 @@
                                     <!--   <span class="mr-2 accion">
                                         <i title="Paciente llegó"   (click)="confirmarCita()" class="fas fa-user-check text-primary"></i>
                                     </span> -->
-                                    <span *ngIf="canOverride == 'true' && cita.state == 'Agendado' " class="accion" (click)="openCancelCita(cita)">
+                                    <span *ngIf="canOverride == 'true' && cita.state == 'Aperturada' " class="accion" (click)="openCancelCita(cita)">
                                         <i title="Cancelar" class="fas fa-ban text-danger"></i>
                                     </span>
                                 </td>

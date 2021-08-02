@@ -23,7 +23,7 @@ export class dataCitaToAssign {
 
         public sede?,
         public speciality?,
-        public person = {},
+        public person:any = '',
         public timeDuration = '',
         public appointmentId?,
         public subappointmentId?,

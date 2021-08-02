@@ -20,6 +20,9 @@ export class ListaTrabajoService {
       params
     })
   }
+  public getAgendamientoDetail(id): Observable<any> {
+    return this.http.get(`${environment.base_url}/agendamientos/detail/${id}`)
+  }
 
   public getStatistics(params):Observable<any> {
     return this.http.get(`${environment.base_url}/spaces-statistics`, {
