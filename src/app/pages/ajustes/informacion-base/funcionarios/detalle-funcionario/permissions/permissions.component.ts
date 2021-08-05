@@ -1,5 +1,4 @@
 import { Component, OnInit } from '@angular/core';
-import { PersonService } from '../../../persons/person.service';
 import { PermissionService } from '../../../../../../core/services/permission.service';
 import { ActivatedRoute } from '@angular/router';
 import Swal from 'sweetalert2';
@@ -20,7 +19,7 @@ export class PermissionsComponent implements OnInit {
   menues: Array<NavItem> = [];
   loading = false;
   saving = false;
-  constructor(private _person: PersonService, private _permissions: PermissionService, private route: ActivatedRoute) { }
+  constructor( private _permissions: PermissionService, private route: ActivatedRoute) { }
   
   ngOnInit(): void {
     this.person_id = this.route.snapshot.params.id;

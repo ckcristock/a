@@ -69,6 +69,7 @@ export class AsignacionCitasComponent implements OnInit {
   changeTramite() {
     this.$tramiteSelected = this._queryPatient.tramiteSelected.subscribe(
       (r: any) => {
+        
         this.operation = r;
         if (!r.component) {
           //buscar citas by paciente
@@ -77,8 +78,7 @@ export class AsignacionCitasComponent implements OnInit {
         }
 
 
-        if (r.component == 'Reasignar Citas') {
-          console.log('fidn', r.component, this.patient.paciente.identifier);
+        if (r.component == 'Reasignar Citas' && this.patient) {
           this.getCitas();
         }
       }

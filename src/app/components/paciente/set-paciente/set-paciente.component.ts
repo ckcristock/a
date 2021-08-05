@@ -19,10 +19,10 @@ import { OpenAgendaService } from '../../../pages/agendamiento/open-agenda.servi
 export class SetPacienteComponent implements OnInit {
 
   public genders = genders;
-  public levels;
-  public typeRegimens;
-  public typeDocuments;
-  public eps;
+  public levels :any[];
+  public typeRegimens :any[];
+  public typeDocuments :any[];
+  public eps :any[];
   loading = false;
   contracts: Array<any> = []
 
@@ -31,11 +31,11 @@ export class SetPacienteComponent implements OnInit {
     eps: { name: 'ECOOPSOS EPS SAS', value: 2 }
   }
   public currentPatient
-  public departments
-  public cities
-  public agreements
-  public companies
-  public locations
+  public departments  :any[];
+  public cities :any[];
+  public agreements :any[];
+  public companies :any[];
+  public locations :any[];
 
   public llamada: any;
   $qp: Subscription
@@ -43,7 +43,7 @@ export class SetPacienteComponent implements OnInit {
     private dataCitaToAssignService: dataCitaToAssignService,
     private _openAgenda: OpenAgendaService) {
     this.getEps();
-    
+
 
   }
 
@@ -52,7 +52,7 @@ export class SetPacienteComponent implements OnInit {
     this.$qp = this._queryPatient.patient.subscribe(async r => {
       if (r.paciente.identifier) {
 
-     /*    this.getEps(); */
+        /*    this.getEps(); */
         this.getCompanies();
         this.getTypeDocuments();
         this.getRegimens();
@@ -61,11 +61,11 @@ export class SetPacienteComponent implements OnInit {
         /*  this.paciente.level_id.value=this.paciente.level_id */
         console.log('1');
 
-        this.getCities();
         await this.getDepartments();
 
         this.paciente = r.paciente
         this.llamada = r.llamada
+        this.getCities();
         console.log('3');
         this.dataCitaToAssignService.dateCall = r
         r.paciente.location_id ? this.getContracts(r.paciente.location_id) : ''
@@ -76,6 +76,8 @@ export class SetPacienteComponent implements OnInit {
   async getDepartments() {
     await this._dataDinamicService.getDepartments().toPromise().then((req: any) => {
       this.departments = req.data
+      this.departments.unshift({text:'Seleccione',value:''})
+
       console.log('2');
 
     })
@@ -86,6 +88,8 @@ export class SetPacienteComponent implements OnInit {
       let parm = { department_id: this.paciente.department_id }
       this._dataDinamicService.getCities(parm).subscribe((req: any) => {
         this.cities = req.data
+        this.cities.unshift({text:'Seleccione',value:''})
+
 
       })
     }
@@ -95,7 +99,7 @@ export class SetPacienteComponent implements OnInit {
   getCompanies() {
     this._openAgenda.getIps('1').subscribe((req: any) => {
       this.companies = req.data
-      /* this.companies.unset({ text: 'Seleccione', value: '' }) */
+      this.companies.unshift({ text: 'Seleccione', value: '' })
     })
   }
 
@@ -103,6 +107,8 @@ export class SetPacienteComponent implements OnInit {
     if (company_id) {
       this._dataDinamicService.getLocations(company_id).subscribe((req: any) => {
         this.locations = req.data
+        this.locations.unshift({text:'Seleccione',value:''})
+
       })
     }
   }
@@ -128,38 +134,52 @@ export class SetPacienteComponent implements OnInit {
   getTypeDocuments() {
     this._dataDinamicService.getTypeDocuments().subscribe((req: any) => {
       this.typeDocuments = req.data
+      this.typeDocuments.unshift({text:'Seleccione',value:''})
+
     })
   }
 
   getEps() {
     this._dataDinamicService.getEps().subscribe((req: any) => {
       this.eps = req.data
+      this.eps.unshift({text:'Seleccione',value:''})
+
     })
   }
 
   getRegimens() {
     this._dataDinamicService.getRegimens().subscribe((req: any) => {
       this.typeRegimens = req.data
+      this.typeRegimens.unshift({text:'Seleccione',value:''})
     })
   }
 
   getlevels() {
     this._dataDinamicService.getlevels().subscribe((req: any) => {
       this.levels = req.data
+      this.levels.unshift({ text: 'Seleccione', value: '' })
     })
   }
   getContracts(location_id) {
     this._dataDinamicService.getContracts({ location_id }).subscribe((req: any) => {
       this.contracts = req.data
+      this.companies.unshift({ text: 'Seleccione', value: '' })
     })
   }
 
   save(formPatient: NgForm) {
     try {
       this.loading = true;
-      console.log(formPatient.controls,formPatient.value);
-      this._queryPatient.validate(this.paciente);
+
+      formPatient.form.markAllAsTouched();
+
+      if (formPatient.invalid) {
+        this.loading = false;
+        return false;
+      }
       
+      this._queryPatient.validate(this.paciente);
+
       this._dataDinamicService.savePatient(JSON.stringify(formPatient.value)).subscribe((req: any) => {
         if (req.code == 200) {
 
@@ -170,17 +190,19 @@ export class SetPacienteComponent implements OnInit {
           Swal.fire('Felicidades', 'Actualizado correctamente', 'success');
         } else {
 
-          Swal.fire('Ha ocurrido un error', 'Contáctese con el departamento de sistemas', 'error');
+          throw ({ title: 'Ha ocurrido un error', message: 'Contáctese con el departamento de sistemas' });
         }
 
         this.loading = false;
+      }, err => {
+        throw ({ title: 'Ha ocurrido un error', message: 'Contáctese con el departamento de sistemas' });
+        /*    Swal.fire('Ha ocurrido un error', 'Contáctese con el departamento de sistemas', 'error'); */
       })
 
-    } catch (error) {
+    } catch ({ title, message }) {
       this.loading = false;
-      console.log(error);
 
-      Swal.fire('Faltan campos del paciente', error, 'error');
+      Swal.fire(title, message, 'error');
 
     }
 

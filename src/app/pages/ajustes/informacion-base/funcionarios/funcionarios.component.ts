@@ -102,18 +102,17 @@ export class FuncionariosComponent implements OnInit {
 
   }
 
-  searchFilter(e) {
-    const searchStr = e.target.value;
-    this.people = personsList.filter((person) => {
-      return person.name.toLowerCase().search(searchStr.toLowerCase()) !== -1;
-    });
-  }
 
-  getPeople(page = 1) {
+  getPeople(page = 1, name = '') {
+    
     this.pagination.page = page;
+    let params:any = {...this.pagination}
+    console.log(params);
+    params.name = name ? name : ''
     this.loading = true;
-    this._person.getPeople(this.pagination)
-    .subscribe(d => {
+    
+    this._person.getPeople(params)
+      .subscribe(d => {
         this.loading = false;
         this.people = d['data']['data']
         this.pagination.collectionSize = d['data']['total']

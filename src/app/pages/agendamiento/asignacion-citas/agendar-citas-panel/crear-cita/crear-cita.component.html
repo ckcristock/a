@@ -162,7 +162,7 @@
   <div class="col-12 mt-12">
     <button
       class="btn btn-success btn-block"
-      [disabled]="registerCita.invalid"
+      [disabled]="(registerCita.invalid || loading )"
       (click)="save(registerCita)"
     >
     

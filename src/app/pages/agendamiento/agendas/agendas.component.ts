@@ -162,9 +162,8 @@ export class AgendasComponent implements OnInit {
     let params: any = this.filters;
     params.status = stat.status;
 
-    this._workList.getStatisticsDetail(params).subscribe(r => {
-      this.showDeitalStat.emit(r.data)
-    })
+    this.showDeitalStat.emit(params)
+   
 
   }
 }
