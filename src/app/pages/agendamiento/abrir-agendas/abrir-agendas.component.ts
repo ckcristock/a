@@ -57,8 +57,8 @@ export class AbrirAgendasComponent implements OnInit {
   public profesionals = []
 
   public optionesTime = [
-    { value: 5, text: "5 Minutos" },
-    { value: 10, text: "10 Minutos" },
+   /*  { value: 5, text: "5 Minutos" },
+    { value: 10, text: "10 Minutos" }, */
     { value: 15, text: "15 Minutos" },
     { value: 20, text: "20 Minutos" },
     { value: 25, text: "25 Minutos" },
@@ -88,9 +88,9 @@ export class AbrirAgendasComponent implements OnInit {
   @ViewChild('agenda') agenda: NgForm ;
   reset() {
 
-    this.router.navigateByUrl('agendamiento/abrir-agendas', { skipLocationChange: true });
+    //this.router.navigateByUrl('agendamiento/abrir-agendas', { skipLocationChange: true });
 
-    this.sede = {
+  /*   this.sede = {
       value: "",
       text: ""
     };
@@ -104,14 +104,14 @@ export class AbrirAgendasComponent implements OnInit {
     this.profesional = {
       value: "",
       text: ""
-    }
+    } */
 
     /* this.profesional = new this.profesional */
-
+/* 
     this.ips = {
       value: "",
       text: ""
-    }
+    } */
 
     /* this.sede = new this.sede
     this.speciality = new this.speciality */
@@ -124,13 +124,13 @@ export class AbrirAgendasComponent implements OnInit {
 
     this.timeDuration = null
 
-      this.subappointmentId = null
+  /*     this.subappointmentId = null
     this.appointmentId = null
     this.ipsId = null
-    this.diasSemana = diasSemana
+    this.diasSemana = diasSemana */
     this.timeDuration = { value: 20, text: "20 Minutos" }
    /*  this.type_appointments = null */
-    this.type_locations = null
+    /* this.type_locations = null
     this.appointmentId = null
     this.cups = null
     this.cupId = null
@@ -141,7 +141,7 @@ export class AbrirAgendasComponent implements OnInit {
     this.sedes = null
     this.specialties = null
     this.profesionals = null
-    this.location_id = ''
+    this.location_id = '' */
    // this.agenda.reset();
     
   }
@@ -202,6 +202,8 @@ export class AbrirAgendasComponent implements OnInit {
 
 
   dispatchPerson() {
+    console.log(this.profesional);
+    
     this._queryPerson.person.next(this.profesional)
   }
 

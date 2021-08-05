@@ -132,7 +132,7 @@
                     </table>
                     <div class="col-sm-12">
                         <div class="text-md-right float-md-right pagination-rounded">
-                            <ngb-pagination [collectionSize]="pagination.collectionSize" (pageChange)="setPage($event);getCitas(formD)" [pageSize]="pagination.pageSize" [(page)]="pagination.page" aria-label="Default pagination ">
+                            <ngb-pagination maxSize="5" [collectionSize]="pagination.collectionSize" (pageChange)="setPage($event);getCitas(formD)" [pageSize]="pagination.pageSize" [(page)]="pagination.page" aria-label="Default pagination ">
                             </ngb-pagination>
                         </div>
                     </div>

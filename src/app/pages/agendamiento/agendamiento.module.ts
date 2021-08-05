@@ -22,6 +22,7 @@ import { CallendarComponent } from './callendar/callendar.component';
 import { AgendasComponent } from './agendas/agendas.component';
 import { VerAgendaComponent } from './agendas/ver-agenda/ver-agenda.component';
 import { DetailStatsComponent } from './agendas/detail-stats/detail-stats.component';
+import { PipesModule } from '../../core/pipes/pipes.module';
 
 @NgModule({
     declarations: [
@@ -51,8 +52,8 @@ import { DetailStatsComponent } from './agendas/detail-stats/detail-stats.compon
         NgbPaginationModule,
         NgbDropdownModule,
         NgbAlertModule,
-        NgbDatepickerModule
-        
+        NgbDatepickerModule,
+        PipesModule,
     ],
 
     bootstrap: [],

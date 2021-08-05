@@ -58,7 +58,7 @@ export class AsignacionCitasComponent implements OnInit {
 
     this.configComponent = this._permisson.validatePermissions(this.configComponent)
     this.existPtient = _queryPatient.existPatient.subscribe((r) => this.Init());
-    
+
   }
 
   ngOnInit(): void {
@@ -69,7 +69,7 @@ export class AsignacionCitasComponent implements OnInit {
   changeTramite() {
     this.$tramiteSelected = this._queryPatient.tramiteSelected.subscribe(
       (r: any) => {
-        
+
         this.operation = r;
         if (!r.component) {
           //buscar citas by paciente

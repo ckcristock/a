@@ -40,4 +40,7 @@ export class ListaTrabajoService {
   cancelSpace( body = {} ):Observable<any> {
     return this.http.post(`${environment.base_url}/space-cancel/`,body)
   }
+  cancelAppointment( body = {} ):Observable<any> {
+    return this.http.post(`${environment.base_url}/agendamientos-cancel/`,body)
+  }
 }

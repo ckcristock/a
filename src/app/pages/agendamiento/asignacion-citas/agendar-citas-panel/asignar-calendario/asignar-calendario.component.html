@@ -9,11 +9,13 @@
         <full-calendar #calendar defaultView="dayGridMonth" [header]="{
             left: 'prevYear,prev,next,nextYear today',
             center: 'title',
-            right: 'dayGridMonth,dayGridWeek,dayGridDay,listWeek'}" [plugins]="calendarPlugins"
-            [eventResizableFromStart]="'true'" [eventLimit]="false" themeSystem='bootstrap'
-            [weekends]="calendarWeekends" [bootstrapFontAwesome]="true" deepChangeDetection="true"
-            [events]="calendarEvents"   locale="es"
-            (eventClick)="save($event)">
+            right: 'dayGridMonth,dayGridWeek,dayGridDay,listWeek'}" [plugins]="calendarPlugins" [eventResizableFromStart]="'true'" [eventLimit]="false" themeSystem='bootstrap' [weekends]="calendarWeekends" [bootstrapFontAwesome]="true" deepChangeDetection="true"
+            [events]="calendarEvents" locale="es" [eventTimeFormat]="{
+                hour: '2-digit',
+                minute: '2-digit',
+                meridiem: false,
+                hour12: true 
+              }" (eventClick)="save($event)">
         </full-calendar>
     </div>
 </div>

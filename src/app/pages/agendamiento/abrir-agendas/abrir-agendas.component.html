@@ -31,7 +31,7 @@
 
                             <div class="col-md-4 my-2">
                                 <label>Profesional</label>
-                                <ng-select [items]="profesionals" required bindLabel="text" bindValue="value" [(ngModel)]="profesional" [placeholder]="(profesional == 0) ? 'Seleccione' : 'Select' " name="person_id" loadingText="loading" ngDefaultControl (ngModelChange)="dispatchPerson()">
+                                <ng-select [items]="profesionals" required bindLabel="text" bindValue="value" [(ngModel)]="profesional" [placeholder]="(profesional == 0) ? 'Seleccione' : 'Select' " name="person_id" loadingText="loading" ngDefaultControl (change)="dispatchPerson()">
                                 </ng-select>
                             </div>
 

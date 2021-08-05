@@ -24,7 +24,7 @@ import { dataCitaToAssignService } from '../dataCitaToAssignService.service';
 })
 
 export class CallendarComponent implements OnInit {
-
+  loading = false;
   @Input() person: Number;
   public myperson: any
   // bread crumb items
@@ -213,9 +213,12 @@ export class CallendarComponent implements OnInit {
   private _fetchData() {
 
     if (this.myperson == 'null' || this.myperson == 'undefined') {
-      this.myperson = this.person
+      /*       this.myperson = this.person */
+
     }
-    this._openAgendaService.getAppointments(this.person).subscribe((resp: any) => {
+    this.loading = true;
+    this._openAgendaService.getAppointments(this.myperson).subscribe((resp: any) => {
+      this.loading = false;
       this.calendarEvents = resp.data.map((element, index) => {
         if (element.status) {
           return element
@@ -223,7 +226,6 @@ export class CallendarComponent implements OnInit {
         return element
       });
     });
-
     this.submitted = false;
   }
 

@@ -2,6 +2,8 @@ import { Component, OnInit, EventEmitter } from '@angular/core';
 import { Router } from '@angular/router';
 import { ListaTrabajoService } from './lista-trabajo.service';
 import { OpenAgendaService } from '../open-agenda.service';
+import { PermissionService } from '../../../core/services/permission.service';
+import Swal from 'sweetalert2';
 
 @Component({
   selector: 'app-agendas',
@@ -9,6 +11,15 @@ import { OpenAgendaService } from '../open-agenda.service';
   styleUrls: ['./agendas.component.scss']
 })
 export class AgendasComponent implements OnInit {
+
+  public configComponent: any =
+    {
+      'menu': 'Lista de Agendas',
+      'permissions': {
+        'show_all_data': false
+      }
+    }
+
   statData: any
   showDeitalStat = new EventEmitter<any>()
   loading = false;
@@ -62,7 +73,13 @@ export class AgendasComponent implements OnInit {
   type_appointments: any = []
   type_subappointments: any = []
 
-  constructor(private route: Router, private _workList: ListaTrabajoService, private _openAgendaService: OpenAgendaService) {
+  constructor(private route: Router,
+    private _workList: ListaTrabajoService,
+    private _openAgendaService: OpenAgendaService,
+    private _permission: PermissionService
+    ) {
+    this.configComponent = this._permission.validatePermissions(this.configComponent)
+
     this.getAgendamientos(1)
     this.getTypeAppointment()
 
@@ -82,14 +99,15 @@ export class AgendasComponent implements OnInit {
   getSubTypeAppointment() {
     this.filters.subappointmentId = ''
     this.filters.ipsId = '',
-    this.filters.sede = '',
-    this.filters.person = ''
+      this.filters.sede = '',
+      this.filters.person = ''
     this.appointment = this.searchAppointment(this.type_appointments, this.filters.appointmentId);
+
     this._openAgendaService.getSubTypeAppointment(this.appointment.value).subscribe((resp: any) => {
       this.type_subappointments = resp.data;
       this.filters.subappointmentId = this.type_subappointments[0].value
       this.getSpecialties()
-      
+
       if (this.appointment.face_to_face) {
         this.getIps()
       } else {
@@ -143,27 +161,60 @@ export class AgendasComponent implements OnInit {
     //get http
     this.loading = true;
     this.pagination.page = page;
-    let params: any = Object.assign({}, this.pagination, this.filters);;
-    
+    let params: any = Object.assign({}, this.pagination, this.filters);
+    params.show_all_data = this.configComponent.permissions.show_all_data
+
     this.getStatics(this.filters);
     this._workList.getAgendamientos(params).subscribe(d => {
       this.pagination.collectionSize = d.total;
       this.agendas = d.data
       this.loading = false;
-      
+
     })
 
   }
   ngOnInit(): void {
   }
 
+  cancel(id) {
+
+    const swalWithBootstrapButtons = Swal.mixin({
+      customClass: {
+        confirmButton: 'btn btn-success mx-2',
+        cancelButton: 'btn btn-danger'
+      },
+      buttonsStyling: false
+    })
+    swalWithBootstrapButtons.fire({
+      title: '¿está seguro?',
+      text: "Se dispone cancelar la agenda",
+      icon: 'warning',
+      showCancelButton: true,
+      confirmButtonText: 'Si, ¡Hazlo !',
+      cancelButtonText: 'No, ¡dejeme comprobar!',
+      reverseButtons: true
+    }).then((result) => {
+      if (result.isConfirmed) {
+        this._workList.cancelAppointment({ id }).subscribe((r: any) => {
+          Swal.fire('Operacion procesada',
+            r.data,
+            r.code == 200 ? 'success' : 'error'
+          )
+          this.getAgendamientos(1);
+        })
+      }
+    })
+
+
+
+  }
   searchDetailStat(stat) {
 
     let params: any = this.filters;
     params.status = stat.status;
 
     this.showDeitalStat.emit(params)
-   
+
 
   }
 }
