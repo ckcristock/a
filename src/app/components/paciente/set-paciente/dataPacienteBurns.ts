@@ -78,6 +78,10 @@ const levels = [
 
 const genders = [
     {
+        value: '',
+        text: 'Seleccione'
+    },
+    {
         value: 1,
         text: 'M'
     },

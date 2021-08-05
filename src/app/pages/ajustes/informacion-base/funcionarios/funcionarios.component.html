@@ -79,7 +79,7 @@
                             <div class="form-inline float-md-right">
                                 <div class="search-box ml-2">
                                     <div class="position-relative">
-                                        <input type="text" class="form-control rounded" placeholder="Filtros..." (input)="searchFilter($event)">
+                                        <input type="text" class="form-control rounded" placeholder="Filtros..." (change)="getPeople(1,$event.target.value)">
                                         <i class="mdi mdi-magnify search-icon"></i>
                                     </div>
                                 </div>

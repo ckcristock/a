@@ -104,7 +104,7 @@ export class CrearCitaComponent implements OnInit {
   save(form: NgForm) {
     try {
       this._queryPatient.validateTipification({ component: this.tramiteSelected, data: this.tipification })
-
+      this._queryPatient.validate(this.patient);
       const swalWithBootstrapButtons = Swal.mixin({
         customClass: {
           confirmButton: 'btn btn-success mx-2',
@@ -131,8 +131,8 @@ export class CrearCitaComponent implements OnInit {
             });
         }
       })
-    } catch (error) {
-      Swal.fire('Faltan datos del proceso ', error, 'error');
+    } catch ({tilte,message}) {
+      Swal.fire(tilte, message, 'error');
 
     }
   }
@@ -182,7 +182,9 @@ export class CrearCitaComponent implements OnInit {
   validarResponse(data) {
     if (data) {
       try {
-        if (this.patient.isNew) throw ('Es necesario guardar toda la información del paciente para continuar')
+        if (this.patient.isNew){
+          throw (  ({ title:'Faltan campos del paciente' ,message:'Es necesario guardar toda la información del paciente para continuar'}))
+        } 
 
         this._queryPatient.validate(this.patient);
         this._queryPatient.validateTipification({ component: this.tipification, data: this.tipification });
@@ -191,8 +193,8 @@ export class CrearCitaComponent implements OnInit {
         // this._queryPatient.patient.next(data.data)
         this._openAgendaService.getClean(data.data.appointment['call_id']).subscribe((r) => {
         })
-      } catch (error) {
-        Swal.fire('Paciente incorrecto', error, 'error');
+      } catch ({title,message}) {
+        Swal.fire(title, message, 'error');
       }
 
     } else {

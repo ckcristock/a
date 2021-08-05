@@ -36,4 +36,8 @@ export class ListaTrabajoService {
       params
     })
   }
+
+  cancelSpace( body = {} ):Observable<any> {
+    return this.http.post(`${environment.base_url}/space-cancel/`,body)
+  }
 }

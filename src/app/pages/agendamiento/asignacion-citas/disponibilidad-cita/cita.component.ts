@@ -73,8 +73,8 @@ export class CitaComponent implements OnInit {
 
   getIps() {
     this.dataCitaToAssign.subappointment = this.searchItem(this.type_subappointments, this.dataCitaToAssign.subappointmentId);
-    this._openAgendaService.getIps(this.dataCitaToAssign.subappointment.company_owner).subscribe((resp: any) => {
-      this.ipss = resp.data;
+    this._openAgendaService.getIps('3').subscribe((resp: any) => {
+      this.ipss = resp.data; 
     });
   }
 

@@ -1,4 +1,4 @@
-<app-modal-basic #detail [dialogClass]="'modal-md'">
+<app-modal-basic #detail [dialogClass]="'modal-md full-heigth'">
     <div class="app-modal-header">
         <div class="row">
             <h4 class=" text text-center justify-content-center modal-title   p-1">Detalle de por especialidad
@@ -7,8 +7,8 @@
     </div>
     <div class="app-modal-body">
         <!-- <p class="card-subtitle mb-2 ">Detalle de por especialidad</p> -->
-        <div class="row ">
-            <table class="table">
+        <div class="row  ">
+            <table class="table" *ngIf="!loading && data; else notData">
                 <thead>
                     <tr>
                         <th scope="col">Especialidad</th>
@@ -31,3 +31,7 @@
         </div>
     </div>
 </app-modal-basic>
+
+<ng-template #notData>
+    <app-not-data class="text-center" [loading]="loading"></app-not-data>
+</ng-template>

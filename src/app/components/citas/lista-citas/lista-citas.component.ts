@@ -2,6 +2,7 @@ import { Component, EventEmitter, Input, OnInit, Output, ViewChild } from '@angu
 import { NgForm } from '@angular/forms';
 import Swal from 'sweetalert2'
 import { AppointmentService } from '../../../core/services/appointment.service';
+import { QueryPatient } from '../../../pages/agendamiento/query-patient.service';
 
 @Component({
   selector: 'app-lista-citas',
@@ -23,12 +24,17 @@ export class ListaCitasComponent implements OnInit {
     Id_Especialidad: '',
   }
   cancelCita: any;
-  constructor(private _appointment: AppointmentService) {
+  constructor(private _appointment: AppointmentService , private _queryPatient:QueryPatient) {
   }
 
   ngOnInit(): void {
     this.getAppointments.subscribe(r => {
       this.getCitas();
+    })
+
+    this._queryPatient.patient.subscribe(async r => {
+        console.log(r,'ppppppppp');
+        
     })
   }
 
