@@ -63,7 +63,7 @@ export class VerAgendaComponent implements OnInit {
 
       Swal.fire('No se puede realizar la operación',
         ('El espacio ya se encuentra ' +
-          space.state == 'Cancelado' ? 'cancelado' : ' con una cita previa'),
+         ( space.state == 'Cancelado' ? 'cancelado' : ' con una cita previa')),
         'warning'
       )
       return false;

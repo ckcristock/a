@@ -77,9 +77,9 @@ export class AgendasComponent implements OnInit {
     private _workList: ListaTrabajoService,
     private _openAgendaService: OpenAgendaService,
     private _permission: PermissionService
-    ) {
+  ) {
     this.configComponent = this._permission.validatePermissions(this.configComponent)
-
+    this.getSpecialties()
     this.getAgendamientos(1)
     this.getTypeAppointment()
 
@@ -161,8 +161,10 @@ export class AgendasComponent implements OnInit {
     //get http
     this.loading = true;
     this.pagination.page = page;
+    this.filters.show_all_data =this.configComponent.permissions.show_all_data
+    
     let params: any = Object.assign({}, this.pagination, this.filters);
-    params.show_all_data = this.configComponent.permissions.show_all_data
+   
 
     this.getStatics(this.filters);
     this._workList.getAgendamientos(params).subscribe(d => {
@@ -196,11 +198,12 @@ export class AgendasComponent implements OnInit {
     }).then((result) => {
       if (result.isConfirmed) {
         this._workList.cancelAppointment({ id }).subscribe((r: any) => {
+
           Swal.fire('Operacion procesada',
-            r.data,
+            r.code == 200 ? r.data : r.err,
             r.code == 200 ? 'success' : 'error'
           )
-          this.getAgendamientos(1);
+          r.code == 200 ? this.getAgendamientos(1) : '';
         })
       }
     })
