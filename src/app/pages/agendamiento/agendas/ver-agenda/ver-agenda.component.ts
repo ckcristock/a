@@ -28,10 +28,10 @@ export class VerAgendaComponent implements OnInit {
   time: History[];
 
   selected = {
-    date:'',
-    id:''
+    date: '',
+    id: ''
   }
-  
+
   calendarWeekends: any;
   calendarPlugins = [
     dayGridPlugin,
@@ -50,7 +50,7 @@ export class VerAgendaComponent implements OnInit {
   getAgenda() {
     this._listaTrabajo.getAgendamientoDetail(this.id).subscribe((d) => {
       this.agenda = d.data;
-      this.notOverride = this.agenda.spaces.some((d) => d.state == 'agendado');
+      this.notOverride = this.agenda.spaces.some((d) => d.status == 0 );
     });
   }
 
@@ -58,11 +58,12 @@ export class VerAgendaComponent implements OnInit {
     const id = event.event.id;
     let space: any = this.agenda.spaces
       .find(r => r.id == id)
-      this.selected 
-    if (space.state == 'Cancelado' || space.status == 0 ) {
+    this.selected
+    if (space.state == 'Cancelado' || space.status == 0) {
+
       Swal.fire('No se puede realizar la operación',
-        'El espacio se encuentra ' + 
-              space.state == 'Cancelado' ? 'Cancelado' : ' Con una cita previa',
+        ('El espacio ya se encuentra ' +
+         ( space.state == 'Cancelado' ? 'cancelado' : ' con una cita previa')),
         'warning'
       )
       return false;
@@ -91,9 +92,8 @@ export class VerAgendaComponent implements OnInit {
             r.data,
             r.code == 200 ? 'success' : 'error'
           )
-          if (r.code == 200) {
-            space.state = 'Cancelado';
-          }
+          this.getAgenda();
+         
         })
       }
     })

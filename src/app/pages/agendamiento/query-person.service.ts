@@ -1,6 +1,6 @@
 import { HttpClient, HttpParams } from '@angular/common/http';
 import { Injectable, EventEmitter } from '@angular/core';
-import { Subject } from 'rxjs';
+import { Subject, BehaviorSubject } from 'rxjs';
 
 @Injectable({
   providedIn: 'root'
@@ -8,7 +8,7 @@ import { Subject } from 'rxjs';
 export class QueryPerson {
 
 
-  public person = new Subject<any>();
+  public person = new BehaviorSubject<any>({});
 
   constructor() { }
 
