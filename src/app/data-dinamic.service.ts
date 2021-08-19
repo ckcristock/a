@@ -49,8 +49,7 @@ export class DataDinamicService {
     return this.httpClient.get(`${environment.base_url}/contract`, {params})
   }
   public savePatient(form) {
-    console.log(form);
-    
+    // console.log(form);
     return this.httpClient.post(`${environment.base_url}/patients`, form)
   }
 

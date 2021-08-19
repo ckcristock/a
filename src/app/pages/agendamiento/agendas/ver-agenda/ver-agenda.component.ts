@@ -10,6 +10,7 @@ import bootstrapPlugin from '@fullcalendar/bootstrap';
 import { EventInput } from '@fullcalendar/core';
 import { ListaTrabajoService } from '../lista-trabajo.service';
 import Swal from 'sweetalert2';
+import { DetalleAgendaService } from '../detalle-agenda.service';
 
 @Component({
   selector: 'app-ver-agenda',
@@ -19,11 +20,15 @@ import Swal from 'sweetalert2';
 export class VerAgendaComponent implements OnInit {
   agenda: any = {};
   notOverride = false;
-
   id: any;
+
+  public fechaInicio: any;
+  public fechaFin: any;
+
   constructor(
     private route: ActivatedRoute,
     private _listaTrabajo: ListaTrabajoService,
+    private _detalleAgenda: DetalleAgendaService,
   ) { }
   time: History[];
 
@@ -46,12 +51,35 @@ export class VerAgendaComponent implements OnInit {
     this.id = this.route.snapshot.params.id;
     this.getAgenda();
   }
+
   save(cont, ev) { }
+
   getAgenda() {
     this._listaTrabajo.getAgendamientoDetail(this.id).subscribe((d) => {
       this.agenda = d.data;
-      this.notOverride = this.agenda.spaces.some((d) => d.status == 0 );
+      this.notOverride = this.agenda.spaces.some((d) => d.status == 0);
     });
+  }
+
+  cancellAgenda() {
+
+    let params = {
+      'id': this.id,
+      'fecha_inicio': this.fechaInicio,
+      'fecha_fin': this.fechaFin
+    }
+
+    this._detalleAgenda.cancellAgenda(params).subscribe((d) => {
+      if (!d.status) {
+        Swal.fire('Error ', d.err, 'error');
+        return false;
+      }
+      this.getAgenda();
+      Swal.fire('Buen trabajo', 'Operación exitosa', 'success')
+    }, error => {
+      console.log(error);
+    });
+
   }
 
   cancel(event) {
@@ -63,7 +91,7 @@ export class VerAgendaComponent implements OnInit {
 
       Swal.fire('No se puede realizar la operación',
         ('El espacio ya se encuentra ' +
-         ( space.state == 'Cancelado' ? 'cancelado' : ' con una cita previa')),
+          (space.state == 'Cancelado' ? 'cancelado' : ' con una cita previa')),
         'warning'
       )
       return false;
@@ -93,7 +121,7 @@ export class VerAgendaComponent implements OnInit {
             r.code == 200 ? 'success' : 'error'
           )
           this.getAgenda();
-         
+
         })
       }
     })

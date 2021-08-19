@@ -33,7 +33,7 @@ export class ListaTrabajoComponent implements OnInit {
     speciality: '',
     state: '',
     type_agenda_id: '',
-    type_appointment_id: '',
+    type_appointment_id: null,
     person_id: '',
     identifier: ''
   }
@@ -71,6 +71,7 @@ export class ListaTrabajoComponent implements OnInit {
   states = [
     { value: '', name: 'Seleccione' },
     { value: 'Aperturada', name: 'Aperturada' },
+    { value: 'Agendado', name: 'Agendado' },
     { value: 'Cancelado', name: 'Cancelado' },
     { value: 'Atendido', name: 'Atendido' },
   ]
@@ -125,10 +126,8 @@ export class ListaTrabajoComponent implements OnInit {
       this.filters.sub_type_appointment_id = this.type_subappointments[0].value
       if (this.appointment.face_to_face) {
         this.getIps()
-      } else {
-
-        this.getSpecialties()
       }
+      this.getSpecialties()
     });
 
   }

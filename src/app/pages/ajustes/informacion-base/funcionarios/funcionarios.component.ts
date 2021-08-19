@@ -107,7 +107,6 @@ export class FuncionariosComponent implements OnInit {
     
     this.pagination.page = page;
     let params:any = {...this.pagination}
-    console.log(params);
     params.name = name ? name : ''
     this.loading = true;
     

@@ -121,9 +121,6 @@ export class ReportesComponent implements OnInit {
  * @param date date object
  */
   onDateSelection(date: NgbDate) {
-
-    console.log(date.after(this.fromNGDate));
-
     if (!this.fromDate && !this.toDate) {
       this.fromNGDate = date;
       this.fromDate = new Date(date.year, date.month - 1, date.day);
@@ -146,8 +143,5 @@ export class ReportesComponent implements OnInit {
       this.fromDate = new Date(date.year, date.month - 1, date.day);
       this.selected = '';
     }
-
-    console.log(this.fromDate, this.toDate, this.fromNGDate, this.selected);
-
   }
 }

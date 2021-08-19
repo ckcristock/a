@@ -13,6 +13,7 @@ import { ReportesComponent } from './reportes/reportes.component';
 
 const routes: Routes = [
     { path: 'abrir-agendas', component: AbrirAgendasComponent },
+    { path: 'asignacion-citas/:id', component: AsignacionCitasComponent },
     { path: 'asignacion-citas', component: AsignacionCitasComponent },
     { path: 'lista-espera', component: ListaEsperaComponent },
     { path: 'lista-trabajo', component: ListaTrabajoComponent },

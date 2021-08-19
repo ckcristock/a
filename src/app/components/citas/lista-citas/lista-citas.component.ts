@@ -24,7 +24,7 @@ export class ListaCitasComponent implements OnInit {
     Id_Especialidad: '',
   }
   cancelCita: any;
-  constructor(private _appointment: AppointmentService , private _queryPatient:QueryPatient) {
+  constructor(private _appointment: AppointmentService, private _queryPatient: QueryPatient) {
   }
 
   ngOnInit(): void {
@@ -33,14 +33,12 @@ export class ListaCitasComponent implements OnInit {
     })
 
     this._queryPatient.patient.subscribe(async r => {
-        console.log(r,'ppppppppp');
-        
     })
   }
 
   getCitas() {
     this.loading = true;
-    this._appointment.getAppointments({ identifier:this.patient }).subscribe((r: any) => {
+    this._appointment.getAppointments({ identifier: this.patient }).subscribe((r: any) => {
       this.citas = r.data.data;
       this.loading = false;
     })
@@ -70,7 +68,7 @@ export class ListaCitasComponent implements OnInit {
             'Operación exitosa',
             'Cita cancelada exitosamente',
             'success'
-          ).then(r => {this.canceled.emit(); this.getCitas()});
+          ).then(r => { this.canceled.emit(); this.getCitas() });
           this.cancelarCitaModal.hide();
         },
           err => {
@@ -88,14 +86,11 @@ export class ListaCitasComponent implements OnInit {
   }
 
   openCancelCita(cita) {
-    console.log('cita',cita);
-    
     this.cancelCita = cita;
     this.cancelarCitaModal.show()
   }
+
   detalleCita(cita) {
-    console.log('cita2',cita);
-    
     let modalDetalle = {
       Id_Cita_Detalle: cita.id,
       Show: true

@@ -8,7 +8,7 @@
             <div class="card-body">
                 <aw-wizard [navBarLayout]="'large-empty-symbols'">
                     <aw-wizard-step stepTitle="Disponibilidad">
-                        <ng-template awWizardStepSymbol>1</ng-template>
+                        <ng-template awWizardStepSymbol >1</ng-template>
                         <div class="row mt-3">
                             <div class="col-12">
                                 <app-cita (siguiente)="siguiente()"></app-cita>
@@ -16,13 +16,13 @@
                         </div>
                         <ul class="list-inline wizard mb-0">
                             <li class="next list-inline-item float-right">
-                                <button style="visibility: hidden;" #next (click)="siguiente()" class="btn btn-primary" awNextStep>Next</button>
+                                <button style="visibility: hidden;" #next (click)="siguiente()" class="btn btn-primary" awNextStep >Next</button>
                             </li>
                         </ul>
                     </aw-wizard-step>
 
                     <aw-wizard-step stepTitle="Detalles">
-                        <ng-template awWizardStepSymbol>2</ng-template>
+                        <ng-template awWizardStepSymbol >2</ng-template>
 
                         <app-crear-cita (siguiente)="siguiente($event)"></app-crear-cita>
 

@@ -18,13 +18,13 @@
             <span *ngIf="space.id">
                 con el profesional
 
-                <strong class="text-uppercase"> {{space.person.first_name}} {{space.person.first_surname}} </strong> el día <strong class="font-weight-bold "> {{space.hour_start | date :'EEEE, MMMM d, y'}}  A LAS  {{space.hour_start | date :'h:mm a'}} </strong>
+                <strong class="text-uppercase"> {{space.person.first_name}} {{space.person.first_surname}} </strong> el día <strong class="font-weight-bold "> {{info.startDate}} </strong>
 
                 <span *ngIf="!anotheData.appointment.face_to_face;else presential"> EN LA SALA SALA VIRUTAL DE LA
                     CENTRAL DE ESPECIALISTAS </span>
 
             <ng-template #presential>
-                en la sede <strong class="font-weight-bold ">{{cita.location}}</strong> en la Dirección <strong class="font-weight-bold "> {{cita.direction}}</strong>
+                en la sede <strong class="font-weight-bold ">{{info.location.name}}</strong> en la Dirección <strong class="font-weight-bold "> {{info.location.address}} </strong>
             </ng-template>
 
             </span>

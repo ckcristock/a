@@ -30,52 +30,49 @@ export class ListaEsperaComponent implements OnInit {
   }
   searching = false;
   searchFailed = false;
-  specialties : any = []
+  specialties: any = []
   waitingList = []
   companies = []
   constructor(public _search: SearchService,
     private _openAgendaService: OpenAgendaService,
     private http: HttpClient,
-    private _openS:OpenAgendaService,
-    private _waiting:WaitingListService
-    ) { }
+    private _openS: OpenAgendaService,
+    private _waiting: WaitingListService
+  ) { }
   ngOnInit(): void {
     this.getWaitingList(1)
     this.getSpecialties();
     this.getCompanies();
   }
 
-  getCompanies(){
-    this._openS.getIps("1").subscribe((r:any)=>{
+  getCompanies() {
+    this._openS.getIps("1").subscribe((r: any) => {
       this.companies = r.data
     })
   }
 
   getSpecialties() {
-    this._openAgendaService.getSpecialties('0','0').subscribe((resp: any) => {
+    this._openAgendaService.getSpecialties('0', '0').subscribe((resp: any) => {
       this.specialties = resp.data;
     });
   }
 
-/*  */
+  /*  */
   Inputdiagnostic = (x: { text: string }) => x.text;
 
   getWaitingList(page) {
     this.pagination.page = page;
     this.loading = true;
-    let params:any  =  Object.assign({}, this.pagination,this.filters);;
+    let params: any = Object.assign({}, this.pagination, this.filters);;
     this._waiting.getWaitingList(params)
-    .subscribe((r: any) => {
+      .subscribe((r: any) => {
         this.loading = false;
         this.pagination.collectionSize = r.total;
         this.waitingList = r.data
       })
 
   }
-
   changed(e) {
     console.log(e);
   }
-
-
 }

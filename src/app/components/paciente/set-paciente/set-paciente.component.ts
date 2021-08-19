@@ -19,10 +19,10 @@ import { OpenAgendaService } from '../../../pages/agendamiento/open-agenda.servi
 export class SetPacienteComponent implements OnInit {
 
   public genders = genders;
-  public levels :any[];
-  public typeRegimens :any[];
-  public typeDocuments :any[];
-  public eps :any[];
+  public levels: any[];
+  public typeRegimens: any[];
+  public typeDocuments: any[];
+  public eps: any[];
   loading = false;
   contracts: Array<any> = []
 
@@ -31,11 +31,11 @@ export class SetPacienteComponent implements OnInit {
     eps: { name: 'ECOOPSOS EPS SAS', value: 2 }
   }
   public currentPatient
-  public departments  :any[];
-  public cities :any[];
-  public agreements :any[];
-  public companies :any[];
-  public locations :any[];
+  public departments: any[];
+  public cities: any[];
+  public agreements: any[];
+  public companies: any[];
+  public locations: any[];
 
   public llamada: any;
   $qp: Subscription
@@ -59,14 +59,11 @@ export class SetPacienteComponent implements OnInit {
         this.getlevels();
         this.getLocations(r.paciente.company_id)
         /*  this.paciente.level_id.value=this.paciente.level_id */
-        console.log('1');
-
         await this.getDepartments();
 
         this.paciente = r.paciente
         this.llamada = r.llamada
         this.getCities();
-        console.log('3');
         this.dataCitaToAssignService.dateCall = r
         r.paciente.location_id ? this.getContracts(r.paciente.location_id) : ''
       }
@@ -76,10 +73,7 @@ export class SetPacienteComponent implements OnInit {
   async getDepartments() {
     await this._dataDinamicService.getDepartments().toPromise().then((req: any) => {
       this.departments = req.data
-      this.departments.unshift({text:'Seleccione',value:''})
-
-      console.log('2');
-
+      this.departments.unshift({ text: 'Seleccione', value: '' })
     })
   }
 
@@ -88,7 +82,7 @@ export class SetPacienteComponent implements OnInit {
       let parm = { department_id: this.paciente.department_id }
       this._dataDinamicService.getCities(parm).subscribe((req: any) => {
         this.cities = req.data
-        this.cities.unshift({text:'Seleccione',value:''})
+        this.cities.unshift({ text: 'Seleccione', value: '' })
 
 
       })
@@ -107,7 +101,7 @@ export class SetPacienteComponent implements OnInit {
     if (company_id) {
       this._dataDinamicService.getLocations(company_id).subscribe((req: any) => {
         this.locations = req.data
-        this.locations.unshift({text:'Seleccione',value:''})
+        this.locations.unshift({ text: 'Seleccione', value: '' })
 
       })
     }
@@ -115,7 +109,6 @@ export class SetPacienteComponent implements OnInit {
 
   getPatientAgain(document) {
     this._dataDinamicService.getPatientAgain(document).subscribe((req: any) => {
-      console.log(req.data, 'dssds');
       let paciente = req.data;
       if (!paciente) {
         paciente = this.newPatient(paciente, document)
@@ -134,7 +127,7 @@ export class SetPacienteComponent implements OnInit {
   getTypeDocuments() {
     this._dataDinamicService.getTypeDocuments().subscribe((req: any) => {
       this.typeDocuments = req.data
-      this.typeDocuments.unshift({text:'Seleccione',value:''})
+      this.typeDocuments.unshift({ text: 'Seleccione', value: '' })
 
     })
   }
@@ -142,7 +135,7 @@ export class SetPacienteComponent implements OnInit {
   getEps() {
     this._dataDinamicService.getEps().subscribe((req: any) => {
       this.eps = req.data
-      this.eps.unshift({text:'Seleccione',value:''})
+      this.eps.unshift({ text: 'Seleccione', value: '' })
 
     })
   }
@@ -150,7 +143,7 @@ export class SetPacienteComponent implements OnInit {
   getRegimens() {
     this._dataDinamicService.getRegimens().subscribe((req: any) => {
       this.typeRegimens = req.data
-      this.typeRegimens.unshift({text:'Seleccione',value:''})
+      this.typeRegimens.unshift({ text: 'Seleccione', value: '' })
     })
   }
 
@@ -177,7 +170,7 @@ export class SetPacienteComponent implements OnInit {
         this.loading = false;
         return false;
       }
-      
+
       this._queryPatient.validate(this.paciente);
 
       this._dataDinamicService.savePatient(JSON.stringify(formPatient.value)).subscribe((req: any) => {

@@ -71,7 +71,6 @@ export class CallendarComponent implements OnInit {
   }
   ngOnInit(): void {
 
-    console.log(this.dataCitaToAssignService.dateCall);
     this._fetchData();
 
     /**

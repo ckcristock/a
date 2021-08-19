@@ -16,7 +16,8 @@ export class CitaComponent implements OnInit {
   public dataCitaToAssign = new dataCitaToAssign();
   public type_appointments: [];
   public specialties: [];
-  public persons:any[];
+  public infowailist: any
+  public persons: any[];
   public ipss: [];
   public sedes: [];
   public type_subappointments: [
@@ -27,28 +28,49 @@ export class CitaComponent implements OnInit {
 
   @Output('siguiente') sigx = new EventEmitter();
 
-  constructor(private _openAgendaService: OpenAgendaService, public _queryAvailabilitySpacesService: QueryAvailabilitySpacesService, private dataCitaToAssignService: dataCitaToAssignService) { }
+  constructor
+    (private _openAgendaService: OpenAgendaService,
+      public _queryAvailabilitySpacesService: QueryAvailabilitySpacesService,
+      private dataCitaToAssignService: dataCitaToAssignService,
+      private _queryPatient: QueryPatient
+    ) { }
 
   ngOnInit(): void {
+
     this.getTypeAppointment();
+
+    this._queryPatient.infowailist.subscribe(res => {
+
+      if (res.anotherData) {
+        console.log(res.anotherData);
+        this.infowailist = res.anotherData
+        this.dataCitaToAssign.speciality = this.infowailist.speciality_id
+        this.dataCitaToAssign.person = this.infowailist.profesional_id
+        this.dataCitaToAssign.appointmentId = this.infowailist.type_appointment_id
+        this.dataCitaToAssign.subappointmentId = this.infowailist.sub_type_appointment_id
+        this.dataCitaToAssign.currentAppointment = this.infowailist.sub_type_appointment_id
+        this.getSubTypeAppointmentWailist();
+      } else {
+        this.reset();
+      }
+
+    })
   }
 
 
-  dispatchPerson(form:NgForm) {
-    console.log('dispatch',form.valid,form.value);
-    
+  dispatchPerson(form: NgForm) {
     if (form.valid) {
-      this._queryAvailabilitySpacesService.getPerson.next({person:this.dataCitaToAssign.person,params:form.value});
-   
-    }else{
-      this._queryAvailabilitySpacesService.getPerson.next({person:0,params:0})
+      this._queryAvailabilitySpacesService.getPerson.next({ person: this.dataCitaToAssign.person, params: form.value });
+
+    } else {
+      this._queryAvailabilitySpacesService.getPerson.next({ person: 0, params: 0 })
     }
   }
 
   dispatchSpeciality(speciality) {
     this.dataCitaToAssign.person = ''
     /* this._queryAvailabilitySpacesService.getspeciality.next(speciality); */
-   /*  this._queryAvailabilitySpacesService.getPerson.next({person:0,params:0}); */
+    /*  this._queryAvailabilitySpacesService.getPerson.next({person:0,params:0}); */
   }
 
   getTypeAppointment() {
@@ -57,8 +79,10 @@ export class CitaComponent implements OnInit {
     });
   }
 
-  getSubTypeAppointment(form : NgForm) {
+  getSubTypeAppointment(form: NgForm) {
+
     this.dataCitaToAssign.appointment = this.searchAppointment(this.type_appointments, this.dataCitaToAssign.appointmentId);
+
     this._openAgendaService.getSubTypeAppointment(this.dataCitaToAssign.appointment.value).subscribe((resp: any) => {
       this.type_subappointments = resp.data;
       this.dataCitaToAssign.subappointmentId = this.type_subappointments[0].value
@@ -71,10 +95,26 @@ export class CitaComponent implements OnInit {
 
   }
 
+  getSubTypeAppointmentWailist() {
+    console.log(this.dataCitaToAssign);
+    this._openAgendaService.getSubTypeAppointment(this.dataCitaToAssign.appointmentId).subscribe((resp: any) => {
+      this.type_subappointments = resp.data;
+      this.dataCitaToAssign.subappointmentId = this.type_subappointments[0].value
+      if (this.dataCitaToAssign.appointment.face_to_face) {
+        this.getIps()
+      }
+      this.getSpecialties()
+      this.getProfesionals()
+      //TODO:Implementar dispacth 
+      // this.dispatchPerson(form)
+    });
+
+  }
+
   getIps() {
     this.dataCitaToAssign.subappointment = this.searchItem(this.type_subappointments, this.dataCitaToAssign.subappointmentId);
     this._openAgendaService.getIps('3').subscribe((resp: any) => {
-      this.ipss = resp.data; 
+      this.ipss = resp.data;
     });
   }
 
@@ -94,7 +134,7 @@ export class CitaComponent implements OnInit {
   getProfesionals() {
     this._openAgendaService.getProfesionals(this.dataCitaToAssign.ips.value, String(this.dataCitaToAssign.speciality)).subscribe((resp: any) => {
       this.persons = resp.data;
-      this.persons.unshift({value:'',text:'Todos'})
+      this.persons.unshift({ value: '', text: 'Todos' })
     });
   }
 
@@ -113,8 +153,6 @@ export class CitaComponent implements OnInit {
   }
 
   siguiente() {
-    console.log('dddddd',this.dataCitaToAssign);
-    
     this.dataCitaToAssignService.dataCitaToAssign.next(this.dataCitaToAssign);
     this.sigx.emit('');
   }

@@ -93,7 +93,6 @@ export class PermissionsComponent implements OnInit {
       try {
         //Buscamos padres sin hijos 
         if (element.child.length == 0 && !element.link && element.parent_id) {
-          /*   console.log('padre', element, parent, x); */
           let pos = parent.child.findIndex(f => f.id == element.id)
           throw (pos);
         }
@@ -107,7 +106,6 @@ export class PermissionsComponent implements OnInit {
           });
         }
       } catch (posDel) {
-        /*   console.log(element, parent, posDel); */
         parent.child.splice(posDel, 1)
         this.filtertData(menu, parent)
       }

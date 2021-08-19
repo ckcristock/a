@@ -23,11 +23,12 @@ export class dataCitaToAssign {
 
         public sede?,
         public speciality?,
-        public person:any = '',
+        public person: any = '',
         public timeDuration = '',
         public appointmentId?,
         public subappointmentId?,
         public ipsId?,
+        public currentAppointment?,
 
     ) { }
 

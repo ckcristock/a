@@ -15,17 +15,14 @@ export class DetailStatsComponent implements OnInit {
 
   ngOnInit(): void {
     this.showDeitalStat.subscribe(d => {
-      //if(d){
       this.loading = true;
       this.detail.show();
-      console.log(d);
+     
       this._workList.getStatisticsDetail(d).subscribe((r: any) => {
-        console.log(r.data);
         this.loading = false;
         this.data = r.data
       })
-
-      // }
+      
     })
   }
 

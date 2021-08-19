@@ -7,8 +7,7 @@
                         <div class="col-12">
                             <div class="row">
 
-                                <!--    <input type="text" name="page" [(ngModel)]="pagination.page">
-                                <input type="hidden" name="pageSize" [ngModel]="pagination.pageSize"> -->
+                               
 
                                 <div class="col-md-2 my-2">
                                     <label>Tipo de Agenda</label>
@@ -22,17 +21,6 @@
                                     </ng-select>
                                 </div>
 
-                                <!--  <div class="col-md-2 my-2">
-                                <label>Consulta</label>
-                                <ng-select [items]="type_subappointments" bindLabel="text" bindValue="value"
-                                    [(ngModel)]="dataCitaToAssign.subappointmentId" placeholder="Seleccione "
-                                    name="type_appointment_id" loadingText="loading" (ngModelChange)="getIps()"
-                                    ngDefaultControl>
-                                </ng-select>
-                            </div>
- -->
-
-                                <!--  -->
 
                                 <div class="col-md-4 my-2">
                                     <label>Especialidad</label>
@@ -118,7 +106,7 @@
                             <tr class="text-center" *ngFor="let cita of citas">
                                 <th scope="row">{{cita.hour_start | date}}</th>
                                 <td>{{cita.profesional_name}}</td>
-                                <td>{{cita.speciality_name}}</td>
+                                <td>{{cita.speciality}}</td>
                                 <td>{{cita.observation}}</td>
                                 <td>{{cita.state}}</td>
                                 <td class="text-right">

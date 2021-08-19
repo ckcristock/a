@@ -12,9 +12,6 @@ export class StatsComponent implements OnInit {
 
   constructor() { }
 
-  ngOnInit(): void {
-    console.log('asdasd');
-    
+  ngOnInit(): void {  
   }
-
 }

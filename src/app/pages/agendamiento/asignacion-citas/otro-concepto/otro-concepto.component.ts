@@ -40,8 +40,6 @@ export class OtroConceptoComponent implements OnInit {
     this.$patient.unsubscribe();
   }
   save(form: NgForm) {
-    console.log(this.tramiteData);
-
     try {
       this._queryPatient.validateTipification({ component: this.tramiteSelected, data: this.tramiteData });
       const swalWithBootstrapButtons = Swal.mixin({

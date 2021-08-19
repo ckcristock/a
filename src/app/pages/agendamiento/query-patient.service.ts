@@ -14,6 +14,7 @@ export class QueryPatient {
   public existPatient: EventEmitter<any> = new EventEmitter();
   public patient = new BehaviorSubject<any>({ llamada: new Call(), paciente: new Patient() });
   public cita = new Subject<any>();
+  public infowailist = new  BehaviorSubject<any>( {} );
   public space = new Subject<any>();
 
   public tramiteSelected = new BehaviorSubject<asignarCitaDynamic>(new asignarCitaDynamic())

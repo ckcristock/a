@@ -65,6 +65,10 @@ export class OpenAgendaService {
     return this.clientHttp.get(`${environment.base_url}/get-professionals/${ips}/${speciality}`)
   }
 
+  public getDurations() {
+    return this.clientHttp.get(`${environment.base_url}/get-durations`)
+  }
+
   public getAppointments(idProfessional: Number) {
     return this.clientHttp.get(`${environment.base_url}/agendamientos/${idProfessional}`)
   }
@@ -73,7 +77,7 @@ export class OpenAgendaService {
     return this.clientHttp.get(`${environment.base_url}/opened-spaces/${especialidad}/${profesional}`)
   }
   public getOpenedSpaceCustom(params = {}) {
-    return this.clientHttp.get(`${environment.base_url}/opened-spaces`,{params})
+    return this.clientHttp.get(`${environment.base_url}/opened-spaces`, { params })
   }
 
   public getDiagnostics() {

@@ -21,8 +21,9 @@ export class ResumenComponent implements OnInit {
 
   public anotheData
   public appointment
+  public info
   public patient
-  public space : any = {}
+  public space: any = {}
   public waitingList
 
   public cita = {
@@ -46,45 +47,32 @@ export class ResumenComponent implements OnInit {
   constructor(private HtppClient: HttpClient, private _queryPatient: QueryPatient, private _OpenAgendaService: OpenAgendaService, private dataCitaToAssignService: dataCitaToAssignService) { }
 
   ngOnInit(): void {
-
-   /*  this.patient = this.dataCitaToAssignService.dateCall['paciente']
-    this.call = this.dataCitaToAssignService.dateCall['llamada'] */
-
     this.$qp = this._queryPatient.patient.subscribe(r => {
       this.paciente = r.paciente
       this.call = r
     })
     this.dataCitaToAssignService.dataFinal.subscribe(r => {
-      console.log('data ti assign',r);
-      
-      this.anotheData = r.anotheData
-      this.appointment = r.appointment
-      this.patient = r.patient
-      this.space = r.space
-      this.waitingList = r.waitingList
-      this.show = true;
 
+      if (r.appointment) {
+
+        this.anotheData = r.anotheData
+        this.info = r.info
+        this.appointment = r.appointment
+        this.patient = r.patient
+        this.space = r.space
+        this.waitingList = r.waitingList
+        
+      }
+      
+      this.show = true;
+      
     })
 
   }
 
   cleanAll() {
-  
-   /*  
-    if (this.appointment['Id_Llamada']) {
-      this._OpenAgendaService.getClean(this.appointment['Id_Llamada']).subscribe((r) => {
-      })
-
-    } */
-    /*
-        const typin = new AsignacionCitasComponent(this.HtppClient, this._queryPatient)
-        const va = {
-          Componente: ''
-        }
-        typin.changeTramite(va) */
     this._queryPatient.existPatient.next();
     this._queryPatient.resetModels();
-
   }
 
   ngOnDestroy(): void {

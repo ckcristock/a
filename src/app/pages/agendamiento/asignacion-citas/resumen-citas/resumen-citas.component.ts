@@ -17,7 +17,6 @@ export class ResumenCitasComponent implements OnInit {
   }
   citas : any = []
   constructor(private _appointment : AppointmentService) {
-    //console.log('patiiiiii',this.patient);
    }
   
 
