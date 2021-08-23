@@ -32,7 +32,6 @@ export class QueryPatient {
   }
   
   validate(patient){
-    console.log(patient);
     let title = 'Faltan campos del paciente'
     if(!patient.type_document_id) throw ({ title ,message:'Es necesario el tipo de documento'}) 
     if(!patient.identifier) throw ({ title ,message:'Es necesario el número de identificación'}) 

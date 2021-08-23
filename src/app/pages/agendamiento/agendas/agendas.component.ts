@@ -4,6 +4,8 @@ import { ListaTrabajoService } from './lista-trabajo.service';
 import { OpenAgendaService } from '../open-agenda.service';
 import { PermissionService } from '../../../core/services/permission.service';
 import Swal from 'sweetalert2';
+import { constantes } from 'src/environments/constantes';
+// import { constantes } from './environments/environment';
 
 @Component({
   selector: 'app-agendas',
@@ -122,7 +124,7 @@ export class AgendasComponent implements OnInit {
   getIps() {
     /*     this.filters.sede= '', */
     this.subappointment = this.searchItem(this.type_subappointments, this.filters.subappointmentId);
-    this._openAgendaService.getIps(this.subappointment.company_owner).subscribe((resp: any) => {
+    this._openAgendaService.getIps(constantes.allIps).subscribe((resp: any) => {
       this.ipss = resp.data;
     });
   }
@@ -161,10 +163,10 @@ export class AgendasComponent implements OnInit {
     //get http
     this.loading = true;
     this.pagination.page = page;
-    this.filters.show_all_data =this.configComponent.permissions.show_all_data
-    
+    this.filters.show_all_data = this.configComponent.permissions.show_all_data
+
     let params: any = Object.assign({}, this.pagination, this.filters);
-   
+
 
     this.getStatics(this.filters);
     this._workList.getAgendamientos(params).subscribe(d => {

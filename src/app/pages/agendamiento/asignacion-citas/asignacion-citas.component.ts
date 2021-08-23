@@ -12,6 +12,7 @@ import { PermissionService } from '../../../core/services/permission.service';
 import { AppointmentService } from '../../../core/services/appointment.service';
 import { OpenAgendaService } from '../open-agenda.service';
 import { ActivatedRoute, Router } from '@angular/router';
+import { dataCitaToAssign } from 'src/app/core/interfaces/dataCitaToAssign.model';
 
 
 @Component({
@@ -45,8 +46,9 @@ export class AsignacionCitasComponent implements OnInit {
   public $tramiteSelected: Subscription;
   public $tramiteData: Subscription;
   tramiteData: any = {}
-
   public patient;
+
+  public dataCitaToAssign = new dataCitaToAssign();
 
   constructor(private http: HttpClient, private _queryPatient: QueryPatient,
     private _tipification: TipificationService,
@@ -135,7 +137,8 @@ export class AsignacionCitasComponent implements OnInit {
   }
 
   newCall(form) {
-    let formd = new FormData()
+    this.dataCitaToAssign.resetData()
+
     this.http.post(`${environment.base_url}/presentianCall`, JSON.stringify(form.value))
       .subscribe((req: any) => {
         if (req.code == 200) {
@@ -152,7 +155,7 @@ export class AsignacionCitasComponent implements OnInit {
   }
 
   newCallByWaitingList() {
-
+    //TODO: refactor traer waitin list sin apointment agendado
     this.http.post(`${environment.base_url}/patientforwaitinglist`, this.route.snapshot.params.id)
       .subscribe((req: any) => {
         if (req.code == 200) {

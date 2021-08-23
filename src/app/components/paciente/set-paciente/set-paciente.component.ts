@@ -36,7 +36,7 @@ export class SetPacienteComponent implements OnInit {
   public agreements: any[];
   public companies: any[];
   public locations: any[];
-
+  public show = false;
   public llamada: any;
   $qp: Subscription
   constructor(private _queryPatient: QueryPatient, private _dataDinamicService: DataDinamicService,
@@ -180,6 +180,8 @@ export class SetPacienteComponent implements OnInit {
           this.paciente.id = req.data.patient.id;
           this.paciente.isNew = false
           this._queryPatient.patient.next({ llamada: this.llamada, paciente: this.paciente })
+
+          this.show = true;
           Swal.fire('Felicidades', 'Actualizado correctamente', 'success');
         } else {
 

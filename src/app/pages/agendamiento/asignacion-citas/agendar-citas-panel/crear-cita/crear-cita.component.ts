@@ -135,8 +135,15 @@ export class CrearCitaComponent implements OnInit {
           this.loading = true;
           this._openAgendaService.saveCita(JSON.stringify(form.value))
             .subscribe((data: any) => {
+
+              if (data.code == 400) {
+                Swal.fire('Error agendando cita', data.err[0], 'error');
+                this.loading = false;
+                throw (({ tilte: 'Error agendando cita', message: data.err[0] }))
+              }
               this.dataCitaToAssignService.dataFinal.next(data.data)
               this.validarResponse(data);
+
               this.loading = false;
             }, response => {
               if (response.error) {
@@ -154,6 +161,7 @@ export class CrearCitaComponent implements OnInit {
       })
 
     } catch ({ tilte, message }) {
+      this.loading = false;
       Swal.fire(tilte, message, 'error');
     }
   }
@@ -208,6 +216,7 @@ export class CrearCitaComponent implements OnInit {
         }
         this._queryPatient.validate(this.patient);
         this._queryPatient.validateTipification({ component: this.tipification, data: this.tipification });
+        this.siguiente.emit();
         this.dataCitaToAssignService.dataFinal.next(data.data)
         this._openAgendaService.getClean(data.data.appointment['call_id']).subscribe((r) => {
         })

@@ -42,13 +42,12 @@ export class CitaComponent implements OnInit {
     this._queryPatient.infowailist.subscribe(res => {
 
       if (res.anotherData) {
-        console.log(res.anotherData);
         this.infowailist = res.anotherData
         this.dataCitaToAssign.speciality = this.infowailist.speciality_id
         this.dataCitaToAssign.person = this.infowailist.profesional_id
         this.dataCitaToAssign.appointmentId = this.infowailist.type_appointment_id
         this.dataCitaToAssign.subappointmentId = this.infowailist.sub_type_appointment_id
-        this.dataCitaToAssign.currentAppointment = this.infowailist.sub_type_appointment_id
+        this.dataCitaToAssign.currentAppointment = this.infowailist.appointment_id
         this.getSubTypeAppointmentWailist();
       } else {
         this.reset();
@@ -67,7 +66,7 @@ export class CitaComponent implements OnInit {
     }
   }
 
-  dispatchSpeciality(speciality) {
+  dispatchSpeciality(s) {
     this.dataCitaToAssign.person = ''
     /* this._queryAvailabilitySpacesService.getspeciality.next(speciality); */
     /*  this._queryAvailabilitySpacesService.getPerson.next({person:0,params:0}); */
@@ -80,9 +79,7 @@ export class CitaComponent implements OnInit {
   }
 
   getSubTypeAppointment(form: NgForm) {
-
     this.dataCitaToAssign.appointment = this.searchAppointment(this.type_appointments, this.dataCitaToAssign.appointmentId);
-
     this._openAgendaService.getSubTypeAppointment(this.dataCitaToAssign.appointment.value).subscribe((resp: any) => {
       this.type_subappointments = resp.data;
       this.dataCitaToAssign.subappointmentId = this.type_subappointments[0].value
@@ -96,7 +93,6 @@ export class CitaComponent implements OnInit {
   }
 
   getSubTypeAppointmentWailist() {
-    console.log(this.dataCitaToAssign);
     this._openAgendaService.getSubTypeAppointment(this.dataCitaToAssign.appointmentId).subscribe((resp: any) => {
       this.type_subappointments = resp.data;
       this.dataCitaToAssign.subappointmentId = this.type_subappointments[0].value

@@ -32,4 +32,12 @@ export class dataCitaToAssign {
 
     ) { }
 
+    public resetData() {
+        this.speciality = null
+        this.person = null
+        this.appointmentId = null
+        this.subappointmentId = null
+        this.currentAppointment = null
+    }
+
 }

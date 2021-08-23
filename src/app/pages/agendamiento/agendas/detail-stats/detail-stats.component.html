@@ -7,8 +7,8 @@
     </div>
     <div class="app-modal-body">
         <!-- <p class="card-subtitle mb-2 ">Detalle de por especialidad</p> -->
-        <div class="row  ">
-            <table class="table" *ngIf="!loading && data; else notData">
+        <div class="row table-wrapper-scroll-y my-custom-scrollbar">
+            <table class="table" *ngIf="!loading && data; else notData" style="width: 100%;">
                 <thead>
                     <tr>
                         <th scope="col">Especialidad</th>
@@ -20,7 +20,6 @@
                         <td>{{item.name}}</td>
                         <td>{{item.total}}</td>
                     </tr>
-
                 </tbody>
             </table>
         </div>

@@ -7,11 +7,15 @@ import { TipificacionComponent } from '../../tipificacion/tipificacion.component
 import { AsignacionCitasComponent } from '../../asignacion-citas.component';
 import { HttpClient } from '@angular/common/http';
 import { asignarCitaDynamic } from '../../../../../core/models/asignarCitaDynamic.model';
+import { Location } from '@angular/common';
+import { Router, ActivatedRoute, ParamMap } from '@angular/router';
+import { dataCitaToAssign } from '../../../../../core/interfaces/dataCitaToAssign.model';
 
 @Component({
   selector: 'app-resumen',
   templateUrl: './resumen.component.html',
-  styleUrls: ['./resumen.component.scss']
+  styleUrls: ['./resumen.component.scss'],
+  // providers: [dataCitaToAssign]
 })
 export class ResumenComponent implements OnInit {
   paciente: any
@@ -19,12 +23,16 @@ export class ResumenComponent implements OnInit {
 
   @Input() dataCita: any;
 
+  public dataCitaToAssign = new dataCitaToAssign();
+
+
   public anotheData
   public appointment
   public info
   public patient
   public space: any = {}
   public waitingList
+
 
   public cita = {
     agendamiento: {
@@ -44,7 +52,15 @@ export class ResumenComponent implements OnInit {
 
   public show = false;
 
-  constructor(private HtppClient: HttpClient, private _queryPatient: QueryPatient, private _OpenAgendaService: OpenAgendaService, private dataCitaToAssignService: dataCitaToAssignService) { }
+  constructor(
+    private HtppClient: HttpClient,
+    private _queryPatient: QueryPatient,
+    private _OpenAgendaService: OpenAgendaService,
+    private dataCitaToAssignService: dataCitaToAssignService,
+    private router: Router,
+    private activatedRoute: ActivatedRoute,
+    private location: Location
+  ) { }
 
   ngOnInit(): void {
     this.$qp = this._queryPatient.patient.subscribe(r => {
@@ -61,11 +77,11 @@ export class ResumenComponent implements OnInit {
         this.patient = r.patient
         this.space = r.space
         this.waitingList = r.waitingList
-        
+
       }
-      
+
       this.show = true;
-      
+
     })
 
   }
@@ -73,6 +89,8 @@ export class ResumenComponent implements OnInit {
   cleanAll() {
     this._queryPatient.existPatient.next();
     this._queryPatient.resetModels();
+    this.dataCitaToAssign.resetData()
+    this.location.go('/agendamiento/asignacion-citas');
   }
 
   ngOnDestroy(): void {

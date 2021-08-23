@@ -3,7 +3,7 @@ import { CommonModule } from '@angular/common';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { HttpClientModule } from '@angular/common/http';
 import { UiModule } from '../shared/ui/ui.module';
-import { NgbAccordionModule, NgbAlertModule } from '@ng-bootstrap/ng-bootstrap';
+import { NgbAccordionModule, NgbAlertModule, NgbToastModule } from '@ng-bootstrap/ng-bootstrap';
 import { ModalBasicComponent } from './modal-basic/modal-basic.component';
 import { SetPacienteComponent } from './paciente/set-paciente/set-paciente.component';
 import { DetalleCitaComponent } from './citas/detalle-cita/detalle-cita.component';
@@ -47,7 +47,8 @@ import { NotDataComponent } from './not-data/not-data.component';
     CommonModule,
     NgSelectModule,
     PerfectScrollbarModule,
-    PipesModule
+    PipesModule,
+    NgbToastModule
   ]
 })
 export class ComponentsModule { }

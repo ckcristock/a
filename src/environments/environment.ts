@@ -22,9 +22,9 @@
 export const environment = {
   production: false,
 
-  base_url: 'https://ateneo-deploy.test/api'
+  base_url: 'http://ateneo-deploy.test/api'
 
-  //base_url: 'http://ateneo-back.test/api'
+  // base_url: 'http://ateneo-back.test/api'
   //  base_url: 'http://127.0.0.1:8000/api'
   // base_url: 'http://127.0.0.1:8000/api'
   //  base_url: 'https://backend.ateneoerp.com/api',
