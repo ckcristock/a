@@ -50,8 +50,8 @@ export class SetPacienteComponent implements OnInit {
   ngOnInit() {
 
     this.$qp = this._queryPatient.patient.subscribe(async r => {
-      if (r.paciente.identifier) {
 
+      if (r.paciente.identifier) {
         /*    this.getEps(); */
         this.getCompanies();
         this.getTypeDocuments();
@@ -95,6 +95,47 @@ export class SetPacienteComponent implements OnInit {
       this.companies = req.data
       this.companies.unshift({ text: 'Seleccione', value: '' })
     })
+  }
+
+  validateInfoPatient(formPatient: NgForm) {
+    try {
+
+      if (!formPatient.value.identifier || !formPatient.value.type_document_id || formPatient.value.type_document_id == '') {
+        throw ({ title: 'Ha ocurrido un error', message: 'Debes Llenar Tipo Identificación e Identificación' });
+      }
+
+      const data = {
+        identifier: formPatient.value.identifier,
+        type_document: formPatient.value.type_document_id
+      }
+
+      this._queryPatient.validateInfoPatient(data).subscribe(async (req: any) => {
+        if (req.code == 200 && req.data.id) {
+          this.paciente = await req.data
+          this.paciente.eps_id = Number(req.data.eps_id)
+          this.paciente.level_id = Number(req.data.level_id)
+          this.dataCitaToAssignService.dateCall['paciente'] = await req.data
+          // this.paciente.isNew = false
+          this._queryPatient.patient.next({ llamada: this.llamada, paciente: this.paciente })
+          if (req.data.id) {
+            this.show = true;
+          }
+        } else {
+          Swal.fire('Advertencia', 'Paciente no encontrado en validador de derechos', 'warning');
+          return false
+        }
+        this.loading = false;
+      }, err => {
+        throw ({ title: 'Ha ocurrido un error', message: 'Contáctese con el departamento de sistemas' });
+      })
+
+
+    } catch ({ title, message }) {
+      this.loading = false;
+
+      Swal.fire(title, message, 'error');
+
+    }
   }
 
   getLocations(company_id) {
@@ -175,7 +216,6 @@ export class SetPacienteComponent implements OnInit {
 
       this._dataDinamicService.savePatient(JSON.stringify(formPatient.value)).subscribe((req: any) => {
         if (req.code == 200) {
-
           this.dataCitaToAssignService.dateCall['paciente'] = req.data.patient
           this.paciente.id = req.data.patient.id;
           this.paciente.isNew = false

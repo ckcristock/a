@@ -1,7 +1,13 @@
 <div class="row">
     <div class="col-12">
-        <div *ngIf="paciente.isNew" class="alert alert-warning" role="alert">
-            El paciente no se encuentra registrado <strong>Por favor valide la información</strong>
+        <div *ngIf="paciente.isNew" class="alert" role="alert">
+
+            <!-- (click)="save(formPatient)"> -->
+            <button class="mx-2 btn btn-sm btn-outline-info" (click)="validateInfoPatient(formPatient)">
+                El paciente no se encuentra
+                <strong>Click para validar información</strong>
+            </button>
+
         </div>
 
         <form #formPatient="ngForm">
@@ -211,6 +217,6 @@
     (mouseenter)="autohide = false" (mouseleave)="autohide = true" (hide)="show = false; autohide = true"
     [class.bg-warning]="!autohide"> -->
 
-    <!-- <pre>{{ location_id.invalid }}</pre>
+<!-- <pre>{{ location_id.invalid }}</pre>
 <pre>{{ formPatient.invalid }}</pre>
 <pre>{{ formPatient.value | json }}</pre> -->

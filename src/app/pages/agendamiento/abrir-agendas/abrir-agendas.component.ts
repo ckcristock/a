@@ -1,13 +1,13 @@
 import { Component, OnInit, ViewChild } from '@angular/core';
 import { NgForm } from '@angular/forms';
-import { catchError, debounceTime, distinctUntilChanged, subscribeOn, switchMap, tap } from 'rxjs/operators';
+import { catchError, debounceTime, distinctUntilChanged, filter, subscribeOn, switchMap, tap } from 'rxjs/operators';
 import { OpenAgendaService } from '../open-agenda.service';
 import { environment } from 'src/environments/environment';
 
 import { diasSemana } from './dias';
 import Swal from 'sweetalert2';
 import { QueryPerson } from '../query-person.service';
-import { Observable, of, OperatorFunction } from 'rxjs';
+import { concat, Observable, of, OperatorFunction, Subject } from 'rxjs';
 import { Router } from '@angular/router';
 
 
@@ -17,6 +17,15 @@ import { Router } from '@angular/router';
   styleUrls: ['./abrir-agendas.component.scss']
 })
 export class AbrirAgendasComponent implements OnInit {
+
+  selectedCar: number;
+
+  cars = [
+    { value: 1, name: 'Volvo' },
+    { value: 2, name: 'Saab' },
+    { value: 3, name: 'Opel' },
+    { value: 4, name: 'Audi' },
+  ];
 
   public appointment = {
     value: "",
@@ -77,6 +86,7 @@ export class AbrirAgendasComponent implements OnInit {
   public searchingProcedure = false;
   public searchFailedProcedure = false;
   public today: any;
+
   constructor(private _openAgendaService: OpenAgendaService, public _queryPerson: QueryPerson, private router: Router) { }
 
   ngOnInit(): void {
@@ -85,7 +95,9 @@ export class AbrirAgendasComponent implements OnInit {
     this.today = new Date();
     this.today.setHours(0, 0, 0, 0);
     //this.today = Date.parse(this.today)
+    // this.setupSearch();
   }
+
   @ViewChild('agenda') agenda: NgForm;
   reset() {
 
@@ -170,12 +182,17 @@ export class AbrirAgendasComponent implements OnInit {
   }
 
   getIps() {
+    const param = (this.location_id) ? this.location_id : 0
     this.subappointment = this.searchItem(this.type_subappointments, this.subappointmentId);
-
     this.isProcedure = Boolean(this.subappointment.procedure);
-
-    this._openAgendaService.getIps(String(this.location_id)).subscribe((resp: any) => {
+    this._openAgendaService.getIps(String(param)).subscribe((resp: any) => {
       this.ipss = resp.data;
+    });
+  }
+
+  getcups() {
+    this._openAgendaService.searchCustomProcedure('', String(this.speciality)).subscribe((resp: any) => {
+      this.cups = resp
     });
   }
 
@@ -193,6 +210,7 @@ export class AbrirAgendasComponent implements OnInit {
   }
 
   getProfesionals() {
+    (this.subappointment['procedure']) ? this.getcups() : '';
     this._openAgendaService.getProfesionals(this.ips.value, String(this.speciality)).subscribe((resp: any) => {
       this.profesionals = resp.data;
     });
@@ -263,6 +281,5 @@ export class AbrirAgendasComponent implements OnInit {
     )
 
   InputProcedure = (x: { text: string }) => x.text;
-
 
 }

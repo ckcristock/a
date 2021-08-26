@@ -161,8 +161,10 @@ export class AsignacionCitasComponent implements OnInit {
         if (req.code == 200) {
           let data = req.data;
           if (req.data.isNew) {
+
             data = this.newPatient(data, req)
           }
+
           this.patient = data;
           this._queryPatient.patient.next(data);
           this._queryPatient.infowailist.next(data);

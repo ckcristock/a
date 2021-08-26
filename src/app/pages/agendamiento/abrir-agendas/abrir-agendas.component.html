@@ -24,8 +24,6 @@
                                 </ng-select>
                             </div>
 
-
-
                             <div class="col-md-4 my-2">
                                 <label>Especialidad</label>
                                 <ng-select [items]="specialties" required bindLabel="text" bindValue="value"
@@ -33,7 +31,6 @@
                                     loadingText="loading" ngDefaultControl (ngModelChange)="getProfesionals()">
                                 </ng-select>
                             </div>
-
 
 
                             <div class="col-md-4 my-2">
@@ -49,15 +46,12 @@
                                 <label>Procedimiento</label>
                                 <div class="input-group mb-3">
 
-                                    <input type="text" class="form-control" required
-                                        [class.is-invalid]="searchFailedProcedure" [(ngModel)]="procedureId"
-                                        [ngbTypeahead]="searchProcedure" placeholder="Código CUPS del procedimiento"
-                                        name="procedureId" ngDefaultControl [resultTemplate]="procedure"
-                                        [inputFormatter]="InputProcedure" />
-                                    <small *ngIf="searchingProcedure" class="form-text text-muted">Buscando...</small>
-                                    <div class="invalid-feedback" *ngIf="searchFailedProcedure">No se ha podido
-                                        encontrar.
-                                    </div>
+                                    <ng-select [items]="cups" style="width: 100%;" required bindLabel="text"
+                                        bindValue="value" [(ngModel)]="procedureId"
+                                        placeholder="Código CUPS del procedimiento " name="procedureId"
+                                        loadingText="loading" ngDefaultControl appendTo="body" [multiple]="true">
+                                    </ng-select>
+
 
                                 </div>
                             </div>

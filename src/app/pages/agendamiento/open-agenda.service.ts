@@ -115,6 +115,9 @@ export class OpenAgendaService {
   }
 
   searchProcedure(term: string, speciality: string = '') {
+
+    console.log(term, speciality);
+
     if (term === '') {
       return of([]);
     }
@@ -124,4 +127,13 @@ export class OpenAgendaService {
         map((response: any) => response.data)
       );
   }
+
+  searchCustomProcedure(term: string, speciality: string = '') {
+    console.log([term, speciality]);
+    return this.clientHttp
+      .get<[any, string[]]>(PROCEDURE_URL, { params: { 'search': term, 'speciality': speciality } }).pipe(
+        map((response: any) => response.data)
+      );
+  }
+
 }

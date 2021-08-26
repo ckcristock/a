@@ -191,7 +191,7 @@ export class CrearCitaComponent implements OnInit {
       distinctUntilChanged(),
       tap(() => this.searchingProcedure = true),
       switchMap(term => term.length < 3 ? [] :
-        this._openAgendaService.searchProcedure(term).pipe(
+        this._openAgendaService.searchProcedure(term, this.space).pipe(
           tap(() => this.searchFailedProcedure = false),
           catchError(() => {
             this.searchFailedProcedure = true;
