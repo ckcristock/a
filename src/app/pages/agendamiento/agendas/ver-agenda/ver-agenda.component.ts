@@ -8,105 +8,103 @@ import timeGrigPlugin from '@fullcalendar/timegrid';
 import interactionPlugin from '@fullcalendar/interaction';
 import bootstrapPlugin from '@fullcalendar/bootstrap';
 import { EventInput } from '@fullcalendar/core';
-
-
+import { ListaTrabajoService } from '../lista-trabajo.service';
+import Swal from 'sweetalert2';
 
 @Component({
   selector: 'app-ver-agenda',
   templateUrl: './ver-agenda.component.html',
-  styleUrls: ['./ver-agenda.component.scss']
+  styleUrls: ['./ver-agenda.component.scss'],
 })
 export class VerAgendaComponent implements OnInit {
-  agenda:any = {}
+  agenda: any = {};
   notOverride = false;
-  
-  id: any;
-  constructor(private route: ActivatedRoute) { }
-  time: Array<TimeLine> = [
-    {
-      date: '28 Apr, 2020', hour: '12:07 am',
-      description: 'Responded to need “Volunteer Activities”',
-      image: 'assets/images/users/avatar-4.jpg',
-      functionary_id:'1',
-      icon:'ri-edit-2-fill'
-      
-    },
-    {
-      date: '28 Apr, 2020', hour: '12:07 am',
-      description: 'Responded to need “Volunteer Activities”',
-      image: 'assets/images/users/avatar-4.jpg',
-      functionary_id:'1',
-      icon:'ri-user-2-fill'
-    },
-    {
-      date: '28 Apr, 2020', hour: '12:07 am',
-      description: 'Responded to need “Volunteer Activities”',
-      image: '',
-      functionary_id:'1',
-      icon:'ri-bar-chart-fill'
-    },
-    {
-      date: '28 Apr, 2020', hour: '12:07 am',
-      description: 'Responded to need “Volunteer Activities”',
-      image: '',
-      functionary_id:'1',
-      icon:'ri-mail-fill'
-    },
-    {
-      date: '28 Apr, 2020', hour: '12:07 am',
-      description: 'Responded to need “Volunteer Activities”',
-      image: '',
-      functionary_id:'1',
-      icon:'ri-calendar-2-fill'
-    }
-  ]
 
+  id: any;
+  constructor(
+    private route: ActivatedRoute,
+    private _listaTrabajo: ListaTrabajoService,
+  ) { }
+  time: History[];
+
+  selected = {
+    date: '',
+    id: ''
+  }
 
   calendarWeekends: any;
-  calendarPlugins = [dayGridPlugin, bootstrapPlugin, timeGrigPlugin, interactionPlugin, listPlugin];
+  calendarPlugins = [
+    dayGridPlugin,
+    bootstrapPlugin,
+    timeGrigPlugin,
+    interactionPlugin,
+    listPlugin,
+  ];
   calendarEvents: EventInput[];
 
   ngOnInit(): void {
     this.id = this.route.snapshot.params.id;
     this.getAgenda();
-
   }
-  save(cont,ev){
-    
+  save(cont, ev) { }
+  getAgenda() {
+    this._listaTrabajo.getAgendamientoDetail(this.id).subscribe((d) => {
+      this.agenda = d.data;
+      this.notOverride = this.agenda.spaces.some((d) => d.status == 0 );
+    });
   }
-  getAgenda (){
-    //consulta http
-    this.agenda = {
-      date_start:'2020-01-05',
-      date_end:'2020-01-05',
-      hour_start:'21:40',
-      end_start:'21:50',
 
-      appointment:{
-        name:'asdas',
-        id:'1'
-      },
-      consult:{
-        name:'Telemedicina',
-        id:'1'
-      },
-      company:{
-        name:'IPS Crlos',
-        id:'1'
-      },
-      location:{
-        name:'Nueva sede ',
-        id:'1'
-      },
-      professional:{
-        first_name:'Carlos ',
-        first_surname:' Cardona'
-      },
-      spaces:[{
-        state:'agendado'// revisar!!
-      }]
+  cancel(event) {
+    const id = event.event.id;
+    let space: any = this.agenda.spaces
+      .find(r => r.id == id)
+    this.selected
+    if (space.state == 'Cancelado' || space.status == 0) {
+
+      Swal.fire('No se puede realizar la operación',
+        ('El espacio ya se encuentra ' +
+         ( space.state == 'Cancelado' ? 'cancelado' : ' con una cita previa')),
+        'warning'
+      )
+      return false;
+
     }
-    this.notOverride = this.agenda.spaces.some(d=>d.state=='agendado')
+
+    const swalWithBootstrapButtons = Swal.mixin({
+      customClass: {
+        confirmButton: 'btn btn-success mx-2',
+        cancelButton: 'btn btn-danger'
+      },
+      buttonsStyling: false
+    })
+    swalWithBootstrapButtons.fire({
+      title: '¿está seguro?',
+      text: "Se dispone a cancelar un espacio de la agenda " + space.start,
+      icon: 'warning',
+      showCancelButton: true,
+      confirmButtonText: 'Si, ¡Hazlo !',
+      cancelButtonText: 'No, ¡dejeme comprobar!',
+      reverseButtons: true
+    }).then((result) => {
+      if (result.isConfirmed) {
+        this._listaTrabajo.cancelSpace({ id }).subscribe((r: any) => {
+          Swal.fire('Operacion procesada',
+            r.data,
+            r.code == 200 ? 'success' : 'error'
+          )
+          this.getAgenda();
+         
+        })
+      }
+    })
+
+
+
   }
+
+
+
+
+
 
 }

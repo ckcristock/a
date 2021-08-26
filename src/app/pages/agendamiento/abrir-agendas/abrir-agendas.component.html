@@ -9,51 +9,61 @@
                             <div class="col-md-2 my-2">
 
                                 <label>Tipo de Agenda</label>
-                                <ng-select [items]="type_appointments" bindLabel="text" bindValue="value"
-                                    [(ngModel)]="appointmentId" placeholder="Seleccione " name="type_agenda_id"
-                                    loadingText="loading" ngDefaultControl (ngModelChange)="getSubTypeAppointment()">
+                                <ng-select [items]="type_appointments" required bindLabel="text" bindValue="value" [(ngModel)]="appointmentId" placeholder="Seleccione " name="type_agenda_id" loadingText="loading" ngDefaultControl (ngModelChange)="getSubTypeAppointment() ; getTypeLocations()">
                                 </ng-select>
                             </div>
 
                             <div class="col-md-2 my-2">
                                 <label>Tipo de Consulta</label>
-                                <ng-select [items]="type_subappointments" bindLabel="text" bindValue="value"
-                                    [(ngModel)]="subappointmentId" placeholder="Seleccione " name="type_appointment_id"
-                                    loadingText="loading" (ngModelChange)="getIps()" ngDefaultControl>
+                                <ng-select [items]="type_subappointments" required bindLabel="text" bindValue="value" [(ngModel)]="subappointmentId" placeholder="Seleccione " name="type_appointment_id" loadingText="loading" (ngModelChange)="getIps()" ngDefaultControl>
                                 </ng-select>
                             </div>
 
+
+
                             <div class="col-md-4 my-2">
                                 <label>Especialidad</label>
-                                <ng-select [items]="specialties" bindLabel="text" bindValue="value"
-                                    [(ngModel)]="speciality" placeholder="Seleccione " name="speciality_id"
-                                    loadingText="loading" ngDefaultControl (ngModelChange)="getProfesionals()">
+                                <ng-select [items]="specialties" required bindLabel="text" bindValue="value" [(ngModel)]="speciality" placeholder="Seleccione " name="speciality_id" loadingText="loading" ngDefaultControl (ngModelChange)="getProfesionals()">
                                 </ng-select>
                             </div>
+
 
 
                             <div class="col-md-4 my-2">
                                 <label>Profesional</label>
-                                <ng-select [items]="profesionals" bindLabel="text" bindValue="value"
-                                    [(ngModel)]="profesional" [placeholder]="(profesional == 0) ? 'Seleccione' : 'Select' " name="professional_id"
-                                    loadingText="loading" ngDefaultControl  (ngModelChange)="dispatchProfessional()">
+                                <ng-select [items]="profesionals" required bindLabel="text" bindValue="value" [(ngModel)]="profesional" [placeholder]="(profesional == 0) ? 'Seleccione' : 'Select' " name="person_id" loadingText="loading" ngDefaultControl (change)="dispatchPerson()">
                                 </ng-select>
                             </div>
 
-                            <div class="col-md-6 my-2" *ngIf="appointment.face_to_face">
+                            <div class="col-md-12 my-2" *ngIf="isProcedure">
+                                <label>Procedimiento</label>
+                                <div class="input-group mb-3">
+
+                                    <input type="text" class="form-control" required [class.is-invalid]="searchFailedProcedure" [(ngModel)]="procedureId" [ngbTypeahead]="searchProcedure" placeholder="Código CUPS del procedimiento" name="procedureId" ngDefaultControl [resultTemplate]="procedure"
+                                        [inputFormatter]="InputProcedure" />
+                                    <small *ngIf="searchingProcedure" class="form-text text-muted">Buscando...</small>
+                                    <div class="invalid-feedback" *ngIf="searchFailedProcedure">No se ha podido encontrar.
+                                    </div>
+
+                                </div>
+                            </div>
+
+                            <div class="col-md-2 my-2" *ngIf="appointment.face_to_face">
+                                <label>Tipo de Sede</label>
+                                <ng-select [items]="type_locations" required bindLabel="text" bindValue="value" [(ngModel)]="location_id" placeholder="Seleccione " name="type_location_id" loadingText="loading" ngDefaultControl (ngModelChange)="getIps()">
+                                </ng-select>
+                            </div>
+
+                            <div class="col-md-5 my-2" *ngIf="appointment.face_to_face">
                                 <label>Ips</label>
-                                <ng-select [items]="ipss" bindLabel="text" bindValue="value" [(ngModel)]="ipsId"
-                                    placeholder="Seleccione " name="ips_id" loadingText="loading"
-                                    (ngModelChange)="getSedes()" ngDefaultControl>
+                                <ng-select [items]="ipss" required bindLabel="text" bindValue="value" [(ngModel)]="ipsId" placeholder="Seleccione " name="ips_id" loadingText="loading" (ngModelChange)="getSedes()" ngDefaultControl>
                                 </ng-select>
                             </div>
 
 
-                            <div class="col-md-6 my-2" *ngIf="appointment.face_to_face">
+                            <div class="col-md-5 my-2" *ngIf="appointment.face_to_face">
                                 <label>Sede</label>
-                                <ng-select [items]="sedes" bindLabel="text" bindValue="value" [(ngModel)]="sede"
-                                    placeholder="Seleccione " name="sede_id" loadingText="loading" ngDefaultControl
-                                    (ngModelChange)="getSpecialties()">
+                                <ng-select [items]="sedes" required bindLabel="text" bindValue="value" ngModel placeholder="Seleccione " name="location_id" loadingText="loading" ngDefaultControl (ngModelChange)="getSpecialties()">
                                 </ng-select>
                             </div>
 
@@ -61,47 +71,39 @@
                         <div class="row p-3">
                             <div class="col-md-2 my-2" *ngIf="profesional">
                                 <label>Inicio de Agendamiento</label>
-                                <input class="form-control" type="date" name="date_start" value="2018-01-01"
-                                    min="2017-01-01" [(ngModel)]="fechaInicio" />
+                                <input class="form-control" type="date" name="date_start" value="2018-01-01" [(ngModel)]="fechaInicio" required #date_start="ngModel" />
+
                             </div>
 
                             <div class="col-md-2 my-2" *ngIf="profesional">
                                 <label>Fin de Agendamiento</label>
-                                <input class="form-control" type="date" name="date_end" value="2018-01-01"
-                                    min="2017-01-01" [(ngModel)]="fechaFin" />
+                                <input class="form-control" required type="date" name="date_end" [(ngModel)]="fechaFin" />
                             </div>
 
                             <div class="col-md-2 my-2" *ngIf="profesional">
                                 <label>Hora Inicio</label>
-                                <input class="form-control" [(ngModel)]="horaInicio" type="time" name="hour_start"
-                                    value="08:00" />
+                                <input class="form-control" required step="300" ngModel type="time" [(ngModel)]="hour_start" name="hour_start" value="08:00" />
                             </div>
 
                             <div class="col-md-2 my-2" *ngIf="profesional">
                                 <label>Hora Fin</label>
-                                <input class="form-control" [(ngModel)]="horaFin" type="time" name="hour_end"
-                                    value="18:00" />
+                                <input class="form-control" required ngModel type="time" name="hour_end" [(ngModel)]="hour_end" value="18:00" />
                             </div>
 
                             <div class="col-md-1 my-2" *ngIf="profesional">
                                 <label>Duración</label>
-                                <ng-select [items]="optionesTime" bindLabel="text" bindValue="value"
-                                    [(ngModel)]="timeDuration" placeholder="Seleccione " name="long"
-                                    loadingText="loading" ngDefaultControl>
+                                <ng-select [items]="optionesTime" required bindLabel="text" bindValue="value" ngModel placeholder="Seleccione " [(ngModel)]="long" name="long" loadingText="loading" ngDefaultControl>
                                 </ng-select>
                             </div>
 
                             <div class="col-md-3 my-2" *ngIf="profesional">
                                 <label>Dias</label>
-                                <ng-select [items]="diasSemana" multiple="true" bindLabel="text" bindValue="value"
-                                    [(ngModel)]="day" placeholder="Seleccione " name="days" loadingText="loading"
-                                    ngDefaultControl>
+                                <ng-select [items]="diasSemana" required multiple="true" bindLabel="text" bindValue="value" ngModel placeholder="Seleccione " [(ngModel)]="days" name="days" loadingText="loading" ngDefaultControl>
                                 </ng-select>
                             </div>
 
-                            <div class="col-md-12 my-2" *ngIf="profesional">
-                                <button type="button" class="btn btn-info btn-sm btn-block"
-                                    (click)="saveAgenda(agenda)">Aperturar Agenda</button>
+                            <div class="col-md-12 my-2" *ngIf="profesional ">
+                                <button type="button" [disabled]="agenda.invalid" required class="btn btn-info btn-sm btn-block" (click)="saveAgenda(agenda)">Aperturar Agenda</button>
                             </div>
                         </div>
                     </div>
@@ -115,7 +117,7 @@
             <div class="card">
                 <div class="card-body">
                     <div class="app-calendar">
-                        <app-callendar [professional] = 'profesional'></app-callendar>
+                        <app-callendar [person]='profesional'></app-callendar>
                     </div>
                 </div>
             </div>
@@ -140,3 +142,10 @@
     </ng-template>
 
 </div>
+
+<ng-template #procedure let-r="result" let-t="term">
+    <span class="f-9">
+        {{r.value}}
+        <strong>{{r.text}}</strong>
+    </span>
+</ng-template>

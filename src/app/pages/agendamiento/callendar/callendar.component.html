@@ -1,17 +1,25 @@
 <div class="card-body">
     <div class="app-calendar">
-        <full-calendar #calendar defaultView="dayGridMonth" [header]="{
+        <full-calendar #calendar defaultView="dayGridMonth" [ngClass]="{'display-none': loading}" [header]="{
             left: 'prevYear,prev,next,nextYear today',
             center: 'title',
-            right: 'dayGridMonth,dayGridWeek,dayGridDay,listWeek'}" [plugins]="calendarPlugins"
-            [eventResizableFromStart]="'true'" [eventLimit]="false" themeSystem='bootstrap'
-            [weekends]="calendarWeekends" [bootstrapFontAwesome]="true" deepChangeDetection="true"
-            [events]="calendarEvents" (dateClick)="openModal(content, $event)"
-            (eventClick)="openEditModal(editcontent, $event)" locale="es" >
+            right: 'dayGridMonth,dayGridWeek,dayGridDay'}" [plugins]="calendarPlugins" [eventResizableFromStart]="'true'" [eventLimit]="false" themeSystem='bootstrap' [weekends]="calendarWeekends" [bootstrapFontAwesome]="true" deepChangeDetection="true"
+            [events]="calendarEvents" (dateClick)="openModal(content, $event)" (eventClick)="openEditModal(editcontent, $event)" locale="es" [eventTimeFormat]="{
+                hour: '2-digit',
+                minute: '2-digit',
+                meridiem: false,
+                hour12: true 
+              }">
         </full-calendar>
 
     </div>
+    <ng-container *ngIf="loading">
+        <app-not-data [loading]="loading"></app-not-data>
+    </ng-container>
+
 </div>
+
+
 
 
 <!-- Event Modal -->
@@ -26,17 +34,14 @@
                 <div class="col-12">
                     <div class="form-group">
                         <label class="control-label">Event Name</label>
-                        <input class="form-control" placeholder="Insert Event Name" type="text" name="title"
-                            formControlName="title" [ngClass]="{'is-invalid': submitted && form.title.errors}">
+                        <input class="form-control" placeholder="Insert Event Name" type="text" name="title" formControlName="title" [ngClass]="{'is-invalid': submitted && form.title.errors}">
                         <div *ngIf="submitted && form.title.errors" class="invalid-feedback">
                             <span *ngIf="form.title.errors.required">This value is required.</span>
                         </div>
                     </div>
                 </div>
                 <div class="col-12">
-                    <div class="form-group"><label class="control-label">Category</label><select class="form-control"
-                            name="category" formControlName="category"
-                            [ngClass]="{'is-invalid': submitted && form.category.errors }">
+                    <div class="form-group"><label class="control-label">Category</label><select class="form-control" name="category" formControlName="category" [ngClass]="{'is-invalid': submitted && form.category.errors }">
                             <option *ngFor="let option of category" value="{{ option.value }}"> {{ option.name }}
                             </option>
                         </select>

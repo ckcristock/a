@@ -15,6 +15,7 @@ import { StatsComponent } from './stats/stats.component';
 import { TimeLineComponent } from './time-line/time-line.component';
 import { PerfectScrollbarModule } from 'ngx-perfect-scrollbar';
 import { PipesModule } from '../core/pipes/pipes.module';
+import { NotDataComponent } from './not-data/not-data.component';
 
 @NgModule({
   declarations: [
@@ -26,6 +27,7 @@ import { PipesModule } from '../core/pipes/pipes.module';
     RestorePasswordComponent,
     StatsComponent,
     TimeLineComponent,
+    NotDataComponent,
   ],
   exports: [
     ModalBasicComponent,
@@ -36,6 +38,7 @@ import { PipesModule } from '../core/pipes/pipes.module';
     RestorePasswordComponent,
     StatsComponent,
     TimeLineComponent,
+    NotDataComponent
     
   ],
   imports: [

@@ -22,7 +22,9 @@ export class UserService {
 
     constructor(private http: HttpClient,
         private router: Router,
-        private ngZone: NgZone) {
+        private ngZone: NgZone,
+        // private getMenu:
+    ) {
 
     }
 
@@ -30,17 +32,18 @@ export class UserService {
         return localStorage.getItem('token') || '';
     }
 
-    guardarLocalStorage(token: string, menu: any) {
+
+    guardarLocalStorage(token: string) {
         localStorage.setItem('token', token);
     }
     validarToken(): Observable<boolean> {
-        return   this.http.get(`${base_url}/auth/renew`, {
+        return this.http.get(`${base_url}/auth/renew`, {
         }).pipe(
             map((resp: any) => {
-                const { id, usuario, change_password, funcionario } = resp.user;
-                this.user = new User(id, usuario, change_password, funcionario);
-                // console.log('userrr', this.user);
-                this.guardarLocalStorage(resp.token, resp.menu);
+                
+                const { id, usuario, change_password, person, menu } = resp.user;
+                this.user = new User(id, usuario, change_password, person, menu);
+                this.guardarLocalStorage(resp.token);
                 return true;
             }),
             catchError(error => of(false))
@@ -49,7 +52,7 @@ export class UserService {
 
     logout() {
         localStorage.removeItem('token');
-       
+
         this.router.navigateByUrl('/login');
     }
 
@@ -59,13 +62,13 @@ export class UserService {
                 tap((resp: any) => {
                     /* const { id, usuario, change_password, funcionario } = resp.user;
                     this.user = new User(id, usuario, change_password, funcionario); */
-                    this.guardarLocalStorage(resp.token, resp.menu);
+                    this.guardarLocalStorage(resp.token);
                 })
             );
 
     }
 
     changePassword(params) {
-        return this.http.get(`${base_url}/auth/change-password`, {params})
+        return this.http.get(`${base_url}/auth/change-password`, { params })
     }
 }

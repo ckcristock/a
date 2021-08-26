@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { WaitingListService } from '../waiting-list.service';
 
 @Component({
   selector: 'app-top-waiting',
@@ -6,47 +7,25 @@ import { Component, OnInit } from '@angular/core';
   styleUrls: ['./top-waiting.component.scss']
 })
 export class TopWaitingComponent implements OnInit {
-  reducerTopWaiting = (accumulator, currentValue) => accumulator + currentValue.total;
 
-  totalTopWaing = 0;
-  averageTime = '4 dias 1 hora 5 minutos'
-  OldWaitng: any = {
-    date: '2021-01-02',
-    name: 'Jhoe Due'
-  }
-
-  topWaiting: Array<any> = [
-    {
-      name: 'Especialidad 1',
-      total: 1234
-    },
-    {
-      name: 'Especialidad 2',
-      total: 1234
-    },
-    {
-      name: 'Especialidad 3',
-      total: 1234
-    },
-    {
-      name: 'Especialidad 4',
-      total: 1234
-    },
-    {
-      name: 'Especialidad 5',
-      total: 1234
+  statistics: any = {
+    topAwait:[],
+    lastAppointment:{
+      patient_name:'',
+      date:''
     }
-
-  ]
-  
-  constructor() { }
+  }  
+  constructor(
+    private _waiting:WaitingListService
+  ) { }
 
   ngOnInit(): void {
-    this.totalWaiting();
+   /*  this.totalWaiting(); */
+    this._waiting.getStatistcs().subscribe((r:any)=>{
+      this.statistics = r.data
+    })
 
   }
-  totalWaiting() {
-    this.totalTopWaing = this.topWaiting.reduce(this.reducerTopWaiting, 0)
-  }
+ 
 
 }

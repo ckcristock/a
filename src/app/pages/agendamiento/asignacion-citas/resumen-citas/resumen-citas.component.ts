@@ -1,4 +1,5 @@
-import { Component, EventEmitter, OnInit, ViewChild } from '@angular/core';
+import { Component, EventEmitter, Input, OnInit, ViewChild } from '@angular/core';
+import { AppointmentService } from '../../../../core/services/appointment.service';
 
 @Component({
   selector: 'app-resumen-citas',
@@ -6,35 +7,41 @@ import { Component, EventEmitter, OnInit, ViewChild } from '@angular/core';
   styleUrls: ['./resumen-citas.component.scss']
 })
 export class ResumenCitasComponent implements OnInit {
+  loading = false;
   @ViewChild('modalCita') modalCita: any;
   openModalDetalle = new EventEmitter<any>();
-
+  //@Input('citas') citas : Array<any>;
+  @Input('patient') patient: any = '';
   data: any = {
     Id_Especialidad: '',
   }
-  typesDocuments: Array<any> = [
-    { Nombre: 'CI', Id: '1' },
-    { Nombre: 'CC', Id: '2' },
-    { Nombre: 'CC', Id: '2' },
-  ]
-  citas: any = [
-    { Id_Cita: '1', Estado: 'Activa', Descripcion: 'Cita trauma Cita trauma Cita trauma Cita traumaCita trauma Cita traumaCita trauma Cita traumaCita trauma Cita traumaCita trauma Cita traumaCita trauma Cita traumaCita trauma Cita traumaCita trauma Cita traumaCita trauma Cita traumaCita trauma Cita traumaCita trauma Cita traumaCita trauma Cita trauma', Especialidad: 'Traumatólogo', Fecha: '2018-09-28 17:21:21' },
-    { Id_Cita: '1', Estado: 'Activa', Descripcion: 'Cita trauma Cita trauma Cita trauma Cita traumaCita trauma Cita traumaCita trauma Cita traumaCita trauma Cita traumaCita trauma Cita traumaCita trauma Cita traumaCita trauma Cita traumaCita trauma Cita traumaCita trauma Cita traumaCita trauma Cita traumaCita trauma Cita traumaCita trauma Cita trauma', Especialidad: 'Traumatólogo', Fecha: '2018-09-28 17:21:21' },
-    { Id_Cita: '1', Estado: 'Activa', Descripcion: 'Cita trauma Cita trauma Cita trauma Cita traumaCita trauma Cita traumaCita trauma Cita traumaCita trauma Cita traumaCita trauma Cita traumaCita trauma Cita traumaCita trauma Cita traumaCita trauma Cita traumaCita trauma Cita traumaCita trauma Cita traumaCita trauma Cita traumaCita trauma Cita trauma', Especialidad: 'Traumatólogo', Fecha: '2018-09-28 17:21:21' },
-  ]
+  citas : any = []
+  constructor(private _appointment : AppointmentService) {
+    //console.log('patiiiiii',this.patient);
+   }
+  
 
-  constructor() { }
-
+   getCitas() {
+    this.loading = true;
+    this._appointment.getAppointments({ identifier:this.patient }).subscribe((r: any) => {
+      this.citas = r.data.data;
+      this.loading = false;
+    })
+  }
   ngOnInit(): void {
+    this.getCitas();
   }
 
   
   detalleCita(cita){
     let  modalDetalle  = {
-      Id_Cita_Detalle:cita.Id_Cita,
+      Id_Cita_Detalle:cita.id,
       Show:true
     }
     this.openModalDetalle.emit(modalDetalle)
   }
+
+  
+
 
 }
