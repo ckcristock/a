@@ -1,66 +1,80 @@
-<div>
-    <div class="row">
-        <div class="col-12">
-            <form #agenda="ngForm">
-                <div class="panel-body">
+<div class="row">
+    <div class="col-12">
+        <form #agenda="ngForm">
+            <div class="panel-body">
 
-                    <!-- /****************************************************************** -->
-                    <div class="row p-3">
-                        <div class="col-12 mb-2 text-right">
-                            <button (click)="siguiente()" *ngIf="dataCitaToAssign.appointmentId && dataCitaToAssign.speciality && dataCitaToAssign.subappointmentId " class="btn btn-primary btn-sm ">
-                                <i class="fa fa-calendar-alt"> </i>
-                                Añadir a lista de espera</button>
-                        </div>
-                        <div class="col-md-2 my-1">
-
-                            <label>Agenda</label>
-                            <ng-select required [items]="type_appointments" bindLabel="text" bindValue="value" [(ngModel)]="dataCitaToAssign.appointmentId" placeholder="Seleccione " name="type_agenda_id" loadingText="loading" ngDefaultControl (ngModelChange)="getSubTypeAppointment(agenda);">
-                            </ng-select>
-                        </div>
-
-                        <div class="col-md-2 my-2">
-                            <label>Consulta</label>
-                            <ng-select [items]="type_subappointments" required bindLabel="text" bindValue="value" [(ngModel)]="dataCitaToAssign.subappointmentId" placeholder="Seleccione " name="type_appointment_id" loadingText="loading" (ngModelChange)="getIps();dispatchPerson(agenda);" ngDefaultControl>
-                            </ng-select>
-                        </div>
-
-                        <div class="col-md-4 my-2">
-                            <label>Especialidad</label>
-                            <ng-select [items]="specialties" required bindLabel="text" bindValue="value" [(ngModel)]="dataCitaToAssign.speciality" placeholder="Seleccione " name="speciality_id" loadingText="loading" ngDefaultControl (ngModelChange)="dispatchSpeciality(dataCitaToAssign.speciality);getProfesionals();dispatchPerson(agenda);">
-                            </ng-select>
-                        </div>
-
-
-                        <div class="col-md-4 my-2">
-                            <label>Profesional</label>
-                            <ng-select [items]="persons"  bindLabel="text" bindValue="value" [(ngModel)]="dataCitaToAssign.person" [placeholder]="'Seleccione'" name="person_id" loadingText="loading" ngDefaultControl (change)="dispatchPerson(agenda);">
-                            </ng-select>
-                        </div>
-
-                        <div class="col-md-6 my-2" *ngIf="dataCitaToAssign.appointment.face_to_face">
-                            <label>Ips</label>
-                            <ng-select [items]="ipss" required bindLabel="text" bindValue="value" [(ngModel)]="dataCitaToAssign.ipsId" placeholder="Seleccione " name="company_id" loadingText="loading" (ngModelChange)="getSedes()" ngDefaultControl>
-                            </ng-select>
-                        </div>
-
-                        <div class="col-md-6 my-2" *ngIf="dataCitaToAssign.appointment.face_to_face">
-                            <label>Sede</label>
-                            <ng-select [items]="sedes" required bindLabel="text" bindValue="value" [(ngModel)]="dataCitaToAssign.sede" placeholder="Seleccione " name="location_id" loadingText="loading" ngDefaultControl (ngModelChange)="getSpecialties();dispatchPerson(agenda);">
-                            </ng-select>
-                        </div>
-
+                <!-- /****************************************************************** -->
+                <div class="row p-3">
+                    <div class="col-12 mb-2 text-right">
+                        <button (click)="siguiente()"
+                            *ngIf="dataCitaToAssign.appointmentId && dataCitaToAssign.speciality && dataCitaToAssign.subappointmentId "
+                            class="btn btn-primary btn-sm ">
+                            <i class="fa fa-calendar-alt"> </i>
+                            Añadir a lista de espera</button>
                     </div>
-                    <!-- /****************************************************************** -->
-                </div>
-            </form>
-        </div>
-    </div>
+                    <div class="col-md-2 my-1">
 
-    <div class="row">
-        <div class="col-12">
-            <div class="app-calendar" *ngIf="dataCitaToAssign.speciality">
-                <app-asignar-calendario (siguiente)="siguiente()"></app-asignar-calendario>
+                        <label>Agenda</label>
+                        <ng-select required [items]="type_appointments" bindLabel="text" bindValue="value"
+                            [(ngModel)]="dataCitaToAssign.appointmentId" placeholder="Seleccione " name="type_agenda_id"
+                            loadingText="loading" ngDefaultControl (ngModelChange)="getSubTypeAppointment(agenda);">
+                        </ng-select>
+                    </div>
+
+                    <div class="col-md-2 my-2">
+                        <label>Consulta</label>
+                        <ng-select [items]="type_subappointments" required bindLabel="text" bindValue="value"
+                            [(ngModel)]="dataCitaToAssign.subappointmentId" placeholder="Seleccione "
+                            name="type_appointment_id" loadingText="loading"
+                            (ngModelChange)="getIps();dispatchPerson(agenda);" ngDefaultControl>
+                        </ng-select>
+                    </div>
+
+                    <div class="col-md-4 my-2">
+                        <label>Especialidad</label>
+                        <ng-select [items]="specialties" required bindLabel="text" bindValue="value"
+                            [(ngModel)]="dataCitaToAssign.speciality" placeholder="Seleccione " name="speciality_id"
+                            loadingText="loading" ngDefaultControl
+                            (ngModelChange)="dispatchSpeciality(dataCitaToAssign.speciality);getProfesionals();dispatchPerson(agenda);">
+                        </ng-select>
+                    </div>
+
+
+                    <div class="col-md-4 my-2">
+                        <label>Profesional</label>
+                        <ng-select [items]="persons" bindLabel="text" bindValue="value"
+                            [(ngModel)]="dataCitaToAssign.person" [placeholder]="'Seleccione'" name="person_id"
+                            loadingText="loading" ngDefaultControl (change)="dispatchPerson(agenda);">
+                        </ng-select>
+                    </div>
+
+                    <div class="col-md-6 my-2" *ngIf="dataCitaToAssign.appointment.face_to_face">
+                        <label>Ips</label>
+                        <ng-select [items]="ipss" required bindLabel="text" bindValue="value"
+                            [(ngModel)]="dataCitaToAssign.ipsId" placeholder="Seleccione " name="company_id"
+                            loadingText="loading" (ngModelChange)="getSedes()" ngDefaultControl>
+                        </ng-select>
+                    </div>
+
+                    <div class="col-md-6 my-2" *ngIf="dataCitaToAssign.appointment.face_to_face">
+                        <label>Sede</label>
+                        <ng-select [items]="sedes" required bindLabel="text" bindValue="value"
+                            [(ngModel)]="dataCitaToAssign.sede" placeholder="Seleccione " name="location_id"
+                            loadingText="loading" ngDefaultControl
+                            (ngModelChange)="getSpecialties();dispatchPerson(agenda);">
+                        </ng-select>
+                    </div>
+
+                </div>
             </div>
+            <!-- /****************************************************************** -->
+        </form>
+    </div>
+</div>
+<div class="row">
+    <div class="col-12">
+        <div class="app-calendar" *ngIf="dataCitaToAssign.speciality">
+            <app-asignar-calendario (siguiente)="siguiente()"></app-asignar-calendario>
         </div>
     </div>
 </div>

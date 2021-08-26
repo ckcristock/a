@@ -3,7 +3,7 @@ import { NgForm } from '@angular/forms';
 import Swal from 'sweetalert2'
 import { AppointmentService } from '../../../core/services/appointment.service';
 import { QueryPatient } from '../../../pages/agendamiento/query-patient.service';
-
+ 
 @Component({
   selector: 'app-lista-citas',
   templateUrl: './lista-citas.component.html',

@@ -8,6 +8,7 @@ import { AsignacionCitasComponent } from './asignacion-citas/asignacion-citas.co
 import { IndicadoresGestionComponent } from './indicadores-gestion/indicadores-gestion.component';
 import { ListaEsperaComponent } from './lista-espera/lista-espera.component';
 import { ListaTrabajoComponent } from './lista-trabajo/lista-trabajo.component';
+import { RecaudosComponent } from './recaudos/recaudos.component';
 import { ReportesComponent } from './reportes/reportes.component';
 
 
@@ -20,6 +21,7 @@ const routes: Routes = [
     { path: 'indicadores-gestion', component: IndicadoresGestionComponent },
     { path: 'reportes', component: ReportesComponent },
     { path: 'agendas', component: AgendasComponent },
+    { path: 'recaudos', component: RecaudosComponent },
     { path: 'detalle-agenda/:id', component: VerAgendaComponent },
 ];
 

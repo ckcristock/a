@@ -1,12 +1,11 @@
 <div class="row">
-    <!--   <div class="col-12">-->
-    <div class="col-md-9 col-sm-12">
+   <div class="col-md-9 col-sm-12">
         <div class="row">
-            <div class="col-12">
+            <div class="col-sm-12">
                 <div class="card">
                     <div class="card-body">
                         <div class="row">
-                            <div class="col-12">
+                            <div class="col-sm-12">
                                 <div class="row">
                                     <div class="col-md-2 mb-2">
                                         <label for="validationServerUsername">Fecha</label>
@@ -23,7 +22,7 @@
                         [class.is-invalid]="searchFailed" [(ngModel)]="filters.institution"
                         [ngbTypeahead]="searchInstitution" placeholder="Diagnosticos" name="diagnosticoId"
                         ngDefaultControl [resultTemplate]="institution" [inputFormatter]="Inputdiagnostic" />
-                      -->
+                    -->
                                             <ng-select class="col-12" [items]="companies" placeholder="Seleccione "
                                                 bindLabel="text" [(ngModel)]="filters.institution" bindValue="value"
                                                 placeholder="Seleccione " name="institution_id" loadingText="loading"
@@ -62,59 +61,45 @@
                         </div>
                     </div>
                 </div>
-            </div>
-
-            <div class="col-12">
                 <div class="card">
-                    <div class="card-body">
-                        <div *ngIf="!loading && waitingList.length > 0; else notData">
-
-                            <table class="table table-hover mb-0 table-centered table-nowrap">
-                                <thead class="thead-dark">
-                                    <tr>
-                                        <th>Fecha</th>
-                                        <th>Identificación</th>
-                                        <th>Paciente</th>
-                                        <th>Contacto</th>
-                                        <th>Especialidad</th>
-                                        <th>Acciones</th>
-                                    </tr>
-                                </thead>
-                                <tbody>
-                                    <tr *ngFor="let item of waitingList">
-
-                                        <td>
-                                            <p class="font-size-14 mb-0">{{ item.created_at | date}}</p>
-
-                                        </td>
-                                        <td>
-                                            <p class="font-size-14 mb-0">
-                                                {{ item.patient_identifier }}
-                                            </p>
-                                        </td>
-                                        <td>
-                                            <p class="font-size-14 mb-0">
-                                                {{ item.patient_name }}
-                                            </p>
-                                        </td>
-                                        <td>
-                                            <!--                   <span class="mr-2 " *ngFor="let cont of item.contact "> -->
-                                            {{ item.patient_phone }}
-                                            <!--   </span> -->
-                                        </td>
-                                        <td>
-                                            <p class="font-size-14 mb-0">{{ item.speciality }}</p>
-                                        </td>
-                                        <td>
-
-                                            <a class="dropdown-item "
-                                                [routerLink]="['/agendamiento/asignacion-citas',item.id]"> <i
-                                                    class=" fa fa-pen mr-2 "></i>Agendar</a>
-
-                                        </td>
-                                    </tr>
-                                </tbody>
-                            </table>
+                    <div class="card-body p-0">
+                        <div class="row" *ngIf="!loading && waitingList.length > 0; else notData">
+                            <div class="col-sm-12">
+                                <table class="table table-hover table-bordered small">
+                                    <thead class="thead-dark">
+                                        <tr class="text-center text-uppercase">
+                                            <th>Fecha</th>
+                                            <th>Paciente</th>
+                                            <th>Contacto</th>
+                                            <th>Especialidad</th>
+                                            <th></th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <tr class="text-center" *ngFor="let item of waitingList">
+                                            <td>{{ item.created_at | date : 'dd/MM/yyyy'}}</td>
+                                            <td>{{ item.patient_name }}<br>{{ item.patient_identifier | number }}</td>
+                                            <td>{{ item.patient_phone }}</td>
+                                            <td>{{ item.speciality }}</td>
+                                            <td class="text-center">
+                                                <div class="btn-group" role="group" ngbDropdown>
+                                                    <button id="btnGroupVerticalDrop1 " type="button"
+                                                        class="btn btn-primary btn-sm dropdown-toggle " ngbDropdownToggle>
+                                                        <i class="mdi mdi-chevron-down "></i>
+                                                    </button>
+                                                    <div style="cursor: pointer; " class="dropdown-menu font-weight-bolder "
+                                                        aria-labelledby="btnGroupVerticalDrop1 " ngbDropdownMenu>
+                                                        <a class="dropdown-item" [routerLink]="['/agendamiento/asignacion-citas',item.id]">
+                                                            <i class=" fa fa-check mr-2 "></i> Asignar Cita</a>
+                                                        <a class="dropdown-item" (click)="AnularEspera(item.id)">
+                                                            <i class="fa fa-ban mr-2 "></i> Anular lista espera </a>
+                                                    </div>
+                                                </div>
+                                            </td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </div>
                             <div class="col-sm-12">
                                 <div class="text-md-right float-md-right pagination-rounded">
                                     <ngb-pagination maxSize="5" [collectionSize]="pagination.collectionSize"
@@ -124,7 +109,6 @@
                                 </div>
                             </div>
                         </div>
-
                     </div>
                 </div>
             </div>
