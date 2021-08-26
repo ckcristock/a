@@ -1,4 +1,4 @@
-export const functionariesList: any = [
+export const personsList: any = [
     {
         id: 1,
         name: 'AUGUSTO CARRILLO',

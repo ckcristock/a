@@ -124,9 +124,6 @@ export class ApplyComponent implements OnInit, OnDestroy {
         this.EnvioRespuestas.push(pre);
       }
     }
-
-    console.log(this.EnvioRespuestas);
-
   }
 
   setSwitchCheckb(value, pre, respuesta, j, i) {
@@ -162,8 +159,6 @@ export class ApplyComponent implements OnInit, OnDestroy {
 
       this.res.Respuesta.splice(j, 1);
     }
-
-    console.log(j);
     this.preguntas = this.EnvioRespuestas.find(pre => pre.Pregunta == 7);
   }
 
@@ -290,7 +285,6 @@ export class ApplyComponent implements OnInit, OnDestroy {
     }
 
     this.client.post(`${environment.base_url}/formulario/save-responses`, Data).subscribe((data) => {
-      console.log(data);
       if (data['status']) {
         Swal.fire({
           icon: 'success',

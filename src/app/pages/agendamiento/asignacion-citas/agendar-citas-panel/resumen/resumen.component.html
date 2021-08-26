@@ -1,36 +1,49 @@
-<div class="row">
+<div class="row" *ngIf="show">
     <div class="col-12 mt-2">
         <div class="alert alert-warning" role="alert">
             <i class="fa fa-exclamation-triangle"></i> Recuerde actualizar los datos del paciente
         </div>
     </div>
+
     <div class="col-12 text-center">
-        <h4 class="text-success"><i class="fa fa-clipboard-check"></i> ¡Cita creada con éxito!</h4>
+
+        <h4 class="text-success"><i class="fa fa-clipboard-check"></i> ¡Cita {{space ? 'creada' : ' añadida a lista
+            de espera' }} con éxito!</h4>
     </div>
 
     <div class="col-12">
 
-        <div class="my-4" style="font-size: 15px;"> Se ha agendado una Cita en la modalidad <strong
-                class="font-weight-bold ">{{cita.agendamiento.appointment}}</strong> para el paciente <strong
-                class="text-uppercase">{{cita.patient}} </strong> con el profesional
-            <strong class="text-uppercase"> {{cita.agendamiento.professional.name}} </strong> el día <strong
-                class="font-weight-bold ">{{cita.day}} A LAS {{cita.hour}}</strong>
+        <div class="my-4" style="font-size: 15px;"> Se ha {{space ? ' agendado una Cita ' : ' añadido a lista de
+            espera'}} en la modalidad
+            <strong class="font-weight-bold ">{{ anotheData.appointment.text }}</strong> para el paciente
+            <strong class="text-uppercase">{{patient.firstname}} {{patient.surname}} </strong>
 
-            <span *ngIf="cita.agendamiento.appointment == 'TELEMEDICINA';else presential"> EN LA SALA SALA VIRUTAL DE LA
-                CENTRAL DE ESPECIALISTAS </span>
+            <span *ngIf="space">
+                con el profesional
 
-            <ng-template #presential>
-                en la sede <strong class="font-weight-bold ">{{cita.location}}</strong> en la Dirección <strong
-                    class="font-weight-bold "> {{cita.direction}}</strong>
-            </ng-template>
+                <strong class="text-uppercase"> {{space.person.first_name}} {{space.person.first_surname}} </strong> el
+                día <strong class="font-weight-bold "> {{info.startDate}} </strong>
+
+                <span *ngIf="!anotheData.appointment.face_to_face;else presential"> EN LA SALA SALA VIRUTAL DE LA
+                    CENTRAL DE ESPECIALISTAS </span>
+
+                <ng-template #presential>
+                    en la sede <strong class="font-weight-bold ">{{info.location.name}}</strong> en la Dirección <strong
+                        class="font-weight-bold "> {{info.location.address}} </strong>
+                </ng-template>
+
+            </span>
+
 
         </div>
 
+
     </div>
-    <div class="col-12 text-center ">
+
+
+    <div class="col-12 text-center " *ngIf="space">
         <h5>Recuerde que su cuota moderadora es de:</h5>
-        <!-- <p> -->
-        <h3 class="text-danger font-weight-bold display-4">{{ call.price }}</h3>
+        <h3 class="text-danger font-weight-bold display-4">${{ appointment.price }}</h3>
     </div>
 
     <div class="col-12 mt-4">

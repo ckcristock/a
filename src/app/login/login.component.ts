@@ -6,7 +6,7 @@ import { AuthService } from '../auth-service.service';
   templateUrl: 'login.component.html'
 })
 export class LoginComponent implements OnInit {
-  
+
   signinForm: FormGroup;
 
   constructor(
@@ -28,10 +28,8 @@ export class LoginComponent implements OnInit {
     this.authService.loginUser(this.form.email.value, this.form.password.value)
       .subscribe(
         data => {
-          console.log(data);
         },
         error => {
-          console.log(error);
         });
   }
 }

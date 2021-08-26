@@ -10,6 +10,7 @@ export class dataCitaToAssignService {
 
   public dateCall: any
   public dataCitaToAssign = new Subject<any>();
+  public dataFinal = new Subject<any>();
 
   constructor() { }
 

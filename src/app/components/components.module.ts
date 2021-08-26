@@ -3,7 +3,7 @@ import { CommonModule } from '@angular/common';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { HttpClientModule } from '@angular/common/http';
 import { UiModule } from '../shared/ui/ui.module';
-import { NgbAccordionModule, NgbAlertModule } from '@ng-bootstrap/ng-bootstrap';
+import { NgbAccordionModule, NgbAlertModule, NgbToastModule } from '@ng-bootstrap/ng-bootstrap';
 import { ModalBasicComponent } from './modal-basic/modal-basic.component';
 import { SetPacienteComponent } from './paciente/set-paciente/set-paciente.component';
 import { DetalleCitaComponent } from './citas/detalle-cita/detalle-cita.component';
@@ -15,6 +15,7 @@ import { StatsComponent } from './stats/stats.component';
 import { TimeLineComponent } from './time-line/time-line.component';
 import { PerfectScrollbarModule } from 'ngx-perfect-scrollbar';
 import { PipesModule } from '../core/pipes/pipes.module';
+import { NotDataComponent } from './not-data/not-data.component';
 
 @NgModule({
   declarations: [
@@ -26,6 +27,7 @@ import { PipesModule } from '../core/pipes/pipes.module';
     RestorePasswordComponent,
     StatsComponent,
     TimeLineComponent,
+    NotDataComponent,
   ],
   exports: [
     ModalBasicComponent,
@@ -36,6 +38,7 @@ import { PipesModule } from '../core/pipes/pipes.module';
     RestorePasswordComponent,
     StatsComponent,
     TimeLineComponent,
+    NotDataComponent
     
   ],
   imports: [
@@ -44,7 +47,8 @@ import { PipesModule } from '../core/pipes/pipes.module';
     CommonModule,
     NgSelectModule,
     PerfectScrollbarModule,
-    PipesModule
+    PipesModule,
+    NgbToastModule
   ]
 })
 export class ComponentsModule { }

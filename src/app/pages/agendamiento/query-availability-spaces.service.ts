@@ -6,7 +6,7 @@ import { BehaviorSubject, Subject } from 'rxjs';
 })
 export class QueryAvailabilitySpacesService {
 
-  public getProfessional = new BehaviorSubject<any>(0)
+  public getPerson = new BehaviorSubject<any>(0)
   public getspeciality = new BehaviorSubject<any>(0)
 
   constructor() { }

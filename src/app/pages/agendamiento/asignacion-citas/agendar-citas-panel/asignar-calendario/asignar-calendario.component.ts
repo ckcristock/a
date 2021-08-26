@@ -26,7 +26,7 @@ export class AsignarCalendarioComponent implements OnInit {
   @Output('siguiente') siguiente = new EventEmitter();
 
   public speciality: Number;
-  public professional: Number;
+  public person: Number;
 
   // event form
   formData: FormGroup;
@@ -73,11 +73,15 @@ export class AsignarCalendarioComponent implements OnInit {
 
     this._queryAvailabilitySpacesService.getspeciality.subscribe(r => {
       this.speciality = r
-      this._fetchData();
+      // this._fetchData();
     });
-    this._queryAvailabilitySpacesService.getProfessional.subscribe(r => {
-      this.professional = r
-      this._fetchData();
+    this._queryAvailabilitySpacesService.getPerson.subscribe((r:any) => {
+      this.person = r?.person
+      if (r?.params) {
+        this._fetchData(r?.params);
+      }else{
+        this.calendarEvents = [];
+      }
     });
   }
 
@@ -110,18 +114,15 @@ export class AsignarCalendarioComponent implements OnInit {
   openEditModal() {
   }
 
-  private _fetchData() {
+  private _fetchData(params) {
+    this._openAgendaService.getOpenedSpaceCustom(params).subscribe((resp: any) => {
 
-    this._openAgendaService.getOpenedSpace(this.speciality, this.professional).subscribe((resp: any) => {
       this.calendarEvents = resp.data.map((element, index) => {
         if (element.status) {
-          resp.data[index]['className'] = "bg-success text-white"
-          resp.data[index]['title'] = "Disponible"
           resp.data[index]['allDay '] = false
           return element
         }
         resp.data[index]['allDay '] = false
-        resp.data[index]['title'] = "No Disponible"
         return element
       });
     });

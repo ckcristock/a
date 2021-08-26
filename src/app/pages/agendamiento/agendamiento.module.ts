@@ -5,7 +5,7 @@ import { AgendamientoRoutingModule } from "./agendamiento-routing.module";
 import { ComponentsModule } from "src/app/components/components.module";
 import { ArchwizardModule } from "angular-archwizard";
 import { NgSelectModule } from '@ng-select/ng-select';
-import { NgbNavModule, NgbPaginationModule, NgbTypeaheadModule, NgbDropdownModule, NgbAlertModule } from '@ng-bootstrap/ng-bootstrap';
+import { NgbNavModule, NgbPaginationModule, NgbTypeaheadModule, NgbDropdownModule, NgbAlertModule, NgbDatepickerModule } from '@ng-bootstrap/ng-bootstrap';
 
 import { AsignacionCitasModule } from './asignacion-citas/asignacion-citas.module';
 import { AbrirAgendasComponent } from './abrir-agendas/abrir-agendas.component';
@@ -17,10 +17,14 @@ import { FullCalendarModule } from '@fullcalendar/angular';
 import { ReactiveFormsModule } from '@angular/forms';
 import { TopWaitingComponent } from './lista-espera/top-waiting/top-waiting.component';
 
+
+
 import { NgModule } from "@angular/core";
 import { CallendarComponent } from './callendar/callendar.component';
 import { AgendasComponent } from './agendas/agendas.component';
 import { VerAgendaComponent } from './agendas/ver-agenda/ver-agenda.component';
+import { DetailStatsComponent } from './agendas/detail-stats/detail-stats.component';
+import { PipesModule } from '../../core/pipes/pipes.module';
 
 @NgModule({
     declarations: [
@@ -33,6 +37,7 @@ import { VerAgendaComponent } from './agendas/ver-agenda/ver-agenda.component';
         TopWaitingComponent,
         AgendasComponent,
         VerAgendaComponent,
+        DetailStatsComponent,
       
     ],
     imports: [
@@ -49,7 +54,8 @@ import { VerAgendaComponent } from './agendas/ver-agenda/ver-agenda.component';
         NgbPaginationModule,
         NgbDropdownModule,
         NgbAlertModule,
-        
+        NgbDatepickerModule,
+        PipesModule,
     ],
 
     bootstrap: [],

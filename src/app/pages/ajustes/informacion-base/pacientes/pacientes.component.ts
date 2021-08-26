@@ -46,13 +46,7 @@ export class PacientesComponent implements OnInit {
 
   }
   private _fetchData() {
-  
-    // Donut Chart
-    console.log(donutChart);
-    
     this.donutChart = donutChart;
-
-    
   }
 
 }

@@ -37,7 +37,7 @@ export class OpenAgendaService {
    * getIps
    */
   public getIps(value: string) {
-    return this.clientHttp.get(`${environment.base_url}/get-ips/${value}`)
+    return this.clientHttp.get(`${environment.base_url}/get-companys/${value}`)
   }
   /**
    * getSedes
@@ -49,7 +49,7 @@ export class OpenAgendaService {
    * getSpecialties
    */
   public getSpecialties(sede: string, procedure: string) {
-    if (sede == 'undefined') {
+    if (sede == 'undefined' || !sede) {
       sede = '0';
       procedure = '0'
     }
@@ -62,7 +62,11 @@ export class OpenAgendaService {
     if (ips == '') {
       ips = '0';
     }
-    return this.clientHttp.get(`${environment.base_url}/get-profesionals/${ips}/${speciality}`)
+    return this.clientHttp.get(`${environment.base_url}/get-professionals/${ips}/${speciality}`)
+  }
+
+  public getDurations() {
+    return this.clientHttp.get(`${environment.base_url}/get-durations`)
   }
 
   public getAppointments(idProfessional: Number) {
@@ -71,6 +75,9 @@ export class OpenAgendaService {
 
   public getOpenedSpace(especialidad: Number, profesional: Number) {
     return this.clientHttp.get(`${environment.base_url}/opened-spaces/${especialidad}/${profesional}`)
+  }
+  public getOpenedSpaceCustom(params = {}) {
+    return this.clientHttp.get(`${environment.base_url}/opened-spaces`, { params })
   }
 
   public getDiagnostics() {
@@ -85,8 +92,16 @@ export class OpenAgendaService {
     return this.clientHttp.post(`${environment.base_url}/appointments`, formulario)
   }
 
-  public getClean() {
-    return this.clientHttp.get(`${environment.base_url}/clean-info`)
+  public getClean(id) {
+    return this.clientHttp.get(`${environment.base_url}/clean-info/${id}`)
+  }
+
+  public getInfoCita(id) {
+    return this.clientHttp.get(`${environment.base_url}/get-data-cita/${id}`)
+  }
+
+  public getTypeLocations() {
+    return this.clientHttp.get(`${environment.base_url}/type-locations`)
   }
 
   search(term: string) {
@@ -99,13 +114,26 @@ export class OpenAgendaService {
       );
   }
 
-  searchProcedure(term: string) {
+  searchProcedure(term: string, speciality: string = '') {
+
+    console.log(term, speciality);
+
     if (term === '') {
       return of([]);
     }
+
     return this.clientHttp
-      .get<[any, string[]]>(PROCEDURE_URL, { params: PARAMS.set('search', term) }).pipe(
+      .get<[any, string[]]>(PROCEDURE_URL, { params: { 'search': term, 'speciality': speciality } }).pipe(
         map((response: any) => response.data)
       );
   }
+
+  searchCustomProcedure(term: string, speciality: string = '') {
+    console.log([term, speciality]);
+    return this.clientHttp
+      .get<[any, string[]]>(PROCEDURE_URL, { params: { 'search': term, 'speciality': speciality } }).pipe(
+        map((response: any) => response.data)
+      );
+  }
+
 }

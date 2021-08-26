@@ -1,3 +1,4 @@
+import { ReplaySubject, Observable } from 'rxjs';
 
 export const functionsUtils = {
   'normalize': (function () {
@@ -20,7 +21,16 @@ export const functionsUtils = {
       return ret.join('');
     }
 
-  })()
+  })(),
+  'fileToBase64':function (file: File): Observable<string>  {
+      const result = new ReplaySubject<string>(1);
+      const reader = new FileReader();
+      reader.readAsBinaryString(file);
+      reader.onload = (event) => result.next(btoa(event.target.result.toString()));
+      return result;
+  }
 };
+
+
 
 

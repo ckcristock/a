@@ -3,7 +3,7 @@
     <div class="col-12">
 
 
-        <table class="table">
+        <table class="table" *ngIf="!loading && citas.length > 0; else notData">
             <thead class="thead-dark">
                 <tr>
                     <th style="width: 20%;">Fecha</th>
@@ -15,10 +15,13 @@
             </thead>
             <tbody>
                 <tr *ngFor="let cita of citas">
-                    <th scope="row">{{cita.Fecha}}</th>
-                    <td>{{cita.Especialidad}}</td>
+
+                    <th scope="row">{{cita.hour_start | date}}</th>
+
                     <!-- <td>{{cita.Descripcion}}</td> -->
-                    <td>{{cita.Estado}}</td>
+
+                    <td>{{cita.speciality}}</td>
+                    <td>{{cita.state}}</td>
                     <td>
                         <span class="mr-2" style="cursor: pointer;" (click)="detalleCita(cita)">
                             <i class="fas fa-search"></i>
@@ -31,5 +34,10 @@
 
     </div>
 </div>
+
+
+<ng-template #notData>
+    <app-not-data [loading]="loading"></app-not-data>
+</ng-template>
 
 <app-detalle-cita [modalData]="openModalDetalle"></app-detalle-cita>

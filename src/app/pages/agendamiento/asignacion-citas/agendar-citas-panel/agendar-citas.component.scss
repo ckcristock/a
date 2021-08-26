@@ -1,14 +1,17 @@
-.wizard-steps, aw-wizard-step{
+.wizard-steps,
+aw-wizard-step {
     border: 1px dashed #ccc;
     padding: 10px;
     background: #fafafa;
 }
-.card-header{
+
+.card-header {
     background-color: #0281c7 !important;
-    h4{
-        color:#ffffff! important;
+    h4 {
+        color: #ffffff! important;
     }
 }
-.card-dos{
+
+.card-dos {
     background-color: #ffffff;
 }

@@ -1,12 +1,14 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, ViewChild } from '@angular/core';
 import { NgForm } from '@angular/forms';
-import { subscribeOn } from 'rxjs/operators';
+import { catchError, debounceTime, distinctUntilChanged, filter, subscribeOn, switchMap, tap } from 'rxjs/operators';
 import { OpenAgendaService } from '../open-agenda.service';
 import { environment } from 'src/environments/environment';
 
 import { diasSemana } from './dias';
 import Swal from 'sweetalert2';
-import { QueryProfessional } from '../query-professional.service';
+import { QueryPerson } from '../query-person.service';
+import { concat, Observable, of, OperatorFunction, Subject } from 'rxjs';
+import { Router } from '@angular/router';
 
 
 @Component({
@@ -15,6 +17,15 @@ import { QueryProfessional } from '../query-professional.service';
   styleUrls: ['./abrir-agendas.component.scss']
 })
 export class AbrirAgendasComponent implements OnInit {
+
+  selectedCar: number;
+
+  cars = [
+    { value: 1, name: 'Volvo' },
+    { value: 2, name: 'Saab' },
+    { value: 3, name: 'Opel' },
+    { value: 4, name: 'Audi' },
+  ];
 
   public appointment = {
     value: "",
@@ -36,11 +47,16 @@ export class AbrirAgendasComponent implements OnInit {
   public sede
   public speciality
   public profesional
+  public isProcedure = false;
+  public location_id: any;
 
 
-  public timeDuration = ""
+  public timeDuration = { value: 20, text: "20 Minutos" }
   public type_appointments = []
+  public type_locations = []
   public appointmentId: Number
+  public cups = []
+  public cupId: Number
   public type_subappointments = []
   public subappointmentId: Number
   public ipss = []
@@ -48,67 +64,98 @@ export class AbrirAgendasComponent implements OnInit {
   public sedes = []
   public specialties = []
   public profesionals = []
-  public optionesTime = [{ value: 15, text: "15 Minutos" }, { value: 25, text: "25 Minutos" }, { value: 30, text: "30 Minutos" }]
-  public diasSemana = diasSemana
 
-  constructor(private _openAgendaService: OpenAgendaService, public _queryProfessional: QueryProfessional) { }
+  public optionesTime = [
+    /*  { value: 5, text: "5 Minutos" },
+     { value: 10, text: "10 Minutos" }, */
+    { value: 15, text: "15 Minutos" },
+    { value: 20, text: "20 Minutos" },
+    { value: 25, text: "25 Minutos" },
+    { value: 30, text: "30 Minutos" },
+    { value: 40, text: "40 Minutos" },
+    { value: 60, text: "60 Minutos" },
+  ]
+  fechaInicio: any = ''
+  fechaFin: any = ''
+  hour_start: any = '08:00'
+  hour_end: any = '18:00'
+  long: any = 15
+  days = []
+
+  public diasSemana = diasSemana
+  public searchingProcedure = false;
+  public searchFailedProcedure = false;
+  public today: any;
+
+  constructor(private _openAgendaService: OpenAgendaService, public _queryPerson: QueryPerson, private router: Router) { }
 
   ngOnInit(): void {
+    this.getDurations();
     this.getTypeAppointment();
+    this.today = new Date();
+    this.today.setHours(0, 0, 0, 0);
+    //this.today = Date.parse(this.today)
+    // this.setupSearch();
   }
 
+  @ViewChild('agenda') agenda: NgForm;
   reset() {
 
-    this.sede = {
-      value: "",
-      text: ""
-    };
-    this.speciality = {
-      value: "",
-      text: ""
-    };
+    //this.router.navigateByUrl('agendamiento/abrir-agendas', { skipLocationChange: true });
 
-    this.profesional = ''
+    /*   this.sede = {
+        value: "",
+        text: ""
+      };
+  
+      this.speciality = {
+        value: "",
+        text: ""
+      };
+  
+  
+      this.profesional = {
+        value: "",
+        text: ""
+      } */
 
-    // this.appointment = {
-    //   value: "",
-    //   text: "",
-    //   brand: "",
-    //   face_to_face: ""
-    // }
-    // this.subappointment = {
-    //   value: "",
-    //   text: "",
-    //   company_owner: "",
-    //   procedure: ""
-    // }
+    /* this.profesional = new this.profesional */
+    /* 
+        this.ips = {
+          value: "",
+          text: ""
+        } */
 
-    this.ips = {
-      value: "",
-      text: ""
-    }
+    /* this.sede = new this.sede
+    this.speciality = new this.speciality */
+    this.fechaInicio = ''
+    this.fechaFin = ''
+    this.hour_start = '08:00'
+    this.hour_end = '18:00'
+    this.long = 15
+    this.days = []
 
-    this.ips = {
-      value: "",
-      text: ""
-    }
+    this.timeDuration = null
 
-    this.sede = 0
-    this.speciality = 0
-    this.profesional = 0
-
-    this.timeDuration = ""
-    // this.type_appointments = []
-    this.appointmentId = 0
-    // this.type_subappointments = []
-    this.subappointmentId = 0
-    // this.ipss = []
-    this.ipsId = 0;
-    // this.sedes = []
-    // this.specialties = []
-    // this.profesionals = []
-    this.optionesTime = [{ value: 15, text: "15 Minutos" }, { value: 25, text: "25 Minutos" }, { value: 30, text: "30 Minutos" }]
-    this.diasSemana = diasSemana
+    /*     this.subappointmentId = null
+      this.appointmentId = null
+      this.ipsId = null
+      this.diasSemana = diasSemana */
+    this.timeDuration = { value: 20, text: "20 Minutos" }
+    /*  this.type_appointments = null */
+    /* this.type_locations = null
+    this.appointmentId = null
+    this.cups = null
+    this.cupId = null
+    this.type_subappointments = null
+    this.subappointmentId = null
+    this.ipss = null
+    this.ipsId = null
+    this.sedes = null
+    this.specialties = null
+    this.profesionals = null
+    this.location_id = '' */
+    // this.agenda.reset();
 
   }
 
@@ -118,23 +165,34 @@ export class AbrirAgendasComponent implements OnInit {
     });
   }
 
+  getDurations() {
+    this._openAgendaService.getDurations().subscribe((resp: any) => {
+      this.optionesTime = resp.data;
+    });
+  }
+
   getSubTypeAppointment() {
     this.appointment = this.searchAppointment(this.type_appointments, this.appointmentId);
     this._openAgendaService.getSubTypeAppointment(this.appointment.value).subscribe((resp: any) => {
       this.type_subappointments = resp.data;
       this.subappointmentId = this.type_subappointments[0].value
-      if (this.appointment.face_to_face) {
-        this.getIps()
-      }
       this.getSpecialties()
     });
 
   }
 
   getIps() {
+    const param = (this.location_id) ? this.location_id : 0
     this.subappointment = this.searchItem(this.type_subappointments, this.subappointmentId);
-    this._openAgendaService.getIps(this.subappointment.company_owner).subscribe((resp: any) => {
+    this.isProcedure = Boolean(this.subappointment.procedure);
+    this._openAgendaService.getIps(String(param)).subscribe((resp: any) => {
       this.ipss = resp.data;
+    });
+  }
+
+  getcups() {
+    this._openAgendaService.searchCustomProcedure('', String(this.speciality)).subscribe((resp: any) => {
+      this.cups = resp
     });
   }
 
@@ -152,15 +210,24 @@ export class AbrirAgendasComponent implements OnInit {
   }
 
   getProfesionals() {
+    (this.subappointment['procedure']) ? this.getcups() : '';
     this._openAgendaService.getProfesionals(this.ips.value, String(this.speciality)).subscribe((resp: any) => {
       this.profesionals = resp.data;
     });
   }
 
+  getTypeLocations() {
+    if (this.appointment.face_to_face) {
+      this._openAgendaService.getTypeLocations().subscribe((resp: any) => {
+        this.type_locations = resp.data;
+      });
+    }
+  }
 
 
-  dispatchProfessional() {
-    this._queryProfessional.professional.next(this.profesional)
+
+  dispatchPerson() {
+    this._queryPerson.person.next(this.profesional)
   }
 
   searchItem(data, value) {
@@ -183,13 +250,36 @@ export class AbrirAgendasComponent implements OnInit {
     }).then(result => {
       if (result.value) {
         this._openAgendaService.saveAgendamiento(JSON.stringify(formulario.value)).subscribe((resp: any) => {
-          this._queryProfessional.professional.next(this.profesional)
-          this.reset();
-          Swal.fire('Buen trabajo!', 'Se ha aperturado agenda correctamente.', 'success');
+
+          if (resp.code != 200) {
+            Swal.fire('Error', resp.err['message'], 'error');
+          } else {
+            Swal.fire('Operación exitósa', 'La agenda fue aperturada', 'success');
+            this._queryPerson.person.next(this.profesional)
+            this.reset();
+          }
         });
       }
     });
 
   }
+
+  searchProcedure: OperatorFunction<string, readonly string[]> = (text$: Observable<string>) =>
+    text$.pipe(
+      debounceTime(300),
+      distinctUntilChanged(),
+      tap(() => this.searchingProcedure = true),
+      switchMap(term => term.length < 3 ? [] :
+        this._openAgendaService.searchProcedure(term, String(this.speciality)).pipe(
+          tap(() => this.searchFailedProcedure = false),
+          catchError(() => {
+            this.searchFailedProcedure = true;
+            return of([]);
+          }))
+      ),
+      tap(() => this.searchingProcedure = false)
+    )
+
+  InputProcedure = (x: { text: string }) => x.text;
 
 }

@@ -23,12 +23,21 @@ export class dataCitaToAssign {
 
         public sede?,
         public speciality?,
-        public profesional = {},
+        public person: any = '',
         public timeDuration = '',
         public appointmentId?,
         public subappointmentId?,
         public ipsId?,
+        public currentAppointment?,
 
     ) { }
+
+    public resetData() {
+        this.speciality = null
+        this.person = null
+        this.appointmentId = null
+        this.subappointmentId = null
+        this.currentAppointment = null
+    }
 
 }
