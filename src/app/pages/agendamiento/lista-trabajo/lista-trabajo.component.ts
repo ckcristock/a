@@ -5,6 +5,7 @@ import { catchError, debounceTime, distinctUntilChanged, switchMap, tap } from '
 import { AppointmentService } from 'src/app/core/services/appointment.service';
 import { SearchService } from '../../../core/services/search.service';
 import { OpenAgendaService } from '../open-agenda.service';
+import Swal from 'sweetalert2'
 
 @Component({
   selector: 'app-lista-trabajo',
@@ -194,6 +195,53 @@ export class ListaTrabajoComponent implements OnInit {
     }
 
     this.openModalDetalle.emit(modalDetalle)
+  }
+  llamadaPaciente(cita){
+    // TO-DO ACA DEBE IR LA FUNCION DE LLAMADA SALIENTE, 
+    // DEBE ABRIR UN MODAL, PEDIR EJEMPLO DE BCHAIN
+    // AUGUSTO
+    const SwalMsje = Swal.mixin({
+      customClass: {
+        confirmButton: 'btn btn-success mx-2',
+        cancelButton: 'btn btn-danger'
+      },
+      buttonsStyling: false
+    })
+    SwalMsje.fire(
+      'Función No Activa',
+      'La función de la llamada saliente no esta disponible aún!',
+      'warning'
+    )
+  }
+  confirmarCita(cita){
+    const SwalMsje = Swal.mixin({
+      customClass: {
+        confirmButton: 'btn btn-success mx-2',
+        cancelButton: 'btn btn-danger'
+      },
+      buttonsStyling: false
+    })
+    SwalMsje.fire({
+      title: '¿está seguro?',
+      text: "Se dispone a Confirmar una cita",
+      icon: 'warning',
+      showCancelButton: true,
+      confirmButtonText: 'Si, ¡Cita Confirmada con el Paciente!',
+      cancelButtonText: 'No, ¡déjeme comprobar!',
+      reverseButtons: true
+    }).then((result) => {
+      if (result.isConfirmed) {
+
+        // TO-DO ACA DEBE IR LA FUNCION DE CAMBIAR EL ESTADO A LA CITA, 
+        // NO SE SI PEDIR OBSERVACIONES O NO
+        // AUGUSTO
+        SwalMsje.fire(
+          'Cita Confirmada Correctamente',
+          'La cita fué marcada como confirmada!',
+          'success'
+        )
+      }
+    })
   }
   setPage(page) {
     this.pagination.page = page

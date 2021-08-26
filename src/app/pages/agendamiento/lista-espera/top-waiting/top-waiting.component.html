@@ -29,20 +29,15 @@
                     <div class="text-center">
                         <p class="mb-2"> <i class="fa fa-sort-amount-up-alt"></i> Top Especialidades en espera</p>
                     </div>
-                    <div class="table-responsive mt-4 text-left">
+                    <div class="mt-4 text-left">
 
-                        <table *ngIf="statistics.topAwait.length > 0; else notTop" class="table table-hover mb-0 table-centered table-nowrap">
+                        <table *ngIf="statistics.topAwait.length > 0; else notTop" class="table table-hover mb-0 table-centered">
                             <tbody>
                                 <tr *ngFor="let top of statistics.topAwait">
-                                    <td>
-                                        <h5 class="font-size-14 mb-0">{{top.speciality}}</h5>
+                                    <td class="text-truncate font-size-14" style="max-width: 220px;width:220px !important;">
+                                        {{top.speciality}}
                                     </td>
-                                    <td>
-                                        <div id="spak-chart1"></div>
-                                    </td>
-                                    <td>
-                                        <p class="text-muted mb-0">{{top.total}}</p>
-                                    </td>
+                                    <td>{{top.total}}</td>
                                 </tr>
 
                             </tbody>

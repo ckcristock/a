@@ -25,6 +25,7 @@ import { AgendasComponent } from './agendas/agendas.component';
 import { VerAgendaComponent } from './agendas/ver-agenda/ver-agenda.component';
 import { DetailStatsComponent } from './agendas/detail-stats/detail-stats.component';
 import { PipesModule } from '../../core/pipes/pipes.module';
+import { RecaudosComponent } from './recaudos/recaudos.component';
 
 @NgModule({
     declarations: [
@@ -38,6 +39,7 @@ import { PipesModule } from '../../core/pipes/pipes.module';
         AgendasComponent,
         VerAgendaComponent,
         DetailStatsComponent,
+        RecaudosComponent,
       
     ],
     imports: [

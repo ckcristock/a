@@ -6,6 +6,7 @@ import { HttpClient } from '@angular/common/http';
 import { environment } from 'src/environments/environment';
 import { OpenAgendaService } from '../open-agenda.service';
 import { WaitingListService } from './waiting-list.service';
+import Swal from 'sweetalert2'
 
 @Component({
   selector: 'app-lista-espera',
@@ -71,6 +72,44 @@ export class ListaEsperaComponent implements OnInit {
         this.waitingList = r.data
       })
 
+  }
+  AnularEspera(IdCita){
+    const SwalMsje = Swal.mixin({
+      customClass: {
+        confirmButton: 'btn btn-success mx-2',
+        cancelButton: 'btn btn-danger'
+      },
+      buttonsStyling: false
+    })
+    SwalMsje.fire({
+      title: '¿está seguro?',
+      text: "Se dispone a anular una Lista de Espera, escoja una razón para realizar esta acción",
+      icon: 'warning',
+      input: 'select',
+      inputOptions: {
+          1: 'Paciente Fallecido',
+          2: 'Cita Asignada por otra modalidad',
+          3: 'Lista de Espera Erronea',
+          4: 'Otra Causa'
+      },
+      inputPlaceholder: 'Seleccione una',
+      showCancelButton: true,
+      confirmButtonText: 'Si, ¡Anular!',
+      cancelButtonText: 'No, ¡déjeme comprobar!',
+      reverseButtons: true
+    }).then((result) => {
+      if (result.isConfirmed) {
+
+        // TO-DO ACA DEBE IR LA FUNCION DE CAMBIAR EL ESTADO A LA CITA, 
+        // NO SE SI PEDIR OBSERVACIONES O NO
+        // AUGUSTO
+        SwalMsje.fire(
+          'Lista de Espera Anulada Correctamente',
+          'La lista de espera fué Anulada!',
+          'success'
+        )
+      }
+    })
   }
   changed(e) {
     console.log(e);

@@ -38,7 +38,6 @@ export class AgendasComponent implements OnInit {
     person: '',
     ipsId: '',
     sede: '',
-
   }
   searching = false;
   searchFailed = false;

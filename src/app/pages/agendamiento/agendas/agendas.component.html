@@ -1,88 +1,83 @@
 <div class="row">
     <div class="col-9">
-        <div class="row">
-            <div class="col-12">
-                <div class="card">
-                    <div class="card-body">
-                        <div class="row p-3">
-                            <div class="col-md-4 my-2">
-                                <label>Especialidad</label>
-                                <ng-select [items]="specialties" bindLabel="text" bindValue="value"
-                                    [(ngModel)]="filters.speciality" placeholder="Seleccione " name="speciality_id"
-                                    loadingText="loading" ngDefaultControl (ngModelChange)="getProfesionals()">
-                                </ng-select>
-                            </div>
-
-
-                            <div class="col-md-4 my-2">
-                                <label>Profesional</label>
-                                <ng-select [items]="persons" bindLabel="text" bindValue="value"
-                                    [(ngModel)]="filters.person" [placeholder]="" name="person_id" loadingText="loading"
-                                    ngDefaultControl>
-                                </ng-select>
-                            </div>
-                            <div class="col-md-2 my-2">
-
-                                <label>Tipo de Agenda</label>
-                                <ng-select [items]="type_appointments" bindLabel="text" bindValue="value"
-                                    [(ngModel)]="filters.appointmentId" placeholder="Seleccione " name="type_agenda_id"
-                                    loadingText="loading" ngDefaultControl (ngModelChange)="getSubTypeAppointment()">
-                                </ng-select>
-                            </div>
-
-                            <div class="col-md-2 my-2">
-                                <label>Tipo de Consulta</label>
-                                <ng-select [items]="type_subappointments" bindLabel="text" bindValue="value"
-                                    [(ngModel)]="filters.subappointmentId" placeholder="Seleccione "
-                                    name="type_appointment_id" loadingText="loading" (ngModelChange)="getIps()"
-                                    ngDefaultControl>
-                                </ng-select>
-                            </div>
-
-
-
-                            <div class="col-md-6 my-2" *ngIf="appointment.face_to_face">
-                                <label>Ips</label>
-                                <ng-select [items]="ipss" bindLabel="text" bindValue="value" [(ngModel)]="filters.ipsId"
-                                    placeholder="Seleccione " name="ips_id" loadingText="loading"
-                                    (ngModelChange)="getSedes()" ngDefaultControl>
-                                </ng-select>
-                            </div>
-
-
-                            <div class="col-md-6 my-2" *ngIf="appointment.face_to_face">
-                                <label>Sede</label>
-                                <ng-select [items]="sedes" bindLabel="text" bindValue="value" [(ngModel)]="filters.sede"
-                                    placeholder="Seleccione " name="sede_id" loadingText="loading" ngDefaultControl
-                                    (ngModelChange)="getSpecialties()">
-                                </ng-select>
-                            </div>
-
+            <div class="card">
+                <div class="card-body">
+                    <div class="row p-3">
+                        <div class="col-md-4 my-2">
+                            <label>Especialidad</label>
+                            <ng-select [items]="specialties" bindLabel="text" bindValue="value"
+                                [(ngModel)]="filters.speciality" placeholder="Seleccione " name="speciality_id"
+                                loadingText="loading" ngDefaultControl (ngModelChange)="getProfesionals()">
+                            </ng-select>
                         </div>
-                        <div class="col-12">
-                            <button class="btn btn-primary btn-sm btn-block "
-                                (click)="getAgendamientos(1)">Buscar</button>
+
+
+                        <div class="col-md-4 my-2">
+                            <label>Profesional</label>
+                            <ng-select [items]="persons" bindLabel="text" bindValue="value"
+                                [(ngModel)]="filters.person" [placeholder]="" name="person_id" loadingText="loading"
+                                ngDefaultControl>
+                            </ng-select>
                         </div>
-                        <!-- <div class="col-2 mb-2">
-                                <label for="validationServerUsername">Tipo Ident.</label>
-                                <div class="input-group">
-                                    <select [(ngModel)]="person.type_identification_id" class="custom-select" name="Id_Tipo_Identificacion">
-                                      <option [value]="type.Id" *ngFor="let type of typesDocuments">{{type.Nombre}}</option>
-                                    </select>
-                                </div>
-                            </div> -->
+                        <div class="col-md-2 my-2">
+
+                            <label>Tipo de Agenda</label>
+                            <ng-select [items]="type_appointments" bindLabel="text" bindValue="value"
+                                [(ngModel)]="filters.appointmentId" placeholder="Seleccione " name="type_agenda_id"
+                                loadingText="loading" ngDefaultControl (ngModelChange)="getSubTypeAppointment()">
+                            </ng-select>
+                        </div>
+
+                        <div class="col-md-2 my-2">
+                            <label>Tipo de Consulta</label>
+                            <ng-select [items]="type_subappointments" bindLabel="text" bindValue="value"
+                                [(ngModel)]="filters.subappointmentId" placeholder="Seleccione "
+                                name="type_appointment_id" loadingText="loading" (ngModelChange)="getIps()"
+                                ngDefaultControl>
+                            </ng-select>
+                        </div>
+
+
+
+                        <div class="col-md-6 my-2" *ngIf="appointment.face_to_face">
+                            <label>Ips</label>
+                            <ng-select [items]="ipss" bindLabel="text" bindValue="value" [(ngModel)]="filters.ipsId"
+                                placeholder="Seleccione " name="ips_id" loadingText="loading"
+                                (ngModelChange)="getSedes()" ngDefaultControl>
+                            </ng-select>
+                        </div>
+
+
+                        <div class="col-md-6 my-2" *ngIf="appointment.face_to_face">
+                            <label>Sede</label>
+                            <ng-select [items]="sedes" bindLabel="text" bindValue="value" [(ngModel)]="filters.sede"
+                                placeholder="Seleccione " name="sede_id" loadingText="loading" ngDefaultControl
+                                (ngModelChange)="getSpecialties()">
+                            </ng-select>
+                        </div>
+
                     </div>
+                    <div class="col-12">
+                        <button class="btn btn-primary btn-sm btn-block "
+                            (click)="getAgendamientos(1)">Buscar</button>
+                    </div>
+                    <!-- <div class="col-2 mb-2">
+                            <label for="validationServerUsername">Tipo Ident.</label>
+                            <div class="input-group">
+                                <select [(ngModel)]="person.type_identification_id" class="custom-select" name="Id_Tipo_Identificacion">
+                                    <option [value]="type.Id" *ngFor="let type of typesDocuments">{{type.Nombre}}</option>
+                                </select>
+                            </div>
+                        </div> -->
                 </div>
             </div>
-            <div class="col-12">
-                <div class="card">
-                    <div class="card-body">
-                        <div *ngIf="!loading && agendas.length > 0; else notData">
-
-
-                            <table class="table table-hover mb-0 table-centered table-nowrap">
+            <div class="card">
+                <div class="card-body p-0">
+                    <div class="row" *ngIf="!loading && agendas.length > 0; else notData">
+                        <div class="col-sm-12">
+                            <table class="table table-hover table-bordered small">
                                 <thead class="thead-dark">
-                                    <tr>
+                                    <tr class="text-center text-uppercase">
                                         <th></th>
                                         <th>Fecha</th>
                                         <th>Profesional</th>
@@ -97,43 +92,28 @@
                                     <tr *ngFor="let item of agendas"
                                         [ngClass]="{'bg-danger text-white': ( item.state == 'Cancelada') }">
                                         <td>
-                                            <img src="{{item?.usuario?.person?.image| image:'users' }}" alt=""
+                                            <img src="{{item?.usuario?.person?.image| image:'users' }}" alt="{{item?.usuario?.person?.first_name }}"
                                                 class="img-thumbnail rounded-circle header-profile-user mx-auto d-block">
                                         </td>
-                                        <td>
-                                            <p class="font-size-14 mb-0">
-                                                <i 
-                                                 [ngClass]="{'fa-user' : item.type_appointment.face_to_face, 
-                                                 'fa-video' : !item.type_appointment.face_to_face }"
+                                        <td><i 
+                                                [ngClass]="{'fa-user' : item.type_appointment.face_to_face, 
+                                                'fa-video' : !item.type_appointment.face_to_face }"
                                                 class="fa"></i>
-                                                {{item.created_at | date : 'dd/MM/yyy'}} </p>
+                                                {{item.created_at | date : 'dd/MM/yyy'}} 
                                         </td>
 
-                                        <td>
-                                            <p class="font-size-14 mb-0">{{item.person.full_name}}</p>
-                                        </td>
-                                        <td>
-                                            <p class="font-size-14 mb-0">{{item.speciality.name}}</p>
-                                        </td>
+                                        <td>{{item.person.full_name}}</td>
+                                        <td>{{item.speciality.name}}</td>
 
-                                        <td>
-                                            <p class="font-size-14 mb-0">{{item.date_start | date : 'dd/MM/yy'}}
-                                                <span *ngIf="item.date_start != item.date_end ">
-                                                    - {{item.date_end | date : 'dd/MM/yy'}} </span>
-                                            </p>
+                                        <td> {{item.date_start | date : 'dd/MM/yy'}}
+                                             <span *ngIf="item.date_start != item.date_end ">
+                                              - {{item.date_end | date : 'dd/MM/yy'}}</span>
                                         </td>
-                                        <td>
-                                            <p class="font-size-14 mb-0">{{item.state}}</p>
-                                        </td>
-                                        <td>
-                                            <p class=" font-size-14 mb-0 d-flex align-items-center">
-                                                <i class="ri-calendar-todo-fill"></i> {{item.spaces.length}}
-                                                ({{item.available_spaces.length}})
-                                            </p>
-                                        </td>
-                                        <td class="text-right ">
+                                        <td>{{item.state}} </td>
+                                        <td><i class="ri-calendar-todo-fill"></i> {{item.spaces.length}}  ({{item.available_spaces.length}})</td>
+                                        <td class="text-center ">
                                             <div class="btn-group " role="group " ngbDropdown>
-                                                <button id="btnGroupVerticalDrop1 " type="button "
+                                                <button id="btnGroupVerticalDrop1 " type="button"
                                                     class="btn btn-primary btn-sm dropdown-toggle " ngbDropdownToggle>
                                                     <i class="mdi mdi-chevron-down "></i>
                                                 </button>
@@ -153,23 +133,19 @@
 
                                 </tbody>
                             </table>
-                            <div class="row align-items-right mt-2 ">
-                                <div class="col-sm-12 ">
-                                    <div class="text-md-right float-md-right pagination-rounded ">
-                                        <ngb-pagination maxSize="5" [collectionSize]="pagination.collectionSize "
-                                            (pageChange)="getAgendamientos($event) " [pageSize]="pagination.pageSize "
-                                            [(page)]="pagination.page " aria-label="Default pagination ">
-                                        </ngb-pagination>
+                        </div>
+                        <div class="col-sm-12 align-items-right mt-2 ">
+                            <div class="text-md-right float-md-right pagination-rounded ">
+                                <ngb-pagination maxSize="5" [collectionSize]="pagination.collectionSize "
+                                    (pageChange)="getAgendamientos($event) " [pageSize]="pagination.pageSize "
+                                    [(page)]="pagination.page " aria-label="Default pagination ">
+                                </ngb-pagination>
 
-                                    </div>
-                                </div>
                             </div>
                         </div>
                     </div>
                 </div>
             </div>
-        </div>
-
     </div>
     <div class="col-3">
         <div *ngFor="let stat of statData" style="cursor: pointer;" class="col-12">
