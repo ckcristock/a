@@ -7,8 +7,6 @@
                         <label>Paciente</label>
                         <input type="text" class="form-control form-control-sm"  [(ngModel)]="filters.patient" placeholder="Cedula Paciente " name="patient" />
                     </div>
-
-
                     <div class="col-md-5 my-2">
                         <label>Fecha</label>
                         <input type="date" class="form-control form-control-sm date"  [(ngModel)]="filters.date" [placeholder]="" name="date" >
@@ -23,6 +21,18 @@
             </div>
         </div>
     </div>
+    <div class="col-2">
+        <app-stats [title]="'Pacientes Confirmados'" [value]="200" [icon]="'fas fa-user-friends'">
+        </app-stats>
+    </div>
+    <div class="col-2">
+        <app-stats [title]="'Pacientes Recaudados'" [value]="150" [icon]="'fas fa-user-check'">
+        </app-stats>
+    </div>
+    <div class="col-2">
+        <app-stats [title]="'Valor Recaudado'" [value]="100000" [icon]="'fas fa-money-bill-wave'">
+        </app-stats>
+    </div>
 </div>
 <div class="row">
     <div class="col-12">
@@ -33,21 +43,43 @@
                         <table class="table table-hover table-bordered small">
                             <thead class="thead-dark">
                                 <tr class="text-center text-uppercase">
-                                    <th style="width: 30px;"></th>
+                                    <th style="width: 20px;"></th>
                                     <th style="width: 85px;">Fecha</th>
                                     <th style="width: 200px;">Profesional</th>
                                     <th style="width: 200px;">Paciente</th>
-                                    <th style="width: 160px;">Telefono Paciente</th>
-                                    <th style="width: 160px;">Especialidad</th>
+                                    <th style="width: 160px;">EPS</th>
+                                    <th style="width: 160px;">Copago</th>
                                     <th>Descripción</th>
                                     <th style="width: 75px;">Estado</th>
                                     <th style="width: 50px;"></th>
                                 </tr>
                             </thead>
                             <tbody>
+                                <tr *ngFor="let item of citas" [ngClass]="{'bg-success text-white': ( item.state == 'Recaudado') }" class="text-center">
+                                    <td>
+                                        <i [ngClass]="{'fa-user' : item.face_to_face,  'fa-video' : !item.face_to_face }" class="fa"></i>
+                                    </td>
+                                    <td>{{item.date | date:'dd/MM/yyyy hh:mm a' }}</td>
+                                    <td>{{item.professional}}</td>
+                                    <td>{{item.patient}}</td>
+                                    <td>{{item.eps}}</td>
+                                    <td>{{item.copago | number}}</td>
+                                    <td>{{item.description}}</td>
+                                    <td>{{item.state}}</td>
+                                    <td>
 
+                                    </td>
+                                </tr>
                             </tbody>
                         </table>
+                    </div>
+                    <div class="col-sm-12">
+                        <div class="text-md-right float-md-right pagination-rounded">
+                            <ngb-pagination maxSize="5" [collectionSize]="pagination.collectionSize"
+                                (pageChange)="setPage($event);getCitas(formD)" [pageSize]="pagination.pageSize"
+                                [(page)]="pagination.page" aria-label="Default pagination ">
+                            </ngb-pagination>
+                        </div>
                     </div>
                 </div>
             </div>

@@ -42,7 +42,6 @@ export class ListaTrabajoComponent implements OnInit {
     pageSize: 15,
     page: 1,
     collectionSize: 0,
-
   }
   searching = false;
   searchFailed = false;

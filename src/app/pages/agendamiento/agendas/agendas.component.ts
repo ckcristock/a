@@ -43,8 +43,6 @@ export class AgendasComponent implements OnInit {
   searchFailed = false;
   agendas = []
 
-
-
   public appointment = {
     value: "",
     text: "",
