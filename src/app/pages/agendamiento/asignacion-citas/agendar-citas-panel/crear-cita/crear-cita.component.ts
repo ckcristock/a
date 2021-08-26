@@ -201,6 +201,22 @@ export class CrearCitaComponent implements OnInit {
       tap(() => this.searchingProcedure = false)
     )
 
+  searchCustomProcedureByAppointment: OperatorFunction<string, readonly string[]> = (text$: Observable<string>) =>
+    text$.pipe(
+      debounceTime(300),
+      distinctUntilChanged(),
+      tap(() => this.searchingProcedure = true),
+      switchMap(term => term.length < 3 ? [] :
+        this._openAgendaService.searchCustomProcedureByAppointment(term, this.space).pipe(
+          tap(() => this.searchFailedProcedure = false),
+          catchError(() => {
+            this.searchFailedProcedure = true;
+            return of([]);
+          }))
+      ),
+      tap(() => this.searchingProcedure = false)
+    )
+
   InputProcedure = (x: { text: string }) => x.text;
 
 
