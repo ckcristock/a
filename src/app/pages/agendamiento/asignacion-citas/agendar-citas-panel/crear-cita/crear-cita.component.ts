@@ -30,6 +30,7 @@ export class CrearCitaComponent implements OnInit {
   public patient
   public dataCitaToAssign
   public tipification: any = {}
+  public fromWailist: boolean = false
 
   diagnosticoId: any;
   procedureId: any;
@@ -44,13 +45,26 @@ export class CrearCitaComponent implements OnInit {
     private dataCitaToAssignService: dataCitaToAssignService,
 
   ) {
+
+    this._queryPatient.infowailist.subscribe(res => {
+      if (res.anotherData) {
+        this.cita.ips_remisor = res.anotherData.appointment.ips
+        this.cita.person_remisor = res.anotherData.appointment.profesional
+        this.cita.especiality = res.anotherData.appointment.speciality
+        this.cita.date_remisor = res.anotherData.appointment.date
+        this.procedureId = res.anotherData.appointment.cup
+        this.diagnosticoId = res.anotherData.appointment.cie10
+        this.cita.observacion = res.anotherData.appointment.observation
+        this.fromWailist = true
+
+      }
+    })
+
     this.$dataCita = this.dataCitaToAssignService.dataCitaToAssign.subscribe((r) => {
       this.dataCitaToAssign = r
     });
-
-
-
   }
+
   tramiteSelected: any
   typesDocuments: Array<any> = [
     { Nombre: 'CI', Id: '1' },
@@ -80,15 +94,11 @@ export class CrearCitaComponent implements OnInit {
     });
 
     this.$tipif = this._queryPatient.tipificationData.subscribe(r => {
-      console.log('tipification', r);
-
       this.tipification = r
     })
 
     this.$trSelct = this._queryPatient.tramiteSelected.subscribe(r => {
-      console.log('selected', r);
       this.tramiteSelected = r
-
     })
   }
 
@@ -125,15 +135,34 @@ export class CrearCitaComponent implements OnInit {
           this.loading = true;
           this._openAgendaService.saveCita(JSON.stringify(form.value))
             .subscribe((data: any) => {
+
+              if (data.code == 400) {
+                Swal.fire('Error agendando cita', data.err[0], 'error');
+                this.loading = false;
+                throw (({ tilte: 'Error agendando cita', message: data.err[0] }))
+              }
               this.dataCitaToAssignService.dataFinal.next(data.data)
               this.validarResponse(data);
+
+              this.loading = false;
+            }, response => {
+              if (response.error) {
+                let html = `<ul>`;
+                for (var clave in response.error.errors) {
+                  html += `<li>${response.error.errors[clave]}</li> `
+                }
+                html += `</ul>`
+                Swal.fire('Error', html, 'error');
+              }
               this.loading = false;
             });
         }
+        return false;
       })
-    } catch ({tilte,message}) {
-      Swal.fire(tilte, message, 'error');
 
+    } catch ({ tilte, message }) {
+      this.loading = false;
+      Swal.fire(tilte, message, 'error');
     }
   }
 
@@ -162,7 +191,7 @@ export class CrearCitaComponent implements OnInit {
       distinctUntilChanged(),
       tap(() => this.searchingProcedure = true),
       switchMap(term => term.length < 3 ? [] :
-        this._openAgendaService.searchProcedure(term).pipe(
+        this._openAgendaService.searchProcedure(term, this.space).pipe(
           tap(() => this.searchFailedProcedure = false),
           catchError(() => {
             this.searchFailedProcedure = true;
@@ -182,18 +211,16 @@ export class CrearCitaComponent implements OnInit {
   validarResponse(data) {
     if (data) {
       try {
-        if (this.patient.isNew){
-          throw (  ({ title:'Faltan campos del paciente' ,message:'Es necesario guardar toda la información del paciente para continuar'}))
-        } 
-
+        if (this.patient.isNew) {
+          throw (({ title: 'Faltan campos del paciente', message: 'Es necesario guardar toda la información del paciente para continuar' }))
+        }
         this._queryPatient.validate(this.patient);
         this._queryPatient.validateTipification({ component: this.tipification, data: this.tipification });
         this.siguiente.emit();
         this.dataCitaToAssignService.dataFinal.next(data.data)
-        // this._queryPatient.patient.next(data.data)
         this._openAgendaService.getClean(data.data.appointment['call_id']).subscribe((r) => {
         })
-      } catch ({title,message}) {
+      } catch ({ title, message }) {
         Swal.fire(title, message, 'error');
       }
 
@@ -215,7 +242,6 @@ export class CrearCitaComponent implements OnInit {
       })
     }
   }
-
 }
 
 

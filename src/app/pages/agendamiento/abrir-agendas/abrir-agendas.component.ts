@@ -1,13 +1,13 @@
 import { Component, OnInit, ViewChild } from '@angular/core';
 import { NgForm } from '@angular/forms';
-import { catchError, debounceTime, distinctUntilChanged, subscribeOn, switchMap, tap } from 'rxjs/operators';
+import { catchError, debounceTime, distinctUntilChanged, filter, subscribeOn, switchMap, tap } from 'rxjs/operators';
 import { OpenAgendaService } from '../open-agenda.service';
 import { environment } from 'src/environments/environment';
 
 import { diasSemana } from './dias';
 import Swal from 'sweetalert2';
 import { QueryPerson } from '../query-person.service';
-import { Observable, of, OperatorFunction } from 'rxjs';
+import { concat, Observable, of, OperatorFunction, Subject } from 'rxjs';
 import { Router } from '@angular/router';
 
 
@@ -17,6 +17,15 @@ import { Router } from '@angular/router';
   styleUrls: ['./abrir-agendas.component.scss']
 })
 export class AbrirAgendasComponent implements OnInit {
+
+  selectedCar: number;
+
+  cars = [
+    { value: 1, name: 'Volvo' },
+    { value: 2, name: 'Saab' },
+    { value: 3, name: 'Opel' },
+    { value: 4, name: 'Audi' },
+  ];
 
   public appointment = {
     value: "",
@@ -57,8 +66,8 @@ export class AbrirAgendasComponent implements OnInit {
   public profesionals = []
 
   public optionesTime = [
-   /*  { value: 5, text: "5 Minutos" },
-    { value: 10, text: "10 Minutos" }, */
+    /*  { value: 5, text: "5 Minutos" },
+     { value: 10, text: "10 Minutos" }, */
     { value: 15, text: "15 Minutos" },
     { value: 20, text: "20 Minutos" },
     { value: 25, text: "25 Minutos" },
@@ -66,70 +75,74 @@ export class AbrirAgendasComponent implements OnInit {
     { value: 40, text: "40 Minutos" },
     { value: 60, text: "60 Minutos" },
   ]
-  fechaInicio : any =''
-  fechaFin : any =''
-  hour_start : any ='08:00'
-  hour_end : any ='18:00'
-  long : any = 15
-  days= []
+  fechaInicio: any = ''
+  fechaFin: any = ''
+  hour_start: any = '08:00'
+  hour_end: any = '18:00'
+  long: any = 15
+  days = []
 
   public diasSemana = diasSemana
   public searchingProcedure = false;
   public searchFailedProcedure = false;
   public today: any;
+
   constructor(private _openAgendaService: OpenAgendaService, public _queryPerson: QueryPerson, private router: Router) { }
 
   ngOnInit(): void {
+    this.getDurations();
     this.getTypeAppointment();
     this.today = new Date();
     this.today.setHours(0, 0, 0, 0);
     //this.today = Date.parse(this.today)
+    // this.setupSearch();
   }
-  @ViewChild('agenda') agenda: NgForm ;
+
+  @ViewChild('agenda') agenda: NgForm;
   reset() {
 
     //this.router.navigateByUrl('agendamiento/abrir-agendas', { skipLocationChange: true });
 
-  /*   this.sede = {
-      value: "",
-      text: ""
-    };
-
-    this.speciality = {
-      value: "",
-      text: ""
-    };
-
-
-    this.profesional = {
-      value: "",
-      text: ""
-    } */
+    /*   this.sede = {
+        value: "",
+        text: ""
+      };
+  
+      this.speciality = {
+        value: "",
+        text: ""
+      };
+  
+  
+      this.profesional = {
+        value: "",
+        text: ""
+      } */
 
     /* this.profesional = new this.profesional */
-/* 
-    this.ips = {
-      value: "",
-      text: ""
-    } */
+    /* 
+        this.ips = {
+          value: "",
+          text: ""
+        } */
 
     /* this.sede = new this.sede
     this.speciality = new this.speciality */
-    this.fechaInicio  =''
-    this.fechaFin  =''
-    this.hour_start  ='08:00'
-    this.hour_end  ='18:00'
-    this.long  = 15
-    this.days= []
+    this.fechaInicio = ''
+    this.fechaFin = ''
+    this.hour_start = '08:00'
+    this.hour_end = '18:00'
+    this.long = 15
+    this.days = []
 
     this.timeDuration = null
 
-  /*     this.subappointmentId = null
-    this.appointmentId = null
-    this.ipsId = null
-    this.diasSemana = diasSemana */
+    /*     this.subappointmentId = null
+      this.appointmentId = null
+      this.ipsId = null
+      this.diasSemana = diasSemana */
     this.timeDuration = { value: 20, text: "20 Minutos" }
-   /*  this.type_appointments = null */
+    /*  this.type_appointments = null */
     /* this.type_locations = null
     this.appointmentId = null
     this.cups = null
@@ -142,13 +155,19 @@ export class AbrirAgendasComponent implements OnInit {
     this.specialties = null
     this.profesionals = null
     this.location_id = '' */
-   // this.agenda.reset();
-    
+    // this.agenda.reset();
+
   }
 
   getTypeAppointment() {
     this._openAgendaService.getTypeAppointment(this.appointment.text).subscribe((resp: any) => {
       this.type_appointments = resp.data;
+    });
+  }
+
+  getDurations() {
+    this._openAgendaService.getDurations().subscribe((resp: any) => {
+      this.optionesTime = resp.data;
     });
   }
 
@@ -163,12 +182,17 @@ export class AbrirAgendasComponent implements OnInit {
   }
 
   getIps() {
+    const param = (this.location_id) ? this.location_id : 0
     this.subappointment = this.searchItem(this.type_subappointments, this.subappointmentId);
-
     this.isProcedure = Boolean(this.subappointment.procedure);
-
-    this._openAgendaService.getIps(String(this.location_id)).subscribe((resp: any) => {
+    this._openAgendaService.getIps(String(param)).subscribe((resp: any) => {
       this.ipss = resp.data;
+    });
+  }
+
+  getcups() {
+    this._openAgendaService.searchCustomProcedure('', String(this.speciality)).subscribe((resp: any) => {
+      this.cups = resp
     });
   }
 
@@ -186,6 +210,7 @@ export class AbrirAgendasComponent implements OnInit {
   }
 
   getProfesionals() {
+    (this.subappointment['procedure']) ? this.getcups() : '';
     this._openAgendaService.getProfesionals(this.ips.value, String(this.speciality)).subscribe((resp: any) => {
       this.profesionals = resp.data;
     });
@@ -202,8 +227,6 @@ export class AbrirAgendasComponent implements OnInit {
 
 
   dispatchPerson() {
-    console.log(this.profesional);
-    
     this._queryPerson.person.next(this.profesional)
   }
 
@@ -226,10 +249,10 @@ export class AbrirAgendasComponent implements OnInit {
       confirmButtonText: 'Si, Hazlo!'
     }).then(result => {
       if (result.value) {
-        /*  */
         this._openAgendaService.saveAgendamiento(JSON.stringify(formulario.value)).subscribe((resp: any) => {
+
           if (resp.code != 200) {
-            Swal.fire('Error', resp.err, 'error');
+            Swal.fire('Error', resp.err['message'], 'error');
           } else {
             Swal.fire('Operación exitósa', 'La agenda fue aperturada', 'success');
             this._queryPerson.person.next(this.profesional)
@@ -258,6 +281,5 @@ export class AbrirAgendasComponent implements OnInit {
     )
 
   InputProcedure = (x: { text: string }) => x.text;
-
 
 }

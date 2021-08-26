@@ -31,7 +31,7 @@ import { MenuChildComponent } from './funcionarios/detalle-funcionario/permissio
         MenuChildComponent],
 
     imports: [CommonModule, InformacionBaseRoutingModule,
-        NgbPaginationModule, NgbDropdownModule, ChartsModule,
+        NgbPaginationModule,  ChartsModule,
         ComponentsModule,
         FormsModule,
         NgSelectModule,

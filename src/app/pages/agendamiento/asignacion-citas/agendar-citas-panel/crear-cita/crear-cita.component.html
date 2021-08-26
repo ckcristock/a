@@ -1,15 +1,15 @@
 <form class="row mt-3" #registerCita="ngForm">
-    <div class="col-12 mt-12">
-        <div class="input-group mb-3">
-            <div class="input-group-prepend">
-                <span class="input-group-text" id="inputGroup-sizing-default">
+  <div class="col-12 mt-12">
+    <div class="input-group mb-3">
+      <div class="input-group-prepend">
+        <span class="input-group-text" id="inputGroup-sizing-default">
           <i class="fas fa-stethoscope"></i>
         </span>
-            </div>
-            <input id="typeahead-http" type="text" required class="form-control" [class.is-invalid]="searchFailedDiagnostic" [(ngModel)]="diagnosticoId" [ngbTypeahead]="search" placeholder="Diagnostico del Paciente" name="diagnosticoId" ngDefaultControl [resultTemplate]="diagnostic"
-                [inputFormatter]="Inputdiagnostic" />
-            <small *ngIf="searchingDiagnostic" class="form-text text-muted">Buscando...</small
-      >
+      </div>
+      <input id="typeahead-http" type="text" required class="form-control" [class.is-invalid]="searchFailedDiagnostic"
+        [(ngModel)]="diagnosticoId" [ngbTypeahead]="search" placeholder="Diagnostico del Paciente" name="diagnosticoId"
+        ngDefaultControl [resultTemplate]="diagnostic" [inputFormatter]="Inputdiagnostic" />
+      <small *ngIf="searchingDiagnostic" class="form-text text-muted">Buscando...</small>
       <div class="invalid-feedback" *ngIf="searchFailedDiagnostic">
         No se ha podido encontrar.
       </div>
@@ -24,14 +24,8 @@
         </span>
       </div>
 
-      <input
-        type="text"
-        required
-        name="ips_remisor"
-        [(ngModel)]="cita.ips_remisor"
-        placeholder="IPS Remisora"
-        class="form-control"
-      />
+      <input type="text" required name="ips_remisor" [(ngModel)]="cita.ips_remisor" placeholder="IPS Remisora"
+        class="form-control" />
 
       <!-- <ng-select class="col-10" [items]="ips_remisors" bindLabel="text" bindValue="value"
                         [(ngModel)]="cita.ips_remisor" placeholder="Seleccione " name="ips_remisor"
@@ -48,14 +42,8 @@
         </span>
       </div>
 
-      <input
-        type="text"
-        required
-        name="person_remisor"
-        placeholder="Médico Remisor"
-        [(ngModel)]="cita.person_remisor"
-        class="form-control"
-      />
+      <input type="text" required name="person_remisor" placeholder="Médico Remisor" [(ngModel)]="cita.person_remisor"
+        class="form-control" />
 
       <!-- <ng-select class="col-10" [items]="persons_remisors" bindLabel="text" bindValue="value"
                         [(ngModel)]="cita.person_remisor" placeholder="Seleccione "
@@ -72,14 +60,8 @@
         </span>
       </div>
 
-      <input
-        type="text"
-        required
-        name="especiality"
-        placeholder="Especialidad de Médico Remisor"
-        [(ngModel)]="cita.especiality"
-        class="form-control form-control"
-      />
+      <input type="text" required name="especiality" placeholder="Especialidad de Médico Remisor"
+        [(ngModel)]="cita.especiality" class="form-control form-control" />
 
       <!-- <ng-select class="col-10" [items]="procedurs_remisors" bindLabel="text" bindValue="value"
                         [(ngModel)]="cita.especiality" placeholder="Seleccione " name="especiality"
@@ -91,22 +73,13 @@
   <div class="col-6 mt-12">
     <div class="input-group mb-3">
       <div class="input-group-prepend">
-        <span
-          class="input-group-text"
-          placeholder="Fecha Remitido Servicio"
-          id="inputGroup-sizing-default"
-        >
+        <span class="input-group-text" placeholder="Fecha Remitido Servicio" id="inputGroup-sizing-default">
           <i class="fas fa-calendar-alt"></i>
         </span>
       </div>
 
-      <input
-        type="date"
-        required
-        name="date_remisor"
-        [(ngModel)]="cita.date_remisor"
-        class="form-control form-control"
-      />
+      <input type="date" required name="date_remisor" [(ngModel)]="cita.date_remisor"
+        class="form-control form-control" />
     </div>
   </div>
 
@@ -117,22 +90,12 @@
           <i class="fas fa-cogs"></i>
         </span>
       </div>
-      <input
-        type="text"
-        required
-        class="form-control"
-        [class.is-invalid]="searchFailedProcedure"
-        [(ngModel)]="procedureId"
-        [ngbTypeahead]="searchProcedure"
-        placeholder="Código CUPS Asignado"
-        name="procedureId"
-        ngDefaultControl
-        [resultTemplate]="procedure"
-        [inputFormatter]="InputProcedure"
-      />
-      <small *ngIf="searchingProcedure" class="form-text text-muted"
-        >Buscando...</small
-      >
+      <input type="text" required class="form-control" [class.is-invalid]="searchFailedProcedure"
+        [(ngModel)]="procedureId" [ngbTypeahead]="searchProcedure" placeholder="Código CUPS Asignado" name="procedureId"
+        ngDefaultControl [resultTemplate]="procedure" 
+        [inputFormatter]="InputProcedure" 
+        />
+      <small *ngIf="searchingProcedure" class="form-text text-muted">Buscando...</small>
       <div class="invalid-feedback" *ngIf="searchFailedProcedure">
         No se ha podido encontrar.
       </div>
@@ -148,38 +111,27 @@
   <div class="col-12 mt-12">
     <div class="form-group">
       <label for="observaciones">Observaciones</label>
-      <textarea
-        class="form-control"
-        required
-        id="observaciones"
-        name="observation"
-        [(ngModel)]="cita.observacion"
-        required
-        minlength="10"
-      ></textarea>
+      <textarea class="form-control" required id="observaciones" name="observation" [(ngModel)]="cita.observacion"
+        required minlength="10"></textarea>
     </div>
   </div>
   <div class="col-12 mt-12">
-    <button
-      class="btn btn-success btn-block"
-      [disabled]="(registerCita.invalid || loading )"
-      (click)="save(registerCita)"
-    >
-    
-        <span *ngIf="!loading ;else status" >Crear cita</span>
-       
-        <ng-template #status>
-            <span class="spinner-border spinner-border-sm" role="status" aria-hidden="true"></span>
-                Creando Cita...
-        </ng-template>
- 
+    <button class="btn btn-success btn-block" [disabled]="(registerCita.invalid || loading )"
+      (click)="save(registerCita)">
+
+      <span *ngIf="!loading ;else status">Crear cita</span>
+
+      <ng-template #status>
+        <span class="spinner-border spinner-border-sm" role="status" aria-hidden="true"></span>
+        Creando Cita...
+      </ng-template>
+
     </button>
   </div>
 </form>
 
 <ng-template #diagnostic let-r="result" let-t="term">
   <span class="f-9">
-    {{ r.value }}
     <strong>{{ r.text }}</strong>
   </span>
 </ng-template>

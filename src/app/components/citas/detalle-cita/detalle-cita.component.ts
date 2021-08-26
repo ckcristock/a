@@ -43,17 +43,13 @@ export class DetalleCitaComponent implements OnInit {
 
   ngOnInit(): void {
     this.modalData.subscribe(d => {
-      console.log(d,'subss');
       this.appointment_id = d.Id_Cita_Detalle
       d.Show ? this.detalleCitaModal.show() : this.detalleCitaModal.hide()
       this.getCita()
     })
   }
   getCita() {
-    //http consulta
-    //buscar cita
     this._appointment.getAppointment(this.appointment_id).subscribe
-    
     (d => {
       this.findCita = d
     })

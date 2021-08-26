@@ -11,6 +11,8 @@ import { TipificationService } from 'src/app/core/services/tipification.service'
 import { PermissionService } from '../../../core/services/permission.service';
 import { AppointmentService } from '../../../core/services/appointment.service';
 import { OpenAgendaService } from '../open-agenda.service';
+import { ActivatedRoute, Router } from '@angular/router';
+import { dataCitaToAssign } from 'src/app/core/interfaces/dataCitaToAssign.model';
 
 
 @Component({
@@ -44,17 +46,22 @@ export class AsignacionCitasComponent implements OnInit {
   public $tramiteSelected: Subscription;
   public $tramiteData: Subscription;
   tramiteData: any = {}
-
   public patient;
+
+  public dataCitaToAssign = new dataCitaToAssign();
 
   constructor(private http: HttpClient, private _queryPatient: QueryPatient,
     private _tipification: TipificationService,
-
+    private route: ActivatedRoute,
     private _permisson: PermissionService,
     private _appointment: AppointmentService,
     private _openAgenda: OpenAgendaService
 
   ) {
+
+    if (this.route.snapshot.params.id) {
+      this.newCallByWaitingList()
+    }
 
     this.configComponent = this._permisson.validatePermissions(this.configComponent)
     this.existPtient = _queryPatient.existPatient.subscribe((r) => this.Init());
@@ -130,7 +137,8 @@ export class AsignacionCitasComponent implements OnInit {
   }
 
   newCall(form) {
-    let formd = new FormData()
+    this.dataCitaToAssign.resetData()
+
     this.http.post(`${environment.base_url}/presentianCall`, JSON.stringify(form.value))
       .subscribe((req: any) => {
         if (req.code == 200) {
@@ -146,8 +154,30 @@ export class AsignacionCitasComponent implements OnInit {
       })
   }
 
-  newPatient(data, req) {
+  newCallByWaitingList() {
+    //TODO: refactor traer waitin list sin apointment agendado
+    this.http.post(`${environment.base_url}/patientforwaitinglist`, this.route.snapshot.params.id)
+      .subscribe((req: any) => {
+        if (req.code == 200) {
+          let data = req.data;
+          if (req.data.isNew) {
 
+            data = this.newPatient(data, req)
+          }
+
+          this.patient = data;
+          this._queryPatient.patient.next(data);
+          this._queryPatient.infowailist.next(data);
+          this.existPtientForShow = true;
+          clearInterval(this.getDate);
+        }
+      }, error => {
+        console.log(error);
+      })
+
+  }
+
+  newPatient(data, req) {
     data.paciente = new Patient()
     data.paciente.identifier = req.data.llamada.Identificacion_Paciente;
     data.paciente.isNew = true
