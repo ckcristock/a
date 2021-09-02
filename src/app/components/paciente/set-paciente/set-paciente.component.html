@@ -124,19 +124,17 @@
                     <label for="">Ciudad</label>
                     <ng-select name="municipality_id" required #municipality_id="ngModel"
                         [ngClass]="{'is-invalid': ( municipality_id.invalid && municipality_id.touched )}"
-                        [(ngModel)]="paciente.municipality_id">
+                        [(ngModel)]="paciente.municipality_id" (change)="getCompanies($event)">
                         <ng-option [value]="type.value" *ngFor="let type of cities ">{{type.text}}</ng-option>
                     </ng-select>
                 </div>
-
-
 
 
                 <div class="form-group col-md-6 ">
                     <label for="Empresa">Empresa</label>
                     <ng-select name="company_id" required [(ngModel)]="paciente.company_id" #company_id="ngModel"
                         [ngClass]="{'is-invalid': ( company_id.invalid && company_id.touched )}"
-                        (change)="getLocations($event)">
+                        (change)="clearSede(); getLocations(paciente.company_id)">
                         <ng-option [value]="type.value" *ngFor="let type of companies">{{type.text}}</ng-option>
                     </ng-select>
                 </div>
@@ -145,7 +143,7 @@
                     <label for="Sede">Sede</label>
                     <ng-select name="location_id" required #location_id="ngModel"
                         [ngClass]="{'ng-invalid': ( location_id.invalid && location_id.touched )}"
-                        [(ngModel)]="paciente.location_id" (change)="getContracts($event)">
+                        [(ngModel)]="paciente.location_id" (change)="getContracts(paciente)">
                         <ng-option [value]="type.value" *ngFor="let type of locations">{{type.text}}</ng-option>
                     </ng-select>
                 </div>

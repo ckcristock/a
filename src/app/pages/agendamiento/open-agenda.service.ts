@@ -37,7 +37,7 @@ export class OpenAgendaService {
    * getIps
    */
   public getIps(value: string) {
-    return this.clientHttp.get(`${environment.base_url}/get-companys/${value}`)
+    return this.clientHttp.get(`${environment.base_url}/get-companys-based-on-city/${value}`)
   }
   /**
    * getSedes

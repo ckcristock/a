@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { NgForm } from '@angular/forms';
-import { NgbDate } from '@ng-bootstrap/ng-bootstrap';
+import { NgbDate, NgbDateParserFormatter } from '@ng-bootstrap/ng-bootstrap';
 import { DataDinamicService } from '../../../data-dinamic.service';
 import { ReportesService } from './reportes.service';
 
@@ -9,6 +9,7 @@ import { ReportesService } from './reportes.service';
   templateUrl: './reportes.component.html',
   styleUrls: ['./reportes.component.scss']
 })
+
 export class ReportesComponent implements OnInit {
   companies: Array<any>
   specialities: Array<any>
@@ -71,14 +72,28 @@ export class ReportesComponent implements OnInit {
   }
 
   download(form: NgForm) {
+
     this.loading = true;
 
-    this._reportes.download().subscribe((response: BlobPart) => {
+    this._reportes.download(form.value).subscribe((response: BlobPart) => {
 
       let blob = new Blob([response], { type: "application/xlsx" });
 
+      // var headers = response['headers'].get('content-disposition');
+      // var filename = headers.match(/filename="(.+)"/)[1];
+
+      var filename = 'Reporte' + new Date;
+
+      // console.log([
+
+      //   headers,
+      //   filename
+
+      // ]);
+
+
       let link = document.createElement("a");
-      const filename = 'InformeCompras'
+      // const filename = 'InformeCompras'
 
       link.href = window.URL.createObjectURL(blob);
 

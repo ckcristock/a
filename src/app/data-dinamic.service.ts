@@ -16,7 +16,7 @@ export class DataDinamicService {
   public getDepartments() {
     return this.httpClient.get(`${environment.base_url}/departments`)
   }
-  public getCompanies(typeLocation = 0) {
+  public getCompanies(typeLocation = 3) {
     return this.httpClient.get(`${environment.base_url}/get-companys/${typeLocation}`)
   }
   public getPeopleTypes() {
@@ -42,11 +42,14 @@ export class DataDinamicService {
   public getRegimens() {
     return this.httpClient.get(`${environment.base_url}/type-regimens`)
   }
+  // public getReasons() {
+  //   return this.httpClient.get(`${environment.base_url}/type-reasons`)
+  // }
   public getlevels() {
     return this.httpClient.get(`${environment.base_url}/levels`)
   }
   public getContracts(params = {}) {
-    return this.httpClient.get(`${environment.base_url}/contract`, {params})
+    return this.httpClient.get(`${environment.base_url}/contract`, { params })
   }
   public savePatient(form) {
     // console.log(form);

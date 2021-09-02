@@ -1,4 +1,4 @@
-import { Component, EventEmitter, OnInit } from '@angular/core';
+import { Component, EventEmitter, OnInit, ViewChild } from '@angular/core';
 import { NgForm } from '@angular/forms';
 import { OperatorFunction, Observable, of } from 'rxjs';
 import { catchError, debounceTime, distinctUntilChanged, switchMap, tap } from 'rxjs/operators';
@@ -12,11 +12,15 @@ import Swal from 'sweetalert2'
   templateUrl: './lista-trabajo.component.html',
   styleUrls: ['./lista-trabajo.component.scss']
 })
+
 export class ListaTrabajoComponent implements OnInit {
 
   citas: Array<any> = [];
   public type_appointments: [];
   loading = false;
+
+  @ViewChild('formD') formD: NgForm;
+
   constructor(private _search: SearchService,
     private _openAgendaService: OpenAgendaService,
     private _appointment: AppointmentService) { }
@@ -195,7 +199,7 @@ export class ListaTrabajoComponent implements OnInit {
 
     this.openModalDetalle.emit(modalDetalle)
   }
-  llamadaPaciente(cita){
+  llamadaPaciente(cita) {
     // TO-DO ACA DEBE IR LA FUNCION DE LLAMADA SALIENTE, 
     // DEBE ABRIR UN MODAL, PEDIR EJEMPLO DE BCHAIN
     // AUGUSTO
@@ -212,7 +216,7 @@ export class ListaTrabajoComponent implements OnInit {
       'warning'
     )
   }
-  confirmarCita(cita){
+  confirmarCita(cita) {
     const SwalMsje = Swal.mixin({
       customClass: {
         confirmButton: 'btn btn-success mx-2',
@@ -224,6 +228,12 @@ export class ListaTrabajoComponent implements OnInit {
       title: '¿está seguro?',
       text: "Se dispone a Confirmar una cita",
       icon: 'warning',
+      input: 'text',
+      inputAttributes: {
+        maxlength: "50",
+        autocapitalize: 'off',
+        autocorrect: 'off'
+      },
       showCancelButton: true,
       confirmButtonText: 'Si, ¡Cita Confirmada con el Paciente!',
       cancelButtonText: 'No, ¡déjeme comprobar!',
@@ -231,14 +241,28 @@ export class ListaTrabajoComponent implements OnInit {
     }).then((result) => {
       if (result.isConfirmed) {
 
-        // TO-DO ACA DEBE IR LA FUNCION DE CAMBIAR EL ESTADO A LA CITA, 
+        this._appointment.confirmAppointment(result.value, cita.id)
+          .subscribe((r: any) => {
+
+            if (!r.data) {
+              console.log('No se pudo completa la opracion');
+              return false;
+            }
+            SwalMsje.fire(
+              'Cita confirmada correctamente',
+              'La cita se ha confirmado de manera correcta!',
+              'success'
+            )
+
+            this.getCitas(this.formD.value)
+
+          })
+
+
+        // TODO ACA DEBE IR LA FUNCION DE CAMBIAR EL ESTADO A LA CITA, 
         // NO SE SI PEDIR OBSERVACIONES O NO
         // AUGUSTO
-        SwalMsje.fire(
-          'Cita Confirmada Correctamente',
-          'La cita fué marcada como confirmada!',
-          'success'
-        )
+
       }
     })
   }

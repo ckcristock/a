@@ -34,6 +34,8 @@ export class ListaEsperaComponent implements OnInit {
   specialties: any = []
   waitingList = []
   companies = []
+  reasons: Object = {};
+
   constructor(public _search: SearchService,
     private _openAgendaService: OpenAgendaService,
     private http: HttpClient,
@@ -44,6 +46,16 @@ export class ListaEsperaComponent implements OnInit {
     this.getWaitingList(1)
     this.getSpecialties();
     this.getCompanies();
+    this.getReasons();
+  }
+
+  public getReasons() {
+    this.reasons = {
+      1: 'Paciente Fallecido',
+      2: 'Cita Asignada por otra modalidad',
+      3: 'Lista de Espera Erronea',
+      4: 'Otra Causa'
+    }
   }
 
   getCompanies() {
@@ -73,7 +85,7 @@ export class ListaEsperaComponent implements OnInit {
       })
 
   }
-  AnularEspera(IdCita){
+  AnularEspera(IdCita) {
     const SwalMsje = Swal.mixin({
       customClass: {
         confirmButton: 'btn btn-success mx-2',
@@ -86,12 +98,7 @@ export class ListaEsperaComponent implements OnInit {
       text: "Se dispone a anular una Lista de Espera, escoja una razón para realizar esta acción",
       icon: 'warning',
       input: 'select',
-      inputOptions: {
-          1: 'Paciente Fallecido',
-          2: 'Cita Asignada por otra modalidad',
-          3: 'Lista de Espera Erronea',
-          4: 'Otra Causa'
-      },
+      inputOptions: this.reasons,
       inputPlaceholder: 'Seleccione una',
       showCancelButton: true,
       confirmButtonText: 'Si, ¡Anular!',
@@ -99,15 +106,20 @@ export class ListaEsperaComponent implements OnInit {
       reverseButtons: true
     }).then((result) => {
       if (result.isConfirmed) {
+        this._waiting.cancellApointment(result.value, IdCita)
+          .subscribe((r: any) => {
 
-        // TO-DO ACA DEBE IR LA FUNCION DE CAMBIAR EL ESTADO A LA CITA, 
-        // NO SE SI PEDIR OBSERVACIONES O NO
-        // AUGUSTO
-        SwalMsje.fire(
-          'Lista de Espera Anulada Correctamente',
-          'La lista de espera fué Anulada!',
-          'success'
-        )
+            if (!r.data) {
+              console.log('No se pudo completa la opracion');
+              return false;
+            }
+            SwalMsje.fire(
+              'Lista de Espera Anulada Correctamente',
+              'La lista de espera fué Anulada!',
+              'warning'
+            )
+            this.getWaitingList(1)
+          })
       }
     })
   }
