@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, EventEmitter, OnInit } from '@angular/core';
 import { AppointmentService } from 'src/app/core/services/appointment.service';
 
 @Component({
@@ -8,6 +8,7 @@ import { AppointmentService } from 'src/app/core/services/appointment.service';
 })
 export class RecaudosComponent implements OnInit {
 
+  openModalRecaudo = new EventEmitter<any>();
   loading = false;
   citas: Array<any> = [
     // {
@@ -96,6 +97,16 @@ export class RecaudosComponent implements OnInit {
       this.appointmentCollectionAll = data.appointmentCollectionAll
 
     })
+  }
+
+  recaudoCuota(item) {
+
+    let modalDetalle = {
+      Id_Cita_Recaudo: item.id,
+      cuota: item.copago,
+      Show: true
+    }
+    this.openModalRecaudo.emit(modalDetalle)
   }
 
 }

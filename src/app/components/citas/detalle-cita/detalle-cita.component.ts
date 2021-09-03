@@ -8,7 +8,7 @@ import { AppointmentService } from '../../../core/services/appointment.service';
 })
 export class DetalleCitaComponent implements OnInit {
   @Input('modalData') modalData: EventEmitter<any>;
-  @ViewChild('detalleCitaModal') detalleCitaModal: any;
+  @ViewChild('detalleCitaModal') detalleCitaModal: any; 
   appointment_id:string;
   findCita: any = {
     created_at: '',

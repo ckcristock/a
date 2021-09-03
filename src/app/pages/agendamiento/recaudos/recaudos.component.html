@@ -73,7 +73,9 @@
                                     <td>{{item.description}}</td>
                                     <td>{{item.state}}</td>
                                     <td>
-
+                                        <a href="javascript: void(0);" (click)="recaudoCuota(item)"  class="mr-2 accion btn btn-primary btn-sm" title="Recaudo de Cuota">
+                                            <i class="fas fa-hand-holding-usd"></i>
+                                        </a>
                                     </td>
                                 </tr>
                             </tbody>
@@ -94,6 +96,9 @@
         </div>
     </div>
 </div>
+
+
+<app-modal-payment [modalData]="openModalRecaudo"></app-modal-payment>
 
 
 <ng-template #notData>
