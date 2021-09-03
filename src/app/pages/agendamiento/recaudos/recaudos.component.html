@@ -5,16 +5,19 @@
                 <div class="row p-0">
                     <div class="col-md-5 my-2">
                         <label>Paciente</label>
-                        <input type="text" class="form-control form-control-sm"  [(ngModel)]="filters.patient" placeholder="Cedula Paciente " name="patient" />
+                        <input type="text" class="form-control form-control-sm" [(ngModel)]="filters.patient"
+                            placeholder="Cedula Paciente " name="patient" />
                     </div>
                     <div class="col-md-5 my-2">
                         <label>Fecha</label>
-                        <input type="date" class="form-control form-control-sm date"  [(ngModel)]="filters.date" [placeholder]="" name="date" >
+                        <input type="date" class="form-control form-control-sm date" [(ngModel)]="filters.date"
+                            [placeholder]="" name="date">
                     </div>
 
                     <div class="col-md-2 my-2">
                         <label>&nbsp;</label>
-                        <button class="btn btn-primary btn-sm btn-block" ><i class="fa fa-search"></i></button>
+                        <button class="btn btn-primary btn-sm btn-block" (click)="searchPatient()"><i
+                                class="fa fa-search"></i></button>
                     </div>
 
                 </div>
@@ -22,15 +25,15 @@
         </div>
     </div>
     <div class="col-2">
-        <app-stats [title]="'Pacientes Confirmados'" [value]="200" [icon]="'fas fa-user-friends'">
+        <app-stats [title]="'Pacientes Confirmados'" [value]="appointmentConfirm" [icon]="'fas fa-user-friends'">
         </app-stats>
     </div>
     <div class="col-2">
-        <app-stats [title]="'Pacientes Recaudados'" [value]="150" [icon]="'fas fa-user-check'">
+        <app-stats [title]="'Pacientes Recaudados'" [value]="appointmentCollection" [icon]="'fas fa-user-check'">
         </app-stats>
     </div>
     <div class="col-2">
-        <app-stats [title]="'Valor Recaudado'" [value]="100000" [icon]="'fas fa-money-bill-wave'">
+        <app-stats [title]="'Valor Recaudado'" [value]="appointmentCollectionAll" [icon]="'fas fa-money-bill-wave'">
         </app-stats>
     </div>
 </div>
@@ -55,9 +58,12 @@
                                 </tr>
                             </thead>
                             <tbody>
-                                <tr *ngFor="let item of citas" [ngClass]="{'bg-success text-white': ( item.state == 'Recaudado') }" class="text-center">
+                                <tr *ngFor="let item of citas"
+                                    [ngClass]="{'bg-success text-white': ( item.state == 'Recaudado') }"
+                                    class="text-center">
                                     <td>
-                                        <i [ngClass]="{'fa-user' : item.face_to_face,  'fa-video' : !item.face_to_face }" class="fa"></i>
+                                        <i [ngClass]="{'fa-user' : item.face_to_face,  'fa-video' : !item.face_to_face }"
+                                            class="fa"></i>
                                     </td>
                                     <td>{{item.date | date:'dd/MM/yyyy hh:mm a' }}</td>
                                     <td>{{item.professional}}</td>
@@ -74,11 +80,13 @@
                         </table>
                     </div>
                     <div class="col-sm-12">
+
                         <div class="text-md-right float-md-right pagination-rounded">
-                            <ngb-pagination maxSize="5" [collectionSize]="pagination.collectionSize"
-                                (pageChange)="setPage($event);getCitas(formD)" [pageSize]="pagination.pageSize"
-                                [(page)]="pagination.page" aria-label="Default pagination ">
+                            <ngb-pagination maxSize="7" [collectionSize]="pagination.collectionSize"
+                                (pageChange)="searchPatient($event)" [pageSize]="pagination.pageSize"
+                                [(page)]="pagination.page" [rotate]="true" aria-label="Default pagination ">
                             </ngb-pagination>
+
                         </div>
                     </div>
                 </div>

@@ -37,7 +37,7 @@ export class OpenAgendaService {
    * getIps
    */
   public getIps(value: string) {
-    return this.clientHttp.get(`${environment.base_url}/get-companys/${value}`)
+    return this.clientHttp.get(`${environment.base_url}/get-companys-based-on-city/${value}`)
   }
   /**
    * getSedes
@@ -115,9 +115,6 @@ export class OpenAgendaService {
   }
 
   searchProcedure(term: string, speciality: string = '') {
-
-    console.log(term, speciality);
-
     if (term === '') {
       return of([]);
     }
@@ -129,9 +126,16 @@ export class OpenAgendaService {
   }
 
   searchCustomProcedure(term: string, speciality: string = '') {
-    console.log([term, speciality]);
     return this.clientHttp
       .get<[any, string[]]>(PROCEDURE_URL, { params: { 'search': term, 'speciality': speciality } }).pipe(
+        map((response: any) => response.data)
+      );
+  }
+
+  searchCustomProcedureByAppointment(term: string, space: string = '') {
+    console.log([term, space]);
+    return this.clientHttp
+      .get<[any, string[]]>(PROCEDURE_URL, { params: { 'search': term, 'space': space } }).pipe(
         map((response: any) => response.data)
       );
   }

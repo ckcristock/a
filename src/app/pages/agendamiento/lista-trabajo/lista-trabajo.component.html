@@ -114,15 +114,17 @@
                                     <th style="width: 200px;">Paciente</th>
                                     <th style="width: 160px;">Telefono Paciente</th>
                                     <th style="width: 160px;">Especialidad</th>
-                                    <th >Descripción</th>
+                                    <th>Descripción</th>
                                     <th style="width: 75px;">Estado</th>
                                     <th style="width: 50px;"></th>
                                 </tr>
                             </thead>
                             <tbody>
-                                <tr class="text-center" *ngFor="let cita of citas">
+                                <tr class="text-center" *ngFor="let cita of citas"
+                                    [ngClass]="{'alert alert-success' : cita.state == 'Confirmado' }">
                                     <td>
-                                        <a href="javascript: void(0);" (click)="llamadaPaciente(cita)"><i class="fas fa-phone-alt fa-2x"></i></a>
+                                        <a href="javascript: void(0);" (click)="llamadaPaciente(cita)"><i
+                                                class="fas fa-phone-alt fa-2x"></i></a>
                                     </td>
                                     <td>{{cita.hour_start | date:'dd/MM/yyyy hh:mm a' }}</td>
                                     <td>{{cita.profesional_name}}</td>
@@ -141,23 +143,25 @@
                                                 aria-labelledby="btnGroupVerticalDrop1 " ngbDropdownMenu>
                                                 <a class="dropdown-item" (click)="detalleCita(cita)">
                                                     <i class="fas fa-search mr-2 "></i> Ver Detalles</a>
-                                                <a class="dropdown-item" (click)="confirmarCita(cita)">
+
+                                                <a class="dropdown-item" (click)="confirmarCita(cita)" *ngIf="cita.state != 'Confirmado'">
                                                     <i class="fas fa-calendar-check mr-2 "></i> Confirmar Cita</a>
+
                                             </div>
                                         </div>
                                     </td>
                                 </tr>
                         </table>
                     </div>
-                        <div class="col-sm-12">
-                            <div class="text-md-right float-md-right pagination-rounded">
-                                <ngb-pagination maxSize="5" [collectionSize]="pagination.collectionSize"
-                                    (pageChange)="setPage($event);getCitas(formD)" [pageSize]="pagination.pageSize"
-                                    [(page)]="pagination.page" aria-label="Default pagination ">
-                                </ngb-pagination>
-                            </div>
+                    <div class="col-sm-12">
+                        <div class="text-md-right float-md-right pagination-rounded">
+                            <ngb-pagination maxSize="5" [collectionSize]="pagination.collectionSize"
+                                (pageChange)="setPage($event);getCitas(formD)" [pageSize]="pagination.pageSize"
+                                [(page)]="pagination.page" aria-label="Default pagination ">
+                            </ngb-pagination>
                         </div>
-                    
+                    </div>
+
                 </div>
 
             </div>

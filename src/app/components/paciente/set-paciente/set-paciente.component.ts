@@ -43,8 +43,6 @@ export class SetPacienteComponent implements OnInit {
     private dataCitaToAssignService: dataCitaToAssignService,
     private _openAgenda: OpenAgendaService) {
     this.getEps();
-
-
   }
 
   ngOnInit() {
@@ -52,20 +50,16 @@ export class SetPacienteComponent implements OnInit {
     this.$qp = this._queryPatient.patient.subscribe(async r => {
 
       if (r.paciente.identifier) {
-        /*    this.getEps(); */
-        this.getCompanies();
+        this.paciente = r.paciente
+        this.llamada = r.llamada
+        this.dataCitaToAssignService.dateCall = r
+        await this.getDepartments();
         this.getTypeDocuments();
         this.getRegimens();
         this.getlevels();
-        this.getLocations(r.paciente.company_id)
-        /*  this.paciente.level_id.value=this.paciente.level_id */
-        await this.getDepartments();
-
-        this.paciente = r.paciente
-        this.llamada = r.llamada
         this.getCities();
-        this.dataCitaToAssignService.dateCall = r
-        r.paciente.location_id ? this.getContracts(r.paciente.location_id) : ''
+        await this.getCompanies(r.paciente.municipality_id)
+        r.paciente ? this.getContracts(r.paciente) : ''
       }
     })
   }
@@ -83,18 +77,31 @@ export class SetPacienteComponent implements OnInit {
       this._dataDinamicService.getCities(parm).subscribe((req: any) => {
         this.cities = req.data
         this.cities.unshift({ text: 'Seleccione', value: '' })
-
-
       })
     }
-
   }
 
-  getCompanies() {
-    this._openAgenda.getIps('1').subscribe((req: any) => {
+  async getCompanies(event) {
+    await this._openAgenda.getIps(event).toPromise().then((req: any) => {
       this.companies = req.data
       this.companies.unshift({ text: 'Seleccione', value: '' })
+      this.getLocations(this.paciente.company_id)
     })
+  }
+
+  clearSede() {
+    this.locations = new Array
+    this.paciente.location_id = ''
+    this.locations.unshift({ text: 'Seleccione', value: '' })
+  }
+
+  getLocations(company_id) {
+
+    if (!company_id || !this.companies) { return false; }
+    const locations = this.companies.find(x => x.id === company_id)
+    if (locations) { this.locations = locations.locations }
+    if (this.paciente.location_id == '') { (this.paciente.location_id = this.locations[0].value) }
+
   }
 
   validateInfoPatient(formPatient: NgForm) {
@@ -138,16 +145,6 @@ export class SetPacienteComponent implements OnInit {
     }
   }
 
-  getLocations(company_id) {
-    if (company_id) {
-      this._dataDinamicService.getLocations(company_id).subscribe((req: any) => {
-        this.locations = req.data
-        this.locations.unshift({ text: 'Seleccione', value: '' })
-
-      })
-    }
-  }
-
   getPatientAgain(document) {
     this._dataDinamicService.getPatientAgain(document).subscribe((req: any) => {
       let paciente = req.data;
@@ -169,7 +166,6 @@ export class SetPacienteComponent implements OnInit {
     this._dataDinamicService.getTypeDocuments().subscribe((req: any) => {
       this.typeDocuments = req.data
       this.typeDocuments.unshift({ text: 'Seleccione', value: '' })
-
     })
   }
 
@@ -177,7 +173,6 @@ export class SetPacienteComponent implements OnInit {
     this._dataDinamicService.getEps().subscribe((req: any) => {
       this.eps = req.data
       this.eps.unshift({ text: 'Seleccione', value: '' })
-
     })
   }
 
@@ -194,10 +189,18 @@ export class SetPacienteComponent implements OnInit {
       this.levels.unshift({ text: 'Seleccione', value: '' })
     })
   }
-  getContracts(location_id) {
-    this._dataDinamicService.getContracts({ location_id }).subscribe((req: any) => {
+
+  getContracts(paciente) {
+
+    const params = {
+      'department_id': paciente.department_id,
+      'company_id': paciente.company_id,
+      'eps_id': paciente.eps_id,
+      'regimen_id': paciente.regimen_id,
+    }
+
+    this._dataDinamicService.getContracts(params).subscribe((req: any) => {
       this.contracts = req.data
-      this.companies.unshift({ text: 'Seleccione', value: '' })
     })
   }
 

@@ -7,12 +7,16 @@ import { environment } from 'src/environments/environment';
 })
 export class WaitingListService {
 
-  constructor(private http:HttpClient) { }
-  getWaitingList(params){
+  constructor(private http: HttpClient) { }
+  getWaitingList(params) {
     return this.http.get(`${environment.base_url}/waiting-appointment`, { params })
   }
 
-  getStatistcs(){
+  cancellApointment(message, IdCita) {
+    return this.http.post(`${environment.base_url}/cancell-waiting-appointment`, { 'id': IdCita, 'message': message })
+  }
+
+  getStatistcs() {
     return this.http.get(`${environment.base_url}/waiting-list-statistics`)
   }
 }
