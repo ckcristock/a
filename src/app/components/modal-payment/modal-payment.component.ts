@@ -29,7 +29,6 @@ export class ModalPaymentComponent implements OnInit {
 
   ngOnInit(): void {
     this.modalData.subscribe(d => {
-      alert(d.cuota);
       this.recaudo.id=d.Id_Cita_Recaudo;
       this.recaudo.cuota=d.cuota;
       this.cuota=d.cuota;
