@@ -1,10 +1,12 @@
 import { Component, EventEmitter, OnInit } from '@angular/core';
+import { ModalPaymentComponent } from 'src/app/components/modal-payment/modal-payment.component';
 import { AppointmentService } from 'src/app/core/services/appointment.service';
 
 @Component({
   selector: 'app-recaudos',
   templateUrl: './recaudos.component.html',
-  styleUrls: ['./recaudos.component.scss']
+  styleUrls: ['./recaudos.component.scss'],
+  providers: [ModalPaymentComponent]
 })
 export class RecaudosComponent implements OnInit {
 
@@ -70,9 +72,18 @@ export class RecaudosComponent implements OnInit {
   public appointmentCollection = 0
   public appointmentCollectionAll = 0
 
-  constructor(private _appointment: AppointmentService) { }
+  constructor(private _appointment: AppointmentService, private _modalPayment: ModalPaymentComponent) { }
 
   ngOnInit(): void {
+    this.searchPatient()
+    this.statistics()
+    this.activeObservable()
+  }
+
+  /**
+   * activeObservable
+   */
+  public activeObservable() {
     this.searchPatient()
     this.statistics()
   }
@@ -100,12 +111,11 @@ export class RecaudosComponent implements OnInit {
   }
 
   recaudoCuota(item) {
-
     let modalDetalle = {
-      Id_Cita_Recaudo: item.id,
-      cuota: item.copago,
+      citaDetail: item,
       Show: true
     }
+
     this.openModalRecaudo.emit(modalDetalle)
   }
 

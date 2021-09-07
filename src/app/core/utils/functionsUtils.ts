@@ -1,4 +1,13 @@
 import { ReplaySubject, Observable } from 'rxjs';
+import Swal from 'sweetalert2'
+
+const SwalMsje = Swal.mixin({
+  customClass: {
+    confirmButton: 'btn btn-success mx-2',
+    cancelButton: 'btn btn-danger'
+  },
+  buttonsStyling: false
+})
 
 export const functionsUtils = {
   'normalize': (function () {
@@ -22,14 +31,41 @@ export const functionsUtils = {
     }
 
   })(),
-  'fileToBase64':function (file: File): Observable<string>  {
-      const result = new ReplaySubject<string>(1);
-      const reader = new FileReader();
-      reader.readAsBinaryString(file);
-      reader.onload = (event) => result.next(btoa(event.target.result.toString()));
-      return result;
+  'fileToBase64': function (file: File): Observable<string> {
+    const result = new ReplaySubject<string>(1);
+    const reader = new FileReader();
+    reader.readAsBinaryString(file);
+    reader.onload = (event) => result.next(btoa(event.target.result.toString()));
+    return result;
+  },
+
+  'validateCodeCreate': function (resp) {
+    if (resp.code != 201) {
+      throw new Error(resp.err);
+    }
+  },
+
+  'SwalMsje': function (title, des, type) {
+    SwalMsje.fire(title, des, type)
+  },
+
+
+
+  'validateField': function (object, properties) {
+    for (const property in properties) {
+
+      console.log([
+        typeof object == 'undefined', !object.hasOwnProperty(property), object.property == ''
+      ]);
+
+      if (typeof object == 'undefined' || !object.hasOwnProperty(property) || object.property == '') {
+        return false
+      }
+    }
+    return true
   }
 };
+
 
 
 

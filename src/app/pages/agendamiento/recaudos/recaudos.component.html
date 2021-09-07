@@ -59,8 +59,7 @@
                             </thead>
                             <tbody>
                                 <tr *ngFor="let item of citas"
-                                    [ngClass]="{'bg-success text-white': ( item.state == 'Recaudado') }"
-                                    class="text-center">
+                                    [ngClass]="{' alert alert-info text-black': !item.payed }" class="text-center">
                                     <td>
                                         <i [ngClass]="{'fa-user' : item.face_to_face,  'fa-video' : !item.face_to_face }"
                                             class="fa"></i>
@@ -72,11 +71,17 @@
                                     <td>{{item.copago | number}}</td>
                                     <td>{{item.description}}</td>
                                     <td>{{item.state}}</td>
-                                    <td>
-                                        <a href="javascript: void(0);" (click)="recaudoCuota(item)"  class="mr-2 accion btn btn-primary btn-sm" title="Recaudo de Cuota">
+                                    <td *ngIf="item.payed">
+                                        <a href="javascript: void(0);" (click)="recaudoCuota(item)"
+                                            class="mr-2 accion btn btn-primary btn-sm" title="Recaudo de Cuota">
                                             <i class="fas fa-hand-holding-usd"></i>
                                         </a>
                                     </td>
+
+                                    <td *ngIf="!item.payed">
+                                        <i class="fa fa-thumbs-up"></i>
+                                    </td>
+
                                 </tr>
                             </tbody>
                         </table>
@@ -98,7 +103,7 @@
 </div>
 
 
-<app-modal-payment [modalData]="openModalRecaudo"></app-modal-payment>
+<app-modal-payment [modalData]="openModalRecaudo" (reloadData)="activeObservable()"></app-modal-payment>
 
 
 <ng-template #notData>

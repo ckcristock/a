@@ -5,44 +5,78 @@
                 Nuevo Recaudo de Cuota
             </h4>
             <button type="button" class="close basic-close" (click)="ModalPayment.hide()">
-                <span aria-hidden="true" >&times;</span>
+                <span aria-hidden="true">&times;</span>
             </button>
         </div>
     </div>
     <div class="app-modal-body">
         <div class="row">
             <div class="col-12">
+
                 <div class="row mt-3 px-3">
+
                     <div class="col-5">
                         <div class="form-group row">
                             <label class="col-sm-4 col-form-label">Valor Cuota:</label>
                             <div class="col-sm-8">
-                                <select class="form-control" id="cuota" name="cuota" [(ngModel)]="recaudo.cuota">
-                                    <option *ngIf="cuota>0" value="{{cuota}}" >{{cuota}}</option>
+                                <select class="form-control" id="cuota" name="cuota" [(ngModel)]="recaudo.cuota" ch>
+                                    <option *ngIf="cuota>0" value="{{cuota}}">{{cuota}}</option>
                                     <option value="0">0</option>
                                 </select>
                             </div>
                         </div>
                     </div>
 
-                    <div class="col-7" *ngIf="recaudo.cuota==0&&cuota>0">
+                    <div class="col-7" *ngIf="recaudo.cuota != 0">
+                        <div class="form-group row">
+                            <label class="col-sm-4 col-form-label">Metodo de pago:</label>
+                            <div class="col-sm-8">
+
+                                <select class="form-control" id="method_pay" name="method_pay"
+                                    [(ngModel)]="recaudo.method_pay">
+                                    <option value="">Seleccione</option>
+                                    <option *ngFor="let item of method_pays" value="{{item.value}}">{{item.name}}
+                                    </option>
+                                </select>
+
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="col-5" *ngIf="recaudo.cuota != 0 && isEfectivo() ">
+                        <div class="form-group row">
+                            <label class="col-sm-4 col-form-label">Banco:</label>
+                            <div class="col-sm-8">
+
+                                <select class="form-control" id="bank" name="bank" [(ngModel)]="recaudo.bank">
+                                    <option value="">Seleccione</option>
+                                    <option *ngFor="let item of banks" value="{{item.value}}">{{item.name}}
+                                    </option>
+                                </select>
+
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="col-7" *ngIf="recaudo.cuota==0">
                         <div class="form-group row ">
                             <label class="col-sm-4 col-form-label">Causal No Pago:</label>
                             <div class="col-sm-8 ">
-                                <select class="form-control" id="causal" name="causal"  [ngModel]="recaudo.causal">
+                                <select class="form-control" id="causal" name="causal" [(ngModel)]="recaudo.causal">
                                     <option value="">Seleccione</option>
-                                    <option *ngFor="let item of causales" value="item.value">{{item.name}}</option>
+                                    <option *ngFor="let item of causales" value="{{item.name}}">{{item.name}}</option>
                                 </select>
                             </div>
                         </div>
                     </div>
-                    </div>
-                    <div class="row mt-3 px-3">
+                </div>
+                <div class="row mt-3 px-3">
                     <div class="col-12 ">
                         <div class="form-group row ">
                             <label class="col-sm-12 col-form-label ">Observaciones:</label>
                             <div class="col-sm-12 ">
-                                <textarea cols="12" rows="3" class="form-control " id="observaciones " [ngModel]="recaudo.observaciones"></textarea>
+                                <textarea cols="12" rows="3" class="form-control " id="observaciones "
+                                    [(ngModel)]="recaudo.observaciones"></textarea>
                             </div>
                         </div>
                     </div>
