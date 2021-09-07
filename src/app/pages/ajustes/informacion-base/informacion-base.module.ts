@@ -4,7 +4,7 @@ import { CommonModule } from '@angular/common';
 import { InformacionBaseRoutingModule } from "./informacion-base-routing.module";
 import { SedesComponent } from './sedes/sedes.component';
 import { FuncionariosComponent } from './funcionarios/funcionarios.component';
-import { PersonsComponent } from './persons/persons.component';
+import { ProfesionalesComponent } from './profesionales/profesionales.component';
 import { PacientesComponent } from './pacientes/pacientes.component';
 import { EspecialidadesComponent } from './especialidades/especialidades.component';
 import { CupsComponent } from './cups/cups.component';
@@ -24,11 +24,11 @@ import { MenuChildComponent } from './funcionarios/detalle-funcionario/permissio
 @NgModule({
     declarations: [
         EmpresasComponent, SedesComponent, FuncionariosComponent,
-        PersonsComponent, PacientesComponent, EspecialidadesComponent,
+        ProfesionalesComponent, PacientesComponent, EspecialidadesComponent,
         CupsComponent, RegimenesNivelesComponent, AseguradorasComponent, 
         DetalleFuncionarioComponent,
         PermissionsComponent,
-        MenuChildComponent],
+        MenuChildComponent], 
 
     imports: [CommonModule, InformacionBaseRoutingModule,
         NgbPaginationModule,  ChartsModule,

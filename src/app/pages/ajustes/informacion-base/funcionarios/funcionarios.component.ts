@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 
 import { personsList } from './data';
-import { PersonService } from '../persons/person.service';
+import { PersonService } from '../profesionales/profesionales.service';
 import { Person } from 'src/app/core/models/person.model';
 
 

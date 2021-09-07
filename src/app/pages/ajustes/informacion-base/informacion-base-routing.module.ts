@@ -3,7 +3,7 @@ import { Routes, RouterModule } from '@angular/router';
 import { EmpresasComponent } from './empresas/empresas.component';
 import { SedesComponent } from './sedes/sedes.component';
 import { FuncionariosComponent } from './funcionarios/funcionarios.component';
-import { PersonsComponent } from './persons/persons.component';
+import { ProfesionalesComponent } from './profesionales/profesionales.component';
 import { PacientesComponent } from './pacientes/pacientes.component';
 import { EspecialidadesComponent } from './especialidades/especialidades.component';
 import { AseguradorasComponent } from './aseguradoras/aseguradoras.component';
@@ -17,12 +17,12 @@ const routes : Routes = [
     {path:'sedes',component:SedesComponent},
     {path:'funcionarios',component:FuncionariosComponent},
     {path:'funcionario/:id',component:DetalleFuncionarioComponent},
-    {path:'persons',component:PersonsComponent},
     {path:'pacientes',component:PacientesComponent},
     {path:'especialidades',component:EspecialidadesComponent},
     {path:'cups',component:CupsComponent},
     {path:'regimenes-niveles',component:RegimenesNivelesComponent},
     {path:'aseguradoras',component:AseguradorasComponent},
+    {path:'profesionales',component:ProfesionalesComponent},
 ]
 
 @NgModule({
