@@ -1,0 +1,118 @@
+<div class="card">
+    <div class="card-body">
+        <div class="card-title">
+            <button class="btn btn-primary btn-sm" style="float: right;" (click)="openModal()">Agregar nueva
+                Speciality</button>
+            <h5>Speciality</h5>
+            <p>Speciality resgistradas en la base de datos</p>
+        </div>
+        <div class="row">
+            <div class="col d-flex">
+                <input type="text" placeholder="Buscar por Speciality"
+                    class="form-control form-control-sm col-sm-2 mr-4" (change)="getAllSpecialitys()"
+                    [(ngModel)]="filtros.name" name="name" autocomplete="off">
+                <input type="text" placeholder="Buscar código Speciality" class="form-control form-control-sm col-sm-2"
+                    (change)="getAllSpecialitys()" [(ngModel)]="filtros.code" name="code" autocomplete="off">
+            </div>
+        </div>
+        <table class="table table-bordered table-striped mt-4" *ngIf="!loading && specialitys.length > 0; else notData">
+            <thead class="bg-light">
+                <tr>
+                    <th scope="col">Nombre</th>
+                    <th scope="col">Código Speciality</th>
+                    <!-- <th scope="col">Nit Speciality</th> -->
+                    <th scope="col" style="width: 50px;">Acciones</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr *ngFor="let speciality of specialitys" [ngClass]="{'bg-danger text-white': (speciality.status === 'Inactivo' )}">
+                    <td scope="row"> {{ speciality.name }} </td>
+                    <td> {{ speciality.code }} </td>
+                    <!-- <td> {{ speciality.nit }} </td> -->
+                    <td>
+                        <div class="text-center">
+                            <div ngbDropdown class="dropdown-primary ">
+                                <button ngbDropdownToggle class="btn btn-primary btn-sm waves-effect waves-light "
+                                    type="button">
+                                    <i class="mdi mdi-chevron-down"></i>
+                                </button>
+                                <div ngbDropdownMenu>
+                                    <a class="dropdown-item waves-light waves-effect caja-botones" target="_blank"
+                                        (click)="getSpeciality(speciality); modal.show()">
+                                        <i class="fa fa-file-pdf-o"></i>Editar</a>
+                                    <a *ngIf="speciality.status === 'Activo'"
+                                        class="dropdown-item waves-light waves-effect caja-botones"
+                                        (click)="anularOActivar(speciality, 'Inactivo')">
+                                        <i class="fa fa-pencil"></i>Inactivar</a>
+                                    <a *ngIf="speciality.status === 'Inactivo'"
+                                        class="dropdown-item waves-light waves-effect caja-botones"
+                                        (click)="anularOActivar(speciality, 'Activo')">
+                                        <i class="fa fa-pencil"></i>Activar</a>
+                                </div>
+                            </div>
+                        </div>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+        <ngb-pagination class="d-flex justify-content-center pagination-rounded pagination-sm"
+            [collectionSize]="pagination.collectionSize" (pageChange)="getAllSpecialitys($event)"
+            [pageSize]="pagination.pageSize" [(page)]="pagination.page" aria-label="Default pagination" maxSize="5"
+            rotate="true" ellipses="false" boundaryLinks="true">
+        </ngb-pagination>
+    </div>
+</div>
+<app-modal-basic #modal [dialogClass]="'modal-md'">
+    <div class="app-modal-header">
+        <h5 class="modal-title"> Nueva Speciality </h5>
+        <button type="button" class="close basic-close" (click)="modal.hide()">
+            <span aria-hidden="true">
+                <i class="fas fa-times" (click)="modal.hide()"></i>
+            </span>
+        </button>
+    </div>
+    <div class="app-modal-body">
+        <form [formGroup]="form">
+            <div class="form-row">
+                <div class="form-group col-md-12">
+                    <label class="custom-label" for="funcionario_id">Nombre de Speciality</label>
+                    <input type="text" class="form-control form-control-sm" [(ngModel)]="speciality.name"
+                        [class.is-invalid]="name_speciality_valid" formControlName="name" required>
+                    <div class="col-md-7 offset-4">
+                        <small class="invalid text-danger" *ngIf="name_speciality_valid"> Es necesario el nombre de la
+                            Speciality
+                        </small>
+                    </div>
+                </div>
+                <div class="form-group col-md-12">
+                    <label class="custom-label" for="funcionario_id">Código de la Speciality</label>
+                    <input type="number" class="form-control form-control-sm" [(ngModel)]="speciality.code"
+                        [class.is-invalid]="code_speciality_valid" formControlName="code" required>
+                    <div class="col-md-7 offset-4">
+                        <small class="invalid text-danger" *ngIf="code_speciality_valid"> Es necesario el código de la
+                            Speciality
+                        </small>
+                    </div>
+                </div>
+                <!-- <div class="form-group col-md-12">
+                    <label class="custom-label" for="funcionario_id">Nit de la Speciality</label>
+                    <input type="number" class="form-control form-control-sm" [(ngModel)]="speciality.nit" [class.is-invalid]="nit_speciality_valid" formControlName="nit" required>
+                    <div class="col-md-7 offset-4">
+                        <small class="invalid text-danger" *ngIf="nit_speciality_valid"> Es necesario el Nit de la Speciality 
+                        </small>
+                    </div>
+                </div> -->
+            </div>
+        </form>
+    </div>
+    <div class="app-modal-footer">
+        <div class="form-group text-right">
+            <button (click)="modal.hide()" type="button" class="btn btn-danger raised mr-2 btn-sm">Cerrar</button>
+            <button type="submit" class="btn btn-primary btn-sm raised" (click)="createNewSpecialitys()"
+                [disabled]="!form.valid">Guardar Speciality</button>
+        </div>
+    </div>
+</app-modal-basic>
+<ng-template #notData>
+    <app-not-data [loading]="loading"></app-not-data>
+</ng-template>

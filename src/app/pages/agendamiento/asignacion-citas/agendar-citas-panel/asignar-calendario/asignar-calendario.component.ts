@@ -75,11 +75,11 @@ export class AsignarCalendarioComponent implements OnInit {
       this.speciality = r
       // this._fetchData();
     });
-    this._queryAvailabilitySpacesService.getPerson.subscribe((r:any) => {
+    this._queryAvailabilitySpacesService.getPerson.subscribe((r: any) => {
       this.person = r?.person
       if (r?.params) {
         this._fetchData(r?.params);
-      }else{
+      } else {
         this.calendarEvents = [];
       }
     });
@@ -87,6 +87,8 @@ export class AsignarCalendarioComponent implements OnInit {
 
   save(event: any) {
     const space = this.calendarEvents[this.calendarEvents.findIndex(x => x.id + '' === event.event.id + '')]
+    let address = (space.address != 'null') ? ' En la dirección ' + space.address : ''
+    let message = "Se dispone a asignar una cita para " + space.start + address
     const swalWithBootstrapButtons = Swal.mixin({
       customClass: {
         confirmButton: 'btn btn-success mx-2',
@@ -96,7 +98,7 @@ export class AsignarCalendarioComponent implements OnInit {
     })
     swalWithBootstrapButtons.fire({
       title: '¿está seguro?',
-      text: "Se dispone a asignar una cita para " + space.start,
+      text: message,
       icon: 'warning',
       showCancelButton: true,
       confirmButtonText: 'Si, ¡Hazlo !',

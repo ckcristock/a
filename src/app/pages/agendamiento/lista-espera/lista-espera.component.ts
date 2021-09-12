@@ -80,8 +80,8 @@ export class ListaEsperaComponent implements OnInit {
     this._waiting.getWaitingList(params)
       .subscribe((r: any) => {
         this.loading = false;
-        this.pagination.collectionSize = r.total;
-        this.waitingList = r.data
+        this.pagination.collectionSize = r.data.total;
+        this.waitingList = r.data.data
       })
 
   }

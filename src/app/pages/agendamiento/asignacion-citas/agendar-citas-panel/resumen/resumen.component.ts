@@ -32,6 +32,7 @@ export class ResumenComponent implements OnInit {
   public patient
   public space: any = {}
   public waitingList
+  public appointmentsGenerated = [];
 
 
   public cita = {
@@ -67,20 +68,36 @@ export class ResumenComponent implements OnInit {
       this.paciente = r.paciente
       this.call = r
     })
-    this.dataCitaToAssignService.dataFinal.subscribe(r => {
 
-      if (r.appointment) {
+    this.dataCitaToAssignService.dataFinal.subscribe((r: any) => {
 
-        this.anotheData = r.anotheData
-        this.info = r.info
-        this.appointment = r.appointment
-        this.patient = r.patient
-        this.space = r.space
-        this.waitingList = r.waitingList
 
+      // console.log(r);
+      // console.log(r.appointmentCreated);
+      // console.log(r.appointmentCreated[0]);
+      // console.log(r.appointmentCreated[0].appointment);
+
+
+      if (r.appointmentCreated[0].appointment) {
+        this.appointmentsGenerated = r.appointmentCreated
+        this.anotheData = r.appointmentCreated[0].anotheData
+        this.info = r.appointmentCreated[0].info
+        this.appointment = r.appointmentCreated[0].appointment
+        this.patient = r.appointmentCreated[0].patient
+        this.space = r.appointmentCreated[0].space
+        this.waitingList = r.appointmentCreated[0].waitingList
+        this.show = true;
       }
 
-      this.show = true;
+      // if (r.appointment) {
+      //   this.anotheData = r.anotheData
+      //   this.info = r.info
+      //   this.appointment = r.appointment
+      //   this.patient = r.patient
+      //   this.space = r.space
+      //   this.waitingList = r.waitingList
+      //   this.show = true;
+      // }
 
     })
 

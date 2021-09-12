@@ -124,6 +124,13 @@
                                 </ng-select>
                             </div>
 
+                            <div class="col-md-3 my-2" *ngIf="procedureId && procedureId.length > 0 ">
+                                <label>Cupos por espacio </label>
+                                <ng-select [items]="optionesShare" required bindLabel="text" bindValue="value" ngModel
+                                    placeholder="Seleccione " [(ngModel)]="share" name="share" loadingText="loading"
+                                    ngDefaultControl>
+                                </ng-select>
+                            </div>
 
                             <div class="col-md-3 my-2" *ngIf="profesional">
                                 <div class="form-check">
@@ -134,7 +141,6 @@
                                     </label>
                                 </div>
                             </div>
-
 
                             <div class="col-md-12 my-2" *ngIf="profesional ">
                                 <button type="button" [disabled]="agenda.invalid" required

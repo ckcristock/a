@@ -6,7 +6,8 @@
             </div>
             <div class="card-body">
                 <div class="col-12 mb-2">
-                    <button *ngIf="operation == 'Consulta Información Citas' " (click)="finish()" class="btn btn-sm btn-block btn-info">Finalizar Consulta </button>
+                    <button *ngIf="operation == 'Consulta Información Citas' " (click)="finish()"
+                        class="btn btn-sm btn-block btn-info">Finalizar Consulta </button>
                 </div>
                 <div class="col-12">
                     <table class="table" *ngIf="!loading && citas.length > 0; else notData">
@@ -29,18 +30,30 @@
                                 <td>{{cita.state}}</td>
                                 <td class="text-right">
                                     <span class="mr-2 accion">
-                                        <i title="Detalle de cita"   (click)="detalleCita(cita)" class="fas fa-notes-medical"></i>
+                                        <i title="Detalle de cita" (click)="detalleCita(cita)"
+                                            class="fas fa-notes-medical"></i>
                                     </span>
                                     <!--   <span class="mr-2 accion">
                                         <i title="Paciente llegó"   (click)="confirmarCita()" class="fas fa-user-check text-primary"></i>
                                     </span> -->
-                                    <span *ngIf="canOverride == 'true' && cita.state == 'Agendado' " class="accion" (click)="openCancelCita(cita)">
+                                    <span *ngIf="canOverride == 'true' && cita.state == 'Agendado' " class="accion"
+                                        (click)="openCancelCita(cita)">
                                         <i title="Cancelar" class="fas fa-ban text-danger"></i>
                                     </span>
                                 </td>
                             </tr>
                     </table>
                 </div>
+
+                <div class="col-sm-12">
+                    <div class="text-md-right float-md-right pagination-rounded">
+                        <ngb-pagination maxSize="5" [collectionSize]="pagination.collectionSize"
+                            (pageChange)="getCitas($event)" [pageSize]="pagination.pageSize" [(page)]="pagination.page"
+                            aria-label="Default pagination ">
+                        </ngb-pagination>
+                    </div>
+                </div>
+
             </div>
         </div>
     </div>
@@ -54,7 +67,7 @@
             <h4 class=" text text-center justify-content-center modal-title   px-3">Cancelar Cita
             </h4>
             <button type="button" class="close basic-close" (click)="cancelarCitaModal.hide()">
-                <span aria-hidden="true" >&times;</span>
+                <span aria-hidden="true">&times;</span>
             </button>
         </div>
     </div>
@@ -65,15 +78,18 @@
             <div class="row mt-3 px-3">
                 <div class="form-group col-12">
                     <label for="reason_cancellation">Motivo de cancelación</label>
-                    <input type="text" required class="form-control" name="reason_cancellation" ngModel id="reason_cancellation" placeholder="Ingrese el motivo">
+                    <input type="text" required class="form-control" name="reason_cancellation" ngModel
+                        id="reason_cancellation" placeholder="Ingrese el motivo">
                 </div>
             </div>
         </form>
     </div>
     <div class="app-modal-footer ">
         <div class="text-right  px-3">
-            <button type="button " class="btn btn-danger btn-sm mr-2" (click)="cancelarCitaModal.hide() ">Cerrar</button>
-            <button type="button " class="btn btn-success btn-sm " [disabled]="formAnular.invalid" (click)="cancelarCita(formAnular)">Cancelar Cita</button>
+            <button type="button " class="btn btn-danger btn-sm mr-2"
+                (click)="cancelarCitaModal.hide() ">Cerrar</button>
+            <button type="button " class="btn btn-success btn-sm " [disabled]="formAnular.invalid"
+                (click)="cancelarCita(formAnular)">Cancelar Cita</button>
         </div>
     </div>
 </app-modal-basic>

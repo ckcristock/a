@@ -17,6 +17,12 @@ import { PerfectScrollbarModule } from 'ngx-perfect-scrollbar';
 import { PipesModule } from '../core/pipes/pipes.module';
 import { ModalPaymentComponent } from './modal-payment/modal-payment.component';
 import { NotDataComponent } from './not-data/not-data.component';
+import {
+  NgbPaginationModule,
+  NgbDropdownModule,
+  NgbCollapseModule,
+  NgbNavModule,
+} from '@ng-bootstrap/ng-bootstrap';
 
 @NgModule({
   declarations: [
@@ -45,6 +51,12 @@ import { NotDataComponent } from './not-data/not-data.component';
     
   ],
   imports: [
+
+    NgbPaginationModule,
+    // NgbCollapseModule,
+    // NgbNavModule,
+    // ReactiveFormsModule,
+
     NgbAccordionModule,
     FormsModule,
     CommonModule,

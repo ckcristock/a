@@ -1,6 +1,6 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, Input } from '@angular/core';
 import { PermissionService } from '../../../../../../core/services/permission.service';
-import { ActivatedRoute } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 import Swal from 'sweetalert2';
 interface NavItem {
   name: string;
@@ -14,15 +14,21 @@ interface NavItem {
   styleUrls: ['./permissions.component.scss']
 })
 export class PermissionsComponent implements OnInit {
+  @Input('person_id') person_id_: string = ''
   person_id: string
   temporalMenues: Array<NavItem> = [];
   menues: Array<NavItem> = [];
   loading = false;
   saving = false;
-  constructor( private _permissions: PermissionService, private route: ActivatedRoute) { }
-  
+  constructor(
+    private _permissions: PermissionService,
+    private route: ActivatedRoute,
+    private router: Router
+  ) { }
+
   ngOnInit(): void {
-    this.person_id = this.route.snapshot.params.id;
+    this.person_id = this.route.snapshot.params.id || this.person_id_;
+    console.log(this.person_id);
     this.getMenues();
   }
 
@@ -66,8 +72,13 @@ export class PermissionsComponent implements OnInit {
           title: 'Actualización exitosa',
           text: 'Felicidades, los permisos del usuario se han actualizado',
           icon: 'success',
-       
-        })
+          allowOutsideClick: false,
+          allowEscapeKey: false,
+        }).then(result => {
+          if (result.value) {
+            this.router.navigateByUrl('/ajustes/informacion-base/funcionarios')
+          }
+        });
       }
       this.saving = false;
     })
@@ -93,6 +104,7 @@ export class PermissionsComponent implements OnInit {
       try {
         //Buscamos padres sin hijos 
         if (element.child.length == 0 && !element.link && element.parent_id) {
+          /*   console.log('padre', element, parent, x); */
           let pos = parent.child.findIndex(f => f.id == element.id)
           throw (pos);
         }
@@ -106,6 +118,7 @@ export class PermissionsComponent implements OnInit {
           });
         }
       } catch (posDel) {
+        /*   console.log(element, parent, posDel); */
         parent.child.splice(posDel, 1)
         this.filtertData(menu, parent)
       }

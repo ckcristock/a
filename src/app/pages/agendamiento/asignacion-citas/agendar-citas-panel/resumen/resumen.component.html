@@ -46,6 +46,13 @@
         <h3 class="text-danger font-weight-bold display-4">${{ appointment.price }}</h3>
     </div>
 
+    <div class="col-12 text-center ">
+        <h5>Otras citas creadas:</h5>
+        <h3 class="text-danger font-weight-bold display-4" *ngFor="let app of appointmentsGenerated">
+            {{ app.space.hour_start }}
+        </h3>
+    </div>
+
     <div class="col-12 mt-4">
         <button class="btn btn-primary btn-sm btn-block" (click)="cleanAll()">Finalizar llamada</button>
     </div>

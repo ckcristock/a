@@ -95,8 +95,12 @@ export class OpenAgendaService {
     return this.clientHttp.post(`${environment.base_url}/agendamientos`, formulario)
   }
 
-  public saveCita(formulario: String) {
-    return this.clientHttp.post(`${environment.base_url}/appointments`, formulario)
+  public saveCita(formulario: String, repeat: boolean) {
+
+    return (repeat) ?
+      this.clientHttp.post(`${environment.base_url}/appointment-recursive`, formulario)
+      :
+      this.clientHttp.post(`${environment.base_url}/appointments`, formulario)
   }
 
   public getClean(id) {

@@ -10,7 +10,7 @@ import { QueryPatient } from '../../../query-patient.service';
 import { formaterInput } from '../../../../../formaterInput'
 import Swal from 'sweetalert2';
 import { dataCitaToAssignService } from '../../../dataCitaToAssignService.service';
-
+import { diasSemana } from '../../../abrir-agendas/dias';
 
 @Component({
   selector: 'app-crear-cita',
@@ -31,9 +31,14 @@ export class CrearCitaComponent implements OnInit {
   public dataCitaToAssign
   public tipification: any = {}
   public fromWailist: boolean = false
+  public diasSemana = diasSemana
 
   diagnosticoId: any;
   procedureId: any;
+  repeat: any;
+  fechaInicioRecurrente: any;
+  fechaFinRecurrente: any;
+  daysRecurrente: any;
   loading = false;
   searchingDiagnostic = false;
   searchingProcedure = false;
@@ -133,7 +138,7 @@ export class CrearCitaComponent implements OnInit {
       }).then((result) => {
         if (result.isConfirmed) {
           this.loading = true;
-          this._openAgendaService.saveCita(JSON.stringify(form.value))
+          this._openAgendaService.saveCita(JSON.stringify(form.value), this.repeat)
             .subscribe((data: any) => {
 
               if (data.code == 400) {
@@ -141,6 +146,7 @@ export class CrearCitaComponent implements OnInit {
                 this.loading = false;
                 throw (({ tilte: 'Error agendando cita', message: data.err[0] }))
               }
+
               this.dataCitaToAssignService.dataFinal.next(data.data)
               this.validarResponse(data);
 
@@ -225,6 +231,8 @@ export class CrearCitaComponent implements OnInit {
   }
 
   validarResponse(data) {
+
+
     if (data) {
       try {
         if (this.patient.isNew) {
@@ -234,8 +242,7 @@ export class CrearCitaComponent implements OnInit {
         this._queryPatient.validateTipification({ component: this.tipification, data: this.tipification });
         this.siguiente.emit();
         this.dataCitaToAssignService.dataFinal.next(data.data)
-        this._openAgendaService.getClean(data.data.appointment['call_id']).subscribe((r) => {
-        })
+        // this._openAgendaService.getClean(data.data.appointmentCreated[0].appointment['call_id']).subscribe((r) => { })
       } catch ({ title, message }) {
         Swal.fire(title, message, 'error');
       }

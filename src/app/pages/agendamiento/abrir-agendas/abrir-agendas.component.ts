@@ -49,6 +49,8 @@ export class AbrirAgendasComponent implements OnInit {
   public profesional
   public isProcedure = false;
   public location_id: any;
+  public procedureId: any;
+  public share: any;
 
 
   public timeDuration = { value: 20, text: "20 Minutos" }
@@ -75,6 +77,20 @@ export class AbrirAgendasComponent implements OnInit {
     { value: 40, text: "40 Minutos" },
     { value: 60, text: "60 Minutos" },
   ]
+
+  public optionesShare = [
+    /*  { value: 5, text: "5 Minutos" },
+     { value: 10, text: "10 Minutos" }, */
+    { value: 1, text: "1 Cupos" },
+    { value: 2, text: "2 Cupos" },
+    { value: 3, text: "3 Cupos" },
+    { value: 4, text: "4 Cupos" },
+    { value: 5, text: "5 Cupos" },
+    { value: 6, text: "6 Cupos" },
+    { value: 7, text: "7 Cupos" },
+    { value: 8, text: "8 Cupos" },
+    { value: 9, text: "9 Cupos" },
+  ]
   fechaInicio: any = ''
   fechaFin: any = ''
   hour_start: any = '08:00'
@@ -90,6 +106,8 @@ export class AbrirAgendasComponent implements OnInit {
   constructor(private _openAgendaService: OpenAgendaService, public _queryPerson: QueryPerson, private router: Router) { }
 
   ngOnInit(): void {
+
+    this.share = this.optionesShare[0].value
     this.getDurations();
     this.getTypeAppointment();
     this.today = new Date();

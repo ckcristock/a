@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { HttpClient } from '@angular/common/http';
+import { HttpClient,HttpParams } from '@angular/common/http';
 import { environment } from 'src/environments/environment';
 
 @Injectable({
@@ -12,7 +12,9 @@ export class PersonService {
   storePeople(form) {
     return this.httpClient.post(`${environment.base_url}/person`, form)
   }
-  getPeople(params = {}) {
+  getPeople(params) {
+    const paramss = new HttpParams()
+      .set('page', 'params')
     return this.httpClient.get(`${environment.base_url}/people-paginate`, { params })
   }
 

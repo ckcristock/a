@@ -3,7 +3,7 @@ import { NgForm } from '@angular/forms';
 import Swal from 'sweetalert2'
 import { AppointmentService } from '../../../core/services/appointment.service';
 import { QueryPatient } from '../../../pages/agendamiento/query-patient.service';
- 
+
 @Component({
   selector: 'app-lista-citas',
   templateUrl: './lista-citas.component.html',
@@ -20,9 +20,20 @@ export class ListaCitasComponent implements OnInit {
   openModalDetalle = new EventEmitter<any>();
 
   loading = false;
+  pagination = {
+    pageSize: 15,
+    page: 1,
+    collectionSize: 0,
+  }
+
+  filters: any = {
+    identifier: 0,
+  }
+
   data: any = {
     Id_Especialidad: '',
   }
+
   cancelCita: any;
   constructor(private _appointment: AppointmentService, private _queryPatient: QueryPatient) {
   }
@@ -36,9 +47,13 @@ export class ListaCitasComponent implements OnInit {
     })
   }
 
-  getCitas() {
+  getCitas(page = 1) {
+    this.pagination.page = page;
+    this.filters.identifier = this.patient;
+    let params: any = Object.assign({}, this.pagination, this.filters);
     this.loading = true;
-    this._appointment.getAppointments({ identifier: this.patient }).subscribe((r: any) => {
+    this._appointment.getAppointments(params).subscribe((r: any) => {
+      this.pagination.collectionSize = r.data.total;
       this.citas = r.data.data;
       this.loading = false;
     })

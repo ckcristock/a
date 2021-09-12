@@ -46,8 +46,6 @@ export class ModalPaymentComponent implements OnInit {
     })
   }
 
-
-
   /**
    * getReasonsByFees
    */
@@ -75,14 +73,6 @@ export class ModalPaymentComponent implements OnInit {
       this.banks = resp.data
     })
   }
-
-  // ngOnDestroy() {
-  //   this.subscriptions.forEach(x => {
-  //     if (!x.closed) {
-  //       x.unsubscribe();
-  //     }
-  //   });
-  // }
 
   isEfectivo() {
     return this.recaudo.method_pay != this.method_pays.find(r => r.name == 'Efectivo')
