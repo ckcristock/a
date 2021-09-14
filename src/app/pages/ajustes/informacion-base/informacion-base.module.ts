@@ -3,6 +3,13 @@ import { EmpresasComponent } from './empresas/empresas.component';
 import { CommonModule } from '@angular/common';
 import { InformacionBaseRoutingModule } from './informacion-base-routing.module';
 import { FuncionariosComponent } from './funcionarios/funcionarios.component';
+<<<<<<< HEAD
+=======
+import { ProfesionalesComponent } from './profesionales/profesionales.component';
+import { PacientesComponent } from './pacientes/pacientes.component';
+import { EspecialidadesComponent } from './especialidades/especialidades.component';
+import { CupsComponent } from './cups/cups.component';
+>>>>>>> 193b534e5b5db815602aebdac269cd25b67af9af
 import { RegimenesNivelesComponent } from './regimenes-niveles/regimenes-niveles.component';
 import { AseguradorasComponent } from './aseguradoras/aseguradoras.component';
 import {
@@ -70,6 +77,7 @@ import { SpecialitysComponent } from './specialities/speciality.component';
 
 @NgModule({
     declarations: [
+<<<<<<< HEAD
         EmpresasComponent,
         FuncionariosComponent,
         RegimenesNivelesComponent,
@@ -98,6 +106,14 @@ import { SpecialitysComponent } from './specialities/speciality.component';
         // FondoPensionComponent,
         // ArlComponent,
         CajaCompensacionComponent,
+=======
+        EmpresasComponent, SedesComponent, FuncionariosComponent,
+        ProfesionalesComponent, PacientesComponent, EspecialidadesComponent,
+        CupsComponent, RegimenesNivelesComponent, AseguradorasComponent, 
+        DetalleFuncionarioComponent,
+        PermissionsComponent,
+        MenuChildComponent], 
+>>>>>>> 193b534e5b5db815602aebdac269cd25b67af9af
 
         SedesComponent,
         PersonsComponent, PacientesComponent, EspecialidadesComponent,

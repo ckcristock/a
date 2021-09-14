@@ -2,15 +2,15 @@ import { Component, OnInit, ViewChild } from '@angular/core';
 import { NgForm } from '@angular/forms';
 import { DataDinamicService } from '../../../../data-dinamic.service';
 import { OpenAgendaService } from '../../../agendamiento/open-agenda.service';
-import { PersonService } from './person.service';
+import { PersonService } from './profesionales.service';
 import { Observable, ReplaySubject } from 'rxjs';
 import {functionsUtils} from '../../../../core/utils/functionsUtils';
 @Component({
-  selector: 'app-persons',
-  templateUrl: './persons.component.html',
-  styleUrls: ['./persons.component.scss']
+  selector: 'app-profesionales',
+  templateUrl: './profesionales.component.html',
+  styleUrls: ['./profesionales.component.scss']
 })
-export class PersonsComponent implements OnInit {
+export class ProfesionalesComponent implements OnInit {
 
   @ViewChild('newModal') newModal
 
@@ -65,7 +65,7 @@ export class PersonsComponent implements OnInit {
   }
   searching = false;
   searchFailed = false;
-  persons = [{
+  profesionales = [{
     identification: '1222334',
     names: 'Jhoe Due',
     city: 'VIDASER EU',
