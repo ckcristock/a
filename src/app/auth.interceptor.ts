@@ -23,9 +23,13 @@ export class AuthInterceptor implements HttpInterceptor {
   intercept(request: HttpRequest<any>, next: HttpHandler): Observable<HttpEvent<any>> {
 
     const headersConfig = {
-      'Content-Type': 'application/json',
+      //El content-type  modifica el headers para subir archivo
       'Accept': 'application/json'
     };
+
+    // if (!request.headers.has('Content-Type')) {
+    //   headersConfig['Content-Type'] = 'application/json'
+    // }
 
     let token = this._user.token;
     headersConfig['Authorization'] = `Bearer ${token}`

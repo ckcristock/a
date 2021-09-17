@@ -23,6 +23,8 @@ import {
   NgbCollapseModule,
   NgbNavModule,
 } from '@ng-bootstrap/ng-bootstrap';
+import { SearchComponent } from './search/search.component';
+import { ShowErrorsComponent } from './show-errors/show-errors.component';
 
 @NgModule({
   declarations: [
@@ -36,6 +38,8 @@ import {
     TimeLineComponent,
     NotDataComponent,
     ModalPaymentComponent,
+    SearchComponent,
+    ShowErrorsComponent
   ],
   exports: [
     ModalBasicComponent,
@@ -47,8 +51,9 @@ import {
     StatsComponent,
     TimeLineComponent,
     NotDataComponent,
-    ModalPaymentComponent
-    
+    ModalPaymentComponent,
+    ShowErrorsComponent
+
   ],
   imports: [
 

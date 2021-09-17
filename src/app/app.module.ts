@@ -17,6 +17,7 @@ import { NgSelectModule } from '@ng-select/ng-select';
 import { FormsModule } from '@angular/forms';
 
 import { ArchwizardModule } from 'angular-archwizard';
+import { FilterPipe } from './filter.pipe';
 
 export function createTranslateLoader(http: HttpClient): any {
   return new TranslateHttpLoader(http, 'assets/i18n/', '.json');
@@ -26,6 +27,7 @@ export function createTranslateLoader(http: HttpClient): any {
   declarations: [
     AppComponent,
     LoginComponent,
+    FilterPipe,
   ],
   imports: [
     ArchwizardModule,

@@ -13,38 +13,28 @@ import { DetalleFuncionarioComponent } from './funcionarios/detalle-funcionario/
 import { EpsComponent } from "./eps/eps.component";
 import { CreateComponent } from "./funcionarios/create/create.component";
 import { SpecialitysComponent } from "./specialities/speciality.component";
+import { PersonsComponent } from "./persons/persons.component";
 
 
-const routes : Routes = [
-    {path:'empresas',component:EmpresasComponent},
-    {path:'sedes',component:SedesComponent},
-<<<<<<< HEAD
-
+const routes: Routes = [
+    { path: 'empresas', component: EmpresasComponent },
+    { path: 'sedes', component: SedesComponent },
     { path: 'funcionarios', component: FuncionariosComponent },
     { path: 'funcionario/:id', component: DetalleFuncionarioComponent },
     { path: 'funcionarios/crear', component: CreateComponent },
-
-    {path:'persons',component:PersonsComponent},
-=======
-    {path:'funcionarios',component:FuncionariosComponent},
-    {path:'funcionario/:id',component:DetalleFuncionarioComponent},
->>>>>>> 193b534e5b5db815602aebdac269cd25b67af9af
-    {path:'pacientes',component:PacientesComponent},
-    {path:'especialidades',component:EspecialidadesComponent},
-    {path:'cups',component:CupsComponent},
-    {path:'regimenes-niveles',component:RegimenesNivelesComponent},
-    {path:'aseguradoras',component:AseguradorasComponent},
-<<<<<<< HEAD
-    {path:'administrators',component:EpsComponent},
-    {path:'specialities',component:SpecialitysComponent},
-=======
-    {path:'profesionales',component:ProfesionalesComponent},
->>>>>>> 193b534e5b5db815602aebdac269cd25b67af9af
+    { path: 'persons', component: PersonsComponent },
+    { path: 'pacientes', component: PacientesComponent },
+    { path: 'especialidades', component: EspecialidadesComponent },
+    { path: 'cups', component: CupsComponent },
+    { path: 'regimenes-niveles', component: RegimenesNivelesComponent },
+    { path: 'aseguradoras', component: AseguradorasComponent },
+    { path: 'administrators', component: EpsComponent },
+    { path: 'specialities', component: SpecialitysComponent },
 ]
 
 @NgModule({
-    imports:[RouterModule.forChild(routes)],
-    exports:[RouterModule]
+    imports: [RouterModule.forChild(routes)],
+    exports: [RouterModule]
 })
 
-export class InformacionBaseRoutingModule {}
+export class InformacionBaseRoutingModule { }
