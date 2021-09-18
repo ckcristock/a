@@ -30,49 +30,20 @@ import { DatosFuncionarioComponent } from './funcionarios/create/datos-funcionar
 import { InformacionEmpresaComponent } from './funcionarios/create/informacion-empresa/informacion-empresa.component';
 import { PrestacionesSocialesComponent } from './funcionarios/create/prestaciones-sociales/prestaciones-sociales.component';
 import { DotacionTallasComponent } from './funcionarios/create/dotacion-tallas/dotacion-tallas.component';
-// import { EstructuraEmpresaComponent } from './estructura-empresa/estructura-empresa.component';
 import { VerFuncionarioComponent } from './funcionarios/detalle-funcionario/ver-funcionario/ver-funcionario.component';
 import { DatosBasicosComponent } from './funcionarios/detalle-funcionario/ver-funcionario/datos-basicos/datos-basicos.component';
 import { SalarioComponent } from './funcionarios/detalle-funcionario/ver-funcionario/salario/salario.component';
 import { DatosEmpresaComponent } from './funcionarios/detalle-funcionario/ver-funcionario/datos-empresa/datos-empresa.component';
 import { AfiliacionesComponent } from './funcionarios/detalle-funcionario/ver-funcionario/afiliaciones/afiliaciones.component';
 import { HttpClientModule } from '@angular/common/http';
-// import { TurnosComponent } from './turnos/turnos.component';
-// import { TurnoFijoComponent } from './turnos/turno-fijo/turno-fijo.component';
-// import { CreateTurnoFijoComponent } from './turnos/turno-fijo/create-turno-fijo/create-turno-fijo.component';
-// import { TurnoRotativoComponent } from './turnos/turno-rotativo/turno-rotativo.component';
-// import { CreateTurnoRotativoComponent } from './turnos/turno-rotativo/create-turno-rotativo/create-turno-rotativo.component';
 import { BonoComponent } from './funcionarios/detalle-funcionario/ver-funcionario/bono/bono.component';
-// import { FondoPensionComponent } from './fondo-pension/fondo-pension.component';
-// import { ArlComponent } from './arl/arl.component';
 import { CajaCompensacionComponent } from './caja-compensacion/caja-compensacion.component';
-
-// import { NgModule } from "@angular/core";
-// import { EmpresasComponent } from './empresas/empresas.component';
-// import { CommonModule } from '@angular/common';
-// import { InformacionBaseRoutingModule } from "./informacion-base-routing.module";
 import { SedesComponent } from './sedes/sedes.component';
-// import { FuncionariosComponent } from './funcionarios/funcionarios.component';
-// import { PersonsComponent } from './persons/persons.component';
-// import { PacientesComponent } from './pacientes/pacientes.component';
-// import { EspecialidadesComponent } from './especialidades/especialidades.component';
-// import { CupsComponent } from './cups/cups.component';
-// import { SpecialitysComponent } from './specialitys/specialitys.component';
-// import { RegimenesNivelesComponent } from './regimenes-niveles/regimenes-niveles.component';
-// import { AseguradorasComponent } from './aseguradoras/aseguradoras.component';
-// import { NgbPaginationModule, NgbDropdownModule, NgbCollapseModule, NgbNavModule } from '@ng-bootstrap/ng-bootstrap';
-// import { ChartsModule } from 'ng2-charts';
-// import { ComponentsModule } from "src/app/components/components.module";
-// import { FormsModule, ReactiveFormsModule } from "@angular/forms";
-// import { NgSelectModule } from "@ng-select/ng-select";
-// import { PipesModule } from "src/app/core/pipes/pipes.module";
-// import { DetalleFuncionarioComponent } from './funcionarios/detalle-funcionario/detalle-funcionario.component';
-// import { PermissionsComponent } from "./funcionarios/detalle-funcionario/permissions/permissions.component";
-// import { MenuChildComponent } from './funcionarios/detalle-funcionario/permissions/menu-child/menu-child.component';
 import { EpsComponent } from "./eps/eps.component";
 import { SpecialitysComponent } from './specialities/speciality.component';
 import { PersonsComponent } from './persons/persons.component';
-// import { ModalBasicComponent } from 'src/app/components/modal-basic/modal-basic.component';
+import { TableComponent } from './persons/table/table.component';
+import { ModalComponent } from './persons/modal/modal.component';
 
 @NgModule({
     declarations: [
@@ -89,33 +60,26 @@ import { PersonsComponent } from './persons/persons.component';
         InformacionEmpresaComponent,
         PrestacionesSocialesComponent,
         DotacionTallasComponent,
-        // EstructuraEmpresaComponent,
         VerFuncionarioComponent,
         DatosBasicosComponent,
         SalarioComponent,
         DatosEmpresaComponent,
         AfiliacionesComponent,
         ProfesionalesComponent,
-        // TurnosComponent,
-        // TurnoFijoComponent,
-        // CreateTurnoFijoComponent,
-        // TurnoRotativoComponent,
-        // CreateTurnoRotativoComponent,
         BonoComponent,
-        // FondoPensionComponent,
-        // ArlComponent,
         CajaCompensacionComponent,
 
         SedesComponent,
         PersonsComponent, PacientesComponent, EspecialidadesComponent,
         CupsComponent,
         EpsComponent,
-        SpecialitysComponent
+        SpecialitysComponent,
+        TableComponent,
+        ModalComponent,
     ],
 
     imports: [
         CommonModule,
-        // ModalBasicComponent,
         InformacionBaseRoutingModule,
         NgbPaginationModule,
         NgbDropdownModule,

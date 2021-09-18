@@ -1,0 +1,111 @@
+<div class="row align-items-center ">
+    <div class="col-12">
+        <table class="table table-hover mb-0 table-centered table-nowrap ">
+            <thead class="thead-dark ">
+                <tr>
+                    <th class="text-center ">Imágen</th>
+                    <th class="text-center ">Identificación</th>
+                    <th class="text-center ">Nombres</th>
+                    <th class="text-center ">Empresa</th>
+                    <th class="text-center ">Estado</th>
+                    <th class="text-center ">Acciones</th>
+                </tr>
+
+            </thead>
+            <tbody>
+
+                <tr>
+
+                    <td></td>
+
+                    <td>
+                        <input class="form-control form-control-xs" (change)="getProfessionals()"
+                            [(ngModel)]="filtros.identifier" type="text">
+                    </td>
+
+                    <td>
+                        <input class="form-control form-control-xs" (change)="getProfessionals()"
+                            [(ngModel)]="filtros.name" type="text">
+                    </td>
+
+                    <td>
+                        <input class="form-control form-control-xs" (change)="getProfessionals()"
+                            [(ngModel)]="filtros.company" type="text">
+                    </td>
+
+                    <td>
+                        <select class="form-control form-control-xs" (change)="getProfessionals()"
+                            [(ngModel)]="filtros.status">
+                            <option value="">Seleccione</option>
+                            <option value="Activo">Activo</option>
+                            <option value="Inactivo">Inactivo</option>
+                        </select>
+                    </td>
+
+                    <td class="text-right "></td>
+
+                </tr>
+
+                <ng-container *ngIf="!loading && persons.length > 0; else notData">
+                    <tr *ngFor="let item of persons">
+
+                        <td>
+                            <img src="{{item?.image | image:'professionals'}}" alt="{{item?.full_name }}"
+                                class="img-thumbnail rounded-circle header-profile-user mx-auto d-block">
+                        </td>
+
+                        <td>
+                            <p class="font-size-14 mb-0 ">{{item.identifier}}</p>
+                        </td>
+
+                        <td>
+                            <p class="font-size-14 mb-0 ">{{item.full_name}}</p>
+                        </td>
+
+                        <td>
+                            <p class="font-size-14 mb-0 ">{{item.company}}</p>
+                        </td>
+
+                        <td>
+                            <p class="font-size-14 mb-0 ">{{item.status}}</p>
+                        </td>
+
+                        <td class="text-right ">
+                            <div class="btn-group " role="group " ngbDropdown>
+                                <button id="btnGroupVerticalDrop1 " type="button "
+                                    class="btn btn-primary btn-sm dropdown-toggle " ngbDropdownToggle>
+                                    Acciones <i class="mdi mdi-chevron-down "></i>
+                                </button>
+                                <div style="cursor: pointer; " class="dropdown-menu font-weight-bolder "
+                                    aria-labelledby="btnGroupVerticalDrop1 " ngbDropdownMenu>
+                                    <!-- <button class="dropdown-item " (click)="expression"> <i class="fa fa-search mr-2 "></i>Ver más</button> -->
+                                    <button class="dropdown-item " (click)="update(item.id)"> <i
+                                            class="fa fa-edit mr-2 "></i>Editar </button>
+                                    <button class="dropdown-item " (click)="suspend()"> <i
+                                            class="fa fa-ban mr-2 "></i>Suspender </button>
+                                </div>
+                            </div>
+                        </td>
+                    </tr>
+                </ng-container>
+
+            </tbody>
+        </table>
+    </div>
+</div>
+
+<div class="row align-items-right mt-2 ">
+    <div class="col-sm-12 ">
+        <div class="text-md-right float-md-right pagination-rounded ">
+            <ngb-pagination [collectionSize]="pagination.collectionSize " [pageSize]="pagination.pageSize "
+                [(page)]="pagination.page " aria-label="Default pagination "></ngb-pagination>
+        </div>
+    </div>
+
+</div>
+
+<ng-template #notData>
+    <td colspan="5">
+        <app-not-data [loading]="loading"></app-not-data>
+    </td>
+</ng-template>

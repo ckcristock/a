@@ -49,7 +49,7 @@ export class DataDinamicService {
     return this.httpClient.get(`${environment.base_url}/levels`)
   }
   public getContracts(params = {}) {
-    return this.httpClient.get(`${environment.base_url}/contract`, { params })
+    return this.httpClient.get(`${environment.base_url}/work-contract-type`, { params })
   }
   public savePatient(form) {
     // console.log(form);

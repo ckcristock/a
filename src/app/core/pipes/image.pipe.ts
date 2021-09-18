@@ -8,9 +8,14 @@ const base_url = environment.base_url;
 })
 export class ImagePipe implements PipeTransform {
 
-  transform(img: string, tipo: 'users' | 'persons' | 'companies'): string {
+  transform(img: string, tipo: 'users' | 'persons' | 'companies' | 'professionals'): string {
 
-  
+    if (tipo == 'professionals') {
+      if (!img) {
+        return `${base_url}/upload/usuarios/no-image`;
+      } return img;
+    }
+
     if (!img) {
       return `assets/images/users/no-image.png`;
     } else if (img.includes('https')) {
