@@ -44,6 +44,7 @@ import { SpecialitysComponent } from './specialities/speciality.component';
 import { PersonsComponent } from './persons/persons.component';
 import { TableComponent } from './persons/table/table.component';
 import { ModalComponent } from './persons/modal/modal.component';
+import { ModalCupComponent } from './cups/modal-cup/modal-cup.component';
 
 @NgModule({
     declarations: [
@@ -68,7 +69,6 @@ import { ModalComponent } from './persons/modal/modal.component';
         ProfesionalesComponent,
         BonoComponent,
         CajaCompensacionComponent,
-
         SedesComponent,
         PersonsComponent, PacientesComponent, EspecialidadesComponent,
         CupsComponent,
@@ -76,6 +76,7 @@ import { ModalComponent } from './persons/modal/modal.component';
         SpecialitysComponent,
         TableComponent,
         ModalComponent,
+        ModalCupComponent,
     ],
 
     imports: [

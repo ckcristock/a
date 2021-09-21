@@ -2,30 +2,34 @@
     <div class="card-body">
         <div class="card-title">
             <button class="btn btn-primary btn-sm" style="float: right;" (click)="openModal()">Agregar nueva
-                Cups</button>
-            <h5>Cups</h5>
-            <p>Cups resgistradas en la base de datos</p>
+                Especialidad</button>
+            <h5>Especialidad</h5>
+            <p>Especialidad resgistradas en la base de datos</p>
         </div>
         <div class="row">
             <div class="col d-flex">
-                <input type="text" placeholder="Buscar por Cups" class="form-control form-control-sm col-sm-2 mr-4"
-                    (change)="getAllCups()" [(ngModel)]="filtros.description" name="description" autocomplete="off">
-                <input type="text" placeholder="Buscar código Cups" class="form-control form-control-sm col-sm-2"
-                    (change)="getAllCups()" [(ngModel)]="filtros.code" name="code" autocomplete="off">
+                <input type="text" placeholder="Buscar por Especialidad"
+                    class="form-control form-control-sm col-sm-2 mr-4" (change)="getSpecialties()"
+                    [(ngModel)]="filtros.name" name="name" autocomplete="off">
+                <input type="text" placeholder="Buscar código Especialidad"
+                    class="form-control form-control-sm col-sm-2" (change)="getSpecialties()" [(ngModel)]="filtros.code"
+                    name="code" autocomplete="off">
             </div>
         </div>
-        <table class="table table-bordered table-striped mt-4" *ngIf="!loading && cups.length > 0; else notData">
+        <table class="table table-bordered table-striped mt-4"
+            *ngIf="!loading && specialities.length > 0; else notData">
             <thead class="bg-light">
                 <tr>
                     <th scope="col">Nombre</th>
-                    <th scope="col">Código Cups</th>
+                    <th scope="col">Código Especialidad</th>
                     <th scope="col" style="width: 50px;">Acciones</th>
                 </tr>
             </thead>
             <tbody>
-                <tr *ngFor="let cup of cups" [ngClass]="{'bg-danger text-white': (cup.status === 'Inactivo' )}">
-                    <td scope="row"> {{ cup.description }} </td>
-                    <td> {{ cup.code }} </td>
+                <tr *ngFor="let speciality of specialities"
+                    [ngClass]="{'bg-danger text-white': (speciality.status === 'Inactivo' )}">
+                    <td scope="row"> {{ speciality.name }} </td>
+                    <td> {{ speciality.code }} </td>
                     <td>
                         <div class="text-center">
                             <div ngbDropdown class="dropdown-primary ">
@@ -35,15 +39,15 @@
                                 </button>
                                 <div ngbDropdownMenu>
                                     <a class="dropdown-item waves-light waves-effect caja-botones" target="_blank"
-                                        (click)="edit(cup.id)">
+                                        (click)="edit(speciality.id)">
                                         <i class="fa fa-file-pdf-o"></i>Editar</a>
-                                    <a *ngIf="cup.status === 'Activo'"
+                                    <a *ngIf="speciality.status === 'Activo'"
                                         class="dropdown-item waves-light waves-effect caja-botones"
-                                        (click)="anularOActivar(cup, 'Inactivo')">
+                                        (click)="anularOActivar(speciality, 'Inactivo')">
                                         <i class="fa fa-pencil"></i>Inactivar</a>
-                                    <a *ngIf="cup.status === 'Inactivo'"
+                                    <a *ngIf="speciality.status === 'Inactivo'"
                                         class="dropdown-item waves-light waves-effect caja-botones"
-                                        (click)="anularOActivar(cup, 'Activo')">
+                                        (click)="anularOActivar(speciality, 'Activo')">
                                         <i class="fa fa-pencil"></i>Activar</a>
                                 </div>
                             </div>
@@ -53,14 +57,14 @@
             </tbody>
         </table>
         <ngb-pagination class="d-flex justify-content-center pagination-rounded pagination-sm"
-            [collectionSize]="pagination.collectionSize" (pageChange)="getAllCups($event)"
+            [collectionSize]="pagination.collectionSize" (pageChange)="getSpecialties($event)"
             [pageSize]="pagination.pageSize" [(page)]="pagination.page" aria-label="Default pagination" maxSize="5"
             rotate="true" ellipses="false" boundaryLinks="true">
         </ngb-pagination>
     </div>
 </div>
 
-<app-modal-cup (dataChange)="getAllCups()"></app-modal-cup>
+<app-speciality-modal (dataChange)="getSpecialties()"></app-speciality-modal>
 
 <ng-template #notData>
     <app-not-data [loading]="loading"></app-not-data>

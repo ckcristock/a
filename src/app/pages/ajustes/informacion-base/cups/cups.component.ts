@@ -2,6 +2,7 @@ import { Component, OnInit, ViewChild } from '@angular/core';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
 import Swal from 'sweetalert2';
 import { CupService } from './cup.service';
+import { ModalCupComponent } from './modal-cup/modal-cup.component';
 
 @Component({
   selector: 'app-cups',
@@ -10,30 +11,37 @@ import { CupService } from './cup.service';
 })
 
 export class CupsComponent implements OnInit {
-  @ViewChild('modal') modal: any;
+
+  @ViewChild(ModalCupComponent) modal: ModalCupComponent;
+
   cups: any = [];
   cup: any = {};
   filtros: any = {
     description: '',
     code: ''
   }
-  form = new FormGroup({
-    description: new FormControl('', [Validators.required]),
-    code: new FormControl('', [Validators.required]),
-    // nit: new FormControl('', [Validators.required])
-  });
+
   pagination = {
-    pageSize: 5,
+    pageSize: 25,
     page: 1,
     collectionSize: 0
   }
-  status: any = 'Inactivo';
+
   loading: boolean = false;
 
   constructor(private cupService: CupService) { }
 
   ngOnInit(): void {
     this.getAllCups();
+  }
+
+  openModal = () => {
+    this.modal.openModal();
+  }
+
+  edit = (id) => {
+    this.modal.cup.id = id;
+    this.modal.openModal();
   }
 
   getAllCups(page = 1) {
@@ -89,68 +97,8 @@ export class CupsComponent implements OnInit {
 
   }
 
-  openModal() {
-    this.cup.id = '';
-    this.cup.description = '';
-    this.cup.code = '';
-    // this.cup.nit = '';
-    this.modal.show();
-    this.form.reset();
-  }
-
   getCups(cup) {
-    /* this.cup = Object.assign({},cup) ; */
     this.cup = { ...cup };
   }
-
-  createNewCups() {
-    this.form.markAllAsTouched();
-    if (this.form.invalid) { return false; }
-    this.cupService.createNewCup(this.cup)
-      .subscribe((res: any) => {
-
-        if (res.code === 200) {
-
-          this.getAllCups();
-          this.modal.hide();
-          Swal.fire({
-            title: 'Operación exitosa',
-            text: 'Felicidades, se han actualizado las Cup.',
-            icon: 'success',
-            allowOutsideClick: false,
-            allowEscapeKey: false
-          })
-        } else {
-
-          Swal.fire({
-            title: 'Ooops!',
-            text: 'Algunos datos ya existen en la base de datos.',
-            icon: 'error',
-            allowOutsideClick: false,
-            allowEscapeKey: false
-          })
-
-        }
-      });
-  }
-
-  get description_cup_valid() {
-    return (
-      this.form.get('description').invalid && this.form.get('description').touched
-    )
-  }
-
-  get code_cup_valid() {
-    return (
-      this.form.get('code').invalid && this.form.get('code').touched
-    )
-  }
-
-  // get nit_cup_valid() {
-  //   return (
-  //     this.form.get('nit').invalid && this.form.get('nit').touched
-  // )
-  // }
-
 
 }

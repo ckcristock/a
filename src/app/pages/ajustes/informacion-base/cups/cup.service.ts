@@ -21,4 +21,8 @@ export class CupService {
     return this.http.post(`${environment.base_url}/cups`, data);
   }
 
+  getCup(data: any) {
+    return this.http.get(`${environment.base_url}/cups/`.concat(data));
+  }
+
 }

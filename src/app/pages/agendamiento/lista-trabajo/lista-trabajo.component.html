@@ -144,8 +144,11 @@
                                                 <a class="dropdown-item" (click)="detalleCita(cita)">
                                                     <i class="fas fa-search mr-2 "></i> Ver Detalles</a>
 
-                                                <a class="dropdown-item" (click)="confirmarCita(cita)" *ngIf="cita.state != 'Confirmado'">
+                                                <a class="dropdown-item" (click)="confirmarCita(cita)" *ngIf="cita.state != 'Confirmado' && cita.state != 'Cancelado'">
                                                     <i class="fas fa-calendar-check mr-2 "></i> Confirmar Cita</a>
+
+                                                <a class="dropdown-item" (click)="Cancel(cita)" *ngIf="cita.state != 'Confirmado' && cita.state != 'Cancelado'">
+                                                    <i class="fas fa-plus mr-2 "></i> Cancelar Cita</a>
 
                                             </div>
                                         </div>

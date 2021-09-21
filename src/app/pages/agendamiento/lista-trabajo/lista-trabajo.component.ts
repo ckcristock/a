@@ -1,6 +1,6 @@
-import { Component, EventEmitter, OnInit, ViewChild } from '@angular/core';
+import { Component, EventEmitter, OnDestroy, OnInit, ViewChild } from '@angular/core';
 import { NgForm } from '@angular/forms';
-import { OperatorFunction, Observable, of } from 'rxjs';
+import { OperatorFunction, Observable, of, Subscription } from 'rxjs';
 import { catchError, debounceTime, distinctUntilChanged, switchMap, tap } from 'rxjs/operators';
 import { AppointmentService } from 'src/app/core/services/appointment.service';
 import { SearchService } from '../../../core/services/search.service';
@@ -13,7 +13,7 @@ import Swal from 'sweetalert2'
   styleUrls: ['./lista-trabajo.component.scss']
 })
 
-export class ListaTrabajoComponent implements OnInit {
+export class ListaTrabajoComponent implements OnInit, OnDestroy {
 
   citas: Array<any> = [];
   public type_appointments: [];
@@ -27,6 +27,9 @@ export class ListaTrabajoComponent implements OnInit {
   ngOnInit(): void {
     this.getTypeAppointment()
   }
+
+  private subscription = new Subscription();
+
   openModalDetalle = new EventEmitter<any>();
 
   filters: any = {
@@ -269,4 +272,61 @@ export class ListaTrabajoComponent implements OnInit {
   setPage(page) {
     this.pagination.page = page
   }
+
+
+  Cancel = (cita) => {
+    const SwalMsje = Swal.mixin({
+      customClass: {
+        confirmButton: 'btn btn-success mx-2',
+        cancelButton: 'btn btn-danger'
+      },
+      buttonsStyling: false
+    })
+    SwalMsje.fire({
+      title: '¿está seguro?',
+      text: "Se dispone a Cancelar una cita",
+      icon: 'warning',
+      input: 'text',
+      inputAttributes: {
+        maxlength: "50",
+        autocapitalize: 'off',
+        autocorrect: 'off'
+      },
+      showCancelButton: true,
+      confirmButtonText: 'Si, ¡Cita Cancelar cita!',
+      cancelButtonText: 'No, ¡déjeme comprobar!',
+      reverseButtons: true
+    }).then((result) => {
+      if (result.isConfirmed) {
+
+
+        this.subscription.add(
+
+          this._appointment.cancelAppointment(cita.id, result.value)
+            .subscribe((r: any) => {
+
+              if (!r.data) {
+                console.log('No se pudo completa la opracion');
+                return false;
+              }
+              SwalMsje.fire(
+                'Cita confirmada correctamente',
+                'La cita se ha confirmado de manera correcta!',
+                'success'
+              )
+
+              this.getCitas(this.formD.value)
+
+            })
+
+        )
+      }
+    })
+  }
+
+  ngOnDestroy(): void {
+
+    this.subscription.unsubscribe()
+  }
+
 }

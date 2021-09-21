@@ -42,9 +42,7 @@ export class DataDinamicService {
   public getRegimens() {
     return this.httpClient.get(`${environment.base_url}/type-regimens`)
   }
-  // public getReasons() {
-  //   return this.httpClient.get(`${environment.base_url}/type-reasons`)
-  // }
+
   public getlevels() {
     return this.httpClient.get(`${environment.base_url}/levels`)
   }
@@ -52,7 +50,6 @@ export class DataDinamicService {
     return this.httpClient.get(`${environment.base_url}/work-contract-type`, { params })
   }
   public savePatient(form) {
-    // console.log(form);
     return this.httpClient.post(`${environment.base_url}/patients`, form)
   }
 
