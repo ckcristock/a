@@ -10,8 +10,12 @@ export class AppointmentService {
 
   constructor(private htpp: HttpClient) { }
 
-  getAppointments(params?) {
+  getAppointmentsTomigrate(params?) {
     return this.htpp.get(environment.base_url + '/appointments/tomigrate', { params })
+  }
+
+  getAppointments(params?) {
+    return this.htpp.get(environment.base_url + '/appointments', { params })
   }
 
   getAppointmentsPendding(params?) {

@@ -191,7 +191,7 @@ export class ReplayMigrateComponent implements OnInit {
 
     Object.assign(send, { ...this.pagination })
 
-    this._appointment.getAppointments(send).subscribe((r: any) => {
+    this._appointment.getAppointmentsTomigrate(send).subscribe((r: any) => {
       this.loading = false;
       this.citas = r.data.data
       this.pagination.collectionSize = r.data.total
