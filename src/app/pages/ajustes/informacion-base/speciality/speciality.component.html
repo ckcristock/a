@@ -43,11 +43,11 @@
                                         <i class="fa fa-file-pdf-o"></i>Editar</a>
                                     <a *ngIf="speciality.status === 'Activo'"
                                         class="dropdown-item waves-light waves-effect caja-botones"
-                                        (click)="anularOActivar(speciality, 'Inactivo')">
+                                        (click)="inactive(speciality.id, 'Inactivo')">
                                         <i class="fa fa-pencil"></i>Inactivar</a>
                                     <a *ngIf="speciality.status === 'Inactivo'"
                                         class="dropdown-item waves-light waves-effect caja-botones"
-                                        (click)="anularOActivar(speciality, 'Activo')">
+                                        (click)="inactive(speciality.id, 'Activo')">
                                         <i class="fa fa-pencil"></i>Activar</a>
                                 </div>
                             </div>

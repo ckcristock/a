@@ -26,6 +26,7 @@ import { VerAgendaComponent } from './agendas/ver-agenda/ver-agenda.component';
 import { DetailStatsComponent } from './agendas/detail-stats/detail-stats.component';
 import { PipesModule } from '../../core/pipes/pipes.module';
 import { RecaudosComponent } from './recaudos/recaudos.component';
+import { ReplayMigrateModule } from './replay-migrate/replay-migrate.module';
 
 @NgModule({
     declarations: [
@@ -40,7 +41,7 @@ import { RecaudosComponent } from './recaudos/recaudos.component';
         VerAgendaComponent,
         DetailStatsComponent,
         RecaudosComponent,
-      
+
     ],
     imports: [
         NgbNavModule,
@@ -58,6 +59,7 @@ import { RecaudosComponent } from './recaudos/recaudos.component';
         NgbAlertModule,
         NgbDatepickerModule,
         PipesModule,
+        ReplayMigrateModule
     ],
 
     bootstrap: [],

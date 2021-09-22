@@ -11,7 +11,7 @@ export class AppointmentService {
   constructor(private htpp: HttpClient) { }
 
   getAppointments(params?) {
-    return this.htpp.get(environment.base_url + '/appointments', { params })
+    return this.htpp.get(environment.base_url + '/appointments/tomigrate', { params })
   }
 
   getAppointmentsPendding(params?) {
@@ -24,6 +24,11 @@ export class AppointmentService {
   cancelAppointment(id, form) {
     return this.htpp.post(environment.base_url + '/cancel-appointment/' + id, form)
   }
+
+  migrateAppointment(id: Number) {
+    return this.htpp.post(environment.base_url + '/migrate-appointment', { id: id })
+  }
+
   confirmAppointment(message, id) {
     return this.htpp.post(environment.base_url + '/confirm-appointment', { 'message': message, 'id': id })
   }

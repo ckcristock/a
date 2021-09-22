@@ -12,7 +12,7 @@ import { CupsComponent } from './cups/cups.component';
 import { DetalleFuncionarioComponent } from './funcionarios/detalle-funcionario/detalle-funcionario.component';
 // import { EpsComponent } from "./eps/eps.component";
 // import { CreateComponent } from "./funcionarios/create/create.component";
-import { SpecialitysComponent } from "./specialities/speciality.component";
+// import { SpecialitysComponent } from "./specialities/speciality.component";
 import { PersonsComponent } from "./persons/persons.component";
 import { CreateComponent } from "./funcionarios/create/create.component";
 import { EpsComponent } from "./eps/eps.component";

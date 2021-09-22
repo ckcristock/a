@@ -13,9 +13,9 @@
 
                 <div class="form-group col-md-12">
                     <label class="custom-label" for="funcionario_id">Nombre de Speciality</label>
-                    <input type="text" class="form-control form-control-sm" [(ngModel)]="speciality.description"
-                        formControlName="description" required>
-                    <app-show-errors class="text-danger" [ctrl]="form.get('description')"></app-show-errors>
+                    <input type="text" class="form-control form-control-sm" [(ngModel)]="speciality.name"
+                        formControlName="name" required>
+                    <app-show-errors class="text-danger" [ctrl]="form.get('name')"></app-show-errors>
                 </div>
 
                 <div class="form-group col-md-12">

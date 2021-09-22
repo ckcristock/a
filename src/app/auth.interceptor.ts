@@ -24,6 +24,7 @@ export class AuthInterceptor implements HttpInterceptor {
 
     const headersConfig = {
       //El content-type  modifica el headers para subir archivo
+      'Content-Type': 'application/json',
       'Accept': 'application/json'
     };
 

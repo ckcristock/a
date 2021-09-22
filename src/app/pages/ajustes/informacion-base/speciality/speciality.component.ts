@@ -1,5 +1,6 @@
 import { Component, OnInit, ViewChild } from '@angular/core';
-import { DataDinamicService } from 'src/app/data-dinamic.service';
+import { Response } from 'src/app/core/response.model';
+import { showConfirm, successMessage } from 'src/app/core/utils/confirmMessage';
 import { SpecialityModalComponent } from './speciality-modal/speciality-modal.component';
 import { SpecialityService } from './speciality.service';
 
@@ -48,6 +49,23 @@ export class SpecialityComponent implements OnInit {
   }
 
   openModal = () => {
+    this.modal.speciality.id = 0
     this.modal.openModal()
   }
+
+  edit = (id: Number) => {
+    this.modal.speciality.id = id
+    this.modal.openModal()
+  }
+
+  inactive = async (id: Number, status: string) => {
+    showConfirm(status, 'Especialidad').then((result) => {
+      if (result.isConfirmed) this._specialityService.ChangeSpeciality(id, status)
+        .subscribe((res: Response) => {
+          this.getSpecialties()
+          successMessage(null, res.data)
+        });
+    })
+  }
+
 }

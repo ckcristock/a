@@ -40,7 +40,7 @@ import { BonoComponent } from './funcionarios/detalle-funcionario/ver-funcionari
 import { CajaCompensacionComponent } from './caja-compensacion/caja-compensacion.component';
 import { SedesComponent } from './sedes/sedes.component';
 import { EpsComponent } from "./eps/eps.component";
-import { SpecialitysComponent } from './specialities/speciality.component';
+// import { SpecialitysComponent } from './specialities/speciality.component';
 import { PersonsComponent } from './persons/persons.component';
 import { TableComponent } from './persons/table/table.component';
 import { ModalComponent } from './persons/modal/modal.component';
@@ -73,7 +73,7 @@ import { ModalCupComponent } from './cups/modal-cup/modal-cup.component';
         PersonsComponent, PacientesComponent, EspecialidadesComponent,
         CupsComponent,
         EpsComponent,
-        SpecialitysComponent,
+        // SpecialitysComponent,
         TableComponent,
         ModalComponent,
         ModalCupComponent,

@@ -6,6 +6,7 @@ import { RouterModule, Routes } from '@angular/router';
 import { ComponentsModule } from 'src/app/components/components.module';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { NgbDropdownModule, NgbPaginationModule } from '@ng-bootstrap/ng-bootstrap';
+import { PipesModule } from 'src/app/core/pipes/pipes.module';
 
 
 
@@ -19,6 +20,7 @@ const routes: Routes = [
   imports: [
     [RouterModule.forChild(routes)],
     CommonModule,
+    PipesModule,
     ComponentsModule,
     FormsModule,
     ReactiveFormsModule,

@@ -1,5 +1,5 @@
 export class Speciality {
-    id: 0;
-    description: '';
-    code: '';
+    id: Number = null;
+    name: string = '';
+    code: string = '';
 }

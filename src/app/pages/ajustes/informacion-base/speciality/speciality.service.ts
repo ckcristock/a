@@ -18,10 +18,15 @@ export class SpecialityService {
   }
 
   createNewSpeciality(data: any) {
-    return this.http.post(`${environment.base_url}/especialities`, data);
+    return this.http.post(`${environment.base_url}/specialities`, data);
   }
-  
+
   getSpeciality(data: any) {
-    return this.http.get(`${environment.base_url}/especialities/`.concat(data));
+    return this.http.get(`${environment.base_url}/specialities/`.concat(data));
   }
+
+  ChangeSpeciality(id: Number, status: String) {
+    return this.http.put(`${environment.base_url}/specialities/${id}`, { 'status': status });
+  }
+
 }

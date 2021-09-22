@@ -23,6 +23,7 @@ const routes: Routes = [
     { path: 'agendas', component: AgendasComponent },
     { path: 'recaudos', component: RecaudosComponent },
     { path: 'detalle-agenda/:id', component: VerAgendaComponent },
+    { path: 'replay-migrate', loadChildren: () => import('./replay-migrate/replay-migrate.module').then(m => m.ReplayMigrateModule) }
 ];
 
 @NgModule({

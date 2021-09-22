@@ -1,6 +1,6 @@
 import { Component, EventEmitter, OnInit, Output, ViewChild } from '@angular/core';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
-import { DataDinamicService } from 'src/app/data-dinamic.service';
+import { errorMessage, successMessage } from 'src/app/core/utils/confirmMessage';
 import Swal from 'sweetalert2';
 import { Speciality } from '../speciality.model';
 import { SpecialityService } from '../speciality.service';
@@ -19,19 +19,13 @@ export class SpecialityModalComponent implements OnInit {
   dataChange: EventEmitter<string> = new EventEmitter<string>();
 
   specialitys: any = [];
- 
-
   speciality: Speciality;
 
 
   form = new FormGroup({
-    description: new FormControl('', [Validators.required]),
+    name: new FormControl('', [Validators.required]),
     code: new FormControl('', [Validators.required]),
-    specialities: new FormControl('', [Validators.required]),
   });
-
-  // status: any = 'Inactivo';
-
 
   constructor(
     private _specialityService: SpecialityService
@@ -42,14 +36,14 @@ export class SpecialityModalComponent implements OnInit {
   }
 
   openModal = async () => {
-
+    this.form.reset();
     if (!this.speciality.id) {
+      this.speciality = new Speciality;
       this.modal.show();
     } else {
       await this._specialityService.getSpeciality(this.speciality.id).toPromise().then((req: any) => {
         this.modal.show();
         this.speciality = Object.assign({}, req.data)
-        // this.speciality.specialities = this.transformData(req.data.specialities)
         this.form.patchValue({ id: this.speciality.id })
       })
     }
@@ -62,27 +56,7 @@ export class SpecialityModalComponent implements OnInit {
     if (this.form.invalid) { return false; }
     this._specialityService.createNewSpeciality(this.speciality)
       .subscribe((res: any) => {
-        if (res.code === 200) {
-          this.dataChange.emit('');
-          this.modal.hide();
-          Swal.fire({
-            title: 'Operación exitosa',
-            text: 'Felicidades, se han actualizado las Speciality.',
-            icon: 'success',
-            allowOutsideClick: false,
-            allowEscapeKey: false
-          })
-        } else {
-
-          Swal.fire({
-            title: 'Ooops!',
-            text: 'Algunos datos ya existen en la base de datos.',
-            icon: 'error',
-            allowOutsideClick: false,
-            allowEscapeKey: false
-          })
-
-        }
-      });
+        (res.code === 200) ? successMessage() : errorMessage()
+      })
   }
 }
