@@ -250,8 +250,8 @@ export class ReplayMigrateComponent implements OnInit {
         this.subscription.add(
           this._appointment.migrateAppointment(cita)
             .subscribe((res: Response) => {
-              (res.code === 200) ? successMessage() : errorMessage(res.err)
-              this.getCitas(this.formD.value)
+              (res.code === 200) ? successMessage(res.data) : errorMessage(res.err)
+              this.getCitas(this.formD)
             })
         )
       }

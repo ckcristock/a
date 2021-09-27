@@ -14,6 +14,7 @@ import { EventInput } from '@fullcalendar/core';
 import { QueryPatient } from '../../../query-patient.service';
 import { QueryAvailabilitySpacesService } from '../../../query-availability-spaces.service';
 import { dataCitaToAssignService } from '../../../dataCitaToAssignService.service';
+import { AssingService } from 'src/app/services/assign.service';
 
 @Component({
   selector: 'app-asignar-calendario',
@@ -42,18 +43,26 @@ export class AsignarCalendarioComponent implements OnInit {
   // calendar plugin
   calendarPlugins = [dayGridPlugin, bootstrapPlugin, timeGrigPlugin, interactionPlugin, listPlugin];
 
-  constructor(private modalService: NgbModal,
+  public departmentIdFromService = null
+
+  constructor(
+    private modalService: NgbModal,
     private formBuilder: FormBuilder,
     private _openAgendaService: OpenAgendaService,
     private _queryPatien: QueryPatient,
     private _queryAvailabilitySpacesService: QueryAvailabilitySpacesService,
-    private dataCitaToAssignService: dataCitaToAssignService
+    private dataCitaToAssignService: dataCitaToAssignService,
+    private _assingService: AssingService
+
   ) { }
 
 
   ngOnInit() {
 
     this.breadCrumbItems = [{ label: 'Forms' }, { label: 'Form Wizard', active: true }];
+    this._assingService.dataChange.subscribe((data) => {
+      this.departmentIdFromService = data;
+    })
 
     /**
  * Event Model validation
@@ -113,12 +122,11 @@ export class AsignarCalendarioComponent implements OnInit {
 
   }
 
-  openEditModal() {
-  }
-
   private _fetchData(params) {
-    this._openAgendaService.getOpenedSpaceCustom(params).subscribe((resp: any) => {
 
+    params.departemIdPatient = (this.departmentIdFromService) ? this.departmentIdFromService : this.dataCitaToAssignService.dateCall['paciente']['department_id'];
+
+    this._openAgendaService.getOpenedSpaceCustom(params).subscribe((resp: any) => {
       this.calendarEvents = resp.data.map((element, index) => {
         if (element.status) {
           resp.data[index]['allDay '] = false

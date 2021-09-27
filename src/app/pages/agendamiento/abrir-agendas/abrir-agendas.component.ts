@@ -27,6 +27,8 @@ export class AbrirAgendasComponent implements OnInit {
     { value: 4, name: 'Audi' },
   ];
 
+  public regional_percent: number = 80;
+
   public appointment = {
     value: "",
     text: "",
@@ -196,7 +198,6 @@ export class AbrirAgendasComponent implements OnInit {
       this.subappointmentId = this.type_subappointments[0].value
       this.getSpecialties()
     });
-
   }
 
   getIps() {
@@ -267,6 +268,7 @@ export class AbrirAgendasComponent implements OnInit {
       confirmButtonText: 'Si, Hazlo!'
     }).then(result => {
       if (result.value) {
+
         this._openAgendaService.saveAgendamiento(JSON.stringify(formulario.value)).subscribe((resp: any) => {
 
           if (resp.code != 200) {
@@ -300,4 +302,10 @@ export class AbrirAgendasComponent implements OnInit {
 
   InputProcedure = (x: { text: string }) => x.text;
 
+  showRange = (value: number) => {
+    if (value >= 100) {
+      return Math.round(value / 100) + 'k';
+    }
+    return value;
+  }
 }

@@ -1,5 +1,5 @@
 import { HttpClient } from '@angular/common/http';
-import { Component, OnInit, Output, OnDestroy, EventEmitter } from '@angular/core';
+import { Component, OnInit, Output, OnDestroy, EventEmitter, ViewChild } from '@angular/core';
 import { TimerObservable } from 'rxjs/observable/TimerObservable';
 import { environment } from 'src/environments/environment';
 import { QueryPatient } from '../query-patient.service';
@@ -13,6 +13,8 @@ import { AppointmentService } from '../../../core/services/appointment.service';
 import { OpenAgendaService } from '../open-agenda.service';
 import { ActivatedRoute, Router } from '@angular/router';
 import { dataCitaToAssign } from 'src/app/core/interfaces/dataCitaToAssign.model';
+import { SetPacienteComponent } from 'src/app/components/paciente/set-paciente/set-paciente.component';
+import { AssingService } from 'src/app/services/assign.service';
 
 
 @Component({
@@ -22,6 +24,12 @@ import { dataCitaToAssign } from 'src/app/core/interfaces/dataCitaToAssign.model
 })
 export class AsignacionCitasComponent implements OnInit {
   public getClitasE = new EventEmitter<any>();
+
+  @Output()
+  public changeData = new EventEmitter<any>();
+
+
+
   public configComponent: any =
     {
       'menu': 'Asignación de Citas',
@@ -29,13 +37,11 @@ export class AsignacionCitasComponent implements OnInit {
         'receive_calls': false
       }
     }
+
   operation: any = {};
   typeCall = 'Presencial';
   public existPtient;
   public existPtientForShow: boolean = false;
-
-
-
   public getDate;
   public dataFormCall: any = {
     paciente: {},
@@ -55,8 +61,7 @@ export class AsignacionCitasComponent implements OnInit {
     private route: ActivatedRoute,
     private _permisson: PermissionService,
     private _appointment: AppointmentService,
-    private _openAgenda: OpenAgendaService
-
+    private _openAgenda: OpenAgendaService,
   ) {
 
     if (this.route.snapshot.params.id) {

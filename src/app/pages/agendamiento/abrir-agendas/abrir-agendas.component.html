@@ -148,6 +148,31 @@
                                     Agenda</button>
                             </div>
                         </div>
+
+                        <ng-container *ngIf="profesional && !appointment.face_to_face">
+
+                            <div class="col-md-6 my-2  d-flex justify-content-center">
+                                <p>
+                                    Porcentaje para citas regionales <span class="h6 text text-danger">
+                                        {{regional_percent}}
+                                    </span>
+                                </p>
+                            </div>
+
+                            <div class="col-md-12 my-2  d-flex justify-content-center">
+                                <span for="Regional">Regional</span>
+                                <div class="col-md-4 my-2 ">
+
+                                    <input class="form-control" type="range" min="1" name="regional_percent" max="100"
+                                        [(ngModel)]="regional_percent" (change)="showRange()"
+                                        value="{{regional_percent}}">
+
+
+                                </div>
+                                <span for="Nacional">Nacional</span>
+                            </div>
+                        </ng-container>
+
                     </div>
                 </form>
             </div>

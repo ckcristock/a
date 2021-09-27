@@ -1,10 +1,11 @@
-import { Component, EventEmitter, OnInit, Output } from '@angular/core';
+import { Component, EventEmitter, OnInit, Output, ViewChild } from '@angular/core';
 import { NgForm } from '@angular/forms';
 import { dataCitaToAssign } from 'src/app/core/interfaces/dataCitaToAssign.model';
 import { dataCitaToAssignService } from '../../dataCitaToAssignService.service';
 import { OpenAgendaService } from '../../open-agenda.service';
 import { QueryAvailabilitySpacesService } from '../../query-availability-spaces.service';
 import { QueryPatient } from '../../query-patient.service';
+import { AsignarCalendarioComponent } from '../agendar-citas-panel/asignar-calendario/asignar-calendario.component';
 
 @Component({
   selector: 'app-cita',
@@ -27,6 +28,7 @@ export class CitaComponent implements OnInit {
   ];
 
   @Output('siguiente') sigx = new EventEmitter();
+  // @ViewChild(AsignarCalendarioComponent) calendar: AsignarCalendarioComponent;
 
   constructor
     (private _openAgendaService: OpenAgendaService,
@@ -129,7 +131,7 @@ export class CitaComponent implements OnInit {
 
   getProfesionals() {
     this._openAgendaService.getProfesionals(this.dataCitaToAssign.ips.value, String(this.dataCitaToAssign.speciality)).subscribe((resp: any) => {
-      this.persons = resp.data;
+      this.persons = resp.data;         
       this.persons.unshift({ value: '', text: 'Todos' })
     });
   }

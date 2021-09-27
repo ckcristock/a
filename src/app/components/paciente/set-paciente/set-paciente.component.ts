@@ -1,13 +1,14 @@
-import { Component, Input, OnInit, OnDestroy } from '@angular/core';
+import { Component, Input, OnInit, OnDestroy, Output, EventEmitter } from '@angular/core';
 import { FormControl, FormGroup, NgForm } from '@angular/forms';
 import { DataDinamicService } from 'src/app/data-dinamic.service';
 import { dataCitaToAssignService } from 'src/app/pages/agendamiento/dataCitaToAssignService.service';
 import { QueryPatient } from 'src/app/pages/agendamiento/query-patient.service';
-import { genders, levels, typeRegimens, typeDocuments, epss } from './dataPacienteBurns';
+import { genders, levels, typeRegimens, typeDocuments, epss, types } from './dataPacienteBurns';
 import { Subscription } from 'rxjs';
 import { Patient } from '../../../core/models/patient.model';
 import Swal from 'sweetalert2';
 import { OpenAgendaService } from '../../../pages/agendamiento/open-agenda.service';
+import { AssingService } from 'src/app/services/assign.service';
 
 @Component({
   selector: 'app-set-paciente',
@@ -19,6 +20,7 @@ import { OpenAgendaService } from '../../../pages/agendamiento/open-agenda.servi
 export class SetPacienteComponent implements OnInit {
 
   public genders = genders;
+  public types = types;
   public levels: any[];
   public typeRegimens: any[];
   public typeDocuments: any[];
@@ -39,9 +41,16 @@ export class SetPacienteComponent implements OnInit {
   public show = false;
   public llamada: any;
   $qp: Subscription
-  constructor(private _queryPatient: QueryPatient, private _dataDinamicService: DataDinamicService,
+
+  @Output()
+  changeDepartment = new EventEmitter<any>();
+
+  constructor(
+    private _queryPatient: QueryPatient, private _dataDinamicService: DataDinamicService,
     private dataCitaToAssignService: dataCitaToAssignService,
-    private _openAgenda: OpenAgendaService) {
+    private _openAgenda: OpenAgendaService,
+    private _assingService: AssingService
+  ) {
     this.getEps();
   }
 
@@ -73,6 +82,10 @@ export class SetPacienteComponent implements OnInit {
 
   getCities() {
     if (this.paciente.department_id) {
+
+      this._assingService.dataChange.next(this.paciente.department_id);
+      this._assingService.returnStep.next(1);
+
       let parm = { department_id: this.paciente.department_id }
       this._dataDinamicService.getCities(parm).subscribe((req: any) => {
         this.cities = req.data

@@ -79,7 +79,7 @@
                     </ng-select>
                 </div>
 
-                <div class="form-group col-md-4">
+                <div class="form-group col-md-6">
                     <label for=""> Nivel</label>
                     <ng-select name="level_id" bindValue="customId" bindLabel="customText" placeholder="Select"
                         [items]="levels" bindValue="value" bindLabel="text" required #level_id="ngModel"
@@ -88,6 +88,15 @@
                         <!--     <ng-option [value]="type.value" *ngFor="let type of levels">{{type.text}}</ng-option> -->
                     </ng-select>
                 </div>
+
+                <div class="form-group col-md-6">
+                    <label for=""> Tipo de Afilición</label>
+                    <ng-select name="affiliate_type" bindValue="customId" bindLabel="customText" placeholder="Select"
+                        [items]="types" bindValue="value" bindLabel="text" required #type="ngModel"
+                        [ngClass]="{'is-invalid': ( type.invalid && type.touched )}" [(ngModel)]="paciente.affiliate_type">
+                    </ng-select>
+                </div>
+
                 <!--  <div class="form-group">
                     <fieldset class="form-group">
                         <label>Selection Required</label>
@@ -103,11 +112,11 @@
                         [(ngModel)]="paciente.date_of_birth" class="form-control " id="date_of_birth">
                 </div>
 
-                <div class="form-group col-md-2 ">
+                <div class="form-group col-md-6">
                     <label for="Genero">Genero</label>
                     <select class="custom-select " required name="gener" #gener="ngModel"
                         [ngClass]="{'is-invalid': ( gener.invalid && gener.touched )}" [(ngModel)]="paciente.gener">
-                        <option *ngFor="let type of genders" [value]="type.text">{{type.text}}</option>
+                        <option *ngFor="let type of genders" [value]="type.value">{{type.text}}</option>
                     </select>
                 </div>
 
