@@ -45,6 +45,7 @@ import { PersonsComponent } from './persons/persons.component';
 import { TableComponent } from './persons/table/table.component';
 import { ModalComponent } from './persons/modal/modal.component';
 import { ModalCupComponent } from './cups/modal-cup/modal-cup.component';
+import { ModalDatosBasicosComponent } from './funcionarios/detalle-funcionario/ver-funcionario/datos-basicos/modal-datos-basicos/modal-datos-basicos.component';
 
 @NgModule({
     declarations: [
@@ -63,6 +64,7 @@ import { ModalCupComponent } from './cups/modal-cup/modal-cup.component';
         DotacionTallasComponent,
         VerFuncionarioComponent,
         DatosBasicosComponent,
+        ModalDatosBasicosComponent,
         SalarioComponent,
         DatosEmpresaComponent,
         AfiliacionesComponent,

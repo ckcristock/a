@@ -100,7 +100,27 @@ export class FuncionariosComponent implements OnInit {
   }
 
 
+
+  //   this.pagination.page = page;
+  //   let params: any = { ...this.pagination }
+  //   console.log(params);
+  //   params.status = this.statusFilter();
+  //   params.dependencies = this.dependenciesFilter();
+  //   params.name = name ? name : ''
+  // console.log(params);
+
+  //   this.loading = true;
+
+  //   this._person.getPeople({data:JSON.stringify( params )})
+  //     .subscribe(d => {
+  //       this.loading = false;
+  //       this.people = d['data']['data']
+  //       this.pagination.collectionSize = d['data']['total']
+  //     })
+
   getPeople(page = 1, name = '') {
+
+    console.log(page);
 
     this.pagination.page = page;
     let params: any = { ...this.pagination }

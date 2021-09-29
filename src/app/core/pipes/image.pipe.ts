@@ -9,14 +9,17 @@ const base_url = environment.base_url;
 export class ImagePipe implements PipeTransform {
 
   transform(img: string, tipo: 'users' | 'persons' | 'companies'): string {
+
     if (!img) {
       return `assets/images/users/no-image.png`;
-    } else if (img.includes('https')) {
+    } else if (img.includes('https') || img.includes('http')) {
       return img;
     } else if (img) {
       return `${base_url}/upload/usuarios/${img}`;
     } else {
       return `${base_url}/upload/usuarios/no-image`;
     }
+
   }
+
 }
