@@ -1,7 +1,7 @@
 import { Component, OnInit, ViewChild } from '@angular/core';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
+import { EpssService } from 'src/app/pages/ajustes/informacion-base/services/epss.service';
 import Swal from 'sweetalert2';
-import { EpsService } from './eps.service';
 
 @Component({
   selector: 'app-eps',
@@ -9,10 +9,10 @@ import { EpsService } from './eps.service';
   styleUrls: ['./eps.component.scss']
 })
 export class EpsComponent implements OnInit {
-  @ViewChild('modal') modal:any;
+  @ViewChild('modal') modal: any;
   epss: any = [];
   eps: any = {};
-  filtros:any = {
+  filtros: any = {
     name: '',
     code: ''
   }
@@ -26,69 +26,69 @@ export class EpsComponent implements OnInit {
     page: 1,
     collectionSize: 0
   }
-  status:any = 'Inactivo';
-  loading:boolean = false;
+  status: any = 'Inactivo';
+  loading: boolean = false;
 
-  constructor( private epsService: EpsService ) { }
+  constructor(private epsService: EpssService) { }
 
   ngOnInit(): void {
     this.getAllEps();
   }
 
-  getAllEps( page = 1 ){
-    
+  getAllEps(page = 1) {
+
     this.pagination.page = page;
     let params = {
       ...this.pagination, ...this.filtros
     }
     this.loading = true;
     this.epsService.getAllEps(params)
-    .subscribe( (res:any) => {
-      this.loading = false;
-      this.epss = res.data.data;
-      this.pagination.collectionSize = res.data.total;
-    });
+      .subscribe((res: any) => {
+        this.loading = false;
+        this.epss = res.data.data;
+        this.pagination.collectionSize = res.data.total;
+      });
   }
 
-  anularOActivar(zone, status){
+  anularOActivar(zone, status) {
 
-    let data:any = {
-      id:zone.id,
+    let data: any = {
+      id: zone.id,
       status
     }
 
-      
-      Swal.fire({
-        title: '¿Estas seguro?',
-        text: (status === 'Inactivo'? 'La EPS se Inactivará!' : 'La EPS se activará'),
-        icon: 'warning',
-        showCancelButton: true,
-        confirmButtonColor: '#3085d6',
-        cancelButtonColor: '#d33',
-        cancelButtonText: 'Cancelar',
-        confirmButtonText: ( status === 'Inactivo' ? 'Si, Inhabilitar' : 'Si, activar' )
-      }).then((result) => {
-        if (result.isConfirmed) {
-          this.epsService.createNewEps(data)
-          .subscribe( res =>{
+
+    Swal.fire({
+      title: '¿Estas seguro?',
+      text: (status === 'Inactivo' ? 'La EPS se Inactivará!' : 'La EPS se activará'),
+      icon: 'warning',
+      showCancelButton: true,
+      confirmButtonColor: '#3085d6',
+      cancelButtonColor: '#d33',
+      cancelButtonText: 'Cancelar',
+      confirmButtonText: (status === 'Inactivo' ? 'Si, Inhabilitar' : 'Si, activar')
+    }).then((result) => {
+      if (result.isConfirmed) {
+        this.epsService.createNewEps(data)
+          .subscribe(res => {
             this.getAllEps();
             Swal.fire({
-              title: (status === 'Inactivo' ? 'EPS Inhabilitada!' : 'EPS activada' ) ,
+              title: (status === 'Inactivo' ? 'EPS Inhabilitada!' : 'EPS activada'),
               text: (status === 'Inactivo' ? 'La EPS ha sido Inhabilitada con éxito.' : 'La EPS ha sido activada con éxito.'),
               icon: 'success'
             })
-          } )
-        }
-      })
+          })
+      }
+    })
   }
 
 
-  registerNull(eps){
+  registerNull(eps) {
     this.eps = eps;
 
   }
 
-  openModal(){
+  openModal() {
     this.eps.id = '';
     this.eps.name = '';
     this.eps.code = '';
@@ -97,16 +97,15 @@ export class EpsComponent implements OnInit {
     this.form.reset();
   }
 
-  getEps(eps){
-    /* this.eps = Object.assign({},eps) ; */
-    this.eps = {...eps} ;
+  getEps(eps) {
+    this.eps = { ...eps };
   }
 
-  createNewEps(){
-      this.form.markAllAsTouched();
-      if (this.form.invalid) { return false;}
-      this.epsService.createNewEps(this.eps)
-      .subscribe( (res:any) => {
+  createNewEps() {
+    this.form.markAllAsTouched();
+    if (this.form.invalid) { return false; }
+    this.epsService.createNewEps(this.eps)
+      .subscribe((res: any) => {
 
         if (res.code === 200) {
 
@@ -130,26 +129,26 @@ export class EpsComponent implements OnInit {
           })
 
         }
-      });      
+      });
   }
 
-  get name_eps_valid(){
+  get name_eps_valid() {
     return (
       this.form.get('name').invalid && this.form.get('name').touched
     )
   }
 
-  get code_eps_valid(){
+  get code_eps_valid() {
     return (
       this.form.get('code').invalid && this.form.get('code').touched
     )
   }
 
-  get nit_eps_valid(){
+  get nit_eps_valid() {
     return (
       this.form.get('nit').invalid && this.form.get('nit').touched
     )
   }
-  
+
 
 }

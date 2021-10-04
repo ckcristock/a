@@ -13,7 +13,7 @@
         <form [formGroup]="form">
           <div class="form-row mt-3">
             <div class="form-group col-md-2 text-center">
-              <img [src]=" funcionario.name | image" class="img-rounded d-block m-auto" alt="">
+              <img [src]=" funcionario.image" class="img-rounded d-block m-auto" alt="">
               <label for="image" class="subir-archivo mt-3">Cargar imagen</label>
               <input type="file" name="image" class="form-control-file" id="image" formControlName="image"
                 (change)="onFileChanged($event)" [class.is-invalid]="image_valid" placeholder="Imagen" />

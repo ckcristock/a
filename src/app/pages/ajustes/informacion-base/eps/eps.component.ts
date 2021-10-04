@@ -1,7 +1,7 @@
 import { Component, OnInit, ViewChild } from '@angular/core';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
 import Swal from 'sweetalert2';
-import { EpsService } from './eps.service';
+import { EpssService } from '../services/epss.service';
 
 @Component({
   selector: 'app-eps',
@@ -29,7 +29,7 @@ export class EpsComponent implements OnInit {
   status: any = 'Inactivo';
   loading: boolean = false;
 
-  constructor(private epsService: EpsService) { }
+  constructor(private epsService: EpssService) { }
 
   ngOnInit(): void {
     this.getAllEps();
@@ -98,7 +98,6 @@ export class EpsComponent implements OnInit {
   }
 
   getEps(eps) {
-    /* this.eps = Object.assign({},eps) ; */
     this.eps = { ...eps };
   }
 

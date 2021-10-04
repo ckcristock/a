@@ -36,6 +36,7 @@ export class DatosBasicosComponent implements OnInit {
     marital_status: '',
     degree: ''
   }
+  subscriptions: Subscription = new Subscription();
 
   constructor(
     private _person: PersonDataService,
@@ -47,13 +48,13 @@ export class DatosBasicosComponent implements OnInit {
   person: Person
 
   ngOnInit(): void {
-
     this.id = this.activatedRoute.snapshot.params.id;
     this.$person = this._person.person.subscribe((r) => {
       this.person = r;
     });
 
     this.getBasicsData();
+    this.subscriptions.add(this.basicDataService.datos$.subscribe(data => { this.getBasicsData(); }));
 
   }
 
@@ -62,9 +63,11 @@ export class DatosBasicosComponent implements OnInit {
       .subscribe((res: any) => {
         this.funcionario = res.data;
       })
-
     this.person.image = this.funcionario.image;
+  }
 
+  ngOnDestroy(): void {
+    this.subscriptions.unsubscribe();
   }
 
 }

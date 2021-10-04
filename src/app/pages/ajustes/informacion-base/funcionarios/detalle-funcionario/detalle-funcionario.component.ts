@@ -1,6 +1,7 @@
 import { Location } from '@angular/common';
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
+import { Subscription } from 'rxjs';
 import { DetalleService } from './detalle.service';
 import { DatosBasicosService } from './ver-funcionario/datos-basicos/datos-basicos.service';
 
@@ -13,7 +14,7 @@ export class DetalleFuncionarioComponent implements OnInit {
   habilitado = true;
   components = 'informacion';
   id: any;
-  data$: any;
+  private subscriptions = new Subscription();
   funcionario: any = {
     salary: '',
     work_contract: '',
@@ -37,9 +38,7 @@ export class DetalleFuncionarioComponent implements OnInit {
   ngOnInit(): void {
     this.id = this.activateRoute.snapshot.params.id;
     this.getBasicData();
-    this.data$ = this.basicDataService.datos$.subscribe(data => {
-      this.getBasicData();
-    });
+    this.subscriptions.add(this.basicDataService.datos$.subscribe(data => { this.getBasicData(); }));
 
   }
 
@@ -52,14 +51,15 @@ export class DetalleFuncionarioComponent implements OnInit {
   }
 
   getBasicData() {
-    this.detalleService.getBasicData(this.id)
+    this.detalleService.getBasicDataCustom(this.id)
       .subscribe((res: any) => {
-        this.funcionario = res[0];
+        console.log(res);
+        this.funcionario = res.data;
       });
   }
 
   ngOnDestroy(): void {
-    this.data$.unsubscribe();
+    this.subscriptions.unsubscribe();
   }
 
 }

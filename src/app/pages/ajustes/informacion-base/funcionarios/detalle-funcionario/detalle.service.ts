@@ -7,9 +7,12 @@ import { environment } from 'src/environments/environment';
 })
 export class DetalleService {
 
-  constructor( private http:HttpClient ) { }
+  constructor(private http: HttpClient) { }
 
-  getBasicData(id){
+  getBasicData(id) {
     return this.http.get(`${environment.base_url}/person/${id}`);
+  }
+  getBasicDataCustom(id) {
+    return this.http.get(`${environment.base_url}/basicData/${id}`);
   }
 }

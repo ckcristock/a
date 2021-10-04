@@ -27,7 +27,8 @@ export class AbrirAgendasComponent implements OnInit {
     { value: 4, name: 'Audi' },
   ];
 
-  public regional_percent: number = 80;
+  public regionalPercent: number = 80;
+  public maxRegional: number = 80;
 
   public appointment = {
     value: "",
@@ -303,9 +304,8 @@ export class AbrirAgendasComponent implements OnInit {
   InputProcedure = (x: { text: string }) => x.text;
 
   showRange = (value: number) => {
-    if (value >= 100) {
-      return Math.round(value / 100) + 'k';
-    }
-    return value;
+    if (value > this.maxRegional) return this.regionalPercent = this.maxRegional;
+    return this.regionalPercent;
   }
+
 }

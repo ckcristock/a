@@ -57,7 +57,7 @@ export class ModalDatosBasicosComponent implements OnInit {
 
   createForm() {
     this.form = this.fb.group({
-      image: ['', Validators.required],
+      image: [''],
       first_name: ['', Validators.required],
       second_name: ['', Validators.required],
       first_surname: ['', Validators.required],
@@ -70,12 +70,13 @@ export class ModalDatosBasicosComponent implements OnInit {
         '',
         [
           Validators.required,
-          Validators.pattern('[a-z0-9._%+-]+@[a-z0-9.-]+.[a-z]{2,4}$'),
+          // Validators.pattern('[a-z0-9._%+-]+@[a-z0-9.-]+.[a-z]{2,4}$'),
         ],
       ],
       sex: ['', Validators.required],
       marital_status: ['', Validators.required],
-      cell_phone: ['', [Validators.required, this._val.minLength(5), this._val.maxLength(10)]]
+      cell_phone: ['', [Validators.required]]
+      // this._val.minLength(5), this._val.maxLength(10)]]
     });
   }
 
@@ -186,7 +187,7 @@ export class ModalDatosBasicosComponent implements OnInit {
     this.basicDataService.updateBasicData(this.funcionario, this.id)
       .subscribe(res => {
         this.modal.hide();
-        this.getBasicsData();
+        this.basicDataService.datos$.next();
         Swal.fire({
           icon: 'success',
           title: 'Editado con éxito',

@@ -1,16 +1,21 @@
 import { Component, OnInit, ViewChild } from '@angular/core';
 import { NgForm } from '@angular/forms';
 import { DataDinamicService } from '../../../../data-dinamic.service';
-import { OpenAgendaService } from '../../../agendamiento/open-agenda.service';
 import { PersonService } from './profesionales.service';
-import { Observable, ReplaySubject } from 'rxjs';
 import {functionsUtils} from '../../../../core/utils/functionsUtils';
+
+// @Component({
+//   selector: 'app-profesionales',
+//   templateUrl: './profesionales.component.html',
+//   styleUrls: ['./profesionales.component.scss']
+// })
+
 @Component({
-  selector: 'app-profesionales',
-  templateUrl: './profesionales.component.html',
-  styleUrls: ['./profesionales.component.scss']
+  selector: 'app-professionals',
+  templateUrl: './professionals.component.html',
+  styleUrls: ['./professionals.component.scss']
 })
-export class ProfesionalesComponent implements OnInit {
+export class ProfessionalsComponent implements OnInit {
 
   @ViewChild('newModal') newModal
 

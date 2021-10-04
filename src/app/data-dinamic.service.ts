@@ -63,6 +63,18 @@ export class DataDinamicService {
     return this.httpClient.get(`${environment.base_url}/get-patient-fill/${document}`)
   }
 
+  public getPriceList() {
+    return this.httpClient.get(`${environment.base_url}/price_lists`)
+  }
+
+  public getPaymentMethod() {
+    return this.httpClient.get(`${environment.base_url}/payment_methods`)
+  }
+
+  public getBenefitsPlan() {
+    return this.httpClient.get(`${environment.base_url}/benefits_plans`)
+  }
+  
   public getSpecialties(sede: string, procedure: string) {
     if (sede == 'undefined' || !sede) {
       sede = '0';
