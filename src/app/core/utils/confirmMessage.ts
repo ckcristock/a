@@ -42,13 +42,13 @@ export async function showConfirmCancel<T>(status: any, model: string) {
 export async function showConfirmCancelWhitoutMessage<T>(status: any, model: string) {
     return Swal.fire({
         title: '¿Estas seguro?',
-        text:  `Estas a un paso de ${status} esta  ${model} !`,
+        text: `Estas a un paso de ${status} esta  ${model} !`,
         icon: 'warning',
         showCancelButton: true,
         confirmButtonColor: '#3085d6',
         cancelButtonColor: '#d33',
         cancelButtonText: 'Cancelar',
-        confirmButtonText:  'Si, ' + status 
+        confirmButtonText: 'Si, ' + status
     })
 }
 
@@ -73,6 +73,20 @@ export function errorMessage<T>(
     Swal.fire({
         title: status,
         text: 'Se han registrado errores operación no realizada',
+        icon: 'error',
+        allowOutsideClick: false,
+        allowEscapeKey: false
+    })
+}
+
+export function WarningMessage<T>(
+    status: any = 'Ooops',
+    text: any = 'Verifique los datos',
+    model: string = ''
+) {
+    Swal.fire({
+        title: status,
+        text: text,
         icon: 'error',
         allowOutsideClick: false,
         allowEscapeKey: false

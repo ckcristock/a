@@ -17,12 +17,28 @@ export class EpssService {
     return this.http.get(`${environment.base_url}/eps`, { params });
   }
 
+  getInfoEpsContract(id) {
+    return this.http.get(`${environment.base_url}/contracts/${id}`, );
+  }
+
   getAllPaginateEps(params = {}) {
     return this.http.get(`${environment.base_url}/paginate-eps`, { params });
   }
 
   createNewEps(data: any) {
     return this.http.post(`${environment.base_url}/eps`, data);
+  }
+
+  createNewEpsContact(data: any) {
+    return this.http.post(`${environment.base_url}/contracts`, data);
+  }
+
+  getAllPaginateEpsContact(data: any) {
+    return this.http.get(`${environment.base_url}/contracts`, data);
+  }
+
+  getEpsContracts(data: any) {
+    return this.http.get(`${environment.base_url}/contracts-for-select`, data);
   }
 
 }

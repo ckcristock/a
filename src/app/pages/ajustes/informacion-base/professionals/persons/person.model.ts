@@ -1,6 +1,6 @@
 export class Person {
     id: null;
-    type_document_id: null;
+    type_document_id: undefined;
     identifier: '';
     first_name: '';
     second_name: '';
@@ -11,7 +11,7 @@ export class Person {
     email: '';
     phone: '';
     cell_phone: '';
-    Ips: '';
+    ips: '';
     company_id: 0;
     department_id: '';
     municipality_id: '';

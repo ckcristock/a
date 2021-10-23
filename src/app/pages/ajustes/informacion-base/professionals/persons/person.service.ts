@@ -7,6 +7,8 @@ import { environment } from 'src/environments/environment';
 })
 export class PersonService {
 
+  public id: number = null;
+
   constructor(private httpClient: HttpClient) { }
   storePeople(form) {
     return this.httpClient.post(`${environment.base_url}/professionals`, form)

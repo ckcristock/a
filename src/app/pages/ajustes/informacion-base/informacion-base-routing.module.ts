@@ -8,7 +8,7 @@ import { AseguradorasComponent } from './aseguradoras/aseguradoras.component';
 import { RegimenesNivelesComponent } from './regimenes-niveles/regimenes-niveles.component';
 import { CupsComponent } from './cups/cups.component';
 import { DetalleFuncionarioComponent } from './funcionarios/detalle-funcionario/detalle-funcionario.component';
-import { PersonsComponent } from "./persons/persons.component";
+// import { PersonsComponent } from "./persons/persons.component";
 import { CreateComponent } from "./funcionarios/create/create.component";
 import { EpsComponent } from "./eps/eps.component";
 
@@ -19,7 +19,7 @@ const routes: Routes = [
     { path: 'funcionarios', component: FuncionariosComponent },
     { path: 'funcionario/:id', component: DetalleFuncionarioComponent },
     { path: 'funcionarios/crear', component: CreateComponent },
-    { path: 'persons', component: PersonsComponent },
+    // { path: 'persons', component: PersonsComponent },
     { path: 'pacientes', component: PacientesComponent },
     { path: 'cups', component: CupsComponent },
     { path: 'regimenes-niveles', component: RegimenesNivelesComponent },

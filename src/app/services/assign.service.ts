@@ -8,6 +8,8 @@ import { Subject } from 'rxjs';
 export class AssingService {
 
     public dataChange = new Subject<any>();
+    public dataChangeRegime = new Subject<any>();
+    public dataChangeContract = new Subject<any>();
     public returnStep = new Subject<any>();
 
     constructor() { }

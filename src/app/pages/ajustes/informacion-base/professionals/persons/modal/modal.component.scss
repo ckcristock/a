@@ -1,0 +1,65 @@
+// @import "~@ng-select/ng-select/themes/default.theme.css";
+@import "~@ng-select/ng-select/themes/material.theme.css";
+
+.file {
+    opacity: 0;
+    width: 0.1px;
+    height: 0.1px;
+    position: absolute;
+}
+
+.file-input label {
+    display: block;
+    width: 18em;
+    height: 30px;
+    border-radius: 25px;
+    background: #006fba;
+    box-shadow: 0 4px 7px rgba(0, 0, 0, 0.4);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: #fff;
+    font-weight: bold;
+    cursor: pointer;
+    transition: transform 0.2s ease-out;
+}
+
+.file-name {
+    align-items: center;
+    justify-content: center;
+    bottom: -35px;
+    left: 8em;
+    font-size: 0.85rem;
+    color: #555;
+}
+
+// input[type='file'] {
+//     display: none;
+// }
+
+.subir-archivo {
+    border: 1px solid #ccc;
+    display: inline-block;
+    padding: 6px 12px;
+    font-weight: bold;
+    cursor: pointer;
+}
+
+.subir-archivo {
+    color: #7a7e7e;
+}
+
+fieldset legend {
+    font-size: 1.2rem;
+}
+
+#imageOutput {
+    width: 100px;
+    height: 100px;
+    border-radius: 50%;
+}
+
+.ng-select.ng-select-focused:not(.ng-select-opened) > .ng-select-container {
+    border-color: red;
+    box-shadow: inset 0 1px 1px rgba(0, 0, 0, 0.075), 0 0 0 3px rgba(0, 126, 255, 0.1);
+}

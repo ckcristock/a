@@ -6,6 +6,10 @@ import { NgbCollapseModule, NgbDropdownModule, NgbPaginationModule } from '@ng-b
 import { ComponentsModule } from 'src/app/components/components.module';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { ProfesionalsRoutes } from './profesionals.routing';
+import { PersonsComponent } from './persons/persons.component';
+import { ModalComponent } from './persons/modal/modal.component';
+import { TableComponent } from './persons/table/table.component';
+import { PipesModule } from 'src/app/core/pipes/pipes.module';
 
 @NgModule({
   imports: [
@@ -17,8 +21,15 @@ import { ProfesionalsRoutes } from './profesionals.routing';
     NgbDropdownModule,
     NgbCollapseModule,
     ComponentsModule,
-    ProfesionalsRoutes
+    ProfesionalsRoutes,
+    PipesModule
   ],
-  declarations: [ProfessionalsComponent]
+  declarations: [
+    ProfessionalsComponent,
+    PersonsComponent,
+    ModalComponent,
+    TableComponent
+  ]
+
 })
 export class ProfessionalsModule { }

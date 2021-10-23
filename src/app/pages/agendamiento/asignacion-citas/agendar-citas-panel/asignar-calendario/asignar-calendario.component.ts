@@ -44,6 +44,7 @@ export class AsignarCalendarioComponent implements OnInit {
   calendarPlugins = [dayGridPlugin, bootstrapPlugin, timeGrigPlugin, interactionPlugin, listPlugin];
 
   public departmentIdFromService = null
+  public regimeIdFromService = null
 
   constructor(
     private modalService: NgbModal,
@@ -127,11 +128,8 @@ export class AsignarCalendarioComponent implements OnInit {
     params.departemIdPatient = (this.departmentIdFromService) ? this.departmentIdFromService : this.dataCitaToAssignService.dateCall['paciente']['department_id'];
 
     this._openAgendaService.getOpenedSpaceCustom(params).subscribe((resp: any) => {
+
       this.calendarEvents = resp.data.map((element, index) => {
-        if (element.status) {
-          resp.data[index]['allDay '] = false
-          return element
-        }
         resp.data[index]['allDay '] = false
         return element
       });

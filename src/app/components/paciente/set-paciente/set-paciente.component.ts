@@ -57,7 +57,6 @@ export class SetPacienteComponent implements OnInit {
   ngOnInit() {
 
     this.$qp = this._queryPatient.patient.subscribe(async r => {
-
       if (r.paciente.identifier) {
         this.paciente = r.paciente
         this.llamada = r.llamada
@@ -69,6 +68,8 @@ export class SetPacienteComponent implements OnInit {
         this.getCities();
         await this.getCompanies(r.paciente.municipality_id)
         r.paciente ? this.getContracts(r.paciente) : ''
+        this.changeContract();
+        this.changeRegime();
       }
     })
   }
@@ -79,6 +80,7 @@ export class SetPacienteComponent implements OnInit {
       this.departments.unshift({ text: 'Seleccione', value: '' })
     })
   }
+
 
   getCities() {
     if (this.paciente.department_id) {
@@ -94,7 +96,7 @@ export class SetPacienteComponent implements OnInit {
     }
   }
 
-  async getCompanies(event) {
+  async getCompanies(event: string = '0') {
     await this._openAgenda.getIpsBasedOnCity(event).toPromise().then((req: any) => {
       this.companies = req.data
       this.companies.unshift({ text: 'Seleccione', value: '' })
@@ -194,6 +196,7 @@ export class SetPacienteComponent implements OnInit {
       this.typeRegimens = req.data
       this.typeRegimens.unshift({ text: 'Seleccione', value: '' })
     })
+    this.changeRegime();
   }
 
   getlevels() {
@@ -204,18 +207,31 @@ export class SetPacienteComponent implements OnInit {
   }
 
   getContracts(paciente) {
-
     const params = {
       'department_id': paciente.department_id,
       'company_id': paciente.company_id,
       'eps_id': paciente.eps_id,
       'regimen_id': paciente.regimen_id,
     }
-
     this._dataDinamicService.getContracts(params).subscribe((req: any) => {
       this.contracts = req.data
     })
   }
+
+  changeRegime() {
+    if (this.paciente.regimen_id) {
+      this._assingService.dataChangeRegime.next(this.paciente.regimen_id);
+      this._assingService.returnStep.next(1);
+    }
+  }
+
+  changeContract() {
+    if (this.paciente.contract_id) {
+      this._assingService.dataChangeContract.next(this.paciente.contract_id);
+      this._assingService.returnStep.next(1);
+    }
+  }
+
 
   save(formPatient: NgForm) {
     try {

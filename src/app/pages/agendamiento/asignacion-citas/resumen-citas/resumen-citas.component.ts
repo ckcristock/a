@@ -18,10 +18,11 @@ export class ResumenCitasComponent implements OnInit {
   citas : any = []
   constructor(private _appointment : AppointmentService) {
    }
-  
+
 
    getCitas() {
     this.loading = true;
+    console.log(this.patient);
     this._appointment.getAppointments({ identifier:this.patient }).subscribe((r: any) => {
       this.citas = r.data.data;
       this.loading = false;
@@ -31,7 +32,7 @@ export class ResumenCitasComponent implements OnInit {
     this.getCitas();
   }
 
-  
+
   detalleCita(cita){
     let  modalDetalle  = {
       Id_Cita_Detalle:cita.id,
@@ -40,7 +41,7 @@ export class ResumenCitasComponent implements OnInit {
     this.openModalDetalle.emit(modalDetalle)
   }
 
-  
+
 
 
 }

@@ -1,6 +1,7 @@
 import { Component, EventEmitter, OnInit, Output, ViewChild } from '@angular/core';
 import { NgForm } from '@angular/forms';
 import { dataCitaToAssign } from 'src/app/core/interfaces/dataCitaToAssign.model';
+import { AssingService } from 'src/app/services/assign.service';
 import { dataCitaToAssignService } from '../../dataCitaToAssignService.service';
 import { OpenAgendaService } from '../../open-agenda.service';
 import { QueryAvailabilitySpacesService } from '../../query-availability-spaces.service';
@@ -16,6 +17,8 @@ export class CitaComponent implements OnInit {
 
   public dataCitaToAssign = new dataCitaToAssign();
   public type_appointments: [];
+  public regimeIdFromService: any;
+  public contratcIdFromService: any;
   public specialties: [];
   public infowailist: any
   public persons: any[];
@@ -34,7 +37,8 @@ export class CitaComponent implements OnInit {
     (private _openAgendaService: OpenAgendaService,
       public _queryAvailabilitySpacesService: QueryAvailabilitySpacesService,
       private dataCitaToAssignService: dataCitaToAssignService,
-      private _queryPatient: QueryPatient
+      private _queryPatient: QueryPatient,
+      private _assingService: AssingService
     ) { }
 
   ngOnInit(): void {
@@ -56,6 +60,15 @@ export class CitaComponent implements OnInit {
       }
 
     })
+
+    this._assingService.dataChangeRegime.subscribe((data) => {
+      this.regimeIdFromService = data;
+    })
+
+    this._assingService.dataChangeContract.subscribe((data) => {
+      this.contratcIdFromService = data;
+    })
+
   }
 
 
@@ -103,7 +116,7 @@ export class CitaComponent implements OnInit {
       }
       this.getSpecialties()
       this.getProfesionals()
-      //TODO:Implementar dispacth 
+      //TODO:Implementar dispacth
       // this.dispatchPerson(form)
     });
 
@@ -130,8 +143,14 @@ export class CitaComponent implements OnInit {
   }
 
   getProfesionals() {
-    this._openAgendaService.getProfesionals(this.dataCitaToAssign.ips.value, String(this.dataCitaToAssign.speciality)).subscribe((resp: any) => {
-      this.persons = resp.data;         
+
+    let params = {
+      'regimen_id': this.regimeIdFromService,
+      'contract_id': this.contratcIdFromService
+    }
+
+    this._openAgendaService.getProfesionals(this.dataCitaToAssign.ips.value, String(this.dataCitaToAssign.speciality), params).subscribe((resp: any) => {
+      this.persons = resp.data;
       this.persons.unshift({ value: '', text: 'Todos' })
     });
   }

@@ -40,6 +40,7 @@ export class ReportesComponent implements OnInit {
     this.getSpecialities();
     this.getRegimens();
     this.getEpss();
+    this.gettypeReportes();
   }
 
   ngOnInit(): void {
@@ -51,6 +52,13 @@ export class ReportesComponent implements OnInit {
       this.companies.unshift({ text: 'Todas', value: '' });
     })
   }
+
+  gettypeReportes() {
+    this._dataDinamic.gettypeReportes().subscribe((r: any) => {
+      this.typeReports = r.data
+    })
+  }
+
   getSpecialities() {
     this._dataDinamic.getSpecialties('', '').subscribe((r: any) => {
       this.specialities = r.data

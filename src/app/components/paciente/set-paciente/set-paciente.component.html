@@ -74,7 +74,8 @@
                     <label for="">Regimen</label>
                     <ng-select required name="regimen_id" #regimen_id="ngModel"
                         [ngClass]="{'is-invalid': ( regimen_id.invalid && regimen_id.touched )}"
-                        [(ngModel)]="paciente.regimen_id">
+                        [(ngModel)]="paciente.regimen_id"
+                        (change)="changeRegime()">
                         <ng-option [value]="type.value" *ngFor="let type of typeRegimens">{{type.text}}</ng-option>
                     </ng-select>
                 </div>
@@ -161,7 +162,7 @@
                     <label for="Contrato">Contrato</label>
                     <ng-select name="contract_id" required #contract_id="ngModel"
                         [ngClass]="{'is-invalid': ( contract_id.invalid && contract_id.touched )}"
-                        [(ngModel)]="paciente.contract_id">
+                        [(ngModel)]="paciente.contract_id" (change)="changeContract()">
                         <ng-option [value]="type.value" *ngFor="let type of contracts">{{type.text}}</ng-option>
                     </ng-select>
                 </div>

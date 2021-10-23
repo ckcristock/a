@@ -17,9 +17,9 @@ export { BonoComponent } from './funcionarios/detalle-funcionario/ver-funcionari
 export { CajaCompensacionComponent } from './caja-compensacion/caja-compensacion.component';
 export { SedesComponent } from './sedes/sedes.component';
 export { EpsComponent } from "./eps/eps.component";
-export { PersonsComponent } from './persons/persons.component';
-export { TableComponent } from './persons/table/table.component';
-export { ModalComponent } from './persons/modal/modal.component';
+// export { PersonsComponent } from './persons/persons.component';
+// export { TableComponent } from './persons/table/table.component';
+// export { ModalComponent } from './persons/modal/modal.component';
 export { ModalCupComponent } from './cups/modal-cup/modal-cup.component';
 export { ModalDatosBasicosComponent } from './funcionarios/detalle-funcionario/ver-funcionario/datos-basicos/modal-datos-basicos/modal-datos-basicos.component';
 export { InformacionBaseRoutingModule } from './informacion-base-routing.module';

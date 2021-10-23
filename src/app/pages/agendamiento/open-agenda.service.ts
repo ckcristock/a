@@ -36,8 +36,8 @@ export class OpenAgendaService {
   /**
    * getIps
    */
-  public getIps(value: string) {
-    return this.clientHttp.get(`${environment.base_url}/get-companys/${value}`)
+  public getIps(value: string, params = {}) {
+    return this.clientHttp.get(`${environment.base_url}/get-companys/${value}`, {params})
   }
 
   /**
@@ -65,11 +65,11 @@ export class OpenAgendaService {
   /**
    * getProfesionals
    */
-  public getProfesionals(ips: string, speciality: string) {
+  public getProfesionals(ips: string, speciality: string, params = {}) {
     if (ips == '') {
       ips = '0';
     }
-    return this.clientHttp.get(`${environment.base_url}/get-professionals/${ips}/${speciality}`)
+    return this.clientHttp.get(`${environment.base_url}/get-professionals/${ips}/${speciality}`, { params })
   }
 
   public getDurations() {
@@ -126,12 +126,26 @@ export class OpenAgendaService {
   }
 
   searchProcedure(term: string, speciality: string = '') {
+
     if (term === '') {
       return of([]);
     }
 
     return this.clientHttp
       .get<[any, string[]]>(PROCEDURE_URL, { params: { 'search': term, 'speciality': speciality } }).pipe(
+        map((response: any) => response.data)
+      );
+  }
+
+
+  searchProcedureByYear(term: string, year: number) {
+
+    if (term === '') {
+      return of([]);
+    }
+
+    return this.clientHttp
+      .get<[any, string[]]>(PROCEDURE_URL, { params: { 'search': term, 'year': String(year) } }).pipe(
         map((response: any) => response.data)
       );
   }

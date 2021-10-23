@@ -52,6 +52,7 @@ export class AbrirAgendasComponent implements OnInit {
   public profesional
   public isProcedure = false;
   public location_id: any;
+  public type_location_id: any;
   public procedureId: any;
   public share: any;
 
@@ -128,20 +129,20 @@ export class AbrirAgendasComponent implements OnInit {
         value: "",
         text: ""
       };
-  
+
       this.speciality = {
         value: "",
         text: ""
       };
-  
-  
+
+
       this.profesional = {
         value: "",
         text: ""
       } */
 
     /* this.profesional = new this.profesional */
-    /* 
+    /*
         this.ips = {
           value: "",
           text: ""
@@ -197,15 +198,26 @@ export class AbrirAgendasComponent implements OnInit {
     this._openAgendaService.getSubTypeAppointment(this.appointment.value).subscribe((resp: any) => {
       this.type_subappointments = resp.data;
       this.subappointmentId = this.type_subappointments[0].value
+      this.specialties = [];
+      this.speciality = null;
+      this.profesionals = [];
+      this.profesional = null;
       this.getSpecialties()
     });
   }
 
   getIps() {
-    const param = (this.location_id) ? this.location_id : 0
+
+    this.ipss = [];
+    this.sedes = [];
+    this.ipsId = null;
+    this.location_id = null;
+
+    const param = (this.type_location_id) ? this.type_location_id : 0
     this.subappointment = this.searchItem(this.type_subappointments, this.subappointmentId);
     this.isProcedure = Boolean(this.subappointment.procedure);
-    this._openAgendaService.getIps(String(param)).subscribe((resp: any) => {
+    let params = { 'professional_id': this.profesional }
+    this._openAgendaService.getIps(String(param), params).subscribe((resp: any) => {
       this.ipss = resp.data;
     });
   }
@@ -231,7 +243,8 @@ export class AbrirAgendasComponent implements OnInit {
 
   getProfesionals() {
     (this.subappointment['procedure']) ? this.getcups() : '';
-    this._openAgendaService.getProfesionals(this.ips.value, String(this.speciality)).subscribe((resp: any) => {
+    let restrictions = { 'type-appointment': this.appointment.value }
+    this._openAgendaService.getProfesionals(this.ips.value, String(this.speciality), restrictions).subscribe((resp: any) => {
       this.profesionals = resp.data;
     });
   }

@@ -59,7 +59,7 @@
                             <div class="col-md-2 my-2" *ngIf="appointment.face_to_face">
                                 <label>Tipo de Sede</label>
                                 <ng-select [items]="type_locations" required bindLabel="text" bindValue="value"
-                                    [(ngModel)]="location_id" placeholder="Seleccione " name="type_location_id"
+                                    [(ngModel)]="type_location_id" placeholder="Seleccione " name="type_location_id"
                                     loadingText="loading" ngDefaultControl (ngModelChange)="getIps()">
                                 </ng-select>
                             </div>
@@ -75,9 +75,9 @@
 
                             <div class="col-md-5 my-2" *ngIf="appointment.face_to_face">
                                 <label>Sede</label>
-                                <ng-select [items]="sedes" required bindLabel="text" bindValue="value" ngModel
-                                    placeholder="Seleccione " name="location_id" loadingText="loading" ngDefaultControl
-                                    (ngModelChange)="getSpecialties()">
+                                <ng-select [items]="sedes" required bindLabel="text" bindValue="value"
+                                    [(ngModel)]="location_id" placeholder="Seleccione " name="location_id"
+                                    loadingText="loading" ngDefaultControl (ngModelChange)="getSpecialties()">
                                 </ng-select>
                             </div>
 

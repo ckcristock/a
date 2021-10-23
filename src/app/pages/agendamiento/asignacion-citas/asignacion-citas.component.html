@@ -48,7 +48,7 @@
                                 <a ngbNavLink>Citas</a>
                                 <ng-template ngbNavContent>
                                     <div class="mt-4">
-                                        <app-resumen-citas></app-resumen-citas>
+                                        <app-resumen-citas [patient]="patient.paciente.identifier"></app-resumen-citas>
                                     </div>
                                 </ng-template>
                             </li>
@@ -92,8 +92,9 @@
                     <input name="Tipo_Servicio" type="hidden" [(ngModel)]="tramiteData.type_service_id">
                     <div class="form-group">
                         <label for="exampleFormControlInput1">Documento del paciente</label>
-                        <input required type="number" class="form-control" ngModel name="Identificacion_Paciente"
-                            id="exampleFormControlInput1" placeholder="Ingrese el documento">
+                        <input required type="number" class="form-control" ngModel pattern="\d+" step="1"
+                            name="Identificacion_Paciente" id="exampleFormControlInput1"
+                            placeholder="Ingrese el documento">
                     </div>
 
                     <button class="btn btn-success btn-sm btn-block" [disabled]="formD.invalid"

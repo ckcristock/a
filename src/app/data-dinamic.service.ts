@@ -16,6 +16,7 @@ export class DataDinamicService {
   public getDepartments() {
     return this.httpClient.get(`${environment.base_url}/departments`)
   }
+
   public getCompanies(typeLocation = 3) {
     return this.httpClient.get(`${environment.base_url}/get-companys/${typeLocation}`)
   }
@@ -74,12 +75,25 @@ export class DataDinamicService {
   public getBenefitsPlan() {
     return this.httpClient.get(`${environment.base_url}/benefits_plans`)
   }
-  
+  public gettypeReportes() {
+    return this.httpClient.get(`${environment.base_url}/type_reportes`)
+  }
+
   public getSpecialties(sede: string, procedure: string) {
     if (sede == 'undefined' || !sede) {
       sede = '0';
       procedure = '0'
     }
     return this.httpClient.get(`${environment.base_url}/get-specialties/${sede}/${procedure}`)
+  }
+
+  public getSpecialtiesByProcedure(procedure: string) {
+
+    console.log(procedure);
+
+    if (!procedure) {
+      procedure = '0'
+    }
+    return this.httpClient.get(`${environment.base_url}/get-specialties-by-procedure/${procedure}`)
   }
 }
