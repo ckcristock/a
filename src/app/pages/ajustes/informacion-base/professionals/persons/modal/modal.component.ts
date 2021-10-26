@@ -385,10 +385,10 @@ export class ModalComponent implements OnInit {
   }
 
   createContractGroupUpdate(fb: FormBuilder, data) {
-    console.log('entrando ');
+
     let group = fb.group(
       {
-        company_id: [data.company.id, Validators.required],
+        company_id: [null, Validators.required],
         regimen_id: [null, Validators.required],
         companies_id: [null, Validators.required],
         type_agenda_id: [null, Validators.required],
@@ -396,26 +396,20 @@ export class ModalComponent implements OnInit {
         contracts: [[]],
       });
 
-
-    // group.get('company_id').statusChanges.subscribe(() => console.log('1023'))
-    // group.get('company_id').valueChanges.subscribe(() => console.log('123'))
-
+    // TODO: refactor this
 
 
     group.get('company_id').valueChanges.subscribe((value) => {
       let tem = this.tempContracts.filter((element: any) => {
-        console.log('1');
         if (group.get('companies_id').value && group.get('regimen_id').value) {
           return ((value == element.company_id) || (group.get('companies_id').value.includes(element.company_id))) && (group.get('regimen_id').value.includes(element.regimen_id))
         }
-
       })
       group.get('contracts').setValue(tem)
     })
 
     group.get('company_id').valueChanges.subscribe((value) => {
       let tem = this.tempContracts.filter((element: any) => {
-        console.log('1');
         if (group.get('companies_id').value && group.get('regimen_id').value) {
           return ((value == element.company_id) || (group.get('companies_id').value.includes(element.company_id))) && (group.get('regimen_id').value.includes(element.regimen_id))
         }
@@ -425,7 +419,6 @@ export class ModalComponent implements OnInit {
     })
 
     group.get('regimen_id').valueChanges.subscribe((value) => {
-      console.log('1');
       let tem = this.tempContracts.filter((element: any) => {
         if (group.get('companies_id').value && group.get('regimen_id').value) {
           return ((group.get('company_id').value == element.company_id) || (group.get('companies_id').value.includes(element.company_id))) && (value.includes(element.regimen_id))
@@ -436,7 +429,6 @@ export class ModalComponent implements OnInit {
     })
 
     group.get('companies_id').valueChanges.subscribe((value) => {
-      console.log('1');
       let tem = this.tempContracts.filter((element: any) => {
         if (group.get('companies_id').value && group.get('regimen_id').value) {
           return ((group.get('companies_id').value == element.company_id) || (value.includes(element.company_id))) && (group.get('regimen_id').value.includes(element.regimen_id))
@@ -453,27 +445,9 @@ export class ModalComponent implements OnInit {
       companies_id: this.transformData(data.companies),
       type_agenda_id: this.transformData(data.typeappointments),
       contract_id: this.transformData(data.contracts),
-      // contracts: [[]],
     })
-
-
     return group;
-
   }
-
-  // filterValue = (value, group, item) => {
-  //   group.get('contract_id').reset()
-  //   let tem = this.tempContracts.filter((element: any) =>{
-  //    return  (value == element[item]) && (value.includes(element[item]))
-  //   })
-  //   group.get('contracts').setValue(tem)
-  // }
-  // filterArray = (value, group, item) => {
-  //   group.get('contract_id').reset()
-  //   // let tem = this.tempContracts.filter((element: any) => (value.includes(element[item])))
-  //   // group.get('contracts').setValue(tem)
-  // }
-
 
   get contractList() {
     return this.forma.get('contract') as FormArray;

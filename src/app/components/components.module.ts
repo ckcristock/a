@@ -25,6 +25,7 @@ import {
 } from '@ng-bootstrap/ng-bootstrap';
 import { SearchComponent } from './search/search.component';
 import { ShowErrorsComponent } from './show-errors/show-errors.component';
+import { ApplicantComponent } from './applicant/applicant.component';
 
 @NgModule({
   declarations: [
@@ -39,7 +40,9 @@ import { ShowErrorsComponent } from './show-errors/show-errors.component';
     NotDataComponent,
     ModalPaymentComponent,
     SearchComponent,
-    ShowErrorsComponent
+    ShowErrorsComponent,
+    ApplicantComponent
+
   ],
   exports: [
     ModalBasicComponent,
@@ -52,7 +55,9 @@ import { ShowErrorsComponent } from './show-errors/show-errors.component';
     TimeLineComponent,
     NotDataComponent,
     ModalPaymentComponent,
-    ShowErrorsComponent
+    ShowErrorsComponent,
+    ApplicantComponent,
+
 
   ],
   imports: [

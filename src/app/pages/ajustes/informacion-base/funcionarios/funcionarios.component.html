@@ -8,6 +8,26 @@
         <div class="card-body border-top">
           <div>
             <h5 class="font-size-14 mb-0">
+              <a (click)="collapsed3 = !collapsed3" [attr.aria-expanded]="!collapsed3" class="text-dark d-block"
+                aria-controls="collapseExample3">Empresas
+                <i class="mdi mdi-minus float-right accor-plus-icon"></i></a>
+            </h5>
+
+            <div id="collapseExample3" [ngbCollapse]="collapsed3">
+              <div class="mt-4">
+                <div class="custom-control custom-checkbox mt-2" *ngFor="let company of companies; let i = index">
+                  <input type="checkbox" id="company{{ i }}"
+                    (change)="company.selected = !company.selected ;getPeople()" name="company_id"
+                    [checked]="company.selected" class="custom-control-input" />
+                  <label class="custom-control-label" for="company{{ i }}">{{ company.text }}</label>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="card-body border-top">
+          <div>
+            <h5 class="font-size-14 mb-0">
               <a class="text-dark d-block" (click)="collapsed = !collapsed" [attr.aria-expanded]="!collapsed"
                 aria-controls="collapseExample2">Estado <i class="mdi mdi-minus float-right accor-plus-icon"></i></a>
             </h5>
@@ -23,7 +43,9 @@
               </div>
             </div>
           </div>
+
         </div>
+
         <div class="card-body border-top">
           <div>
             <h5 class="font-size-14 mb-0">
@@ -44,6 +66,7 @@
             </div>
           </div>
         </div>
+
       </div>
     </div>
   </div>

@@ -19,15 +19,12 @@ export const consts = {
     { clave: 'Indefinido', valor: 1 },
     { clave: 'Fijo', valor: 2 }
   ],
-  work_contract_type: [
-    { clave: 'Indefinido', conclude: 0 },
-    { clave: 'Fijo', conclude: 1 }
-  ],
   bonusType: [
     { clave: 'Constitutivo', valor: 'Constitutivo' },
     { clave: 'No Constitutivo', valor: 'No Constitutivo' }
   ],
   driving_requirements: [
+    { text: 'Sin Licencia', value: 'Sin Licencia' },
     { text: 'A1', value:'A1' },
     { text: 'A2', value:'A2' },
     { text: 'B1', value:'B1' },
@@ -133,8 +130,35 @@ export const consts = {
   ],
 
   status: [
+    { clave: 'Todos', valor: 'Todos' },
     { clave: 'Abierto', valor: 'Abierto' },
-    { clave: 'Cerrado', valor: 'Cerrado' }
-  ]
+    { clave: 'Cerrado', valor: 'Cerrado' },
+  ],
+
+  modalities: [
+    { clave: 'Por Dia', valor: 'Por Dia' },
+    { clave: 'Por Hora', valor: 'Por Hora' }
+  ],
+
+  Egresstypes: [
+    { clave: 'Prestamo', valor: 'Prestamo' },
+    { clave: 'Deducción', valor: 'Deducción' }
+  ],
+
+  Ingresstypes: [
+    { clave: 'Prestacional', valor: 'Prestacional' },
+    { clave: 'No Prestacional', valor: 'No Prestacional' }
+  ],
+
+  bankType: [
+    { clave: 'Tarjeta de Crédito', valor: 0 },
+    { clave: 'Efectivo', valor: 1 }
+  ],
+
+  options: [
+    { clave: 'Si', valor: 0 },
+    { clave: 'No', valor: 1 }
+  ],
+
 
 };

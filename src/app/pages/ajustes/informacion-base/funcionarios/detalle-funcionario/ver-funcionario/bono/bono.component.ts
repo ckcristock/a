@@ -21,7 +21,7 @@ export class BonoComponent implements OnInit {
     value: ''
   }
 ];
-  constructor( 
+  constructor(
               private fb: FormBuilder,
               private bonusService: BonoService,
               ) { }
@@ -36,7 +36,7 @@ export class BonoComponent implements OnInit {
     this.form.patchValue({
       countable_income_id: '',
       value: '',
-      work_contract_id: ''
+      work_contract_id: this.id
     });
   }
 
@@ -74,7 +74,7 @@ export class BonoComponent implements OnInit {
           })
         })
       }
-    }) 
+    })
   }
 
   getBonusList(bonusType){
@@ -105,13 +105,13 @@ export class BonoComponent implements OnInit {
       })
     })
   }
-  
+
 /* get bonus_valid(){
   return (
     this.form.get('bonusType').invalid && this.form.get('bonusType').touched
   );
 } */
-      
+
 get bonus_type_valid(){
   return (
   this.form.get('countable_income_id').invalid && this.form.get('countable_income_id').touched

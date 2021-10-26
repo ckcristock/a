@@ -11,7 +11,7 @@
             </div>
         </div>
     </div>
-    <div class="row">
+    <!-- <div class="row">
         <p class="col-6 font-weight-bold text-mute item-subtitle">
             Empresa
         </p>
@@ -48,7 +48,7 @@
         <p class="col-6 font-weight-bold">
             {{ empresa.fixed_turn_name }}
         </p>
-    </div>
+    </div> -->
 </div>
 
 <app-modal-basic #modal [dialogClass]="'modal-lg'">
@@ -80,19 +80,19 @@
                                 <ng-select class="col-md-7 p-0" formControlName="position_id" [items]="positions" bindLabel="text" bindValue="value" loadingText="loading" ngDefaultControl>
                                 </ng-select>
                                 <div class="col-md-7 offset-4">
-                                    <small class="invalid text-danger" *ngIf="position_valid"> Es necesario el tipo cargo 
+                                    <small class="invalid text-danger" *ngIf="position_valid"> Es necesario el tipo cargo
                                     </small>
                                 </div>
                             </div>
                             <div class="form-group row" *ngIf="turnSelected == 'Fijo'">
                                 <label class="col-md-4 col-form-label text-right" for="turno_asignado">
-                                Turno 
+                                Turno
                                 asignado
                                 </label>
                                 <ng-select class="col-md-7 p-0" formControlName="fixed_turn_id" [items]="fixed_turns" bindLabel="text" bindValue="value" loadingText="loading" ngDefaultControl>
                                 </ng-select>
                                 <div class="col-md-7 offset-4">
-                                    <small class="invalid text-danger" *ngIf="fixed_turn_valid"> Es necesario el tipo turno asignado 
+                                    <small class="invalid text-danger" *ngIf="fixed_turn_valid"> Es necesario el tipo turno asignado
                                     </small>
                                 </div>
                             </div>
@@ -115,7 +115,7 @@
                                 </option>
                                 </select>
                                 <div class="col-md-7 offset-4">
-                                    <small class="invalid text-danger" *ngIf="turn_valid"> Es necesario el tipo cargo 
+                                    <small class="invalid text-danger" *ngIf="turn_valid"> Es necesario el tipo cargo
                                     </small>
                                 </div>
                             </div>

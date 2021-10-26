@@ -21,6 +21,7 @@ export { EpsComponent } from "./eps/eps.component";
 // export { TableComponent } from './persons/table/table.component';
 // export { ModalComponent } from './persons/modal/modal.component';
 export { ModalCupComponent } from './cups/modal-cup/modal-cup.component';
+
 export { ModalDatosBasicosComponent } from './funcionarios/detalle-funcionario/ver-funcionario/datos-basicos/modal-datos-basicos/modal-datos-basicos.component';
 export { InformacionBaseRoutingModule } from './informacion-base-routing.module';
 export { FuncionariosComponent } from './funcionarios/funcionarios.component';
@@ -32,3 +33,19 @@ export { RegimenesNivelesComponent } from './regimenes-niveles/regimenes-niveles
 export { AseguradorasComponent } from './aseguradoras/aseguradoras.component';
 export { EmpresasComponent } from './empresas/empresas.component';
 export { ProfessionalsModule } from './professionals/professionals.module';
+
+export { EstructuraEmpresaComponent } from './estructura-empresa/estructura-empresa.component';
+export { TurnosComponent } from './turnos/turnos.component';
+export { TurnoFijoComponent } from './turnos/turno-fijo/turno-fijo.component';
+export { CreateTurnoFijoComponent } from './turnos/turno-fijo/create-turno-fijo/create-turno-fijo.component';
+export { TurnoRotativoComponent } from './turnos/turno-rotativo/turno-rotativo.component';
+export { CreateTurnoRotativoComponent } from './turnos/turno-rotativo/create-turno-rotativo/create-turno-rotativo.component';
+export { FondoPensionComponent } from './fondo-pension/fondo-pension.component';
+export { ArlComponent } from './arl/arl.component';
+
+export { FondoCesantiasComponent } from './fondo-cesantias/fondo-cesantias.component';
+export { TaxisComponent } from './taxis/taxis.component';
+export { HotelesComponent } from './hoteles/hoteles.component';
+export { CiudadesComponent } from './ciudades/ciudades.component';
+export { PaisesComponent } from './paises/paises.component';
+export { LicenciaConduccionComponent } from './licencia-conduccion/licencia-conduccion.component';

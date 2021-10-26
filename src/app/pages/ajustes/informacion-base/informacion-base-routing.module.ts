@@ -11,6 +11,19 @@ import { DetalleFuncionarioComponent } from './funcionarios/detalle-funcionario/
 // import { PersonsComponent } from "./persons/persons.component";
 import { CreateComponent } from "./funcionarios/create/create.component";
 import { EpsComponent } from "./eps/eps.component";
+import { TurnosComponent } from "./turnos/turnos.component";
+import { CreateTurnoFijoComponent } from "./turnos/turno-fijo/create-turno-fijo/create-turno-fijo.component";
+import { FondoPensionComponent } from "./fondo-pension/fondo-pension.component";
+import { ArlComponent } from "./arl/arl.component";
+import { CajaCompensacionComponent } from ".";
+import { FondoCesantiasComponent } from "./fondo-cesantias/fondo-cesantias.component";
+import { ConfiguracionEmpresaComponent } from "../configuracion/configuracion-empresa/configuracion-empresa.component";
+import { TaxisComponent } from "./taxis/taxis.component";
+import { HotelesComponent } from "./hoteles/hoteles.component";
+import { CiudadesComponent } from "./ciudades/ciudades.component";
+import { PaisesComponent } from "./paises/paises.component";
+import { LicenciaConduccionComponent } from "./licencia-conduccion/licencia-conduccion.component";
+import { EstructuraEmpresaComponent } from './estructura-empresa/estructura-empresa.component';
 
 
 const routes: Routes = [
@@ -28,6 +41,33 @@ const routes: Routes = [
     { path: 'especialidades', loadChildren: () => import('../informacion-base/speciality/speciality.module').then(m => m.SpecialityModule) },
     { path: 'contracts', loadChildren: () => import('../informacion-base/contracts-eps/contracts-eps.module').then(m => m.ContractsEpsModule) },
     { path: 'professionals', loadChildren: () => import('../informacion-base/professionals/professionals.module').then(m => m.ProfessionalsModule) },
+    { path: 'empresas', component: EmpresasComponent },
+
+    { path: 'funcionarios', component: FuncionariosComponent },
+    { path: 'funcionario/:id', component: DetalleFuncionarioComponent },
+    { path: 'funcionarios/crear', component: CreateComponent },
+
+    { path: 'regimenes-niveles', component: RegimenesNivelesComponent },
+    { path: 'aseguradoras', component: AseguradorasComponent },
+    { path: 'estructura-empresa', component: EstructuraEmpresaComponent },
+
+    { path: 'turnos', component: TurnosComponent },
+    { path: 'turnos/crear', component: CreateTurnoFijoComponent },
+    { path: 'turnos/crear/:id', component: CreateTurnoFijoComponent },
+
+    { path: 'fondo-pension', component: FondoPensionComponent },
+    { path: 'arl', component: ArlComponent },
+    { path: 'caja-compensacion', component: CajaCompensacionComponent },
+    { path: 'fondo-cesantias', component: FondoCesantiasComponent },
+    { path: 'configuracion-empresa', component: ConfiguracionEmpresaComponent },
+
+    { path: 'taxis', component: TaxisComponent },
+    { path: 'hoteles', component: HotelesComponent },
+
+    { path: 'ciudades', component: CiudadesComponent },
+    { path: 'paises', component: PaisesComponent },
+
+    { path: 'licencia-conduccion', component: LicenciaConduccionComponent }
 ]
 
 @NgModule({

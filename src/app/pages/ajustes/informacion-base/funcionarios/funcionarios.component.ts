@@ -4,6 +4,7 @@ import { personsList } from './data';
 import { PersonService } from '../professionals/profesionales.service';
 import { Person } from 'src/app/core/models/person.model';
 import { DependenciesService } from '../services/dependencies.service';
+import { CompanyService } from '../services/company.service';
 
 
 @Component({
@@ -76,12 +77,17 @@ export class FuncionariosComponent implements OnInit {
   //   this.getPeople();
   // }
 
-  constructor(private _person: PersonService, private _dependencies: DependenciesService) {
-    this.getDependencies();
+  constructor(
+    private _person: PersonService,
+    private _dependencies: DependenciesService,
+    private _companies: CompanyService) {
 
   }
 
   ngOnInit(): void {
+    this.getDependencies();
+    this.getCompanies();
+
     this.breadCrumbItems = [{ label: 'Ecommerce' }, { label: 'Product', active: true }];
     this.isCollapsed = false;
     this.collapsed = false;
@@ -92,6 +98,18 @@ export class FuncionariosComponent implements OnInit {
     this._dependencies.getDependencies().subscribe((r: any) => {
       this.dependencies = r.data
       this.dependencies = this.dependencies.map(r => {
+        r.selected = true;
+        return r
+      })
+      this.getPeople();
+    })
+  }
+
+  getCompanies() {
+    let params = { 'owner': 1 }
+    this._companies.getCompanies(params).subscribe((r: any) => {
+      this.companies = r.data
+      this.companies = this.companies.map(r => {
         r.selected = true;
         return r
       })
@@ -120,12 +138,11 @@ export class FuncionariosComponent implements OnInit {
 
   getPeople(page = 1, name = '') {
 
-    console.log(page);
-
     this.pagination.page = page;
     let params: any = { ...this.pagination }
     params.status = this.statusFilter();
     params.dependencies = this.dependenciesFilter();
+    params.companies = this.companiesFilter();
     params.name = name ? name : ''
 
     this.loading = true;
@@ -143,5 +160,8 @@ export class FuncionariosComponent implements OnInit {
   }
   dependenciesFilter() {
     return this.dependencies.reduce((acc: Array<any>, el) => el.selected == true ? acc.concat([el.value]) : acc, [])
+  }
+  companiesFilter() {
+    return this.companies.reduce((acc: Array<any>, el) => el.selected == true ? acc.concat([el.value]) : acc, [])
   }
 }

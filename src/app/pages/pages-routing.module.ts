@@ -13,6 +13,17 @@ const routes: Routes = [
     { path: 'sst', loadChildren: () => import('./sst/sst.module').then(m => m.SstModule) },
     { path: 'ajustes', loadChildren: () => import('./ajustes/ajustes.module').then(m => m.AjustesModule) },
 
+    /**
+     * Nueva integracion con core
+     */
+
+    { path: 'rrhh',   loadChildren : () => import('./rrhh/rrhh.module').then(m => m.RrhhModule )},
+    { path: 'contabilidad',   loadChildren : () => import('./contabilidad/contabilidad.module').then(m => m.ContabilidadModule )},
+    { path: 'nomina',   loadChildren : () => import('./nomina/nomina.module').then(m => m.NominaModule )},
+    { path: 'crm',   loadChildren : () => import('./crm/crm.module').then(m => m.CrmModule )},
+
+
+
 ];
 
 @NgModule({

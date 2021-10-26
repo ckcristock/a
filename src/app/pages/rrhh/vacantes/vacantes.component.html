@@ -1,0 +1,164 @@
+<div class="card">
+    <div class="card-body">
+        <div class="card-title">
+            <button type="button" class=" btn btn-primary btn-sm" style="float: right;" [routerLink]="['/rrhh/vacantes-crear']">
+                    <i class="fa fa-plus"></i> Nueva Vacante
+                </button>
+            <h4 class="text-primary">Vacantes</h4>
+            <hr class="bg-primary">
+            <h5 class="text-center">Filtros</h5>
+            <div class="form-row mt-4">
+                <div class="form-group col-md-1">
+                    <label for="">Publición</label>
+                    <input type="date" [(ngModel)]="filtros.fecha" class="form-control input-sm" (change)="getJobs()" placeholder="Filtro Fecha Publicación">
+                </div>
+                <div class="form-group col-md-1">
+                    <label for="">Fecha inicio</label>
+                    <input type="date" [(ngModel)]="filtros.fecha_Inicio" class="form-control input-sm" (change)="getJobs()" placeholder="Filtro Fecha Inicio">
+                </div>
+                <div class="form-group col-md-1">
+                    <label for="">Fecha fin</label>
+                    <input type="date" [(ngModel)]="filtros.fecha_Fin" class="form-control input-sm" (change)="getJobs()" placeholder="Filtro Fecha Fin">
+                </div>
+                <div class="form-group col-md-1">
+                    <label for="">Título</label>
+                    <input type="text" [(ngModel)]="filtros.titulo" class="form-control input-sm" (change)="getJobs()" placeholder="Filtro Título">
+                </div>
+                <div class="form-group col-md-2">
+                    <label for="">Dependencia</label>
+                    <ng-select [(ngModel)]="filtros.dependencia" [items]="dependencies" (change)="getJobs()" bindLabel="text" bindValue="value" loadingText="loading " ngDefaultControl>
+                    </ng-select>
+                </div>
+                <div class="form-group col-md-2">
+                    <label for="">Cargo</label>
+                    <ng-select [(ngModel)]="filtros.cargo" [items]="positions" (change)="getJobs()" bindLabel="text" bindValue="value" loadingText="loading " ngDefaultControl>
+                    </ng-select>
+                </div>
+                <div class="form-group col-md-2">
+                    <label for="">Departamento</label>
+                    <ng-select [(ngModel)]="filtros.departamento" [items]="department" (change)="getJobs()" bindLabel="text" bindValue="value" loadingText="loading " ngDefaultControl>
+                    </ng-select>
+                </div>
+                <div class="form-group col-md-2">
+                    <label for="">Municipio</label>
+                    <ng-select [(ngModel)]="filtros.municipio" [items]="municipalities" (change)="getJobs()" bindLabel="text" bindValue="value" loadingText="loading " ngDefaultControl>
+                    </ng-select>
+                </div>
+            </div>
+            <!-- <tr>
+                <th></th>
+                <th class="tabla-filtro">
+                </th>
+                <th class="tabla-filtro">
+                </th>
+                <th class="tabla-filtro">
+                </th>
+                <th class="tabla-filtro">
+                </th>
+                <th class="tabla-filtro">
+                </th>
+                <th class="tabla-filtro">
+                </th>
+                <th class="tabla-filtro">
+                </th>
+                <th class="tabla-filtro">
+                </th>
+                <th class="tabla-filtro">
+                    <select [(ngModel)]="filtros.estado" class="form-control input-sm">
+                        <option value="">Todos</option>
+                        <option value="Activo">Activo</option>
+                        <option value="Anulada">Anulada</option>
+                    </select>
+                </th>
+                <th class="tabla-filtro"></th>
+            </tr> -->
+        </div>
+    </div>
+</div>
+<div class="card">
+    <div class="card-body">
+        <div class="row">
+            <div class="col-md-12">
+                <table class="table table-borderless table-striped" *ngIf="!loading && jobs.length > 0; else notData">
+                    <thead class="bg-light">
+                        <tr>
+                            <th>Código</th>
+                            <th>Publicación</th>
+                            <th>Inicio</th>
+                            <th>Fin</th>
+                            <th>Título</th>
+                            <th>Dependencia</th>
+                            <th>Cargo</th>
+                            <th>Departamento</th>
+                            <th>Municipio</th>
+                            <th>Estado</th>
+                            <th>Acciones</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr *ngFor="let job of jobs " class="{{job.state=='Cancelada' ? 'bg-danger text-white' : ''}}">
+                            <td> {{ job.code }} </td>
+                            <td>
+                                {{job.created_at | date: 'dd/M/yyyy'}}
+                            </td>
+                            <td>
+                                {{job.date_start | date: 'dd/M/yyyy'}}
+                            </td>
+                            <td>
+                                {{job.date_end | date: 'dd/M/yyyy'}}
+                            </td>
+                            <td>
+                                {{job.title}}
+                            </td>
+                            <td>
+                                {{job.position.dependency.name}}
+                            </td>
+                            <td>
+                                {{job.position.name}}
+                            </td>
+                            <td>
+                                {{job.municipality.department.name}}
+                            </td>
+                            <td>
+                                {{job.municipality.name}}
+                            </td>
+                            <td>
+                                <div class="text-center">
+                                    <span class="label {{job.status=='Activo' ? 'label-success' : 'label-primary'}}">{{job.state}}
+                                    </span>
+                                </div>
+                            </td>
+                            <td>
+                                <div class="text-center">
+                                    <div ngbDropdown class="dropdown-primary">
+                                        <button ngbDropdownToggle class="btn btn-primary btn-sm waves-effect waves-light " type="button">
+                                            <i class="mdi mdi-chevron-down "></i>
+                                        </button>
+                                        <div ngbDropdownMenu>
+                                            <!--  <a *ngIf="job.state!='Cancelada'"
+                                                class="dropdown-item waves-light waves-effect caja-botones" href=""
+                                                [routerLink]="['/vacanteseditar',job.id]">
+                                                <i class="ti-pencil"></i> Editar</a> -->
+                                            <a class="dropdown-item waves-light waves-effect caja-botones" [routerLink]="['/rrhh/vacantes-ver',job.id]">
+                                                <i class="ti-eye"></i> Ver</a>
+                                            <a *ngIf="job.state!='Cancelada'" class="dropdown-item waves-light waves-effect caja-botones" (click)="cancelar(job.id)">
+                                                <i class="fa fa-times"></i> Anular</a>
+                                        </div>
+                                    </div>
+                                </div>
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+        <ngb-pagination class="d-flex justify-content-center pagination-rounded pagination-sm" maxSize="5" [collectionSize]="pagination.collectionSize " (pageChange)="getJobs($event) " [pageSize]="pagination.pageSize " [(page)]="pagination.page " aria-label="Default pagination"
+            rotate="true" ellipses="false" boundaryLinks="true" rotate="true" ellipses="false" boundaryLinks="true">
+        </ngb-pagination>
+
+    </div>
+</div>
+
+<ng-template #notData>
+    <app-not-data [loading]="loading"></app-not-data>
+</ng-template>

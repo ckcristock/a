@@ -7,10 +7,10 @@ import { environment } from 'src/environments/environment';
 })
 export class CompanyService {
 
-  constructor(private http : HttpClient) { }
-  
-  getCompanies(){
-    return this.http.get(`${ environment.base_url }/company`)
+  constructor(private http: HttpClient) { }
+
+  getCompanies(params = {}) {
+    return this.http.get(`${environment.base_url}/company`, {params})
   }
 
 }
