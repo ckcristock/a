@@ -61,7 +61,7 @@ export class InformacionEmpresaComponent implements OnInit {
     })
   }
   getCompanies() {
-    this._company.getCompanies().subscribe((d: any) => {
+    this._company.getCompanies({ owner: 1 }).subscribe((d: any) => {
       this.companies = d.data;
       d.data[0]
         ? this.formCompany.patchValue({ company_id: d.data[0].value })

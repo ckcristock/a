@@ -66,14 +66,14 @@ export class PrestacionesSocialesComponent implements OnInit {
     })
   }
   getEpss() {
-    this._epss.getEpss().subscribe((r: any) => {
+    this._epss.getAllEps({ type: 0 }).subscribe((r: any) => {
       this.epss = r.data
       this.epss.unshift({ text: 'Seleccione', value: '' })
     })
   }
   save() {
     this.formPrestation.markAllAsTouched()
-    if (this.formPrestation.invalid) {return false;}
+    if (this.formPrestation.invalid) { return false; }
     this.person = { ...this.person, ...this.formPrestation.value }
     this._person.person.next(this.person)
     this.siguiente.emit({})
@@ -112,7 +112,7 @@ export class PrestacionesSocialesComponent implements OnInit {
     );
   }
 
-  previus(){
+  previus() {
     this.anterior.emit()
   }
   ngOnDestroy(): void {

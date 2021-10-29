@@ -15,14 +15,14 @@
     appId: '',
     measurementId: ''
   }
-  
+
 };
  */
 
 export const environment = {
   production: false,
 
-  base_url: 'http://ateneo-deploy.test/api',
+  base_url: 'https://backend.ateneoerp.com/api',
   url_assets: 'http://ateneo-deploy.test/'
 
   // base_url: 'http://ateneo-back.test/api'

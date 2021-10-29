@@ -60,6 +60,9 @@ export class CrearNovedadComponent implements OnInit {
   }
 
   getPeople() {
+    // getPeopleXSelect(params = { type: '2' }) {
+    //   return this.http.get(`${environment.base_url}/people`, {params});
+    // }
     this._people.getPeopleIndex().subscribe((r: any) => {
       this.people = r.data;
       this.people.unshift({ text: 'Seleccione', value: '' });

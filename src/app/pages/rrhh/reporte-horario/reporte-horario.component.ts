@@ -28,7 +28,7 @@ export class ReporteHorarioComponent implements OnInit {
     private fb: FormBuilder,
     private _reporteHorario: ReporteHorarioService,
     private _people: PersonService
-  ) {}
+  ) { }
 
   ngOnInit(): void {
     this.createForm();
@@ -51,7 +51,7 @@ export class ReporteHorarioComponent implements OnInit {
 
     this.loading = true;
     this._reporteHorario
-      .getFixedTurnsDiaries(d1, d2, this.getForm() )
+      .getFixedTurnsDiaries(d1, d2, this.getForm())
       .subscribe((r) => {
         this.reporteHorarios = r.data;
         this.loading = false;
@@ -70,7 +70,7 @@ export class ReporteHorarioComponent implements OnInit {
     });
   }
   getCompanies() {
-    this._companies.getCompanies().subscribe((r: any) => {
+    this._companies.getCompanies({ owner: 1 }).subscribe((r: any) => {
       this.companies = r.data;
       this.companies.unshift({ value: 0, text: 'Todas' });
     });
@@ -111,7 +111,7 @@ export class ReporteHorarioComponent implements OnInit {
     let d2 = this.forma.get('last_day').value;
 
     this.donwloading = true;
-   
+
     this._reporteHorario
       .download(d1, d2, this.getForm())
       .subscribe((response: BlobPart) => {
@@ -133,10 +133,10 @@ export class ReporteHorarioComponent implements OnInit {
       };
   }
 
-  getForm(){
+  getForm() {
     let form = this.forma.value;
     if (form.person_id == null) {
-       delete form.person_id
+      delete form.person_id
     }
     return form
   }

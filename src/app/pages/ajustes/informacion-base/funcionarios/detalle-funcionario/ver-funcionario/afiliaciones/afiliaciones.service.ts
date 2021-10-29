@@ -7,33 +7,33 @@ import { environment } from 'src/environments/environment';
 })
 export class AfiliacionesService {
 
-  constructor( private http: HttpClient ) { }
+  constructor(private http: HttpClient) { }
 
-  getAfiliationInfo(id){
+  getAfiliationInfo(id) {
     return this.http.get(`${environment.base_url}/afiliation/${id}`);
   }
 
-  updateAfiliation(data, id){
+  updateAfiliation(data, id) {
     return this.http.post(`${environment.base_url}/updateAfiliation/${id}`, data);
   }
-  
-  getEpss(){
-    return this.http.get(`${environment.base_url}/epss`);
+
+  getEpss(params = {}) {
+    return this.http.get(`${environment.base_url}/eps`, { params });
   }
 
-  getCompensationFund(){
+  getCompensationFund() {
     return this.http.get(`${environment.base_url}/compensation-funds`);
   }
 
-  getPension_funds(){
+  getPension_funds() {
     return this.http.get(`${environment.base_url}/pension-funds`);
   }
 
-  getSeverance_funds(){
+  getSeverance_funds() {
     return this.http.get(`${environment.base_url}/severance-funds`);
   }
 
-  getArls(){
+  getArls() {
     return this.http.get(`${environment.base_url}/arl`);
   }
 

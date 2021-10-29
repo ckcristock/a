@@ -25,8 +25,8 @@ export class AfiliacionesComponent implements OnInit {
     compensation_fund_name: ''
   };
   id:any;
-  constructor( 
-              private fb:FormBuilder, 
+  constructor(
+              private fb:FormBuilder,
               private afiliationService: AfiliacionesService,
               private activatedRoute: ActivatedRoute ) { }
 
@@ -52,7 +52,7 @@ export class AfiliacionesComponent implements OnInit {
       severance_fund_id: ['', Validators.required],
       compensation_fund_id: ['', Validators.required],
       arl_id: ['', Validators.required]
-    }); 
+    });
   }
 
   getAfiliationInfo(){
@@ -86,7 +86,7 @@ export class AfiliacionesComponent implements OnInit {
   }
 
   getEpss(){
-    this.afiliationService.getEpss()
+    this.afiliationService.getEpss({ type: 0 })
     .subscribe( (res:any) => {
       this.eps = res.data;
     });

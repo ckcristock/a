@@ -3,6 +3,7 @@ import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { ActivatedRoute } from '@angular/router';
 import { Subject } from 'rxjs';
 import { consts } from 'src/app/core/utils/consts';
+import { CompanyService } from '../../../../services/company.service';
 import { DependenciesService } from '../../../../services/dependencies.service';
 import { GroupService } from '../../../../services/group.service';
 import { PositionService } from '../../../../services/positions.service';
@@ -14,15 +15,16 @@ import { DatosEmpresaService } from './datos-empresa.service';
   styleUrls: ['./datos-empresa.component.scss']
 })
 export class DatosEmpresaComponent implements OnInit {
-  @ViewChild('modal') modal:any;
+  @ViewChild('modal') modal: any;
   form: FormGroup;
-  id:any;
+  id: any;
   turnos = consts.turnTypes;
-  turns:any;
+  turns: any;
   groups: any[];
-  dependencies:any[];
+  dependencies: any[];
   fixed_turns: any[];
-  positions:any[];
+  positions: any[];
+  companies: any[];
   empresa: any = {
     company_name: '',
     group_name: '',
@@ -31,13 +33,14 @@ export class DatosEmpresaComponent implements OnInit {
     turn_type: '',
     fixed_turn_name: ''
   };
-  constructor( private fb:FormBuilder, 
-                private enterpriseDataService: DatosEmpresaService,
-                private activatedRoute: ActivatedRoute,  
-                private _positions: PositionService,
-                private _dependecies: DependenciesService,
-                private _group: GroupService
-            ) {}
+  constructor(private fb: FormBuilder,
+    private enterpriseDataService: DatosEmpresaService,
+    private activatedRoute: ActivatedRoute,
+    private _positions: PositionService,
+    private _dependecies: DependenciesService,
+    private _group: GroupService,
+    private _company: CompanyService
+  ) { }
 
   ngOnInit(): void {
     this.id = this.activatedRoute.snapshot.params.id;
@@ -47,25 +50,28 @@ export class DatosEmpresaComponent implements OnInit {
     this.createForm();
   }
 
-  openModal(){
+  openModal() {
     this.modal.show();
+    this.getCompanies()
   }
 
-  getEnterpriseData(){
+  getEnterpriseData() {
     this.enterpriseDataService.getEnterpriseData(this.id)
-    .subscribe( (res:any) =>{
-      this.empresa = res.data;
-      this.getDependencies(this.empresa.group_id);
-      this.getPositions(this.empresa.dependency_id)
+      .subscribe((res: any) => {
+        console.log(res.data);
+        this.empresa = res.data;
+        this.getDependencies(this.empresa.group_id);
+        this.getPositions(this.empresa.dependency_id)
         this.form.patchValue({
           fixed_turn_id: this.empresa.fixed_turn_id,
           position_id: this.empresa.position_id,
           group_id: this.empresa.group_id,
           dependency_id: this.empresa.dependency_id,
+          company_id: this.empresa.company_id,
           id: this.empresa.id,
           turn_type: this.empresa.turn_type
         });
-    });
+      });
   }
 
   getPositions(dependency_id) {
@@ -77,8 +83,8 @@ export class DatosEmpresaComponent implements OnInit {
     }
   }
 
-  getFixed_turn(){
-    this.enterpriseDataService.getFixed_turn().subscribe((r:any) => {
+  getFixed_turn() {
+    this.enterpriseDataService.getFixed_turn().subscribe((r: any) => {
       this.fixed_turns = r.data;
       this.fixed_turns.unshift({ text: 'Seleccione una', value: '' });
     })
@@ -98,6 +104,13 @@ export class DatosEmpresaComponent implements OnInit {
     });
   }
 
+  getCompanies() {
+    this._company.getCompanies({ owner: '1' }).subscribe((d: any) => {
+      this.companies = d.data;
+      this.companies.unshift({ text: 'Seleccione una', value: '' });
+    });
+  }
+
   turnChanged(turno) {
     if (turno == 'Rotativo') {
       this.form.get('fixed_turn_id').enable();
@@ -106,49 +119,55 @@ export class DatosEmpresaComponent implements OnInit {
     }
   }
 
-  updateEnterpriseData(){
+  updateEnterpriseData() {
     this.form.markAllAsTouched();
-    if (this.form.invalid) { return false;}
+    if (this.form.invalid) { return false; }
     this.enterpriseDataService.updateEnterpriseData(this.form.value)
-    .subscribe( res => {
-      this.getEnterpriseData();
-      this.modal.hide();
-    });
+      .subscribe(res => {
+        this.getEnterpriseData();
+        this.modal.hide();
+      });
   }
-  createForm(){
+  createForm() {
     this.form = this.fb.group({
       dependency_id: ['', Validators.required],
       position_id: ['', Validators.required],
       fixed_turn_id: ['', Validators.required],
       group_id: ['', Validators.required],
-      turn_type:['', Validators.required],
+      turn_type: ['', Validators.required],
+      company_id:  ['', Validators.required],
       id: ['']
-    }); 
+    });
   }
 
-  get dependency_valid(){
+  get dependency_valid() {
     return (
       this.form.get('dependency_id').invalid && this.form.get('dependency_id').touched
     );
   }
-  
+  get company_valid() {
+    return (
+      this.form.get('company_id').invalid && this.form.get('company_id').touched
+    );
+  }
+
   get turnSelected() {
     return this.form.get('turn_type').value;
   }
 
-  get fixed_turn_valid(){
+  get fixed_turn_valid() {
     return (
       this.form.get('fixed_turn_id').invalid && this.form.get('fixed_turn_id').touched
     );
   }
 
-  get position_valid(){
+  get position_valid() {
     return (
       this.form.get('position_id').invalid && this.form.get('position_id').touched
     );
   }
 
-  get turn_valid(){
+  get turn_valid() {
     return (
       this.form.get('turn_type').invalid && this.form.get('turn_type').touched
     );

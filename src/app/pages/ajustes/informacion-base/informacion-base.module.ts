@@ -14,8 +14,11 @@ import { PipesModule } from 'src/app/core/pipes/pipes.module';
 import { HttpClientModule } from '@angular/common/http';
 import { ArchwizardModule } from 'angular-archwizard';
 import { ContractsEpsModule } from './contracts-eps/contracts-eps.module';
+import { FileManagerModule } from '@syncfusion/ej2-angular-filemanager';
 
 import * as myModules from './index'
+
+
 
 @NgModule({
     declarations: [
@@ -77,6 +80,7 @@ import * as myModules from './index'
     ],
 
     imports: [
+        FileManagerModule,
         HttpClientModule,
         CommonModule,
         NgbPaginationModule,

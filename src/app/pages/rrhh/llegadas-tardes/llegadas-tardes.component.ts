@@ -91,7 +91,7 @@ export class LlegadasTardesComponent implements OnInit {
     this.getLinearDataset();
     this.getStatisticsByDays();
   }
-  getData() {}
+  getData() { }
   getLateArrivals() {
     let params = this.getParams();
     this.loading = true;
@@ -128,13 +128,13 @@ export class LlegadasTardesComponent implements OnInit {
   }
 
   getPeople() {
-    this._people.getAll({}).subscribe((res: any) => {
+    this._people.getAll({ type: '2' }).subscribe((res: any) => {
       this.people = res.data;
       this.people.unshift({ text: 'Todos', value: '' });
     });
   }
   getCompanies() {
-    this._companies.getCompanies().subscribe((r: any) => {
+    this._companies.getCompanies({ owner: '1' }).subscribe((r: any) => {
       this.companyList = r.data;
       if (this.companyList.length > 1) {
         this.companyList.unshift({ text: 'Todas', value: '0' });

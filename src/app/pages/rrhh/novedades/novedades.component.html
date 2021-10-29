@@ -55,7 +55,7 @@
                             </p>
 
                             <p class="mb-1 font-weight-bold w-40 w-xs-100">{{
-                                person.contractultimate.position.dependency.name }}</p>
+                                person?.contractultimate?.position?.dependency?.name }}</p>
                             <div class="w-xs-100 detalles">
                                 <button class="btn btn-primary btn-sm" (click)="person.selected = !person.selected">
                                     <i class="fas fa-sort-down"></i>
@@ -63,7 +63,7 @@
                             </div>
                         </div>
                         <div class="mt-3">
-  
+
                             <div [ngClass]="{  'display-none': (!person.selected ) } " colspan="6" class="text-center">
                                 <table class="table table-hover table-bordered detalles">
                                     <tr>

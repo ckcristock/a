@@ -15,11 +15,12 @@ export class PersonService {
   getPeople(params = {}) {
     return this.httpClient.get(`${environment.base_url}/people-paginate`, { params })
   }
-  getPeopleIndex(params = {}) {
+
+  getPeopleIndex(params = { type: '2' }) {
     return this.httpClient.get(`${environment.base_url}/people`, { params })
   }
 
-  getAll( params ){
+  getAll(params = {}) {
     return this.httpClient.get(`${environment.base_url}/people-all`, { params })
   }
 

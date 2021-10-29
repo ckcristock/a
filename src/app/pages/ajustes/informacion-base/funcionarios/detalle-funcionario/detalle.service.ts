@@ -15,4 +15,8 @@ export class DetalleService {
   getBasicDataCustom(id) {
     return this.http.get(`${environment.base_url}/basicData/${id}`);
   }
+
+  liquidar(data:any, id){
+    return this.http.put(`${environment.base_url}/liquidateOrActivate/${id}`, data);
+  }
 }
