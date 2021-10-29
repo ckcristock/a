@@ -32,3 +32,7 @@ export { RegimenesNivelesComponent } from './regimenes-niveles/regimenes-niveles
 export { AseguradorasComponent } from './aseguradoras/aseguradoras.component';
 export { EmpresasComponent } from './empresas/empresas.component';
 export { ProfessionalsModule } from './professionals/professionals.module';
+
+
+export { ProductosComponent } from './productos/productos.component'
+export { CrearProductoComponent } from './productos/crear-producto/crear-producto.component';

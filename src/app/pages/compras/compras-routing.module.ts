@@ -1,0 +1,14 @@
+import { NgModule } from '@angular/core';
+import { Routes, RouterModule } from '@angular/router';
+import { CompraNacionalComponent } from './compra-nacional/compra-nacional.component';
+import { CrearCompraNacionalComponent } from './compra-nacional/crear-compra-nacional/crear-compra-nacional.component';
+
+const routes: Routes = [
+  { path: 'nacional', component: CompraNacionalComponent },
+  { path: 'crear-nacional', component: CrearCompraNacionalComponent },
+];
+@NgModule({
+  imports: [RouterModule.forChild(routes)],
+  exports: [RouterModule],
+})
+export class ComprasRoutingModule {}
