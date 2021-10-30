@@ -6,14 +6,15 @@ import { DashboardComponent } from './dashboard/dashboard.component';
 import { PagesRoutingModule } from './pages-routing.module';
 import { ComponentsModule } from '../components/components.module';
 
+
 @NgModule({
     declarations:[DashboardComponent ],
-    imports:[ 
+    imports:[
         CommonModule,
         FormsModule,
         PagesRoutingModule,
         ComponentsModule,
-        
+
     ],
     exports:[]
 })
