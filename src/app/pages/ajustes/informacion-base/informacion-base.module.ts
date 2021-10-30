@@ -22,6 +22,13 @@ import { EditarestibaComponent } from './bodegas/grupoestiba/editarestiba/editar
 import { EditargrupoComponent } from './bodegas/grupoestiba/editargrupo/editargrupo.component';
 import { CrearbodegaComponent } from './bodegas/crearbodega/crearbodega.component';
 import { GrupoestibaComponent } from './bodegas/grupoestiba/grupoestiba.component';
+import { ProductoComponent } from './productos/producto/producto.component';
+import { EditarProductoComponent } from './productos/editar-producto/editar-producto.component';
+import { ProveedoresComponent } from './proveedores/proveedores.component';
+import { CrearProveedorComponent } from './proveedores/crear-proveedor/crear-proveedor.component';
+import { NgbTypeaheadModule } from '@ng-bootstrap/ng-bootstrap';
+import { VerProveedorComponent } from './proveedores/ver-proveedor/ver-proveedor.component';
+import { EditarProveedorComponent } from './proveedores/editar-proveedor/editar-proveedor.component';
 
 @NgModule({
     declarations: [
@@ -62,7 +69,13 @@ import { GrupoestibaComponent } from './bodegas/grupoestiba/grupoestiba.componen
         EditarestibaComponent,
         GrupoestibaComponent,
         EditargrupoComponent,
-        CrearbodegaComponent
+        CrearbodegaComponent,
+        ProductoComponent,
+        EditarProductoComponent,
+        ProveedoresComponent,
+        CrearProveedorComponent,
+        VerProveedorComponent,
+        EditarProveedorComponent
      
     ],
 
@@ -85,6 +98,8 @@ import { GrupoestibaComponent } from './bodegas/grupoestiba/grupoestiba.componen
         myModules.InformacionBaseRoutingModule,
         myModules.ProfessionalsModule,
         ContractsEpsModule,
+        NgbTypeaheadModule,
+        
         SweetAlert2Module.forRoot()
        
 

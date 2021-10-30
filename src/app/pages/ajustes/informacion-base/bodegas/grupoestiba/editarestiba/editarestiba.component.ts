@@ -89,15 +89,15 @@ export class EditarestibaComponent implements OnInit {
       .subscribe((ok:any)=>{
          this.actualizarEstibas.emit(true);
          this.modalActualizarEstiba.hide();
-         this.alert.type = ok.type;
+         this.alert.icon = ok.type;
          this.alert.title = ok.title;
          this.alert.text = ok.message;
-         this.alert.show();
+         this.alert.fire();
       },err=>{
-        this.alert.type = err.error.type;
+        this.alert.icon = err.error.type;
         this.alert.title = err.error.title;
         this.alert.text = err.error.message;
-        this.alert.show();
+        this.alert.fire();
       })
   }
 

@@ -1,6 +1,7 @@
 import { Component, EventEmitter, OnInit, Input, ViewChild, ElementRef, Output } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { environment } from 'src/environments/environment';
+import { SwalComponent } from '@sweetalert2/ngx-sweetalert2';
 
 @Component({
   selector: 'app-crearbodega',
@@ -12,7 +13,7 @@ export class CrearbodegaComponent implements OnInit {
   @Output('CargarBodegas') cargarBodegas = new EventEmitter<any>();
   @ViewChild('modalBodega') modalBodega ;
   @ViewChild('Mapa') Mapa:ElementRef ;
-  @ViewChild('infoSwal') infoSwal:any ;
+  @ViewChild('infoSwal') infoSwal:SwalComponent ;
 
   public bodega:any = {
     Nombre:'',
@@ -42,6 +43,8 @@ export class CrearbodegaComponent implements OnInit {
 
   guardarBodega(){
 
+    console.log(this.infoSwal.fire());
+   
     let data = new FormData();
     let mapa ;
     if (this.Mapa.nativeElement.files.length === 1) {
@@ -50,10 +53,14 @@ export class CrearbodegaComponent implements OnInit {
 
     }else if(this.tipo == 'Crear'){
 
-      this.infoSwal.type='warning';
+      this.infoSwal.icon='warning';
       this.infoSwal.title = "Falta el archivo";
       this.infoSwal.text = 'La imágen del mapa es obligatoria';
-      this.infoSwal.show();
+
+  
+      
+      this.infoSwal.fire();
+      this.infoSwal;
       return ''
     }
 
@@ -62,20 +69,20 @@ export class CrearbodegaComponent implements OnInit {
     data.append('tipo',this.tipo);
 
     this.http.post(environment.ruta+'php/bodega_nuevo/crear_bodega_nuevo.php',data).subscribe(ok=>{
-        this.infoSwal.type='success';
+        this.infoSwal.icon='success';
         this.infoSwal.title = "Operación realizada satisfactoriamente";
         this.infoSwal.text = ok['message'];
-        this.infoSwal.show();
+        this.infoSwal.fire();
         this.modalBodega.hide();
 
         this.cargarBodegas.emit(true);
 
 
       },err=>{
-        this.infoSwal.type='error';
+        this.infoSwal.icon='error';
         this.infoSwal.title = "Ha ocurrido un error";
         this.infoSwal.text = err.error.message;
-        this.infoSwal.show();
+        this.infoSwal.fire();
 
       });
 

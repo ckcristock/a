@@ -168,7 +168,7 @@
     </div>
 </div>
 
-<swal #mapaBodega [options]="alertOptionMapa"></swal>
+<swal #mapaBodega [swalOptions]="alertOptionMapa"></swal>
 
 <app-editarestiba [abrirModalEstiba]="abrirModalEstiba" (actualizarEstibas)="buscarEstibas(grupoSelected)"></app-editarestiba>
 <app-editargrupo [abrirModalGrupo]="abrirModalGrupo" (actualizarGrupos)="getGrupos()"></app-editargrupo>

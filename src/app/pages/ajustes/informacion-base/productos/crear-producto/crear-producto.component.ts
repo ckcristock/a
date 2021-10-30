@@ -129,9 +129,9 @@ export class CrearProductoComponent implements OnInit {
             if (data.length == 0) {
               this.Si = false;
               this.confirmacionSwal.title = "Error En Codigo";
-              this.confirmacionSwal.text = "Éste CUM no se encontró en la Base de Datos de datosabiertos.org";
-              this.confirmacionSwal.type = "error";
-              this.confirmacionSwal.show();
+              this.confirmacionSwal.icon = "Éste CUM no se encontró en la Base de Datos de datosabiertos.org";
+              this.confirmacionSwal.icon = "error";
+              this.confirmacionSwal.fire();
             } else {
               this.Si = true;
               this.PrincipioActivo = data[0].principioactivo;
@@ -162,10 +162,10 @@ export class CrearProductoComponent implements OnInit {
         } else {
         this.Si = false;
         this.confirmacionSwal.title = "Error En Codigo";
-        this.confirmacionSwal.text = "Este codigo Cum ya esta registrado a un Producto";
-        this.confirmacionSwal.type = "error";
+        this.confirmacionSwal.icon = "Este codigo Cum ya esta registrado a un Producto";
+        this.confirmacionSwal.icon = "error";
         this.Codigo_Cum='';
-        this.confirmacionSwal.show();
+        this.confirmacionSwal.fire();
         formulario.reset();
   
       }
@@ -213,9 +213,9 @@ export class CrearProductoComponent implements OnInit {
               if (data.length == 0) {
               this.Si = false;
               this.confirmacionSwal.title = "Error En Codigo";
-              this.confirmacionSwal.text = "El codigo cum ingresado no se encuentra en la base de datos de DatosAbiertos.org";
-              this.confirmacionSwal.type = "error";
-              this.confirmacionSwal.show();
+              this.confirmacionSwal.icon = "El codigo cum ingresado no se encuentra en la base de datos de DatosAbiertos.org";
+              this.confirmacionSwal.icon = "error";
+              this.confirmacionSwal.fire();
               this.Codigo_Cum = '';
               this.PrincipioActivo = '';
               this.Presentacion = '';
@@ -281,9 +281,9 @@ export class CrearProductoComponent implements OnInit {
         } else {
           this.Si = false;
           this.confirmacionSwal.title = "Error En Codigo";
-          this.confirmacionSwal.text = "cum invalido, debe tener el numero del expediente y el consecutivo";
-          this.confirmacionSwal.type = "error";
-          this.confirmacionSwal.show();
+          this.confirmacionSwal.icon = "cum invalido, debe tener el numero del expediente y el consecutivo";
+          this.confirmacionSwal.icon = "error";
+          this.confirmacionSwal.fire();
   
           //alert("cum invalido, debe tener el numero del expediente y el consecutivo");
         }*/
@@ -291,10 +291,10 @@ export class CrearProductoComponent implements OnInit {
     /*} else {
         this.Si = false;
         this.confirmacionSwal.title = "Error En Codigo";
-        this.confirmacionSwal.text = "Este codigo Cum ya esta registrado a un Producto";
-        this.confirmacionSwal.type = "error";
+        this.confirmacionSwal.icon = "Este codigo Cum ya esta registrado a un Producto";
+        this.confirmacionSwal.icon = "error";
         this.Codigo_Cum='';
-        this.confirmacionSwal.show();
+        this.confirmacionSwal.fire();
   
       }  */
     }
@@ -307,9 +307,9 @@ export class CrearProductoComponent implements OnInit {
           if (data.length == 0) {
             this.Si = false;
             this.confirmacionSwal.title = "Error En Codigo";
-            this.confirmacionSwal.text = "El codigo cum ingresado no se encuentra en la base de datos de DatosAbiertos.org";
-            this.confirmacionSwal.type = "error";
-            this.confirmacionSwal.show();
+            this.confirmacionSwal.icon = "El codigo cum ingresado no se encuentra en la base de datos de DatosAbiertos.org";
+            this.confirmacionSwal.icon = "error";
+            this.confirmacionSwal.fire();
             this.Presentacion = '';
             this.Concentracion = '';
             this.PrincipioActivo = '';
@@ -341,9 +341,9 @@ export class CrearProductoComponent implements OnInit {
       } else {
         this.Si = false;
         this.confirmacionSwal.title = "Error En Codigo";
-        this.confirmacionSwal.text = "cum invalido, debe tener el numero del expediente y el consecutivo";
-        this.confirmacionSwal.type = "error";
-        this.confirmacionSwal.show();
+        this.confirmacionSwal.icon = "cum invalido, debe tener el numero del expediente y el consecutivo";
+        this.confirmacionSwal.icon = "error";
+        this.confirmacionSwal.fire();
         //alert("cum invalido, debe tener el numero del expediente y el consecutivo");
       }
   
@@ -381,9 +381,9 @@ export class CrearProductoComponent implements OnInit {
       datos.append('lista', lista);
       this.http.post(environment.ruta + 'php/productos/producto_guardar.php', datos).subscribe((data: any) => {
         this.confirmacionSwal.title = data.titulo;
-        this.confirmacionSwal.text = data.mensaje;
-        this.confirmacionSwal.type = data.tipo;
-        this.confirmacionSwal.show();
+        this.confirmacionSwal.icon = data.mensaje;
+        this.confirmacionSwal.icon = data.tipo;
+        this.confirmacionSwal.fire();
         formulario.reset();
         this.Fotos = [];
         this.VerPantallaLista();
@@ -391,7 +391,7 @@ export class CrearProductoComponent implements OnInit {
   
     }
     VerPantallaLista() {
-      this.router.navigate(['/base/productos']);
+      this.router.navigate(['/ajustes/informacion-base/productos']);
     }
     ValidarCodigo(){
       this.http.get(environment.ruta + 'php/productos/validar_codigo.php', { params: { codigo: this.Codigo_Barras } }).subscribe((data: any) => {
@@ -407,8 +407,8 @@ export class CrearProductoComponent implements OnInit {
         `;
         this.confirmacionSwal.title = "";
         this.confirmacionSwal.html = html;
-        this.confirmacionSwal.type = "warning";
-        this.confirmacionSwal.show();
+        this.confirmacionSwal.icon = "warning";
+        this.confirmacionSwal.fire();
         this.Codigo_Barras='';
       }
       });

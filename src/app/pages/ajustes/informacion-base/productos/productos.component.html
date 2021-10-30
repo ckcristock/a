@@ -79,8 +79,9 @@
                                     <tr *ngFor="let producto of Productos" [ngClass]="{'bg-danger': producto.Estado=='Inactivo'}">
                                         <td style="width: 50px !important; max-width: 50px !important">
                                             <div class="text-center">
+                                                <!-- TODO Funcionar Imagenes -->
                                                 <img *ngIf="producto.Foto == ''" class="thumb-img img-40 img-circle img-thumbnail img-responsive" src="assets/images/product.png" alt="">
-                                                <img *ngIf="producto.Foto != ''" class="thumb-img img-40 img-circle img-thumbnail img-responsive" src="{{globales.ruta}}IMAGENES/PRODUCTOS/{{producto.Foto}}" alt="" style="width:40px; height:40px;">
+                                              <!--   <img *ngIf="producto.Foto != ''" class="thumb-img img-40 img-circle img-thumbnail img-responsive" src="{{globales.ruta}}IMAGENES/PRODUCTOS/{{producto.Foto}}" alt="" style="width:40px; height:40px;"> -->
                                             </div>
                                         </td>
                                         <td style="width: 70px !important; max-width: 70px !important">
@@ -120,13 +121,13 @@
                                                     <div ngbDropdown class="dropdown-primary">
                                                         <button ngbDropdownToggle class="btn btn-secondary btn-mini waves-effect waves-light " type="button">Acciones</button>
                                                         <div ngbDropdownMenu>
-                                                            <a class="dropdown-item waves-light waves-effect caja-botones" [routerLink]="['/base/productoeditar', producto.Id_Producto ]">
+                                                            <a class="dropdown-item waves-light waves-effect caja-botones" [routerLink]="['editar', producto.Id_Producto ]">
                                                                 <i class="ti-pencil"></i>Editar</a>
-                                                            <a class="dropdown-item waves-light waves-effect caja-botones" [routerLink]="['/base/producto', producto.Id_Producto ]">
+                                                            <a class="dropdown-item waves-light waves-effect caja-botones" [routerLink]="['ver', producto.Id_Producto ]">
                                                                 <i class="ti-eye"></i>Ver</a>
-                                                            <a *ngIf="producto.Estado=='Activo'" class="dropdown-item waves-light waves-effect caja-botones" [swal]="{title : '¿Está Seguro?', text: 'Se dispone a Inactivar este Producto' , type : 'warning', showCancelButton : true , confirmButtonText: 'Si, Inactivar',cancelButtonText: 'No,Dejame Comprobar!'}"
+                                                            <a *ngIf="producto.Estado=='Activo'" class="dropdown-item waves-light waves-effect caja-botones" [swal]="{title : '¿Está Seguro?', text: 'Se dispone a Inactivar este Producto' , icon : 'warning', showCancelButton : true , confirmButtonText: 'Si, Inactivar',cancelButtonText: 'No,Dejame Comprobar!'}"
                                                                 (confirm)="CambiarEstadoProducto('Inactivo', producto.Id_Producto)"> <i class="ti-close"></i>Inactivar</a>
-                                                            <a *ngIf="producto.Estado=='Inactivo'" [swal]="{title : '¿Está Seguro?', text: 'Se dispone a Activar este Producto' , type : 'warning', showCancelButton : true , confirmButtonText: 'Si, Activar',cancelButtonText: 'No,Dejame Comprobar!'}" (confirm)="CambiarEstadoProducto('Activo', producto.Id_Producto)"
+                                                            <a *ngIf="producto.Estado=='Inactivo'" [swal]="{title : '¿Está Seguro?', text: 'Se dispone a Activar este Producto' , icon : 'warning', showCancelButton : true , confirmButtonText: 'Si, Activar',cancelButtonText: 'No,Dejame Comprobar!'}" (confirm)="CambiarEstadoProducto('Activo', producto.Id_Producto)"
                                                                 class="dropdown-item waves-light waves-effect caja-botones"> <i class="ti-check"></i>Activar</a>
                                                         </div>
                                                     </div>
@@ -137,11 +138,11 @@
                                                         <div ngbDropdownMenu>
                                                             <a class="dropdown-item waves-light waves-effect caja-botones" (click)="EditarProducto(producto.Id_Producto,modalMaterialEditar)">
                                                                 <i class="ti-pencil"></i>Editar</a>
-                                                            <a class="dropdown-item waves-light waves-effect caja-botones" [routerLink]="['/base/producto', producto.Id_Producto ]">
+                                                            <a class="dropdown-item waves-light waves-effect caja-botones" [routerLink]="['ver', producto.Id_Producto ]">
                                                                 <i class="ti-eye"></i>Ver</a>
-                                                            <a *ngIf="producto.Estado=='Activo'" class="dropdown-item waves-light waves-effect caja-botones" [swal]="{title : '¿Está Seguro?', text: 'Se dispone a Inactivar este Producto' , type : 'warning', showCancelButton : true , confirmButtonText: 'Si, Inactivar',cancelButtonText: 'No,Dejame Comprobar!'}"
+                                                            <a *ngIf="producto.Estado=='Activo'" class="dropdown-item waves-light waves-effect caja-botones" [swal]="{title : '¿Está Seguro?', text: 'Se dispone a Inactivar este Producto' , icon : 'warning', showCancelButton : true , confirmButtonText: 'Si, Inactivar',cancelButtonText: 'No,Dejame Comprobar!'}"
                                                                 (confirm)="CambiarEstadoProducto('Inactivo', producto.Id_Producto)"> <i class="ti-close"></i>Inactivar</a>
-                                                            <a *ngIf="producto.Estado=='Inactivo'" [swal]="{title : '¿Está Seguro?', text: 'Se dispone a Activar este Producto' , type : 'warning', showCancelButton : true , confirmButtonText: 'Si, Activar',cancelButtonText: 'No,Dejame Comprobar!'}" (confirm)="CambiarEstadoProducto('Activo', producto.Id_Producto)"
+                                                            <a *ngIf="producto.Estado=='Inactivo'" [swal]="{title : '¿Está Seguro?', text: 'Se dispone a Activar este Producto' , icon : 'warning', showCancelButton : true , confirmButtonText: 'Si, Activar',cancelButtonText: 'No,Dejame Comprobar!'}" (confirm)="CambiarEstadoProducto('Activo', producto.Id_Producto)"
                                                                 class="dropdown-item waves-light waves-effect caja-botones"> <i class="ti-check"></i>Activar</a>
                                                         </div>
                                                     </div>
@@ -396,7 +397,7 @@
     <div class="app-modal-footer">
         <div class="text-right">
             <button type="button" class="btn btn-default btn-sm" (click)="modalMaterial.hide()">Cancelar</button>
-            <button type="button" [disabled]="!FormMaterial.valid" class="btn btn-primary btn-sm" [swal]="{title : '¿Está Seguro?', text: 'Se dispone a Guardar este Material' , type : 'warning', showCancelButton : true , confirmButtonText: 'Si, Guardar',cancelButtonText: 'No,Dejame Comprobar!'}"
+            <button type="button" [disabled]="!FormMaterial.valid" class="btn btn-primary btn-sm" [swal]="{title : '¿Está Seguro?', text: 'Se dispone a Guardar este Material' , icon : 'warning', showCancelButton : true , confirmButtonText: 'Si, Guardar',cancelButtonText: 'No,Dejame Comprobar!'}"
                 (confirm)="GuardarProducto(FormMaterial,modalMaterial)">Guardar</button>
         </div>
     </div>
@@ -643,7 +644,7 @@
     <div class="app-modal-footer">
         <div class="text-right">
             <button type="button" class="btn btn-default btn-sm" (click)="modalMaterialEditar.hide()">Cancelar</button>
-            <button type="button" class="btn btn-primary btn-sm" [disabled]="!FormMaterialEditar.valid" [swal]="{title : '¿Está Seguro?', text: 'Se dispone a Guardar este Producto' , type : 'warning', showCancelButton : true , confirmButtonText: 'Si, Guardar',cancelButtonText: 'No,Dejame Comprobar!'}"
+            <button type="button" class="btn btn-primary btn-sm" [disabled]="!FormMaterialEditar.valid" [swal]="{title : '¿Está Seguro?', text: 'Se dispone a Guardar este Producto' , icon : 'warning', showCancelButton : true , confirmButtonText: 'Si, Guardar',cancelButtonText: 'No,Dejame Comprobar!'}"
                 (confirm)="GuardarProducto(FormMaterialEditar,modalMaterialEditar)">Guardar</button>
         </div>
     </div>
@@ -804,6 +805,6 @@
     </div>
 </app-modal-basic>
 
-<swal #confirmacionSwal title="" text="" html="" type=""></swal>
-<swal #deleteSwal title="Producto Eliminado" text="Se ha Eliminado Correctamente el Producto" type="success">
+<swal #confirmacionSwal title="" text="" html="" icon=""></swal>
+<swal #deleteSwal title="Producto Eliminado" text="Se ha Eliminado Correctamente el Producto" icon="success">
 </swal>
