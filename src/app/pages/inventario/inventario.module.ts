@@ -8,15 +8,23 @@ import { CommonModule } from '@angular/common';
 import { ComponentsModule } from '../../components/components.module';
 import { SweetAlert2Module } from '@sweetalert2/ngx-sweetalert2';
 
-import { NgbPaginationModule, NgbTypeaheadModule } from '@ng-bootstrap/ng-bootstrap';
+import { NgbModalModule, NgbPaginationModule, NgbTypeaheadModule } from '@ng-bootstrap/ng-bootstrap';
 import { InventarioRoutingModule } from './inventario-routing.module';
 import { InventarioComponent } from './inventario/inventario.component';
 import { HttpClientModule } from '@angular/common/http';
+import { InventarioFisicoComponent } from './inventario-fisico/inventario-fisico.component';
+import { ModalAlert, ModalformComponent } from './inventario-fisico/modalform/modalform.component';
+import { ModaldataInitComponent } from './inventario-fisico/modaldata-init/modaldata-init.component';
 
 @NgModule({
-    declarations:[InventarioComponent],
+    declarations:[
+      ModalAlert,
+      ModalformComponent,
+      ModaldataInitComponent,
+      InventarioComponent, InventarioFisicoComponent],
     imports:[
-       HttpClientModule,
+
+        HttpClientModule,
         CommonModule,
         FormsModule,
         InventarioRoutingModule,
@@ -24,7 +32,8 @@ import { HttpClientModule } from '@angular/common/http';
         MyDateRangePickerModule,
         NgbTypeaheadModule,
         SweetAlert2Module.forRoot(),
-        NgbPaginationModule
+        NgbPaginationModule,
+        NgbModalModule
 
     ],
 })
