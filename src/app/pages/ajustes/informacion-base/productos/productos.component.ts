@@ -25,7 +25,8 @@ export class ProductosComponent implements OnInit {
   columns = [];
   isLoading: boolean;
   timeout: any;
-  public funcionario:any = JSON.parse(localStorage.getItem('User')).Identificacion_Funcionario;
+  /* TODO ACTUALIZAR FUNCIONARIO */
+  public funcionario:any = 1;
 
   @ViewChild('PlantillaFoto') PlantillaFoto: TemplateRef<any>
   @ViewChild('FormProducto') FormProducto: any;

@@ -57,7 +57,9 @@ export class CrearProductoComponent implements OnInit {
     public 	Forma_Farmaceutica:any='';
     public Lista:any=[];
     public Codigo_Barras:any='';
-    public Identificacion_Funcionario=(JSON.parse(localStorage.getItem("User"))).Identificacion_Funcionario;
+  /* TODO ACTUALIZAR FUNCIONARIO */
+
+    public Identificacion_Funcionario='1';
   
     public productos: any[];
     public IdProductos: any = '';

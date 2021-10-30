@@ -51,7 +51,9 @@ export class CrearProveedorComponent implements OnInit {
     Razon_Social:'',
     Direccion:'',
   };
-  public Identificacion_Funcionario:any = JSON.parse(localStorage.getItem('User')).Identificacion_Funcionario;
+  /* TODO ACTUALIZAR FUNCIONARIO */
+
+  public Identificacion_Funcionario:any = 1;
 
   constructor( private http: HttpClient, private router: Router) { 
     this.alertOption = {

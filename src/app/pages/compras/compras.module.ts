@@ -8,20 +8,31 @@ import { CompraNacionalComponent } from './compra-nacional/compra-nacional.compo
 import { ComponentsModule } from '../../components/components.module';
 import { SweetAlert2Module } from '@sweetalert2/ngx-sweetalert2';
 import { CrearCompraNacionalComponent } from './compra-nacional/crear-compra-nacional/crear-compra-nacional.component';
-import { NgbTypeaheadModule } from '@ng-bootstrap/ng-bootstrap';
+import {
+  NgbTypeaheadModule,
+  NgbDropdownModule,
+} from '@ng-bootstrap/ng-bootstrap';
+import { HttpClientModule } from '@angular/common/http';
+import { PipesModule } from '../../core/pipes/pipes.module';
+import { VerCompraNacionalComponent } from './compra-nacional/ver-compra-nacional/ver-compra-nacional.component';
 
 @NgModule({
-    declarations:[CompraNacionalComponent, CrearCompraNacionalComponent],
-    imports:[
-        CommonModule,
-        FormsModule,
-        ComprasRoutingModule,
-        ComponentsModule,
-        MyDateRangePickerModule,
-        NgbTypeaheadModule,
-        SweetAlert2Module.forRoot()
-
-    ],
+  declarations: [
+    CompraNacionalComponent,
+    CrearCompraNacionalComponent,
+    VerCompraNacionalComponent,
+  ],
+  imports: [
+    HttpClientModule,
+    PipesModule,
+    CommonModule,
+    FormsModule,
+    ComprasRoutingModule,
+    ComponentsModule,
+    MyDateRangePickerModule,
+    NgbTypeaheadModule,
+    NgbDropdownModule,
+    SweetAlert2Module.forRoot(),
+  ],
 })
-
-export class ComprasModule{}
+export class ComprasModule {}
