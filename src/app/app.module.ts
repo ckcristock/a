@@ -30,6 +30,7 @@ export function createTranslateLoader(http: HttpClient): any {
     FilterPipe
   ],
   imports: [
+    
     ArchwizardModule,
     BrowserModule,
     AppRoutingModule,

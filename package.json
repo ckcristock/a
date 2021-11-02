@@ -35,7 +35,8 @@
         "@ng-select/ng-select": "^4.0.4",
         "@ngx-translate/core": "^13.0.0",
         "@ngx-translate/http-loader": "^6.0.0",
-        "@syncfusion/ej2-angular-filemanager": "^19.3.44",
+        "@sweetalert2/ngx-sweetalert2": "^7.3.0",
+        "@syncfusion/ej2-angular-filemanager": "^19.2.44",
         "@xenialab/angular-filemanager": "^1.5.2",
         "angular-archwizard": "^6.1.0",
         "apexcharts": "^3.19.2",
@@ -61,7 +62,7 @@
         "ngx-perfect-scrollbar": "^9.0.0",
         "ngx-ui-switch": "^9.0.2",
         "rxjs": "~6.6.0",
-        "sweetalert2": "^9.15.1",
+        "sweetalert2": "^10.8.0",
         "tslib": "^2.0.0",
         "zone.js": "~0.11.3"
     },

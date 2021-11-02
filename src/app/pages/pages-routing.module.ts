@@ -2,6 +2,7 @@ import { NgModule } from '@angular/core';
 import { Routes, RouterModule } from '@angular/router';
 import { AuthGuard } from '../core/guards/auth.guard';
 import { DashboardComponent } from './dashboard/dashboard.component';
+import { ComprasModule } from './compras/compras.module';
 
 const routes: Routes = [
     { path: '', component: DashboardComponent },
@@ -12,6 +13,7 @@ const routes: Routes = [
     { path: 'gestion-riesgo', loadChildren: () => import('./gestion-riesgo/gestion-riesgo.module').then(m => m.GestionRiesgoModule) },
     { path: 'sst', loadChildren: () => import('./sst/sst.module').then(m => m.SstModule) },
     { path: 'ajustes', loadChildren: () => import('./ajustes/ajustes.module').then(m => m.AjustesModule) },
+    { path: 'compras', loadChildren: () => import('./compras/compras.module').then(m => m.ComprasModule) },
 
     /**
      * Nueva integracion con core

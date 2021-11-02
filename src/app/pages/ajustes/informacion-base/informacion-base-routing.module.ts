@@ -24,7 +24,9 @@ import { CiudadesComponent } from "./ciudades/ciudades.component";
 import { PaisesComponent } from "./paises/paises.component";
 import { LicenciaConduccionComponent } from "./licencia-conduccion/licencia-conduccion.component";
 import { EstructuraEmpresaComponent } from './estructura-empresa/estructura-empresa.component';
-
+import { ProductosComponent } from './productos/productos.component';
+import { CrearProductoComponent } from './productos/crear-producto/crear-producto.component';
+import { BodegasComponent } from './bodegas/bodegas.component';
 
 const routes: Routes = [
     { path: 'empresas', component: EmpresasComponent },
@@ -38,6 +40,11 @@ const routes: Routes = [
     { path: 'regimenes-niveles', component: RegimenesNivelesComponent },
     { path: 'aseguradoras', component: AseguradorasComponent },
     { path: 'administrators', component: EpsComponent },
+    /**Productos */
+    { path: 'productos', component: ProductosComponent },
+    { path: 'productos/crear', component: CrearProductoComponent },
+    { path: 'bodegas', component: BodegasComponent },
+
     { path: 'especialidades', loadChildren: () => import('../informacion-base/speciality/speciality.module').then(m => m.SpecialityModule) },
     { path: 'contracts', loadChildren: () => import('../informacion-base/contracts-eps/contracts-eps.module').then(m => m.ContractsEpsModule) },
     { path: 'professionals', loadChildren: () => import('../informacion-base/professionals/professionals.module').then(m => m.ProfessionalsModule) },

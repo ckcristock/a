@@ -49,3 +49,7 @@ export { HotelesComponent } from './hoteles/hoteles.component';
 export { CiudadesComponent } from './ciudades/ciudades.component';
 export { PaisesComponent } from './paises/paises.component';
 export { LicenciaConduccionComponent } from './licencia-conduccion/licencia-conduccion.component';
+
+
+export { ProductosComponent } from './productos/productos.component'
+export { CrearProductoComponent } from './productos/crear-producto/crear-producto.component';

@@ -16,7 +16,13 @@ import { ArchwizardModule } from 'angular-archwizard';
 import { ContractsEpsModule } from './contracts-eps/contracts-eps.module';
 import { FileManagerModule } from '@syncfusion/ej2-angular-filemanager';
 
-import * as myModules from './index'
+import * as myModules from './index';
+import { SweetAlert2Module } from '@sweetalert2/ngx-sweetalert2';
+import { BodegasComponent } from './bodegas/bodegas.component';
+import { EditarestibaComponent } from './bodegas/grupoestiba/editarestiba/editarestiba.component';
+import { EditargrupoComponent } from './bodegas/grupoestiba/editargrupo/editargrupo.component';
+import { CrearbodegaComponent } from './bodegas/crearbodega/crearbodega.component';
+import { GrupoestibaComponent } from './bodegas/grupoestiba/grupoestiba.component';
 
 
 
@@ -77,6 +83,15 @@ import * as myModules from './index'
         myModules.CiudadesComponent,
         myModules.PaisesComponent,
         myModules.LicenciaConduccionComponent,
+
+        myModules.CrearProductoComponent,
+        myModules.ProductosComponent,
+        BodegasComponent,
+        EditarestibaComponent,
+        GrupoestibaComponent,
+        EditargrupoComponent,
+        CrearbodegaComponent
+
     ],
 
     imports: [
@@ -98,7 +113,10 @@ import * as myModules from './index'
         ArchwizardModule,
         myModules.InformacionBaseRoutingModule,
         myModules.ProfessionalsModule,
-        ContractsEpsModule
+        ContractsEpsModule,
+        SweetAlert2Module.forRoot()
+
+
     ],
 })
 export class InformacionBaseModule { }
