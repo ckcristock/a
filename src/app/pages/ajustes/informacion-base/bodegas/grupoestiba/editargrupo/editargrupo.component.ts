@@ -79,15 +79,17 @@ export class EditargrupoComponent implements OnInit {
       .subscribe((ok:any)=>{
          this.actualizarGrupos.emit(true);
          this.modalActualizarGrupo.hide();
-         this.alert.type = ok.type;
+         this.alert.icon = ok.type;
          this.alert.title = ok.title;
          this.alert.text = ok.message;
-         this.alert.show();
+         this.alert.fire();
       },err=>{
-        this.alert.type = err.error.type;
-        this.alert.title = err.error.title;
-        this.alert.text = err.error.message;
-        this.alert.show();
+        console.log(err);
+        
+        this.alert.icon = 'error';
+        this.alert.title = 'Ocurrió un error';
+        this.alert.text = err.error.text;
+        this.alert.fire();
       })
 
   }

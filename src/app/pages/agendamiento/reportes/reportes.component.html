@@ -15,8 +15,8 @@
                         <div class="form-group col-md-4 col-sm-12">
                             <label>Tipo de reporte</label>
                             <select class="form-control" name="typeReport" required [ngModel]="typeReportDefault">
-                            <option [value]="typeReport" *ngFor="let typeReport of typeReports">
-                                {{typeReport}}
+                            <option [value]="typeReport['name']" *ngFor="let typeReport of typeReports">
+                                {{typeReport['name']}}
                             </option>
                         </select>
                         </div>
@@ -61,7 +61,7 @@
                     <div class="row">
                         <div class="col-12 mt-4 d-flex ">
                             <button class="btn  btn-primary  btn-block" [disabled]="loading" (click)="download(sendForm)">
-                               
+
                                 <span *ngIf="!loading ;else status">Reporte general</span>
                                 <ng-template #status>
                                     <span class="spinner-border spinner-border-sm" role="status" aria-hidden="true"></span>

@@ -46,11 +46,14 @@ export class CompraNacionalComponent implements OnInit {
     public Compras_Pendientes:any = [];
     public Compras_Rechazadas:any = [];
     public Pre_Compras:any[]=[];
-    public user = JSON.parse(localStorage.getItem('User'));
+   /*  public user = JSON.parse(localStorage.getItem('User')); */
   
-    public miPerfil = JSON.parse(localStorage.getItem('miPerfil'));
+   /* TODO ACTUALIZAR FUNCIONARIO */
+    public miPerfil = '1';
+/*     public miPerfil = JSON.parse(localStorage.getItem('miPerfil')); */
     
-    public requiredParams:any = { params: {tipo: "todo",funcionario: this.user.Identificacion_Funcionario } };
+
+    public requiredParams:any = { params: {tipo: "todo",funcionario:1 } };
   myDateRangePickerOptions: IMyDrpOptions = {
     width:'180px', 
     height: '21px',
@@ -247,7 +250,8 @@ export class CompraNacionalComponent implements OnInit {
     anularCompra(id,motivo) {
       let datos = new FormData();
       datos.append("id", id);
-      datos.append("funcionario",this.user.Identificacion_Funcionario);
+
+      datos.append("funcionario",'1');
       datos.append("estado","Anulada");
       datos.append("motivo",motivo);
       this.http.post(environment.ruta + 'php/comprasnacionales/actualiza_compra.php', datos).subscribe((data: any) => {

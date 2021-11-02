@@ -5,6 +5,7 @@ import { FormsModule } from '@angular/forms';
 import { DashboardComponent } from './dashboard/dashboard.component';
 import { PagesRoutingModule } from './pages-routing.module';
 import { ComponentsModule } from '../components/components.module';
+import { HttpClientModule } from '@angular/common/http';
 
 @NgModule({
     declarations:[DashboardComponent ],
@@ -13,6 +14,7 @@ import { ComponentsModule } from '../components/components.module';
         FormsModule,
         PagesRoutingModule,
         ComponentsModule,
+        HttpClientModule,
         
     ],
     exports:[]

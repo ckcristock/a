@@ -4,7 +4,7 @@ import { BrowserModule } from '@angular/platform-browser';
 import { AppComponent } from './app.component';
 import { AppRoutingModule } from './app-routing.module';
 import { TranslateHttpLoader } from '@ngx-translate/http-loader';
-import { HttpClient, HTTP_INTERCEPTORS } from '@angular/common/http';
+import { HttpClient, HTTP_INTERCEPTORS, HttpClientModule } from '@angular/common/http';
 
 import { AuthModule } from './auth/auth.module';
 import { LayoutsModule } from './layouts/layouts.module';
@@ -30,7 +30,7 @@ export function createTranslateLoader(http: HttpClient): any {
     FilterPipe
   ],
   imports: [
-    
+    HttpClientModule,
     ArchwizardModule,
     BrowserModule,
     AppRoutingModule,

@@ -1,0 +1,28 @@
+
+.imagen{
+    width: 92px;
+    height: 100px;
+    border: 1px solid #ccc;
+    background: #fff;
+    padding: 2px;
+   
+}
+.user-title {
+    position: relative;
+    bottom: 13px !important;
+}
+.tabla{
+    text-align: left;
+  
+    th,td, a{
+        font-size: 11px !important;
+        word-wrap: break-word !important ;
+        white-space: normal !important;
+    }
+    
+}
+.titulo{
+    h6, h5{
+    color: #4099ff;
+    text-align: center}
+}

@@ -22,6 +22,7 @@
 export const environment = {
   production: false,
 
+  id_funcionario: 1,
   base_url: 'https://backend.ateneoerp.com/api',
   url_assets: 'http://ateneo-deploy.test/',
   ruta: 'https://inventario.ateneoerp.com/'

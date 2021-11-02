@@ -115,15 +115,8 @@
                   <tr *ngFor="let compra of comprasnacionales">
                     <td>
                       <img
-                        *ngIf="compra.Imagen == ''"
-                        src="assets/images/user.jpg"
-                        class="img-radius imagen"
-                      />
-                      <img
-                        *ngIf="compra.Imagen != ''"
-                        src="{{ globales.ruta }}IMAGENES/FUNCIONARIOS/{{
-                          compra.Imagen
-                        }}"
+                      [src]="compra.Imagen | image: 'users'"
+                        style="width: 15px;"
                         class="img-radius imagen"
                       />
                     </td>
@@ -162,6 +155,7 @@
                           <button
                             ngbDropdownToggle
                             class="
+                              btn-sm
                               btn btn-secondary btn-mini
                               waves-effect waves-light
                             "
@@ -197,13 +191,14 @@
                               "
                               href=""
                               [routerLink]="[
-                                '/compranacional',
+                                '/compras/ver-nacional',
                                 compra.Id_Orden_Compra_Nacional
                               ]"
                             >
                               <i class="ti-eye"></i>Ver</a
                             >
-                            <a
+                            <!-- TODO Imprimir Orden Compra -->
+                           <!--  <a
                               class="
                                 dropdown-item
                                 waves-light waves-effect
@@ -217,7 +212,7 @@
                               target="_blank"
                             >
                               <i class="ti-printer"></i>Imprimir</a
-                            >
+                            > -->
                             <a
                               *ngIf="compra.Estado != 'Anulada'"
                               class="

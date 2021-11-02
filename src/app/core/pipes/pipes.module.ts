@@ -6,7 +6,6 @@ import { PuntosPipe } from "./puntos";
 import { SafePipe } from "./safe.pipe";
 import { TimePipe } from "./time.pipe";
 
-
 @NgModule({
     declarations: [ImagePipe, ObjToArrayPipe, PuntosPipe, TimePipe, MinWordsPipe, SafePipe],
     exports: [ImagePipe, ObjToArrayPipe, PuntosPipe, TimePipe, MinWordsPipe, SafePipe],

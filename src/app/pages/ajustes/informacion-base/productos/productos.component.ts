@@ -25,7 +25,8 @@ export class ProductosComponent implements OnInit {
   columns = [];
   isLoading: boolean;
   timeout: any;
-  public funcionario:any = JSON.parse(localStorage.getItem('User')).Identificacion_Funcionario;
+  /* TODO ACTUALIZAR FUNCIONARIO */
+  public funcionario:any = 1;
 
   @ViewChild('PlantillaFoto') PlantillaFoto: TemplateRef<any>
   @ViewChild('FormProducto') FormProducto: any;
@@ -369,8 +370,8 @@ export class ProductosComponent implements OnInit {
     this.http.post(environment.ruta + 'php/productos/producto_guardar_dev.php', datos).subscribe((data: any) => {
       this.confirmacionSwal.title = data.titulo;
       this.confirmacionSwal.text = data.mensaje;
-      this.confirmacionSwal.type = data.tipo;
-      this.confirmacionSwal.show();
+      this.confirmacionSwal.icon = data.tipo;
+      this.confirmacionSwal.fire();
       this.Fotos = [];
       formulario.reset();
       modal.hide();
@@ -458,8 +459,8 @@ export class ProductosComponent implements OnInit {
           this.Si = false;
           this.confirmacionSwal.title = "Error En Codigo";
           this.confirmacionSwal.text = "El codigo cum ingresado no se encuentra en la base de datos de DatosAbiertos.org";
-          this.confirmacionSwal.type = "error";
-          this.confirmacionSwal.show();
+          this.confirmacionSwal.icon = "error";
+          this.confirmacionSwal.fire();
           this.Datos['Codigo_Cum'] = '';
           this.Datos['PrincipioActivo '] = '';
           this.Datos['Presentacion '] = '';
@@ -523,8 +524,8 @@ export class ProductosComponent implements OnInit {
       this.Si = false;
       this.confirmacionSwal.title = "Error En Codigo";
       this.confirmacionSwal.text = "cum invalido, debe tener el numero del expediente y el consecutivo";
-      this.confirmacionSwal.type = "error";
-      this.confirmacionSwal.show();
+      this.confirmacionSwal.icon = "error";
+      this.confirmacionSwal.fire();
       this.FormProducto.reset();
       //alert("cum invalido, debe tener el numero del expediente y el consecutivo");
     }
@@ -538,8 +539,8 @@ export class ProductosComponent implements OnInit {
           this.Si = false;
           this.confirmacionSwal.title = "Error En Codigo";
           this.confirmacionSwal.text = "El codigo cum ingresado no se encuentra en la base de datos de DatosAbiertos.org";
-          this.confirmacionSwal.type = "error";
-          this.confirmacionSwal.show();
+          this.confirmacionSwal.icon = "error";
+          this.confirmacionSwal.fire();
           this.Datos['Presentacion'] = '';
           this.Datos['Concentracion'] = '';
           this.Datos['PrincipioActivo'] = '';
@@ -572,8 +573,8 @@ export class ProductosComponent implements OnInit {
       this.Si = false;
       this.confirmacionSwal.title = "Error En Codigo";
       this.confirmacionSwal.text = "cum invalido, debe tener el numero del expediente y el consecutivo";
-      this.confirmacionSwal.type = "error";
-      this.confirmacionSwal.show();
+      this.confirmacionSwal.icon = "error";
+      this.confirmacionSwal.fire();
       this.FormProducto.reset();
       //alert("cum invalido, debe tener el numero del expediente y el consecutivo");
     }
@@ -652,7 +653,7 @@ export class ProductosComponent implements OnInit {
 
   ValidarCodigo(){
     this.http.get(environment.ruta + 'php/productos/validar_codigo.php', { params: { codigo: this.Codigo_Barras } }).subscribe((data: any) => {
-      if (data.Id_Producto) {
+      if (data?.Id_Producto) {
         let html = `
         <h5>Este codigo de barras ya esta asociado a otro producto:</h5>
 
@@ -664,8 +665,8 @@ export class ProductosComponent implements OnInit {
       `;
       this.confirmacionSwal.title = "";
       this.confirmacionSwal.html = html;
-      this.confirmacionSwal.type = "warning";
-      this.confirmacionSwal.show();
+      this.confirmacionSwal.icon = "warning";
+      this.confirmacionSwal.fire();
       this.Codigo_Barras='';
     }
     });
@@ -682,8 +683,8 @@ export class ProductosComponent implements OnInit {
     this.http.post(environment.ruta + 'php/productos/cambiar_estado.php', datos).subscribe((data: any) => {
       this.confirmacionSwal.title = data.titulo;
       this.confirmacionSwal.text = data.mensaje;
-      this.confirmacionSwal.type = data.tipo;
-      this.confirmacionSwal.show();
+      this.confirmacionSwal.icon = data.tipo;
+      this.confirmacionSwal.fire();
      this.ListarProductos();
     });
   }

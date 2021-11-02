@@ -1,0 +1,237 @@
+<div class="page-body">
+    <div class="card">
+      <div class="row ">
+        <div class="col-lg-12">
+          <div class="row">
+            <div class="card-body">
+              <div class="card-body">
+                <div class="row">
+                    <div class="col-md-6">
+                        <div #studentChart id="studentChart">
+                            <!-- TODO grafico -->
+                       <!--    <chart id="facturacion_chart" [type]="'line'" [data]="studentChartData"
+                            [options]="studentChartOption"></chart> -->
+                        </div>
+        
+                      </div>
+                      <div class="col-md-6">
+                          <h5 class="text-center">{{Proveedor.Nombre}}</h5>
+                       <div class="row m-t-20">                       
+                         <div class="col-md-6">
+                            <div class="card bg-inverse notification-card">
+                                <div class="card-block">
+                                  <div class="row align-items-center" [routerLink]="['/contabilidad/facturaproveedor',Proveedor.Id_Proveedor]" style="cursor: pointer;">
+                                    <div class="col-3 notify-icon" style="padding: 0;">
+                                      <i style="font-size: 24px;" class="fa fa-file-text"></i>
+                                    </div>
+                                    <div class="col-9 notify-cont" >
+                                      <h6 style="color:white !important;">{{Facturas}} </h6>
+                                      <p>Facturas</p>
+                                    </div>
+                                  </div>
+                                </div>
+                              </div>
+                         </div>  
+                         <div class="col-md-6">
+                            <div class="card bg-c-green notification-card">
+                                <div class="card-block">
+                                  <div class="row align-items-center"  [routerLink]="['/contabilidad/facturaproveedor',Proveedor.Id_Proveedor]" style="cursor: pointer;" >
+                                    <div class="col-3 notify-icon" style="padding: 0;">
+                                      <i style="font-size: 24px;" class="fa fa-bar-chart" ></i>
+                                    </div>
+                                    <div class="col-9 notify-cont">
+                                      <h6 style="color:white !important;">$ {{Cartera}}</h6>
+                                      <p>Total Cartera </p>
+                                    </div>
+                                  </div>
+                                </div>
+                              </div>
+                         </div>            
+                       </div>
+        
+                      </div>
+                </div>
+                
+              </div>
+            </div>
+          </div>
+  
+          <div class="row titulo">
+            <div class="col-md-12 " style="text-align: center">
+              <h6> Datos Básicos </h6>
+            </div>
+          </div>
+          <div class="card-body titulo">
+            <div class="view-info">
+  
+              <div class="row">
+                <div class="col-lg-12 col-xl-6">
+  
+                  <table class="table m-0 tabla">
+                    <tbody>
+                      <tr>
+                        <th scope="row" style="width:195px !important ">Proveedor</th>
+                        <td>{{Proveedor.Nombre }}</td>
+                      </tr>
+                      <tr>
+                        <th scope="row" style="width:195px !important ">Nit</th>
+                        <td>{{Proveedor.Id_Proveedor}} - {{Proveedor.Digito_Verificacion}}</td>
+                      </tr>
+                      <tr>
+                        <th scope="row" style="width:195px !important ">Tipo de Persona </th>
+                        <td>{{Proveedor.Tipo}} </td>
+                      </tr>
+                      <tr *ngIf="Proveedor.Tipo=='Natural'">
+                        <th scope="row" style="width:195px !important ">Razon Social </th>
+                        <td>{{Proveedor.Razon_Social}} </td>
+                      </tr>
+                      <tr>
+                        <th scope="row" style="width:195px !important ">Dirección </th>
+                        <td>{{Proveedor.Direccion}}</td>
+                      </tr>
+                      <tr>
+                        <th scope="row" style="width:195px !important ">Telefono Fijo </th>
+                        <td>{{Proveedor.Telefono}}</td>
+                      </tr>
+  
+  
+                    </tbody>
+                  </table>
+  
+                </div>
+                <!-- end of table col-lg-6 -->
+                <div class="col-lg-12 col-xl-6">
+  
+                  <table class="table m-0 tabla">
+                    <tbody>
+                   
+                      <tr>
+                        <th scope="row" style="width:195px !important ">Ciudad</th>
+                        <td>{{Proveedor.Ciudad}}</td>
+                      </tr>
+                      <tr>
+                        <th scope="row" style="width:195px !important ">Asesor Comercial</th>
+                        <td>{{Proveedor.Asesor_Comercial}}</td>
+                      </tr>
+                      <tr>
+                        <th scope="row" style="width:195px !important ">Tel. Asesor Comercial</th>
+                        <td>{{Proveedor.Telefono_Asesor}}</td>
+                      </tr>
+                      <tr>
+                        <th scope="row" style="width:195px !important ">Email Asesor Comercial </th>
+                        <td>
+                          {{Proveedor.Email_Asesor}}
+                        </td>
+                      </tr>
+  
+                    </tbody>
+                  </table>
+  
+                </div>
+                <!-- end of table col-lg-6 -->
+              </div>
+              <hr>
+              <div class="row">
+                <div class="col-md-12 m-b-10" style="text-align: center">
+                  <h6>Datos Comerciales</h6>
+                </div>
+              </div>
+  
+              <div class="row">
+                <div class="col-md-4">
+  
+                  <table class="table m-0 tabla">
+                    <tbody>
+                     
+                      <tr>
+                        <th scope="row" style="width:195px !important ">Tipo Regimen</th>
+                        <td>{{Proveedor.Regimen}}</td>
+                      </tr>
+                      <tr>
+                        <th scope="row" style="width:195px !important ">Tipo Retencion</th>
+                        <td>{{Proveedor.Tipo_Retencion}}</td>
+                      </tr>
+                      <tr>
+                        <th scope="row" style="width:195px !important ">Ley 1429/2010</th>
+                        <td>{{Proveedor.Ley_1429_2010}}</td>
+                      </tr>
+                      <tr>
+                        <th scope="row" style="width:195px !important ">Email Pagos</th>
+                        <td>{{Proveedor.Email_Pagos}}</td>
+                      </tr>
+  
+                      <tr>
+                          <th scope="row" style="width:150px">Gran Contribuyente</th>
+                          <td style="width:290px">{{Proveedor.Contribuyente}} </td>
+                        </tr>
+  
+                    </tbody>
+                  </table>
+  
+                </div>
+  
+                <div class="col-md-4">
+  
+                  <table class="table  tabla">
+                    <tbody>
+                      <tr>
+                        <td style="width:150px;font-weight: bold;">Animo de Lucro</td>
+                        <td style="width:290px;word-wrap: break-word;word-break: break-all"><span>{{Proveedor.Animo_Lucro}}
+                          </span></td>
+                      </tr>
+                      <tr>
+                        <td style="width:150px;font-weight: bold;">Actividad Economica</td>
+                        <td style="width:290px;word-wrap: break-word;word-break: break-all">
+                          <span>{{Proveedor.Actividad_Economica}} </span></td>
+                      </tr>
+                   
+                      <tr>
+                        <td style="width:150px;font-weight: bold;">Tipo Reteica</td>
+                        <td style="width:290px;word-wrap: break-word;word-break: break-all"><span>{{Proveedor.Tipo_Reteica}}
+                          </span></td>
+                      </tr>
+                      <tr>
+                        <td style="width:150px;font-weight: bold;">Cuenta Reteica</td>
+                        <td style="width:290px;word-wrap: break-word;word-break: break-all">
+                          <span>{{Proveedor.Cuenta_Reteica}} </span></td>
+                      </tr>
+                    </tbody>
+                  </table>
+  
+                </div>
+                <div class="col-md-4">
+                  <table class="table m-0 tabla">
+                    <tbody>
+                      <tr>
+                        <th scope="row" style="width:150px">Plazo</th>
+                        <td style="width:290px">{{Proveedor.Condicion_Pago}} Días</td>
+                      </tr>
+                      <tr>
+                        <th scope="row" style="width:150px">Porcentaje Descuento</th>
+                        <td style="width:290px">{{Proveedor.Porcentaje_Descuento}} </td>
+                      </tr>
+                      <tr>
+                        <th scope="row" style="width:150px">Descuento en Días</th>
+                        <td style="width:290px">{{Proveedor.Descuento_Dias}} </td>
+                      </tr>
+                      <tr>
+                        <th scope="row" style="width:150px">Estado</th>
+                        <td style="width:290px">{{Proveedor.Estado}} </td>
+                      </tr>
+                    </tbody>
+                  </table>
+                </div>
+  
+              </div>
+  
+            </div>
+          </div>
+  
+  
+  
+        </div>
+      </div>
+  
+    </div>
+  
+  </div>
