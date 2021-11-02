@@ -70,17 +70,17 @@
                                             <button ngbDropdownToggle class="btn btn-secondary btn-mini waves-effect waves-light " *ngIf="documento.Estado=='Primer Conteo' || documento.Estado=='Pendiente Primer Conteo' || documento.Estado=='Segundo Conteo'  || miPerfil == '16'" type="button">Acciones</button>
                                             <div ngbDropdownMenu>
 
-                                                <a class="dropdown-item waves-light waves-effect caja-botones" *ngIf="documento.Estado=='Pendiente Primer Conteo' && documento.Tipo=='General'" [routerLink]="['/inventarioestibas',documento.Id_Doc_Inventario_Fisico]">
+                                                <a class="dropdown-item waves-light waves-effect caja-botones" *ngIf="documento.Estado=='Pendiente Primer Conteo' && documento.Tipo=='General'" [routerLink]="['/inventario/inventario-estibas',documento.Id_Doc_Inventario_Fisico]">
                                                     <i class="ti-printer"></i> Continuar Conteo
                                                 </a>
 
                                                 <a class="dropdown-item waves-light waves-effect caja-botones" *ngIf="documento.Estado=='Segundo Conteo' && documento.Tipo=='General'" [swal]="{ title : '¿Está Seguro?', text : 'Ingrese su cédula para ajustar el inventario', input: 'password', showCancelButton : true , confirmButtonText : 'Confirmar', cancelButtonText : 'Cancelar'} "
-                                                    (confirm)="AccionInventario('/ajustedocumentos',$event, documento.Id_Estiba) ">
+                                                    (confirm)="AccionInventario('/inventario/ajuste-documentos',$event, documento.Id_Estiba) ">
                                                     <i class="ti-printer"></i> Ajustar Documentos
                                                 </a>
 
                                                 <a class="dropdown-item waves-light waves-effect caja-botones" *ngIf="documento.Estado=='Primer Conteo' && documento.Tipo=='General'" [swal]="{ title : '¿Está Seguro?', text : 'Ingrese su cédula para continuar el inventario'
-                      , input: 'password', showCancelButton : true , confirmButtonText : 'Confirmar', cancelButtonText : 'Cancelar'} " (confirm)="AccionInventario('/reconteoestiba',$event, documento.Id_Doc_Inventario_Fisico) ">
+                      , input: 'password', showCancelButton : true , confirmButtonText : 'Confirmar', cancelButtonText : 'Cancelar'} " (confirm)="AccionInventario('/inventario/reconteo-estiba',$event, documento.Id_Doc_Inventario_Fisico) ">
                                                     <i class="ti-printer"></i> Reconteo
                                                 </a>
 
@@ -218,7 +218,7 @@
                                             <div ngbDropdownMenu>
 
                                                 <ng-container *ngIf="item.Tipo != 'Auditoria'; else elseTemplate">
-                                                    <a class="dropdown-item waves-light waves-effect caja-botones" [routerLink]="['/inventariofisicoestibas',item.Id_Inventario_Fisico_Nuevo]">
+                                                    <a class="dropdown-item waves-light waves-effect caja-botones" [routerLink]="['/inventario/inventariofisicoestibas',item.Id_Inventario_Fisico_Nuevo]">
                                                         <i class="ti-printer"></i> Ver Detalles</a>
                                                 </ng-container>
 

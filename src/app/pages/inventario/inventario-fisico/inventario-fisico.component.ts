@@ -18,14 +18,11 @@ import { ModalformComponent } from './modalform/modalform.component';
 })
 export class InventarioFisicoComponent implements OnInit {
 
-
-
   @ViewChild('actualizaSwal') private actualizaSwal: SwalComponent;
   public FiltrosTabla: any = {
     Fechas: '',
     Bodega: '',
     Grupo: '',
-
   };
 
   public listaBodegas: any = [];
@@ -68,24 +65,43 @@ export class InventarioFisicoComponent implements OnInit {
   }
 
   ngOnInit() {
-
     this.getDocumentosIniciados();
     this.ConsultaFiltrada();
+
     //buscar las bodegas existentes
-    this._bodega.getBodegas().subscribe(res => {
-      if (res.Tipo == 'success') this.listaBodegas = res.Bodegas
-    })
+    // this._bodega.getBodegas().subscribe(res => {
+    //   if (res.Tipo == 'success') this.listaBodegas = res.Bodegas
+    // })
+    this.http.get(environment.ruta+ "php/bodega_nuevo/get_bodegas.php").subscribe((data: any) => {
+        if (data.Tipo == "success") this.listaBodegas = data.Bodegas;
+      });
+
     //buscar las bodegas existentes
-    this._grupoEstiba.getGrupoEstibas().subscribe(res => {
-      if (res.Tipo == 'success') this.listaGrupoEstibas = res.Grupo_Estibas
-    })
+    // this._grupoEstiba.getGrupoEstibas().subscribe(res => {
+    //   if (res.Tipo == 'success') this.listaGrupoEstibas = res.Grupo_Estibas
+    // })
+    this.http.get(environment.ruta + 'php/grupo_estiba/get_grupo_estibas.php').subscribe((data: any) => {
+      if (data.Tipo == "success") this.listaGrupoEstibas = data.Grupo_Estibas;
+    });
 
   }
 
   ConsultaFiltrada(paginacion: boolean = false) {
     this.Cargando2 = true;
     var params = this.SetFiltros(paginacion);
-    this.inventariofisico.GetDocumentosTerminados(params).subscribe((data: any) => {
+
+    // this.inventariofisico.GetDocumentosTerminados(params).subscribe((data: any) => {
+    //   if (data.codigo == 'success') {
+    //     this.Inventarios_Terminados = data.query_result;
+    //     this.TotalItems = data.numReg;
+    //   } else {
+    //     this.Inventarios_Terminados = [];
+    //   }
+    //   this.Cargando2 = false;
+    //   this.SetInformacionPaginacion();
+    // });
+
+    this.http.get(environment.ruta + 'php/inventariofisico/estiba/documentos_terminados.php', {params} ).subscribe((data: any) => {
       if (data.codigo == 'success') {
         this.Inventarios_Terminados = data.query_result;
         this.TotalItems = data.numReg;
@@ -95,6 +111,7 @@ export class InventarioFisicoComponent implements OnInit {
       this.Cargando2 = false;
       this.SetInformacionPaginacion();
     });
+
   }
 
 
@@ -157,7 +174,10 @@ export class InventarioFisicoComponent implements OnInit {
   getDocumentosIniciados() {
 
     this.Cargando = true;
-    this.inventariofisico.GetDocumentosIniciados().subscribe(res => {
+
+      return this.http.get(environment.ruta + 'php/inventariofisico/estiba/documentos_iniciados.php').subscribe((res: any) => {
+
+    // this.inventariofisico.GetDocumentosIniciados().subscribe(res => {
       if (res.tipo == 'success') {
         this.Documentos = res.documentos;
       } else {
@@ -179,11 +199,11 @@ export class InventarioFisicoComponent implements OnInit {
     } else {
       // TODO funcionarios autorizados para realizar inventario
       // let funcionarios = this.globales.funcionarios_autorizados_inventario.split(',');
-      let funcionarios = "1";
+      let funcionarios = "31179925";
 
       if (funcionarios.indexOf(funcionario) >= 0) {
 
-        this.router.navigate([url_api, id_modelo], { queryParams: { func: funcionario } });
+        this.router.navigate([url_api, id_modelo], { queryParams: { func: '1' } });
 
       } else {
         this.actualizaSwal.title = "Sin autorización";
