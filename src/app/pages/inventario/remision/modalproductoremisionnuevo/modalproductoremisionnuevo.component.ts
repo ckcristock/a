@@ -32,6 +32,8 @@ import { DispensacionService } from 'src/app/services/dispensacion.service';
 import { ProductoCargarRemision } from '../ProductoCargarRemision';
 import { GeneralService } from 'src/app/services/general.service';
 import { functionsUtils } from 'src/app/core/utils/functionsUtils';
+import { HttpClient } from '@angular/common/http';
+import { environment } from 'src/environments/environment';
 
 @Component({
   selector: 'app-modalproductoremisionnuevo',
@@ -78,6 +80,7 @@ export class ModalproductoremisionnuevoComponent implements OnInit, OnDestroy, O
   constructor(
     private generalService: GeneralService,
     private _swalService: SwalService,
+    private http: HttpClient,
     // private _toastService: ToastService,
     private _productoService: ProductoService,
     private _dispensacion: DispensacionService,
@@ -87,8 +90,9 @@ export class ModalproductoremisionnuevoComponent implements OnInit, OnDestroy, O
 
   ngOnInit() {
     this.openSubscription = this.AbrirModal.subscribe((data: any) => {
-      console.log("modal");
-      console.log(data);
+
+      // console.log("modal");
+      // console.log(data);
 
       this.Tipo = data.tipo;
       if (data.tipo == 'Remision') {
@@ -149,9 +153,8 @@ export class ModalproductoremisionnuevoComponent implements OnInit, OnDestroy, O
 
     this.Cargando = true;
     if (this.Tipo == 'Remision') {
-      this._remisionNuevoService.GetListaProductosRemision(params).subscribe((data: Array<ProductoCargarRemision>) => {
-        console.log(data);
 
+      this.http.get(environment.ruta + 'php/remision_nuevo/get_productos_inventario.php', { params: params }).subscribe((data: Array<ProductoCargarRemision>) => {
         this.ListaProductos = data;
         this.Cargando = false;
       });
@@ -233,7 +236,7 @@ export class ModalproductoremisionnuevoComponent implements OnInit, OnDestroy, O
             id_punto: this.Id_Punto
           };
 
-          this._dispensacion.ValidarProductoLista(p).subscribe((data: any) => {
+          this.http.get(environment.ruta + 'php/tablero_dispensacion/validar_producto.php', { params: p }).subscribe((data: any) => {
             if (data.codigo == 'success') {
               producto.Costo = data.Costo;
 
@@ -331,40 +334,35 @@ export class ModalproductoremisionnuevoComponent implements OnInit, OnDestroy, O
     let product: any = new ProductoCargarRemision();
 
     for (var key in producto) {
-
-      console.log("uno");
-      console.log(product[key]);
-
+      console.log(key);
       if (key != 'Codigo_Cum' && key != 'Seleccionado' && key != 'Cantidad_Requerida') {
         if (key == 'Lotes') {
           product[key] = this.SetearLotes(producto[key]);
+          console.log(product[key]);
         } else if (key == 'Cantidad') {
           if (producto[key] == '') {
             product[key] = null;
           } else {
             product[key] = parseInt(producto[key]);
-            // product[key] = producto[key];
+            console.log(product[key]);
           }
         } else {
           if (!isNaN(parseInt(producto[key]))) {
-            //product[key] = parseInt(producto[key]);
             product[key] = producto[key];
+            console.log(product[key]);
 
           } else {
-            // console.log("dos");
-
             product[key] = producto[key];
-
+            console.log(product[key]);
           }
         }
 
       } else {
         product[key] = producto[key];
+        console.log(product[key]);
       }
     }
-
     return product;
-
   }
 
 

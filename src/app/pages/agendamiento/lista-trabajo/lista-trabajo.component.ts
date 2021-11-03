@@ -6,6 +6,7 @@ import { AppointmentService } from 'src/app/core/services/appointment.service';
 import { SearchService } from '../../../core/services/search.service';
 import { OpenAgendaService } from '../open-agenda.service';
 import Swal from 'sweetalert2'
+import { EpssService } from '../../ajustes/informacion-base/services/epss.service';
 
 @Component({
   selector: 'app-lista-trabajo',
@@ -17,15 +18,25 @@ export class ListaTrabajoComponent implements OnInit, OnDestroy {
 
   citas: Array<any> = [];
   public type_appointments: [];
+  public epss: any[] = [];
   loading = false;
 
   @ViewChild('formD') formD: NgForm;
 
   constructor(private _search: SearchService,
     private _openAgendaService: OpenAgendaService,
-    private _appointment: AppointmentService) { }
+    private _appointment: AppointmentService,
+    private _epss: EpssService) { }
   ngOnInit(): void {
     this.getTypeAppointment()
+    this.getAdministrators()
+  }
+
+  getAdministrators() {
+    this._epss.getAllEps().subscribe((resp: any) => {
+      this.epss = resp.data;
+      this.epss.unshift({ value: '', text: 'Seleccione' })
+    });
   }
 
   private subscription = new Subscription();
@@ -43,7 +54,8 @@ export class ListaTrabajoComponent implements OnInit, OnDestroy {
     type_agenda_id: '',
     type_appointment_id: null,
     person_id: '',
-    identifier: ''
+    identifier: '',
+    eps: ''
   }
   pagination = {
     pageSize: 15,
@@ -203,7 +215,7 @@ export class ListaTrabajoComponent implements OnInit, OnDestroy {
     this.openModalDetalle.emit(modalDetalle)
   }
   llamadaPaciente(cita) {
-    // TO-DO ACA DEBE IR LA FUNCION DE LLAMADA SALIENTE, 
+    // TO-DO ACA DEBE IR LA FUNCION DE LLAMADA SALIENTE,
     // DEBE ABRIR UN MODAL, PEDIR EJEMPLO DE BCHAIN
     // AUGUSTO
     const SwalMsje = Swal.mixin({
@@ -262,7 +274,7 @@ export class ListaTrabajoComponent implements OnInit, OnDestroy {
           })
 
 
-        // TODO ACA DEBE IR LA FUNCION DE CAMBIAR EL ESTADO A LA CITA, 
+        // TODO ACA DEBE IR LA FUNCION DE CAMBIAR EL ESTADO A LA CITA,
         // NO SE SI PEDIR OBSERVACIONES O NO
         // AUGUSTO
 

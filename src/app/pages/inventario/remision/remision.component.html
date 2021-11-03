@@ -7,7 +7,7 @@
         <span>Todas las Remisiones registradas en nuestras bases de datos</span>
       </div>
       <div class="col-md-3">
-        <button type="button" class="pull-right btn btn-primary btn-sm" [routerLink]="['/inventario/remisioncrearnuevo']">
+        <button type="button" class="pull-right btn btn-primary btn-sm" [routerLink]="['remisioncrearnuevo']">
           <i class="fa fa-plus"></i>
           Crear Nueva Remisión
         </button>
@@ -99,7 +99,7 @@
               <td colspan="10" class="text-center">
                 <i class="fa fa-exclamation-circle fa-5x"></i>
                 <h4>No Existen Remisiones para mostrar</h4>
-                <a [routerLink]="['/inventario/remisioncrearnuevo']" class="btn btn-primary btn-sm"><i class="fa fa-plus"></i>
+                <a [routerLink]="['remisioncrearnuevo']" class="btn btn-primary btn-sm"><i class="fa fa-plus"></i>
                   Cree Una Acá</a>
               </td>
             </tr>

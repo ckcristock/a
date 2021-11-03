@@ -1,18 +1,21 @@
 import { Injectable } from '@angular/core';
 // import { Globales } from '../../globales/globales';
-import { DatePipe } from '@angular/common';
+// import { DatePipe } from '@angular/common';
 import { HttpClient } from '@angular/common/http';
 import { Observable, Subject } from 'rxjs';
 import { environment } from 'src/environments/environment';
 // import { MenuItems } from '../../menu-items/menu-items';
 
-@Injectable()
+@Injectable({
+  providedIn: 'root'
+})
+
 export class GeneralService {
   public Mes: number = 0;
 
 
   constructor(
-    private datePipe: DatePipe,
+    // private datePipe: DatePipe,
     private client: HttpClient,
   ) { }
 

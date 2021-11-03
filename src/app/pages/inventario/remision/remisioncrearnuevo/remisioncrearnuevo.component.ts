@@ -1,12 +1,10 @@
 import { Component, OnInit } from "@angular/core";
-import { Router, ActivatedRoute } from "@angular/router";
 import { debounceTime, map } from "rxjs/operators";
 import "rxjs/add/operator/takeWhile";
 import { Observable, Subject } from "rxjs";
 import { HttpClient } from "@angular/common/http";
-import { environment } from "src/environments/environment";
-import { RemisionnuevoService } from "src/app/services/remisionnuevo.service";
 import { RemisionModelNuevo } from "../RemisonModelNuevo";
+import { environment } from "src/environments/environment";
 
 @Component({
   selector: "app-remisioncrearnuevo",
@@ -25,7 +23,6 @@ export class RemisioncrearnuevoComponent implements OnInit {
     DestinoContrato: "",
   };
   public Cliente: any = [];
-  // TODO: Identificacion funcionario no se encuentra dinamico
   public ModeloRemision: RemisionModelNuevo = new RemisionModelNuevo(
     environment.id_funcionario
   );
@@ -38,29 +35,23 @@ export class RemisioncrearnuevoComponent implements OnInit {
   public Meses: any = [];
 
   //Contratos
+
   public Contratos: any = [];
-  // public Id_Contrato:number;
-  // public Nombre_Contrato:string = '';
-
-
   public ActualizarModelProductos: Subject<any> = new Subject();
   private EnviarPendientes: Subject<any> = new Subject();
 
   public Bodegas_Nuevo: any = [];
-  constructor(
-    private http: HttpClient,
-    private router: Router,
-    private route: ActivatedRoute,
-    private _remisionNuevo: RemisionnuevoService
-  ) {
-    this.GetDatosIniciales();
+  constructor(private http: HttpClient) { }
 
+  ngOnInit() {
+    this.GetDatosIniciales();
     for (let i = -1; i <= 18; i++) {
       this.Meses.push({
         dia: i,
       });
     }
   }
+
   search = (text$: Observable<string>) =>
     text$.pipe(
       debounceTime(200),
@@ -68,9 +59,13 @@ export class RemisioncrearnuevoComponent implements OnInit {
     );
 
   formatter = (x: { Nombre: string }) => x.Nombre;
-  ngOnInit() { }
+
 
   Cambiar_Remision() {
+    console.log([
+      this.ModeloRemision.Tipo,
+    ]);
+
     this.ModeloRemision.Id_Destino = 0;
     if (this.ModeloRemision.Tipo == "Interna") {
       this.Destino = this.Datos_Iniciales.Punto;
@@ -107,18 +102,11 @@ export class RemisioncrearnuevoComponent implements OnInit {
 
   }
   ActualizarModelo(modelo: any) {
-    /* console.log(modelo,); */
 
     if (modelo.Tipo_Origen == 'Bodega') {
-
       this.ModeloRemision = modelo;
       this.getGrupos();
-
-      /*   delete this.ModeloRemision.Grupo; */
-      /* this.ModeloRemision.Grupo=Object.assign({},modelo.x) ; */
-
       this.Datos.Origen_Grupo = modelo.Grupo.Id_Grupo.toString();
-
     }
 
     if (this.ModeloRemision.Tipo == "Interna") {
@@ -159,10 +147,6 @@ export class RemisioncrearnuevoComponent implements OnInit {
     this.Datos.Origen_Grupo = "";
   }
   CambiarPunto(cambiarlista = true) {
-    //setear los valores de categoria, por que se debe usar  unicamente en origen bodega
-
-
-
     switch (this.ModeloRemision.Modelo) {
       case "Punto-Bodega":
         this.Origen = this.Datos_Iniciales.Punto;
@@ -208,22 +192,21 @@ export class RemisioncrearnuevoComponent implements OnInit {
   GetDatosIniciales() {
     let params: any = {};
     params.id = environment.id_funcionario;
-    this._remisionNuevo.GetDatosIniciales(params).subscribe((data: any) => {
+    this.http.get(environment.ruta + 'php/remision_nuevo/get_datos_iniciales.php', { params: params }).subscribe((data: any) => {
       this.Datos_Iniciales = data;
       this.Cliente = data.Clientes;
       this.Origen = data.Bodega;
       this.Destino = data.Punto;
-
+      this.Cambiar_Remision();
     });
   }
   getCategoriasNuevas() {
     let params: any = {};
     params.id_bodega_nuevo = this.ModeloRemision.Id_Origen;
     params.label = true;
-    this._remisionNuevo.GetCategoriaPorBodega(params).subscribe((res) => {
+    this.http.get(environment.ruta + 'php/categoria_nueva/get_categorias_por_bodega.php', { params: params }).subscribe((res: any) => {
       if (res.Tipo == "success") {
         this.Categorias_Nuevas = res.Categorias;
-
       }
     });
   }
@@ -231,7 +214,7 @@ export class RemisioncrearnuevoComponent implements OnInit {
     let params: any = {};
     params.id_bodega_nuevo = this.ModeloRemision.Id_Origen;
     params.label = true;
-    this._remisionNuevo.GetGruposPorBodega(params).subscribe((res) => {
+    this.http.get(environment.ruta + 'php/grupo_estiba/get_grupos_bodega.php', { params: params }).subscribe((res: any) => {
       if (res.Tipo == "success") {
         this.Grupos = res.Grupos;
       }

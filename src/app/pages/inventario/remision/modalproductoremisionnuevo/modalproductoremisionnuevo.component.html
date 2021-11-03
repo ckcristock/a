@@ -2,13 +2,14 @@
     <div class="app-modal-header">
         <h4 class="modal-title">Agregar Productos</h4>
         <button type="button" class="close basic-close" (click)="CerrarModal()">
-      <span aria-hidden="true">&times;</span>
-    </button>
+            <span aria-hidden="true">&times;</span>
+        </button>
     </div>
     <div class="app-modal-body">
         <div class="form-row">
             <div class="col-md-2" *ngIf="Tipo != 'Remision'">
-                <input type="checkbox" checked name="sin-inventario" id="sin-inventario" (change)="ConsultaFiltrada()"> Sin Inventario
+                <input type="checkbox" checked name="sin-inventario" id="sin-inventario" (change)="ConsultaFiltrada()">
+                Sin Inventario
             </div>
             <div class="col-md-12">
                 <table class="table table-striped" style="min-height: 300px;">
@@ -26,15 +27,20 @@
                         </tr>
                         <tr>
                             <th class="tabla-filtro">
-                                <input type="text" #filtroNombre [(ngModel)]="Filtros.nombre" (change)="ConsultaFiltrada()" class="form-control input-sm" placeholder="Filtro Nombre">
+                                <input type="text" #filtroNombre [(ngModel)]="Filtros.nombre"
+                                    (change)="ConsultaFiltrada()" class="form-control input-sm"
+                                    placeholder="Filtro Nombre">
                             </th>
                             <th class="tabla-filtro">
-                                <input *ngIf="Tipo=='Dispensacion'" type="text" [(ngModel)]="Filtros.lab_com" (change)="ConsultaFiltrada()" class="form-control input-sm" placeholder="Filtro Lab Comercial">
+                                <input *ngIf="Tipo=='Dispensacion'" type="text" [(ngModel)]="Filtros.lab_com"
+                                    (change)="ConsultaFiltrada()" class="form-control input-sm"
+                                    placeholder="Filtro Lab Comercial">
                             </th>
                             <th class="tabla-filtro"></th>
                             <th class="tabla-filtro"></th>
                             <th style="width:150px;" class="tabla-filtro">
-                                <input type="text" [(ngModel)]="Filtros.cum" (change)="ConsultaFiltrada()" class="form-control input-sm" placeholder="Filtro Cum Comercial">
+                                <input type="text" [(ngModel)]="Filtros.cum" (change)="ConsultaFiltrada()"
+                                    class="form-control input-sm" placeholder="Filtro Cum Comercial">
                             </th>
                             <th class="tabla-filtro"></th>
                             <th *ngIf="Pendiente" class="tabla-filtro"></th>
@@ -56,7 +62,9 @@
                         </tr>
                     </thead>
                     <tbody *ngIf="!Cargando">
-                        <tr *ngFor="let p of ListaProductos; let i=index" (click)="SeleccionarProducto(p.Seleccionado, p.Id_Producto, p, i)" [ngClass]="{'bg-selected': p.Seleccionado == 1}" style="cursor:pointer;">
+                        <tr *ngFor="let p of ListaProductos; let i=index"
+                            (click)="SeleccionarProducto(p.Seleccionado, p.Id_Producto, p, i)"
+                            [ngClass]="{'bg-selected': p.Seleccionado == 1}" style="cursor:pointer;">
                             <td>
                                 <strong>{{p.Nombre_Comercial}}</strong>
                                 <p class="text-muted" style="font-size:9px;">{{p.Nombre}}</p>
@@ -94,10 +102,12 @@
     </div>
     <div class="app-modal-footer">
         <div class="text-right">
-            <button type="button" class="btn btn-outline-danger btn-rounded btn-sm" (click)="CerrarModal()">Cerrar</button>
-            <button type="button" class="btn btn-outline-primary btn-rounded btn-sm" (click)="AgregarProductosTabla()" [disabled]="ProductosAgregar.length == 0">
-        Agregar y cerrar
-      </button>
+            <button type="button" class="btn btn-outline-danger btn-rounded btn-sm"
+                (click)="CerrarModal()">Cerrar</button>
+            <button type="button" class="btn btn-outline-primary btn-rounded btn-sm" (click)="AgregarProductosTabla()"
+                [disabled]="ProductosAgregar.length == 0">
+                Agregar y cerrar
+            </button>
         </div>
     </div>
 </app-modal-basic>

@@ -22,6 +22,8 @@ import { EpsService } from 'src/app/services/eps.service';
 import { functionsUtils } from 'src/app/core/utils/functionsUtils';
 import { GeneralService } from 'src/app/services/general.service';
 import { environment } from 'src/environments/environment';
+import { HttpClient } from '@angular/common/http';
+import { WarningMessage } from 'src/app/core/utils/confirmMessage';
 // import { SwalComponent } from '@toverux/ngx-sweetalert2';
 // import { RemisionnuevoService } from '../../shared/services/remisionnuevo/remisionnuevo.service';
 // import { RemisionModelNuevo } from '../../shared/modelos/RemisonModelNuevo';
@@ -160,13 +162,16 @@ export class ProductosremisionnuevoComponent implements OnInit, OnChanges, OnDes
     private _remisionService: RemisionService,
     private _remisionNuevoService: RemisionnuevoService,
     // private _generadorService:FuncionesgeneralesService,
+    private http: HttpClient,
     private _epsService: EpsService,
     private _router: Router,
     private _activeRoute: ActivatedRoute) {
     this.RotativoModel.Fecha_Inicio = this.fecha_mes_anterior.toISOString().split("T")[0];
     this.RotativoModel.Fecha_Fin = this.Fecha.toISOString().split("T")[0];
 
-    this._servicesInventario.GetConfiguracion().subscribe((data: any) => {
+    this.http.get(environment.ruta + 'php/genericos/detalle.php', {
+      params: { modulo: 'Configuracion', id: '1' }
+    }).subscribe((data: any) => {
       this.ItemsRemision = parseInt(data.Max_Item_Remision);
     });
 
@@ -295,7 +300,7 @@ export class ProductosremisionnuevoComponent implements OnInit, OnChanges, OnDes
   }
 
   private GetImpuestos() {
-    this._remisionNuevoService.GetImpuestos().subscribe((data: any) => {
+    this.http.get(environment.ruta + 'php/lista_generales.php', { params: { modulo: 'Impuesto' } }).subscribe((data: any) => {
       this.Impuestos = data;
     });
   }
@@ -305,7 +310,8 @@ export class ProductosremisionnuevoComponent implements OnInit, OnChanges, OnDes
   }
 
   private _getEntidadesSalud() {
-    this._epsService.GetEntidadesSalud().subscribe((data: any) => {
+
+    this.http.get(environment.ruta + 'php/GENERALES/eps/get_entidades_salud_select.php').subscribe((data: any) => {
       //this.Entidades_Salud.push({value:'', label:'Todas'});
       if (data.codigo == 'success') {
         // if (data.query_result.length > 0) {
@@ -323,11 +329,11 @@ export class ProductosremisionnuevoComponent implements OnInit, OnChanges, OnDes
 
   private ValidarModelo() {
     if (this._remisionModel.Id_Origen == 0) {
-      this._swalService.ShowMessage(['error', 'Falta Origen', 'Debe seleccionar el origen de la remision!']);
+      WarningMessage('error', 'Falta Origen', 'Debe seleccionar el origen de la remision!');
       return false;
     } else if (this._remisionModel.Id_Destino == 0) {
       if (this._remisionModel.Tipo == 'Cliente') {
-        this._swalService.ShowMessage(['error', 'Falta Destino', 'Debe seleccionar el destino de la remision!']);
+        WarningMessage('error', 'Falta Destino', 'Debe seleccionar el destino de la remision!');
         return false;
       } else {
         return true;
@@ -342,7 +348,7 @@ export class ProductosremisionnuevoComponent implements OnInit, OnChanges, OnDes
       if (this._remisionModel.Id_Destino != 0 && this._remisionModel.Id_Origen != 0 && this._remisionModel.Grupo.Id_Grupo != 0) {
         let params = this.AsignarParametros();
 
-        this._remisionNuevoService.GetProductosPendientes(params).subscribe((data: any) => {
+        this.http.get(environment.ruta + 'php/remision_nuevo/get_pendientes.php', { params: params }).subscribe((data: any) => {
           if (data.length > 0) {
             this.AbrirModalAgregarProductos(data);
           }
@@ -364,8 +370,7 @@ export class ProductosremisionnuevoComponent implements OnInit, OnChanges, OnDes
   private GuardarLotesSeleccionados(lote: any): void {
     let data = new FormData();
     data.append("datos", JSON.stringify(lote));
-    this._remisionNuevoService.GuardarLotesSeleccionados(data).subscribe((data: any) => {
-
+    this.http.post(environment.ruta + 'php/remision_nuevo/seleccionar_lotes_inventario.php', data).subscribe((data: any) => {
     });
   }
 
@@ -383,16 +388,16 @@ export class ProductosremisionnuevoComponent implements OnInit, OnChanges, OnDes
       data.append("funcionario", String(environment.id_funcionario));
       data.append("destino", this._remisionModel.Nombre_Destino);
 
-      this._remisionNuevoService.GuardarBorrador(data).subscribe((data: any) => {
+      return this.http.post(environment.ruta + 'php/remision_nuevo/guardar_borrador.php', data).subscribe((data: any) => {
         if (data.codigo == 'success') {
           this.Mensaje++;
           if (this.Mensaje % 10 == 0) {
             // let toastObj = { textos: [data.titulo, data.mensaje], tipo: data.codigo, duracion: 4000 };
-            this._swalService.ShowMessage([data.codigo, data.titulo, data.mensaje]);
+            WarningMessage(data.codigo, data.titulo, data.mensaje);
             // this._toastService.ShowToast(toastObj);
           }
         } else {
-          this._swalService.ShowMessage(['error', 'Error', 'El borrador no se ha podido guardar, por favor comuniquese con el encargado del sistema!']);
+          WarningMessage('error', 'Error', 'El borrador no se ha podido guardar, por favor comuniquese con el encargado del sistema!');
         }
       });
     }
@@ -455,20 +460,20 @@ export class ProductosremisionnuevoComponent implements OnInit, OnChanges, OnDes
 
   private ValidateConsultaRotativo(): boolean {
     if (this.RotativoModel.Fecha_Inicio == '') {
-      this._swalService.ShowMessage(['warning', 'Alerta', 'Escoja la fecha de inicio!']);
+      WarningMessage('warning', 'Alerta', 'Escoja la fecha de inicio!');
       return false;
     } else if (this.RotativoModel.Fecha_Fin == '') {
-      this._swalService.ShowMessage(['warning', 'Alerta', 'Escoja la fecha de fin!']);
+      WarningMessage('warning', 'Alerta', 'Escoja la fecha de fin!');
       return false;
     } else if (this.RotativoModel.Id_Origen == 0) {
-      this._swalService.ShowMessage(['warning', 'Alerta', 'Escoja el origen!']);
+      WarningMessage('warning', 'Alerta', 'Escoja el origen!');
       return false;
     } else if (this.RotativoModel.Id_Destino == '') {
-      this._swalService.ShowMessage(['warning', 'Alerta', 'Escoja el destino!']);
+      WarningMessage('warning', 'Alerta', 'Escoja el destino!');
       return false;
     } else if (this.RotativoModel.Grupo.Id_Grupo == 0) {
 
-      this._swalService.ShowMessage(['warning', 'Alerta', 'Escoja el grupo de origen!']);
+      WarningMessage('warning', 'Alerta', 'Escoja el grupo de origen!');
       return false;
     } else {
       return true;
@@ -553,7 +558,7 @@ export class ProductosremisionnuevoComponent implements OnInit, OnChanges, OnDes
     if (this.Lista_Productos.length > 0) {
       let data = new FormData();
       data.append("datos", functionsUtils.normalize(JSON.stringify(this.Lista_Productos)));
-      this._remisionNuevoService.EliminarLotesMasivos(data).subscribe((data: any) => {
+      this.http.post(environment.ruta + 'php/remision/get_productos_inventario.php', data).subscribe((data: any) => {
         if (data.codigo == 'success') {
           this._limpiarModelos();
         }
@@ -568,7 +573,7 @@ export class ProductosremisionnuevoComponent implements OnInit, OnChanges, OnDes
       this.Lista_Productos.push(producto);
       this.AgregarProductosExistentes(producto.Id_Producto);
     } else {
-      this._swalService.ShowMessage(['warning', 'Alerta', 'Ocurrió un error con el producto, contacte con el administrador!']);
+      WarningMessage('warning', 'Alerta', 'Ocurrió un error con el producto, contacte con el administrador!');
 
     }
   }
@@ -597,7 +602,7 @@ export class ProductosremisionnuevoComponent implements OnInit, OnChanges, OnDes
     }
 
     if (precio < costo) {
-      this._swalService.ShowMessage(['warning', 'Alerta', 'El precio no puede ser inferior al costo del producto!']);
+      WarningMessage('warning', 'Alerta', 'El precio no puede ser inferior al costo del producto!');
       this.Lista_Productos[posProducto].Precio = this.Lista_Productos[posProducto].Costo;
     }
 
@@ -669,8 +674,7 @@ export class ProductosremisionnuevoComponent implements OnInit, OnChanges, OnDes
 
         this.Display_Rotacion = true;
         this.DinamycCols = 10;
-        this._remisionNuevoService.GetRotativo(params).subscribe((data: any) => {
-
+        this.http.post(environment.ruta + 'php/remision_nuevo/get_rotativo.php', { params: params }).subscribe((data: any) => {
           if (data.length > 0) {
             this.Lista_Productos = [];
             this.Lista_Productos = this.SetearProducto(data);
@@ -688,10 +692,9 @@ export class ProductosremisionnuevoComponent implements OnInit, OnChanges, OnDes
       } else {
         this.Display_Rotacion = false;
         this.DinamycCols = 9;
-        this._remisionNuevoService.GetRotativoNoPos(params).subscribe((data: any) => {
 
+        this.http.post(environment.ruta + 'php/remision_nuevo/get_rotativo_no_pos.php', { params: params }).subscribe((data: any) => {
           if (data.length > 0) {
-
             this.Lista_Productos = [];
             this.Lista_Productos = this.SetearProducto(data);
             this.DeshabilitarBoton = true;
@@ -825,13 +828,8 @@ export class ProductosremisionnuevoComponent implements OnInit, OnChanges, OnDes
   }
 
   public RecuperarBorrador() {
-    this._remisionNuevoService.GetBorrador(this.Codigo_Borrador).subscribe((data: any) => {
-
+    this.http.get(environment.ruta + 'php/remision_nuevo/get_borrador.php', { params: { codigo: this.Codigo_Borrador } }).subscribe((data: any) => {
       let txtBorrador = data.Texto;
-
-
-
-
       // preserve newlines, etc - use valid JSON
       txtBorrador = txtBorrador.replace(/\\n/g, "\\n")
         .replace(/\\'/g, "\\'")
@@ -847,6 +845,9 @@ export class ProductosremisionnuevoComponent implements OnInit, OnChanges, OnDes
 
       let modelo = this.validarJson(txtBorrador);
       if (modelo) {
+
+
+        console.log(modelo);
 
 
         this.Tipo_Remision = modelo.Modelo.Tipo;
@@ -914,7 +915,7 @@ export class ProductosremisionnuevoComponent implements OnInit, OnChanges, OnDes
       data.append("rotativo", functionsUtils.normalize(JSON.stringify(this.RotativoModel)));
 
       if (this._remisionModel.Modelo == 'Bodega-Bodega' && this._remisionModel.Id_Origen == 8) {
-        this._remisionNuevoService.GuardarRemisionDevolucion(data).subscribe((data: any) => {
+        this.http.post(environment.ruta + 'php/remision_nuevo/save_remision_devolucion.php', data).subscribe((data: any) => {
           if (data.codigo == 'success') {
             this._limpiarModelos(false);
             this.confirmacionSalir.title = 'Remisión Guardada';
@@ -922,12 +923,12 @@ export class ProductosremisionnuevoComponent implements OnInit, OnChanges, OnDes
             this.confirmacionSalir.type = 'success';
             this.confirmacionSalir.show();
           } else {
-            this._swalService.ShowMessage(data);
+            WarningMessage(data);
             this.confirmacionGuardar.close;
           }
         });
       } else {
-        this._remisionNuevoService.GuardarRemision(data).subscribe((data: any) => {
+        this.http.post(environment.ruta + 'php/remision_nuevo/save_remision.php', data).subscribe((data: any) => {
           if (data.codigo == 'success') {
             this._limpiarModelos(false);
             this.confirmacionSalir.title = 'Remisión Guardada';
@@ -935,7 +936,7 @@ export class ProductosremisionnuevoComponent implements OnInit, OnChanges, OnDes
             this.confirmacionSalir.type = 'success';
             this.confirmacionSalir.show();
           } else {
-            this._swalService.ShowMessage(data);
+            WarningMessage(data);
             this.confirmacionGuardar.close;
           }
         });
@@ -945,13 +946,13 @@ export class ProductosremisionnuevoComponent implements OnInit, OnChanges, OnDes
 
   private ValidateRemision() {
     if (this._remisionModel.Id_Origen == 0) {
-      this._swalService.ShowMessage(['warning', 'Alerta', 'Escoja el origen!']);
+      WarningMessage('warning', 'Alerta', 'Escoja el origen!');
       return false;
     } else if (this._remisionModel.Id_Destino == 0) {
-      this._swalService.ShowMessage(['warning', 'Alerta', 'Escoja el destino!']);
+      WarningMessage('warning', 'Alerta', 'Escoja el destino!');
       return false;
     } else if (this._remisionModel.Observaciones.trim() == '') {
-      this._swalService.ShowMessage(['warning', 'Alerta', 'Escriba unas observaciones sobre la remision!']);
+      WarningMessage('warning', 'Alerta', 'Escriba unas observaciones sobre la remision!');
       return false;
     } else if (!this.ValidateProductosRemision()) {
       return false;
@@ -965,19 +966,19 @@ export class ProductosremisionnuevoComponent implements OnInit, OnChanges, OnDes
       if (this._remisionModel.Tipo == 'Interna') {
         if (this.Display_Rotacion) {
           if ((this.Lista_Productos[index].Cantidad == 0 || this.Lista_Productos[index].Cantidad == undefined) && this.Lista_Productos[index].Similares.length > 0) {
-            this._swalService.ShowMessage(['warning', 'Alerta', 'Cambie el producto ' + this.Lista_Productos[index].Nombre_Comercial + ' por uno de sus asociados o elimine el producto de la lista!']);
+            WarningMessage('warning', 'Alerta', 'Cambie el producto ' + this.Lista_Productos[index].Nombre_Comercial + ' por uno de sus asociados o elimine el producto de la lista!');
             return false;
           } else if (this.Lista_Productos[index].Cantidad_Requerida == 0 || this.Lista_Productos[index].Cantidad_Requerida == undefined) {
-            this._swalService.ShowMessage(['warning', 'Alerta', 'La cantidad del producto ' + this.Lista_Productos[index].Nombre_Comercial + ' no puede ser cero(0)!']);
+            WarningMessage('warning', 'Alerta', 'La cantidad del producto ' + this.Lista_Productos[index].Nombre_Comercial + ' no puede ser cero(0)!');
             return false;
           }
         } else if (this.Lista_Productos[index].Cantidad_Requerida == 0 || this.Lista_Productos[index].Cantidad_Requerida == undefined) {
-          this._swalService.ShowMessage(['warning', 'Alerta', 'La cantidad del producto ' + this.Lista_Productos[index].Nombre_Comercial + ' no puede ser cero(0)!']);
+          WarningMessage('warning', 'Alerta', 'La cantidad del producto ' + this.Lista_Productos[index].Nombre_Comercial + ' no puede ser cero(0)!');
           return false;
         }
       } else {
         if (this.Lista_Productos[index].Cantidad == 0 || this.Lista_Productos[index].Cantidad == undefined) {
-          this._swalService.ShowMessage(['warning', 'Alerta', 'La cantidad del producto ' + this.Lista_Productos[index].Nombre_Comercial + ' no puede ser cero(0)!']);
+          WarningMessage('warning', 'Alerta', 'La cantidad del producto ' + this.Lista_Productos[index].Nombre_Comercial + ' no puede ser cero(0)!');
           return false;
         }
       }
@@ -1122,7 +1123,7 @@ export class ProductosremisionnuevoComponent implements OnInit, OnChanges, OnDes
           }
         }
       } else {
-        this._swalService.ShowMessage(['error', 'Error en cantidad', 'No se pueden entregar cantidades que no correspondan con la presentacion del producto!']);
+        WarningMessage('error', 'Error en cantidad', 'No se pueden entregar cantidades que no correspondan con la presentacion del producto!');
         this.Lista_Productos[posProducto].Cantidad = 0;
         this.Lista_Productos[posProducto].Cantidad_Requerida = 0;
       }
@@ -1161,7 +1162,8 @@ export class ProductosremisionnuevoComponent implements OnInit, OnChanges, OnDes
     this.EliminarLotesSeleccionados(this.Lista_Productos[posProducto].Lotes_Seleccionados, true, posProducto);
 
     setTimeout(() => {
-      this._remisionNuevoService.ComprobarCantidades(p).subscribe(data => {
+
+      this.http.get(environment.ruta + 'php/remision_nuevo/comprobar_cantidades.php', { params: p }).subscribe((data: any) => {
         if (data.length > 0) {
           this.Lista_Productos[posProducto].Cantidad_Disponible = parseInt(data[0].Cantidad_Disponible);
           this.Lista_Productos[posProducto].Lotes = data[0].Lotes;
@@ -1172,7 +1174,7 @@ export class ProductosremisionnuevoComponent implements OnInit, OnChanges, OnDes
 
           this.Lista_Productos[posProducto].Cantidad_Disponible = 0;
           this.Lista_Productos[posProducto].Lotes = [];
-          this._swalService.ShowMessage(['warning', 'Alerta', 'El producto ya no tiene cantidad disponible!']);
+          WarningMessage('warning', 'Alerta', 'El producto ya no tiene cantidad disponible!');
         }
       });
     }, 300);
@@ -1181,11 +1183,11 @@ export class ProductosremisionnuevoComponent implements OnInit, OnChanges, OnDes
   private EliminarLotesSeleccionados(lote: any, vaciarLotes: boolean = false, posProducto: string = ''): void {
     let data = new FormData();
     data.append("datos", JSON.stringify(lote));
-    this._remisionNuevoService.EliminarLotesSeleccionados(data).subscribe((data: any) => {
-      if (data.codigo == 'success') {
 
+    this.http.post(environment.ruta + 'php/remision_nuevo/eliminar_lote_seleccionado.php', data).subscribe((data: any) => {
+      if (data.codigo == 'success') {
         // let toastObj = { textos: [data.titulo, data.mensaje], tipo: data.codigo, duracion: 4000 };
-        this._swalService.ShowMessage([data.codigo, data.titulo, data.mensaje]);
+        WarningMessage(data.codigo, data.titulo, data.mensaje);
         // this._toastService.ShowToast(toastObj);
 
         if (vaciarLotes && posProducto.toString() != '') {
@@ -1194,24 +1196,27 @@ export class ProductosremisionnuevoComponent implements OnInit, OnChanges, OnDes
           // this.Lista_Productos[posProducto].Cantidad = null;
         }
       } else {
-        this._swalService.ShowMessage(data);
+        WarningMessage(data);
       }
     });
   }
 
   ConsultaProductoCodigoBarras() {
+
     console.log('consulta productos');
+
     if (this.Codigo_Barras != '') {
+
       let params = this.setFiltrosCodBarra();
+
       if (!params) { return false; }
 
       this.ProductosAgregar = [];
 
       this.Cargando = true;
 
-      this._remisionNuevoService.GetListaProductosRemision(params).subscribe((data: Array<ProductoCargarRemision>) => {
+      this.http.get(environment.ruta + 'php/remision_nuevo/get_productos_inventario.php', { params }).subscribe((data: Array<ProductoCargarRemision>) => {
         this.ListaProductos = data;
-
         if (this.ListaProductos.length > 0) {
           if (!this.validarAgregados(this.ListaProductos[0].Id_Producto)) {
             return;
@@ -1228,7 +1233,7 @@ export class ProductosremisionnuevoComponent implements OnInit, OnChanges, OnDes
             }, 2000);
           }
         } else {
-          this._swalService.ShowMessage(['warning', 'Alerta', 'No existe un producto con ese código de barras.']);
+          WarningMessage('warning', 'Alerta', 'No existe un producto con ese código de barras.');
         }
 
         this.Codigo_Barras = '';
@@ -1240,30 +1245,39 @@ export class ProductosremisionnuevoComponent implements OnInit, OnChanges, OnDes
   setFiltrosCodBarra() {
     let params: any = {}
 
-
     if (this._remisionModel.Id_Origen == 0 || this._remisionModel.Id_Origen == undefined) {
-      this._swalService.ShowMessage(['error', 'Sin Origen Seleccionadoe', 'Debe seleccionar un origen para realizaar la busqueda!']);
+      WarningMessage('error', 'Sin Origen Seleccionadoe', 'Debe seleccionar un origen para realizaar la busqueda!');
+      console.log(1);
       return false;
     } else if (this._remisionModel.Tipo_Origen == 'Bodega' && (!this._remisionModel.Grupo.Id_Grupo || this._remisionModel.Grupo.Id_Grupo == undefined)) {
-      this._swalService.ShowMessage(['error', 'Sin Categoria Seleccionada', 'Debe seleccionar un origen de categoria para realizaar la busqueda!']);
+      console.log(this._remisionModel.Grupo);
+      console.log(this._remisionModel.Tipo_Origen);
+      WarningMessage('error', 'Sin Categoria Seleccionada', 'Debe seleccionar un origen de categoria para realizaar la busqueda!');
+      console.log(3);
       return false;
     }
     else {
+      console.log(4);
       params.modelo = this._remisionModel.Modelo;
       params.tiporemision = this._remisionModel.Tipo;
       params.id_origen = this._remisionModel.Id_Origen;
       params.mes = this._remisionModel.Meses;
       params.id_grupo = this._remisionModel.Grupo.Id_Grupo;
 
+      console.log(5);
       if (this._remisionModel.Tipo == 'Cliente') {
         params.id_destino = this._remisionModel.Id_Destino;
         if (this._remisionModel.Id_Destino == 0 || this._remisionModel.Id_Destino == undefined) {
-          this._swalService.ShowMessage(['error', 'Sin Destino Seleccionado', 'Debe seleccionar un destino para realizaar la busqueda!']);
+          console.log(6);
+          WarningMessage('error', 'Sin Destino Seleccionado', 'Debe seleccionar un destino para realizaar la busqueda!');
           return;
         }
       }
 
+      console.log(7);
+
       params.cod_barra = this.Codigo_Barras;
+      console.log(params);
 
       return params;
     }
@@ -1274,7 +1288,7 @@ export class ProductosremisionnuevoComponent implements OnInit, OnChanges, OnDes
     let exist = this.Lista_Productos.filter(x => x == id_producto);
 
     if (exist.length > 0) {
-      this._swalService.ShowMessage(['warning', 'Alerta', 'Ya este producto ha sido agregado a la lista!']);
+      WarningMessage('warning', 'Alerta', 'Ya este producto ha sido agregado a la lista!');
       return false;
     } else {
       return true;

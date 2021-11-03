@@ -1,3 +1,4 @@
+import { HttpClient } from '@angular/common/http';
 import { Component, OnInit, ViewChild, Input, Output, EventEmitter, OnDestroy } from '@angular/core';
 import { SwalComponent } from '@sweetalert2/ngx-sweetalert2';
 import { Observable } from 'rxjs';
@@ -58,6 +59,7 @@ export class ModalcambiarproductossimilarnuevoComponent implements OnInit {
     // public generalService: GeneralService,
     private _swalService: SwalService,
     // private _toastService: ToastService,
+    private http: HttpClient,
     private _remisionService: RemisionnuevoService) { }
 
   ngOnInit() {
@@ -174,7 +176,7 @@ export class ModalcambiarproductossimilarnuevoComponent implements OnInit {
       data.append("modelo", JSON.stringify(model));
       data.append("mes", mes);
       data.append("grupo", grupo);
-      this._remisionService.RealizarCambioProducto(data).subscribe((data: any) => {
+      this.http.post('php/remision_nuevo/guardar_cambio_producto.php', { params: data }).subscribe((data: any) => {
         console.log(data);
         this.alertOption.text = data.mensaje;
         this.CambiarProducto(data);

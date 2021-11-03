@@ -143,10 +143,6 @@ export class AsignacionCitasComponent implements OnInit {
 
   newCall(form) {
     this.dataCitaToAssign.resetData()
-
-    // let doc = form.value.Identificacion_Paciente
-    // console.log(doc.match(/\,/));
-
     this.http.post(`${environment.base_url}/presentianCall`, JSON.stringify(form.value))
       .subscribe((req: any) => {
         if (req.code == 200) {
