@@ -24,6 +24,14 @@ import {
 import { ModaldataInitComponent } from './inventario-fisico/modaldata-init/modaldata-init.component';
 import { ActaRecepcionComponent } from './acta-recepcion/acta-recepcion.component';
 import { CrearActaRecepcionComponent } from './acta-recepcion/crear-acta-recepcion/crear-acta-recepcion.component';
+import { ActaRecepionAprobadosComponent } from './acta-recepion-aprobados/acta-recepion-aprobados.component';
+import { AcomodarActaComponent } from './acta-recepion-aprobados/acomodar-acta/acomodar-acta.component';
+import { PipesModule } from '../../core/pipes/pipes.module';
+import { VerActaRecepcionComponent } from './acta-recepcion/ver-acta-recepcion/ver-acta-recepcion.component';
+import { InventarioVencerComponent } from './inventario-vencer/inventario-vencer.component';
+import { AlistamientoComponent } from './alistamiento/alistamiento.component';
+import { AlistamientoCrearComponent } from './alistamiento/alistamiento-crear/alistamiento-crear.component';
+import { ArchwizardModule } from 'angular-archwizard';
 
 @NgModule({
   declarations: [
@@ -34,6 +42,12 @@ import { CrearActaRecepcionComponent } from './acta-recepcion/crear-acta-recepci
     InventarioFisicoComponent,
     ActaRecepcionComponent,
     CrearActaRecepcionComponent,
+    ActaRecepionAprobadosComponent,
+    AcomodarActaComponent,
+    VerActaRecepcionComponent,
+    InventarioVencerComponent,
+    AlistamientoComponent,
+    AlistamientoCrearComponent,
   ],
   imports: [
     CommonModule,
@@ -47,6 +61,8 @@ import { CrearActaRecepcionComponent } from './acta-recepcion/crear-acta-recepci
     NgbPaginationModule,
     NgbModalModule,
     NgbDropdownModule,
+    PipesModule,
+    ArchwizardModule
   ],
   providers:[]
 })

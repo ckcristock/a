@@ -516,11 +516,11 @@
                         </tr>
                         <tr *ngFor="let item of Compras">
                             <td>
-                                <a *ngIf="item.Id_Compra_N!=''" [routerLink]="[ '/compranacional', item.Id_Compra_N ]" style="font-size: 9px">{{ item.Codigo_Compra_N }}</a>
+                                <a *ngIf="item.Id_Compra_N!=''" [routerLink]="[ '/compras/nacional', item.Id_Compra_N ]" style="font-size: 9px">{{ item.Codigo_Compra_N }}</a>
                                 <a *ngIf="item.Id_Compra_I!=''" [routerLink]="[ '/comprainternacional', item.Id_Compra_I ]" style="font-size: 9px">{{ item.Codigo_Compra_I }}</a>
                             </td>
                             <td>
-                                <a [routerLink]="[ '/actarecepcionver', item.Id_Acta ]" style="font-size: 9px">{{ item.Codigo_Acta }}</a>
+                                <a [routerLink]="[ '/inventario/acta-recepcion/ver', item.Id_Acta ]" style="font-size: 9px">{{ item.Codigo_Acta }}</a>
                             </td>
                             <td>{{ item.Fecha | date: 'dd/MM/yyyy' }}</td>
                             <td>{{ item.Funcionario }}</td>

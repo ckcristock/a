@@ -167,10 +167,11 @@
                                     <td>
                                         <div class="text-center">
                                             <label style="display: block;" for="Foto{{i}}">
-                                <img *ngIf="item.Foto == ''" class="img-radius imagen"
+                                                <!-- TODO Image product -->
+                             <!--    <img *ngIf="item.Foto == ''" class="img-radius imagen"
                                     src="assets/images/user.jpg" alt="" id="foto_visual{{i}}" style="cursor: pointer;">
                                 <img *ngIf="item.Foto != ''" class="img-radius imagen"
-                                    src="{{globales.ruta}}IMAGENES/PRODUCTOS/{{item.Foto}}" alt="" id="foto_visual{{i}}" style="cursor: pointer;">
+                                    src="{{globales.ruta}}IMAGENES/PRODUCTOS/{{item.Foto}}" alt="" id="foto_visual{{i}}" style="cursor: pointer;"> -->
                             </label>
                                             <input name="Foto{{i}}" id="Foto{{i}}" type="file" accept="image/png, image/jpeg" class="form-control form-control-sm text-right f-9" style="display: none" (change)="CargaFoto($event,i)">
                                             <i *ngIf="item.Codigo_Barras == 'Si'" class="fa fa-barcode text-danger" style="font-size: 34px;" title="Posee código de barras"></i>
@@ -207,6 +208,7 @@
                                     </td>
                                     <td>
                                         <br>
+                                        <!-- TODO tooltip embalaje -->
                                         <span class="mytooltip tooltip-effect-2"><span class="tooltip-item2"> <p style="font-size:11px"> 
                         <i class="fa fa-archive fa-lg"></i>  </p></span><span class="tooltip-content4 clearfix"><span class="tooltip-text2">{{item.Embalaje}}</span></span>
                                         </span>
@@ -299,8 +301,9 @@
 
                 </div>
                 <div class="row">
-                    <div class="col-sm-12">
-                        <table class="table table-responsive invoice-table invoice-total ">
+                    <div class="col-6"></div>
+                    <div class="col-sm-6">
+                        <table class="table  ">
                             <tbody>
                                 <!-- <tr >
                           <td class="text-right" style="border-left:.5px solid cadetblue;border-bottom:.5px solid cadetblue;border-top:.5px solid cadetblue;">Retenciones :</td>

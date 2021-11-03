@@ -16,6 +16,9 @@ import { SwalComponent } from '@sweetalert2/ngx-sweetalert2';
   styleUrls: ['./acta-recepcion.component.scss'],
 })
 export class ActaRecepcionComponent implements OnInit {
+ envi  :any = {
+   ruta:''
+ }
   ListaNacional = [];
   ListaIntrernacional = [];
   actas_pendientes = [];
@@ -50,14 +53,14 @@ export class ActaRecepcionComponent implements OnInit {
   @ViewChild('modalAnularActa') modalAnularActa: any;
   @ViewChild('confirmacionGuardar') private confirmacionGuardar: SwalComponent;
   filtro_codigo: string;
-  public funcionario = JSON.parse(localStorage.getItem('User'));
-  public perfilUsuario: any = localStorage.getItem('miPerfil');
+  //TODO Auth Person
+  public funcionario = {Identificacion_Funcionario:'1'};
+  public perfilUsuario: '1';
   public Model: any = {
     Id_Acta_Recepcion: '',
     Id_Causal_Anulacion: '',
     Observaciones: '',
-    Identificacion_Funcionario: JSON.parse(localStorage.getItem('User'))
-      .Identificacion_Funcionario,
+    Identificacion_Funcionario: '1',
   };
 
   public Causales = [];
@@ -84,6 +87,7 @@ export class ActaRecepcionComponent implements OnInit {
     private location: Location,
     private _swalService: SwalService
   ) {
+    this.envi = environment
     this.ListarActaRecepcion();
     this.ListarActasPendientes();
     this.ConsultaFiltrada();
@@ -381,8 +385,7 @@ export class ActaRecepcionComponent implements OnInit {
             Id_Acta_Recepcion: '',
             Id_Causal_Anulacion: '',
             Observaciones: '',
-            Identificacion_Funcionario: JSON.parse(localStorage.getItem('User'))
-              .Identificacion_Funcionario,
+            Identificacion_Funcionario: '1',
           };
 
           this._swalService.show({...data});
@@ -458,7 +461,7 @@ export class ActaRecepcionComponent implements OnInit {
   verActa(item) {
     switch (item.Tipo_Acomodar) {
       case 'Acta_Recepcion':
-        this.router.navigate(['/actarecepcionvernuevo', item.Id_Acta]);
+        this.router.navigate(['/inventario/acta-recepcion/ver', item.Id_Acta]);
         break;
 
       case 'Ajuste_Individual':
