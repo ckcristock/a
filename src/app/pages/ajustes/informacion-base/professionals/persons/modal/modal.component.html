@@ -3,14 +3,14 @@
 
 <div class="card p-5">
     <!-- <div class="card-header"> -->
-    <a routerLink="/ajustes/informacion-base/professionals">
-        <button type="button" class="btn btn-primary btn-sm btnRegresar">
+    <a>
+        <button type="button" class="btn btn-primary btn-sm btnRegresar" (click)="showFormCreate()">
             <i class="fas fa-arrow-left"></i>
         </button>
     </a>
     <div class="row my-3">
         <h4 class=" text text-center justify-content-center modal-title   px-3 mb-3">
-           {{(_person.id) ? '' : 'Nuevo'}}  Profesional
+            {{(_person.id) ? '' : 'Nuevo'}} Profesional
         </h4>
         <!-- <button type="button" class="close basic-close" (click)="hide()">
                 <span aria-hidden="true">&times;</span>

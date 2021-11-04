@@ -16,7 +16,7 @@
                             <div style="text-align: center" class="form-group">
                                 <label style="display: block" for="Foto">
                         <img *ngIf="Producto.Imagen==''" src="assets/images/producto.png" style="-moz-border-radius: 50px;border-radius: 36px;height: 120px; max-width: 100%;" id="foto_visual">
-                        <img *ngIf="Producto.Imagen!=''" src="{{globales.ruta}}IMAGENES/PRODUCTOS/{{Producto.Imagen}}" style="-moz-border-radius: 50px;border-radius: 36px;height: 120px; max-width: 100%;" id="foto_visual">
+                        <img *ngIf="Producto.Imagen!=''" src="{{environment.ruta}}IMAGENES/PRODUCTOS/{{Producto.Imagen}}" style="-moz-border-radius: 50px;border-radius: 36px;height: 120px; max-width: 100%;" id="foto_visual">
                       </label>
                                 <div class="col-md-6">
                                     <input name="Foto" id="Foto" type="file" accept="image/png, image/jpeg" class="form-control form-control-sm text-right f-9" style="display: none" (change)="CargaFoto($event)">

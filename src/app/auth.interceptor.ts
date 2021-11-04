@@ -12,10 +12,11 @@ import {
 
 } from '@angular/common/http';
 import { Observable } from 'rxjs';
-import { AuthService } from './auth-service.service';
 import { UserService } from './core/services/user.service';
 
 @Injectable()
+
+
 export class AuthInterceptor implements HttpInterceptor {
 
   constructor(private _user: UserService) { }
@@ -23,14 +24,9 @@ export class AuthInterceptor implements HttpInterceptor {
   intercept(request: HttpRequest<any>, next: HttpHandler): Observable<HttpEvent<any>> {
 
     const headersConfig = {
-      //El content-type  modifica el headers para subir archivo
       'Content-Type': 'application/json',
       'Accept': 'application/json'
     };
-
-    // if (!request.headers.has('Content-Type')) {
-    //   headersConfig['Content-Type'] = 'application/json'
-    // }
 
     let token = this._user.token;
     headersConfig['Authorization'] = `Bearer ${token}`

@@ -14,6 +14,7 @@ import { RemisioncrearnuevoComponent } from './remisioncrearnuevo/remisioncrearn
 import { ProductosremisionnuevoComponent } from './remisioncrearnuevo/productosremisionnuevo/productosremisionnuevo.component';
 import { ModalproductoremisionnuevoComponent } from './modalproductoremisionnuevo/modalproductoremisionnuevo.component';
 import { ModalcambiarproductossimilarnuevoComponent } from './modalcambiarproductossimilarnuevo/modalcambiarproductossimilarnuevo.component';
+import { TruncateModule } from 'ng2-truncate';
 
 @NgModule({
   imports: [
@@ -29,7 +30,8 @@ import { ModalcambiarproductossimilarnuevoComponent } from './modalcambiarproduc
     NgbDropdownModule,
     NgSelectModule,
     PipesModule,
-    SweetAlert2Module.forRoot()
+    SweetAlert2Module.forRoot(),
+    TruncateModule
   ],
   declarations: [
     RemisionComponent,

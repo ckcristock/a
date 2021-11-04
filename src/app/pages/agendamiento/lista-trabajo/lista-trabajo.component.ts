@@ -314,7 +314,7 @@ export class ListaTrabajoComponent implements OnInit, OnDestroy {
 
         this.subscription.add(
 
-          this._appointment.cancelAppointment(cita.id, result.value)
+          this._appointment.cancelAppointment(cita.id, { reason_cancellation: result.value })
             .subscribe((r: any) => {
 
               if (!r.data) {
@@ -322,8 +322,8 @@ export class ListaTrabajoComponent implements OnInit, OnDestroy {
                 return false;
               }
               SwalMsje.fire(
-                'Cita confirmada correctamente',
-                'La cita se ha confirmado de manera correcta!',
+                'Cita Cancelada correctamente',
+                'La cita se ha cancelado de manera correcta!',
                 'success'
               )
 

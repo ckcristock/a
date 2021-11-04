@@ -62,14 +62,12 @@ export class RemisioncrearnuevoComponent implements OnInit {
 
 
   Cambiar_Remision() {
-    console.log([
-      this.ModeloRemision.Tipo,
-    ]);
+
 
     this.ModeloRemision.Id_Destino = 0;
     if (this.ModeloRemision.Tipo == "Interna") {
       this.Destino = this.Datos_Iniciales.Punto;
-      this.ModeloRemision.Modelo = "Bodega-Punto";
+      this.ModeloRemision.Modelo = "Bodega-Bodega";
       this.ModeloRemision.Estado = "Pendiente";
       this.ModeloRemision.Estado_Alistamiento = "0";
       this.ModeloRemision.Tipo_Origen = "Bodega";
@@ -198,6 +196,7 @@ export class RemisioncrearnuevoComponent implements OnInit {
       this.Origen = data.Bodega;
       this.Destino = data.Punto;
       this.Cambiar_Remision();
+      this.CambiarPunto()
     });
   }
   getCategoriasNuevas() {

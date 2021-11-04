@@ -83,6 +83,7 @@ export class RemisionComponent implements OnInit {
   @ViewChild('EstadoRemision') EstadoRemision: TemplateRef<any>;
   public studentChartData: any;
   public alertInputOption: SweetAlertOptions = {};
+  public env = environment;
 
   constructor(private http: HttpClient, private location: Location, private route: ActivatedRoute) {
     this.ListarRemisiones();
@@ -136,7 +137,7 @@ export class RemisionComponent implements OnInit {
     }
   }
   ListarBorradores() {
-    this.http.get(environment.ruta + 'php/remision/borradores_remision.php?func=' + this.user.Identificacion_Funcionario).subscribe((data: any) => {
+    this.http.get(environment.ruta + 'php/remision/borradores_remision.php?func=' + environment.id_funcionario).subscribe((data: any) => {
       this.Borrador = data;
     });
   }

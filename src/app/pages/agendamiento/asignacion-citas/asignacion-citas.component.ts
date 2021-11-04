@@ -15,6 +15,7 @@ import { ActivatedRoute, Router } from '@angular/router';
 import { dataCitaToAssign } from 'src/app/core/interfaces/dataCitaToAssign.model';
 import { SetPacienteComponent } from 'src/app/components/paciente/set-paciente/set-paciente.component';
 import { AssingService } from 'src/app/services/assign.service';
+import { newCallService } from 'src/app/services/newCallService';
 
 
 @Component({
@@ -62,6 +63,7 @@ export class AsignacionCitasComponent implements OnInit {
     private _permisson: PermissionService,
     private _appointment: AppointmentService,
     private _openAgenda: OpenAgendaService,
+    private _newCallService: newCallService
   ) {
 
     if (this.route.snapshot.params.id) {
@@ -143,41 +145,41 @@ export class AsignacionCitasComponent implements OnInit {
 
   newCall(form) {
     this.dataCitaToAssign.resetData()
-    this.http.post(`${environment.base_url}/presentianCall`, JSON.stringify(form.value))
-      .subscribe((req: any) => {
-        if (req.code == 200) {
-          let data = req.data;
-          if (req.data.isNew) {
-            data = this.newPatient(data, req)
-          }
-          this.patient = data;
-          this._queryPatient.patient.next(data);
-          this.existPtientForShow = true;
-          clearInterval(this.getDate);
+    // this.http.post(`${environment.base_url}/presentianCall`, JSON.stringify(form.value))
+    this._newCallService.newCall(form).subscribe((req: any) => {
+      if (req.code == 200) {
+        let data = req.data;
+        if (req.data.isNew) {
+          data = this.newPatient(data, req)
         }
-      })
+        this.patient = data;
+        this._queryPatient.patient.next(data);
+        this.existPtientForShow = true;
+        clearInterval(this.getDate);
+      }
+    })
   }
 
   newCallByWaitingList() {
     //TODO: refactor traer waitin list sin apointment agendado
-    this.http.post(`${environment.base_url}/patientforwaitinglist`, this.route.snapshot.params.id)
-      .subscribe((req: any) => {
-        if (req.code == 200) {
-          let data = req.data;
-          if (req.data.isNew) {
+    // this.http.post(`${environment.base_url}/patientforwaitinglist`, this.route.snapshot.params.id)
+    this._newCallService.newCallByWaitingList(this.route.snapshot.params.id).subscribe((req: any) => {
+      if (req.code == 200) {
+        let data = req.data;
+        if (req.data.isNew) {
 
-            data = this.newPatient(data, req)
-          }
-
-          this.patient = data;
-          this._queryPatient.patient.next(data);
-          this._queryPatient.infowailist.next(data);
-          this.existPtientForShow = true;
-          clearInterval(this.getDate);
+          data = this.newPatient(data, req)
         }
-      }, error => {
-        console.log(error);
-      })
+
+        this.patient = data;
+        this._queryPatient.patient.next(data);
+        this._queryPatient.infowailist.next(data);
+        this.existPtientForShow = true;
+        clearInterval(this.getDate);
+      }
+    }, error => {
+      console.log(error);
+    })
 
   }
 

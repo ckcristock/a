@@ -1,7 +1,6 @@
 import { Injectable } from '@angular/core';
 import Swal from 'sweetalert2';
 import { Subject } from 'rxjs/Subject';
-// import { isArray } from 'util';
 
 
 @Injectable({
@@ -9,7 +8,7 @@ import { Subject } from 'rxjs/Subject';
 })
 export class SwalService {
 
-  private SwalObj: any = {
+  public SwalObj: any = {
     type: 'warning',
     title: 'Alerta',
     msg: '',
@@ -18,11 +17,8 @@ export class SwalService {
 
   constructor() { }
 
-  public _subject = new Subject<object>();
-
   public ShowMessage(data: any) {
     this.SetSwalData(data);
-    this._subject.next(this.SwalObj);
   }
 
   private SetSwalData(data: any) {

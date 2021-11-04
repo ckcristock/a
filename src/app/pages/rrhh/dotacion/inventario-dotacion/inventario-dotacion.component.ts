@@ -142,9 +142,9 @@ export class InventarioDotacionComponent implements OnInit {
 
     this.location.replaceState('/inventariodotacion', queryString);
 
-    /* 
+    /*
     this.loading = true;
-    this.http.get(this.globales.ruta + 'php/dotaciones/lista_inventario.php?' + queryString).subscribe((data: any) => {
+    this.http.get(this.environment.ruta + 'php/dotaciones/lista_inventario.php?' + queryString).subscribe((data: any) => {
       this.loading = false;
       this.Inventarios = data.Listado;
       this.TotalItems = data.numReg;
@@ -173,7 +173,7 @@ export class InventarioDotacionComponent implements OnInit {
 
     /*
     this.loading = true;
-     this.http.get(this.globales.ruta + 'php/dotaciones/lista_inventario.php?' + queryString).subscribe((data: any) => {
+     this.http.get(this.environment.ruta + 'php/dotaciones/lista_inventario.php?' + queryString).subscribe((data: any) => {
       this.loading = false;
       this.Inventarios = data.Listado;
       this.TotalItems = data.numReg;

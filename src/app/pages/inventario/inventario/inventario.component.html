@@ -38,7 +38,7 @@
                                         </div>
                                         <div class="col-md-2 columna2">
                                             <!-- <! TODO Descar lista inventario -->
-                                            <!-- <a href="{{globales.ruta}}php/archivos/descarga_lista_nuevo.php?id={{lista_informe}}" target="_blank" class="btn btn-success btn-sm btn-block" style="line-height: 0 !important; margin-top: 0 !important">
+                                            <!-- <a href="{{environment.ruta}}php/archivos/descarga_lista_nuevo.php?id={{lista_informe}}" target="_blank" class="btn btn-success btn-sm btn-block" style="line-height: 0 !important; margin-top: 0 !important">
                                                 <i class="fa fa-download"></i> Descarga Lista
                                             </a> -->
                                         </div>
@@ -236,7 +236,7 @@
                                                     <button ngbDropdownToggle class="btn btn-secondary btn-mini waves-effect waves-light " type="button"></button>
                                                     <div ngbDropdownMenu class="fix">
                                                         <!-- TODO Imprimir etiqueta -->
-                                                        <!-- <a class="dropdown-item waves-light waves-effect caja-botones" href="{{globales.ruta}}/php/archivos/descarga_etiqueta_controlado.php?id={{inventario.Id_Inventario_Nuevo}}" target="_blank">
+                                                        <!-- <a class="dropdown-item waves-light waves-effect caja-botones" href="{{environment.ruta}}/php/archivos/descarga_etiqueta_controlado.php?id={{inventario.Id_Inventario_Nuevo}}" target="_blank">
                                                             <i class="fa fa-ticket"></i> Imprimir Etiqueta</a> -->
                                                         <a *ngIf="inventario.Cantidad_Apartada > 0" class="dropdown-item waves-light waves-effect caja-botones" href="javascript:void(0)" (click)="verApartadas(inventario.Id_Inventario_Nuevo, i)">
                                                             <i class="fa fa-cart-arrow-down"></i> Ver Apartadas</a>

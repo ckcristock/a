@@ -1,14 +1,7 @@
 import { Component, EventEmitter, OnInit, OnChanges, OnDestroy, SimpleChanges, Input, Output, ViewChild } from '@angular/core';
-// import { GeneralService } from '../../shared/services/general/general.service';
-// import { SwalService } from '../../shared/services/swal/swal.service';
-// import { ToastService } from '../../shared/services/toasty/toast.service';
-// import { ProductoService } from '../../shared/services/productos/producto.service';
-// import { ProductoRemisionModel } from '../../shared/modelos/ProductoRemisionModel';
+
 import { Subject, Observable } from 'rxjs';
-// import { ProductoCargarRemision } from '../../shared/modelos/ProductoCargarRemision';
-// import { RemisionService } from '../../shared/services/remisiones/remision.service';
-// import { FuncionesgeneralesService } from '../../shared/funcionesgenerales/funcionesgenerales.service';
-// import { EpsService } from '../../shared/services/eps/eps.service';
+
 import swal, { SweetAlertOptions } from 'sweetalert2';
 import { Router, ActivatedRoute } from '@angular/router';
 import { RemisionModelNuevo } from '../../RemisonModelNuevo';
@@ -24,9 +17,7 @@ import { GeneralService } from 'src/app/services/general.service';
 import { environment } from 'src/environments/environment';
 import { HttpClient } from '@angular/common/http';
 import { WarningMessage } from 'src/app/core/utils/confirmMessage';
-// import { SwalComponent } from '@toverux/ngx-sweetalert2';
-// import { RemisionnuevoService } from '../../shared/services/remisionnuevo/remisionnuevo.service';
-// import { RemisionModelNuevo } from '../../shared/modelos/RemisonModelNuevo';
+
 
 @Component({
   selector: 'app-productosremisionnuevo',
@@ -392,12 +383,10 @@ export class ProductosremisionnuevoComponent implements OnInit, OnChanges, OnDes
         if (data.codigo == 'success') {
           this.Mensaje++;
           if (this.Mensaje % 10 == 0) {
-            // let toastObj = { textos: [data.titulo, data.mensaje], tipo: data.codigo, duracion: 4000 };
-            WarningMessage(data.codigo, data.titulo, data.mensaje);
-            // this._toastService.ShowToast(toastObj);
+            this._swalService.show({ icon: data.codigo, title: data.titulo, text: data.mensaje });
           }
         } else {
-          WarningMessage('error', 'Error', 'El borrador no se ha podido guardar, por favor comuniquese con el encargado del sistema!');
+          this._swalService.show({ icon: 'error', title: 'Error', text: 'El borrador no se ha podido guardar, por favor comuniquese con el encargado del sistema!' });
         }
       });
     }
@@ -921,21 +910,27 @@ export class ProductosremisionnuevoComponent implements OnInit, OnChanges, OnDes
             this.confirmacionSalir.title = 'Remisión Guardada';
             this.confirmacionSalir.html = data.mensaje;
             this.confirmacionSalir.type = 'success';
-            this.confirmacionSalir.show();
+            this.confirmacionSalir.fire();
+            console.log('b-b');
           } else {
+            console.log('else');
             WarningMessage(data);
             this.confirmacionGuardar.close;
           }
         });
       } else {
+        console.log('else-2');
         this.http.post(environment.ruta + 'php/remision_nuevo/save_remision.php', data).subscribe((data: any) => {
           if (data.codigo == 'success') {
             this._limpiarModelos(false);
             this.confirmacionSalir.title = 'Remisión Guardada';
             this.confirmacionSalir.html = data.mensaje;
             this.confirmacionSalir.type = 'success';
-            this.confirmacionSalir.show();
+            this.confirmacionSalir.fire();
+            this._router.navigate(['/inventario/remisiones'])
+
           } else {
+            console.log('else-else-2');
             WarningMessage(data);
             this.confirmacionGuardar.close;
           }
@@ -1079,7 +1074,7 @@ export class ProductosremisionnuevoComponent implements OnInit, OnChanges, OnDes
             this.Lista_Productos[posProducto].Lotes[i].Cantidad_Seleccionada = cantidad;
             lote_temp.Cantidad_Seleccionada = cantidad;
             var labelLote = "Lote: " + this.Lista_Productos[posProducto].Lotes[i].Lote + " - Vencimiento: " + this.Lista_Productos[posProducto].Lotes[i].Fecha_Vencimiento + " - Cantidad: " + cantidad;
-            console.log(labelLote, 'labelLote');
+            // console.log(labelLote, 'labelLote');
 
             this.Lista_Productos[posProducto].Lotes_Visuales.push(labelLote);
             this.Lista_Productos[posProducto].Cantidad = this.Lista_Productos[posProducto].Cantidad + cantidad;
@@ -1156,8 +1151,8 @@ export class ProductosremisionnuevoComponent implements OnInit, OnChanges, OnDes
     if (this._remisionModel.Tipo_Origen == 'Bodega') {
       p.grupo = JSON.stringify(this._remisionModel.Grupo);
     }
-    console.log("eliminar lotes");
-    console.log(this._remisionModel);
+    // console.log("eliminar lotes");
+    // console.log(this._remisionModel);
 
     this.EliminarLotesSeleccionados(this.Lista_Productos[posProducto].Lotes_Seleccionados, true, posProducto);
 
@@ -1167,11 +1162,9 @@ export class ProductosremisionnuevoComponent implements OnInit, OnChanges, OnDes
         if (data.length > 0) {
           this.Lista_Productos[posProducto].Cantidad_Disponible = parseInt(data[0].Cantidad_Disponible);
           this.Lista_Productos[posProducto].Lotes = data[0].Lotes;
-          console.log(this.Lista_Productos[posProducto].Cantidad_Disponible, 'comprobar lotes');
-
+          // console.log(this.Lista_Productos[posProducto].Cantidad_Disponible, 'comprobar lotes');
           this.SeleccionarLotes(posProducto);
         } else {
-
           this.Lista_Productos[posProducto].Cantidad_Disponible = 0;
           this.Lista_Productos[posProducto].Lotes = [];
           WarningMessage('warning', 'Alerta', 'El producto ya no tiene cantidad disponible!');
@@ -1187,7 +1180,7 @@ export class ProductosremisionnuevoComponent implements OnInit, OnChanges, OnDes
     this.http.post(environment.ruta + 'php/remision_nuevo/eliminar_lote_seleccionado.php', data).subscribe((data: any) => {
       if (data.codigo == 'success') {
         // let toastObj = { textos: [data.titulo, data.mensaje], tipo: data.codigo, duracion: 4000 };
-        WarningMessage(data.codigo, data.titulo, data.mensaje);
+        this._swalService.ShowMessage({ icon: data.codigo, title: data.titulo, text: data.mensaje });
         // this._toastService.ShowToast(toastObj);
 
         if (vaciarLotes && posProducto.toString() != '') {

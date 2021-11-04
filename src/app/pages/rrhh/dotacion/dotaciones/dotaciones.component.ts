@@ -140,13 +140,13 @@ export class DotacionesComponent implements OnInit {
     });
   }///FINAL LISTAR EMPLEADOS
   Lista_Productos() {
-    /* this.http.get(this.globales.ruta + 'php/lista_generales.php', { params: { modulo: 'Inventario_Dotacion' } }).subscribe((data: any) => {
+    /* this.http.get(this.environment.ruta + 'php/lista_generales.php', { params: { modulo: 'Inventario_Dotacion' } }).subscribe((data: any) => {
     this.Productos = data;
     }); */
 
   }/// FINAL LISTA PRODUCTOS
   TraerProductos(Id_producto) {
-    //this.http.get(this.globales.ruta + 'php/dotaciones/lista_productos')
+    //this.http.get(this.environment.ruta + 'php/dotaciones/lista_productos')
   }
   public barChartOptions: ChartOptions = {
     responsive: true,
@@ -278,7 +278,7 @@ export class DotacionesComponent implements OnInit {
     this.location.replaceState('/dotacion', queryString);
 
     this.Cargando = true;
-    /*  this.http.get(this.globales.ruta + 'php/dotaciones/lista_dotaciones.php?'+queryString).subscribe((data: any) => {
+    /*  this.http.get(this.environment.ruta + 'php/dotaciones/lista_dotaciones.php?'+queryString).subscribe((data: any) => {
        this.Cargando = false;
        this.Lista_Dotaciones = data.Listado;
        this.TotalItems = data.Totales.Cantidad;
@@ -294,7 +294,7 @@ export class DotacionesComponent implements OnInit {
     this.confirmacionDevolucion.show();
   }
   devolverDotacion(id) {
-    /*  this.http.get(this.globales.ruta + 'php/dotaciones/detalle_devolucion.php?id='+id).subscribe((data: any) => {
+    /*  this.http.get(this.environment.ruta + 'php/dotaciones/detalle_devolucion.php?id='+id).subscribe((data: any) => {
        this.Productos_Devolver = data.Productos;
        this.Devolucion = data.Datos;
        this.modalDevolver.show();
@@ -310,7 +310,7 @@ export class DotacionesComponent implements OnInit {
      let prods               =  this.globales.normalize(JSON.stringify(this.Productos_Devolver));
      datos.append("Devolucion", devolucion);
      datos.append("Productos", prods);*/
-    /* this.http.post(this.globales.ruta + 'php/dotaciones/guardar_devolucion.php', datos).subscribe((data: any) => {
+    /* this.http.post(this.environment.ruta + 'php/dotaciones/guardar_devolucion.php', datos).subscribe((data: any) => {
       this.Devolucion = {
         Detalles : '',
         Entrega :'',

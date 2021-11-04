@@ -170,7 +170,7 @@ export class ModalComponent implements OnInit {
     this._person.storePeople(this.forma.value).subscribe((res: any) => {
       this.dataChange.emit('')
       this.successfull(res.code);
-      this.router.navigateByUrl('/ajustes/informacion-base/professionals')
+      this.router.navigate(['/ajustes/informacion-base/professionals'])
 
     });
   }
@@ -180,8 +180,12 @@ export class ModalComponent implements OnInit {
     this._person.storePeople(this.forma.value).subscribe((res: any) => {
       this.dataChange.emit('')
       this.successfull(res.code);
-      this.router.navigateByUrl('/ajustes/informacion-base/professionals')
+      this.router.navigate(['/ajustes/informacion-base/professionals'])
     });
+  }
+
+  showFormCreate() {
+    this.router.navigate(['/ajustes/informacion-base/professionals'])
   }
 
   successfull(code) {

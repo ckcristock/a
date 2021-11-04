@@ -27,7 +27,7 @@
                                             <div class="form-group auth-form-group-custom mb-4">
                                                 <i class="ri-user-2-line auti-custom-input-icon"></i>
                                                 <label for="user">Usuario</label>
-                                                <input type="number" formControlName="user" class="form-control" id="user" placeholder="Ingrese Identificacion" [ngClass]="{ 'is-invalid': submitted && f.email.errors }">
+                                                <input type="number" formControlName="user" class="form-control" id="user" placeholder="Ingrese Identificacion" >
                                                 <div *ngIf="submitted && f.user.errors" class="invalid-feedback">
                                                     <div *ngIf="f.email.errors.required">El campo usuario es obligatorio
                                                     </div>

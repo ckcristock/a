@@ -6,10 +6,10 @@ interface GrupoT {
     Presentacion: string
 }
 export class RemisionModelNuevo {
-    public Tipo: string = 'Cliente';
+    public Tipo: string = 'Interna';
     public Prioridad: string = '1';
     public Meses: string = '4';
-    public Modelo: string = 'Bodega-Punto';
+    public Modelo: string = 'Bodega-Bodega';
     public Nombre_Destino: string = '';
     public Nombre_Origen: string = '';
     public Identificacion_Funcionario: number = 0;

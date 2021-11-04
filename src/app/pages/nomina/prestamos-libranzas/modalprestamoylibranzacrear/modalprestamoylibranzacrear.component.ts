@@ -100,7 +100,7 @@ export class ModalprestamoylibranzacrearComponent implements OnInit, OnDestroy {
   ComprobarPrestamo(tipo) {
     let empleado = this.modelo.person.id;
     let Tipo = tipo;
-    /*  this.http.get(this.globales.ruta + 'php/prestamoylibranza/comprobar_prestamo.php', {params: { empleado: empleado,tipo: Tipo }}).subscribe((data: any) => {
+    /*  this.http.get(this.environment.ruta + 'php/prestamoylibranza/comprobar_prestamo.php', {params: { empleado: empleado,tipo: Tipo }}).subscribe((data: any) => {
     this.Comprobar = data;
     if(this.Comprobar.length > 0){
     this.Comprobar.forEach(lista => {
@@ -162,17 +162,17 @@ export class ModalprestamoylibranzacrearComponent implements OnInit, OnDestroy {
    // let info = JSON.stringify(this.modelo);
 
     this._loan.save(this.modelo).subscribe((r: any) => {
-      
+
       this._swal.show(
 	  {title:'Operación exitosa',
 	    text:'Prestamo/Libranza Creado con éxito',
-	    icon:'success',showCancel:false})  
+	    icon:'success',showCancel:false})
 	    this.modalPrestamoylibranza.hide();
     },err=>{
 	this._swal.show(
 	  {title:'Ha ocurrido un error',
 	    text:'Comuniquese con el Dpt. de Sistemas',
-	    icon:'error',showCancel:false})  
+	    icon:'error',showCancel:false})
     });
 
   }

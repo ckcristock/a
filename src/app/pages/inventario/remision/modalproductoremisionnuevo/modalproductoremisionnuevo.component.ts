@@ -239,7 +239,6 @@ export class ModalproductoremisionnuevoComponent implements OnInit, OnDestroy, O
           this.http.get(environment.ruta + 'php/tablero_dispensacion/validar_producto.php', { params: p }).subscribe((data: any) => {
             if (data.codigo == 'success') {
               producto.Costo = data.Costo;
-
               let validacion = this.generalService.ValidarEntregasDobles(this.InformacionPunto, this.ProductosEntregasDobles, idProducto);
               if (!validacion.validar) {
                 this._swalService.ShowMessage(['warning', 'Alerta', 'Esta producto ya fue entregado este mes en la dis ' + validacion.codigo + ' en la fecha ' + validacion.fecha + '!']);
@@ -334,32 +333,25 @@ export class ModalproductoremisionnuevoComponent implements OnInit, OnDestroy, O
     let product: any = new ProductoCargarRemision();
 
     for (var key in producto) {
-      console.log(key);
       if (key != 'Codigo_Cum' && key != 'Seleccionado' && key != 'Cantidad_Requerida') {
         if (key == 'Lotes') {
           product[key] = this.SetearLotes(producto[key]);
-          console.log(product[key]);
         } else if (key == 'Cantidad') {
           if (producto[key] == '') {
             product[key] = null;
           } else {
             product[key] = parseInt(producto[key]);
-            console.log(product[key]);
           }
         } else {
           if (!isNaN(parseInt(producto[key]))) {
             product[key] = producto[key];
-            console.log(product[key]);
-
           } else {
             product[key] = producto[key];
-            console.log(product[key]);
           }
         }
 
       } else {
         product[key] = producto[key];
-        console.log(product[key]);
       }
     }
     return product;

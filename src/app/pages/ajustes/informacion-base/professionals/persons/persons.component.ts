@@ -16,7 +16,6 @@ export class PersonsComponent implements OnInit {
 
 
   @ViewChild(TableComponent) table: TableComponent;
-  // @ViewChild(ModalComponent) modal: ModalComponent;
 
   constructor(
     private router: Router,
@@ -27,11 +26,8 @@ export class PersonsComponent implements OnInit {
 
 
   createOrUpdated = (id = null) => {
-    // this.modal.id = id;
-    // console.log(id);
     this._service.id = id;
-    this.router.navigateByUrl('/ajustes/informacion-base/professionals/create')
-    // this.modal.show();
+    this.router.navigate(['/ajustes/informacion-base/professionals/create'])
   }
 
   getDataTable = () => {

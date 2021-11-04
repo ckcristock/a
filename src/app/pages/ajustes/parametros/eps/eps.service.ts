@@ -7,22 +7,22 @@ import { environment } from 'src/environments/environment';
 })
 export class EpsService {
 
-  constructor( private http:HttpClient ) { }
+  constructor(private http: HttpClient) { }
 
-  getAllEps( params = {} ){
-    return this.http.get(`${environment.base_url}/eps`, {params});
+  getAllEps(params = {}) {
+    return this.http.get(`${environment.base_url}/eps`, { params });
   }
 
-  createNewEps( data:any ){
+  createNewEps(data: any) {
     return this.http.post(`${environment.base_url}/eps`, data);
   }
 
-  saveNewEps( data:any ){
+  saveNewEps(data: any) {
     return this.http.post(`${environment.base_url}/save-eps`, data);
   }
 
-  getPaginateEps( data:any ){
-    return this.http.get(`${environment.base_url}/paginate-eps`, data);
+  getPaginateEps(params = {}) {
+    return this.http.get(`${environment.base_url}/paginate-eps`, { params });
   }
 
 }

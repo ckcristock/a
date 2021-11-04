@@ -144,7 +144,7 @@
                                             <!-- <a *ngIf="item.Estado!='Anulada'&&item.Estado!='Devuelta'" class="dropdown-item waves-light waves-effect caja-botones" (click)="devolverDotacion(item.Id_Dotacion)" >
                       <i class="fa fa-undo"></i> Devolver
                     </a> -->
-                                            <!--   <a *ngIf="item.Estado=='Devuelta'" class="dropdown-item waves-light waves-effect caja-botones" href="{{globales.ruta}}php/dotaciones/descarga_devolucion.php?id={{item.Id_Dotacion}}" target="_blank">
+                                            <!--   <a *ngIf="item.Estado=='Devuelta'" class="dropdown-item waves-light waves-effect caja-botones" href="{{environment.ruta}}php/dotaciones/descarga_devolucion.php?id={{item.Id_Dotacion}}" target="_blank">
                                                 <i class="fa fa-print"></i> Imprimir Devolucion
                                             </a> -->
                                             <a *ngIf="item.state!='Anulada'" class="dropdown-item waves-light waves-effect caja-botones" (click)="anularDotacion(item.id)">

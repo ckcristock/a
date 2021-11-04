@@ -1,10 +1,10 @@
 .ver {
-    background: #efefef!important;
-    border-radius: 5px 5px!important;
+    background: #efefef !important;
+    border-radius: 5px 5px !important;
     word-wrap: break-word;
     font-size: 11px !important;
     h6 {
-        margin-top: 5px!important;
+        margin-top: 5px !important;
     }
 }
 
@@ -17,6 +17,17 @@
     user-select: none;
 }
 
+.bg-selected {
+    background-color: rgba(48, 238, 15, 0.4) !important;
+}
+.bg-alert {
+    background-color: rgba(255, 166, 32, 0.692) !important;
+}
+.bg-fondo {
+    background-color: rgb(215, 215, 215) !important;
+    font-weight: bold;
+}
+
 .noblur {
     text-shadow: none;
     color: #222 !important;
@@ -25,7 +36,7 @@
 .habilitado {
     text-shadow: none;
     color: #222;
-    background: #4DDEC1;
+    background: #4ddec1;
 }
 
 .habilitado2 {
@@ -53,7 +64,7 @@
     h4,
     h2,
     h1 {
-        font-size: 12px !important
+        font-size: 12px !important;
     }
 }
 
@@ -67,7 +78,7 @@
     border: 0 !important;
     padding: 3px !important;
     text-align: center !important;
-    font-size: 12px !important
+    font-size: 12px !important;
 }
 
 .swal2-confirm {

@@ -55,7 +55,7 @@ export class ReportesComponent implements OnInit {
 
   gettypeReportes() {
     this._dataDinamic.gettypeReportes().subscribe((r: any) => {
-      this.typeReports = r.data
+      this.typeReports = r
     })
   }
 

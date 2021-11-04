@@ -62,7 +62,7 @@
                                                 <td>
                                                     <!-- TODO IMAGEN -->
                                                    <!--  <img *ngIf="item.Imagen ==''" src="assets/images/user.jpg" class="img-radius imagen ">
-                                                    <img *ngIf="item.Imagen !=''" src="{{globales.ruta}}IMAGENES/FUNCIONARIOS/{{item.Imagen}}" class="img-radius imagen"> -->
+                                                    <img *ngIf="item.Imagen !=''" src="{{environment.ruta}}IMAGENES/FUNCIONARIOS/{{item.Imagen}}" class="img-radius imagen"> -->
                                                 </td>
                                                 <td> {{ item.Codigo }} </td>
                                                 <td> {{ item.Fecha | date:'dd/MM/yyyy'}} </td>
@@ -117,7 +117,7 @@
                                     <tr *ngFor="let item of actas_pendientes">
                                         <td>
                                             <img *ngIf="item.Imagen ==''" src="assets/images/user.jpg" class="img-radius imagen">
-                                            <img *ngIf="item.Imagen !=''" src="{{globales.ruta}}IMAGENES/FUNCIONARIOS/{{item.Imagen}}" class="img-radius imagen">
+                                            <img *ngIf="item.Imagen !=''" src="{{environment.ruta}}IMAGENES/FUNCIONARIOS/{{item.Imagen}}" class="img-radius imagen">
                                         </td>
                                         <td><strong>{{ item.Codigo }}</strong></td>
                                         <td>{{ item.Fecha_Creacion | date: 'dd/MM/yyyy' }}</td>
@@ -134,16 +134,16 @@
                                                         <a class="dropdown-item waves-light waves-effect caja-botones" href="" [routerLink]="['/actarecepcionvernuevo',item.Id_Acta_Recepcion]">
                                                             <i class="ti-eye"></i> Ver</a>
                                                         <!-- <a class="dropdown-item waves-light waves-effect caja-botones" [routerLink]="[ '/actarecepcioneditar', item.Id_Acta_Recepcion ]"><i class="fa fa-pencil"></i> Editar</a> -->
-                                                        <a class="dropdown-item waves-light waves-effect caja-botones" href="{{globales.ruta}}php/actarecepcion/descarga_pdf.php?tipo=Acta_Recepcion&id={{item.Id_Acta_Recepcion}}" target="_blank">
+                                                        <a class="dropdown-item waves-light waves-effect caja-botones" href="{{environment.ruta}}php/actarecepcion/descarga_pdf.php?tipo=Acta_Recepcion&id={{item.Id_Acta_Recepcion}}" target="_blank">
                                                             <i class="ti-printer"></i> Imprimir</a>
 
                                                         <a *ngIf="perfilAdministrador() && item.Estado!='Anulada' " class="dropdown-item waves-light waves-effect caja-botones" (click)="AsignarDatos(item.Id_Acta_Recepcion)">
                                                             <i class="ti-close"></i> Anular </a>
                                                         <!--
-                              <a class="dropdown-item waves-light waves-effect caja-botones" href="{{globales.ruta}}php/comprasnacionales/descarga_pdf.php?tipo=Orden_Compra_{{item.Tipo}}&id={{item.Id_Orden_Compra}}"
+                              <a class="dropdown-item waves-light waves-effect caja-botones" href="{{environment.ruta}}php/comprasnacionales/descarga_pdf.php?tipo=Orden_Compra_{{item.Tipo}}&id={{item.Id_Orden_Compra}}"
                                 target="_blank">
                                 <i class="ti-printer"></i> Imprimir OC {{item.Tipo}}</a>
-                              <a class="dropdown-item waves-light waves-effect caja-botones" href="{{globales.ruta}}php/archivos/descarga_etiqueta_zebra.php?id={{item.Id_Acta_Recepcion}}"
+                              <a class="dropdown-item waves-light waves-effect caja-botones" href="{{environment.ruta}}php/archivos/descarga_etiqueta_zebra.php?id={{item.Id_Acta_Recepcion}}"
                                 target="_blank">
                                 <i class="fa fa-tag"></i> Descargar Etiquetas</a> -->
                                                     </div>
@@ -275,7 +275,7 @@
                                     <tr *ngFor="let item of actarecepciones">
                                         <td>
                                             <img *ngIf="item.Imagen ==''" src="assets/images/user.jpg" class="img-radius imagen">
-                                            <img *ngIf="item.Imagen !=''" src="{{globales.ruta}}IMAGENES/FUNCIONARIOS/{{item.Imagen}}" class="img-radius imagen">
+                                            <img *ngIf="item.Imagen !=''" src="{{environment.ruta}}IMAGENES/FUNCIONARIOS/{{item.Imagen}}" class="img-radius imagen">
                                         </td>
                                         <td><strong>{{ item.Codigo }}</strong></td>
                                         <td>{{ item.Fecha_Creacion | date: 'dd/MM/yyyy' }}</td>
@@ -307,17 +307,17 @@
 
                                                         <!--IMPRIMIR-->
                                                         <!--ACTA RECEPCION-->
-                                                        <a *ngIf="item.Tipo_Acomodar == 'Acta_Recepcion'" class="dropdown-item waves-light waves-effect caja-botones" href="{{globales.ruta}}php/actarecepcion/descarga_pdf.php?tipo=Acta_Recepcion&id={{item.Id_Acta}}" target="_blank">
+                                                        <a *ngIf="item.Tipo_Acomodar == 'Acta_Recepcion'" class="dropdown-item waves-light waves-effect caja-botones" href="{{environment.ruta}}php/actarecepcion/descarga_pdf.php?tipo=Acta_Recepcion&id={{item.Id_Acta}}" target="_blank">
                                                             <i class="ti-printer"></i> Imprimir</a>
-                                                        <a *ngIf="item.Tipo_Acomodar == 'Acta_Recepcion' " class="dropdown-item waves-light waves-effect caja-botones" href="{{globales.ruta}}php/comprasnacionales/descarga_pdf.php?tipo=Orden_Compra_{{item.Tipo}}&id={{item.Id_Orden_Compra}}" target="_blank">
+                                                        <a *ngIf="item.Tipo_Acomodar == 'Acta_Recepcion' " class="dropdown-item waves-light waves-effect caja-botones" href="{{environment.ruta}}php/comprasnacionales/descarga_pdf.php?tipo=Orden_Compra_{{item.Tipo}}&id={{item.Id_Orden_Compra}}" target="_blank">
                                                             <i class="ti-printer"></i> Imprimir OC {{item.Tipo}}</a>
 
                                                         <!--Nota_Credito-->
-                                                        <a *ngIf="item.Tipo_Acomodar == 'Nota_Credito' " class="dropdown-item waves-light waves-effect caja-botones" href="{{globales.ruta}}php/notascredito/descarga_pdf.php?tipo=Nota_Credito&id={{item.Id_Acta}}" target="_blank">
+                                                        <a *ngIf="item.Tipo_Acomodar == 'Nota_Credito' " class="dropdown-item waves-light waves-effect caja-botones" href="{{environment.ruta}}php/notascredito/descarga_pdf.php?tipo=Nota_Credito&id={{item.Id_Acta}}" target="_blank">
                                                             <i class="ti-printer"></i> Imprimir</a>
 
 
-                                                        <a *ngIf="item.Tipo_Acomodar == 'Acta_Recepcion' " class="dropdown-item waves-light waves-effect caja-botones" href="{{globales.ruta}}php/archivos/descarga_etiqueta_zebra.php?id={{item.Id_Acta}}" target="_blank">
+                                                        <a *ngIf="item.Tipo_Acomodar == 'Acta_Recepcion' " class="dropdown-item waves-light waves-effect caja-botones" href="{{environment.ruta}}php/archivos/descarga_etiqueta_zebra.php?id={{item.Id_Acta}}" target="_blank">
                                                             <i class="fa fa-tag"></i> Descargar Etiquetas</a>
 
 
@@ -333,36 +333,36 @@
 
                                                         <!--      -->
 
-                                                        <!-- 
-                                                        <a *ngIf="( perfilUsuario == '27' || perfilUsuario == '16' ) && item.Tipo_Acomodar == 'Acta_Recepcion'" class="dropdown-item waves-light waves-effect caja-botones" href="{{globales.ruta}}php/contabilidad/movimientoscontables/movimientos_acta_recepcion_pdf.php?id_registro={{item.Id_Acta}}&id_funcionario_elabora={{funcionario.Identificacion_Funcionario}}"
+                                                        <!--
+                                                        <a *ngIf="( perfilUsuario == '27' || perfilUsuario == '16' ) && item.Tipo_Acomodar == 'Acta_Recepcion'" class="dropdown-item waves-light waves-effect caja-botones" href="{{environment.ruta}}php/contabilidad/movimientoscontables/movimientos_acta_recepcion_pdf.php?id_registro={{item.Id_Acta}}&id_funcionario_elabora={{funcionario.Identificacion_Funcionario}}"
                                                             target="_blank">
                                                             <i class="fa fa-book"></i> Contab. PCGA
                                                         </a>
-                                                        <a *ngIf="( perfilUsuario == '27' || perfilUsuario == '16' ) && item.Tipo_Acomodar == 'Acta_Recepcion'" class="dropdown-item waves-light waves-effect caja-botones" href="{{globales.ruta}}php/contabilidad/movimientoscontables/movimientos_acta_recepcion_pdf.php?id_registro={{item.Id_Acta}}&id_funcionario_elabora={{funcionario.Identificacion_Funcionario}}&tipo_valor=Niif"
+                                                        <a *ngIf="( perfilUsuario == '27' || perfilUsuario == '16' ) && item.Tipo_Acomodar == 'Acta_Recepcion'" class="dropdown-item waves-light waves-effect caja-botones" href="{{environment.ruta}}php/contabilidad/movimientoscontables/movimientos_acta_recepcion_pdf.php?id_registro={{item.Id_Acta}}&id_funcionario_elabora={{funcionario.Identificacion_Funcionario}}&tipo_valor=Niif"
                                                             target="_blank">
                                                             <i class="fa fa-book"></i> Contab. NIIF
                                                         </a> -->
 
 
                                                         <!-- Ajuste individual cont -->
-                                                        <!--       <a *ngIf="( perfilUsuario == '27' || perfilUsuario == '16' ) && item.Tipo_Acomodar == 'Ajuste_Individual' " class="dropdown-item waves-light waves-effect caja-botones" href="{{globales.ruta}}php/contabilidad/movimientoscontables/movimientos_ajuste_individual_pdf.php?id_registro={{item.Id_Acta}}&id_funcionario_elabora={{funcionario.Identificacion_Funcionario}}"
+                                                        <!--       <a *ngIf="( perfilUsuario == '27' || perfilUsuario == '16' ) && item.Tipo_Acomodar == 'Ajuste_Individual' " class="dropdown-item waves-light waves-effect caja-botones" href="{{environment.ruta}}php/contabilidad/movimientoscontables/movimientos_ajuste_individual_pdf.php?id_registro={{item.Id_Acta}}&id_funcionario_elabora={{funcionario.Identificacion_Funcionario}}"
                                                             target="_blank ">
                                                             <i class="fa fa-book "></i> Contab. PCGA
                                                         </a>
 
-                                                        <a *ngIf="(perfilUsuario=='27' || perfilUsuario=='16' ) && item.Tipo_Acomodar=='Ajuste_Individual' " class="dropdown-item waves-light waves-effect caja-botones " href="{{globales.ruta}}php/contabilidad/movimientoscontables/movimientos_ajuste_individual_pdf.php?id_registro={{item.Id_Acta}}&id_funcionario_elabora={{funcionario.Identificacion_Funcionario}}&tipo_valor=Niif "
+                                                        <a *ngIf="(perfilUsuario=='27' || perfilUsuario=='16' ) && item.Tipo_Acomodar=='Ajuste_Individual' " class="dropdown-item waves-light waves-effect caja-botones " href="{{environment.ruta}}php/contabilidad/movimientoscontables/movimientos_ajuste_individual_pdf.php?id_registro={{item.Id_Acta}}&id_funcionario_elabora={{funcionario.Identificacion_Funcionario}}&tipo_valor=Niif "
                                                             target="_blank ">
                                                             <i class="fa fa-book "></i> Contab. NIIF
                                                         </a> -->
                                                         <!-- **************************  -->
 
                                                         <!-- Nota Credito cont -->
-                                                        <!--      <a *ngIf="( perfilUsuario == '27' || perfilUsuario == '16' ) && item.Tipo_Acomodar == 'Nota_Credito' " class="dropdown-item waves-light waves-effect caja-botones" href="{{globales.ruta}}php/contabilidad/movimientoscontables/movimientos_nota_credito_pdf.php?id_registro={{item.Id_Acta}}&id_funcionario_elabora={{funcionario.Identificacion_Funcionario}}"
+                                                        <!--      <a *ngIf="( perfilUsuario == '27' || perfilUsuario == '16' ) && item.Tipo_Acomodar == 'Nota_Credito' " class="dropdown-item waves-light waves-effect caja-botones" href="{{environment.ruta}}php/contabilidad/movimientoscontables/movimientos_nota_credito_pdf.php?id_registro={{item.Id_Acta}}&id_funcionario_elabora={{funcionario.Identificacion_Funcionario}}"
                                                             target="_blank ">
                                                             <i class="fa fa-book "></i> Contab. PCGA
                                                         </a>
 
-                                                        <a *ngIf="(perfilUsuario=='27' || perfilUsuario=='16' ) && item.Tipo_Acomodar == 'Nota_Credito' " class="dropdown-item waves-light waves-effect caja-botones " href="{{globales.ruta}}php/contabilidad/movimientoscontables/movimientos_nota_credito_pdf.php?id_registro={{item.Id_Acta}}&id_funcionario_elabora={{funcionario.Identificacion_Funcionario}}&tipo_valor=Niif "
+                                                        <a *ngIf="(perfilUsuario=='27' || perfilUsuario=='16' ) && item.Tipo_Acomodar == 'Nota_Credito' " class="dropdown-item waves-light waves-effect caja-botones " href="{{environment.ruta}}php/contabilidad/movimientoscontables/movimientos_nota_credito_pdf.php?id_registro={{item.Id_Acta}}&id_funcionario_elabora={{funcionario.Identificacion_Funcionario}}&tipo_valor=Niif "
                                                             target="_blank ">
                                                             <i class="fa fa-book "></i> Contab. NIIF
                                                         </a> -->

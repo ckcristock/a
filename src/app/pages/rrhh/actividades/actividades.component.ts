@@ -129,7 +129,7 @@ export class ActividadesComponent {
   }
   ngOnInit(): void {
     this.getGroups();
-    /*  this.http.get(this.globales.ruta + 'php/lista_generales.php', { params: { modulo: 'Grupo' } }).subscribe((data: any) => {
+    /*  this.http.get(this.environment.ruta + 'php/lista_generales.php', { params: { modulo: 'Grupo' } }).subscribe((data: any) => {
        this.Grupos = data;
      }); */
     this.GetActividadesMes();
@@ -376,7 +376,7 @@ export class ActividadesComponent {
     this.actividadObj = this.calendarEvents.find((x) => x.id == id);
 
     console.log(this.actividadObj);
-    
+
     if (this.actividadObj.state != 'Anulada') {
       this.eventoActividad = event;
       Swal.fire({
@@ -408,7 +408,7 @@ export class ActividadesComponent {
       this.ActividadModel.Id_Dependencia = "Todas";
       this.ActividadModel.Funcionario_Asignado = "Todas";
     } else {
-       this.http.get(this.globales.ruta + 'php/alertas/alerta_grupo_dependencia.php', { params: { id: Grupo } }).subscribe((data: any) => {
+       this.http.get(this.environment.ruta + 'php/alertas/alerta_grupo_dependencia.php', { params: { id: Grupo } }).subscribe((data: any) => {
        this.Dependencias = data;
        });
     } */

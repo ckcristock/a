@@ -102,7 +102,7 @@
                                                         <a class="dropdown-item waves-light waves-effect caja-botones" [routerLink]="['editar', proveedor.Id_Proveedor]"> <i class="ti-pencil"></i>Editar</a>
                                                         <a class="dropdown-item waves-light waves-effect caja-botones" [routerLink]="['ver', proveedor.Id_Proveedor]"> <i class="fa fa-eye"></i>Ver</a>
                                                         <a class="dropdown-item waves-light waves-effect caja-botones" [routerLink]="['/base/proveedorlista', proveedor.Id_Proveedor]"> <i class="fa fa-list"></i>Lista</a>
-                                                        <a *ngIf="proveedor.Rut != ''" class="dropdown-item waves-light waves-effect caja-botones" href="{{globales.ruta}}/ARCHIVOS/CONTABILIDAD/RUTS/{{proveedor.Rut}}" target="_blank"> <i class="fa fa-book"></i>Ver RUT</a>
+                                                        <a *ngIf="proveedor.Rut != ''" class="dropdown-item waves-light waves-effect caja-botones" href="{{environment.ruta}}/ARCHIVOS/CONTABILIDAD/RUTS/{{proveedor.Rut}}" target="_blank"> <i class="fa fa-book"></i>Ver RUT</a>
                                                         <a *ngIf="miPerfil == '27'" class="dropdown-item waves-light waves-effect caja-botones" [swal]="{ title : '¿Está Seguro?', text : 'Se dispone a cambiar el estado de este proveedor.' , icon : 'warning', showCancelButton : true , confirmButtonText : 'Si, Cambiar', cancelButtonText : 'No, Dejame Comprobar!' }"
                                                             (confirm)="cambiarEstado(proveedor.Id_Proveedor)"> <i class="fa fa-power-off"></i> {{ proveedor.Estado == 'Activo' ? 'Inactivar' : 'Activar' }}</a>
 

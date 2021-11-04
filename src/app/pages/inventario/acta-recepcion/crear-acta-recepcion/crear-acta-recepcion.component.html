@@ -95,7 +95,7 @@
                                                 <p style="font-size:8px;">No se han aplicado retenciones</p>
                                               </div>
                                             </div>
-                                            <div *ngIf="item.Retenciones.length > 0">                                              
+                                            <div *ngIf="item.Retenciones.length > 0">
                                                 <span class="f-12 mb-2">Retenciones</span>
                                                             <div class="row" *ngFor="let rt of item.Retenciones">
                                                                 <div class="col-md-12 text-center">
@@ -170,7 +170,7 @@
                                 <img *ngIf="item.Foto == ''" class="img-radius imagen"
                                     src="assets/images/user.jpg" alt="" id="foto_visual{{i}}" style="cursor: pointer;">
                                 <img *ngIf="item.Foto != ''" class="img-radius imagen"
-                                    src="{{globales.ruta}}IMAGENES/PRODUCTOS/{{item.Foto}}" alt="" id="foto_visual{{i}}" style="cursor: pointer;">
+                                    src="{{environment.ruta}}IMAGENES/PRODUCTOS/{{item.Foto}}" alt="" id="foto_visual{{i}}" style="cursor: pointer;">
                             </label>
                                             <input name="Foto{{i}}" id="Foto{{i}}" type="file" accept="image/png, image/jpeg" class="form-control form-control-sm text-right f-9" style="display: none" (change)="CargaFoto($event,i)">
                                             <i *ngIf="item.Codigo_Barras == 'Si'" class="fa fa-barcode text-danger" style="font-size: 34px;" title="Posee código de barras"></i>
@@ -207,7 +207,7 @@
                                     </td>
                                     <td>
                                         <br>
-                                        <span class="mytooltip tooltip-effect-2"><span class="tooltip-item2"> <p style="font-size:11px"> 
+                                        <span class="mytooltip tooltip-effect-2"><span class="tooltip-item2"> <p style="font-size:11px">
                         <i class="fa fa-archive fa-lg"></i>  </p></span><span class="tooltip-content4 clearfix"><span class="tooltip-text2">{{item.Embalaje}}</span></span>
                                         </span>
 
@@ -247,7 +247,7 @@
                                                         [(ngModel)]="item.Precio" id=Precio{{item.Id_Producto+j+i}} [disabled]="item.Disabled" [required]="item.Required">
                                                 </td>
                                                 <td>
-                                                    <select class="form-control form-control-sm" name="Impuesto{{item.Id_Producto+j+i}}" id="Impuesto{{item.Id_Producto+j+i}}" (change)="capturarDigitacion(i, j, item.Id_Producto+j+i)" [(ngModel)]="item.Impuesto">                                     
+                                                    <select class="form-control form-control-sm" name="Impuesto{{item.Id_Producto+j+i}}" id="Impuesto{{item.Id_Producto+j+i}}" (change)="capturarDigitacion(i, j, item.Id_Producto+j+i)" [(ngModel)]="item.Impuesto">
                                       <option *ngFor="let impuesto of Impuesto; let i=index" [value]="impuesto.Valor">{{impuesto.Valor}}</option>
                                     </select>
                                                 </td>

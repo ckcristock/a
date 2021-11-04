@@ -2,13 +2,7 @@ import { Component, OnInit, ViewChild } from '@angular/core';
 import { NgForm } from '@angular/forms';
 import { DataDinamicService } from '../../../../data-dinamic.service';
 import { PersonService } from './profesionales.service';
-import {functionsUtils} from '../../../../core/utils/functionsUtils';
-
-// @Component({
-//   selector: 'app-profesionales',
-//   templateUrl: './profesionales.component.html',
-//   styleUrls: ['./profesionales.component.scss']
-// })
+import { functionsUtils } from '../../../../core/utils/functionsUtils';
 
 @Component({
   selector: 'app-professionals',
@@ -134,25 +128,15 @@ export class ProfessionalsComponent implements OnInit {
     }
     functionsUtils.fileToBase64(file).subscribe(base64 => {
       this.base64Output = base64;
-      console.log(this.base64Output);
     });
-    /* reader.onload = this._handleReaderLoaded.bind(this); */
-    // reader.readAsDataURL(file);
-
   }
   imageSrc = ''
- 
+
 
   guardar(form: NgForm) {
     this.saving = true;
     let values = form.value
     let sendForm = new FormData();
-    /*  for (const key in values) {
-       console.log(key,values[key]);
-       sendForm.append(key+'', values[key]+'')
-     } */
-
-
     sendForm.append('image', 'SDASD')
     this._person.storePeople(form.value).subscribe(r => {
     })
@@ -193,7 +177,6 @@ export class ProfessionalsComponent implements OnInit {
   getCompanies() {
     this._dataDinamic.getCompanies(1).subscribe((req: any) => {
       this.companies = req.data
-      /*   this.companies.unshift({ text: 'Seleccione', value: '' }) */
     })
   }
 

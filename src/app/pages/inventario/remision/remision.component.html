@@ -164,22 +164,22 @@
                         <i class="ti-eye"></i> Ver</a>
 
                       <a *ngIf="remision.Estado!='Anulada'" class="dropdown-item waves-light waves-effect caja-botones"
-                        href="{{globales.ruta}}/php/archivos/descarga_pdf.php?tipo=Remision&id={{remision.Id_Remision}}"
+                        href="{{env.ruta}}/php/archivos/descarga_pdf.php?tipo=Remision&id={{remision.Id_Remision}}"
                         target="_blank">
                         <i class="fa fa-print"></i> Archivo</a>
                       <a *ngIf="remision.Estado!='Anulada'&&remision.Tipo=='Cliente'"
                         class="dropdown-item waves-light waves-effect caja-botones"
-                        href="{{globales.ruta}}/php/archivos/descarga_pdf_price.php?tipo=Remision&id={{remision.Id_Remision}}"
+                        href="{{env.ruta}}/php/archivos/descarga_pdf_price.php?tipo=Remision&id={{remision.Id_Remision}}"
                         target="_blank">
                         <i class="fa fa-print"></i> Archivo con Costos</a>
 
                       <a *ngIf="remision.Estado!='Anulada'" class="dropdown-item waves-light waves-effect caja-botones"
-                        href="{{globales.ruta}}/php/archivos/descarga_zebra.php?id={{remision.Id_Remision}}"
+                        href="{{env.ruta}}/php/archivos/descarga_zebra.php?id={{remision.Id_Remision}}"
                         target="_blank">
                         <i class="fa fa-ticket"></i> Imprimir Etiqueta</a>
 
                       <a *ngIf="remision.Estado!='Anulada'" class="dropdown-item waves-light waves-effect caja-botones"
-                        href="{{globales.ruta}}/php/archivos/descarga_excel.php?id={{remision.Id_Remision}}"
+                        href="{{env.ruta}}/php/archivos/descarga_excel.php?id={{remision.Id_Remision}}"
                         target="_blank">
                         <i class="fa fa-file-excel-o"></i> Descargar Plano</a>
 
@@ -200,7 +200,7 @@
 
                       <a *ngIf="remision.Estado!='Anulada' && remision.Entrega_Pendientes=='Si'"
                         class="dropdown-item waves-light waves-effect caja-botones"
-                        href="{{globales.ruta}}/php/remision/entrega_pendientes_pdf.php?id={{remision.Id_Remision}}"
+                        href="{{env.ruta}}/php/remision/entrega_pendientes_pdf.php?id={{remision.Id_Remision}}"
                         target="_blank">
                         <i class="fa fa-print"></i> Documento Disp.</a>
                     </div>
