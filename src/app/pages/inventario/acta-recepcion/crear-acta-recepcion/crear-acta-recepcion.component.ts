@@ -49,7 +49,10 @@ export class CrearActaRecepcionComponent implements OnInit {
 
     return suma;
   };
-  public user: any = JSON.parse(localStorage.getItem('User'));
+  //TODO auth usuario
+  public user: any = {
+    Identificacion_Funcionario : '1'
+  };
   public Subcategoria: any = [];
   public Subtotal_Final = 0;
   public Retenciones_Totales = 0;
@@ -215,10 +218,12 @@ export class CrearActaRecepcionComponent implements OnInit {
       this.CalcularRetencionesProveedor();
     }, 1000);
   }
-
+  getRetencionesPorModalidad(p:any){
+    return this.http.get(environment.ruta+'php/GENERALES/retenciones/get_retenciones_modalidad.php', {params:p});
+  }
   GetRetencionesCompras() {
     let p = { modalidad: 'compras' };
-    this.retencionService
+    this
       .getRetencionesPorModalidad(p)
       .subscribe((data: any) => {
         if (data.length > 0) {
@@ -296,8 +301,8 @@ export class CrearActaRecepcionComponent implements OnInit {
         ' no es valida por favor Revise, debe ser mayor a ' +
         this.Mes +
         ' Meses.';
-      this.confirmacionSwal.type = 'error';
-      this.confirmacionSwal.show();
+      this.confirmacionSwal.icon = 'error';
+      this.confirmacionSwal.fire();
       this.Lista_Productos[pos].producto[pos2].Fecha_Vencimiento = '';
     }
   }
@@ -345,8 +350,8 @@ export class CrearActaRecepcionComponent implements OnInit {
       this.confirmacionSwal.title = 'Error en Cantidad';
       this.confirmacionSwal.html =
         'La cantidad no conforme no debe ser superior a la cantidad recibida de este producto.';
-      this.confirmacionSwal.type = 'error';
-      this.confirmacionSwal.show();
+      this.confirmacionSwal.icon = 'error';
+      this.confirmacionSwal.fire();
       (
         document.getElementById(
           'Cantidad_No_Conforme' + pos3
@@ -616,8 +621,8 @@ export class CrearActaRecepcionComponent implements OnInit {
           `;
               this.confirmacionSwal.title = '';
               this.confirmacionSwal.html = html;
-              this.confirmacionSwal.type = 'warning';
-              this.confirmacionSwal.show();
+              this.confirmacionSwal.icon = 'warning';
+              this.confirmacionSwal.fire();
             }
           } else {
             this.confirmacionSwal.title = 'No existe';
@@ -625,8 +630,8 @@ export class CrearActaRecepcionComponent implements OnInit {
               'El código de barras ingresado: ' +
               codigo +
               ' no corresponde a ningun de nuestros productos registrados en nuestra Base de Datos';
-            this.confirmacionSwal.type = 'error';
-            this.confirmacionSwal.show();
+            this.confirmacionSwal.icon = 'error';
+            this.confirmacionSwal.fire();
           }
         });
     }
@@ -697,16 +702,16 @@ export class CrearActaRecepcionComponent implements OnInit {
         if (data.tipo == 'success') {
           this.confirmacionSwal.title = 'Acta de recepción Guardada';
           this.confirmacionSwal.html = data.mensaje;
-          this.confirmacionSwal.type = data.tipo;
-          this.confirmacionSwal.show();
+          this.confirmacionSwal.icon = data.tipo;
+          this.confirmacionSwal.fire();
           this.VerPantallaLista();
           formulario.reset();
           localStorage.removeItem('Facturas');
         } else {
           this.confirmacionSwal.title = 'Oops!';
           this.confirmacionSwal.html = data.mensaje;
-          this.confirmacionSwal.type = data.tipo;
-          this.confirmacionSwal.show();
+          this.confirmacionSwal.icon = data.tipo;
+          this.confirmacionSwal.fire();
         }
       });
   }
@@ -781,15 +786,15 @@ export class CrearActaRecepcionComponent implements OnInit {
       this.confirmacionSwal.title = 'Error en Cantidad';
       this.confirmacionSwal.html =
         'La cantidad recibida no debe ser superior a la cantidad pedida de este producto.';
-      this.confirmacionSwal.type = 'error';
-      this.confirmacionSwal.show();
+      this.confirmacionSwal.icon = 'error';
+      this.confirmacionSwal.fire();
       (document.getElementById('Cantidad' + pos3) as HTMLInputElement).value =
         '';
     }
   }
 
   VerPantallaLista() {
-    this.router.navigate(['/actarecepcionnuevo']);
+    this.router.navigate(['/inventario/acta-recepcion']);
   }
 
   productoNoRecibido(pos) {
@@ -804,8 +809,8 @@ export class CrearActaRecepcionComponent implements OnInit {
         .setAttribute('class', 'label-danger');
       this.confirmacionSwal.title = 'Aviso';
       this.confirmacionSwal.html = 'Has marcado el producto como no recibido.';
-      this.confirmacionSwal.type = 'info';
-      this.confirmacionSwal.show();
+      this.confirmacionSwal.icon = 'info';
+      this.confirmacionSwal.fire();
       // console.log(this.Lista_Productos);
     } else {
       this.Lista_Productos[pos].No_Conforme = 0;

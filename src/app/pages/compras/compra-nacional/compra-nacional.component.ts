@@ -69,8 +69,6 @@ export class CompraNacionalComponent implements OnInit {
   
     constructor(private http: HttpClient,  private location: Location, private route: ActivatedRoute) {
       this.ListarComprasNacionales();
-      /*this.ListarActaRecepcionPendientes();
-      this.ListarComprasEstado();*/
       this.getDiasAnulacion();
       this.getFuncioriosParaResponsables();
     }
@@ -80,58 +78,9 @@ export class CompraNacionalComponent implements OnInit {
       this.http.get(environment.ruta+'php/rotativoscompras/lista_pre_compra.php').subscribe((data:any)=>{
         this.Pre_Compras = data;
       });
-    
-      //this.cargarIndicadores();
-     /* this.http.get(environment.ruta+'/php/comprasnacionales/grafica_compras_mensual.php').subscribe((db:any)=>{
-        db.forEach(element => {
-          this.mes.push(element.Mes);
-          this.subtotal.push(element.Subtotal);
-        });
-        setTimeout(() => {
-          const facturacion_tag = (((<HTMLCanvasElement>this.studentChart.nativeElement).children));
-          this.facturacionChartTag = ((facturacion_tag['facturacion_chart']).lastChild).getContext('2d');
-                const def = (this.facturacionChartTag).createLinearGradient(500, 0, 100, 0);
-          def.addColorStop(0, '#2ed8b6');
-          def.addColorStop(1, '#7cffe5');
-          this.studentChartData = {
-            labels: this.mes,
-            datasets: [ {
-              label: 'Costo',
-              borderColor: def,
-              pointBorderColor: '#fff',
-              pointBackgroundColor: def,
-              pointHoverBackgroundColor: def,
-              pointHoverBorderColor: def,
-              pointBorderWidth: 2,
-              pointHoverRadius: 10,
-              pointHoverBorderWidth: 1,
-              pointRadius: 8,
-              fill: false,
-              borderWidth: 2,
-              data: (this.subtotal)
-            }]
-          };
-          
-        }, 75);
-      });*/
+
     }
   
-    /*ListarComprasEstado(){
-      // console.log(this.user.Identificacion_Funcionario);
-      this.http.get(environment.ruta+'php/comprasnacionales/lista_compras_estado.php', { params: { funcionario: this.user.Identificacion_Funcionario, estado: 'Pendiente' } }).subscribe((data:any)=>{
-        this.Compras_Pendientes = data;
-      });
-      this.http.get(environment.ruta+'php/comprasnacionales/lista_compras_estado.php', { params: { funcionario: this.user.Identificador_Funcionario, estado: 'Rechazada' } }).subscribe((data:any)=>{
-        this.Compras_Rechazadas = data;
-      });
-    }
-  
-    ListarActaRecepcionPendientes(){
-      this.http.get(environment.ruta+'php/comprasnacionales/lista_acta_recepcion_pendientes.php').subscribe((data:any)=>{
-        this.Actas_Pendientes = data;
-        // console.log(data);
-      })
-    }*/
     
     ListarComprasNacionales() {
   

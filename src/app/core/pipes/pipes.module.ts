@@ -9,7 +9,7 @@ import { TimePipe } from "./time.pipe";
 
 @NgModule({
     declarations: [ImagePipe, ObjToArrayPipe, PuntosPipe, TimePipe, MinWordsPipe, SafePipe, CustomcurrencyPipe],
-    exports: [ImagePipe, ObjToArrayPipe, PuntosPipe, TimePipe, MinWordsPipe, SafePipe, CustomcurrencyPipe],
+    exports: [ImagePipe, ObjToArrayPipe, PuntosPipe, TimePipe, MinWordsPipe, SafePipe, CustomcurrencyPipe]
 })
 
 export class PipesModule { }
