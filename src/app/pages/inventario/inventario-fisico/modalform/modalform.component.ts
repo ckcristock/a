@@ -55,6 +55,7 @@ export class ModalformComponent implements OnInit {
     }
 
 
+
     let params: any = {
       Contador:  this.Funcionario_Cuenta,
       Digitador: this.Funcionario_Digita,
@@ -69,7 +70,7 @@ export class ModalformComponent implements OnInit {
           // localStorage.setItem("queryParams", '?' + Object.keys(params).map(key => key + '=' + params[key]).join('&'));
           // this.queryParams = '?' + Object.keys(params).map(key => key + '=' + params[key]).join('&');
           //  this.router.navigate(['/inventariobarrido']);
-          this.router.navigate(['/inventarioestibas',data.Id_Doc_Inventario_Fisico]);
+          this.router.navigate(['/inventario/inventario-estiba',data.Id_Doc_Inventario_Fisico]);
           this.activeModal.close('Close click')
 
           const modalAlertReference = this.modalService.open(ModalAlert, { size: 'lg', centered: true, backdrop:'static'});

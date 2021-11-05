@@ -1,84 +1,84 @@
-
-Form{
-    .form-control-sm{
+Form {
+    .form-control-sm {
         font-size: 11px !important;
         padding: 2px 5px !important;
         height: 22px !important;
         border-radius: 5px !important;
     }
-    label{
-        font-size: 11px!important;
+    label {
+        font-size: 11px !important;
     }
 }
-.columna1{
+.columna1 {
     padding: 3px;
     border: 1px solid #cccccc;
     border-right: 0;
     background: #efefef;
 }
-.columna2{
+.columna2 {
     padding: 3px;
     border: 1px solid #cccccc;
     border-left: 0;
     background: #efefef;
 }
-.form-control{
+.form-control {
     height: auto !important;
     font-size: 10px;
     line-height: 12px;
     padding: 3px 3px 3px 10px;
     border-radius: 5px !important;
 }
-.btn-mini{
+.btn-mini {
     padding: 4px 6px 2px 6px !important;
-    vertical-align: middle!important;
+    vertical-align: middle !important;
 }
-.dropdown-menu{
-    min-width: 5rem!important;
+.dropdown-menu {
+    min-width: 5rem !important;
 }
-.caja-botones{
-    padding: 3px 9px !important; 
-    font-size: 10px!important;
+.caja-botones {
+    padding: 3px 9px !important;
+    font-size: 10px !important;
 }
 .btn-sm {
-    padding: 5px 10px 5px 10px!important;
+    padding: 5px 10px 5px 10px !important;
     line-height: 14px !important;
     font-size: 10px !important;
     margin-top: 14px !important;
 }
-.card-header{
+.card-header {
     margin-bottom: -18px !important;
 }
-.centrar{
+.centrar {
     text-align: center;
 }
-.form-control-file{
+.form-control-file {
     font-size: 11px !important;
 }
 
-.table{
-    thead{
-        th{
-            padding:2px;
+.table {
+    thead {
+        th {
+            padding: 2px;
             word-wrap: break-word;
             // word-break: break-all;
             white-space: normal;
-            .input-sm, .input-sm:focus{ 
+            .input-sm,
+            .input-sm:focus {
                 font-size: 10px;
                 height: auto !important;
-                padding: 2px 5px; 
+                padding: 2px 5px;
                 line-height: 1 !important;
-                border:0 !important;   
+                border: 0 !important;
                 outline: none !important;
             }
         }
-        .tabla-filtro{
-            padding:0 !important;
+        .tabla-filtro {
+            padding: 0 !important;
             text-align: center;
         }
     }
     font-size: 9px;
-    td{
+    td {
         padding: 0.5rem;
         vertical-align: middle;
         word-wrap: break-word;
@@ -90,7 +90,7 @@ Form{
 .fix {
     left: unset !important;
 }
-.tooltip-content4 {    
+.tooltip-content4 {
     background: #27766a !important;
     border-bottom: 55px solid #27966a !important;
     font-size: 10px !important;
@@ -99,8 +99,6 @@ Form{
 .tooltip-item2 {
     color: #424446 !important;
     font-size: 12px !important;
- 
-   
 }
 .mytooltip:hover .tooltip-item2 {
     color: #fff !important;

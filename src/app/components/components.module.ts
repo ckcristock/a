@@ -1,8 +1,6 @@
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
-import { HttpClientModule } from '@angular/common/http';
-import { UiModule } from '../shared/ui/ui.module';
 import { NgbAccordionModule, NgbAlertModule, NgbToastModule } from '@ng-bootstrap/ng-bootstrap';
 import { ModalBasicComponent } from './modal-basic/modal-basic.component';
 import { SetPacienteComponent } from './paciente/set-paciente/set-paciente.component';
@@ -17,16 +15,12 @@ import { PerfectScrollbarModule } from 'ngx-perfect-scrollbar';
 import { PipesModule } from '../core/pipes/pipes.module';
 import { ModalPaymentComponent } from './modal-payment/modal-payment.component';
 import { NotDataComponent } from './not-data/not-data.component';
-import {
-  NgbPaginationModule,
-  NgbDropdownModule,
-  NgbCollapseModule,
-  NgbNavModule,
-} from '@ng-bootstrap/ng-bootstrap';
+import { NgbPaginationModule } from '@ng-bootstrap/ng-bootstrap';
 import { SearchComponent } from './search/search.component';
 import { ShowErrorsComponent } from './show-errors/show-errors.component';
 import { CabeceraComponent } from './cabecera/cabecera.component';
 import { ApplicantComponent } from './applicant/applicant.component';
+
 
 @NgModule({
   declarations: [
@@ -63,12 +57,7 @@ import { ApplicantComponent } from './applicant/applicant.component';
 
   ],
   imports: [
-
     NgbPaginationModule,
-    // NgbCollapseModule,
-    // NgbNavModule,
-    // ReactiveFormsModule,
-
     NgbAccordionModule,
     FormsModule,
     CommonModule,

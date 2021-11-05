@@ -160,7 +160,7 @@
                                 href="" [routerLink]="['/remisioneditar',remision.Id_Remision]">
                                 <i class="ti-pencil"></i> Editar</a>-->
                       <a class="dropdown-item waves-light waves-effect caja-botones" href=""
-                        [routerLink]="['/remision',remision.Id_Remision]">
+                        [routerLink]="['/inventario/remisiones/remision',remision.Id_Remision]">
                         <i class="ti-eye"></i> Ver</a>
 
                       <a *ngIf="remision.Estado!='Anulada'" class="dropdown-item waves-light waves-effect caja-botones"
@@ -174,13 +174,11 @@
                         <i class="fa fa-print"></i> Archivo con Costos</a>
 
                       <a *ngIf="remision.Estado!='Anulada'" class="dropdown-item waves-light waves-effect caja-botones"
-                        href="{{env.ruta}}/php/archivos/descarga_zebra.php?id={{remision.Id_Remision}}"
-                        target="_blank">
+                        href="{{env.ruta}}/php/archivos/descarga_zebra.php?id={{remision.Id_Remision}}" target="_blank">
                         <i class="fa fa-ticket"></i> Imprimir Etiqueta</a>
 
                       <a *ngIf="remision.Estado!='Anulada'" class="dropdown-item waves-light waves-effect caja-botones"
-                        href="{{env.ruta}}/php/archivos/descarga_excel.php?id={{remision.Id_Remision}}"
-                        target="_blank">
+                        href="{{env.ruta}}/php/archivos/descarga_excel.php?id={{remision.Id_Remision}}" target="_blank">
                         <i class="fa fa-file-excel-o"></i> Descargar Plano</a>
 
                       <!--   <a *ngIf="!perfilAdministrador() && remision.Estado!='Anulada' && remision.Estado_Alistamiento==0 && remision.Fase_1==0" class="dropdown-item waves-light waves-effect caja-botones" (click)="SuspenderRemision(remision.Id_Remision)">

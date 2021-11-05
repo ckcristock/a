@@ -17,11 +17,11 @@ import { functionsUtils } from 'src/app/core/utils/functionsUtils';
 
 
 @Component({
-  selector: 'app-remision',
-  templateUrl: './remision.component.html',
-  styleUrls: ['./remision.component.scss']
+  selector: 'app-remisiones',
+  templateUrl: './remisiones.component.html',
+  styleUrls: ['./remisiones.component.scss']
 })
-export class RemisionComponent implements OnInit {
+export class RemisionesComponent implements OnInit {
 
   public Mes = [];
   public Datos: any = [];

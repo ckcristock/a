@@ -1,6 +1,6 @@
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { RemisionComponent } from './remision.component';
+import { RemisionesComponent } from './remisiones.component';
 import { RemisionRoutes } from './remision.routing';
 import { NgbDropdownModule, NgbModalModule, NgbPaginationModule, NgbTypeaheadModule } from '@ng-bootstrap/ng-bootstrap';
 import { SweetAlert2Module } from '@sweetalert2/ngx-sweetalert2';
@@ -15,6 +15,8 @@ import { ProductosremisionnuevoComponent } from './remisioncrearnuevo/productosr
 import { ModalproductoremisionnuevoComponent } from './modalproductoremisionnuevo/modalproductoremisionnuevo.component';
 import { ModalcambiarproductossimilarnuevoComponent } from './modalcambiarproductossimilarnuevo/modalcambiarproductossimilarnuevo.component';
 import { TruncateModule } from 'ng2-truncate';
+import { RemisioneditarComponent } from './remisioneditar/remisioneditar.component';
+import { RemisionComponent } from './remision/remision.component';
 
 @NgModule({
   imports: [
@@ -34,7 +36,9 @@ import { TruncateModule } from 'ng2-truncate';
     TruncateModule
   ],
   declarations: [
+    RemisionesComponent,
     RemisionComponent,
+    RemisioneditarComponent,
     RemisioncrearnuevoComponent,
     ProductosremisionnuevoComponent,
     ModalproductoremisionnuevoComponent,

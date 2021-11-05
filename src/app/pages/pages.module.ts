@@ -7,15 +7,14 @@ import { PagesRoutingModule } from './pages-routing.module';
 import { ComponentsModule } from '../components/components.module';
 import { HttpClientModule } from '@angular/common/http';
 
+
 @NgModule({
     declarations:[DashboardComponent ],
-    imports:[ 
+    imports:[
         CommonModule,
         FormsModule,
         PagesRoutingModule,
         ComponentsModule,
-        HttpClientModule,
-        
     ],
     exports:[]
 })
