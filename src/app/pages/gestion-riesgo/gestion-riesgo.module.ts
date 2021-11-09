@@ -5,10 +5,12 @@ import { ComponentsModule } from '../../components/components.module';
 
 
 @NgModule({
-        declarations:[],
-        imports:[CommonModule,
+        declarations: [],
+        imports: [
+                CommonModule,
                 GestionRiesgoRoutingModule,
-                ComponentsModule],
+                ComponentsModule
+        ],
 })
 
-export class GestionRiesgoModule{}
+export class GestionRiesgoModule { }

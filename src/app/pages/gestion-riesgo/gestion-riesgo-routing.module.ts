@@ -3,18 +3,17 @@ import { Routes, RouterModule } from '@angular/router';
 
 import { CaracterizacionComponent } from './caracterizacion/caracterizacion.component';
 import { KardexPatologiaComponent } from './kardex-patologia/kardex-patologia.component';
-import { HistoriaClinicaComponent } from './historia-clinica/historia-clinica.component';
 
 
-const routes:Routes = [
-    {path:'caracterizacion', component : CaracterizacionComponent},
-    {path:'kardex-patologia', component : KardexPatologiaComponent},
-    {path:'historia-clinica', component : HistoriaClinicaComponent},
+const routes: Routes = [
+    { path: 'caracterizacion', component: CaracterizacionComponent },
+    { path: 'kardex-patologia', component: KardexPatologiaComponent },
+    { path: 'historia-clinica', loadChildren: () => import('./clinical-history/clinical-history.module').then(m => m.ClinicalHistoryModule) },
 ]
 
 @NgModule({
-    imports:[RouterModule.forChild(routes)],
-    exports:[RouterModule]
+    imports: [RouterModule.forChild(routes)],
+    exports: [RouterModule]
 })
 
-export class GestionRiesgoRoutingModule{}
+export class GestionRiesgoRoutingModule { }

@@ -6,6 +6,8 @@ import { ComprasModule } from './compras/compras.module';
 
 const routes: Routes = [
     { path: '', component: DashboardComponent },
+    { path: 'grafical-resume', loadChildren: () => import('./grafical-module/grafical-module.module').then(m => m.GraficalModuleModule) },
+
     {
         path: 'agendamiento',
         loadChildren: () => import('./agendamiento/agendamiento.module').then(m => m.AgendamientoModule)
@@ -20,10 +22,10 @@ const routes: Routes = [
      * Nueva integracion con core
      */
 
-    { path: 'rrhh',   loadChildren : () => import('./rrhh/rrhh.module').then(m => m.RrhhModule )},
-    { path: 'contabilidad',   loadChildren : () => import('./contabilidad/contabilidad.module').then(m => m.ContabilidadModule )},
-    { path: 'nomina',   loadChildren : () => import('./nomina/nomina.module').then(m => m.NominaModule )},
-    { path: 'crm',   loadChildren : () => import('./crm/crm.module').then(m => m.CrmModule )},
+    { path: 'rrhh', loadChildren: () => import('./rrhh/rrhh.module').then(m => m.RrhhModule) },
+    { path: 'contabilidad', loadChildren: () => import('./contabilidad/contabilidad.module').then(m => m.ContabilidadModule) },
+    { path: 'nomina', loadChildren: () => import('./nomina/nomina.module').then(m => m.NominaModule) },
+    { path: 'crm', loadChildren: () => import('./crm/crm.module').then(m => m.CrmModule) },
 
 
 

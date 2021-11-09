@@ -1,0 +1,153 @@
+<div class="row">
+  <div class="col-12">
+    <div class="card">
+      <div class="card-body">
+
+        <div class="row">
+
+          <div class="form-group col-md-3 col-sm-12">
+            <label>Regional </label>
+            <ng-select [multiple]="true" name="regional" required placeholder="Seleccione" [(ngModel)]="regional">
+              <ng-option [value]="regional.value" *ngFor="let regional of regionals">
+                {{regional.text}}
+              </ng-option>
+            </ng-select>
+          </div>
+
+          <div class="form-group col-md-3 col-sm-12">
+            <label>Rango de Fechas</label>
+
+            <ng-template #t let-date let-focused="focused">
+              <span class="custom-day" [class.focused]="focused" [class.range]="isRange(date)"
+                [class.faded]="isHovered(date) || isInside(date)" (mouseenter)="hoveredDate = date"
+                (mouseleave)="hoveredDate = null">
+                {{ date.day }}
+              </span>
+            </ng-template>
+
+            <input type="text" class="form-control date" (click)="hidden=!hidden" name="daterange" autocomplete="off"
+              required [(ngModel)]="selected" />
+
+            <ngb-datepicker #dp (select)="onDateSelection($event)" placeholder="Seleccione" [displayMonths]="2"
+              [dayTemplate]="t" outsideDays="hidden" [hidden]="hidden">
+            </ngb-datepicker>
+          </div>
+
+          <div class="form-group col-md-3 col-sm-12">
+            <label>Especialidades</label>
+            <ng-select placeholder="Seleccione" name="speciality[]" required [(ngModel)]="speciality">
+              <ng-option [value]="speciality.value" *ngFor="let speciality of specialities">
+                {{speciality.text}}
+              </ng-option>
+            </ng-select>
+          </div>
+
+          <div class="form-group col-md-3 col-sm-12 ">
+            <label for="">Departamento</label>
+            <ng-select name="department" required placeholder="Seleccione" [(ngModel)]="department">
+              <ng-option [value]="department.value" *ngFor="let department of departments">
+                {{department.text}}
+              </ng-option>
+            </ng-select>
+          </div>
+
+
+          <div class="col-md-12 mx-auto text-center">
+            <button class="btn btn-info" (click)="graficar()" [disabled]="disabled">{{text}}</button>
+          </div>
+
+
+        </div>
+
+        <div>
+
+          <div class="row" *ngIf="show">
+            <div *ngFor="let stat of statData" class="col-md-4">
+              <app-stat [title]="stat.title" [value]="stat.value" [icon]="stat.icon"></app-stat>
+            </div>
+          </div>
+
+          <div class="row" *ngIf="show">
+
+            <div class="col-lg-4">
+              <div class="card">
+                <div class="card-body">
+                  <h4 class="card-title mb-4">Tipos de tramite</h4>
+                  <apx-chart class="apex-charts" dir="ltr" [series]="simplePieChart.series"
+                    [chart]="simplePieChart.chart" [labels]="simplePieChart.labels" [legend]="simplePieChart.legend"
+                    [colors]="simplePieChart.colors" [responsive]="simplePieChart.responsive">
+                  </apx-chart>
+                </div>
+              </div>
+            </div>
+
+            <div class="col-lg-4">
+              <div class="card">
+                <div class="card-body">
+                  <h4 class="card-title mb-4">Regionales</h4>
+                  <apx-chart class="apex-charts" dir="ltr" [series]="donutChart.series" [chart]="donutChart.chart"
+                    [labels]="donutChart.labels" [legend]="donutChart.legend" [colors]="donutChart.colors"
+                    [responsive]="donutChart.responsive">
+                  </apx-chart>
+                </div>
+              </div>
+            </div>
+
+            <div class="col-lg-4">
+              <div class="card">
+                <div class="card-body">
+                  <h4 class="card-title mb-4">Departamentos</h4>
+                  <apx-chart class="apex-charts" dir="ltr" [series]="donutChart.series" [chart]="donutChart.chart"
+                    [labels]="donutChart.labels" [legend]="donutChart.legend" [colors]="donutChart.colors"
+                    [responsive]="donutChart.responsive">
+                  </apx-chart>
+                </div>
+              </div>
+            </div>
+
+          </div>
+          <!-- end row -->
+
+          <div class="row" *ngIf="show">
+            <div class="col-lg-6">
+              <div class="card">
+                <div class="card-body">
+                  <h4 class="card-title mb-4">Spline Area</h4>
+                  <apx-chart class="apex-charts" dir="ltr" [series]="splineAreaChart.series"
+                    [chart]="splineAreaChart.chart" [dataLabels]="splineAreaChart.dataLabels"
+                    [stroke]="splineAreaChart.stroke" [colors]="splineAreaChart.colors" [xaxis]="splineAreaChart.xaxis"
+                    [grid]="splineAreaChart.grid" [tooltip]="splineAreaChart.tooltip"></apx-chart>
+                </div>
+              </div>
+              <!--end card-->
+            </div>
+
+            <div class="col-lg-6">
+              <div class="card">
+                <div class="card-body">
+                  <h4 class="card-title mb-4">Column Charts</h4>
+
+                  <apx-chart class="apex-charts" dir="ltr" [series]="basicColumChart.series"
+                    [chart]="basicColumChart.chart" [plotOptions]="basicColumChart.plotOptions"
+                    [yaxis]="basicColumChart.yaxis" [grid]="basicColumChart.grid" [tooltip]="basicColumChart.tooltip"
+                    [stroke]="basicColumChart.stroke" [dataLabels]="basicColumChart.dataLabels"
+                    [xaxis]="basicColumChart.xaxis" [colors]="basicColumChart.colors" [fill]="basicColumChart.fill">
+                  </apx-chart>
+                </div>
+              </div>
+              <!--end card-->
+            </div>
+          </div>
+          <!-- end row -->
+
+
+
+        </div>
+
+      </div>
+
+    </div>
+
+  </div>
+
+</div>

@@ -107,16 +107,14 @@ export class SetPacienteComponent implements OnInit {
   clearSede() {
     this.locations = new Array
     this.paciente.location_id = ''
-    this.locations.unshift({ text: 'Seleccione', value: '' })
   }
 
   getLocations(company_id) {
-
     if (!company_id || !this.companies) { return false; }
     const locations = this.companies.find(x => x.id === company_id)
     if (locations) { this.locations = locations.locations }
-    if (this.paciente.location_id == '') { (this.paciente.location_id = this.locations[0].value) }
-
+    // this.locations.unshift({ text: 'Seleccione', value: '' })
+    if (this.paciente.location_id == '') { (this.paciente.location_id = '') }
   }
 
   validateInfoPatient(formPatient: NgForm) {

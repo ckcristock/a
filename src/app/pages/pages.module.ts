@@ -9,14 +9,14 @@ import { HttpClientModule } from '@angular/common/http';
 
 
 @NgModule({
-    declarations:[DashboardComponent ],
-    imports:[
+    declarations: [DashboardComponent],
+    imports: [
         CommonModule,
         FormsModule,
         PagesRoutingModule,
         ComponentsModule,
     ],
-    exports:[]
+    exports: []
 })
 
 export class PagesModule { }
