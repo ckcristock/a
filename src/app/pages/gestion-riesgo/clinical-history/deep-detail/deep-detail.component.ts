@@ -9,7 +9,7 @@ import { ClinicalHistoryService } from '../clinical-history.service';
   styleUrls: ['./deep-detail.component.scss']
 })
 export class DeepDetailComponent implements OnInit {
-  public data: object;
+  public data: any;
   constructor(private router: ActivatedRoute, private _clinicalHistory: ClinicalHistoryService) { }
 
   ngOnInit() {
@@ -18,7 +18,9 @@ export class DeepDetailComponent implements OnInit {
 
   getData = () => {
     this._clinicalHistory.getClinicalHistoryDetail({ id: this.router.snapshot.params['id'] }).subscribe((data: Response) => {
-      this.data = data;
+      console.log(data);
+      
+      this.data = data.data;
     })
   }
 
