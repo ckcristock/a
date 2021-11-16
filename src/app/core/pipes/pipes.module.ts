@@ -6,10 +6,11 @@ import { ObjToArrayPipe } from "./obj-to-array.pipe";
 import { PuntosPipe } from "./puntos";
 import { SafePipe } from "./safe.pipe";
 import { TimePipe } from "./time.pipe";
+import { ObjToArraykeysPipe } from './obj-to-array-keys.pipe';
 
 @NgModule({
-    declarations: [ImagePipe, ObjToArrayPipe, PuntosPipe, TimePipe, MinWordsPipe, SafePipe, CustomcurrencyPipe],
-    exports: [ImagePipe, ObjToArrayPipe, PuntosPipe, TimePipe, MinWordsPipe, SafePipe, CustomcurrencyPipe]
+    declarations: [ImagePipe, ObjToArrayPipe, PuntosPipe, TimePipe, MinWordsPipe, SafePipe, CustomcurrencyPipe,ObjToArraykeysPipe],
+    exports: [ImagePipe, ObjToArrayPipe, PuntosPipe, TimePipe, MinWordsPipe, SafePipe, CustomcurrencyPipe,ObjToArraykeysPipe]
 })
 
 export class PipesModule { }
