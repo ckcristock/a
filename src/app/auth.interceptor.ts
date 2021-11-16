@@ -45,7 +45,7 @@ export class AuthInterceptor implements HttpInterceptor {
   }
 
   private modifyBody(body: any) {
-    if (body.respuesta) {
+    if (body?.respuesta) {
       if (body.respuesta == 'no autenticado') {
         window.location.reload();
       }

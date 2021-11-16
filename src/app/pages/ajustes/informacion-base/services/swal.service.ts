@@ -39,8 +39,10 @@ export class SwalService {
   }
 
 
-  show({ title, text, icon, timer = 0, showCancel = true }) {
-    return Swal.fire({
+  show({ title, text, icon, timer = 0, showCancel = true,
+
+  },  preConfirm ?  ) {
+    let swal: any = {
       title,
       text,
       icon,
@@ -52,6 +54,16 @@ export class SwalService {
       confirmButtonText: showCancel ? '¡Si, Confirmar!' : 'Ok',
       cancelButtonColor: '#d33',
       cancelButtonText: 'Cancelar',
-    });
+
+    };
+    if (preConfirm) {
+      swal = {...swal,
+        preConfirm,
+        allowOutsideClick : () => !Swal.isLoading(),
+        showLoaderOnConfirm: true
+        }
+    }
+    return Swal.fire(swal)
   }
+
 }
