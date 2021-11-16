@@ -29,12 +29,14 @@ export class ReportesComponent implements OnInit {
   /* @Output() dateRangeSelected: EventEmitter<{}> = new EventEmitter();
  */
   typeReportDefault = 'Reporte de atenciones'
+  identifier: any;
   typeReports = [
     'Reporte de atenciones',
     'Reporte de agendas',
     'Reporte de estado de agendas',
     'Reporte de lista de espera',
   ]
+  show_input: boolean = false;
   constructor(private _dataDinamic: DataDinamicService, private _reportes: ReportesService) {
     this.getCompanies();
     this.getSpecialities();
@@ -55,6 +57,7 @@ export class ReportesComponent implements OnInit {
 
   gettypeReportes() {
     this._dataDinamic.gettypeReportes().subscribe((r: any) => {
+      console.log(r);
       this.typeReports = r
     })
   }
@@ -79,30 +82,22 @@ export class ReportesComponent implements OnInit {
     })
   }
 
+
+  showInput() {
+    let currentTypeReport = this.typeReports.find((type) => {
+      return type['text'] == this.typeReportDefault
+    })
+    this.show_input = Boolean(currentTypeReport['show_input'])
+  }
+
+
   download(form: NgForm) {
-
     this.loading = true;
-
+    console.log(form.value);
     this._reportes.download(form.value).subscribe((response: BlobPart) => {
-
       let blob = new Blob([response], { type: "application/xlsx" });
-
-      // var headers = response['headers'].get('content-disposition');
-      // var filename = headers.match(/filename="(.+)"/)[1];
-
       var filename = 'Reporte' + new Date;
-
-      // console.log([
-
-      //   headers,
-      //   filename
-
-      // ]);
-
-
       let link = document.createElement("a");
-      // const filename = 'InformeCompras'
-
       link.href = window.URL.createObjectURL(blob);
 
       link.download = `${filename}.xlsx`;
@@ -153,8 +148,6 @@ export class ReportesComponent implements OnInit {
       this.toDate = new Date(date.year, date.month - 1, date.day);
       this.hidden = true;
       this.selected = this.fromDate.toLocaleDateString() + '-' + this.toDate.toLocaleDateString();
-
-      //this.dateRangeSelected.emit({ fromDate: this.fromDate, toDate: this.toDate });
 
       this.fromDate = null;
       this.toDate = null;

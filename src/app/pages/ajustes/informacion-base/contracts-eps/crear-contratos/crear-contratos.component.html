@@ -162,9 +162,9 @@
                                 <div class="col-md-3">
                                     <div class="form-group">
                                         <label>Empresa</label>
-                                        <ng-select [items]="companys" required bindLabel="text" bindValue="value"
-                                            placeholder="Seleccione" name="company_id" loadingText="loading"
-                                            formControlName="company_id">
+                                        <ng-select [items]="companys" [multiple]="true" required bindLabel="text"
+                                            bindValue="value" placeholder="Seleccione" name="company_id"
+                                            loadingText="loading" formControlName="company_id">
                                         </ng-select>
 
                                     </div>
@@ -407,10 +407,9 @@
                                                         <div class="form-group">
                                                             <label>Especialidad</label>
                                                             <ng-select [items]="cup.get('specialityList').value"
-                                                                multiple="true" bindLabel="text"
-                                                                bindValue="value" placeholder="Seleccione "
-                                                                name="speciality" loadingText="loading"
-                                                                formControlName="speciality">
+                                                                multiple="true" bindLabel="text" bindValue="value"
+                                                                placeholder="Seleccione " name="speciality"
+                                                                loadingText="loading" formControlName="speciality">
                                                             </ng-select>
 
                                                             <!-- <app-show-errors class="text-danger"

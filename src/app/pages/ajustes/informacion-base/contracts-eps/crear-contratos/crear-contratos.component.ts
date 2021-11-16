@@ -106,14 +106,15 @@ export class CrearContratosComponent implements OnInit {
             end_date: data.data.end_date,
             department_id: this.transformData(data.data.departments),
             municipality_id: this.transformData(data.data.municipalities),
-            company_id: data.data.company_id,
+            company_id:this.transformData(data.data.companies),
+            // company_id: data.data.company_id,
             location_id: this.transformData(data.data.locations),
             poliza: this.fillPolicies(data.data.policies),
             technicalNote: this.fillTechnicalNotes(data.data.technic_notes)
           }
         );
 
-        console.log( this.dataForm);
+        console.log([this.dataForm.value, this.transformData(data.data.companies)]);
       })
     }
   }
@@ -142,6 +143,7 @@ export class CrearContratosComponent implements OnInit {
     await this._dataDinamicService.getDepartments().toPromise().then((req: any) => {
       this.departments = req.data
       this.departments.unshift({ text: 'Seleccione', value: '' })
+      this.departments.unshift({ text: 'Todos', value: 'todos' })
     })
   }
 
@@ -451,7 +453,7 @@ export class CrearContratosComponent implements OnInit {
       price: ['', [Validators.required]],
       // price_list_id: ['', [Validators.required]],
       // variation: ['', [Validators.required, Validators.pattern(this.regexp)]],
-      company_id: ['', [Validators.required]],
+      company_id:  ['', [Validators.required]],
       department_id: ['', [Validators.required]],
       municipality_id: ['', [Validators.required]],
       regimen_id: ['', [Validators.required]],
