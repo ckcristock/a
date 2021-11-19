@@ -10,6 +10,7 @@ import { DatosPilaComponent } from './configuracion-empresa/datos-pila/datos-pil
 import { ConfiguracionRoutingModule } from './configuracion-routing.module';
 import { HttpClientModule } from '@angular/common/http';
 import { CamposTercerosComponent } from './campos-terceros/campos-terceros.component';
+import { NgSelectModule } from '@ng-select/ng-select';
 
 
 
@@ -24,6 +25,7 @@ import { CamposTercerosComponent } from './campos-terceros/campos-terceros.compo
   ],
   imports: [
     CommonModule,
+    NgSelectModule,
     ComponentsModule,
     FormsModule,
     ConfiguracionRoutingModule,

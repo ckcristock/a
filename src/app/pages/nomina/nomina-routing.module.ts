@@ -19,7 +19,7 @@ const routes: Routes = [
     { path: 'vacaciones', component: VacacionesComponent},
     { path: 'primas', component: PrimasComponent},
     { path: 'prima/:anio/:periodo', component: PrimaFuncionarioComponent},
-    { path: 'nomina',   loadChildren : () => import('./nomina/pago-nomina.module').then(m => m.PagoNominaModule )},
+    { path: 'nomina', loadChildren: () => import('./nomina/pago-nomina.module').then(m => m.PagoNominaModule) },
     { path: 'historial-pagos', component: HistorialPagosComponent},
 ]
 

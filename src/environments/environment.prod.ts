@@ -1,7 +1,7 @@
 // enableProdMode()
 
 import { enableProdMode } from '@angular/core';
-enableProdMode();
+// enableProdMode();
 export const environment = {
   production: true,
   base_url: 'https://backend.ateneoerp.com/api',
