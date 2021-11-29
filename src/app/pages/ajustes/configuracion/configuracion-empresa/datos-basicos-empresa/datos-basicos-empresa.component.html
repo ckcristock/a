@@ -1,4 +1,4 @@
-<div class="card">
+<div class="card" *ngIf="show">
     <div class="card-body">
         <div class="card-title">
             <div class="row">
@@ -13,12 +13,12 @@
             </div>
         </div>
         <div class="row">
-            <!-- <p class="col-6 font-weight-bold text-mute item-subtitle">
+            <p class="col-6 font-weight-bold text-mute item-subtitle">
                 Logo Empresa
-            </p> -->
-            <!-- <p class="col-6 font-weight-bold">
-                <img src="../../../../../../assets/images/logo.png" alt="">
-            </p> -->
+            </p>
+            <p class="col-6 font-weight-bold">
+                <img [src]="company.logo  | image" alt="">
+            </p>
             <p class="col-6 font-weight-bold text-mute item-subtitle">
                 Razón Social
             </p>
@@ -41,7 +41,7 @@
                 Email de Contacto
             </p>
             <p class="col-6 font-weight-bold">
-                {{ company.email }}
+                {{ company.email_contact }}
             </p>
             <p class="col-6 font-weight-bold text-mute item-subtitle">
                 Teléfono

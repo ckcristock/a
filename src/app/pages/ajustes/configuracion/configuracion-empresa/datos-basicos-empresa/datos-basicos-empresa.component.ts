@@ -17,6 +17,7 @@ export class DatosBasicosEmpresaComponent implements OnInit {
   form: FormGroup;
   file: string;
   fileString: string | ArrayBuffer = "";
+  show: boolean = false;
   constructor(
     private _configuracionEmpresaService: ConfiguracionEmpresaService,
     private fb: FormBuilder
@@ -41,7 +42,7 @@ export class DatosBasicosEmpresaComponent implements OnInit {
       creation_date: [''],
       email_contact: [''],
       phone: [''],
-      image: ['']
+      logo: ['']
     });
 
   }
@@ -62,9 +63,10 @@ export class DatosBasicosEmpresaComponent implements OnInit {
 
 
   getBasicData() {
+    if (this.company.id) this.show = true;
     this.form.patchValue({
       id: this.company.id,
-      image: '',
+      logo: this.company.logo,
       name: this.company.name,
       document_type: this.company.document_type,
       tin: this.company.tin,
@@ -76,9 +78,8 @@ export class DatosBasicosEmpresaComponent implements OnInit {
   }
 
   saveBasicData() {
-
     let body = { ...this.form.value }
-    body['image'] = this.file
+    body['logo'] = this.file
     this._configuracionEmpresaService.saveCompanyData(body)
       .subscribe((res: any) => {
         console.log(res);

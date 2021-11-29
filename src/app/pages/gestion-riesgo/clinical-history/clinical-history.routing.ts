@@ -1,6 +1,7 @@
 import { Routes, RouterModule } from '@angular/router';
 import { ClinicalHistoryComponent } from './clinical-history.component';
 import { DeepDetailComponent } from './deep-detail/deep-detail.component';
+import { NewClinicalHistoryComponent } from './new-clinical-history/new-clinical-history.component';
 
 const routes: Routes = [
   {
@@ -9,6 +10,9 @@ const routes: Routes = [
   },
   {
     path: 'deep-detail/:id', component: DeepDetailComponent
+  },
+  {
+    path: 'nueva-historia-clinica/:id', component: NewClinicalHistoryComponent
   }
 ];
 

@@ -105,3 +105,31 @@
     </div>
 
 </ng-template>
+
+
+<app-modal-basic [dialogClass]="'modal-lg'" #mymodal id="mymodal">
+    <div class="app-modal-header">
+        <div class="row">
+            <h4 class=" text text-center justify-content-center modal-title   p-1">
+            </h4>
+
+        </div>
+    </div>
+    <div class="app-modal-body text-center">
+        <p class="h5">
+            Tienes una gestión pendiente con el paciente : <span>
+                {{mypatient?.name}} con documento {{mypatient?.identifier}}
+            </span>
+        </p>
+        <app-tipificacion></app-tipificacion>
+        ¿Que sucedió?
+        <textarea class="form-control" name="observacion" id="" cols="30" rows="10"
+            [(ngModel)]="observation"></textarea>
+        <small>¿ Que proceso realizaste ?, Debes finalizar esta gestíón antes de continuar</small>
+    </div>
+    <div class="app-modal-footer ">
+        <div class="text-right " *ngIf="observation.length > 5">
+            <button type="button " class="btn btn-danger btn-sm mr-2" (click)="finalizedCall()">Finalizar</button>
+        </div>
+    </div>
+</app-modal-basic>

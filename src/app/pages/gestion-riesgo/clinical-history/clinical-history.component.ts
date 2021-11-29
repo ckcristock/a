@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { Router } from '@angular/router';
 import { Response } from 'src/app/core/response.model';
 import { ClinicalHistoryService } from './clinical-history.service';
 
@@ -12,9 +13,15 @@ export class ClinicalHistoryComponent implements OnInit {
   public identifier: number;
   histories: Array<Object>;
   loading: boolean = false;
-  constructor(private _clinicalhistory: ClinicalHistoryService) { }
+  constructor(private _clinicalhistory: ClinicalHistoryService, private router: Router) { }
 
   ngOnInit() {
+  }
+
+  newClinicalHistory = () => {
+    this.router.navigate(['/gestion-riesgo/historia-clinica/nueva-historia-clinica', 12345]);
+
+
   }
 
   getClinicalHistory = () => {

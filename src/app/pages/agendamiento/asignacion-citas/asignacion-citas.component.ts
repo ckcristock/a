@@ -1,5 +1,5 @@
 import { HttpClient } from '@angular/common/http';
-import { Component, OnInit, Output, OnDestroy, EventEmitter, ViewChild } from '@angular/core';
+import { Component, OnInit, Output, OnDestroy, EventEmitter, ViewChild, ElementRef } from '@angular/core';
 import { TimerObservable } from 'rxjs/observable/TimerObservable';
 import { environment } from 'src/environments/environment';
 import { QueryPatient } from '../query-patient.service';
@@ -16,6 +16,9 @@ import { dataCitaToAssign } from 'src/app/core/interfaces/dataCitaToAssign.model
 import { SetPacienteComponent } from 'src/app/components/paciente/set-paciente/set-paciente.component';
 import { AssingService } from 'src/app/services/assign.service';
 import { newCallService } from 'src/app/services/newCallService';
+import { AsignacionCitasService } from './tipificacion/asignacion-citas.service';
+import { Response } from 'src/app/core/response.model';
+import { TipificacionComponent } from './tipificacion/tipificacion.component';
 
 
 @Component({
@@ -24,6 +27,8 @@ import { newCallService } from 'src/app/services/newCallService';
   styleUrls: ['./asignacion-citas.component.scss'],
 })
 export class AsignacionCitasComponent implements OnInit {
+  @ViewChild('mymodal') mymodal: any;
+  @ViewChild(TipificacionComponent) tipificacion: TipificacionComponent;
   public getClitasE = new EventEmitter<any>();
 
   @Output()
@@ -44,6 +49,13 @@ export class AsignacionCitasComponent implements OnInit {
   public existPtient;
   public existPtientForShow: boolean = false;
   public getDate;
+
+  public mypatient = {
+    name: '',
+    identifier: 0
+  }
+
+
   public dataFormCall: any = {
     paciente: {},
     llamada: {},
@@ -54,6 +66,8 @@ export class AsignacionCitasComponent implements OnInit {
   public $tramiteData: Subscription;
   tramiteData: any = {}
   public patient;
+  public Id_llamada;
+  public observation: string = '';
 
   public dataCitaToAssign = new dataCitaToAssign();
 
@@ -63,7 +77,8 @@ export class AsignacionCitasComponent implements OnInit {
     private _permisson: PermissionService,
     private _appointment: AppointmentService,
     private _openAgenda: OpenAgendaService,
-    private _newCallService: newCallService
+    private _newCallService: newCallService,
+    private asignacionCitas: AsignacionCitasService
   ) {
 
     if (this.route.snapshot.params.id) {
@@ -76,8 +91,10 @@ export class AsignacionCitasComponent implements OnInit {
   }
 
   ngOnInit(): void {
+
     this.Init();
     this.changeTramite();
+    this.getCallPending();
   }
 
   changeTramite() {
@@ -107,6 +124,17 @@ export class AsignacionCitasComponent implements OnInit {
     setTimeout(() => {
       this.getClitasE.emit({ identifier: this.patient.paciente.identifier });
     }, 200);
+  }
+
+  getCallPending() {
+    this.asignacionCitas.getCallPending().subscribe((res: Response) => {
+      if (res.data) {
+        this.Id_llamada = res.data.id
+        this.mypatient.name = res.data.patient.firstname + ' ' + res.data.patient.surname
+        this.mypatient.identifier = res.data.patient.identifier
+        this.mymodal.show()
+      }
+    });
   }
 
   Init() {
@@ -200,4 +228,28 @@ export class AsignacionCitasComponent implements OnInit {
     }
   }
 
+  finalizedCall() {
+
+    this.tipificacion.data.Id_Llamada
+    this.tipificacion.data.Id_Ambito
+    this.tipificacion.data.Id_Tramite
+    this.tipificacion.data.Id_Tipo_Servicio
+
+    let params = {
+      Id_Llamada: this.Id_llamada,
+      observation: this.observation,
+      Id_Ambito: this.tipificacion.data.Id_Ambito,
+      Id_Tramite: this.tipificacion.data.Id_Tramite,
+      Id_Tipo_Servicio: this.tipificacion.data.Id_Tipo_Servicio
+    }
+
+    this.asignacionCitas.finalizedCall(params).subscribe((data: Response) => {
+
+      if (data.status) {
+        this.mymodal.hide()
+        this.getCallPending();
+      }
+
+    });
+  }
 }
