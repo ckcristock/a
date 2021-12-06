@@ -32,6 +32,10 @@ export class QueryPatient {
     return this.clientHttp.get(`${environment.base_url}/validate-info-patient`, { params: data })
   }
 
+  public finalizeMyManagment() {
+    return this.clientHttp.get(`${environment.base_url}/finalize-my-calls`)
+  }
+
   resetPatient() {
     this.patient.next({ llamada: new Call(), paciente: new Patient() });
   }
@@ -41,9 +45,9 @@ export class QueryPatient {
     if (!patient.type_document_id) throw ({ title, message: 'Es necesario el tipo de documento' })
     if (!patient.identifier) throw ({ title, message: 'Es necesario el número de identificación' })
     if (!patient.firstname) throw ({ title, message: 'Es necesario el primer nombre' })
-    // if(!patient . middlenametitle ,) {message:throw ('Es necesario el segundo nombre'}) 
+    // if(!patient . middlenametitle ,) {message:throw ('Es necesario el segundo nombre'})
     if (!patient.surname) throw ({ title, message: 'Es necesario el primer apellido' })
-    //if(!patient .secondsurnametitle ,) t{message:hrow ('Es necesario el segundo apellido'}) 
+    //if(!patient .secondsurnametitle ,) t{message:hrow ('Es necesario el segundo apellido'})
     if (!patient.eps_id) throw ({ title, message: 'Es necesario la EPS' })
     if (!patient.regimen_id) throw ({ title, message: 'Es necesario el régimen' })
     if (!patient.level_id) throw ({ title, message: 'Es necesario el nivel' })

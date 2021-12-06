@@ -1,4 +1,4 @@
-<div class="card">
+<div class="card" *ngIf="show">
     <div class="card-body">
         <div class="card-title">
             <div class="row">
@@ -51,9 +51,9 @@
         <h5 class="modal-title">Datos De Pila</h5>
         <button type="button" class="close basic-close" (click)="modal.hide()">
             <span aria-hidden="true">
-              <i class="fas fa-times" (click)="modal.hide()"></i>
+                <i class="fas fa-times" (click)="modal.hide()"></i>
             </span>
-          </button>
+        </button>
     </div>
     <div class="app-modal-body">
         <form [formGroup]="form">
@@ -78,19 +78,22 @@
                             </select>
                         </div>
                         <div class="form-check ml-2 mb-2">
-                            <input class="form-check-input" type="checkbox" value="" formControlName="law_1429" id="ley_1429" checked>
+                            <input class="form-check-input" type="checkbox" value="" formControlName="law_1429"
+                                id="ley_1429" checked>
                             <label class="form-check-label" for="ley_1429">
                                 ¿Aplica Para La Ley 1429 de 2010?
                             </label>
                         </div>
                         <div class="form-check ml-2 mb-2">
-                            <input class="form-check-input" type="checkbox" value="" formControlName="law_590" id="ley_590" checked>
+                            <input class="form-check-input" type="checkbox" value="" formControlName="law_590"
+                                id="ley_590" checked>
                             <label class="form-check-label" for="ley_590">
                                 ¿Aplica Para La Ley 590 de 2010?
                             </label>
                         </div>
                         <div class="form-check ml-2 mb-2">
-                            <input class="form-check-input" type="checkbox" value="" formControlName="law_1607" id="ley_1607" checked>
+                            <input class="form-check-input" type="checkbox" value="" formControlName="law_1607"
+                                id="ley_1607" checked>
                             <label class="form-check-label" for="ley_1607">
                                 ¿Aplica Para La Ley 1607 de 2012?
                             </label>

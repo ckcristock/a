@@ -1,5 +1,5 @@
 import { CommonModule } from '@angular/common';
-import { FormsModule } from '@angular/forms';
+import { FormsModule, NgForm, ReactiveFormsModule } from '@angular/forms';
 
 import { AgendamientoRoutingModule } from "./agendamiento-routing.module";
 import { ComponentsModule } from "src/app/components/components.module";
@@ -14,7 +14,6 @@ import { ListaEsperaComponent } from './lista-espera/lista-espera.component';
 import { IndicadoresGestionComponent } from './indicadores-gestion/indicadores-gestion.component';
 import { ReportesComponent } from './reportes/reportes.component';
 import { FullCalendarModule } from '@fullcalendar/angular';
-import { ReactiveFormsModule } from '@angular/forms';
 import { TopWaitingComponent } from './lista-espera/top-waiting/top-waiting.component';
 
 
@@ -27,6 +26,7 @@ import { DetailStatsComponent } from './agendas/detail-stats/detail-stats.compon
 import { PipesModule } from '../../core/pipes/pipes.module';
 import { RecaudosComponent } from './recaudos/recaudos.component';
 import { ReplayMigrateModule } from './replay-migrate/replay-migrate.module';
+import { CallInComponent } from './call-in/call-in.component';
 
 @NgModule({
     declarations: [
@@ -41,12 +41,14 @@ import { ReplayMigrateModule } from './replay-migrate/replay-migrate.module';
         VerAgendaComponent,
         DetailStatsComponent,
         RecaudosComponent,
+        CallInComponent
 
     ],
     imports: [
         NgbNavModule,
         CommonModule,
         FormsModule,
+        ReactiveFormsModule,
         FullCalendarModule,
         NgSelectModule,
         AgendamientoRoutingModule,

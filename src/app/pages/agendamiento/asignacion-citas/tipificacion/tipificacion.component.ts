@@ -3,6 +3,7 @@ import { TipificationData } from 'src/app/core/models/typificationData.model';
 import { TipificationService } from 'src/app/core/services/tipification.service';
 import { QueryPatient } from '../../query-patient.service';
 import { Subscription } from 'rxjs';
+import Swal from 'sweetalert2';
 
 @Component({
   selector: 'app-tipificacion',
@@ -30,11 +31,11 @@ export class TipificacionComponent implements OnInit {
     hasAmbits: 0
   };
 
- 
+
   formalities: any = [];
   ambits: any = [];
   typeServices: any = [];
-  public obsPatient:Subscription;
+  public obsPatient: Subscription;
   constructor(
     private _qp: QueryPatient,
     private _tipification: TipificationService
@@ -85,11 +86,20 @@ export class TipificacionComponent implements OnInit {
     //this.tramite.emit(tramite)
 
 
+
     this.changes()
     this._qp.tramiteSelected.next(this.tramiteSelected);
 
     //}
 
+  }
+
+
+  finalizeMyManagment() {
+    this._qp.finalizeMyManagment().subscribe((data) => {
+      Swal.fire('Gestiones finalizadas', 'Exito', 'success');
+      console.log('gestion, finalizada');
+    })
   }
 
   format() {
@@ -108,5 +118,5 @@ export class TipificacionComponent implements OnInit {
     //Add 'implements OnDestroy' to the class.
     this.obsPatient.unsubscribe();
   }
-  
+
 }

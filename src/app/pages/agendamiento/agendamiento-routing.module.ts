@@ -5,6 +5,7 @@ import { AbrirAgendasComponent } from './abrir-agendas/abrir-agendas.component';
 import { AgendasComponent } from './agendas/agendas.component';
 import { VerAgendaComponent } from './agendas/ver-agenda/ver-agenda.component';
 import { AsignacionCitasComponent } from './asignacion-citas/asignacion-citas.component';
+import { CallInComponent } from './call-in/call-in.component';
 import { IndicadoresGestionComponent } from './indicadores-gestion/indicadores-gestion.component';
 import { ListaEsperaComponent } from './lista-espera/lista-espera.component';
 import { ListaTrabajoComponent } from './lista-trabajo/lista-trabajo.component';
@@ -23,6 +24,7 @@ const routes: Routes = [
     { path: 'agendas', component: AgendasComponent },
     { path: 'recaudos', component: RecaudosComponent },
     { path: 'detalle-agenda/:id', component: VerAgendaComponent },
+    { path: 'llamadas-por-paciente', component: CallInComponent },
     { path: 'replay-migrate', loadChildren: () => import('./replay-migrate/replay-migrate.module').then(m => m.ReplayMigrateModule) }
 ];
 

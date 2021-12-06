@@ -1,7 +1,7 @@
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
-import { NgbAccordionModule, NgbAlertModule, NgbToastModule } from '@ng-bootstrap/ng-bootstrap';
+import { NgbAccordionModule, NgbAlertModule, NgbModule, NgbToastModule } from '@ng-bootstrap/ng-bootstrap';
 import { ModalBasicComponent } from './modal-basic/modal-basic.component';
 import { SetPacienteComponent } from './paciente/set-paciente/set-paciente.component';
 import { DetalleCitaComponent } from './citas/detalle-cita/detalle-cita.component';
@@ -20,6 +20,7 @@ import { SearchComponent } from './search/search.component';
 import { ShowErrorsComponent } from './show-errors/show-errors.component';
 import { CabeceraComponent } from './cabecera/cabecera.component';
 import { ApplicantComponent } from './applicant/applicant.component';
+import { BuilderFormComponent } from '../core/builder-form/builder-form.component';
 
 
 @NgModule({
@@ -37,9 +38,10 @@ import { ApplicantComponent } from './applicant/applicant.component';
     SearchComponent,
     ShowErrorsComponent,
     CabeceraComponent,
-    ApplicantComponent
-
+    ApplicantComponent,
+    BuilderFormComponent
   ],
+
   exports: [
     ModalBasicComponent,
     SetPacienteComponent,
@@ -53,10 +55,14 @@ import { ApplicantComponent } from './applicant/applicant.component';
     ModalPaymentComponent,
     ShowErrorsComponent,
     CabeceraComponent,
-    ApplicantComponent
-
+    ApplicantComponent,
+    BuilderFormComponent
   ],
+
   imports: [
+    NgbModule,
+
+
     NgbPaginationModule,
     NgbAccordionModule,
     FormsModule,
@@ -64,7 +70,8 @@ import { ApplicantComponent } from './applicant/applicant.component';
     NgSelectModule,
     PerfectScrollbarModule,
     PipesModule,
-    NgbToastModule
+    NgbToastModule,
+    ReactiveFormsModule
   ]
 })
 export class ComponentsModule { }

@@ -1,0 +1,82 @@
+<div class="row">
+  <div class="col-12">
+    <div class="card">
+
+      <form [formGroup]="dataForm" (ngSubmit)="searchIdentifier()">
+
+        <div class="card-body">
+          <div class="row p-3">
+
+            <div class="col-md-4 my-2">
+              <div class="form-group">
+                <label>Documento del paciente</label>
+                <input class="form-control" type="number" formControlName="identifier">
+              </div>
+            </div>
+
+            <div class="col-12">
+              <button type="submit" class="btn btn-primary btn-sm btn-block "
+                *ngIf="dataForm.get('identifier').value != 0 && dataForm.get('identifier').value != null">Buscar</button>
+            </div>
+
+
+          </div>
+        </div>
+      </form>
+
+    </div>
+    <div class="card">
+      <div class="card-body p-0">
+        <div class="row" *ngIf="!loading && calls.length > 0; else notData">
+          <div class="col-sm-12">
+            <table class="table table-hover table-bordered small">
+              <thead class="thead-dark">
+                <tr class="text-center text-uppercase">
+                  <th>Fecha Inicio</th>
+                  <th>Fecha Fin</th>
+                  <th>ID Llamda</th>
+                  <th>Agente</th>
+                  <th>Tramite</th>
+                  <th>Ambito</th>
+                  <th>Servicio</th>
+                  <th>Observación</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr *ngFor="let item of calls">
+                  <td>{{item.created_at | date:'dd/MM/yyyy hh:mm a' }}</td>
+                  <td>{{item.finalized_at | date:'dd/MM/yyyy hh:mm a' }}</td>
+                  <td>{{item.Id_Llamada}}</td>
+                  <td>{{item['usuario']['person']['first_name']}} {{item['usuario']['person']['first_surname']}}</td>
+                  <td>{{item?.formality?.name}}</td>
+                  <td>{{item?.ambito?.name}}</td>
+                  <td>{{item?.servicio?.name}}</td>
+                  <td>{{item.observation}}</td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+          <div class="col-sm-12 align-items-right mt-2 ">
+            <div class="text-md-right float-md-right pagination-rounded ">
+
+
+              <ngb-pagination class="pagination-rounded d-flex justify-content-center"
+                [collectionSize]="pagination.collectionSize" (pageChange)="searchIdentifier($event) "
+                [pageSize]="pagination.pageSize" [(page)]="pagination.page" maxSize="5" rotate="true" ellipses="false"
+                boundaryLinks="true"></ngb-pagination>
+
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+
+<!-- <app-detail-stats [showDeitalStat]="showDeitalStat"></app-detail-stats> -->
+
+
+<ng-template #notData>
+  <app-not-data [loading]="loading"></app-not-data>
+</ng-template>

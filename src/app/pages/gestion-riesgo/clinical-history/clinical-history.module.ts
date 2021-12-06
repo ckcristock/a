@@ -5,14 +5,26 @@ import { DetailClinicalHistoryComponent } from '../detail-clinical-history/detai
 import { ClinicalHistoryRoutes } from './clinical-history.routing';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { DeepDetailComponent } from './deep-detail/deep-detail.component';
+import { NgSelectModule } from '@ng-select/ng-select';
+import { ComponentsModule } from 'src/app/components/components.module';
+import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
+import { NewClinicalHistoryComponent } from './new-clinical-history/new-clinical-history.component';
 
 @NgModule({
   imports: [
-    CommonModule,
     ClinicalHistoryRoutes,
+    ReactiveFormsModule,
     FormsModule,
-    ReactiveFormsModule
+    NgSelectModule,
+    ComponentsModule,
+    CommonModule,
+    NgbModule,
   ],
-  declarations: [ClinicalHistoryComponent, DetailClinicalHistoryComponent, DeepDetailComponent]
+  declarations: [
+    ClinicalHistoryComponent,
+    DetailClinicalHistoryComponent,
+    DeepDetailComponent,
+    NewClinicalHistoryComponent
+  ]
 })
 export class ClinicalHistoryModule { }

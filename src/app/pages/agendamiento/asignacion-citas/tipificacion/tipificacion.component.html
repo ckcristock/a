@@ -1,38 +1,42 @@
 <div class="row">
-    <div class="col-lg-12">
-        <div class="card">
-            <div class="card-body">
-                <div class="col-12">
-                    <div class="form-row">
-                        <div class="form-group col-md-4">
-                            <label for="exampleInputPassword1">Trámite</label>
-                            <select class="custom-select custom-select-sm" name="Id_Tramite" (change)="format();tramiteWasChanged();" [(ngModel)]="data.Id_Tramite">
+  <div class="col-lg-12">
+    <div class="card">
+      <div class="card-body">
+        <div class="col-12">
+
+          <div class="form-row">
+            <div class="form-group col-md-4">
+              <label for="exampleInputPassword1">Trámite</label>
+              <select class="custom-select custom-select-sm" name="Id_Tramite" (change)="format();tramiteWasChanged();"
+                [(ngModel)]="data.Id_Tramite">
                 <option [value]="type.id" *ngFor="let type of formalities">
                   {{ type.name }}
                 </option>
               </select>
-                        </div>
-                        <div class="form-group col-md-4" *ngIf="tramiteSelected.hasAmbits == 1">
-                            <label for="exampleInputPassword1">Tipo de Ámbito</label>
-                            <select class="custom-select custom-select-sm" name="Id_Tipo_Identificacion" (change)="changes()" [(ngModel)]="data.Id_Ambito">
+            </div>
+            <div class="form-group col-md-4" *ngIf="tramiteSelected.hasAmbits == 1">
+              <label for="exampleInputPassword1">Tipo de Ámbito</label>
+              <select class="custom-select custom-select-sm" name="Id_Tipo_Identificacion" (change)="changes()"
+                [(ngModel)]="data.Id_Ambito">
                 <option value="">Seleccione un ámbito</option>
                 <option [value]="type.id" *ngFor="let type of ambits">
                   {{ type.name }}
                 </option>
               </select>
-                        </div>
-                        <div class="form-group col-md-4" *ngIf="tramiteSelected.hasTypeServices == 1">
-                            <label for="exampleInputPassword1">Tipo de Servicio</label>
-                            <select class="custom-select custom-select-sm" name="Id_Tipo_Identificacion" (change)="changes()" [(ngModel)]="data.Id_Tipo_Servicio">
+            </div>
+            <div class="form-group col-md-4" *ngIf="tramiteSelected.hasTypeServices == 1">
+              <label for="exampleInputPassword1">Tipo de Servicio</label>
+              <select class="custom-select custom-select-sm" name="Id_Tipo_Identificacion" (change)="changes()"
+                [(ngModel)]="data.Id_Tipo_Servicio">
                 <option value="">Seleccione un Servicio</option>
                 <option [value]="type.id" *ngFor="let type of typeServices">
                   {{ type.name }}
                 </option>
               </select>
-                        </div>
-                    </div>
-                </div>
             </div>
+          </div>
         </div>
+      </div>
     </div>
+  </div>
 </div>
