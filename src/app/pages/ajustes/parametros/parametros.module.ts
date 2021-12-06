@@ -15,17 +15,18 @@ import { DepartamentosComponent } from './departamentos/departamentos.component'
 import { MunicipiosComponent } from './municipios/municipios.component';
 import { BancosComponent } from './bancos/bancos.component';
 import { CuentasBancariasComponent } from './cuentas-bancarias/cuentas-bancarias.component';
-
-
+import { CategoriasComponent } from './categorias/categorias.component';
+import { SubcategoriasComponent } from './subcategorias/subcategorias.component';
+import { SweetAlert2Module } from '@sweetalert2/ngx-sweetalert2';
 
 @NgModule({
     declarations : [
-        NotasTecnicasComponent, 
-        PerfilesComponent, 
-        ZonasComponent, 
-        RgpComponent, EpsComponent, DepartamentosComponent, MunicipiosComponent, BancosComponent, CuentasBancariasComponent
+        NotasTecnicasComponent,
+        PerfilesComponent,
+        ZonasComponent,
+        RgpComponent, EpsComponent, DepartamentosComponent, MunicipiosComponent, BancosComponent, CuentasBancariasComponent, CategoriasComponent, SubcategoriasComponent
     ],
-    imports: [ 
+    imports: [
         ParametrosRoutingModule,
         ReactiveFormsModule,
         ComponentsModule,
@@ -34,7 +35,10 @@ import { CuentasBancariasComponent } from './cuentas-bancarias/cuentas-bancarias
         NgbPaginationModule,
         FormsModule,
         NgSelectModule,
-        CommonModule
+        CommonModule,
+        SweetAlert2Module.forRoot(),
+
+
     ],
     exports: []
 })

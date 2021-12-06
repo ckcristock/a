@@ -11,8 +11,7 @@
                 <div class="col-md-12">
                     <div class="row">
                         <div class="col-md-3">
-                            <select class="form-control form-control-sm" [(ngModel)]="bodega_selected"
-                                (change)="buscar_categorias($event.target.value)">
+                            <select class="form-control form-control-sm" [(ngModel)]="bodega_selected" (change)="buscar_categorias($event.target.value)">
                                 <option value="0" selected>Todas</option>
                                 <option *ngFor="let item of bodegas_nuevo" [value]="item.Id_Bodega_Nuevo">{{ item.Nombre
                                     }}
@@ -27,15 +26,12 @@
                             </select>
                         </div>
                         <div class="col-md-2" style="padding-left: 0">
-                            <button class="btn btn-primary btn-sm"
-                                style="line-height: 0 !important; margin-top: 0 !important"
-                                (click)="buscar_productos()">
+                            <button class="btn btn-primary btn-sm" style="line-height: 0 !important; margin-top: 0 !important" (click)="buscar_productos()">
                                 <i class="fa fa-search"></i> Buscar
                             </button>
                         </div>
                         <div class="col-md-2 columna1">
-                            <select class="form-control form-control-sm" id="lista" [(ngModel)]="lista_informe"
-                                (change)="filtro()">
+                            <select class="form-control form-control-sm" id="lista" [(ngModel)]="lista_informe" (change)="filtro()">
                                 <option value="" selected>Productos Sin Lista</option>
                                 <option *ngFor="let item of listas" [value]="item.Id_Lista_Ganancia">
                                     {{ item.Nombre }} </option>
@@ -64,54 +60,43 @@
             </div>
 
             <div class="form-group col-md-2">
-                <input type='text' class="form-control input-sm" [(ngModel)]="filtro_nom" placeholder='Nombre Producto'
-                    (change)='filtro()' />
+                <input type='text' class="form-control input-sm" [(ngModel)]="filtro_nom" placeholder='Nombre Producto' (change)='filtro()' />
             </div>
             <div class="form-group col-md-2">
-                <input type='text' class="form-control input-sm" [(ngModel)]="filtro_grupo" placeholder='Grupo Estiba'
-                    (change)='filtro()' />
+                <input type='text' class="form-control input-sm" [(ngModel)]="filtro_grupo" placeholder='Grupo Estiba' (change)='filtro()' />
             </div>
             <div class="form-group col-md-2">
-                <input type='text' class="form-control input-sm" [(ngModel)]="filtro_lab" placeholder='Lab. Comercial'
-                    (change)='filtro()' />
+                <input type='text' class="form-control input-sm" [(ngModel)]="filtro_lab" placeholder='Lab. Comercial' (change)='filtro()' />
             </div>
             <div class="form-group col-md-2">
-                <input type='text' class="form-control input-sm" [(ngModel)]="filtro_lab_gen"
-                    placeholder='Lab. Genérico' (change)='filtro()' />
+                <input type='text' class="form-control input-sm" [(ngModel)]="filtro_lab_gen" placeholder='Lab. Genérico' (change)='filtro()' />
             </div>
             <div class="form-group col-md-2">
-                <input type='text' class="form-control input-sm" [(ngModel)]="filtro_invima" placeholder='Invima'
-                    (change)='filtro()' />
+                <input type='text' class="form-control input-sm" [(ngModel)]="filtro_invima" placeholder='Invima' (change)='filtro()' />
             </div>
             <div class="form-group col-md-2">
-                <input type='text' class="form-control input-sm" [(ngModel)]="filtro_cum" placeholder='Cod. CUM'
-                    (change)='filtro()' />
+                <input type='text' class="form-control input-sm" [(ngModel)]="filtro_cum" placeholder='Cod. CUM' (change)='filtro()' />
             </div>
 
 
             <div class="form-group col-md-2">
-                <input type='text' class="form-control input-sm" [(ngModel)]="filtro_lote" placeholder=' Lote'
-                    (change)='filtro()' />
+                <input type='text' class="form-control input-sm" [(ngModel)]="filtro_lote" placeholder=' Lote' (change)='filtro()' />
             </div>
 
             <div class="form-group col-md-2">
-                <input type="number" class="form-control input-sm" min="0" [(ngModel)]="filtro_cant"
-                    placeholder="Cantidad Disponible" (change)="filtro()">
+                <input type="number" class="form-control input-sm" min="0" [(ngModel)]="filtro_cant" placeholder="Cantidad Disponible" (change)="filtro()">
             </div>
 
 
             <div class="form-group col-md-2">
-                <input type="number" class="form-control input-sm" min="0" [(ngModel)]="filtro_cant_apar"
-                    placeholder="Cantidad Apartada" (change)="filtro()">
+                <input type="number" class="form-control input-sm" min="0" [(ngModel)]="filtro_cant_apar" placeholder="Cantidad Apartada" (change)="filtro()">
             </div>
             <div class="form-group col-md-2">
-                <input type="number" class="form-control input-sm" min="0" [(ngModel)]="filtro_cant_sel"
-                    placeholder="Cantidad Seleccionada" (change)="filtro()">
+                <input type="number" class="form-control input-sm" min="0" [(ngModel)]="filtro_cant_sel" placeholder="Cantidad Seleccionada" (change)="filtro()">
             </div>
             <div class="form-group col-md-2 d-flex flex-row">
                 <label for="Iva" class="mr-2">Iva</label>
-                <select name="Iva" id="Iva" class="form-control form-control-sm " [(ngModel)]="filtro_iva"
-                    (change)="filtro()">
+                <select name="Iva" id="Iva" class="form-control form-control-sm " [(ngModel)]="filtro_iva" (change)="filtro()">
                     <option value="">Todos</option>
                     <option value="Si">Si</option>
                     <option value="No">No</option>
@@ -120,8 +105,7 @@
             </div>
             <div class="form-group col-md-2 d-flex flex-row">
 
-                <my-date-range-picker name="mydaterange" [options]="myDateRangePickerOptions" [(ngModel)]="filtro_fecha"
-                    (dateRangeChanged)="dateRangeChanged($event)" placeholder="Fechas Vencimiento">
+                <my-date-range-picker name="mydaterange" [options]="myDateRangePickerOptions" [(ngModel)]="filtro_fecha" (dateRangeChanged)="dateRangeChanged($event)" placeholder="Fechas Vencimiento">
                 </my-date-range-picker>
             </div>
 
@@ -132,10 +116,8 @@
         <div class="row">
             <div class="col-md-12 p-b-10 p-t-10">
                 <div>
-                    <input type="checkbox" checked name="sin-inventario" id="sin-inventario" (change)="filtro()"> Sin
-                    Inventario--
-                    <button class="pull-right btn btn-primary btn-sm"
-                        style="line-height: 0 !important; margin-top: 0 !important" (click)="DescargaExcel()">
+                    <input type="checkbox" checked name="sin-inventario" id="sin-inventario" (change)="filtro()"> Sin Inventario--
+                    <button class="pull-right btn btn-primary btn-sm" style="line-height: 0 !important; margin-top: 0 !important" (click)="DescargaExcel()">
                         <i class="fa fa-download"></i> Descargar
                     </button>
                 </div>
@@ -198,8 +180,7 @@
                                 <strong>{{ inventario.Nombre_Categoria }}</strong>
                             </td>
                             <td>
-                                <strong>{{ inventario.Nombre_Comercial }}</strong><br><span style="font-size: 9px;"
-                                    class="text-muted">{{inventario.Nombre_Producto}}</span>
+                                <strong>{{ inventario.Nombre_Comercial }}</strong><br><span style="font-size: 9px;" class="text-muted">{{inventario.Nombre_Producto}}</span>
                             </td>
                             <td>
                                 <span class="mytooltip tooltip-effect-2"><span class="tooltip-item2">
@@ -233,8 +214,7 @@
                             <td>{{ inventario.Codigo_CUM }}</td>
                             <td>{{ inventario.Lote }}</td>
                             <td>{{ inventario.Fecha_Vencimiento | date: 'dd/MM/yyyy' }}</td>
-                            <td class="text-right" *ngIf="permiso"><a style="font-size:9px;color:red;"
-                                    href="javascript:void(0)" (click)="verCompras(inventario.Id_Producto, i)">{{
+                            <td class="text-right" *ngIf="permiso"><a style="font-size:9px;color:red;" href="javascript:void(0)" (click)="verCompras(inventario.Id_Producto, i)">{{
                                     inventario.Costo | currency }}</a>
                                 <br><a style="font-size:9px;color:rgb(17, 43, 129);" href="javascript:void(0)">{{
                                     inventario.Precio_Lista | currency }}</a>
@@ -254,38 +234,25 @@
                                 {{ inventario.Cantidad_Seleccionada | number: '1.0-0' }}</td>
 
 
-                            <td class="text-center"
-                                [ngClass]="{'text-danger': inventario.cantidadContrato > 0, 'text-dark': inventario.cantidadContrato <= 0 }">
+                            <td class="text-center" [ngClass]="{'text-danger': inventario.cantidadContrato > 0, 'text-dark': inventario.cantidadContrato <= 0 }">
                                 {{ inventario.cantidadContrato }}
                             </td>
-                            <td style="max-width: 30px"
-                                [ngClass]="{'text-danger': inventario.Gravado=='Si', 'text-success': inventario.Gravado=='No' }">
+                            <td style="max-width: 30px" [ngClass]="{'text-danger': inventario.Gravado=='Si', 'text-success': inventario.Gravado=='No' }">
                                 {{ inventario.Gravado}}</td>
                             <!-- <td style="max-width: 100px">{{ inventario.Nombre_Bodega }}</td> -->
                             <td>
                                 <div class="text-center">
                                     <div ngbDropdown class="dropdown-primary">
-                                        <button ngbDropdownToggle
-                                            class="btn btn-secondary nav-link dropdown-toggle waves-light  "
-                                            type="button"></button>
+                                        <button ngbDropdownToggle class="btn btn-secondary nav-link dropdown-toggle waves-light  " type="button"></button>
                                         <div ngbDropdownMenu class="fix">
                                             <!-- TODO Imprimir etiqueta -->
-                                            <a class="dropdown-item waves-light waves-effect caja-botones"
-                                                target="_blank">
+                                            <a class="dropdown-item waves-light waves-effect caja-botones" target="_blank">
                                                 <i class="fa fa-print"></i> Imprimir Etiqueta</a>
-                                            <a *ngIf="inventario.Cantidad_Apartada > 0"
-                                                class="dropdown-item waves-light waves-effect caja-botones"
-                                                href="javascript:void(0)"
-                                                (click)="verApartadas(inventario.Id_Inventario_Nuevo, i)">
+                                            <a *ngIf="inventario.Cantidad_Apartada > 0" class="dropdown-item waves-light waves-effect caja-botones" href="javascript:void(0)" (click)="verApartadas(inventario.Id_Inventario_Nuevo, i)">
                                                 <i class="fa fa-cart-arrow-down"></i> Ver Apartadas</a>
-                                            <a *ngIf="inventario.Cantidad_Seleccionada > 0"
-                                                class="dropdown-item waves-light waves-effect caja-botones"
-                                                href="javascript:void(0)" (click)="verSeleccionadas(inventario, i)">
+                                            <a *ngIf="inventario.Cantidad_Seleccionada > 0" class="dropdown-item waves-light waves-effect caja-botones" href="javascript:void(0)" (click)="verSeleccionadas(inventario, i)">
                                                 <i class="fa fa-cart-arrow-down"></i> Ver Seleccionadas</a>
-                                            <a *ngIf="inventario.cantidadContrato > 0"
-                                                class="dropdown-item waves-light waves-effect caja-botones"
-                                                href="javascript:void(0)"
-                                                (click)="verContrato(inventario.Id_Inventario_Nuevo, i)">
+                                            <a *ngIf="inventario.cantidadContrato > 0" class="dropdown-item waves-light waves-effect caja-botones" href="javascript:void(0)" (click)="verContrato(inventario.Id_Inventario_Nuevo, i)">
                                                 <i class="fa fa-eye" style="color:red;"></i> Ver Contrato</a>
 
 
@@ -300,8 +267,7 @@
         </div>
 
         <p class="pull-left"><strong>Total: </strong> {{ TotalItems }}</p>
-        <ngb-pagination class="pull-right" [collectionSize]="TotalItems" [(page)]="page" [pageSize]="pageSize"
-            [maxSize]="maxSize" size="sm" (pageChange)="paginacion()" [boundaryLinks]="true"></ngb-pagination>
+        <ngb-pagination class="pull-right" [collectionSize]="TotalItems" [(page)]="page" [pageSize]="pageSize" [maxSize]="maxSize" size="sm" (pageChange)="paginacion()" [boundaryLinks]="true"></ngb-pagination>
 
 
     </div>
@@ -357,8 +323,7 @@
 
     <div class="app-modal-footer">
         <div class="text-right">
-            <button type="button" class="btn btn-danger btn-sm"
-                (click)="modalContrato.hide();limpiarContrato()">Cerrar</button>
+            <button type="button" class="btn btn-danger btn-sm" (click)="modalContrato.hide();limpiarContrato()">Cerrar</button>
         </div>
     </div>
 </app-modal-basic>
@@ -562,27 +527,20 @@
                         </tr>
                         <tr *ngFor="let item of Compras">
                             <td>
-                                <<<<<<< HEAD <a *ngIf="item.Id_Compra_N!=''"
-                                    [routerLink]="[ '/compras/nacional', item.Id_Compra_N ]" style="font-size: 9px">{{
+                                <a *ngIf="item.Id_Compra_N!=''" [routerLink]="[ '/compras/nacional', item.Id_Compra_N ]" style="font-size: 9px">{{
                                     item.Codigo_Compra_N }}</a>
-                                    <a *ngIf="item.Id_Compra_I!=''"
-                                        [routerLink]="[ '/comprainternacional', item.Id_Compra_I ]"
-                                        style="font-size: 9px">{{ item.Codigo_Compra_I }}</a>
+                                <a *ngIf="item.Id_Compra_I!=''" [routerLink]="[ '/comprainternacional', item.Id_Compra_I ]" style="font-size: 9px">{{ item.Codigo_Compra_I }}</a>
                             </td>
                             <td>
-                                <a [routerLink]="[ '/inventario/acta-recepcion/ver', item.Id_Acta ]"
-                                    style="font-size: 9px">{{ item.Codigo_Acta }}</a>
-                                =======
-                                <a *ngIf="item.Id_Compra_N!=''" [routerLink]="[ '/compranacional', item.Id_Compra_N ]"
-                                    style="font-size: 9px">{{ item.Codigo_Compra_N }}</a>
-                                <a *ngIf="item.Id_Compra_I!=''"
-                                    [routerLink]="[ '/comprainternacional', item.Id_Compra_I ]"
-                                    style="font-size: 9px">{{ item.Codigo_Compra_I }}</a>
+                                <a [routerLink]="[ '/inventario/acta-recepcion/ver', item.Id_Acta ]" style="font-size: 9px">{{ item.Codigo_Acta }}</a>
+
+                                <a *ngIf="item.Id_Compra_N!=''" [routerLink]="[ '/compranacional', item.Id_Compra_N ]" style="font-size: 9px">{{ item.Codigo_Compra_N }}</a>
+                                <a *ngIf="item.Id_Compra_I!=''" [routerLink]="[ '/comprainternacional', item.Id_Compra_I ]" style="font-size: 9px">{{ item.Codigo_Compra_I }}</a>
                             </td>
                             <td>
                                 <a [routerLink]="[ '/actarecepcionver', item.Id_Acta ]" style="font-size: 9px">{{
                                     item.Codigo_Acta }}</a>
-                                >>>>>>> a46dde006ca1b8ad21b4b4475b42da94b6791c15
+
                             </td>
                             <td>{{ item.Fecha | date: 'dd/MM/yyyy' }}</td>
                             <td>{{ item.Funcionario }}</td>
