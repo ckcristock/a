@@ -27,6 +27,6 @@ import { VariablesClinicalModelComponent } from './variables-clinical-model/vari
     ManagmentClinicalHistoryComponent,
     EditClinicalModelComponent,
     VariablesClinicalModelComponent
-  ]
+  ],
 })
 export class ManagmentClinicalHistoryModule { }

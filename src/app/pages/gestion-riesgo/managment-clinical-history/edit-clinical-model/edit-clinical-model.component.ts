@@ -1,6 +1,8 @@
 import { Component, OnInit, ViewChild } from '@angular/core';
 import { FormGroup, FormBuilder, FormArray } from '@angular/forms';
-import { Router } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
+import { ModalBasicComponent } from 'src/app/components/modal-basic/modal-basic.component';
+import { BuilderFormComponent } from 'src/app/core/builder-form/builder-form.component';
 import { ValidatorsService } from 'src/app/pages/ajustes/informacion-base/services/reactive-validation/validators.service';
 import { SwalService } from 'src/app/pages/ajustes/informacion-base/services/swal.service';
 import { ManagmentClinicalHistoryService } from '../managment-clinical-history.service';
@@ -13,6 +15,10 @@ import { ManagmentClinicalHistoryService } from '../managment-clinical-history.s
 export class EditClinicalModelComponent implements OnInit {
 
   @ViewChild('modal') modal: any;
+
+  @ViewChild(ModalBasicComponent) modalForm: ModalBasicComponent;
+  @ViewChild(BuilderFormComponent) builderForm: BuilderFormComponent;
+
   loading: boolean = false;
   form: FormGroup;
   title: any = '';
@@ -25,74 +31,45 @@ export class EditClinicalModelComponent implements OnInit {
     collectionSize: 0
   }
   filtro = {
-    name: ''
+    name: '',
+    Idmodule: ''
+  }
+
+  config: object = {
+    ruta_save_form: '/modules-clinical-history',
+    ruta_update_form: '/modules-clinical-history',
+    ruta_get_fields: '/get-fields-for-form',
+    service: 'ClinicalHistoryService',
+    parent: 'clinical_history_model',
+    parent_id: this.currentRoute.snapshot.params.id,
+    IdForm: 2,
+    size: 6
   }
   constructor(
     private fb: FormBuilder,
     private _validators: ValidatorsService,
     private _clinicalHistoryModels: ManagmentClinicalHistoryService,
     private _swal: SwalService,
-    private router: Router
+    private router: Router,
+    private currentRoute: ActivatedRoute
 
   ) { }
 
 
   ngOnInit(): void {
-    this.createForm();
+    this.filtro.Idmodule = this.currentRoute.snapshot.params.id
     this.get();
   }
 
   openModal() {
-    this.modal.show();
-    this.title = 'Nuevo Modelo ';
+    this.modalForm.show();
   }
-
-  closeModalVer() {
-    this.modal.hide();
-    this.fieldList.clear();
-  }
-
-  createForm() {
-    this.form = this.fb.group({
-      id: [this.material.id],
-      name: ['', this._validators.required],
-      unit: ['', this._validators.required],
-      type: ['', this._validators.required],
-      unit_price: [''],
-      kg_value: ['', this._validators.required],
-      fields: this.fb.array([]),
-      thicknesses: this.fb.array([]),
-    });
+  closeModal() {
+    this.modalForm.hide();
   }
 
   editClinicalModel(model) {
     this.router.navigate(['/gestion-riesgo/administracion-historia-clinica/params', model.id]);
-  }
-
-  get thicknessList() {
-    return this.form.get('thicknesses') as FormArray;
-  }
-
-  fieldsControl() {
-    let field = this.fb.group({
-      property: [''],
-      type: [''],
-      value: ['']
-    });
-    return field;
-  }
-
-  get fieldList() {
-    return this.form.get('fields') as FormArray;
-  }
-
-  newField() {
-    let field = this.fieldList;
-    field.push(this.fieldsControl());
-  }
-
-  deleteField(i) {
-    this.fieldList.removeAt(i);
   }
 
   get(page = 1) {
@@ -108,36 +85,15 @@ export class EditClinicalModelComponent implements OnInit {
     })
   }
 
-  save() {
-    if (this.form.get('id').value) {
-      this._clinicalHistoryModels.update(this.form.value, this.material.id).subscribe((r: any) => {
-        this.form.reset();
-        this.modal.hide();
-        this.thicknessList.clear();
-        this.fieldList.clear();
-        this.get();
-        this._swal.show({
-          icon: 'success',
-          title: 'Modelo  actualizado con éxito',
-          text: '',
-          showCancel: false
-        })
-      })
-    } else {
-      this._clinicalHistoryModels.save(this.form.value).subscribe((r: any) => {
-        this.form.reset();
-        this.modal.hide();
-        this.thicknessList.clear();
-        this.fieldList.clear();
-        this.get();
-        this._swal.show({
-          icon: 'success',
-          title: 'Modelo  creado con éxito',
-          text: '',
-          showCancel: false
-        })
-      })
-    }
+  update = (data) => {
+    this.get()
+    this.modalForm.hide()
+    this._swal.show({
+      icon: 'success',
+      title: `Modelo  ${data.status} con éxito`,
+      text: '',
+      showCancel: false
+    })
   }
 
 }

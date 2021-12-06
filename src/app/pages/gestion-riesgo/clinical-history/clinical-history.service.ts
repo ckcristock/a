@@ -33,7 +33,7 @@ export class ClinicalHistoryService {
   }
 
   chargeFields = (params = {}) => {
-    return this.http.get(environment.base_url + '/get-fields-for-module', { params })
+    return this.http.get(environment.base_url + '/get-fields', { params })
   }
 
 }

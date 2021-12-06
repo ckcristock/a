@@ -1,114 +1,165 @@
-<!-- <div class="card p-3"> -->
-<form class="bg-white" [formGroup]="form">
-  <div class="row">
+<div class="card p-3">
 
-    <div class="col-12 card-body">
-      <label for="" style="font-size: 18px;">Variables del modelo</label>
-    </div>
+  <form class="bg-white" [formGroup]="form">
+    <div class="row  text-center">
 
-    <ng-container>
-      <!-- <perfect-scrollbar style="height: 250px;"> -->
-      <table class="table table-sm">
-        <thead>
-          <tr>
+      <div class="col-12 card-body text-center">
+        <label for="" style="font-size: 18px; ">Variables del modelo</label>
+      </div>
 
-            <th>
-              <label for="">Propiedad</label>
-            </th>
+      <ng-container>
 
-            <th>
-              <label for="tipo">Caracteristica</label>
-            </th>
+        <table class="table table-sm">
+          <thead>
+            <tr>
 
-            <th>
-              <label>Valor</label>
-            </th>
+              <th>
+                <label for="">Propiedad</label>
+              </th>
 
-            <th>
-              <label for="">Obligatoriedad</label>
-            </th>
+              <th>
+                <label for="tipo">Caracteristica</label>
+              </th>
 
-            <th>
-              <label for="">Dependencia</label>
-            </th>
+              <th>
+                <label>Valor</label>
+              </th>
 
-            <th>
-            </th>
-            <th>
-            </th>
+              <th>
+                <label for="">Obligatoriedad</label>
+              </th>
 
-          </tr>
-        </thead>
-        <tbody formArrayName="fields">
-          <ng-container *ngIf="fieldList.controls.length; else sinDatos">
-            <ng-container *ngFor="let item of fieldList.controls; let i = index">
-              <tr [formGroupName]="i">
+              <th>
+                <label for="">Dependencia</label>
+              </th>
 
-                <td>
-                  <input type="text" class="form-control form-control-sm" formControlName="property">
-                </td>
-
-                <td>
-                  <select class="form-control form-control-sm" name="color" formControlName="type">
-                    <option value="number">Number</option>
-                    <option value="text">Text</option>
-                    <option value="textarea">Textarea</option>
-                    <option value="date">Date</option>
-                    <option value="text">Color</option>
-                    <option value="time">Hora</option>
-                    <option value="select">Select</option>
-                    <option value="check">Check</option>
-                  </select>
-                </td>
-
-                <td>
-                  <textarea *ngIf="item['controls']['type']['value'] == 'textarea';"
-                    class="form-control form-control-sm" formControlName="value"></textarea>
-
-                  <input *ngIf="item['controls']['type']['value'] != 'textarea';"
-                    [type]="item['controls']['type']['value']" class="form-control form-control-sm"
-                    formControlName="value">
-
-                  <small
-                    *ngIf="item['controls']['type']['value'] == 'seleccione' ||  item['controls']['type']['value'] == 'chequee'  ">
-                    Escriba las opciones separadas por coma
-                  </small>
-
-                </td>
+              <th>
+              </th>
+              <th>
+              </th>
 
 
-                <td>
-                  <select type="text" class="form-control form-control-sm" formControlName="required">
-                    <option value="true">Si</option>
-                    <option value="false">No</option>
-                  </select>
-                </td>
+            </tr>
+          </thead>
+          <tbody formArrayName="fields">
+            <ng-container *ngIf="fieldList.controls.length; else sinDatos">
+              <ng-container *ngFor="let item of fieldList.controls; let i = index">
+                <tr [formGroupName]="i">
 
-                <td>
-                  <select type="text" class="form-control form-control-sm" formControlName="dependencia">
-                    <option value="true">Si</option>
-                    <option value="false">No</option>
-                  </select>
-                </td>
+                  <td>
+                    <input type="text" class="form-control form-control-sm" formControlName="property">
+                  </td>
 
-                <td *ngIf="item['controls']['dependencia']['value'] == 'true'">
-                  <select class="form-control form-control-sm" formControlName="parent">
+                  <td>
+                    <select class="form-control form-control-sm" name="color" formControlName="type">
+                      <option value="number">Number</option>
+                      <option value="text">Text</option>
+                      <option value="textarea">Textarea</option>
+                      <option value="date">Date</option>
+                      <option value="text">Color</option>
+                      <option value="time">Hora</option>
+                      <option value="select">Select</option>
+                      <option value="check">Check</option>
+                    </select>
+                  </td>
 
-                    <ng-container *ngFor="let subitem of  fieldList.controls">
-                      <option [value]="subitem['controls']['property']['value']"
-                        *ngIf="item['controls']['property']['value'] != subitem['controls']['property']['value']  ">
-                        {{ subitem['controls']['property']['value'] }}
-                      </option>
-                    </ng-container>
+                  <td>
+                    <textarea *ngIf="item['controls']['type']['value'] == 'textarea';"
+                      class="form-control form-control-sm" formControlName="value"></textarea>
 
-                  </select>
-                </td>
+                    <input *ngIf="item['controls']['type']['value'] != 'textarea';"
+                      [type]="item['controls']['type']['value']" class="form-control form-control-sm"
+                      formControlName="value">
 
-                <td *ngIf="item['controls']['dependencia']['value'] == 'true'">
-                  <input [type]="text" class="form-control form-control-sm" formControlName="valueDependend">
-                  <small>
-                    Digite el valor del cual es dependiente, si son varios separelos por coma
-                  </small>
+                    <small
+                      *ngIf="item['controls']['type']['value'] == 'seleccione' ||  item['controls']['type']['value'] == 'chequee'  ">
+                      Escriba las opciones separadas por coma
+                    </small>
+
+                  </td>
+
+                  <td>
+                    <select type="text" class="form-control form-control-sm" formControlName="required">
+                      <option value="true">Si</option>
+                      <option value="false">No</option>
+                    </select>
+                  </td>
+
+                  <td>
+
+
+                <tr *ngFor="let myitem of item.controls['dependencex']['controls']; let ii = index"
+                  formArrayName="dependencex">
+
+                  <ng-container [formGroupName]="ii">
+
+                    <td>
+                      <select type="text" class="form-control form-control-sm" formControlName="dependencia">
+                        <option value="true">Si</option>
+                        <option value="false">No</option>
+                      </select>
+                    </td>
+
+                    <td *ngIf="myitem['controls']['dependencia']['value'] == 'true'">
+                      <select class="form-control form-control-sm" formControlName="parent">
+
+                        <ng-container *ngFor="let subitem of  fieldList.controls">
+                          <option [value]="subitem['controls']['property']['value']">
+                            <!-- *ngIf="item['controls']['property']['value'] != subitem['controls']['property']['value']  " -->
+                            {{ subitem['controls']['property']['value'] }}
+                          </option>
+                        </ng-container>
+
+                      </select>
+                    </td>
+
+                    <td *ngIf="myitem['controls']['dependencia']['value'] == 'true'">
+                      <input [type]="text" class="form-control form-control-sm" formControlName="valueDependend">
+                      <small>
+                        Digite el valor del cual es dependiente, si son varios separelos por coma
+                      </small>
+                    </td>
+
+                    <td *ngIf="myitem['controls']['dependencia']['value'] == 'true'">
+                      <input [type]="text" class="form-control form-control-sm" formControlName="valueConditions">
+                      <small>
+                        Digite los valores que se cargaran dependiendo la condicion dada
+                      </small>
+                    </td>
+
+                    <button style="float: right;" class="btn btn-danger btn-sm" placement="bottom" type="button"
+                      *ngIf="ii != 0 " ngbTooltip="Borrar" (click)="deleteDependence(ii)">
+                      <i class="fas fa-trash-alt"></i>
+                    </button>
+
+                  </ng-container>
+
+
+                </tr>
+
+                <div class="btn-group" style="float: right">
+
+                  <button class="btn btn-success btn-sm" placement="bottom" type="button" ngbTooltip="Agregar"
+                    (click)="newDependence(item)">
+                    <i class="fas fa-plus"></i>
+                  </button>
+
+                </div>
+                <!-- <div class="btn-group" style="float: right">
+
+                  <button class="btn btn-success btn-sm" placement="bottom" type="button" ngbTooltip="Agregar"
+                    (click)="newDependence(item)">
+                    <i class="fas fa-plus"></i>
+                  </button>
+                  <button style="float: right;" class="btn btn-danger btn-sm" placement="bottom" type="button"
+                    *ngIf="ii != 0 " ngbTooltip="Borrar" (click)="deleteDependence(ii)">
+                    <i class="fas fa-trash-alt"></i>
+                  </button>
+
+                </div> -->
+
+
+
                 </td>
 
                 <td>
@@ -118,34 +169,36 @@
                   </button>
                 </td>
 
-              </tr>
+                </tr>
+              </ng-container>
             </ng-container>
-          </ng-container>
-          <tr>
-            <td colspan="8">
-              <div class="btn-group" style="float: right">
-                <button class="btn btn-info btn-sm" placement="bottom" type="button" ngbTooltip="Agregar"
-                  (click)="newField()">
-                  <i class="fas fa-plus"></i>
-                </button>
-              </div>
-            </td>
-          </tr>
-        </tbody>
-      </table>
-      <!-- </perfect-scrollbar> -->
-    </ng-container>
-  </div>
-</form>
+            <tr>
+              <td colspan="8">
+                <div class="btn-group" style="float: right">
+                  <button class="btn btn-info btn-sm" placement="bottom" type="button" ngbTooltip="Agregar"
+                    (click)="newField()">
+                    <i class="fas fa-plus"></i>
+                  </button>
+                </div>
+              </td>
+            </tr>
+          </tbody>
+        </table>
 
-<div>
-  <div class="form-group text-right">
-    <button (click)="modal.hide(); form.reset()" type="button" class="btn btn-danger raised mr-2 btn-sm">Cerrar</button>
-    <button type="submit" class="btn btn-primary btn-sm raised" [disabled]="!form.valid"
-      (click)="save()">Guardar</button>
+      </ng-container>
+    </div>
+  </form>
+
+  <div>
+    <div class="form-group text-right">
+      <button (click)="modal.hide(); form.reset()" type="button"
+        class="btn btn-danger raised mr-2 btn-sm">Cerrar</button>
+      <button type="submit" class="btn btn-primary btn-sm raised" [disabled]="!form.valid"
+        (click)="save()">Guardar</button>
+    </div>
   </div>
+
 </div>
-<!-- </div> -->
 
 <ng-template #sinDatos>
   <tr class="bg-light">

@@ -18,7 +18,6 @@ export class VariablesClinicalModelComponent implements OnInit {
   form: FormGroup;
   title: any = '';
   models: any[] = [];
-  thicknesses: any[] = [];
   module: any = {};
   pagination = {
     page: 1,
@@ -28,6 +27,7 @@ export class VariablesClinicalModelComponent implements OnInit {
   filtro = {
     name: ''
   }
+
   constructor(
     private fb: FormBuilder,
     private _validators: ValidatorsService,
@@ -51,6 +51,7 @@ export class VariablesClinicalModelComponent implements OnInit {
   closeModalVer() {
     this.modal.hide();
     this.fieldList.clear();
+    // this.dependencexList.clear();
   }
 
   createForm() {
@@ -60,18 +61,35 @@ export class VariablesClinicalModelComponent implements OnInit {
     });
   }
 
-  editClinicalModel(model) {
-    this.router.navigate(['/gestion-riesgo/administracion-historia-clinica/edit', model.id]);
+  get fieldList() {
+    return this.form.get('fields') as FormArray;
   }
 
-  get thicknessList() {
-    return this.form.get('thicknesses') as FormArray;
+
+  newField() {
+    let field = this.fieldList;
+    field.push(this.fieldsControl());
+  }
+
+  newDependence(i: FormGroup) {
+    let dependence = i.get('dependencex') as FormArray;
+    dependence.push(this.dependenceControl());
+  }
+
+  dependenceControl(): FormGroup {
+    let field = this.fb.group({
+      dependencia: ['', this._validators.required],
+      valueDependend: [''],
+      parent: ['', this._validators.required],
+      valueConditions: ['', this._validators.required],
+    });
+    return field;
   }
 
   fieldsControl() {
     let field = this.fb.group({
       property: [''],
-      dependencia: ['', this._validators.required],
+      dependencex: this.fb.array([]),
       valueDependend: [''],
       required: [''],
       parent: [''],
@@ -81,17 +99,13 @@ export class VariablesClinicalModelComponent implements OnInit {
     return field;
   }
 
-  get fieldList() {
-    return this.form.get('fields') as FormArray;
-  }
-
-  newField() {
-    let field = this.fieldList;
-    field.push(this.fieldsControl());
-  }
-
   deleteField(i) {
     this.fieldList.removeAt(i);
+  }
+
+  deleteDependence(i) {
+    this.fieldList.removeAt(i);
+    i.get('dependencex').removeAt(i);
   }
 
   get(page = 1) {
@@ -109,40 +123,17 @@ export class VariablesClinicalModelComponent implements OnInit {
 
   save() {
 
-    console.log(this.form.value);
     this._clinicalHistoryModels.sendVariables(this.form.value).subscribe((res: Response) => {
-      console.log(res.data);
-    })
+      this._swal.show({
+        icon: 'success',
+        title: 'Modelo  actualizado con éxito',
+        text: '',
+        showCancel: false
+      })
 
-    // if (this.form.get('id').value) {
-    //   this._clinicalHistoryModels.update(this.form.value, this.module.id).subscribe((r: any) => {
-    //     this.form.reset();
-    //     this.modal.hide();
-    //     this.thicknessList.clear();
-    //     this.fieldList.clear();
-    //     this.get();
-    //     this._swal.show({
-    //       icon: 'success',
-    //       title: 'Modelo  actualizado con éxito',
-    //       text: '',
-    //       showCancel: false
-    //     })
-    //   })
-    // } else {
-    //   this._clinicalHistoryModels.save(this.form.value).subscribe((r: any) => {
-    //     this.form.reset();
-    //     this.modal.hide();
-    //     this.thicknessList.clear();
-    //     this.fieldList.clear();
-    //     this.get();
-    //     this._swal.show({
-    //       icon: 'success',
-    //       title: 'Modelo  creado con éxito',
-    //       text: '',
-    //       showCancel: false
-    //     })
-    //   })
-    // }
+      this.router.navigate(['/gestion-riesgo/administracion-historia-clinica/edit', this.route.snapshot.params['id']]);
+
+    })
 
   }
 

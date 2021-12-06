@@ -7,7 +7,7 @@ import { HttpClientModule } from '@angular/common/http';
   declarations: [ImagePipe],
   imports:[
     CommonModule,
-    HttpClientModule 
+    HttpClientModule
   ]
 })
 export class CoreModule { }

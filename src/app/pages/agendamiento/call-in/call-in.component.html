@@ -36,6 +36,9 @@
                   <th>Fecha Fin</th>
                   <th>ID Llamda</th>
                   <th>Agente</th>
+                  <th>Tramite</th>
+                  <th>Ambito</th>
+                  <th>Servicio</th>
                   <th>Observación</th>
                 </tr>
               </thead>
@@ -45,6 +48,9 @@
                   <td>{{item.finalized_at | date:'dd/MM/yyyy hh:mm a' }}</td>
                   <td>{{item.Id_Llamada}}</td>
                   <td>{{item['usuario']['person']['first_name']}} {{item['usuario']['person']['first_surname']}}</td>
+                  <td>{{item?.formality?.name}}</td>
+                  <td>{{item?.ambito?.name}}</td>
+                  <td>{{item?.servicio?.name}}</td>
                   <td>{{item.observation}}</td>
                 </tr>
               </tbody>
