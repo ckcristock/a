@@ -1,44 +1,39 @@
 <div class="row">
-  <div class="col-lg-12 col-md-12 col-md-offset-4">
-    <form #FormCompra="ngForm">
-      <div class="card">
-        <div
-          class="row invoice-contact"
-          style="align-items: flex-start !important"
-        >
-          <div class="col-md-8">
-            <div class="invoice-box row">
-              <div class="col-sm-12">
-                <table
-                  class="table table-responsive invoice-table table-borderless"
-                  style="text-align: left; font-size: 12px"
-                >
-                  <tbody>
-                    <tr>
-                      <td style="width: 100px">
-                        <!--  <img src="{{globales.urlLogoColor}}" class="m-b-10 img-60" alt="Pro-H Software"> -->
-                      </td>
-                      <td>
-                        <!-- TODO DATOS DE EMPRESA -->
-                        <!-- {{globales.Nombre}}
+    <div class="col-lg-12 col-md-12 col-md-offset-4">
+        <form #FormCompra="ngForm">
+            <div class="card">
+                <div class="row invoice-contact" style="align-items: flex-start !important">
+                    <div class="col-md-8">
+                        <div class="invoice-box row">
+                            <div class="col-sm-12">
+                                <table class="table table-responsive invoice-table table-borderless" style="text-align: left; font-size: 12px">
+                                    <tbody>
+                                        <tr>
+                                            <td style="width: 100px">
+                                                <!--  <img src="{{globales.urlLogoColor}}" class="m-b-10 img-60" alt="Pro-H Software"> -->
+                                            </td>
+                                            <td>
+                                                <!-- TODO DATOS DE EMPRESA -->
+                                                <!-- {{globales.Nombre}}
                                                     <br> {{globales.Nit}}
                                                     <br> {{globales.Direccion}}
                                                     <br> {{globales.Telefono}} -->
-                      </td>
-                    </tr>
-                  </tbody>
-                </table>
-              </div>
-            </div>
-          </div>
+                                            </td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+                    </div>
 
-          <div class="col-md-4">
-            <div class="row text-right" style="margin-right: 5px">
-              <div class="col-sm-12">
-                <h4>Nueva Orden de Compra</h4>
-                <div class="clearfix"></div>
-                <h6>{{ fecha | date: "dd/MM/yyyy" }}</h6>
-                <span class="f-right">
+                    <div class="col-md-4">
+                        <div class="row text-right" style="margin-right: 5px">
+                            <div class="col-sm-12">
+                                <h4>Nueva Orden de Compra</h4>
+                                <div class="clearfix"></div>
+                                <h6>{{ fecha | date: "dd/MM/yyyy" }}</h6>
+
+                                <span class="f-right">
                   <div class="row f-12">
                     <div class="col-sm-6">
                       <label>Tipo De Compra</label>
@@ -53,6 +48,7 @@
                         <option value="Ocasional">Ocasional</option>
                       </select>
                     </div>
+                    
                     <div class="col-sm-6">
                       <label>Tipo De Bodega</label>
                       <select
@@ -69,47 +65,27 @@
                     </div>
                   </div>
                 </span>
-              </div>
-            </div>
-          </div>
-        </div>
-        <div class="card-body">
-          <div class="row invoive-info" style="margin-bottom: 0">
-            <div class="col-md-4">
-              <div class="form-group">
-                <label>Proveedor</label>
-                <input
-                  type="text"
-                  name="NombreProveedor"
-                  id="NombreProveedor"
-                  class="form-control prod f-9"
-                  [(ngModel)]="NombreProveedor"
-                  [ngbTypeahead]="search2"
-                  [resultTemplate]="rt2"
-                  [inputFormatter]="formatter2"
-                  (ngModelChange)="BuscarProveedor(NombreProveedor)"
-                  required
-                />
 
-                <input
-                  ngModel="{{ Id_Proveedor }}"
-                  type="hidden"
-                  name="Id_Proveedor"
-                  id="Id_Proveedor"
-                />
-              </div>
-            </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="card-body">
+                    <div class="row invoive-info" style="margin-bottom: 0">
+                        <div class="col-md-4">
+                            <div class="form-group">
+                                <label>Proveedor</label>
+                                <input type="text" name="NombreProveedor" id="NombreProveedor" class="form-control prod f-9" [(ngModel)]="NombreProveedor" [ngbTypeahead]="search2" [resultTemplate]="rt2" [inputFormatter]="formatter2" (ngModelChange)="BuscarProveedor(NombreProveedor)"
+                                    required />
 
-            <div class="col-md-4">
-              <div class="form-group">
-                <label *ngIf="TipoBodega == 'Bodega'">Bodega</label>
-                <select
-                  *ngIf="TipoBodega == 'Bodega'"
-                  name="Id_Bodega_Nuevo"
-                  class="form-control form-control-sm texto"
-                  required
-                  ngModel
-                >
+                                <input ngModel="{{ Id_Proveedor }}" type="hidden" name="Id_Proveedor" id="Id_Proveedor" />
+                            </div>
+                        </div>
+
+                        <div class="col-md-4">
+                            <div class="form-group">
+                                <label *ngIf="TipoBodega == 'Bodega'">Bodega</label>
+                                <select *ngIf="TipoBodega == 'Bodega'" name="Id_Bodega_Nuevo" class="form-control form-control-sm texto" required ngModel>
                   <option [ngValue]="undefined">Seleccione una Bodega</option>
                   <option
                     *ngFor="let Bodega of Bodegas; let i = index"
@@ -118,14 +94,8 @@
                     {{ Bodega.Nombre }}
                   </option>
                 </select>
-                <label *ngIf="TipoBodega == 'Punto'">Punto Dispensación</label>
-                <select
-                  *ngIf="TipoBodega == 'Punto'"
-                  name="Id_Punto_Dispensacion"
-                  class="form-control form-control-sm texto"
-                  required
-                  ngModel
-                >
+                                <label *ngIf="TipoBodega == 'Punto'">Punto Dispensación</label>
+                                <select *ngIf="TipoBodega == 'Punto'" name="Id_Punto_Dispensacion" class="form-control form-control-sm texto" required ngModel>
                   <option [ngValue]="undefined">Seleccione un Punto</option>
                   <option
                     *ngFor="let item of puntos; let i = index"
@@ -134,211 +104,109 @@
                     {{ item.Nombre }}
                   </option>
                 </select>
-                <input
-                  type="text"
-                  [(ngModel)]="user"
-                  name="Identificacion_Funcionario"
-                  readonly
-                  hidden
-                />
-              </div>
-            </div>
+                                <input type="text" [(ngModel)]="user" name="Identificacion_Funcionario" readonly hidden />
+                            </div>
+                        </div>
 
-            <div class="col-md-4">
-              <div class="form-group">
-                <label>Fecha Probable de Entrega</label>
-                <input
-                  ngModel
-                  type="date"
-                  name="Fecha_Entrega_Probable"
-                  placeholder=""
-                  required
-                  class="form-control form-control-sm texto"
-                />
-              </div>
-            </div>
-          </div>
+                        <div class="col-md-4">
+                            <div class="form-group">
+                                <label>Fecha Probable de Entrega</label>
+                                <input ngModel type="date" name="Fecha_Entrega_Probable" placeholder="" required class="form-control form-control-sm texto" />
+                            </div>
+                        </div>
+                    </div>
 
-          <div class="row invoive-info" style="margin-bottom: 0">
-            <div class="col-md-12">
-              <div class="form-group">
-                <label>Observaciones</label>
-                <textarea
-                  ngModel
-                  name="Observaciones"
-                  placeholder="Digite detalles importantes de la orden de compra"
-                  type="text"
-                  rows="3"
-                  class="form-control"
-                ></textarea>
-              </div>
-            </div>
-          </div>
+                    <div class="row invoive-info" style="margin-bottom: 0">
+                        <div class="col-md-12">
+                            <div class="form-group">
+                                <label>Observaciones</label>
+                                <textarea ngModel name="Observaciones" placeholder="Digite detalles importantes de la orden de compra" type="text" rows="3" class="form-control"></textarea>
+                            </div>
+                        </div>
+                    </div>
 
-          <div class="row" style="margin-top: 30px">
-            <div class="col-sm-12">
-              <table class="table invoice-detail-table">
-                <thead>
-                  <tr class="thead-default">
-                    <th>Producto</th>
-                    <th style="width: 50px"></th>
-                    <th style="width: 20px">Presentación</th>
-                    <th *ngIf="Rotativo" style="width: 20px">Rotativo</th>
-                    <th style="width: 20px">Cantidad</th>
-                    <th style="width: 20px">Costo</th>
-                    <th style="width: 20px">IVA</th>
-                    <th style="width: 20px">Subtotal</th>
-                    <th style="width: 10px"></th>
-                  </tr>
-                </thead>
-                <tbody>
-                  <tr
-                    *ngFor="let item of Lista_Productos; let i = index"
-                    id="fila{{ i }}"
-                  >
-                    <td>
-                      <input
-                        type="hidden"
-                        name="productoModel{{ i }}"
-                        [ngModel]="item.producto"
-                      />
-                      <input
-                        *ngIf="item.Id_Producto == ''"
-                        type="text"
-                        name="producto{{ i }}"
-                        id="Producto{{ i }}"
-                        class="form-control form-control-sm f-9 input-product"
-                        autocomplete="off"
-                        [value]="item.producto"
-                        [readonly]="item.producto != ''"
-                      />
-                      <label *ngIf="item.Id_Producto != ''">{{
+                    <div class="row" style="margin-top: 30px">
+                        <div class="col-sm-12">
+                            <table class="table invoice-detail-table">
+                                <thead>
+                                    <tr class="thead-default">
+                                        <th>Producto</th>
+                                        <th style="width: 50px"></th>
+                                        <th style="width: 20px">Presentación</th>
+                                        <th *ngIf="Rotativo" style="width: 20px">Rotativo</th>
+                                        <th style="width: 20px">Cantidad</th>
+                                        <th style="width: 20px">Costo</th>
+                                        <th style="width: 20px">IVA</th>
+                                        <th style="width: 20px">Subtotal</th>
+                                        <th style="width: 10px"></th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <tr *ngFor="let item of Lista_Productos; let i = index" id="fila{{ i }}">
+                                        <td>
+                                            <input type="hidden" name="productoModel{{ i }}" [ngModel]="item.producto" />
+                                            <input *ngIf="item.Id_Producto == ''" type="text" name="producto{{ i }}" id="Producto{{ i }}" class="form-control form-control-sm f-9 input-product" autocomplete="off" [value]="item.producto" [readonly]="item.producto != ''" />
+                                            <label *ngIf="item.Id_Producto != ''">{{
                         item.producto
                       }}</label>
-                      <!-- <input type="text" name="producto{{i}}" id="Producto{{i}}" class="form-control form-control-sm f-9 input-product" [ngModel]="item.producto"
+                                            <!-- <input type="text" name="producto{{i}}" id="Producto{{i}}" class="form-control form-control-sm f-9 input-product" [ngModel]="item.producto"
                           [ngbTypeahead]="search1" [resultTemplate]="rt" [inputFormatter]="formatter1" (ngModelChange)="BuscarLote(item.producto, i)"
                         /> -->
-                      <button
-                        *ngIf="item.producto == ''"
-                        class="btn btn-primary btn-xs btn-search"
-                        (click)="
+                                            <button *ngIf="item.producto == ''" class="btn btn-primary btn-xs btn-search" (click)="
                           searchProduct(i, item.editar); modalProductos.show()
-                        "
-                        title="Buscar Producto"
-                        style="display: inline-block"
-                      >
+                        " title="Buscar Producto" style="display: inline-block">
                         &nbsp;<i class="fa fa-search"></i>
                       </button>
-                      <!-- <button *ngIf="item.delete" class="btn btn-danger btn-xs btn-search" (click)="deleteProduct(i);" title="Eliminar producto" style="display: inline-block;">
+                                            <!-- <button *ngIf="item.delete" class="btn btn-danger btn-xs btn-search" (click)="deleteProduct(i);" title="Eliminar producto" style="display: inline-block;">
                           &nbsp;<i class="fa fa-trash"></i>
                         </button> -->
-                    </td>
-                    <td>
-                      <span
-                        *ngIf="item.producto != ''"
-                        class="mytooltip tooltip-effect-2"
-                        ><span class="tooltip-item2">Embalaje</span
+                                        </td>
+                                        <td>
+                                            <span *ngIf="item.producto != ''" class="mytooltip tooltip-effect-2"><span class="tooltip-item2">Embalaje</span
                         ><span class="tooltip-content4 clearfix"
                           ><span class="tooltip-text2">{{
                             item.Embalaje
-                          }}</span></span
-                        >
-                      </span>
-                    </td>
-                    <td>
-                      <input
-                        type="hidden"
-                        name="PresentacionModel{{ i }}"
-                        [ngModel]="item.Presentacion"
-                      />
-                      <input
-                        readonly
-                        id="Presentacion{{ i }}"
-                        name="Presentacion{{ i }}"
-                        [value]="item.Presentacion"
-                        type="text"
-                        class="form-control form-control-sm text-right f-9"
-                      />
-                    </td>
+                          }}</span></span>
+                                            </span>
+                                        </td>
+                                        <td>
+                                            <input type="hidden" name="PresentacionModel{{ i }}" [ngModel]="item.Presentacion" />
+                                            <input readonly id="Presentacion{{ i }}" name="Presentacion{{ i }}" [value]="item.Presentacion" type="text" class="form-control form-control-sm text-right f-9" />
+                                        </td>
 
-                    <td *ngIf="Rotativo">
-                      <input
-                        readonly
-                        id="Rotativo{{ i }}"
-                        name="Rotativo{{ i }}"
-                        [ngModel]="item.Rotativo"
-                        type="number"
-                        min="1"
-                        class="form-control form-control-sm text-right f-9"
-                      />
-                    </td>
+                                        <td *ngIf="Rotativo">
+                                            <input readonly id="Rotativo{{ i }}" name="Rotativo{{ i }}" [ngModel]="item.Rotativo" type="number" min="1" class="form-control form-control-sm text-right f-9" />
+                                        </td>
 
-                    <td>
-                      <!--<input id="Cantidad{{i}}" name="Cantidad{{i}}" [ngModel]="item.Cantidad" type="number" min="1" class="form-control form-control-sm text-right f-9"
+                                        <td>
+                                            <!--<input id="Cantidad{{i}}" name="Cantidad{{i}}" [ngModel]="item.Cantidad" type="number" min="1" class="form-control form-control-sm text-right f-9"
                           (change)="CalculoTotal(i); ActualizaValores(); CapturarDigitacion(i)">-->
-                      <input
-                        type="hidden"
-                        name="CantidadModel{{ i }}"
-                        [ngModel]="item.Cantidad"
-                      />
-                      <input
-                        id="Cantidad{{ i }}"
-                        name="Cantidad{{ i }}"
-                        [value]="item.Cantidad"
-                        type="number"
-                        min="1"
-                        class="form-control form-control-sm text-right f-9"
-                        (change)="
+                                            <input type="hidden" name="CantidadModel{{ i }}" [ngModel]="item.Cantidad" />
+                                            <input id="Cantidad{{ i }}" name="Cantidad{{ i }}" [value]="item.Cantidad" type="number" min="1" class="form-control form-control-sm text-right f-9" (change)="
                           CalculoTotal(i);
                           ActualizaValores();
                           CapturarDigitacion(i)
-                        "
-                        (keyup)="ActualizaValores(); CapturarDigitacion(i)"
-                      />
-                    </td>
+                        " (keyup)="ActualizaValores(); CapturarDigitacion(i)" />
+                                        </td>
 
-                    <td>
-                      <input
-                        type="hidden"
-                        name="CostoModel{{ i }}"
-                        [ngModel]="item.Costo"
-                      />
-                      <input
-                        id="Costo{{ i }}"
-                        name="Costo{{ i }}"
-                        [value]="item.Costo"
-                        type="text"
-                        min="1"
-                        class="form-control form-control-sm text-right f-9"
-                        (change)="
+                                        <td>
+                                            <input type="hidden" name="CostoModel{{ i }}" [ngModel]="item.Costo" />
+                                            <input id="Costo{{ i }}" name="Costo{{ i }}" [value]="item.Costo" type="text" min="1" class="form-control form-control-sm text-right f-9" (change)="
                           CalculoTotal(i);
                           ActualizaValores();
                           CapturarDigitacion(i)
-                        "
-                        (keyup)="ActualizaValores(); CapturarDigitacion(i)"
-                        pattern="[0-9\.]*"
-                      />
-                    </td>
+                        " (keyup)="ActualizaValores(); CapturarDigitacion(i)" pattern="[0-9\.]*" />
+                                        </td>
 
-                    <td>
-                      <!--<input id="Iva{{i}}" name="Iva{{i}}" [ngModel]="item.Iva" type="number" min="1" class="form-control form-control-sm text-right f-9"
+                                        <td>
+                                            <!--<input id="Iva{{i}}" name="Iva{{i}}" [ngModel]="item.Iva" type="number" min="1" class="form-control form-control-sm text-right f-9"
                           (change)="CalculoTotal(i); ActualizaValores(); CapturarDigitacion(i)">-->
-                      <input
-                        type="hidden"
-                        name="IvaModel{{ i }}"
-                        [ngModel]="item.Iva"
-                      />
-                      <select
-                        [ngModel]="item.Iva"
-                        id="Iva{{ i }}"
-                        name="Iva{{ i }}"
-                        class="form-control form-control-sm"
-                        (change)="
+                                            <input type="hidden" name="IvaModel{{ i }}" [ngModel]="item.Iva" />
+                                            <select [ngModel]="item.Iva" id="Iva{{ i }}" name="Iva{{ i }}" class="form-control form-control-sm" (change)="
                           CalculoTotal(i);
                           ActualizaValores();
                           CapturarDigitacion(i)
-                        "
-                      >
+                        ">
                         <option
                           *ngFor="let Impuesto of Impuestos; let i = index"
                           [value]="Impuesto.Valor"
@@ -346,45 +214,27 @@
                           {{ Impuesto.Valor }}
                         </option>
                       </select>
-                    </td>
-                    <td>
-                      <input
-                        type="hidden"
-                        name="TotalModel{{ i }}"
-                        [ngModel]="item.Total"
-                      />
-                      <input
-                        name="Total{{ i }}"
-                        [value]="item.Total"
-                        id="Total{{ i }}"
-                        type="text"
-                        min="1"
-                        class="form-control form-control-sm text-right f-9"
-                        (change)="
+                                        </td>
+                                        <td>
+                                            <input type="hidden" name="TotalModel{{ i }}" [ngModel]="item.Total" />
+                                            <input name="Total{{ i }}" [value]="item.Total" id="Total{{ i }}" type="text" min="1" class="form-control form-control-sm text-right f-9" (change)="
                           CalculoTotal(i);
                           ActualizaValores();
                           CapturarDigitacion(i)
-                        "
-                        readonly
-                      />
-                    </td>
-                    <td>
-                      <button
-                        class="btn btn-danger btn-mini btn-eliminar"
-                        (click)="deleteProduct(i, $event)"
-                        *ngIf="item.producto != ''"
-                      >
+                        " readonly />
+                                        </td>
+                                        <td>
+                                            <button class="btn btn-danger btn-mini btn-eliminar" (click)="deleteProduct(i, $event)" *ngIf="item.producto != ''">
                         <i class="fa fa-trash"></i>
                       </button>
-                    </td>
-                  </tr>
-                </tbody>
-              </table>
-              <!-- <div *ngIf="Lista_Productos.length > 1" >
+                                        </td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                            <!-- <div *ngIf="Lista_Productos.length > 1" >
                     <button class="btn btn-info btn-sm"><i class="fa fa-plus"></i> Agregar Fila</button>
                   </div> -->
-              <small
-                >Nota: Para hacer más efectiva la busqueda, por favor digite el
+                            <small>Nota: Para hacer más efectiva la busqueda, por favor digite el
                 nombre completo del producto.</small
               >
             </div>
