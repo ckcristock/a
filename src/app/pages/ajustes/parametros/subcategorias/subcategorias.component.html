@@ -8,8 +8,8 @@
                             <h5>Subcategorías</h5>
                             <span>Todas las Subcategorías Registradas</span>
                         </div>
-                        <div class="col-md-4 ">
-                            <button type="button" class="pull-right btn btn-primary btn-sm t-10" (click)="modalNuevoEgreso.show()">
+                        <div class="col-md-4">
+                            <button type="button" class="float-right btn btn-primary btn-sm" (click)="modal.show()">
                             <i class="fa fa-plus"></i>
                             Agregar Nueva Subcategoría
                         </button>
@@ -19,14 +19,11 @@
                 <div class="card-body">
                     <div class="row">
                         <div class="col-md-12">
-                            <table class="table table-striped" style="font-size: 10px;">
+                            <table class="table table-striped" style="font-size: 13px;">
                                 <thead>
                                     <tr>
-
                                         <th>Nombre</th>
-
                                         <th style="max-width: 90px;">¿Es Separable?</th>
-
                                         <th style="max-width: 70px; width: 70px !important;">Acciones</th>
                                     </tr>
                                 </thead>
@@ -38,7 +35,7 @@
                                             <h4>Cargando Subcategorías...</h4>
                                         </td>
                                     </tr>
-                                    <tr *ngIf="Retenciones.length == 0 && !Cargando">
+                                    <tr *ngIf="Sucategories.length == 0 && !Cargando">
                                         <td colspan="3" class="text-center">
                                             <i class="fa fa-exclamation-circle fa-5x"></i>
                                             <h4>No Existen Subcategorías para mostar</h4>
@@ -46,7 +43,7 @@
                                           class="fa fa-plus"></i> Cree Una Acá</a>
                                         </td>
                                     </tr>
-                                    <tr *ngFor="let item of Retenciones">
+                                    <tr *ngFor="let item of Sucategories">
                                         <td>
                                             {{item.Nombre}}
                                         </td>
@@ -78,7 +75,10 @@
         </div>
     </div>
 </div>
-<app-modal-basic #modalNuevoEgreso [dialogClass]="'modal-lg'">
+
+
+
+<app-modal-basic #modal [dialogClass]="'modal-lg'">
     <div class="app-modal-header">
         <h4 class="modal-title">Nueva Subcategoria </h4>
         <button type="button" class="close basic-close" (click)="CerrarModal()">
@@ -86,38 +86,185 @@
     </button>
     </div>
     <div class="app-modal-body">
-        <form #FormNuevaRetencion="ngForm">
 
+        <form [formGroup]="form">
             <div class="row">
                 <div class="col-md-6">
                     <div class="form-group">
                         <label>Nombre </label>
-                        <input type="text" name="Nombre" placeholder="" class="form-control form-control-sm" [(ngModel)]="Retencion.Nombre" required>
+                        <input type="text" placeholder="" class="form-control form-control-sm" formControlName="nombre">
                     </div>
                 </div>
                 <div class="col-md-3">
                     <div class="form-group">
                         <label>¿Es separable?</label>
-                        <select name="Separable" id="Separable" class="form-control form-control-sm" [(ngModel)]="Retencion.Separable">
+                        <select class="form-control form-control-sm" formControlName="separable">
                       <option value="Si">Si</option>
                       <option value="No">No</option>
                   </select>
                     </div>
-
                 </div>
+            </div>
+
+            <h5 class="modal-title">Campos Subcategoria </h5>
+            <hr>
+            <div class="row" formArrayName="dynamic">
+                <ng-container *ngIf="fieldDinamic.controls.length; else sinDatos">
+
+                    <ng-container *ngFor="let item of fieldDinamic.controls; let i = index" [formGroupName]="i">
+
+                        <div class="col-md-4">
+                            <div class="form-group">
+                                <label>Nombre </label>
+                                <input type="text" class="form-control form-control-sm" formControlName="label">
+                            </div>
+                        </div>
+
+                        <div class="col-md-4">
+                            <div class="form-group">
+                                <label>Tipo </label>
+                                <select class="form-control form-control-sm" formControlName="type">
+                          <option value="number">Number</option>
+                          <option value="text">Text</option>
+                          <option value="date">Date</option>
+                          <option value="text">Color</option>
+                      </select>
+                            </div>
+                        </div>
+
+                        <div class="col-md-3">
+                            <div class="form-group">
+                                <label>¿Requerido?</label>
+                                <select class="form-control form-control-sm" formControlName="requerido">
+                                    <option value="Si">Si</option>
+                                    <option value="No">No</option>
+                                </select>
+                            </div>
+                        </div>
+                        <div class="col-md-1">
+                            <button style="float: right;" class="btn btn-danger btn-sm" placement="bottom" type="button" ngbTooltip="Borrar" (click)="deleteField(i)">
+                            <i class="fas fa-trash-alt"></i>
+                        </button>
+                        </div>
+                    </ng-container>
+
+                </ng-container>
 
             </div>
 
+            <div class class="row">
+                <div class="col-12">
+                    <div class="text-right">
+                        <button class="col-md-1 btn btn-sm btn-outline-success" style="width: 95px;" placement="left" ngbTooltip="Añadir" (click)="newField()"><i class="fa fa-plus"></i></button>
+                    </div>
+                </div>
+            </div>
+
+
         </form>
     </div>
+
+
     <div class="app-modal-footer">
         <div class="text-right">
             <button type="button" class="btn btn-default btn-sm" (click)="CerrarModal()">Cancelar</button>
-            <button type="submit" [disabled]="!FormNuevaRetencion.valid" class="btn btn-primary btn-sm" (click)="GuardarRetencion(modalNuevoEgreso)">Guardar</button>
+            <button type="submit" class="btn btn-primary btn-sm" (click)="SaveSubcategory()">Guardar</button>
         </div>
     </div>
+
+
 </app-modal-basic>
+
+<!--
+<app-modal-basic #modalNuevoEgreso [dialogClass]="'modal-lg'">
+  <div class="app-modal-header">
+      <h4 class="modal-title">Nueva Subcategoria </h4>
+      <button type="button" class="close basic-close" (click)="CerrarModal()">
+      <span aria-hidden="true">&times;</span>
+  </button>
+  </div>
+  <div class="app-modal-body">
+      <form #FormNuevaRetencion="ngForm">
+
+          <div class="row">
+              <div class="col-md-6">
+                  <div class="form-group">
+                      <label>Nombre </label>
+                      <input type="text" name="Nombre" placeholder="" class="form-control form-control-sm" [(ngModel)]="Retencion.Nombre" required>
+                  </div>
+              </div>
+              <div class="col-md-3">
+                  <div class="form-group">
+                      <label>¿Es separable?</label>
+                      <select name="Separable" id="Separable" class="form-control form-control-sm" [(ngModel)]="Retencion.Separable">
+                    <option value="Si">Si</option>
+                    <option value="No">No</option>
+                </select>
+                  </div>
+              </div>
+          </div>
+
+          <h5 class="modal-title">Campos Subcategoria </h5>
+          <hr>
+          <div class="row">
+              <div class="col-md-4">
+                  <div class="form-group">
+                      <label>Nombre </label>
+                      <input type="text" name="Nombre" placeholder="" class="form-control form-control-sm" [(ngModel)]="Retencion.Nombre" required>
+                  </div>
+              </div>
+
+              <div class="col-md-4">
+                  <div class="form-group">
+                      <label>Tipo </label>
+                      <select class="form-control form-control-sm" name="color" formControlName="type">
+                        <option value="number">Number</option>
+                        <option value="text">Text</option>
+                        <option value="date">Date</option>
+                        <option value="text">Color</option>
+                    </select>
+                  </div>
+              </div>
+
+              <div class="col-md-3">
+                  <div class="form-group">
+                      <label>¿Requerido?</label>
+                      <select name="Separable" id="Separable" class="form-control form-control-sm" [(ngModel)]="Retencion.Separable">
+                  <option value="Si">Si</option>
+                  <option value="No">No</option>
+              </select>
+                  </div>
+              </div>
+          </div>
+
+
+      </form>
+  </div>
+
+
+  <div class="app-modal-footer">
+      <div class="text-right">
+          <button type="button" class="btn btn-default btn-sm" (click)="CerrarModal()">Cancelar</button>
+          <button type="submit" [disabled]="!FormNuevaRetencion.valid" class="btn btn-primary btn-sm" (click)="GuardarRetencion(modalNuevoEgreso)">Guardar</button>
+      </div>
+  </div>
+
+
+</app-modal-basic> -->
+
+
 <swal #confirmacionSwal title="" text="" type=""></swal>
 <ng-template #rt1 let-r="result" let-t="term">
     <span class="f-9">{{ r.Codigo }} </span>
+</ng-template>
+
+
+<ng-template #sinDatos>
+    <table class="table table-striped">
+        <tr class="bg-light">
+            <td colspan="100%" class="text-center">
+                <p class="mt-3" style="font-size: 20px; font-family: 'Noto Sans Display', sans-serif;">Sin datos agregados</p>
+            </td>
+        </tr>
+    </table>
 </ng-template>

@@ -6,6 +6,11 @@ import { debounceTime, map } from 'rxjs/operators';
 import { SwalService } from '../../informacion-base/services/swal.service';
 import { environment } from 'src/environments/environment';
 import { Location } from "@angular/common";
+import { FormGroup, FormBuilder, FormArray, Validators } from '@angular/forms';
+import { SubcategoryService } from './subcategory.service';
+import Swal from 'sweetalert2';
+
+
 
 
 @Component({
@@ -15,12 +20,15 @@ import { Location } from "@angular/common";
 })
 export class SubcategoriasComponent implements OnInit {
 
+  form: FormGroup;
+
 
   public servicios: any[];
   @ViewChild('FormTipoServicio') FormTipoServicio: any;
 
   @ViewChild('confirmacionSwal') confirmacionSwal:any;
-  @ViewChild('modalNuevoEgreso') modalNuevoEgreso: any;
+  @ViewChild('modal') modal:any;
+
 
   public PuntosSeleccionados=[];
   public Cuenta = [];
@@ -29,7 +37,7 @@ export class SubcategoriasComponent implements OnInit {
   public Cargando: boolean = true;
   public page = 1;
   public TotalItems: number;
-  public Retenciones: any = [];
+  public Sucategories: any = [];
   public Lista_Tipo_Soporte = [];
   public Retencion:any={
     Nombre:'',
@@ -40,8 +48,9 @@ export class SubcategoriasComponent implements OnInit {
 
 
 
-  constructor(private http: HttpClient, private location: Location, private route: ActivatedRoute, private _swalService:SwalService) {
-    this.ListarTurnero();
+  constructor(private _subcategory: SubcategoryService,private http: HttpClient, private location: Location, private route: ActivatedRoute, private _swalService:SwalService,private fb: FormBuilder,
+    ) {
+    this.getSubcategory();
   }
   search1 = (text$: Observable<string>) =>
   text$.pipe(
@@ -52,58 +61,148 @@ export class SubcategoriasComponent implements OnInit {
 formatter1 = (x: { Codigo: string }) => x.Codigo;
 
   ngOnInit() {
+    this.createForm();
     this.http.get(environment.ruta + 'php/lista_generales.php', { params: { modulo: 'Bodega' } }).subscribe((data: any) => {
       this.Bodegas = data;
     });
-
   }
-  ListarTurnero() {
+
+  createForm() {
+    this.form = this.fb.group({
+      id: [''],
+      nombre: ['', Validators.required],
+      separable: ['', Validators.required],
+      dynamic: this.fb.array([]),
+    })
+  }
+
+  dinamicFields(){
+    let field = this.fb.group({
+      label: [''],
+      type: [''],
+      requerido: ['']
+    });
+    return field;
+  }
+
+  newField(){
+    let field = this.fieldDinamic;
+    field.push(this.dinamicFields());
+  }
+
+  get fieldDinamic(){
+    return this.form.get('dynamic') as FormArray;
+  }
+
+  deleteField(i){
+    this.fieldDinamic.removeAt(i);
+  }
+
+
+  getSubcategory() {
      this.http.get(environment.ruta + 'php/parametros/lista_subcategoria.php').subscribe((data: any) => {
       this.Cargando = false;
-      this.Retenciones = data;
+      this.Sucategories = data;
     });
   }
 
-  GuardarRetencion(modal) {
-    let info = this.normalize(JSON.stringify(this.Retencion));
-    let datos = new FormData();
-    datos.append("datos", info);
-    if (this.EditFlag) {
-      this.http.post(environment.ruta + 'php/parametros/editar_subcategoria.php', datos).subscribe((data: any) => {
-        if (data.codigo == 'success') {
-          this._swalService.ShowMessage(data);
-          modal.hide();
-          this.Retencion={
-            Nombre:'',
-            Id_Bodega:'',
-            Separable:'No'
-          };
-          this.ListarTurnero();
-          this.EditFlag = false;
-        }else{
-          this._swalService.ShowMessage(data);
-        }
-      });
+  SaveSubcategory(){
+    if(this.form.get('id').value){
+      console.log("editar");
+
     }else{
-      this.http.post(environment.ruta + 'php/parametros/guardar_subcategoria.php', datos).subscribe((data: any) => {
-        modal.hide();
-        this.confirmacionSwal.title="Operación Exitosa";
-        this.confirmacionSwal.text= data.mensaje;
-        this.confirmacionSwal.type= data.tipo;
-        this.confirmacionSwal.show();
+      console.log("created");
 
-        this.Retencion={
-          Nombre:'',
-          Id_Bodega:'',
-          Separable:'No'
-        };
-        this.ListarTurnero();
-      });
+      // this._subcategory.save(this.form.value).subscribe((r:any) =>{
+      //   this.form.reset();
+      //   this.fieldDinamic.clear();
+      //   Swal.fire({
+      //     icon: 'success',
+      //     title: 'Subcategoria creada con éxito',
+      //     text: '',
+
+      //   })
+      // })
     }
-
-
-
   }
+
+
+
+  // save(){
+  //   if (this.form.get('id').value) {
+  //     this._materials.update(this.form.value, this.material.id).subscribe((r:any) => {
+  //       this.form.reset();
+  //       this.modal.hide();
+  //       this.thicknessList.clear();
+  //       this.fieldList.clear();
+  //       this.getMaterials();
+  //       this._swal.show({
+  //         icon: 'success',
+  //         title: 'Material actualizado con éxito',
+  //         text: '',
+  //         showCancel: false
+  //       })
+  //     })
+  //   } else {
+  //     this._materials.save(this.form.value).subscribe((r:any) =>{
+  //       this.form.reset();
+  //       this.modal.hide();
+  //       this.thicknessList.clear();
+  //       this.fieldList.clear();
+  //       this.getMaterials();
+  //       this._swal.show({
+  //         icon: 'success',
+  //         title: 'Material creado con éxito',
+  //         text: '',
+  //         showCancel: false
+  //       })
+  //     })
+  //   }
+  // }
+
+  // GuardarRetencion(modal) {
+
+
+
+  //   let info = this.normalize(JSON.stringify(this.Retencion));
+  //   let datos = new FormData();
+  //   datos.append("datos", info);
+  //   if (this.EditFlag) {
+  //     this.http.post(environment.ruta + 'php/parametros/editar_subcategoria.php', datos).subscribe((data: any) => {
+  //       if (data.codigo == 'success') {
+  //         this._swalService.ShowMessage(data);
+  //         modal.hide();
+  //         this.Retencion={
+  //           Nombre:'',
+  //           Id_Bodega:'',
+  //           Separable:'No'
+  //         };
+  //         this.getSubcategory();
+  //         this.EditFlag = false;
+  //       }else{
+  //         this._swalService.ShowMessage(data);
+  //       }
+  //     });
+  //   }else{
+  //     this.http.post(environment.ruta + 'php/parametros/guardar_subcategoria.php', datos).subscribe((data: any) => {
+  //       modal.hide();
+  //       this.confirmacionSwal.title="Operación Exitosa";
+  //       this.confirmacionSwal.text= data.mensaje;
+  //       this.confirmacionSwal.type= data.tipo;
+  //       this.confirmacionSwal.show();
+
+  //       this.Retencion={
+  //         Nombre:'',
+  //         Id_Bodega:'',
+  //         Separable:'No'
+  //       };
+  //       this.getSubcategory();
+  //     });
+  //   }
+
+
+
+  // }
   normalize = (function() {
     var from = "ÃÀÁÄÂÈÉËÊÌÍÏÎÒÓÖÔÙÚÜÛãàáäâèéëêìíïîòóöôùúüûÑñÇç",
         to   = "AAAAAEEEEIIIIOOOOUUUUaaaaaeeeeiiiioooouuuunncc",
@@ -136,7 +235,7 @@ formatter1 = (x: { Codigo: string }) => x.Codigo;
   this.confirmacionSwal.text= data.mensaje;
   this.confirmacionSwal.type= data.tipo;
   this.confirmacionSwal.show();
- this.ListarTurnero();
+ this.getSubcategory();
   });
 }
 
@@ -145,7 +244,7 @@ public GetDetallesCategoria(id_subcategoria:string){
     if (data.codigo == 'success') {
       this.Retencion = data.query_result;
       this.EditFlag = true;
-      this.modalNuevoEgreso.show();
+      this.modal.show();
     }else{
       this.EditFlag = false;
       this.Retencion={
@@ -159,7 +258,7 @@ public GetDetallesCategoria(id_subcategoria:string){
 }
 
 public CerrarModal(){
-  this.modalNuevoEgreso.hide();
+  this.modal.hide();
   this.Retencion={
     Nombre:'',
     Id_Bodega:'',
