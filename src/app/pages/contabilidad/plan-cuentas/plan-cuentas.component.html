@@ -55,12 +55,12 @@
                 </tr>
             </thead>
             <tbody>
-                <tr *ngFor="let account of accounts" [ngClass]="{'bg-danger text-white': ( account.status == 'Inactivo' )}">
-                    <td> {{ account.code }} </td>
-                    <td> {{ account.name }} </td>
-                    <td> {{ account.niif_code }} </td>
-                    <td> {{ account.niif_name }} </td>
-                    <td> {{ account.status }} </td>
+                <tr *ngFor="let account of accounts" [ngClass]="{'bg-danger text-white': ( account.Estado == 'Anulada' )}">
+                    <td> {{ account.Codigo }} </td>
+                    <td> {{ account.Nombre }} </td>
+                    <td> {{ account.Codigo_Niif }} </td>
+                    <td> {{ account.Nombre_Niif }} </td>
+                    <td> {{ account.Estado }} </td>
                     <td>
                         <div class="text-center">
                             <div ngbDropdown class="dropdown-primary">
@@ -70,9 +70,9 @@
                                 <div ngbDropdownMenu>
                                     <a class="dropdown-item waves-light waves-effect caja-botones" target="_blank" (click)="getAccount(account); modal.show()"><i
                                             class="fa fa-file-pdf-o"></i>Editar</a>
-                                    <a *ngIf="account.status == 'Activo' || account.status == 'Cancelado' || account.status == 'Pendiente'" class="dropdown-item waves-light waves-effect caja-botones" (click)="activateOrInactivate(account, 'Inactivo')">
+                                    <a *ngIf="account.status == 'Activo' || account.status == 'Cancelado' || account.status == 'Pendiente'" class="dropdown-item waves-light waves-effect caja-botones" (click)="activateOrInactivate(account, 'Anulada')">
                                         <i class="fa fa-pencil"></i>Inactivar</a>
-                                    <a *ngIf="account.status == 'Inactivo'" class="dropdown-item waves-light waves-effect caja-botones" (click)="activateOrInactivate(account, 'Activo')">
+                                    <a *ngIf="account.status == 'Anulada'" class="dropdown-item waves-light waves-effect caja-botones" (click)="activateOrInactivate(account, 'Activo')">
                                         <i class="fa fa-pencil"></i>Activar</a>
                                 </div>
                             </div>
@@ -81,7 +81,7 @@
                 </tr>
             </tbody>
         </table>
-        <ngb-pagination class="d-flex justify-content-center pagination-rounded pagination-sm" [collectionSize]="pagination.collectionSize" [pageSize]="pagination.pageSize" [(page)]="pagination.page" (pageChange)="getAccount_plan($event)" aria-label="Default pagination"
+        <ngb-pagination class="d-flex justify-content-center pagination-rounded pagination-sm" [collectionSize]="pagination.collectionSize" [pageSize]="pagination.pageSize" [(page)]="pagination.page" (pageChange)="filtross($event)" aria-label="Default pagination"
             maxSize="5" rotate="true" ellipses="false" boundaryLinks="true" rotate="true" ellipses="false" boundaryLinks="true">
         </ngb-pagination>
     </div>
@@ -106,41 +106,41 @@
                             <div class="row">
                                 <div class="form-group col-md-6">
                                     <label class="custom-label" for="type_p">Tipo P</label>
-                                    <select class="form-control form-control-sm" id="type_p" formControlName="type_p">
+                                    <select class="form-control form-control-sm" id="type_p" formControlName="Tipo_P">
                                             <option selected>Seleccione</option>
                                             <option *ngFor="let type of type_p" [value]="type.valor">
                                                 {{ type.clave }}
                                             </option>
                                         </select>
                                     <ng-container *ngIf="type_p_invalid">
-                                        <small *ngFor="let item of form.get('type_p').errors | ObjToArrayPipe" class="text-danger">
+                                        <small *ngFor="let item of form.get('Tipo_P').errors | ObjToArrayPipe" class="text-danger">
                                                   {{ item?.msj }}
                                                 </small>
                                     </ng-container>
                                 </div>
                                 <div class="form-group col-md-6">
                                     <label class="custom-label" for="code">Código</label>
-                                    <input type="number" class="form-control form-control-sm" id="code" formControlName="code" autocomplete="off">
+                                    <input type="number" class="form-control form-control-sm" id="code" formControlName="Codigo" autocomplete="off">
                                     <ng-container *ngIf="code_invalid">
-                                        <small *ngFor="let item of form.get('code').errors | ObjToArrayPipe" class="text-danger">
+                                        <small *ngFor="let item of form.get('Codigo').errors | ObjToArrayPipe" class="text-danger">
                                                   {{ item?.msj }}
                                                 </small>
                                     </ng-container>
                                 </div>
                                 <div class="form-group col-md-6">
                                     <label class="custom-label" for="account">Cuenta</label>
-                                    <input type="text" class="form-control form-control-sm" id="account" formControlName="name" autocomplete="off">
+                                    <input type="text" class="form-control form-control-sm" id="account" formControlName="Nombre" autocomplete="off">
                                     <ng-container *ngIf="account_number_invalid">
-                                        <small *ngFor="let item of form.get('account_number').errors | ObjToArrayPipe" class="text-danger">
+                                        <small *ngFor="let item of form.get('Cta_Numero').errors | ObjToArrayPipe" class="text-danger">
                                               {{ item?.msj }}
                                             </small>
                                     </ng-container>
                                 </div>
                                 <div class="form-group col-md-6">
-                                    <label class="custom-label" for="niif">NIIF</label>
-                                    <input type="number" class="form-control form-control-sm" id="niif" formControlName="niif" autocomplete="off">
+                                    <label class="custom-label" for="niif">Niif</label>
+                                    <input type="number" class="form-control form-control-sm" id="niif" formControlName="Niif" autocomplete="off">
                                     <ng-container *ngIf="niif_invalid">
-                                        <small *ngFor="let item of form.get('niif').errors | ObjToArrayPipe" class="text-danger">
+                                        <small *ngFor="let item of form.get('Niif').errors | ObjToArrayPipe" class="text-danger">
                                               {{ item?.msj }}
                                             </small>
                                     </ng-container>
@@ -152,32 +152,32 @@
                             <div class="row">
                                 <div class="form-group col-md-6">
                                     <label class="custom-label" for="type_niif">Tipo NIIF</label>
-                                    <select class="form form-control form-control-sm" id="type_niif" formControlName="type_niif">
+                                    <select class="form form-control form-control-sm" id="type_niif" formControlName="Tipo_Niif">
                                         <option selected>Seleccione</option>
                                         <option *ngFor="let type of type_p" [value]="type.valor">
                                             {{ type.clave }}
                                         </option>
                                     </select>
                                     <ng-container *ngIf="type_niif_invalid">
-                                        <small *ngFor="let item of form.get('type_p').errors | ObjToArrayPipe" class="text-danger">
+                                        <small *ngFor="let item of form.get('Tipo_Niif').errors | ObjToArrayPipe" class="text-danger">
                                               {{ item?.msj }}
                                             </small>
                                     </ng-container>
                                 </div>
                                 <div class="form-group col-md-6">
                                     <label class="custom-label" for="niif_code">Código NIIF</label>
-                                    <input type="number" class="form form-control form-control-sm" id="niif_code" formControlName="niif_code" autocomplete="off">
+                                    <input type="number" class="form form-control form-control-sm" id="niif_code" formControlName="Codigo_Niif" autocomplete="off">
                                     <ng-container *ngIf="niif_code_invalid">
-                                        <small *ngFor="let item of form.get('niif_code').errors | ObjToArrayPipe" class="text-danger">
+                                        <small *ngFor="let item of form.get('Codigo_Niif').errors | ObjToArrayPipe" class="text-danger">
                                               {{ item?.msj }}
                                             </small>
                                     </ng-container>
                                 </div>
                                 <div class="form-group col-md-12">
                                     <label class="custom-label" for="niif_name">Nombre NIIF</label>
-                                    <input type="text" class="form form-control form-control-sm" id="niif_name" formControlName="niif_name" autocomplete="off">
+                                    <input type="text" class="form form-control form-control-sm" id="niif_name" formControlName="Nombre_Niif" autocomplete="off">
                                     <ng-container *ngIf="niif_name_invalid">
-                                        <small *ngFor="let item of form.get('niif_name').errors | ObjToArrayPipe" class="text-danger">
+                                        <small *ngFor="let item of form.get('Nombre_Niif').errors | ObjToArrayPipe" class="text-danger">
                                               {{ item?.msj }}
                                             </small>
                                     </ng-container>
@@ -189,7 +189,7 @@
                     <div class="row">
                         <div class="form-group col-4">
                             <label class="custom-label" for="movement">¿Cuenta es Movimiento?</label>
-                            <select class="form form-control form-control-sm" id="movement" formControlName="movement" (change)="enableFields($event.target.value)">
+                            <select class="form form-control form-control-sm" id="movement" formControlName="Movimiento" (change)="enableFields($event.target.value)">
                                 <option *ngFor="let option of options" [value]="option.valor" >
                                     {{ option.clave }}
                                 </option>
@@ -197,7 +197,7 @@
                         </div>
                         <div class="form-group col-4">
                             <label class="custom-label" for="base">base</label>
-                            <select class="form form-control form-control-sm" id="base" formControlName="base">
+                            <select class="form form-control form-control-sm" id="base" formControlName="Base">
                                 <option *ngFor="let option of options" [value]="option.valor">
                                     {{ option.clave }}
                                 </option>
@@ -205,15 +205,15 @@
                         </div>
                         <div class="form-group col-4">
                             <label class="custom-label" for="value">Valor</label>
-                            <input type="number" class="form form-control form-control-sm" id="value" formControlName="value" autocomplete="off">
+                            <input type="number" class="form form-control form-control-sm" id="value" formControlName="Valor" autocomplete="off">
                         </div>
                         <div class="form-group col-4">
                             <label class="custom-label" for="percent">Porcentaje</label>
-                            <input type="number" class="form form-control form-control-sm" id="percent" formControlName="percent" autocomplete="off">
+                            <input type="number" class="form form-control form-control-sm" id="percent" formControlName="Porcentaje" autocomplete="off">
                         </div>
                         <div class="form-group col-4">
                             <label class="custom-label" for="adjustment">Ajuste Contrable</label>
-                            <select class="form form-control form-control-sm" id="adjustment" formControlName="accounting_adjustment">
+                            <select class="form form-control form-control-sm" id="adjustment" formControlName="Ajuste_Contable">
                                 <option *ngFor="let option of options" [value]="option.valor">
                                     {{ option.clave }}
                                 </option>
@@ -221,20 +221,20 @@
                         </div>
                         <div class="form-group col-4">
                             <label class="custom-label" for="nature">Naturaleza</label>
-                            <select class="form-control form-control-sm" formControlName="nature" id="nature">
+                            <select class="form-control form-control-sm" formControlName="Naturaleza" id="nature">
                                 <option *ngFor="let accountType of accountTypes" [value]="accountType.valor">
                                     {{ accountType.clave }}
                                 </option>
                             </select>
                             <ng-container *ngIf="nature_invalid">
-                                <small *ngFor="let item of form.get('nature').errors | ObjToArrayPipe" class="text-danger">
+                                <small *ngFor="let item of form.get('Naturaleza').errors | ObjToArrayPipe" class="text-danger">
                                       {{ item?.msj }}
                                     </small>
                             </ng-container>
                         </div>
                         <div class="form-group col-4">
                             <label class="custom-label" for="voucher">Cta Comprobante Cie Anual</label>
-                            <select class="form form-control form-control-sm" formControlName="annual_voucher" id="voucher">
+                            <select class="form form-control form-control-sm" formControlName="Cie_Anual" id="voucher">
                                 <option *ngFor="let option of options" [value]="option.valor">
                                     {{ option.clave }}
                                 </option>
@@ -242,7 +242,7 @@
                         </div>
                         <div class="form-group col-4">
                             <label class="custom-label" for="close_third">Cierra Terceros</label>
-                            <select class="form form-control form-control-sm" id="close_third" formControlName="close_third">
+                            <select class="form form-control form-control-sm" id="close_third" formControlName="Cierra_Terceros">
                                 <option *ngFor="let option of options" [value]="option.valor">
                                     {{ option.clave }}
                                 </option>
@@ -250,11 +250,11 @@
                         </div>
                         <div class="form-group col-4">
                             <label class="custom-label" for="close_nit">NIT Cierre</label>
-                            <input type="number" class="form form-control form-control-sm" id="close_nit" formControlName="close_nit" autocomplete="off">
+                            <input type="number" class="form form-control form-control-sm" id="close_nit" formControlName="Nit_Cierre" autocomplete="off">
                         </div>
                         <div class="form-group col-4">
                             <label class="custom-label" for="bank">Banco</label>
-                            <select class="form form-control form-control-sm" id="bank" formControlName="bank" (change)="getBanks($event.target.value)">
+                            <select class="form form-control form-control-sm" id="bank" formControlName="Banco" (change)="getBanks($event.target.value)">
                                 <option *ngFor="let option of options" [value]="option.valor">
                                     {{ option.clave }}
                                 </option>
@@ -262,7 +262,7 @@
                         </div>
                         <div class="form-group col-4" *ngIf="bankSelected == true">
                             <label class="custom-label" for="bank_list">Lista de Bancos</label>
-                            <select class="form form-control form-control-sm" formControlName="bank_id" id="bank_list">
+                            <select class="form form-control form-control-sm" formControlName="Cod_Banco" id="bank_list">
                                 <option *ngFor="let bank of banks" [value]="bank.value">
                                     {{ bank.text }}
                                 </option>
@@ -270,7 +270,7 @@
                         </div>
                         <div class="form-group col-4">
                             <label class="custom-label" for="nit">NIT</label>
-                            <select class="form form-control form-control-sm" id="nit" formControlName="nit">
+                            <select class="form form-control form-control-sm" id="nit" formControlName="Nit">
                                 <option *ngFor="let option of options" [value]="option.valor">
                                     {{ option.clave }}
                                 </option>
@@ -278,7 +278,7 @@
                         </div>
                         <div class="form-group col-4">
                             <label class="custom-label" for="class_account">Clase Cuenta</label>
-                            <select class="form form-control form-control-sm" id="class_account" formControlName="class_account">
+                            <select class="form form-control form-control-sm" id="class_account" formControlName="Clase_Cta">
                                 <option *ngFor="let item of cuenta" [value]="item.valor">
                                     {{ item.clave }}
                                 </option>
@@ -286,7 +286,7 @@
                         </div>
                         <div class="form-group col-4">
                             <label class="custom-label" for="document">Documento</label>
-                            <select class="form form-control form-control-sm" id="document" formControlName="document">
+                            <select class="form form-control form-control-sm" id="document" formControlName="Documento">
                                 <option *ngFor="let option of options" [value]="option.valor">
                                     {{ option.clave }}
                                 </option>
@@ -295,24 +295,24 @@
 
                         <div class="form-group col-4">
                             <label class="custom-label">Estado</label>
-                            <select class="form form-control form-control-sm" formControlName="account_number" autocomplete="off">
+                            <select class="form form-control form-control-sm" formControlName="Estado" autocomplete="off">
                                 <option *ngFor="let statu of status" [value]="statu.valor">
                                     {{ statu.clave }}
                                 </option>
                             </select>
                             <ng-container *ngIf="status_invalid">
-                                <small *ngFor="let item of form.get('status').errors | ObjToArrayPipe" class="text-danger">
+                                <small *ngFor="let item of form.get('Estado').errors | ObjToArrayPipe" class="text-danger">
                                       {{ item?.msj }}
                                     </small>
                             </ng-container>
                         </div>
                         <div class="form-group col-4">
                             <label class="custom-label" for="account_number">Cuenta Número</label>
-                            <input type="number" class="form form-control form-control-sm" id="account_number" formControlName="account_number" autocomplete="off">
+                            <input type="number" class="form form-control form-control-sm" id="account_number" formControlName="Cta_Numero" autocomplete="off">
                         </div>
                         <div class="form-group col-4">
                             <label class="custom-label" for="center_cost">Centro de Costos</label>
-                            <select class="form form-control form-control-sm" id="center_cost" formControlName="center_cost">
+                            <select class="form form-control form-control-sm" id="center_cost" formControlName="Centro_Costo">
                                 <option *ngFor="let option of options" [value]="option.valor">
                                     {{ option.clave }}
                                 </option>
@@ -320,11 +320,11 @@
                         </div>
                         <div class="form-group col-4">
                             <label class="custom-label" for="report">Reporte</label>
-                            <input type="text" class="form form-control form-control-sm" id="report" formControlName="report" autocomplete="off">
+                            <input type="text" class="form form-control form-control-sm" id="report" formControlName="Reporte" autocomplete="off">
                         </div>
                         <div class="form-group col-4">
                             <label class="custom-label" for="exogenous">Exogena</label>
-                            <select class="form form-control form-control-sm" id="exogenous" formControlName="exogenous">
+                            <select class="form form-control form-control-sm" id="exogenous" formControlName="Exogeno">
                                 <option *ngFor="let option of options" [value]="option.valor">
                                     {{ option.clave }}
                                 </option>
