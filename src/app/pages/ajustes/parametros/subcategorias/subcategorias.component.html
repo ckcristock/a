@@ -24,7 +24,8 @@
                                     <tr>
                                         <th>Nombre</th>
                                         <th style="max-width: 90px;">¿Es Separable?</th>
-                                        <th style="max-width: 70px; width: 70px !important;">Acciones</th>
+                                        <th style="max-width: 100px; width: 100px !important;">Acciones</th>
+                                        <!-- <th style="max-width: 70px; width: 70px !important;">Acciones</th> -->
                                     </tr>
                                 </thead>
                                 <tbody>
@@ -52,14 +53,16 @@
                                         </td>
                                         <td>
                                             <div ngbDropdown class="dropdown-primary">
-                                                <button ngbDropdownToggle class="btn btn-secondary btn-mini waves-effect waves-light " type="button">Acciones</button>
+                                                <button ngbDropdownToggle class="btn btn-primary btn-sm waves-effect waves-light" type="button">
+                                                  <i class="mdi mdi-chevron-down"></i>
+                                                </button>
                                                 <div ngbDropdownMenu>
-                                                    <a class="dropdown-item waves-light waves-effect caja-botones" (click)="GetDetallesCategoria(item.Id_Subcategoria)">
-                                                        <i class="ti-pencil text-warning"></i>Editar
+                                                    <a class="dropdown-item waves-light waves-effect" (click)="GetDetallesCategoria(item.Id_Subcategoria)">
+                                                        <i class="fas fa-user-edit mr-1"></i>Editar
                                                     </a>
-                                                    <a class="dropdown-item waves-light waves-effect caja-botones" [swal]="{ title : '¿Está Seguro?', text : 'Se dispone a Eliminar esta Subcategoria, esta acción no se puede revertir' , type : 'warning', showCancelButton : true , confirmButtonText : 'Si, Eliminar', cancelButtonText : 'No, Dejame Comprobar!' }"
+                                                    <a class="dropdown-item waves-light waves-effect" [swal]="{ title : '¿Está Seguro?', text : 'Se dispone a Eliminar esta Subcategoria, esta acción no se puede revertir' , type : 'warning', showCancelButton : true , confirmButtonText : 'Si, Eliminar', cancelButtonText : 'No, Dejame Comprobar!' }"
                                                         (confirm)="EliminarRetencion(item.Id_subcategoria)">
-                                                        <i class="fa fa-times text-danger"></i>Eliminar</a>
+                                                        <i class="far fa-trash-alt mr-1"></i>Eliminar</a>
 
                                                 </div>
                                             </div>
