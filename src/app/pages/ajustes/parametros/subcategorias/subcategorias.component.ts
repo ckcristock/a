@@ -70,8 +70,8 @@ formatter1 = (x: { Codigo: string }) => x.Codigo;
   createForm() {
     this.form = this.fb.group({
       id: [''],
-      nombre: ['', Validators.required],
-      separable: ['', Validators.required],
+      Nombre: ['', Validators.required],
+      Separable: ['', Validators.required],
       dynamic: this.fb.array([]),
     })
   }
@@ -80,7 +80,7 @@ formatter1 = (x: { Codigo: string }) => x.Codigo;
     let field = this.fb.group({
       label: [''],
       type: [''],
-      requerido: ['']
+      required: ['']
     });
     return field;
   }
@@ -112,17 +112,17 @@ formatter1 = (x: { Codigo: string }) => x.Codigo;
 
     }else{
       console.log("created");
+      this._subcategory.save(this.form.value).subscribe((r:any) =>{
+        this.form.reset();
+        this.fieldDinamic.clear();
+        this.getSubcategory()
+        Swal.fire({
+          icon: 'success',
+          title: 'Subcategoria creada con éxito',
+          text: '',
 
-      // this._subcategory.save(this.form.value).subscribe((r:any) =>{
-      //   this.form.reset();
-      //   this.fieldDinamic.clear();
-      //   Swal.fire({
-      //     icon: 'success',
-      //     title: 'Subcategoria creada con éxito',
-      //     text: '',
-
-      //   })
-      // })
+        })
+      })
     }
   }
 

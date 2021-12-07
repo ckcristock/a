@@ -92,13 +92,13 @@
                 <div class="col-md-6">
                     <div class="form-group">
                         <label>Nombre </label>
-                        <input type="text" placeholder="" class="form-control form-control-sm" formControlName="nombre">
+                        <input type="text" placeholder="" class="form-control form-control-sm" formControlName="Nombre">
                     </div>
                 </div>
                 <div class="col-md-3">
                     <div class="form-group">
                         <label>¿Es separable?</label>
-                        <select class="form-control form-control-sm" formControlName="separable">
+                        <select class="form-control form-control-sm" formControlName="Separable">
                       <option value="Si">Si</option>
                       <option value="No">No</option>
                   </select>
@@ -127,7 +127,7 @@
                           <option value="number">Number</option>
                           <option value="text">Text</option>
                           <option value="date">Date</option>
-                          <option value="text">Color</option>
+
                       </select>
                             </div>
                         </div>
@@ -135,7 +135,7 @@
                         <div class="col-md-3">
                             <div class="form-group">
                                 <label>¿Requerido?</label>
-                                <select class="form-control form-control-sm" formControlName="requerido">
+                                <select class="form-control form-control-sm" formControlName="required">
                                     <option value="Si">Si</option>
                                     <option value="No">No</option>
                                 </select>
@@ -168,7 +168,7 @@
     <div class="app-modal-footer">
         <div class="text-right">
             <button type="button" class="btn btn-default btn-sm" (click)="CerrarModal()">Cancelar</button>
-            <button type="submit" class="btn btn-primary btn-sm" (click)="SaveSubcategory()">Guardar</button>
+            <button type="submit" [disabled]="!form.valid" class="btn btn-primary btn-sm" (click)="SaveSubcategory()">Guardar</button>
         </div>
     </div>
 

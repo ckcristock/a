@@ -10,7 +10,7 @@ export class SubcategoryService {
   constructor( private http: HttpClient ) { }
 
   save( data:any ){
-    return this.http.post(`${environment.base_url}/materials`, data);
+    return this.http.post(`${environment.base_url}/subcategory`, data);
   }
 
   update( data, id ){
