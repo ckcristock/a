@@ -38,6 +38,10 @@ export class SubcategoriasComponent implements OnInit {
   public page = 1;
   public TotalItems: number;
   public Sucategories: any = [];
+  public Subcategory:any = {};
+  public title:string = 'Nueva Subcategoria';
+
+
   public Lista_Tipo_Soporte = [];
   public Retencion:any={
     Nombre:'',
@@ -106,9 +110,32 @@ formatter1 = (x: { Codigo: string }) => x.Codigo;
     });
   }
 
+  EditSubcategory(data){
+    console.log(data);
+    this.Subcategory = {...data}
+    this.title = 'Editar Subcategoria';
+
+    this.form.patchValue({
+      id: this.Subcategory.id,
+      Nombre: this.Subcategory.Nombre,
+      Separable: this.Subcategory.Separable
+    })
+
+  }
+
   SaveSubcategory(){
     if(this.form.get('id').value){
-      console.log("editar");
+      this._subcategory.update(this.form.value,this.form.value).subscribe((r:any) =>{
+        this.form.reset();
+        this.fieldDinamic.clear();
+        this.getSubcategory()
+        Swal.fire({
+          icon: 'success',
+          title: 'Subcategoria creada con éxito',
+          text: '',
+
+        })
+      })
 
     }else{
       console.log("created");
