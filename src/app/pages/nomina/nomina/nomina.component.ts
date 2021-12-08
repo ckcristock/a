@@ -22,8 +22,8 @@ export class NominaComponent implements OnInit {
   funcionariosBase = [];
   people = [];
 
-  inicioParemeter: ""
-  finParemeter: ""
+  inicioParemeter: '';
+  finParemeter: '';
   constructor(
     private _payroll: PayRollService,
     private _people: PersonService,
@@ -46,12 +46,14 @@ export class NominaComponent implements OnInit {
   }
 
   getPagoNomina() {
-
     this.loadingPeople = true;
-    const params = this.inicioParemeter && this.finParemeter ?
-      {
-        date1: this.inicioParemeter, date2: this.finParemeter,
-      } : {}
+    const params =
+      this.inicioParemeter && this.finParemeter
+        ? {
+            date1: this.inicioParemeter,
+            date2: this.finParemeter,
+          }
+        : {};
     this._payroll.getPayrollPays(params).subscribe((r: any) => {
       this.nomina = r.data;
       this.pago.id = this.nomina.nomina_paga_id
@@ -75,13 +77,11 @@ export class NominaComponent implements OnInit {
 
   filter(event) {
     if (event) {
-      let fun = this.funcionariosBase.find(r => r.id == event)
-      this.funcionarios = fun ? [fun] : []
-
+      let fun = this.funcionariosBase.find((r) => r.id == event);
+      this.funcionarios = fun ? [fun] : [];
     } else {
-      this.funcionarios = this.funcionariosBase
+      this.funcionarios = this.funcionariosBase;
     }
-
   }
 
   getPeople() {
@@ -109,21 +109,34 @@ export class NominaComponent implements OnInit {
   }
 
   deletePagoNomina() {
-    this._payroll.deletePayroll().subscribe(r => {
-
-    }, err => {
-
-    })
+    this._payroll.deletePayroll().subscribe(
+      (r) => {},
+      (err) => {}
+    );
   }
 
-  showInterfaceForGlobo(modal) { }
+  emitElectronic() {
+    this._swal
+      .show({
+        title: 'Reporte de nómina electrónica',
+        text: '¿Está seguro de emitir esta nómina?',
+        icon: 'question',
+      })
+      .then((r) => {
+        if (r.isConfirmed) {
+          this._payroll.reporElectronic(this.nomina.nomina.id).subscribe(r=>{
+            
+          });
+        }
+      });
+  }
+  showInterfaceForGlobo(modal) {}
 
-  mostrarNovedades(fun) { }
-  mostrarIngresosP(fun) { }
-  mostrarIngresosNP(fun) { }
-  mostrarDeducciones(fun) { }
-  getColilla(fun) { }
-
+  mostrarNovedades(fun) {}
+  mostrarIngresosP(fun) {}
+  mostrarIngresosNP(fun) {}
+  mostrarDeducciones(fun) {}
+  getColilla(fun) {}
 
   postPagoNomina() {
     this.pago.start_period = this.nomina.inicio_periodo;
@@ -138,14 +151,15 @@ export class NominaComponent implements OnInit {
     this.pago.total_cost = this.nomina.costo_total_empresa;
 
     this._swal
-      .show({
-        title: "¿Está seguro?",
-        text:
-          "Se dispone a generar una nómina, revise que todo coincida antes de continuar.",
-        icon: "warning",
-
-      }, this.savePayroll)
-      .then(result => {
+      .show(
+        {
+          title: '¿Está seguro?',
+          text: 'Se dispone a generar una nómina, revise que todo coincida antes de continuar.',
+          icon: 'warning',
+        },
+        this.savePayroll
+      )
+      .then((result) => {
         if (result.isConfirmed) {
           this.renderizar = false;
         }
@@ -153,17 +167,18 @@ export class NominaComponent implements OnInit {
   }
 
   savePayroll = async () => {
-    await this._payroll.savePayroll(this.pago).toPromise().then((r: any) => {
-      this._swal
-        .show({
-          title: "Operación exitosa",
-          text: "Nómina Guardada correctamente",
-          icon: "success"
-        })
-    }).catch((err: any) => {
-      console.log(err);
-    })
-
-  }
-
+    await this._payroll
+      .savePayroll(this.pago)
+      .toPromise()
+      .then((r: any) => {
+        this._swal.show({
+          title: 'Operación exitosa',
+          text: 'Nómina Guardada correctamente',
+          icon: 'success',
+        });
+      })
+      .catch((err: any) => {
+        console.log(err);
+      });
+  };
 }

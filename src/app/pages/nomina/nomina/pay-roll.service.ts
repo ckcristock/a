@@ -20,6 +20,10 @@ export class PayRollService {
     
     return this.http.post(`${environment.base_url}/payroll/pay`, body );
   }
+
+  reporElectronic( id ,body =  {} ){
+    return this.http.post(`${environment.base_url}/payroll/report-electronic/${id}`, body );
+  }
   
   deletePayroll(){
     return this.http.delete(`${environment.base_url}/nomina/pago/funcionarios`);
