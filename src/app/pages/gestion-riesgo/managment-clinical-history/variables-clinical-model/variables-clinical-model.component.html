@@ -121,10 +121,23 @@
                     </td>
 
                     <td *ngIf="myitem['controls']['dependencia']['value'] == 'true'">
+
+                      <select name="" id="" class="form-control form-control-sm">
+                        <option value="">is equal</option>
+                        <option value="">is not equal</option>
+                        <option value="">contain</option>
+                        <option value="">does not contain</option>
+                      </select>
                       <input [type]="text" class="form-control form-control-sm" formControlName="valueConditions">
                       <small>
                         Digite los valores que se cargaran dependiendo la condicion dada
                       </small>
+
+
+                      <a href="">add rule </a>
+
+
+
                     </td>
 
                     <button style="float: right;" class="btn btn-danger btn-sm" placement="bottom" type="button"
