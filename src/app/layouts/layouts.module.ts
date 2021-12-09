@@ -6,9 +6,10 @@ import { SharedModule } from './shared/shared.module';
 
 import { LayoutComponent } from './layout/layout.component';
 import { ComponentsModule } from '../components/components.module';
+import { CabeceraComponent } from './cabecera/cabecera.component';
 
 @NgModule({
-  declarations: [  LayoutComponent, ],
+  declarations: [  LayoutComponent, CabeceraComponent, ],
   imports: [
     CommonModule,
     SharedModule,

@@ -1,5 +1,4 @@
 import { Component, OnInit } from '@angular/core';
-import { Location } from '@angular/common';
 
 @Component({
   selector: 'app-depreciacion',
@@ -8,13 +7,15 @@ import { Location } from '@angular/common';
 })
 export class DepreciacionComponent implements OnInit {
 
-  constructor( private location: Location ) { }
+  public DatosCabecera = {
+    Titulo: 'Depreciación de Activos Fijos',
+    Fecha: new Date(),
+    Codigo:''
+  }
+  
+  constructor() { }
 
   ngOnInit(): void {
-  }
-
-  regresar() {
-    this.location.back();
   }
 
 }

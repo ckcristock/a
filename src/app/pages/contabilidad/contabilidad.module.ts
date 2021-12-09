@@ -2,7 +2,7 @@ import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { ContabilidadRoutingModule } from './contabilidad-routing.module';
 import { PlanCuentasComponent } from './plan-cuentas/plan-cuentas.component';
-import { NgbTooltipModule, NgbDropdownModule, NgbPaginationModule, NgbTypeaheadModule } from '@ng-bootstrap/ng-bootstrap';
+import { NgbTooltipModule, NgbDropdownModule, NgbPaginationModule, NgbTypeaheadModule, NgbDatepickerModule } from '@ng-bootstrap/ng-bootstrap';
 import { ComponentsModule } from '../../components/components.module';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { HttpClientModule } from '@angular/common/http';
@@ -13,13 +13,18 @@ import { ActivosFijosCrearComponent } from './activos-fijos/activos-fijos-crear/
 import { ActivosFijosVerComponent } from './activos-fijos/activos-fijos-ver/activos-fijos-ver.component';
 import { TablaActivoFijoComponent } from './activos-fijos/activos-fijos-ver/tabla-activo-fijo/tabla-activo-fijo.component';
 import { AdicionesActivoFijoComponent } from './activos-fijos/activos-fijos-ver/adiciones-activo-fijo/adiciones-activo-fijo.component';
-import { DepreciacionesComponent } from './depreciaciones/depreciaciones.component';
-import { DepreciacionComponent } from './depreciaciones/depreciacion/depreciacion.component';
 import { CajasComponent } from './cajas/cajas.component';
 import { CrearCajaComponent } from './cajas/crear-caja/crear-caja.component';
 import { NgSelectModule } from '@ng-select/ng-select';
-
-
+import { CierresContablesComponent } from './cierres-contables/cierres-contables.component';
+import { ModalcierrecontableComponent } from './cierres-contables/modalcierrecontable/modalcierrecontable.component';
+import { ModalplancuentasComponent } from './cierres-contables/modalplancuentas/modalplancuentas.component';
+import { SweetAlert2Module } from '@sweetalert2/ngx-sweetalert2';
+import { DepreciacionComponent } from './depreciacion/depreciacion.component';
+import { TabladepreciacionComponent } from './depreciacion/tabladepreciacion/tabladepreciacion.component';
+import { TabladepreciacionesComponent } from './depreciacion/tabladepreciaciones/tabladepreciaciones.component';
+import { MyDateRangePickerModule } from 'mydaterangepicker';
+import { CustumetypeaheadComponent } from './custumetypeahead/custumetypeahead.component';
 
 @NgModule({
   declarations: [
@@ -30,10 +35,15 @@ import { NgSelectModule } from '@ng-select/ng-select';
     ActivosFijosVerComponent,
     TablaActivoFijoComponent,
     AdicionesActivoFijoComponent,
-    DepreciacionesComponent,
-    DepreciacionComponent,
     CajasComponent,
-    CrearCajaComponent
+    CrearCajaComponent,
+    CierresContablesComponent,
+    ModalcierrecontableComponent,
+    ModalplancuentasComponent,
+    DepreciacionComponent,
+    TabladepreciacionComponent,
+    TabladepreciacionesComponent,
+    CustumetypeaheadComponent
   ],
   imports: [
     CommonModule,
@@ -47,7 +57,9 @@ import { NgSelectModule } from '@ng-select/ng-select';
     NgbPaginationModule,
     PipesModule,
     NgbTypeaheadModule,
-    NgSelectModule
+    NgSelectModule,
+    SweetAlert2Module,
+    MyDateRangePickerModule
   ]
 })
 export class ContabilidadModule { }
