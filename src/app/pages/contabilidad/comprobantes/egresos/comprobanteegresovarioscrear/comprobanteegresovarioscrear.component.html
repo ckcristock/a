@@ -1,23 +1,19 @@
 <div class="page-body">
     <div class="row">
         <div class="col-lg-12 col-md-12 col-md-offset-4">
-
             <div class="card">
-
                 <app-cabecera [datosCabecera]="datosCabecera"></app-cabecera>
                 <!-- Layout de Cabecera. -->
-
                 <div class="row">
                     <div class="col-md-12">
                         <a href="javascript:;" (click)="modalAgregarCheque.show()" placement="bottom" ngbTooltip="Registrar Nuevo Cheque" class="btn btn-outline-primary btn-sm pull-right m-r-20"><i class="fa fa-plus"></i></a>
                     </div>
                 </div>
-
                 <div class="card-body" style="padding-bottom: 0px;">
                     <form #FormEgreso="ngForm">
                         <input type="hidden" name="Id_Borrador" [(ngModel)]="idBorrador">
                         <div class="row invoive-info" style="margin-bottom: 0; padding-bottom: 0px;">
-                            <div class=" col-md-2  ">
+                            <div class="col-md-2">
                                 <div class="form-group">
                                     <label>Fecha</label>
                                     <input type="date" name="Fecha_Documento" id="Fecha_Nota_Contable" [(ngModel)]="Fecha_Nota_Contable" class="form-control form-control-sm tab" (keyup)="tab($event,'Cliente')" (change)="getCodigoEgreso($event.target.value)" required>
@@ -32,7 +28,7 @@
                                         (blur)="validarCampo(Nom_Cliente,$event,'Beneficiario')" />
                                     <input hidden [(ngModel)]="Id_Cliente" name="Beneficiario" id="Beneficiario" class="form-control form-control-sm " required>
                                     <input hidden [(ngModel)]="Tipo_Beneficiario" name="Tipo_Beneficiario" id="Tipo_Beneficiario" class="form-control form-control-sm " required>
-                                    <input hidden [(ngModel)]="Funcionario.Identificacion_Funcionario" name="Identificacion_Funcionario" id="Id_Funcionario" class="form-control form-control-sm " required>
+                                    <!-- <input hidden [(ngModel)]="Funcionario.Identificacion_Funcionario" name="Identificacion_Funcionario" id="Id_Funcionario" class="form-control form-control-sm " required> -->
                                 </div>
                             </div>
 
@@ -65,7 +61,7 @@
                             <div *ngIf="mostrarCheque" class="col-md-4">
                                 <div class="form-group">
                                     <label for="">Cheques</label>
-                                    <ng-select [ngClass]="'ng-select'" class="cheques form-control-sm input-sm" [options]="Cheques" name="Cheques" [allowClear]="true" [(ngModel)]="ChequesSeleccionados" [multiple]="true"></ng-select>
+                                    <ng-select [ngClass]="'ng-select'" class="cheques form-control-sm input-sm" [items]="Cheques" name="Cheques" [allowClear]="true" [(ngModel)]="ChequesSeleccionados" [multiple]="true"></ng-select>
                                 </div>
                             </div>
 
@@ -322,7 +318,7 @@
     <span class="f-9"><strong>{{ r.Nombre }}</strong>
     </span>
 </ng-template>
-<swal #confirmacionSwal title="" text="" type=""></swal>
+<!-- <swal #confirmacionSwal title="" text="" type=""></swal> -->
 
 <!-- <swal #confirmacionGuardar [options]="alertOption"></swal> -->
 

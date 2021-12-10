@@ -9,7 +9,7 @@ import {CajasComponent} from './cajas/cajas.component';
 import { CierresContablesComponent } from './cierres-contables/cierres-contables.component';
 import { DepreciacionComponent } from './depreciacion/depreciacion.component';
 import { TabladepreciacionesComponent } from './depreciacion/tabladepreciaciones/tabladepreciaciones.component';
-import { EgresosComponent } from './comprobantes/egresos/egresos.component';
+import { InventariosValorizadosComponent } from './inventarios-valorizados/inventarios-valorizados.component';
 
 const routes: Routes = [
     { path: 'plan-cuentas', component: PlanCuentasComponent },
@@ -23,7 +23,9 @@ const routes: Routes = [
     { path: 'depreciaciones', component: TabladepreciacionesComponent },
     { path: 'comprobantes', loadChildren : () => import('./comprobantes/comprobantes.module').then(m => m.ComprobantesModule )},
     { path: 'cierres-contables', component: CierresContablesComponent },
-    { path: 'egresos', component: EgresosComponent }
+    { path: 'balances', loadChildren : () => import('./balances/balances.module').then(m => m.BalancesModule )},
+    { path: 'estados', loadChildren : () => import('./estados/estados.module').then(m => m.EstadosModule )},
+    { path: 'inventarios-valorizados', component: InventariosValorizadosComponent }
 ];
 
 @NgModule({

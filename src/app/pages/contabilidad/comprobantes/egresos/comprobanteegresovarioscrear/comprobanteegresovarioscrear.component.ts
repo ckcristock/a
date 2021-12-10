@@ -55,7 +55,7 @@ export class ComprobanteegresovarioscrearComponent implements OnInit {
   public Nom_Cliente:any;
   public Id_Cliente = '';
   public Cliente = [];
-  public Funcionario=JSON.parse(localStorage.getItem("User"));
+  // public Funcionario=JSON.parse(localStorage.getItem("User"));
   public Cuenta=[];
   public Bancos: Array<any>;
   public FormaPago:any = [ ];
@@ -687,7 +687,7 @@ export class ComprobanteegresovarioscrearComponent implements OnInit {
         Id_Borrador_Contabilidad: this.idBorrador,
         Codigo: this.Codigo,
         Tipo_Comprobante: 'Egreso',
-        Identificacion_Funcionario: this.Funcionario.Identificacion_Funcionario,
+        // Identificacion_Funcionario: this.Funcionario.Identificacion_Funcionario,
         Datos: Datos
       }
   

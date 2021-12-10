@@ -25,6 +25,10 @@ import { TabladepreciacionComponent } from './depreciacion/tabladepreciacion/tab
 import { TabladepreciacionesComponent } from './depreciacion/tabladepreciaciones/tabladepreciaciones.component';
 import { MyDateRangePickerModule } from 'mydaterangepicker';
 import { CustumetypeaheadComponent } from './custumetypeahead/custumetypeahead.component';
+import { InventariosValorizadosComponent } from './inventarios-valorizados/inventarios-valorizados.component';
+import { FacturaAdministrativaComponent } from './factura-administrativa/factura-administrativa.component';
+import { VerFacturaAdministrativaComponent } from './factura-administrativa/ver-factura-administrativa/ver-factura-administrativa.component';
+import { CrearFacturaAdministrativaComponent } from './factura-administrativa/crear-factura-administrativa/crear-factura-administrativa.component';
 
 @NgModule({
   declarations: [
@@ -43,7 +47,11 @@ import { CustumetypeaheadComponent } from './custumetypeahead/custumetypeahead.c
     DepreciacionComponent,
     TabladepreciacionComponent,
     TabladepreciacionesComponent,
-    CustumetypeaheadComponent
+    CustumetypeaheadComponent,
+    InventariosValorizadosComponent,
+    FacturaAdministrativaComponent,
+    VerFacturaAdministrativaComponent,
+    CrearFacturaAdministrativaComponent
   ],
   imports: [
     CommonModule,

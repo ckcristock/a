@@ -6,16 +6,15 @@ import { SharedModule } from './shared/shared.module';
 
 import { LayoutComponent } from './layout/layout.component';
 import { ComponentsModule } from '../components/components.module';
-import { CabeceraComponent } from './cabecera/cabecera.component';
 
 @NgModule({
-  declarations: [  LayoutComponent, CabeceraComponent, ],
+  declarations: [  LayoutComponent ],
   imports: [
     CommonModule,
     SharedModule,
     RouterModule,
     ComponentsModule
   ],
-  exports: [ ]
+  exports: []
 })
 export class LayoutsModule { }

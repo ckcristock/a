@@ -1,20 +1,20 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 
-import { CabeceraComponent } from './cabecera.component';
+import { NotascarteracrearComponent } from './notascarteracrear.component';
 
-describe('CabeceraComponent', () => {
-  let component: CabeceraComponent;
-  let fixture: ComponentFixture<CabeceraComponent>;
+describe('NotascarteracrearComponent', () => {
+  let component: NotascarteracrearComponent;
+  let fixture: ComponentFixture<NotascarteracrearComponent>;
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      declarations: [ CabeceraComponent ]
+      declarations: [ NotascarteracrearComponent ]
     })
     .compileComponents();
   });
 
   beforeEach(() => {
-    fixture = TestBed.createComponent(CabeceraComponent);
+    fixture = TestBed.createComponent(NotascarteracrearComponent);
     component = fixture.componentInstance;
     fixture.detectChanges();
   });

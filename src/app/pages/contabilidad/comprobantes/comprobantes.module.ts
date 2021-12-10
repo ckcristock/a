@@ -13,6 +13,12 @@ import { SweetAlert2Module } from '@sweetalert2/ngx-sweetalert2';
 import { BorradorcomprobantesComponent } from './borradorcomprobantes/borradorcomprobantes.component';
 import { EgresosComponent } from './egresos/egresos.component';
 import { ComprobanteegresovarioscrearComponent } from './egresos/comprobanteegresovarioscrear/comprobanteegresovarioscrear.component';
+import { IngresosComponent } from './ingresos/ingresos.component';
+import { ComprobanteingresocrearComponent } from './ingresos/comprobanteingresocrear/comprobanteingresocrear.component';
+import { TablafacturafaltanteComponent } from './ingresos/comprobanteingresocrear/tablafacturafaltante/tablafacturafaltante.component';
+import { TablafacturascargadasComponent } from './ingresos/comprobanteingresocrear/tablafacturascargadas/tablafacturascargadas.component';
+import { NotasCarterasComponent } from './notas-carteras/notas-carteras.component';
+import { NotascarteracrearComponent } from './notas-carteras/notascarteracrear/notascarteracrear.component';
 
 
 
@@ -22,7 +28,14 @@ import { ComprobanteegresovarioscrearComponent } from './egresos/comprobanteegre
     CrearNotaContableComponent,
     BorradorcomprobantesComponent,
     EgresosComponent,
-    ComprobanteegresovarioscrearComponent
+    ComprobanteegresovarioscrearComponent,
+    IngresosComponent,
+    ComprobanteingresocrearComponent,
+    TablafacturafaltanteComponent,
+    TablafacturascargadasComponent,
+    IngresosComponent,
+    NotasCarterasComponent,
+    NotascarteracrearComponent
   ],
   imports: [
     CommonModule,
