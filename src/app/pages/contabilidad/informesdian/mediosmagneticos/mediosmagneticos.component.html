@@ -4,22 +4,22 @@
             <div class="card">
                 <div class="card-header">
                     <div class="row">
-                        <div class="col-md-9">
+                        <div class="col-md-6">
                             <h5>Medios Magneticos {{ formatoEspecial ? 'Especiales' : 'Basicos' }}</h5>
                             <span>
                   Medios Magneticos {{ formatoEspecial ? 'Especiales' : 'Basicos' }} Realizados en el Sistema</span>
                         </div>
-                        <div class="col-md-3">
+                        <div class="col-md-6">
                             <div class="pull-right">
                                 <div class="card-header-left">
-                                    <button *ngIf="!formatoEspecial" type="button" class="pull-left btn btn-primary btn-sm" [routerLink]="['/informesdian/mediosmagneticos/crear']"><i
-                        class="fa fa-plus"></i>
-                      Agregar Nuevo Medio Magnetico
-                    </button>
-                                    <button *ngIf="formatoEspecial" type="button" class="pull-left btn btn-primary btn-sm" [routerLink]="['/informesdian/mediosmagneticosespeciales/crear']"><i
-                        class="fa fa-plus"></i>
-                      Agregar Nuevo Medio Magnetico
-                    </button>
+                                    <button *ngIf="!formatoEspecial" style="float: right;" type="button" class="pull-left btn btn-primary btn-sm" [routerLink]="['/contabilidad/informesdian/medios-magneticos/crear']"><i
+                                        class="fa fa-plus"></i>
+                                    Agregar Nuevo Medio Magnetico
+                                    </button>
+                                    <button *ngIf="formatoEspecial" style="float: right;" type="button" class="pull-left btn btn-primary btn-sm" [routerLink]="['/contabilidad/informesdian/medios-magneticosespeciales/crear']"><i
+                                        class="fa fa-plus"></i>
+                                    Agregar Nuevo Medio Magnetico
+                                    </button>
                                 </div>
                             </div>
                         </div>
@@ -59,11 +59,11 @@
                                                 <div ngbDropdown class="dropdown-primary">
                                                     <button ngbDropdownToggle class="btn btn-secondary btn-mini waves-effect waves-light " type="button">Acciones</button>
                                                     <div ngbDropdownMenu>
-                                                        <a class="dropdown-item waves-light waves-effect caja-botones" href="{{globales.ruta}}php/contabilidad/mediosmagneticos/reporte.php?id={{item.Id}}" target="_blank">
+                                                        <a class="dropdown-item waves-light waves-effect caja-botones" href="{{enviromen.ruta}}php/contabilidad/mediosmagneticos/reporte.php?id={{item.Id}}" target="_blank">
                                                             <i class="fa fa-table"></i> Reporte</a>
-                                                        <a *ngIf="!formatoEspecial" class="dropdown-item waves-light waves-effect caja-botones" [routerLink]="['/informesdian/mediosmagneticos/editar', item.Id]">
+                                                        <a *ngIf="!formatoEspecial" class="dropdown-item waves-light waves-effect caja-botones" [routerLink]="['/informesdian/medios-magneticos/editar', item.Id]">
                                                             <i class="fa fa-pencil"></i> Editar</a>
-                                                        <a *ngIf="formatoEspecial" class="dropdown-item waves-light waves-effect caja-botones" [routerLink]="['/informesdian/mediosmagneticosespeciales/editar', item.Id]">
+                                                        <a *ngIf="formatoEspecial" class="dropdown-item waves-light waves-effect caja-botones" [routerLink]="['/informesdian/medios-magneticosespeciales/editar', item.Id]">
                                                             <i class="fa fa-pencil"></i> Editar</a>
                                                         <a class="dropdown-item waves-light waves-effect caja-botones bg-danger" [swal]="confirmacionEliminar" (click)="IdMedioMag = item.Id">
                                                             <i class="fa fa-trash"></i> Eliminar</a>
@@ -85,4 +85,4 @@
     </div>
 </div>
 
-<!-- <swal #confirmacionEliminar [options]="alertOption"></swal> -->
+<swal #confirmacionEliminar [swalOptions]="alertOption"></swal>

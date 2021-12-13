@@ -4,7 +4,7 @@ import { SweetAlertOptions } from 'sweetalert2';
 import { SwalService } from '../../../ajustes/informacion-base/services/swal.service';
 import { Router } from '@angular/router';
 import swal from 'sweetalert2';
-import { environment } from '../../../../../environments/environment.prod';
+import { environment } from 'src/environments/environment';
 
 @Component({
   selector: 'app-mediosmagneticos',
@@ -18,6 +18,7 @@ export class MediosmagneticosComponent implements OnInit {
   public IdMedioMag = '';
   public url:string = this.router.url;
   public formatoEspecial:boolean = false;
+  enviromen:any;
 
   constructor(private http: HttpClient, private swalService: SwalService, private router: Router) { 
     this.alertOption = {
@@ -28,7 +29,7 @@ export class MediosmagneticosComponent implements OnInit {
       confirmButtonText: 'Si, Guardar',
       showLoaderOnConfirm: true,
       focusCancel: true,
-      // type: 'info',
+      icon: 'info',
       preConfirm: (value) => {
         return new Promise((resolve) => {
           this.eliminarMedioMag();
@@ -42,6 +43,7 @@ export class MediosmagneticosComponent implements OnInit {
 
   ngOnInit() {
     this.getListaMediosMag();
+    this.enviromen = environment
   }
 
   getListaMediosMag() {

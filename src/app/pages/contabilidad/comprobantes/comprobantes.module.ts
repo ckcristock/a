@@ -19,6 +19,10 @@ import { TablafacturafaltanteComponent } from './ingresos/comprobanteingresocrea
 import { TablafacturascargadasComponent } from './ingresos/comprobanteingresocrear/tablafacturascargadas/tablafacturascargadas.component';
 import { NotasCarterasComponent } from './notas-carteras/notas-carteras.component';
 import { NotascarteracrearComponent } from './notas-carteras/notascarteracrear/notascarteracrear.component';
+import { NotascreditoComponent } from './notascredito/notascredito.component';
+import { NotascreditocrearComponent } from './notascredito/notascreditocrear/notascreditocrear.component';
+import { NotascreditoverComponent } from './notascredito/notascreditover/notascreditover.component';
+import { Globales } from '../globales';
 
 
 
@@ -35,7 +39,10 @@ import { NotascarteracrearComponent } from './notas-carteras/notascarteracrear/n
     TablafacturascargadasComponent,
     IngresosComponent,
     NotasCarterasComponent,
-    NotascarteracrearComponent
+    NotascarteracrearComponent,
+    NotascreditoComponent,
+    NotascreditocrearComponent,
+    NotascreditoverComponent
   ],
   imports: [
     CommonModule,
@@ -49,7 +56,10 @@ import { NotascarteracrearComponent } from './notas-carteras/notascarteracrear/n
     ComprobantesRoutingModule,
     NgbTypeaheadModule,
     MyDateRangePickerModule,
-    SweetAlert2Module
+    SweetAlert2Module.forRoot()
+  ],
+  providers: [
+    Globales
   ]
 })
 export class ComprobantesModule { }

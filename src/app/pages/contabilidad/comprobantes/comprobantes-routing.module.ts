@@ -8,6 +8,9 @@ import { ComprobanteingresocrearComponent } from './ingresos/comprobanteingresoc
 import { IngresosComponent } from './ingresos/ingresos.component';
 import { NotasCarterasComponent } from './notas-carteras/notas-carteras.component';
 import { NotascarteracrearComponent } from './notas-carteras/notascarteracrear/notascarteracrear.component';
+import { NotascreditoComponent } from './notascredito/notascredito.component';
+import { NotascreditocrearComponent } from './notascredito/notascreditocrear/notascreditocrear.component';
+import { NotascreditoverComponent } from './notascredito/notascreditover/notascreditover.component';
 
 const routes: Routes = [
     { path: 'notas-contables', component: NotasContablesComponent },
@@ -17,7 +20,11 @@ const routes: Routes = [
     { path: 'ingresos', component: IngresosComponent },
     { path: 'comprobanteingresocrear', component: ComprobanteingresocrearComponent },
     { path: 'notas-cartera', component: NotasCarterasComponent },
-    { path: 'notas-cartera-crear', component: NotascarteracrearComponent }
+    { path: 'notas-cartera-crear', component: NotascarteracrearComponent },
+    { path: 'notas-credito', component: NotascreditoComponent },
+    { path: 'notas-credito/crear', component: NotascreditocrearComponent },
+    { path: 'notas-credito/ver/:id', component: NotascreditoverComponent },
+
 
 ];
 

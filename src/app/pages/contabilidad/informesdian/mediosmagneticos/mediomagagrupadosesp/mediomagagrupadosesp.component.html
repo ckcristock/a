@@ -4,18 +4,18 @@
             <div class="card">
                 <div class="card-header">
                     <div class="row">
-                        <div class="col-md-9">
+                        <div class="col-md-6">
                             <h5>Agrupar Medios Magneticos Especiales</h5>
                             <span>
                   Agrupaciones de medios magneticos especiales Realizados en el Sistema</span>
                         </div>
-                        <div class="col-md-3">
+                        <div class="col-md-6">
                             <div class="pull-right">
                                 <div class="card-header-left">
-                                    <button type="button" class="pull-left btn btn-primary btn-sm" [routerLink]="['/informesdian/agruparmediosmagneticos/crear']"><i
-                        class="fa fa-plus"></i>
-                      Agregar Nueva Agrupacion Medios Magneticos
-                    </button>
+                                    <button type="button" style="float: right;" class="pull-left btn btn-primary btn-sm" [routerLink]="['/contabilidad/informesdian/agruparmediosmagneticos/crear']"><i
+                                        class="fa fa-plus"></i>
+                                    Agregar Nueva Agrupacion Medios Magneticos
+                                    </button>
                                 </div>
                             </div>
                         </div>
@@ -49,7 +49,7 @@
                                                 <div ngbDropdown class="dropdown-primary">
                                                     <button ngbDropdownToggle class="btn btn-secondary btn-mini waves-effect waves-light " type="button">Acciones</button>
                                                     <div ngbDropdownMenu>
-                                                        <a class="dropdown-item waves-light waves-effect caja-botones" href="{{globales.ruta}}php/contabilidad/mediosmagneticos/reporte_formatos_agrupados.php?id={{item.Id}}" target="_blank">
+                                                        <a class="dropdown-item waves-light waves-effect caja-botones" href="{{enviromen.ruta}}php/contabilidad/mediosmagneticos/reporte_formatos_agrupados.php?id={{item.Id}}" target="_blank">
                                                             <i class="fa fa-table"></i> Reporte</a>
                                                         <a class="dropdown-item waves-light waves-effect caja-botones" [routerLink]="['/informesdian/agruparmediosmagneticos/editar', item.Id]">
                                                             <i class="fa fa-pencil"></i> Editar</a>
@@ -73,4 +73,4 @@
     </div>
 </div>
 
-<!-- <swal #confirmacionEliminar [options]="alertOption"></swal> -->
+<swal #confirmacionEliminar [swalOptions]="alertOption"></swal>

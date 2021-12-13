@@ -58,9 +58,9 @@
                         </div>
 
                         <div class="col-md-3">
-                            <button class="btn btn-primary btn-sm m-l-20" style="margin-top: 70px !important" [disabled]="!FormMediosMag.valid">
-                  <i class="fa fa-save"></i> Guardar
-                </button>
+                            <button class="btn btn-primary btn-sm m-l-20" style="margin-top: 30px !important" [disabled]="!FormMediosMag.valid">
+                            <i class="fa fa-save"></i> Guardar
+                            </button>
                         </div>
                     </div>
 
@@ -79,4 +79,4 @@
     </span>
 </ng-template>
 
-<!-- <swal #confirmacionGuardar [options]="alertOption"></swal> -->
+<swal #confirmacionGuardar [swalOptions]="alertOption"></swal>

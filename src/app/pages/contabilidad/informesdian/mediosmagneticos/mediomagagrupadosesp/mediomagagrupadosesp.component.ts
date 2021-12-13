@@ -4,7 +4,7 @@ import { Globales } from '../../../globales';
 import { SweetAlertOptions } from 'sweetalert2';
 import { HttpClient } from '@angular/common/http';
 import { SwalService } from '../../../../ajustes/informacion-base/services/swal.service';
-import { environment } from '../../../../../../environments/environment.prod';
+import { environment } from 'src/environments/environment';
 
 @Component({
   selector: 'app-mediomagagrupadosesp',
@@ -16,6 +16,7 @@ export class MediomagagrupadosespComponent implements OnInit {
   public listaMediosMag:any = [];
   public alertOption: SweetAlertOptions;
   public IdMedioMag:string = '';
+  enviromen:any;
 
   constructor(public globales: Globales, private http: HttpClient, private swalService: SwalService) { 
     this.alertOption = {
@@ -26,7 +27,7 @@ export class MediomagagrupadosespComponent implements OnInit {
       confirmButtonText: 'Si, Guardar',
       showLoaderOnConfirm: true,
       focusCancel: true,
-      // type: 'info',
+      icon: 'info',
       preConfirm: (value) => {
         return new Promise((resolve) => {
           this.eliminarMedioMag();
@@ -38,6 +39,7 @@ export class MediomagagrupadosespComponent implements OnInit {
 
   ngOnInit() {
     this.listaFormatosAgrupados();
+    this.enviromen = environment
   }
 
   listaFormatosAgrupados() {

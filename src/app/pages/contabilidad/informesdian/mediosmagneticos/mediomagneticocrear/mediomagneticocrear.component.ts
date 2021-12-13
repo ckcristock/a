@@ -7,9 +7,9 @@ import { MedioMagneticoModel } from './MedioMagneticoModel';
 import { SweetAlertOptions } from 'sweetalert2';
 import { SwalService } from '../../../../ajustes/informacion-base/services/swal.service';
 import { Router, ActivatedRoute } from '@angular/router';
-import { environment } from '../../../../../../environments/environment.prod';
 import { MediosmagnticosService } from '../mediosmagnticos.service';
 import { Globales } from '../../../globales';
+import { environment } from 'src/environments/environment';
 
 @Component({
   selector: 'app-mediomagneticocrear',
@@ -42,6 +42,7 @@ export class MediomagneticocrearComponent implements OnInit {
   public formatoEspecial:boolean = false;
 
   public MediosMagModel: MedioMagneticoModel = new MedioMagneticoModel();
+  enviromen:any;
 
   constructor(
               private globales: Globales,
@@ -59,7 +60,7 @@ export class MediomagneticocrearComponent implements OnInit {
       confirmButtonText: 'Si, Guardar',
       showLoaderOnConfirm: true,
       focusCancel: true,
-      // type: 'info',
+      icon: 'info',
       preConfirm: (value) => {
         return new Promise((resolve) => {
           this.guardarMediosMag();
@@ -80,6 +81,7 @@ export class MediomagneticocrearComponent implements OnInit {
     formatter1 = (x: { Codigo: string }) => x.Codigo;
 
   ngOnInit() {
+    this.enviromen = environment;
     this.listaCuentas();
     this.tiposDocumentos();
 
@@ -178,7 +180,7 @@ export class MediomagneticocrearComponent implements OnInit {
     datos.append('cuentas', detalles);
     datos.append('tipos_documentos', tipos_documentos);
 
-   this.http.post(this.globales.ruta+'php/contabilidad/mediosmagneticos/guardar_mediomagnetico.php',datos).subscribe((data:any)=>{
+   this.http.post(environment.ruta+'php/contabilidad/mediosmagneticos/guardar_mediomagnetico.php',datos).subscribe((data:any)=>{
     if (data.tipo == 'success') {
       let swal = {
         codigo: data.tipo,
@@ -210,7 +212,7 @@ export class MediomagneticocrearComponent implements OnInit {
   getDetallesMedioMag(id) {
     let p = {id: id};
 
-    this.http.get(this.globales.ruta+'php/contabilidad/mediosmagneticos/detalles.php',{params: p}).subscribe((data:any) => {
+    this.http.get(environment.ruta+'php/contabilidad/mediosmagneticos/detalles.php',{params: p}).subscribe((data:any) => {
       this.MediosMagModel = data.encabezado;
       this.Cuentas_Contables = JSON.parse(data.cuentas);
       this.Tipos_Documentos = JSON.parse(data.tipos);

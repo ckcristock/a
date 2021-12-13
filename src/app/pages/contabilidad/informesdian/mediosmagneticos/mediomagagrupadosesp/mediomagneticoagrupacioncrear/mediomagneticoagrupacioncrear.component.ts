@@ -38,7 +38,7 @@ export class MediomagneticoagrupacioncrearComponent implements OnInit {
       confirmButtonText: 'Si, Guardar',
       showLoaderOnConfirm: true,
       focusCancel: true,
-      // type: 'info',
+      icon: 'info',
       preConfirm: () => {
         return new Promise((resolve) => {
           this.guardarMediosMag();
