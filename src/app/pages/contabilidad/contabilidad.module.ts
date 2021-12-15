@@ -29,6 +29,7 @@ import { InventariosValorizadosComponent } from './inventarios-valorizados/inven
 import { FacturaAdministrativaComponent } from './factura-administrativa/factura-administrativa.component';
 import { VerFacturaAdministrativaComponent } from './factura-administrativa/ver-factura-administrativa/ver-factura-administrativa.component';
 import { CrearFacturaAdministrativaComponent } from './factura-administrativa/crear-factura-administrativa/crear-factura-administrativa.component';
+import { Globales } from './globales';
 
 @NgModule({
   declarations: [
@@ -68,6 +69,9 @@ import { CrearFacturaAdministrativaComponent } from './factura-administrativa/cr
     NgSelectModule,
     SweetAlert2Module.forRoot(),
     MyDateRangePickerModule
+  ],
+  providers: [
+    Globales
   ]
 })
 export class ContabilidadModule { }

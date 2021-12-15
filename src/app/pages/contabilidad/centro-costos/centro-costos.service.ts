@@ -17,4 +17,8 @@ export class CentroCostosService {
     return this.http.post(`${environment.base_url}/center_cost`, data);
   }
 
+  getCompanies(){
+    return this.http.get(`${environment.base_url}/company`);
+  }
+
 }
