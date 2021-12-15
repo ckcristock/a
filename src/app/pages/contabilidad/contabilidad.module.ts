@@ -66,7 +66,7 @@ import { CrearFacturaAdministrativaComponent } from './factura-administrativa/cr
     PipesModule,
     NgbTypeaheadModule,
     NgSelectModule,
-    SweetAlert2Module,
+    SweetAlert2Module.forRoot(),
     MyDateRangePickerModule
   ]
 })

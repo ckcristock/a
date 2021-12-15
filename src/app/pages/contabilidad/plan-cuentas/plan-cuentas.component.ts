@@ -6,6 +6,9 @@ import { HttpClient } from '@angular/common/http';
 import { environment } from 'src/environments/environment';
 import { SwalService } from '../../ajustes/informacion-base/services/swal.service';
 import Swal from 'sweetalert2';
+import { PlanCuentasService } from './plan-cuentas.service';
+import { SwalComponent } from '@sweetalert2/ngx-sweetalert2';
+import swal from 'sweetalert2';
 
 @Component({
   selector: 'app-plan-cuentas',
@@ -29,7 +32,7 @@ export class PlanCuentasComponent implements OnInit {
     total: 0
   }
 
-  @ViewChild('alertSwal') alertSwal: any;
+  @ViewChild('alertSwal') alertSwal: SwalComponent;
   @ViewChild('modalCrearCuenta') modalCrearCuenta: any;
   @ViewChild('modalEditarCuenta') modalEditarCuenta: any;
   @ViewChild('modalVerCuenta') modalVerCuenta: any;
@@ -71,10 +74,19 @@ export class PlanCuentasComponent implements OnInit {
     Nit: '',
     Clase_Cta: '',
     Cta_Numero: '',
-    Reporte: ''
+    Reporte: '',
+    company_id:''
   };
 
-  constructor( private http: HttpClient, private location: Location, private route: ActivatedRoute, private router: Router, private swalService: SwalService) { }
+  companies:any[] = [];
+
+  constructor( 
+                private http: HttpClient, 
+                private location: Location, 
+                private route: ActivatedRoute, 
+                private router: Router, 
+                private swalService: SwalService,
+                private _planCuentas: PlanCuentasService) { }
 
   ngOnInit() {
 
@@ -83,7 +95,7 @@ export class PlanCuentasComponent implements OnInit {
     this.ListaPlanCuentas();
     this.ListarBancos();
     this.envirom = environment;
-
+    this.ListasEmpresas();
   }
 
   ListaPlanCuentas(){
@@ -181,6 +193,12 @@ export class PlanCuentasComponent implements OnInit {
     });
   }
 
+  ListasEmpresas(){
+    this._planCuentas.getCompanies().subscribe((data:any) => {
+      this.companies = data.data;
+    })
+  }
+
   habInfoValue(value){
 
     if (value == "S") {
@@ -234,8 +252,8 @@ export class PlanCuentasComponent implements OnInit {
     }    
 
     this.http.post(environment.ruta+'php/contabilidad/plancuentas/guardar_puc.php', datos).subscribe((data:any)=>{
-      this.ShowSwal(data.tipo, 'Exito', data.mensaje);
-
+      let title = (data.tipo == 'error' ? 'Error' : 'Exito');
+      this.ShowSwal(data.tipo, title, data.mensaje);
       if(accion == 'guardar'){
         this.modalCrearCuenta.hide();
       }else if(accion == 'editar'){
@@ -266,6 +284,7 @@ export class PlanCuentasComponent implements OnInit {
   VerPlanCuenta(idPlanCuenta){
     this.http.get(environment.ruta+'php/contabilidad/plancuentas/detalle_plan_cuenta.php', {params:{id_cuenta:idPlanCuenta}}).subscribe((data:any)=>{
       this.PlanCuentaModel = data.query_result;
+      console.log(this.PlanCuentaModel);
       this.modalVerCuenta.show();
     });
   }
@@ -286,11 +305,11 @@ export class PlanCuentasComponent implements OnInit {
     });
   }
 
-  ShowSwal(tipo:string, titulo:string, msg:string){
-    this.alertSwal.type = tipo;
+  ShowSwal(tipo, titulo:string, msg:string){
+    this.alertSwal.icon = tipo;
     this.alertSwal.title = titulo;
     this.alertSwal.text = msg;
-    this.alertSwal.show();
+    this.alertSwal.fire();
   }
 
   ImprimirExcel(){
@@ -311,7 +330,6 @@ export class PlanCuentasComponent implements OnInit {
       subcuenta: 6,
       auxiliar: 8
     };
-
     return tipos[tipo];
   }
 
@@ -338,21 +356,29 @@ export class PlanCuentasComponent implements OnInit {
       
       if (tipo_plan != '') {
         if (codigo.length != this.lengthByType(tipo_plan)) {
-          (document.getElementById(id_campo) as HTMLInputElement).focus();
-
-          this.showAlert('error','Ooops!',`El código no corresponde al tipo de plan "${tipo_plan}"`);
+          swal.fire({
+            icon: 'error',
+            title: 'Ooops!',
+            text: `El código no corresponde al tipo de plan "${tipo_plan}"`
+          });
+          // (document.getElementById(id_campo) as HTMLInputElement).focus();
+          // this.showAlert('error','Ooops!',`El código no corresponde al tipo de plan "${tipo_plan}"`);
         } else if (tipo_plan != 'grupo') {
           let p:any = {
             Tipo_Plan: tipo_plan,
             Codigo: codigo,
             Tipo_Puc: tipo_puc
           };
-
           this.http.get(environment.ruta+'php/plancuentas/validar_puc_niveles.php',{params: p}).subscribe((data:any) => {
+            console.log(data);
             if (data.validacion == 0) {
-              (document.getElementById(id_campo) as HTMLInputElement).focus();
-
-              this.showAlert('error','Ooops!',`El código ${codigo} no pertenece al nivel superior "${data.nivel_superior}"`);
+              // (document.getElementById(id_campo) as HTMLInputElement).focus();
+              swal.fire({
+                icon: 'error',
+                title: 'Ooops!',
+                text: `El código ${codigo} no pertenece al nivel superior "${data.nivel_superior}"`
+              });
+              // this.showAlert('error','Ooops!',`El código ${codigo} no pertenece al nivel superior "${data.nivel_superior}"`);
             }
           })
         }
@@ -362,7 +388,7 @@ export class PlanCuentasComponent implements OnInit {
 
   showAlert(tipo, titulo, mensaje) {
     let swal = {
-      codigo: tipo,
+      icon: tipo,
       titulo: titulo,
       mensaje: mensaje
     };
