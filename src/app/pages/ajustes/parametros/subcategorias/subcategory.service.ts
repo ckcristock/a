@@ -14,8 +14,17 @@ export class SubcategoryService {
   }
 
   update( data, id ){
-    return this.http.put(`${environment.base_url}/materials/${id}`, data);
+    return this.http.put(`${environment.base_url}/subcategory/${id}`, data);
   }
+
+  delete( data, id ){
+    return this.http.put(`${environment.base_url}/subcategory/${id}`, data);
+  }
+
+  deleteVariable( id, data = {} ){
+    return this.http.post(`${environment.base_url}/subcategory-variable/${id}`, data)
+}
+
 
 }
 

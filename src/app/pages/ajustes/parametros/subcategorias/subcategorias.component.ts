@@ -10,9 +10,6 @@ import { FormGroup, FormBuilder, FormArray, Validators } from '@angular/forms';
 import { SubcategoryService } from './subcategory.service';
 import Swal from 'sweetalert2';
 
-
-
-
 @Component({
   selector: 'app-subcategorias',
   templateUrl: './subcategorias.component.html',
@@ -22,13 +19,10 @@ export class SubcategoriasComponent implements OnInit {
 
   form: FormGroup;
 
-
   public servicios: any[];
   @ViewChild('FormTipoServicio') FormTipoServicio: any;
-
   @ViewChild('confirmacionSwal') confirmacionSwal:any;
   @ViewChild('modal') modal:any;
-
 
   public PuntosSeleccionados=[];
   public Cuenta = [];
@@ -39,9 +33,8 @@ export class SubcategoriasComponent implements OnInit {
   public TotalItems: number;
   public Sucategories: any = [];
   public Subcategory:any = {};
+  public p:any = {};
   public title:string = 'Nueva Subcategoria';
-
-
   public Lista_Tipo_Soporte = [];
   public Retencion:any={
     Nombre:'',
@@ -49,8 +42,6 @@ export class SubcategoriasComponent implements OnInit {
     Separable:'No'
   };
   public EditFlag:boolean = false;
-
-
 
   constructor(private _subcategory: SubcategoryService,private http: HttpClient, private location: Location, private route: ActivatedRoute, private _swalService:SwalService,private fb: FormBuilder,
     ) {
@@ -66,14 +57,14 @@ formatter1 = (x: { Codigo: string }) => x.Codigo;
 
   ngOnInit() {
     this.createForm();
-    this.http.get(environment.ruta + 'php/lista_generales.php', { params: { modulo: 'Bodega' } }).subscribe((data: any) => {
+    this.http.get(environment.ruta + 'php/lista_generales.php', { params: { modulo: 'Bodega_Nuevo' } }).subscribe((data: any) => {
       this.Bodegas = data;
     });
   }
 
   createForm() {
     this.form = this.fb.group({
-      id: [''],
+      Id_Subcategoria: [''],
       Nombre: ['', Validators.required],
       Separable: ['', Validators.required],
       dynamic: this.fb.array([]),
@@ -82,6 +73,7 @@ formatter1 = (x: { Codigo: string }) => x.Codigo;
 
   dinamicFields(){
     let field = this.fb.group({
+      id: [''],
       label: [''],
       type: [''],
       required: ['']
@@ -98,138 +90,66 @@ formatter1 = (x: { Codigo: string }) => x.Codigo;
     return this.form.get('dynamic') as FormArray;
   }
 
-  deleteField(i){
+  deleteField(i,item){
     this.fieldDinamic.removeAt(i);
-  }
-
-
-  getSubcategory() {
-     this.http.get(environment.ruta + 'php/parametros/lista_subcategoria.php').subscribe((data: any) => {
-      this.Cargando = false;
-      this.Sucategories = data;
-    });
-  }
-
-  EditSubcategory(data){
-    console.log(data);
-    this.Subcategory = {...data}
-    this.title = 'Editar Subcategoria';
-
-    this.form.patchValue({
-      id: this.Subcategory.id,
-      Nombre: this.Subcategory.Nombre,
-      Separable: this.Subcategory.Separable
+    this._subcategory.deleteVariable(item.controls.id.value).subscribe((data: any) => {
     })
 
   }
 
+  getSubcategory() {
+     this.http.get(environment.ruta + 'php/parametros/lista_subcategoria.php').subscribe((data: any) => {
+      this.Cargando = false;
+      this.Sucategories = data.Subcategoria;
+    });
+  }
+
+  EditSubcategory(data){
+    this.Subcategory = {...data}
+    this.title = 'Editar Subcategoria';
+    this.form.patchValue({
+      Id_Subcategoria: this.Subcategory.Id_Subcategoria,
+      Nombre: this.Subcategory.Nombre,
+      Separable: this.Subcategory.Separable
+    });
+    this.fieldDinamic.clear();
+    this.Subcategory.Variables.forEach(element => {
+      let group = this.fb.group({
+        id: element.id,
+        label: element.label,
+        type: element.type,
+        required: element.required,
+      })
+      this.fieldDinamic.push(group)
+    });
+  }
+
   SaveSubcategory(){
-    if(this.form.get('id').value){
-      this._subcategory.update(this.form.value,this.form.value).subscribe((r:any) =>{
-        this.form.reset();
-        this.fieldDinamic.clear();
-        this.getSubcategory()
+    if(this.form.get('Id_Subcategoria').value){
+      this._subcategory.update(this.form.value, this.Subcategory.Id_Subcategoria).subscribe((r:any) =>{
+       this.dataClear();
         Swal.fire({
           icon: 'success',
           title: 'Subcategoria creada con éxito',
           text: '',
-
         })
       })
-
     }else{
-      console.log("created");
       this._subcategory.save(this.form.value).subscribe((r:any) =>{
-        this.form.reset();
-        this.fieldDinamic.clear();
-        this.getSubcategory()
+        this.dataClear();
         Swal.fire({
           icon: 'success',
           title: 'Subcategoria creada con éxito',
           text: '',
-
         })
       })
     }
   }
 
+  deleteSubcategory(){
 
+  }
 
-  // save(){
-  //   if (this.form.get('id').value) {
-  //     this._materials.update(this.form.value, this.material.id).subscribe((r:any) => {
-  //       this.form.reset();
-  //       this.modal.hide();
-  //       this.thicknessList.clear();
-  //       this.fieldList.clear();
-  //       this.getMaterials();
-  //       this._swal.show({
-  //         icon: 'success',
-  //         title: 'Material actualizado con éxito',
-  //         text: '',
-  //         showCancel: false
-  //       })
-  //     })
-  //   } else {
-  //     this._materials.save(this.form.value).subscribe((r:any) =>{
-  //       this.form.reset();
-  //       this.modal.hide();
-  //       this.thicknessList.clear();
-  //       this.fieldList.clear();
-  //       this.getMaterials();
-  //       this._swal.show({
-  //         icon: 'success',
-  //         title: 'Material creado con éxito',
-  //         text: '',
-  //         showCancel: false
-  //       })
-  //     })
-  //   }
-  // }
-
-  // GuardarRetencion(modal) {
-
-
-
-  //   let info = this.normalize(JSON.stringify(this.Retencion));
-  //   let datos = new FormData();
-  //   datos.append("datos", info);
-  //   if (this.EditFlag) {
-  //     this.http.post(environment.ruta + 'php/parametros/editar_subcategoria.php', datos).subscribe((data: any) => {
-  //       if (data.codigo == 'success') {
-  //         this._swalService.ShowMessage(data);
-  //         modal.hide();
-  //         this.Retencion={
-  //           Nombre:'',
-  //           Id_Bodega:'',
-  //           Separable:'No'
-  //         };
-  //         this.getSubcategory();
-  //         this.EditFlag = false;
-  //       }else{
-  //         this._swalService.ShowMessage(data);
-  //       }
-  //     });
-  //   }else{
-  //     this.http.post(environment.ruta + 'php/parametros/guardar_subcategoria.php', datos).subscribe((data: any) => {
-  //       modal.hide();
-  //       this.confirmacionSwal.title="Operación Exitosa";
-  //       this.confirmacionSwal.text= data.mensaje;
-  //       this.confirmacionSwal.type= data.tipo;
-  //       this.confirmacionSwal.show();
-
-  //       this.Retencion={
-  //         Nombre:'',
-  //         Id_Bodega:'',
-  //         Separable:'No'
-  //       };
-  //       this.getSubcategory();
-  //     });
-  //   }
-
-
-
-  // }
   normalize = (function() {
     var from = "ÃÀÁÄÂÈÉËÊÌÍÏÎÒÓÖÔÙÚÜÛãàáäâèéëêìíïîòóöôùúüûÑñÇç",
         to   = "AAAAAEEEEIIIIOOOOUUUUaaaaaeeeeiiiioooouuuunncc",
@@ -286,10 +206,16 @@ public GetDetallesCategoria(id_subcategoria:string){
 
 public CerrarModal(){
   this.modal.hide();
-  this.Retencion={
-    Nombre:'',
-    Id_Bodega:'',
-  };
+  this.form.reset()
+  this.fieldDinamic.clear();
+
+}
+
+dataClear(){
+  this.form.reset();
+  this.fieldDinamic.clear();
+  this.getSubcategory();
+  this.modal.hide();
 }
 
 }
