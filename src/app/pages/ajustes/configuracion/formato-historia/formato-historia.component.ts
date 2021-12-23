@@ -8,9 +8,17 @@ import { FormArray, FormBuilder, FormGroup } from '@angular/forms';
 })
 export class FormatoHistoriaComponent implements OnInit {
   forma: FormGroup;
-  constructor(private fb: FormBuilder) { }
+  constructor(private fb: FormBuilder) {}
   operatorsSelect = ['equal', 'not equal'];
-  operators = ['is equeal to', 'is not equal to', 'begins with', '<', '>', '<=', '>='];
+  operators = [
+    'is equeal to',
+    'is not equal to',
+    'begins with',
+    '<',
+    '>',
+    '<=',
+    '>=',
+  ];
   typeInputs = ['text', 'date', 'check', 'select', 'number', 'textarea'];
 
   id = 0;
@@ -28,14 +36,23 @@ export class FormatoHistoriaComponent implements OnInit {
   makeCuestion() {
     this.id += 1;
     let id = this.id;
-    return this.fb.group({
+    let gb = this.fb.group({
       id,
       title: '¿hello?',
       type: 'text',
-
       options: this.fb.array([this.fb.group({ value: '' })]),
       validations: this.fb.array([this.makeRules()]),
     });
+    let options = gb.get('options') as FormArray
+    gb.get('type').valueChanges.subscribe((r) => {
+      if (r != 'select' && r != 'check') {
+        let opt = options.at(0)
+        options.clear()
+        options.push(opt)
+      }
+    });
+
+    return gb;
   }
 
   get questions() {

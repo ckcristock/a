@@ -39,13 +39,7 @@
                   </div>
                 </div>
               </div>
-              <div
-                class="row mb-2"
-                *ngIf="
-                  question.controls.type.value == 'select' ||
-                  question.controls.type.value == 'check'
-                "
-              >
+              <div class="row mb-2">
                 <div class="col-7"></div>
                 <div class="col-5" formArrayName="options">
                   <div
@@ -60,9 +54,14 @@
                       formControlName="value"
                       class="form-control form-control-sm"
                       type="text"
+                      placeholder="valor"
                     />
                   </div>
                   <button
+                    *ngIf="
+                      question.controls.type.value == 'select' ||
+                      question.controls.type.value == 'check'
+                    "
                     (click)="addOption(question.controls.options)"
                     class="btn btn-sm btn-outline-primary"
                   >
@@ -72,9 +71,20 @@
               </div>
 
               <div class="row" formArrayName="validations">
-                <div class="col-12" [formGroupName]="vi" *ngFor="let validation of question.controls.validations.controls; let vi = index">
+                <div
+                  class="col-12"
+                  [formGroupName]="vi"
+                  *ngFor="
+                    let validation of question.controls.validations.controls;
+                    let vi = index
+                  "
+                >
                   <div class="row mb-4 rules-level2">
-                    <h5 class="mb-4">Validación: </h5>
+                    <div class="col-12 d-flex justify-content-between">
+                      <h5 class="mb-4">Validación:</h5>
+
+                      <i (click)="delete(question.controls.validations,vi)" class="fa fa-times"></i>
+                    </div>
                     <div class="col-12">
                       <div class="row m-0 p-0">
                         <div class="col-12" formArrayName="rules">
@@ -87,10 +97,9 @@
                             class="row mb-2"
                           >
                             <div class="col-2">
-                              <div class="form-group"  *ngIf="0 != o1">
+                              <div class="form-group" *ngIf="0 != o1">
                                 <label>Operador</label>
                                 <select
-
                                   formControlName="logic"
                                   class="form-control form-control-sm"
                                   name=""
@@ -106,7 +115,8 @@
                                   <div
                                     [formGroupName]="oi"
                                     *ngFor="
-                                      let operator of cond.controls.level2.controls;
+                                      let operator of cond.controls.level2
+                                        .controls;
                                       let oi = index
                                     "
                                     class="row"
@@ -118,7 +128,9 @@
                                             <label>Pregunta</label>
                                             <select
                                               formControlName="id_question_selected"
-                                              class="form-control form-control-sm"
+                                              class="
+                                                form-control form-control-sm
+                                              "
                                             >
                                               <option
                                                 [value]="
@@ -129,7 +141,9 @@
                                                   let qir = index
                                                 "
                                               >
-                                                {{ question2.controls.title.value }}
+                                                {{
+                                                  question2.controls.title.value
+                                                }}
                                               </option>
                                             </select>
                                           </div>
@@ -137,12 +151,15 @@
 
                                         <ng-container
                                           *ngIf="
-                                            operator.controls.question_selected &&
-                                              operator.controls.question_selected
-                                                ?.value?.controls?.type?.value !=
+                                            operator.controls
+                                              .question_selected &&
+                                              operator.controls
+                                                .question_selected?.value
+                                                ?.controls?.type?.value !=
                                                 'select' &&
-                                              operator.controls.question_selected
-                                                ?.value?.controls?.type?.value !=
+                                              operator.controls
+                                                .question_selected?.value
+                                                ?.controls?.type?.value !=
                                                 'check';
                                             else selectables
                                           "
@@ -151,7 +168,9 @@
                                             <div class="form-group">
                                               <label>Operador</label>
                                               <select
-                                                class="form-control form-control-sm"
+                                                class="
+                                                  form-control form-control-sm
+                                                "
                                                 formControlName="operator"
                                               >
                                                 <option
@@ -167,7 +186,7 @@
                                             <div class="form-group">
                                               <label>Valor</label>
                                               <input
-                                              formControlName="value"
+                                                formControlName="value"
                                                 class="
                                                   form-control form-control-sm
                                                   m-0
@@ -181,7 +200,9 @@
                                             <div class="form-group">
                                               <label>Valor</label>
                                               <select
-                                                class="form-control form-control-sm"
+                                                class="
+                                                  form-control form-control-sm
+                                                "
                                                 formControlName="operator"
                                               >
                                                 <option
@@ -199,18 +220,26 @@
                                             <div class="form-group">
                                               <label>Pregunta</label>
                                               <select
-                                                class="form-control form-control-sm"
+                                                class="
+                                                  form-control form-control-sm
+                                                "
                                                 formControlName="value"
                                               >
                                                 <option
-                                                  [value]="foption.controls.value.value"
+                                                  [value]="
+                                                    foption.controls.value.value
+                                                  "
                                                   *ngFor="
-                                                    let foption of operator.controls
+                                                    let foption of operator
+                                                      .controls
                                                       .question_selected.value
-                                                      .controls?.options?.controls
+                                                      .controls?.options
+                                                      ?.controls
                                                   "
                                                 >
-                                                  {{ foption.controls.value.value }}
+                                                  {{
+                                                    foption.controls.value.value
+                                                  }}
                                                 </option>
                                               </select>
                                             </div>
@@ -220,7 +249,9 @@
                                           class="col-12 mb-4"
                                           *ngIf="
                                             oi !=
-                                            cond.controls.level2.controls.length - 1
+                                            cond.controls.level2.controls
+                                              .length -
+                                              1
                                           "
                                         >
                                           <select
@@ -260,10 +291,16 @@
                       </div>
                     </div>
                     <div class="col-12">
-                     <div class="row mt-2">
-                       <div class="col-2">Then</div>
-                       <div class="col-9"><input formControlName="then" class="form-control form-control-sm" type="text"></div>
-                     </div>
+                      <div class="row mt-2">
+                        <div class="col-2">Then</div>
+                        <div class="col-9">
+                          <input
+                            formControlName="then"
+                            class="form-control form-control-sm"
+                            type="text"
+                          />
+                        </div>
+                      </div>
                     </div>
                     <div class="col-12">
                       <button
@@ -274,7 +311,6 @@
                       </button>
                     </div>
                   </div>
-
                 </div>
                 <div class="col-12">
                   <button
@@ -285,7 +321,6 @@
                   </button>
                 </div>
               </div>
-
             </div>
           </div>
         </div>
