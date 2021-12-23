@@ -6,10 +6,10 @@ import { ActivoFijoModel } from './activo-fijo-model';
 import swal,{ SweetAlertOptions } from 'sweetalert2';
 import { IMyDrpOptions } from 'mydaterangepicker';
 import { HttpClient } from '@angular/common/http';
-import { environment } from '../../../../environments/environment.prod';
 import { SwalService } from '../../ajustes/informacion-base/services/swal.service';
 import { ActivosFijosService } from './activos-fijos.service';
 import { NgOption } from '@ng-select/ng-select';
+import { environment } from 'src/environments/environment';
 
 @Component({
   selector: 'app-activos-fijos',
@@ -319,6 +319,7 @@ formatter_tercero = (x: { Nombre_Tercero: string }) => x.Nombre_Tercero;
     .subscribe((data:any) => {
       if (data.codigo == 'success') {
         this.ActivosFijos = data.query_result;
+        console.log(data);
         this.TotalItems = data.numReg;
       }else{
         this.ActivosFijos = [];

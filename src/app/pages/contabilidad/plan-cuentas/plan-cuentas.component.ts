@@ -166,7 +166,7 @@ export class PlanCuentasComponent implements OnInit {
     this.Cargando = true;
     var params = this.SetFiltros(paginacion);
 
-    this.location.replaceState('/plancuentas', params);    
+    this.location.replaceState('/contabilidad/plan-cuentas', params);    
 
     this.http.get(environment.ruta + 'php/plancuentas/lista_plan_cuentas.php'+params).subscribe((data: any) => {
       

@@ -1,9 +1,9 @@
 import { Component, OnInit, EventEmitter } from '@angular/core';
 import { Subject } from 'rxjs';
 import { SwalService } from '../../ajustes/informacion-base/services/swal.service';
-import { environment } from '../../../../environments/environment.prod';
 import { HttpClient } from '@angular/common/http';
 import { CierrecontableService } from './cierrecontable.service';
+import { environment } from 'src/environments/environment';
 
 @Component({
   selector: 'app-cierres-contables',

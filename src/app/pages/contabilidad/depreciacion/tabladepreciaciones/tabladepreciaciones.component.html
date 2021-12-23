@@ -27,8 +27,6 @@
                                         <th></th>
                                     </tr>
                                     <tr>
-
-
                                         <th class="tabla-filtro" style="text-align:left">
                                             <my-date-range-picker name="mydaterange" [options]="myDateRangePickerOptions" (dateRangeChanged)="OnDateRangeChanged($event)" placeholder="Filtro Fechas"></my-date-range-picker>
                                         </th>
@@ -72,16 +70,18 @@
                                         <td>
                                             <div class="text-center">
                                                 <div ngbDropdown class="dropdown-primary">
-                                                    <button ngbDropdownToggle class="btn btn-secondary btn-mini waves-effect waves-light " type="button">Acciones</button>
+                                                    <button ngbDropdownToggle class="btn btn-secondary btn-mini waves-effect waves-light " type="button">
+                                                        <i class="mdi mdi-chevron-down"></i>
+                                                    </button>
                                                     <div ngbDropdownMenu>
 
-                                                        <a class="dropdown-item waves-light waves-effect caja-botones" href="{{generalService.Ruta_Principal}}php/contabilidad/movimientoscontables/movimientos_depreciacion_pdf.php?id_registro={{ai.Id_Depreciacion}}&id_funcionario_elabora={{generalService.FuncionarioData.Identificacion_Funcionario}}"
+                                                        <!-- <a class="dropdown-item waves-light waves-effect caja-botones" href="{{enviromen.ruta}}php/contabilidad/movimientoscontables/movimientos_depreciacion_pdf.php?id_registro={{ai.Id_Depreciacion}}&id_funcionario_elabora={{generalService.FuncionarioData.Identificacion_Funcionario}}"
                                                             target="_blank">
                                                             <i class="fa fa-print"></i> Ver PCGA </a>
 
-                                                        <a class="dropdown-item waves-light waves-effect caja-botones" href="{{generalService.Ruta_Principal}}php/contabilidad/movimientoscontables/movimientos_depreciacion_pdf.php?id_registro={{ai.Id_Depreciacion}}&id_funcionario_elabora={{generalService.FuncionarioData.Identificacion_Funcionario}}&tipo_valor=Niif"
+                                                        <a class="dropdown-item waves-light waves-effect caja-botones" href="{{enviromen.ruta}}php/contabilidad/movimientoscontables/movimientos_depreciacion_pdf.php?id_registro={{ai.Id_Depreciacion}}&id_funcionario_elabora={{generalService.FuncionarioData.Identificacion_Funcionario}}&tipo_valor=Niif"
                                                             target="_blank">
-                                                            <i class="fa fa-print"></i> Ver NIIF </a>
+                                                            <i class="fa fa-print"></i> Ver NIIF </a> -->
                                                     </div>
                                                 </div>
                                             </div>

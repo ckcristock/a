@@ -39,8 +39,8 @@
     <div class="app-modal-footer">
         <div class="text-right">
             <button type="button" class="btn btn-outline-danger btn-rounded btn-sm" (click)="ModalCierreContable.hide()">Cancelar</button>
-            <button type="button" class="btn btn-outline-primary btn-rounded btn-sm" [disabled]="!FormCierre.valid">Guardar Cierre</button>
+            <button type="button" class="btn btn-outline-primary btn-rounded btn-sm" [swal]="confirmacionGuardar" [disabled]="!FormCierre.valid">Guardar Cierre</button>
         </div>
     </div>
 </app-modal-basic>
-<!-- <swal #confirmacionGuardar></swal> -->
+<swal #confirmacionGuardar [swalOptions]="alertOption"></swal>

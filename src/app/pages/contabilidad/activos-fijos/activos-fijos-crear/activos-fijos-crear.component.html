@@ -45,9 +45,9 @@
                                 <div class="form-group">
                                     <label for="tipo_activo">Tipo Activo</label>
                                     <select name="Id_Tipo_Activo_Fijo" id="tipo_activo" class="form-control form-control-sm" required [(ngModel)]="ActivoFijoModel.Id_Tipo_Activo_Fijo">
-                      <option value="" selected>Seleccione tipo</option>
-                      <option *ngFor="let ta of TipoActivos" [value]="ta.Id_Tipo_Activo_Fijo">{{ta.Nombre_Tipo_Activo}}</option>
-                      </select>
+                                        <option value="" selected>Seleccione tipo</option>
+                                        <option *ngFor="let ta of TipoActivos" [value]="ta.Id_Tipo_Activo_Fijo">{{ta.Nombre_Tipo_Activo}}</option>
+                                    </select>
                                 </div>
                             </div>
                             <div class="col-md-3" *ngIf="!Crear">
@@ -59,7 +59,7 @@
                             <div class="col-md-3" *ngIf="Crear">
                                 <div class="form-group">
                                     <label for="tipo_activo">C. Costo</label>
-                                    <app-custometypeahead [Ruta]="Ruta" [Modelo]="typeahead" [Campo]="Campo_Centro_Costo" (RetornarId)="CapturarIdCentroCosto($event,'Centro')"></app-custometypeahead>
+                                    <app-custumetypeahead [Ruta]="Ruta" [Modelo]="typeahead" [Campo]="Campo_Centro_Costo" (RetornarId)="CapturarIdCentroCosto($event,'Centro')"></app-custumetypeahead>
                                 </div>
                             </div>
                             <div class="col-md-3" *ngIf="!Crear">
@@ -126,7 +126,7 @@
                             <!-- <div class="col-md-6">
                     <div class="form-group">
                         <label for="tipo_activo">Contrapartida</label>
-                      <app-custometypeahead [Ruta]="Ruta_Cuentas" [Modelo]="typeahead_Cuenta" (RetornarId)="CapturarIdCentroCosto($event,'Contrapartida')"  [Campo]="Campo_Contrapartida" ></app-custometypeahead>
+                      <app-custumetypeahead [Ruta]="Ruta_Cuentas" [Modelo]="typeahead_Cuenta" (RetornarId)="CapturarIdCentroCosto($event,'Contrapartida')"  [Campo]="Campo_Contrapartida" ></app-custumetypeahead>
                     </div>
                   </div> -->
 
@@ -239,21 +239,21 @@
                                 <div *ngFor="let item of Ctas_Anticipo; let i = index" class="row">
                                     <div class="col-md-3">
                                         <label for="tipo_activo">Cuenta Anticipo</label>
-                                        <app-custometypeahead [Ruta]="Ruta_Cuentas" [Modelo]="{
-                            placeholder: 'Cta Anticipo',
-                            name: 'Cta_Anticipo'+i,
-                            id: 'Cta_Anticipo'+i, 
-                            Requerido: false
-                          }" (RetornarId)="CapturarIdCentroCosto($event,'Anticipo',i)" [Campo]="item.Cta_Anticipo"></app-custometypeahead>
+                                        <app-custumetypeahead [Ruta]="Ruta_Cuentas" [Modelo]="{
+                                        placeholder: 'Cta Anticipo',
+                                        name: 'Cta_Anticipo'+i,
+                                        id: 'Cta_Anticipo'+i, 
+                                        Requerido: false
+                                        }" (RetornarId)="CapturarIdCentroCosto($event,'Anticipo',i)" [Campo]="item.Cta_Anticipo"></app-custumetypeahead>
                                     </div>
                                     <div class="col-md-2">
                                         <label for="tipo_activo">Nit</label>
-                                        <app-custometypeahead [Ruta]="Ruta_Nit" [Modelo]="{
-                            placeholder: 'Nombre o Nit',
-                            name: 'Nit'+i,
-                            id: 'Nit'+i,
-                            Requerido: false
-                          }" (RetornarId)="CapturarIdCentroCosto($event,'Nit_Anticipo', i)" [Campo]="item.Nit_Anticipo"></app-custometypeahead>
+                                        <app-custumetypeahead [Ruta]="Ruta_Nit" [Modelo]="{
+                                            placeholder: 'Nombre o Nit',
+                                            name: 'Nit'+i,
+                                            id: 'Nit'+i,
+                                            Requerido: false
+                                        }" (RetornarId)="CapturarIdCentroCosto($event,'Nit_Anticipo', i)" [Campo]="item.Nit_Anticipo"></app-custumetypeahead>
                                     </div>
                                     <div style="padding: 0px" class="col-md-2">
                                         <label for="tipo_activo">Documento</label>
@@ -328,7 +328,9 @@
 
 
                             <div class="col-md-12">
-                                <button class="btn btn-primary btn-sm pull-right" style="display:flex;align-items:center;" [disabled]="!FormActivoFijo.valid || (Total_Debito-Total_Credito) != 0"><i class="ti-save font-size-15 mr-2"></i> Guardar datos</button>
+                                <button class="btn btn-primary btn-sm pull-right" style="display:flex;
+                                align-items:center;" [swal]="confirmacionGuardar">
+                                <i class="ti-save font-size-15 mr-2"></i> Guardar datos</button>
                             </div>
 
                         </div>
@@ -339,9 +341,9 @@
     </div>
 </div>
 
-<!-- <swal #alertSwal title="" text="" type=""></swal> -->
+<swal #alertSwal title="" text="" type=""></swal>
 
-<!-- <swal #confirmacionGuardar [options]="alertOption"></swal> -->
+<swal #confirmacionGuardar [swalOptions]="alertOption"></swal>
 
 <ng-template #rt_tercero let-r="result" let-t="term">
     <span class="f-9">

@@ -8,8 +8,8 @@ import { SwalService } from '../../../ajustes/informacion-base/services/swal.ser
 import swal from 'sweetalert2';
 import { Observable } from 'rxjs';
 import { debounceTime, map } from 'rxjs/operators';
-import { environment } from '../../../../../environments/environment.prod';
 import { NgForm } from '@angular/forms';
+import { environment } from 'src/environments/environment';
 
 @Component({
   selector: 'app-ingresos',

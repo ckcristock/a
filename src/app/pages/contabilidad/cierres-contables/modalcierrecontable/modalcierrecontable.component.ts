@@ -4,7 +4,7 @@ import swal, { SweetAlertOptions } from 'sweetalert2';
 import { CierrecontableService } from '../cierrecontable.service';
 import { SwalService } from '../../../ajustes/informacion-base/services/swal.service';
 import { HttpClient } from '@angular/common/http';
-import { environment } from '../../../../../environments/environment.prod';
+import { environment } from 'src/environments/environment';
 
 @Component({
   selector: 'app-modalcierrecontable',
@@ -42,7 +42,7 @@ export class ModalcierrecontableComponent implements OnInit, OnDestroy {
         confirmButtonText: 'Si, Guardar',
         showLoaderOnConfirm: true,
         focusCancel: true,
-        // type: 'info',
+        icon: 'info',
         input: 'select',
         inputOptions: {
           Pcga: 'Imprimir en PCGA',

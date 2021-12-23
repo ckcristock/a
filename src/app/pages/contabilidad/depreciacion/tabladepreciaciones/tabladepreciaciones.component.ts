@@ -1,14 +1,14 @@
 import { Component, OnInit } from '@angular/core';
 import { IMyDrpOptions } from 'mydaterangepicker';
 import { HttpClient } from '@angular/common/http';
-import { environment } from '../../../../../environments/environment.prod';
+import { environment } from 'src/environments/environment';
 @Component({
   selector: 'app-tabladepreciaciones',
   templateUrl: './tabladepreciaciones.component.html',
   styleUrls: ['./tabladepreciaciones.component.scss']
 })
 export class TabladepreciacionesComponent implements OnInit {
-
+  enviromen:any;
   public Cargando:boolean = false;
   public Filtros:any = {
     codigo_acta:'',
@@ -44,6 +44,7 @@ export class TabladepreciacionesComponent implements OnInit {
      }
 
   ngOnInit() {
+    this.enviromen = environment;
   }
 
   SetFiltros(paginacion:boolean) {

@@ -8,9 +8,9 @@ import { SweetAlertOptions } from 'sweetalert2';
 import { ActivatedRoute, Router } from '@angular/router';
 import { HttpClient } from '@angular/common/http';
 import { SwalService } from '../../../../ajustes/informacion-base/services/swal.service';
-import { environment } from '../../../../../../environments/environment.prod';
 import swal from 'sweetalert2';
 import { CierrecontableService } from '../../../cierres-contables/cierrecontable.service';
+import { environment } from 'src/environments/environment';
 type centerCost = { value: number; text: string };
 type third = { name: string };
 

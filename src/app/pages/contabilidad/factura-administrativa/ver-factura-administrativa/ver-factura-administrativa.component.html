@@ -1,4 +1,4 @@
-<!-- <div class="page-body">
+<div class="page-body">
     <div class="row d-flex justify-content-center">
 
         <div class="col-md-8">
@@ -11,13 +11,13 @@
                                     <tbody>
                                         <tr>
                                             <td style="width:100px;">
-                                                <img src="{{globales.urlLogoColor}}" class="m-b-10 img-60" alt="Pro-H Software">
+                                                <img src="{{enviromen.urlLogoColor}}" class="m-b-10 img-60" alt="Pro-H Software">
                                             </td>
                                             <td style="font-size:14px;">
-                                                {{globales.Nombre}}
-                                                <br>{{globales.Nit}}
-                                                <br>{{globales.Direccion}}
-                                                <br>{{globales.Telefono}}
+                                                {{enviromen.Nombre}}
+                                                <br>{{enviromen.Nit}}
+                                                <br>{{enviromen.Direccion}}
+                                                <br>{{enviromen.Telefono}}
                                             </td>
                                         </tr>
                                     </tbody>
@@ -43,8 +43,8 @@
                         </div>
                     </div>
                     <div class="col-md-2" style="padding-left:0;">
-                        <img *ngIf="Resolucion.Tipo_Resolucion!='Resolucion_Electronica' && Factura.Codigo_Qr!=''" src="{{globales.ruta}}IMAGENES/QR/{{Factura.Codigo_Qr}}" class="img-fluid" style="margin-top: -20px;">
-                        <img *ngIf="Resolucion.Tipo_Resolucion=='Resolucion_Electronica' && Factura.Codigo_Qr!=''" src="{{globales.ruta}}ARCHIVOS/FACTURACION_ELECTRONICA/{{Factura.Codigo_Qr}}" class="img-fluid" style="margin-top: -20px;">
+                        <img *ngIf="Resolucion.Tipo_Resolucion!='Resolucion_Electronica' && Factura.Codigo_Qr!=''" src="{{enviromen.ruta}}IMAGENES/QR/{{Factura.Codigo_Qr}}" class="img-fluid" style="margin-top: -20px;">
+                        <img *ngIf="Resolucion.Tipo_Resolucion=='Resolucion_Electronica' && Factura.Codigo_Qr!=''" src="{{enviromen.ruta}}ARCHIVOS/FACTURACION_ELECTRONICA/{{Factura.Codigo_Qr}}" class="img-fluid" style="margin-top: -20px;">
 
 
                         <img *ngIf="Factura.Codigo_Qr==''" src="assets/images/sinqr.png" class="img-fluid" style="margin-top: -20px;">
@@ -128,6 +128,9 @@
                     <div class="row" style="margin-top:10px;">
                         <div class="col-md-8 ">
                             <div class="row" style="margin-left: 0;">
+                                <div class="col-md-12 claro">
+                                    <!--  <p><strong>Valor en Letras: </strong>{{valorLetra}}</p> -->
+                                </div>
                             </div>
                             <div class="row" style="margin-left: 0;">
                                 <div class="col-md-6 claro">
@@ -174,15 +177,15 @@
                     </div>
                     <div class="row" style="margin:0;">
                         <div class="col-md-12 oscuro">
-                            <p style="margin-bottom: 0;">{{globales.Nota_1}}</p>
+                            <p style="margin-bottom: 0;">{{enviromen.Nota_1}}</p>
                         </div>
                     </div>
                     <div class="row" style="margin:0;">
                         <div class="col-md-12 claro">
-                            <p style="margin-bottom: 0;"><strong>Nota:</strong> {{globales.Nota_2}}</p>
+                            <p style="margin-bottom: 0;"><strong>Nota:</strong> {{enviromen.Nota_2}}</p>
                         </div>
                         <div class="col-md-12 claro">
-                            <p style="margin-bottom: 0;"><strong>Cuentas Bancarias: </strong> {{globales.Cuenta_Bancaria}}</p>
+                            <p style="margin-bottom: 0;"><strong>Cuentas Bancarias: </strong> {{enviromen.Cuenta_Bancaria}}</p>
                         </div>
                     </div>
                     <div class="row" style="margin-top:40px;">
@@ -211,11 +214,11 @@
 
                     <div *ngIf="perfilUsuario == '27' ||  perfilUsuario == '50' || perfilUsuario == '16'" class="row mb-2">
                         <div class="col-md-6">
-                            <a href="{{globales.ruta}}php/contabilidad/movimientoscontables/movimientos_factura_administrativa_pdf.php?id_registro={{Factura.Id_Factura_Administrativa}}&id_funcionario_elabora={{funcionario.Identificacion_Funcionario}}" target="_blank" class="btn btn-info btn-block">
+                            <a href="{{enviromen.ruta}}php/contabilidad/movimientoscontables/movimientos_factura_administrativa_pdf.php?id_registro={{Factura.Id_Factura_Administrativa}}&id_funcionario_elabora={{funcionario.Identificacion_Funcionario}}" target="_blank" class="btn btn-info btn-block">
                                 <i class="fa fa-book"></i> Ver Contabilización PCGA</a>
                         </div>
                         <div class="col-md-6">
-                            <a href="{{globales.ruta}}php/contabilidad/movimientoscontables/movimientos_factura_administrativa_pdf.php?id_registro={{Factura.Id_Factura_Administrativa}}&id_funcionario_elabora={{funcionario.Identificacion_Funcionario}}&tipo_valor=Niif" target="_blank"
+                            <a href="{{enviromen.ruta}}php/contabilidad/movimientoscontables/movimientos_factura_administrativa_pdf.php?id_registro={{Factura.Id_Factura_Administrativa}}&id_funcionario_elabora={{funcionario.Identificacion_Funcionario}}&tipo_valor=Niif" target="_blank"
                                 class="btn btn-info btn-block">
                                 <i class="fa fa-book"></i> Ver Contabilización NIIF</a>
                         </div>
@@ -223,12 +226,12 @@
 
                     <div class="row">
                         <div class="col-md-12">
-                            <a href="{{globales.ruta}}php/factura_administrativa/descarga_pdf.php?id={{Factura.Id_Factura_Administrativa}}" target="_blank" class="btn btn-success btn-block"><i class="fa fa-print"></i> Imprimir Factura</a>
+                            <a href="{{enviromen.ruta}}php/factura_administrativa/descarga_pdf.php?id={{Factura.Id_Factura_Administrativa}}" target="_blank" class="btn btn-success btn-block"><i class="fa fa-print"></i> Imprimir Factura</a>
                         </div>
                     </div>
                 </div>
             </div>
-            <app-notascreditoverdefacturas [idFactura]="idFactura" [tipoFactura]="'Factura_Administrativa'"></app-notascreditoverdefacturas>
+            <!-- <app-notascreditoverdefacturas [idFactura]="idFactura" [tipoFactura]="'Factura_Administrativa'"></app-notascreditoverdefacturas> -->
         </div>
     </div>
-</div> -->
+</div>

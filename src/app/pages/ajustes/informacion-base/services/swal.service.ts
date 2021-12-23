@@ -30,7 +30,7 @@ export class SwalService {
           i++;
         }
       } else {
-        this.SwalObj.type = data.codigo;
+        this.SwalObj.icon = data.codigo;
         this.SwalObj.title = data.titulo;
         this.SwalObj.msg = data.mensaje;
         this.SwalObj.html = data.html;

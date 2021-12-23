@@ -5,8 +5,8 @@ import swal from 'sweetalert2';
 import { ActivatedRoute } from '@angular/router';
 import { HttpClient } from '@angular/common/http';
 import { SwalService } from '../../../ajustes/informacion-base/services/swal.service';
-import { environment } from '../../../../../environments/environment.prod';
 import { Location } from '@angular/common';
+import { environment } from 'src/environments/environment';
 
 @Component({
   selector: 'app-notas-contables',
@@ -50,7 +50,7 @@ myDateRangePickerOptions: IMyDrpOptions = {
       confirmButtonText: 'Si, Anular',
       showLoaderOnConfirm: true,
       focusCancel: true,
-      // type: 'warning',
+      icon: 'warning',
       preConfirm: () => {
         return new Promise((resolve) => {
           this.anularDocumento();

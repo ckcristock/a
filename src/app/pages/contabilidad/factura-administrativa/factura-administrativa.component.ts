@@ -3,7 +3,7 @@ import { IMyDrpOptions } from 'mydaterangepicker';
 import { HttpClient } from '@angular/common/http';
 import { ActivatedRoute } from '@angular/router';
 import { Location } from '@angular/common';
-import { environment } from '../../../../environments/environment.prod';
+import { environment } from 'src/environments/environment';
 
 @Component({
   selector: 'app-factura-administrativa',

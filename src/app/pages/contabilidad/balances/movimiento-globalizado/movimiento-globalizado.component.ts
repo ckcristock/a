@@ -4,7 +4,7 @@ import { HttpClient } from '@angular/common/http';
 import { TerceroService } from '../../../../core/services/tercero.service';
 import { Observable } from 'rxjs';
 import { debounceTime, distinctUntilChanged, switchMap } from 'rxjs/operators';
-import { environment } from '../../../../../environments/environment.prod';
+import { environment } from 'src/environments/environment';
 
 @Component({
   selector: 'app-movimiento-globalizado',

@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { HttpClient } from '@angular/common/http';
-import { environment } from '../../../../../environments/environment.prod';
+import { environment } from 'src/environments/environment';
 
 @Component({
   selector: 'app-ver-factura-administrativa',
@@ -32,6 +32,7 @@ export class VerFacturaAdministrativaComponent implements OnInit {
   public Actividades:any = [];
   
   Descuento: any;
+  enviromen:any;
 
   constructor(private route: ActivatedRoute,private http : HttpClient) {
     

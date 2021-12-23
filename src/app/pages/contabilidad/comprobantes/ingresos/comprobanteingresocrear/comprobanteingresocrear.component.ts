@@ -3,11 +3,11 @@ import { SweetAlertOptions } from 'sweetalert2';
 import { ActivatedRoute, Router } from '@angular/router';
 import { HttpClient } from '@angular/common/http';
 import { SwalService } from '../../../../ajustes/informacion-base/services/swal.service';
-import { environment } from '../../../../../../environments/environment.prod';
 import swal from 'sweetalert2';
 import { Observable } from 'rxjs';
 import { debounceTime, map } from 'rxjs/operators';
 import { NgForm } from '@angular/forms';
+import { environment } from 'src/environments/environment';
 
 @Component({
   selector: 'app-comprobanteingresocrear',

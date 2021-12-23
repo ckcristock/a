@@ -5,8 +5,8 @@ import { SweetAlertOptions } from 'sweetalert2';
 import { IMyDrpOptions } from 'mydaterangepicker';
 import { ActivatedRoute } from '@angular/router';
 import { SwalService } from '../../../ajustes/informacion-base/services/swal.service';
-import { environment } from '../../../../../environments/environment.prod';
 import { Location } from '@angular/common';
+import { environment } from 'src/environments/environment';
 
 @Component({
   selector: 'app-notas-carteras',

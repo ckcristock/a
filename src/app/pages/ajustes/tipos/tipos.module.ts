@@ -19,11 +19,14 @@ import { TiposIngresoComponent } from './tipos-ingreso/tipos-ingreso.component';
 import { TiposEstadoFinancieroComponent } from './tipos-estado-financiero/tipos-estado-financiero.component';
 import { TiposAnulacionComponent } from './tipos-anulacion/tipos-anulacion.component';
 import { TiposRechazoComponent } from './tipos-rechazo/tipos-rechazo.component';
-import { TiposActivoFijoComponent } from './tipos-activo-fijo/tipos-activo-fijo.component';
+// import { TiposActivoFijoComponent } from './tipos-activo-fijo/tipos-activo-fijo.component';
 import { NgSelectModule } from '@ng-select/ng-select';
 import { TiposRiesgoComponent } from './tipos-riesgo/tipos-riesgo.component';
 import { ProfesionesComponent } from './profesiones/profesiones.component';
 import { TiposVisaComponent } from './tipos-visa/tipos-visa.component';
+import { TipoactivofijoComponent } from './tipoactivofijo/tipoactivofijo.component';
+import { TablatipoactivofijoComponent } from './tipoactivofijo/tablatipoactivofijo/tablatipoactivofijo.component';
+import { SweetAlert2Module } from '@sweetalert2/ngx-sweetalert2';
 
 
 @NgModule({
@@ -41,9 +44,12 @@ import { TiposVisaComponent } from './tipos-visa/tipos-visa.component';
         TiposEstadoFinancieroComponent,
         TiposAnulacionComponent, 
         TiposRechazoComponent, 
-        TiposActivoFijoComponent,
+        // TiposActivoFijoComponent,
         TiposRiesgoComponent, 
-        ProfesionesComponent, TiposVisaComponent
+        ProfesionesComponent, 
+        TiposVisaComponent,
+        TipoactivofijoComponent,
+        TablatipoactivofijoComponent
     ],
     imports : [
         TiposRoutingModule,
@@ -56,7 +62,8 @@ import { TiposVisaComponent } from './tipos-visa/tipos-visa.component';
         PipesModule,
         NgbPaginationModule,
         NgSelectModule,
-        NgbTypeaheadModule
+        NgbTypeaheadModule,
+        SweetAlert2Module.forRoot()
     ]
 })
 

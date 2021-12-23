@@ -1,8 +1,6 @@
 import { Component, OnInit, ViewChild } from '@angular/core';
-import { FormBuilder, FormGroup, NgSelectOption, NgForm } from '@angular/forms';
+import { NgSelectOption, NgForm } from '@angular/forms';
 import { CentroCostosService } from './centro-costos.service';
-import { consts } from '../../../core/utils/consts';
-import { ValidatorsService } from '../../ajustes/informacion-base/services/reactive-validation/validators.service';
 import { Globales } from '../globales';
 import { HttpClient } from '@angular/common/http';
 import { Location } from '@angular/common';
@@ -77,7 +75,8 @@ export class CentroCostosComponent implements OnInit {
 
   public Filtros:any = {
     Codigo: '',
-    Nombre: ''
+    Nombre: '',
+    Id_Empresa: ''
   }
 
   public CentrosPadre:Array<string> = [
@@ -153,9 +152,13 @@ export class CentroCostosComponent implements OnInit {
       params.nom = this.Filtros.Nombre;
     }
 
+    if (this.Filtros.Id_Empresa != '') {
+      params.empresa = this.Filtros.Id_Empresa
+    }
+
     let queryString = Object.keys(params).map(key => key + '=' + params[key]).join('&');
 
-    this.location.replaceState('/centroscostos', queryString); // actualizando URL
+    this.location.replaceState('/contabilidad/centro-costos', queryString); // actualizando URL
 
     return queryString;
     
@@ -183,7 +186,6 @@ export class CentroCostosComponent implements OnInit {
       this.http.get(environment.ruta + 'php/centroscostos/lista_centros_costos.php').subscribe((data: any) => {
         this.CentrosCostos = data.Centros;
         this.CentrosCostosPadre = data.CentrosCostosPadre;
-
       });
     }else{
       this.http.get(environment.ruta + 'php/centroscostos/lista_centros_costos.php', {params: {id_centro:idCentro}}).subscribe((data: any) => {
@@ -223,8 +225,6 @@ export class CentroCostosComponent implements OnInit {
       let data = this.normalize(JSON.stringify(this.CentroCostoModel));
       datos.append("Datos", data);
       datos.append("accion", funcion);
-      
-      console.log(datos);
       this.PeticionGuardarCentro(datos);
       modalCentroCosto.hide();
       this.LimpiarModelo();
@@ -240,7 +240,6 @@ export class CentroCostosComponent implements OnInit {
       datos.append("Datos", data);
       datos.append("accion", funcion);
       
-      console.log(datos);
       this.PeticionGuardarCentro(datos);
       modalCentroCosto.hide();
       this.LimpiarModelo();
@@ -354,6 +353,7 @@ export class CentroCostosComponent implements OnInit {
   EditarCentroCosto(idCentroCosto, modal:any){
 
     this.http.get(environment.ruta + 'php/centroscostos/consultar_centro_costo.php', { params: {id_centro:idCentroCosto.toString(), opcion:'editar'} }).subscribe((data: any) => {      
+      console.log(data);
       this.ValorTipoCentro(data.Id_Tipo_Centro);
 
       this.QueryCentrosCostos(idCentroCosto);

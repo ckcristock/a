@@ -11,18 +11,9 @@
                         <div class="col-6">
                             <div class="pull-right">
                                 <div>
-                                    <div ngbDropdown class="dropdown-primary">
-                                        <button ngbDropdownToggle style="float: right;" class="btn btn-success btn-sm waves-effect waves-light " type="button"><i class="fas fa-table"></i> Imprimir</button>
-                                        <div ngbDropdownMenu>
-                                            <div style="position: relative;">
-                                                <a class="dropdown-item waves-light waves-effect caja-botones" href="{{envirom.ruta}}php/contabilidad/plancuentas/descargar_informe_plan_cuentas_excel.php" target="_blank">
-                                                    <i class="fa fa-file-excel-o"></i> Excel</a>
-                                            </div>
-                                            <!-- <a class="dropdown-item waves-light waves-effect caja-botones"
-                          href="{{globales.ruta}}php/contabilidad/plancuentas/descargar_informe_plan_cuentas.php" target="_blank">
-                          <i class="fa fa-file-pdf-o"></i> PDF</a> -->
-                                        </div>
-                                    </div>
+                                    <a style="float: right;" href="{{envirom.ruta}}php/centroscostos/exportar.php" target="_blank" class="btn btn-success btn-sm">
+                                        <i class="fas fa-table"></i> Exportar
+                                    </a>
                                 </div>
                                 <div class="card-header-left">
                                     <button type="button" style="float: right;" class="pull-left btn btn-primary btn-sm mr-2" (click)="modalCrearCuenta.show();habCampos('N')"><i

@@ -5,11 +5,11 @@ import { ActivatedRoute, Router } from '@angular/router';
 import { HttpClient } from '@angular/common/http';
 import { Location } from '@angular/common';
 import { SwalService } from '../../../ajustes/informacion-base/services/swal.service';
-import { environment } from '../../../../../environments/environment.prod';
 import swal from 'sweetalert2';
 import { Observable } from 'rxjs';
 import { debounceTime, map } from 'rxjs/operators';
 import { NgForm } from '@angular/forms';
+import { environment } from 'src/environments/environment';
 
 @Component({
   selector: 'app-egresos',
@@ -226,11 +226,11 @@ export class EgresosComponent implements OnInit {
       
     }
   
-    ShowSwal(tipo:string, titulo:string, msg:string){
-      this.alertSwal.type = tipo;
+    ShowSwal(tipo, titulo:string, msg:string){
+      this.alertSwal.icon = tipo;
       this.alertSwal.title = titulo;
       this.alertSwal.text = msg;
-      this.alertSwal.show();
+      this.alertSwal.fire();
     }
   
     normalize = (function () {
