@@ -27,28 +27,104 @@
     <div class="card">
       <div class="card-header">
         <div class="row">
-          <div class="col-6"><input type="text" class="form-control " /></div>
-          <div class="col-6">
-            <button class="btn-primary btn btn-sm">Ops</button>
+          <div class="col-12 d-flex justify-content-between">
+            <input
+              type="text"
+              style="width: 30%"
+              class="form-control form-control-sm"
+            />
+            <select style="width: 90px" class="form-control form-control-sm">
+              <option selected value="">Todos</option>
+              <option *ngFor="let item of statistics" [value]="item.stats">
+                {{ item.label }}
+              </option>
+            </select>
+          </div>
+
+          <div class="col-12 mt-2" *ngIf="penginds > 0 || rejecteds > 0">
+            <button
+              class="btn btn-primary btn-sm btn-block"
+              (click)="reportPendings()"
+            >
+              <i class="fas fa-paper-plane"></i>
+              Reportar todos los pendientes
+            </button>
           </div>
         </div>
       </div>
       <div class="card-body">
-        <table class="table table-sm table-striped w-100">
+        <table class="table table-sm table-striped">
           <thead>
             <tr>
-              <th>Funcionario</th>
               <th>Fecha</th>
-              <th>Ingresos</th>
-              <th>Deducciones</th>
-              <th>Total Pagado</th>
+              <th>Funcionario</th>
+              <th>Código</th>
+              <th>Cune</th>
               <th>Estado</th>
-              <th>Acciones</th>
+              <th>Total Pagado</th>
+              <th class="text-right">Acciones</th>
             </tr>
           </thead>
-          <tbody></tbody>
+          <tbody>
+            <tr *ngFor="let payroll of payrolls">
+              <td>{{ payroll.created_at | date: "dd-MM-YYYY" }}</td>
+              <td>{{ payroll.person_name }}</td>
+              <td>{{ payroll.code }}</td>
+              <td>
+                <p style="width: 500px">
+                  {{ payroll.cune }}
+                </p>
+              </td>
+              <td>
+                <span
+                  [ngClass]="{
+                    'badge-danger': payroll.status == 'rejected',
+                    'badge-warning': payroll.status == 'deleted',
+                    'badge-success': payroll.status == 'succeded',
+                    'badge-dark': !payroll.status
+                  }"
+                  class="badge"
+                  >{{ payroll.status | payrollStatus }}</span
+                >
+              </td>
+              <td>{{ payroll.net_salary | currency: "":"" }}</td>
+              <td class="text-right">
+                <button
+                  class="btn btn-sm btn-outline-success mr-2"
+                  *ngIf="payroll.status != 'succeded'"
+                  (click)="report(payroll.id)"
+                >
+                  <i class="fas fa-paper-plane"></i> Reportar
+                </button>
+                <button
+                  class="btn btn-sm btn-outline-warning mr-2"
+                  *ngIf="payroll.status == 'succeded'"
+                >
+                  <i class="fas fa-file-import"></i> Modificar
+                </button>
+                <button
+                  class="btn btn-sm btn-outline-danger mr-2"
+                  (click)="deleteElectronicPayroll(payroll.id)"
+                  *ngIf="payroll.status == 'succeded'"
+                >
+                  <i class="fas fa-trash-alt"></i> Anular
+                </button>
+                <button
+                  class="btn btn-sm btn-outline-primary mr-2"
+                  (click)="getData.emit(payroll.id)"
+                >
+                  <i class="fas fa-history"></i> Histórico
+                </button>
+              </td>
+            </tr>
+          </tbody>
         </table>
       </div>
     </div>
   </div>
+
+  <app-historico-nomina-electronica
+    #modalHistoric
+    [getData]="getData"
+  ></app-historico-nomina-electronica>
 </div>

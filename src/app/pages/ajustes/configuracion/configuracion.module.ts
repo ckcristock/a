@@ -12,6 +12,14 @@ import { HttpClientModule } from '@angular/common/http';
 import { CamposTercerosComponent } from './campos-terceros/campos-terceros.component';
 import { NgSelectModule } from '@ng-select/ng-select';
 import { PipesModule } from 'src/app/core/pipes/pipes.module';
+import { NominaComponent } from './nomina/nomina.component';
+import { HorasExtrasConfigComponent } from './nomina/components/horas-extras-config/horas-extras-config.component';
+import { SSocialFuncionarioConfigComponent } from './nomina/components/s-social-funcionario-config/s-social-funcionario-config.component';
+import { SSocialEmpresaConfigComponent } from './nomina/components/s-social-empresa-config/s-social-empresa-config.component';
+import { RiesgoArlConfigComponent } from './nomina/components/riesgo-arl-config/riesgo-arl-config.component';
+import { ParafiscalesConfigComponent } from './nomina/components/parafiscales-config/parafiscales-config.component';
+import { IncapacidadesConfigComponent } from './nomina/components/incapacidades-config/incapacidades-config.component';
+import { FormatoHistoriaComponent } from './formato-historia/formato-historia.component';
 
 
 
@@ -22,7 +30,15 @@ import { PipesModule } from 'src/app/core/pipes/pipes.module';
     DatosPagoComponent,
     DatosPilaComponent,
     DatosBasicosEmpresaComponent,
-    CamposTercerosComponent
+    CamposTercerosComponent,
+    NominaComponent,
+    HorasExtrasConfigComponent,
+    SSocialFuncionarioConfigComponent,
+    SSocialEmpresaConfigComponent,
+    RiesgoArlConfigComponent,
+    ParafiscalesConfigComponent,
+    IncapacidadesConfigComponent,
+    FormatoHistoriaComponent
   ],
   imports: [
     CommonModule,
