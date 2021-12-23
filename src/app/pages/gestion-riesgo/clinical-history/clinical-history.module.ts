@@ -9,6 +9,7 @@ import { NgSelectModule } from '@ng-select/ng-select';
 import { ComponentsModule } from 'src/app/components/components.module';
 import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
 import { NewClinicalHistoryComponent } from './new-clinical-history/new-clinical-history.component';
+import { VariableHightCostComponent } from '../variable-hight-cost/variable-hight-cost.component';
 
 @NgModule({
   imports: [
@@ -24,7 +25,8 @@ import { NewClinicalHistoryComponent } from './new-clinical-history/new-clinical
     ClinicalHistoryComponent,
     DetailClinicalHistoryComponent,
     DeepDetailComponent,
-    NewClinicalHistoryComponent
+    NewClinicalHistoryComponent,
+    VariableHightCostComponent
   ]
 })
 export class ClinicalHistoryModule { }
