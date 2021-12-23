@@ -11,6 +11,23 @@
     <span class="font-weight-bold">{{ finPeriodo }}</span>
   </div>
 </div>
+<div class="form-group row">
+  <div class="col-6">
+    <label for="dependency_id" class="col-form-label text-left">Empresa</label>
+    <ng-select
+      [disabled]="inicioParemeter"
+      class="p-0"
+      [items]="companies"
+      bindLabel="text"
+      [(ngModel)]="companyId"
+      bindValue="value"
+      loadingText="loading"
+      (change)="getPagoNomina()"
+      ngDefaultControl
+    >
+    </ng-select>
+  </div>
+</div>
 
 <div class="alert alert-secondary" *ngIf="nomina?.nomina_paga">
   <p class="font-weight-bold text-center">
@@ -98,63 +115,75 @@
 </div>
 
 <!-- Eventos Nomina paga  -->
-<div class="alert alert-light" *ngIf="nomina?.nomina_paga">
+<div class="events mb-4" *ngIf="nomina?.nomina_paga">
   <div class="row">
-    <div class="col-3">
-      <a class="text-center font-weight-bold nomina-descargables">
-        <i class="iconsmind-File-Excel icono-descargables"></i> Resumen de
-        Nómina
-      </a>
+    <div class="col-2 mt-2">
+      <button class="btn btn-sm btn-outline-primary btn-block">
+        <i class="fas fa-file-alt"></i>
+        Resumen de Nómina
+      </button>
     </div>
-    <div class="col-3">
-      <a class="text-center font-weight-bold nomina-descargables">
-        <i class="iconsmind-Bell icono-descargables"></i> Resumen de Novedades
-      </a>
+    <div class="col-2 mt-2">
+      <button class="btn btn-sm btn-outline-primary btn-block">
+        <i class="far fa-calendar-check"></i> Resumen de Novedades
+      </button>
     </div>
-    <div class="col-3">
-      <a class="text-center font-weight-bold nomina-descargables">
-        <i class="iconsmind-Download-2 icono-descargables"></i> Descargar
-        Colillas de Pago
-      </a>
+    <div class="col-2 mt-2">
+      <button class="btn btn-sm btn-outline-primary btn-block">
+        <i class="fas fa-file-powerpoint"></i> Descargar Colillas de Pago
+      </button>
     </div>
-    <div class="col-3">
-      <a class="text-center font-weight-bold nomina-descargables">
-        <i class="iconsmind-Mail icono-descargables"></i> Notificar via email y
-        SMS
-      </a>
+    <div class="col-2 mt-2">
+      <button class="btn btn-sm btn-outline-primary btn-block">
+        <i class="fas fa-sms"></i> Notificar via email y SMS
+      </button>
     </div>
-  </div>
-  <div class="row mt-2">
-    <div class="col-3">
-      <a class="text-center font-weight-bold nomina-descargables">
-        <i class="iconsmind-Umbrella-2 icono-descargables"></i> Archivo
-        Seguridad Social
-      </a>
+    <div class="col-2 mt-2">
+      <button class="btn btn-sm btn-outline-primary btn-block">
+        <i class="fas fa-file-medical-alt"></i> Archivo Seguridad Social
+      </button>
     </div>
-    <div class="col-3">
-      <a class="text-center font-weight-bold nomina-descargables">
-        <i class="iconsmind-Bank icono-descargables"></i> Archivo Pago Bancos
-      </a>
+    <div class="col-2 mt-2">
+      <button class="btn btn-sm btn-outline-primary btn-block">
+        <i class="fas fa-university"></i> Archivo Pago Bancos
+      </button>
     </div>
-    <div class="col-3">
-      <a class="text-center font-weight-bold nomina-descargables">
-        <i class="iconsmind-Suitcase icono-descargables"></i> Archivo Contable
-      </a>
+    <div class="col-2 mt-2">
+      <button class="btn btn-sm btn-outline-primary btn-block">
+        <i class="fas fa-tv"></i>Interfaz Contable
+      </button>
     </div>
-    <div class="col-3">
-      <a class="text-center font-weight-bold nomina-descargables">
-        <i class="iconsmind-Clock icono-descargables"></i> Archivo de Horarios
-      </a>
+    <div class="col-2 mt-2">
+      <button class="btn btn-sm btn-outline-primary btn-block">
+        <i class="fas fa-user-clock"></i> Archivo de Horarios
+      </button>
     </div>
 
-    <div class="col-3">
-      <a
-        href="#"
-        class="text-center font-weight-bold nomina-descargables"
-        (click)="showInterfaceForGlobo('modalInterfaceForGlobo')"
+    <div class="col-2 mt-2">
+      <button
+        [routerLink]="[
+          '/nomina/nomina-electronica/historial',
+          nomina.nomina.id
+        ]"
+        *ngIf="!nomina.nomina.electronic_reported"
+        class="btn btn-sm btn-outline-primary btn-block"
       >
-        <i class="iconsmind-Computer icono-descargables"></i> Interfaz Contable
-      </a>
+        <i class="fas fa-paper-plane"></i> Emitir nómina electrónica
+      </button>
+      <!--    <button
+        *ngIf="!nomina.nomina.electronic_reported"
+        href="#"
+        class="btn-sm btn-outline-primary btn-block"
+      >
+        <i class="fas fa-paper-plane"></i> Emitir nómina electrónica
+      </button> -->
+      <!--   <button
+        *ngIf="!nomina.nomina.electronic_reported"
+        class="btn btn-sm btn-outline-primary btn-block"
+        (click)="emitElectronic()"
+      >
+        <i class="fas fa-paper-plane"></i> Emitir nómina electrónica
+      </button> -->
     </div>
   </div>
 </div>
@@ -210,7 +239,7 @@
               <td style="padding: 3px; width: 48px">
                 <img
                   class="rounded-circle header-profile-user"
-                  [src]="funcionario.image | image:'users'  " 
+                  [src]="funcionario.image | image: 'users'"
                   alt="Header Avatar"
                 />
               </td>
