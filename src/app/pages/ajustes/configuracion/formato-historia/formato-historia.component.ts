@@ -32,13 +32,9 @@ export class FormatoHistoriaComponent implements OnInit {
       id,
       title: '¿hello?',
       type: 'text',
+     
       options: this.fb.array([this.fb.group({ value: '' })]),
-      rules: this.fb.array([
-        this.fb.group({
-          logic: 'and',
-          level2: this.fb.array([this.makeCondition()]),
-        }),
-      ]),
+      validations: this.fb.array([this.makeRules()]),
     });
   }
 
@@ -49,12 +45,13 @@ export class FormatoHistoriaComponent implements OnInit {
     this.questions.push(this.makeCuestion());
   }
   addRule(condition: FormArray) {
-       condition.push(this.makeCondition());
+    condition.push(this.makeCondition());
   }
   makeCondition() {
     let g = this.fb.group({
       logic: 'and',
       operator: 'equal',
+      value:'',
       id_question_selected: '',
       question_selected: '',
     });
@@ -78,8 +75,6 @@ export class FormatoHistoriaComponent implements OnInit {
   }
 
   addRu(questionCondition: FormArray) {
-    console.log(questionCondition);
-    
     let g = this.fb.group({
       logic: 'and',
       level2: this.fb.array([this.makeCondition()]),
@@ -89,5 +84,21 @@ export class FormatoHistoriaComponent implements OnInit {
   delete(col: FormArray, pos) {
     console.log(col);
     col.removeAt(pos);
+  }
+
+  makeRules() {
+    return this.fb.group({
+      rules: this.fb.array([
+        this.fb.group({
+          logic: 'and',
+          level2: this.fb.array([this.makeCondition()]),
+        }),
+      ]),
+      then:'',
+    });
+  }
+
+  addValidation(validations: FormArray) {
+    validations.push(this.makeRules());
   }
 }
