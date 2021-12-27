@@ -4,7 +4,11 @@ import { Router, ActivatedRoute } from '@angular/router';
 import { functionsUtils } from '../../../../core/utils/functionsUtils';
 import { Location } from "@angular/common";
 import { environment } from 'src/environments/environment';
-import { NgForm } from '@angular/forms';
+import { FormArray, FormBuilder, FormGroup, NgForm } from '@angular/forms';
+import { productoForm } from './helpers/producto';
+import { CategoryService } from '../services/category.service';
+import Swal from 'sweetalert2';
+
 
 @Component({
   selector: 'app-productos',
@@ -13,11 +17,14 @@ import { NgForm } from '@angular/forms';
 })
 export class ProductosComponent implements OnInit {
 
+  form: FormGroup;
+
   public productos: any[];
   public IdProductos: any = '';
 
   public Material = "Material";
   public Medicamento = "Medicamento";
+  public Generico = "Generico";
   public Codigo_Barras:any = "";
 
   rowsFilter = [];
@@ -25,6 +32,7 @@ export class ProductosComponent implements OnInit {
   columns = [];
   isLoading: boolean;
   timeout: any;
+
   /* TODO ACTUALIZAR FUNCIONARIO */
   public funcionario:any = 1;
 
@@ -44,49 +52,10 @@ export class ProductosComponent implements OnInit {
   @ViewChild('deleteSwal') deleteSwal: any;
   @ViewChild('PlantillaBotones') PlantillaBotones: TemplateRef<any>;
   @ViewChild('confirmacionSwal') confirmacionSwal: any;
+  @ViewChild('modalGenerico') modalGenerico: any;
 
   Si: boolean;
   Subcategorias: any[];
-
-
-/*   @ViewChild(DatatableComponent) table: DatatableComponent; */
-  /*Codigo_Cum: any;
-  PrincipioActivo: any;
-  Presentacion: any;
-  Concentracion: any;
-  NombreComercial: any;
-  Embalaje: any;
-  LaboratorioGenerico: any;
-  LaboratorioComercial: any;
-  Familia: any;
-  CantidadMinima: any;
-  CantidadMaxima: any;
-  ATC: any;
-  DescripcionATC: any;
-  Invima: any;
-  FechaExpedicionInvima: any;
-  FechaVencimientoInvima: any;
-  PrecioMinimo: any;
-  PrecioMaximo: any;
-  TipoRegulacion: any;
-  TipoPos: any;
-  ViaAdministracion: any;
-  UnidadMedida: any;
-  Cantidad: any;
-  Regulado: any;
-  Tipo: any;
-  PesoPresentacionMinima: any;
-  PesoPresentacionRegular: any;
-  PesoPresentacionMaxima: any;
-  CodigoBarras: any;
-  CantidadPresentacion: any;
-  Mantis: any;
-  Imagen: any;
-  IdCategoria: any;
-  NombreListado: any;
-  Referencia: any;
-  Gravado:any;
-  Categoria:any;*/
 
   Productos:any = [];
 
@@ -146,14 +115,19 @@ export class ProductosComponent implements OnInit {
   public filtro_inv:any = '';
   public filtro_tipo:any = '';
   Lista: any = [];
+  Categorias: any[] = [];
+  fields: any[] = [];
+  field:any;
+  public Producto:any = {};
+  title: string = 'Nuevo Producto';
 
+  public SubCategorias:any[]=[];
 
-  constructor(private http: HttpClient, private router: Router, private location: Location, private route: ActivatedRoute) {
+  constructor(private _category: CategoryService, private fb: FormBuilder,private http: HttpClient, private router: Router, private location: Location, private route: ActivatedRoute) {
     this.isLoading = true;
     this.http.get(environment.ruta + 'php/lista_generales.php', { params: { modulo: 'Subcategoria' } }).subscribe((data: any) => {
       this.Subcategorias = data;
     });
-
     this.http.get(environment.ruta + 'php/lista_generales.php', { params: { modulo: 'Lista_Ganancia' } }).subscribe((data: any) => {
       this.Lista = data;
     });
@@ -173,7 +147,135 @@ export class ProductosComponent implements OnInit {
       { prop: 'Tipo', name: 'Tipo' },
       { cellTemplate: this.PlantillaBotones, prop: 'Id_Producto', name: 'Acciones', sortable: false, maxWidth: '100' }
     ];
+    this.getCategory();
+    this.createForm();
   }
+
+  createForm() {
+   this.form = this.fb.group({
+      Id_Producto: [''],
+      Id_Categoria:[''],
+      Id_Subcategoria:[''],
+      Principio_Activo: [''],
+      Descripcion_ATC: [''],
+      Codigo_Barras: [''],
+      Invima:[''],
+      Tipo:['Generico'],
+      dynamic: this.fb.array([]),
+    });
+  }
+
+  editGeneric(producto){
+
+    this.modalGenerico.show();
+    this.Producto = {...producto};
+    this.title = 'Editar Producto';
+    this.form.patchValue({
+      Id_Producto: this.Producto.Id_Producto,
+      Descripcion_ATC: this.Producto.Descripcion_ATC,
+      Codigo_Barras: this.Producto.Codigo_Barras,
+      Invima: this.Producto.Invima,
+      Id_Categoria: Number(this.Producto.Id_Categoria),
+      Id_Subcategoria: Number(this.Producto.Id_Subcategoria),
+      Principio_Activo: this.Producto.Principio_Activo
+    });
+     this.getSubCategories(this.Producto.Id_Subcategoria)
+    this.getSubCategoryEdit(this.Producto.Id_Producto,this.Producto.Id_Subcategoria)
+    this.fieldDinamic.clear();
+    // this.Producto.Variables.forEach(e => {
+    // let group = this.fb.group({
+    //   subcategory_variables_id: e.subcategory_variables_id,
+    //   id:e.id,
+    //   label: e.label,
+    //   type: e.type,
+    //   valor: e.valor
+    // })
+    //   this.fieldDinamic.push(group)
+    // });
+  }
+
+  getSubCategoryEdit(Id_Producto,Id_Subcategoria){
+
+
+    this._category.getSubCategoryEdit(Id_Producto, Id_Subcategoria).subscribe((r: any) => {
+      this.fieldDinamic.clear();
+      r.data.forEach(e => {
+         let group = this.fb.group({
+        subcategory_variables_id: e.subcategory_variables_id,
+        id:e.id,
+        label: e.label,
+        type: e.type,
+        valor: e.valor
+      })
+        this.fieldDinamic.push(group)
+      });
+    })
+  }
+
+  getDinamicField(Id_Subcategoria)
+  {
+    // this.fieldDinamic.clear();
+    // this._category.getField(Id_Subcategoria).subscribe((r: any) => {
+    //   this.fields = r.data
+      // this.fields.forEach((r:any) => {
+      //   let group = this.fb.group({
+      //     subcategory_variables_id: [r.id],
+      //     label: [r.label],
+      //     type: [r.type],
+      //     valor: ['']
+      //   });
+      //   this.fieldDinamic.push(group);
+      // });
+    // })
+    this.getSubCategoryEdit(this.Producto.Id_Producto, Id_Subcategoria)
+  }
+
+  get fieldDinamic(){
+    return this.form.get('dynamic') as FormArray;
+  }
+
+  getCategory(){
+    this._category.getCategories().subscribe((r: any) => {
+      this.Categorias = r.data
+      this.Categorias.unshift({ text: 'Seleccione ', value: '' });
+  })
+  }
+
+  getSubCategories(Id_Categoria_Nueva){
+    this._category.getSubCategories(Id_Categoria_Nueva).subscribe((r: any) => {
+      console.log(r);
+
+      this.SubCategorias = r.data
+    })
+  }
+
+
+  saveGeneric(){
+    if(this.form.get('Id_Producto').value){
+      this._category.updateProduct(this.form.value, this.Producto.Id_Producto).subscribe((r:any) =>{
+        // this.dataClear();
+         Swal.fire({
+           icon: 'success',
+           title: 'Producto editado con éxito',
+           text: '',
+         })
+       })
+
+    }else{
+      this._category.save(this.form.value).subscribe((r:any) =>{
+        Swal.fire({
+          icon: 'success',
+          title: 'Producto creado con éxito',
+          text: '',
+        })
+      })
+
+    }
+
+    // this.form.reset();
+
+  }
+
 
   normalize = (function () {
     var from = "ÃÀÁÄÂÈÉËÊÌÍÏÎÒÓÖÔÙÚÜÛãàáäâèéëêìíïîòóöôùúüûÑñÇç",
@@ -218,7 +320,10 @@ export class ProductosComponent implements OnInit {
     }
 
     this.http.get(environment.ruta + 'php/productos/lista_productos.php'+queryString).subscribe((data: any) => {
+
       this.Productos = JSON.parse(functionsUtils.utf8_decode(JSON.stringify(data.productos)));
+      console.log(this.Productos);
+
       this.TotalItems = data.numReg;
     });
   }
@@ -691,6 +796,11 @@ export class ProductosComponent implements OnInit {
 
   DescargarReporte(){
     window.open(environment.ruta + "/php/productos/descargar_reporte.php", '_blank' );
+  }
+
+  closeModal(){
+    this.title = '';
+    this.modalGenerico.hide();
   }
 
 

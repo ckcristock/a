@@ -90,6 +90,9 @@ formatter1 = (x: { Codigo: string }) => x.Codigo;
     return this.form.get('dynamic') as FormArray;
   }
 
+
+
+
   deleteField(i,item){
     this.fieldDinamic.removeAt(i);
     this._subcategory.deleteVariable(item.controls.id.value).subscribe((data: any) => {
@@ -146,8 +149,11 @@ formatter1 = (x: { Codigo: string }) => x.Codigo;
     }
   }
 
-  deleteSubcategory(){
-
+  dataClear(){
+    this.form.reset();
+    this.fieldDinamic.clear();
+    this.getSubcategory();
+    this.modal.hide();
   }
 
   normalize = (function() {
@@ -211,11 +217,6 @@ public CerrarModal(){
 
 }
 
-dataClear(){
-  this.form.reset();
-  this.fieldDinamic.clear();
-  this.getSubcategory();
-  this.modal.hide();
-}
+
 
 }

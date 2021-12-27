@@ -9,16 +9,17 @@
                             <span>Listado de Productos registrados en nuestras bases de datos</span>
                         </div>
                         <div class="col-md-6">
-                            <button type="button" (click)="DescargarReporte()" class="pull-right btn btn-inverse btn-sm">
-                                    <i class="fa fa-file-excel-o"></i>Productos Inactivos</button>
                             <button type="button" class="pull-right btn btn-primary btn-sm" [routerLink]="['crear']" style="margin-right: 5px !important;">
                                     <i class="fa fa-plus"></i> Agregar Nuevo Medicamento</button>
                             <button type="button" class="pull-right btn btn-warning btn-sm" style="margin-right: 5px !important;" (click)="modalMaterial.show()">
                                     <i class="fa fa-plus"></i> Agregar Nuevo Material</button>
+
+                            <button type="button" class="pull-right btn btn-success btn-sm" (click)="modalGenerico.show();" style="margin-right: 5px !important;">
+                                    <i class="fa fa-plus"></i> Agregar Generico</button>
                         </div>
                     </div>
                 </div>
-                <div class="card-block">
+                <div class="card-body">
 
                     <br>
 
@@ -29,7 +30,7 @@
                                     <tr>
                                         <th style="width: 50px !important; max-width: 50px !important">Foto</th>
                                         <th style="width: 70px !important; max-width: 70px !important">Cum</th>
-                                        <th>Nombre</th>
+                                        <th style="width: 130px !important; max-width: 380px !important">Nombre</th>
                                         <th style="width: 130px !important; max-width: 130px !important">Nom. Comercial</th>
                                         <th style="width: 100px !important; max-width: 100px !important">Lab. Generico</th>
                                         <th style="width: 100px !important; max-width: 100px !important">Lab. General</th>
@@ -63,6 +64,7 @@
                                                 <option value="" selected>Todos</option>
                                                 <option value="Material">Material</option>
                                                 <option value="Medicamento">Medicamento</option>
+                                                <option value="Medicamento">Generico</option>
                                             </select>
                                         </th>
                                         <th class="tabla-filtros">
@@ -87,7 +89,10 @@
                                         <td style="width: 70px !important; max-width: 70px !important">
                                             {{producto.Cum}}
                                         </td>
-                                        <td style="white-space: normal !important;min-width: 450px; max-width: 450px;">
+                                        <td *ngIf="producto.Tipo == 'Generico'" style="white-space: normal !important;min-width: 450px; max-width: 450px;">
+                                            {{producto.Principio_Activo}}
+                                        </td>
+                                        <td *ngIf="producto.Tipo != 'Generico'" style="white-space: normal !important;min-width: 450px; max-width: 450px;">
                                             {{producto.Nombre}}
                                         </td>
                                         <td style="width: 100px !important; max-width: 100px !important">
@@ -117,12 +122,15 @@
                                         </td>
                                         <td style="width: 100px !important; max-width: 100px !important">
                                             <div class="text-center" [ngSwitch]="producto.Tipo">
+
                                                 <div *ngSwitchCase="Medicamento" class="btn-group " role="group" data-toggle="tooltip" data-placement="top" title="" data-original-title=".btn-mini">
                                                     <div ngbDropdown class="dropdown-primary">
                                                         <button ngbDropdownToggle class="btn btn-secondary btn-mini waves-effect waves-light " type="button">Acciones</button>
                                                         <div ngbDropdownMenu>
+
                                                             <a class="dropdown-item waves-light waves-effect caja-botones" [routerLink]="['editar', producto.Id_Producto ]">
                                                                 <i class="ti-pencil"></i>Editar</a>
+
                                                             <a class="dropdown-item waves-light waves-effect caja-botones" [routerLink]="['ver', producto.Id_Producto ]">
                                                                 <i class="ti-eye"></i>Ver</a>
                                                             <a *ngIf="producto.Estado=='Activo'" class="dropdown-item waves-light waves-effect caja-botones" [swal]="{title : '¿Está Seguro?', text: 'Se dispone a Inactivar este Producto' , icon : 'warning', showCancelButton : true , confirmButtonText: 'Si, Inactivar',cancelButtonText: 'No,Dejame Comprobar!'}"
@@ -132,12 +140,28 @@
                                                         </div>
                                                     </div>
                                                 </div>
+
+                                                <div *ngSwitchCase="Generico" class="btn-group " role="group" data-toggle="tooltip" data-placement="top" title="" data-original-title=".btn-mini">
+                                                    <div ngbDropdown class="dropdown-primary">
+                                                        <button ngbDropdownToggle class="btn btn-secondary btn-mini waves-effect waves-light " type="button">Acciones</button>
+                                                        <div ngbDropdownMenu>
+
+                                                            <a class="dropdown-item waves-light waves-effect caja-botones" (click)="editGeneric(producto)">
+                                                                <i class="ti-pencil"></i>Editar</a>
+
+
+                                                        </div>
+                                                    </div>
+                                                </div>
+
                                                 <div *ngSwitchDefault class="btn-group " role="group" data-toggle="tooltip" data-placement="top" title="" data-original-title=".btn-mini">
                                                     <div ngbDropdown class="dropdown-primary">
                                                         <button ngbDropdownToggle class="btn btn-secondary btn-mini waves-effect waves-light " type="button">Acciones</button>
                                                         <div ngbDropdownMenu>
+
                                                             <a class="dropdown-item waves-light waves-effect caja-botones" (click)="EditarProducto(producto.Id_Producto,modalMaterialEditar)">
                                                                 <i class="ti-pencil"></i>Editar</a>
+
                                                             <a class="dropdown-item waves-light waves-effect caja-botones" [routerLink]="['ver', producto.Id_Producto ]">
                                                                 <i class="ti-eye"></i>Ver</a>
                                                             <a *ngIf="producto.Estado=='Activo'" class="dropdown-item waves-light waves-effect caja-botones" [swal]="{title : '¿Está Seguro?', text: 'Se dispone a Inactivar este Producto' , icon : 'warning', showCancelButton : true , confirmButtonText: 'Si, Inactivar',cancelButtonText: 'No,Dejame Comprobar!'}"
@@ -147,6 +171,7 @@
                                                         </div>
                                                     </div>
                                                 </div>
+
                                             </div>
                                         </td>
                                     </tr>
@@ -162,6 +187,114 @@
         </div>
     </div>
 </div>
+
+<app-modal-basic #modalGenerico [dialogClass]="'modal-xl'">
+    <div class="app-modal-header">
+        <h4 class="modal-title">{{title}}</h4>
+        <button type="button" class="close basic-close" (click)="closeModal()">
+          <span aria-hidden="true">&times;</span>
+      </button>
+    </div>
+    <div class="app-modal-body modal-lg ">
+        <form [formGroup]="form">
+            <!-- <input type="hidden" class="form-control"> -->
+            <div class="row">
+                <div class="col-md-12">
+                    <div class="row">
+
+                        <div class="col-md-12">
+
+                            <div class="row">
+                                <div class="col-md-6">
+                                    <div class="form-group">
+                                        <label>Nombre</label>
+                                        <input type="text" class="form-control" formControlName="Principio_Activo">
+                                    </div>
+                                </div>
+                                <div class="col-md-6">
+                                    <div class="form-group">
+                                        <label>Codigo de Barras</label>
+                                        <input type="text" class="form-control" formControlName="Codigo_Barras">
+                                    </div>
+                                </div>
+
+
+                            </div>
+
+                            <div class="row">
+
+                                <div class="col-md-6">
+                                    <div class="form-group">
+                                        <label>Descripcion</label>
+                                        <textarea type="text" class="form-control" formControlName="Descripcion_ATC"></textarea>
+                                    </div>
+                                </div>
+
+                                <div class="col-md-6">
+                                    <div class="form-group">
+                                        <label>Invima</label>
+                                        <input type="text" class="form-control" formControlName="Invima">
+                                    </div>
+                                </div>
+
+                            </div>
+
+                            <div class="row">
+                                <div class="col-md-6">
+                                    <div class="form-group">
+                                        <label>Categoria</label>
+                                        <ng-select formControlName="Id_Categoria" [items]="Categorias" bindLabel="text" (change)="getSubCategories($event.value)" bindValue="value" loadingText="loading" ngDefaultControl>
+                                        </ng-select>
+                                    </div>
+                                </div>
+
+                                <div class="col-md-6">
+                                    <div class="form-group">
+                                        <label>Subcategoría</label>
+                                        <ng-select formControlName="Id_Subcategoria" [items]="SubCategorias" bindLabel="text" (change)="getDinamicField($event.value)" bindValue="value" loadingText="loading" ngDefaultControl>
+                                        </ng-select>
+                                    </div>
+                                </div>
+
+
+                                <ng-container formArrayName="dynamic">
+                                    <ng-container *ngFor="let item of fieldDinamic.controls; let i = index">
+                                        <div class="col-md-3" [formGroupName]="i">
+
+                                            <label for="">{{item['controls']['label']['value'] | titlecase}}</label>
+                                            <input class="form-control form-control-sm" [type]="item['controls']['type']['value']" formControlName="valor">
+                                        </div>
+
+                                    </ng-container>
+
+                                </ng-container>
+
+
+
+
+
+                            </div>
+
+
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+
+
+        </form>
+    </div>
+    <div class="app-modal-footer">
+        <div class="text-right">
+            <button type="button" class="btn btn-default btn-sm" (click)="closeModal()">Cancelar</button>
+            <button type="button" class="btn btn-primary btn-sm" [swal]="{title : '¿Está Seguro?', text: 'Se dispone a Guardar este Generico' , icon : 'warning', showCancelButton : true , confirmButtonText: 'Si, Guardar',cancelButtonText: 'No,Dejame Comprobar!'}"
+                (confirm)="saveGeneric()">Guardar</button>
+        </div>
+    </div>
+
+</app-modal-basic>
+
 
 
 <app-modal-basic #modalMaterial [dialogClass]="'modal-lg'">
