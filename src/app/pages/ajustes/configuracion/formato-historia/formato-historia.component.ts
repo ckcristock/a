@@ -1,14 +1,16 @@
 import { Component, OnInit } from '@angular/core';
 import { FormArray, FormBuilder, FormGroup } from '@angular/forms';
+import { VariablesHightCostServiceService } from './variables-hight-cost-service.service';
 
 @Component({
   selector: 'app-formato-historia',
   templateUrl: './formato-historia.component.html',
   styleUrls: ['./formato-historia.component.scss'],
+  providers: [VariablesHightCostServiceService]
 })
 export class FormatoHistoriaComponent implements OnInit {
   forma: FormGroup;
-  constructor(private fb: FormBuilder) {}
+  constructor(private fb: FormBuilder, private _sendVariablesHightCostService: VariablesHightCostServiceService) { }
   operatorsSelect = ['equal', 'not equal'];
   operators = [
     'is equeal to',
@@ -27,10 +29,13 @@ export class FormatoHistoriaComponent implements OnInit {
   }
 
   createForm() {
+
     this.forma = this.fb.group({
       questions: this.fb.array([this.makeCuestion()]),
     });
-    this.forma.valueChanges.subscribe((r) => console.log(r));
+
+    // this.forma.valueChanges.subscribe((r) => console.log(r));
+
   }
 
   makeCuestion() {
@@ -61,9 +66,11 @@ export class FormatoHistoriaComponent implements OnInit {
   addQuestion() {
     this.questions.push(this.makeCuestion());
   }
+
   addRule(condition: FormArray) {
     condition.push(this.makeCondition());
   }
+
   makeCondition() {
     let g = this.fb.group({
       logic: 'and',
@@ -72,6 +79,8 @@ export class FormatoHistoriaComponent implements OnInit {
       id_question_selected: '',
       question_selected: '',
     });
+
+
     g.get('id_question_selected').valueChanges.subscribe((r) => {
       const questions = this.forma.get('questions') as FormArray;
       const question = questions.controls.find(
@@ -82,7 +91,7 @@ export class FormatoHistoriaComponent implements OnInit {
       g.patchValue({
         question_selected: question,
       });
-      console.log(g);
+      // console.log(g);
     });
     return g;
   }
@@ -91,6 +100,7 @@ export class FormatoHistoriaComponent implements OnInit {
     options.push(this.fb.group({ value: '' }));
   }
 
+
   addRu(questionCondition: FormArray) {
     let g = this.fb.group({
       logic: 'and',
@@ -98,8 +108,10 @@ export class FormatoHistoriaComponent implements OnInit {
     });
     questionCondition.push(g);
   }
+
+
   delete(col: FormArray, pos) {
-    console.log(col);
+    // console.log(col);
     col.removeAt(pos);
   }
 
@@ -117,5 +129,13 @@ export class FormatoHistoriaComponent implements OnInit {
 
   addValidation(validations: FormArray) {
     validations.push(this.makeRules());
+  }
+
+  save = () => {
+    console.log(this.forma.value);
+
+    this._sendVariablesHightCostService.store(this.forma.value)
+      .subscribe((arg) => console.log(arg));
+
   }
 }
