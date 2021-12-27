@@ -307,14 +307,14 @@ formatter_tercero = (x: { Nombre_Tercero: string }) => x.Nombre_Tercero;
           } else {
             // window.open(environment+'php/contabilidad/movimientoscontables/movimientos_activo_fijo_pdf.php?id_registro='+data.Id+'&id_funcionario_elabora='+this.ActivoFijoModel.Identificacion_Funcionario+'&tipo=Niif','_blank');
           }
-          this.router.navigate(['/activosfijos']);
+          this.router.navigate(['/contabilidad/activos-fijos']);
         }
-        /* Swal.fire({
+        Swal.fire({
           icon: data.codigo,
           title: data.titulo,
           text: data.mensaje
-        }) */
-        this.ShowSwal(data.codigo, data.titulo, data.mensaje);
+        })
+        // this.ShowSwal(data.codigo, data.titulo, data.mensaje);
       })
     } else {
       this.http.post(environment.ruta+'php/activofijo/guardar_activo_fijo_adicion.php', data)
@@ -326,12 +326,14 @@ formatter_tercero = (x: { Nombre_Tercero: string }) => x.Nombre_Tercero;
           } else {
             // window.open(environment.ruta+'php/contabilidad/movimientoscontables/movimientos_activo_fijo_pdf.php?id_registro='+data.Id+'&activo=Adicion&id_adicion='+data.Id_Adicion+'&id_funcionario_elabora='+this.ActivoFijoModel.Identificacion_Funcionario+'&tipo=Niif','_blank');
           }
-  
-          this.router.navigate(['/activosfijos']);
-          
+          this.router.navigate(['/contabilidad/activos-fijos']);
         }
-  
-        this.ShowSwal(data.codigo, data.titulo, data.mensaje);
+        Swal.fire({
+          icon: data.codigo,
+          title: data.titulo,
+          text: data.mensaje
+        })
+        // this.ShowSwal(data.codigo, data.titulo, data.mensaje);
       })
     }
     

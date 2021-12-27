@@ -108,7 +108,7 @@ export class EgresosComponent implements OnInit {
     //ComprobanteVer
     public Comprobante:any = {};
     filtro_estado: string = '';
-  
+    enviromen:any;
   constructor( private route: ActivatedRoute, private http: HttpClient, private router: Router, private location: Location, private swalService: SwalService) { 
     this.http.get(environment.ruta + 'php/contabilidad/proveedor_buscar.php').subscribe((data: any) => {
       this.Proveedores = data;
@@ -122,7 +122,7 @@ export class EgresosComponent implements OnInit {
       confirmButtonText: 'Si, Anular',
       showLoaderOnConfirm: true,
       focusCancel: true,
-      // type: 'warning',
+      icon: 'warning',
       preConfirm: () => {
         return new Promise((resolve) => {
           this.anularDocumento();
@@ -168,6 +168,7 @@ export class EgresosComponent implements OnInit {
     formatter2 = (x: { NombreProveedor: string }) => x.NombreProveedor;
   
     ngOnInit() {
+      this.enviromen = environment
       this.ListarComprobantes();
   
       this.http.get(environment.ruta + 'php/comprobantes/lista_proveedores.php').subscribe((data: any) => {

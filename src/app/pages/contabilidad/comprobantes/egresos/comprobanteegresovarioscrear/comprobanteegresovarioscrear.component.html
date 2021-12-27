@@ -5,7 +5,7 @@
                 <app-cabecera [datosCabecera]="datosCabecera"></app-cabecera>
                 <!-- Layout de Cabecera. -->
                 <div class="row">
-                    <div class="col-md-12">
+                    <div class="col-md-12 ml-4">
                         <a href="javascript:;" (click)="modalAgregarCheque.show()" placement="bottom" ngbTooltip="Registrar Nuevo Cheque" class="btn btn-outline-primary btn-sm pull-right m-r-20"><i class="fa fa-plus"></i></a>
                     </div>
                 </div>
@@ -19,6 +19,17 @@
                                     <input type="date" name="Fecha_Documento" id="Fecha_Nota_Contable" [(ngModel)]="Fecha_Nota_Contable" class="form-control form-control-sm tab" (keyup)="tab($event,'Cliente')" (change)="getCodigoEgreso($event.target.value)" required>
                                 </div>
 
+                            </div>
+                            <div class="col-md-2">
+                                <div class="form-group">
+                                    <label>Empresa</label>
+                                    <!-- <ng-select bindLabel="text" bindValue="value" loadingText="loading " id="Id_Empresa" class="f-10" name="Id_Empresa" [(ngModel)]="Id_Empresa" placeholder="Seleccione la empresa" [items]="companies"></ng-select> -->
+                                    <select [(ngModel)]="Id_Empresa" name="company_id" id="company_id" class="form-control form-control-sm" required>
+                                        <option *ngFor="let item of companies" [value]="item.value">
+                                            {{ item.text }}
+                                        </option>
+                                    </select>
+                                </div>
                             </div>
                             <div class="col-md-2">
 
@@ -52,13 +63,13 @@
                                 <div class="form-group">
                                     <label for="">Forma de Pago</label>
                                     <select name="Forma_Pago" id="forma_pago" [(ngModel)]="Forma_Pago" class="form-control form-control-sm" (change)="formaPago($event.target.value)">
-                    <option value="Cheque">Cheque</option>
-                    <option value="Transferencia">Transferencia</option>
-                  </select>
+                                        <option value="Cheque">Cheque</option>
+                                        <option value="Transferencia">Transferencia</option>
+                                    </select>
                                 </div>
                             </div>
 
-                            <div *ngIf="mostrarCheque" class="col-md-4">
+                            <div *ngIf="mostrarCheque" class="col-md-6">
                                 <div class="form-group">
                                     <label for="">Cheques</label>
                                     <ng-select [ngClass]="'ng-select'" class="cheques form-control-sm input-sm" [items]="Cheques" name="Cheques" [allowClear]="true" [(ngModel)]="ChequesSeleccionados" [multiple]="true"></ng-select>
@@ -71,7 +82,7 @@
                                     <textarea name="Concepto" id="Concepto" class="form-control" (keyup)="tab($event,'Cuenta0')" [(ngModel)]="Concepto" rows="3"></textarea>
                                 </div>
                             </div>
-                            <div class="col-md-2"></div>
+                            <!-- <div class="col-md-2"></div> -->
 
                             <!-- Componente para listar los borradores de los comprobantes contables. -->
                             <div class="col-md-3">
@@ -257,7 +268,7 @@
                 </button>
                 </div>
                 <div class="col-md-2 botonFlotante">
-                    <button type="button" class="btn btn-success  btn-block btn-enviar" [disabled]="Total_Debito != Total_Credito">
+                    <button type="button" class="btn btn-success  btn-block btn-enviar" [swal]="confirmacionGuardar">
                     Guardar
                 </button>
                 </div>
@@ -318,9 +329,9 @@
     <span class="f-9"><strong>{{ r.Nombre }}</strong>
     </span>
 </ng-template>
-<!-- <swal #confirmacionSwal title="" text="" type=""></swal> -->
+<swal #confirmacionSwal title="" text="" type=""></swal>
 
-<!-- <swal #confirmacionGuardar [options]="alertOption"></swal> -->
+<swal #confirmacionGuardar [swalOptions]="alertOption"></swal>
 
 
 <ng-template #rt1 let-r="result" let-t="term">
@@ -330,4 +341,4 @@
 <ng-template #rt2 let-r="result" let-t="term">
     <span class="f-9">{{ r.Nombre }} </span>
 </ng-template>
-<!-- <swal #confirmacionGuardarCheque [options]="alertOption2"></swal> -->
+<swal #confirmacionGuardarCheque [swalOptions]="alertOption2"></swal>
