@@ -107,12 +107,10 @@
                                             operator.controls
                                               .question_selected &&
                                               operator.controls
-                                                .question_selected?.value
-                                                ?.controls?.type?.value !=
+                                                .question_selected.value?.type !=
                                                 'select' &&
                                               operator.controls
-                                                .question_selected?.value
-                                                ?.controls?.type?.value !=
+                                                .question_selected.value.question_selected?.type !=
                                                 'check';
                                             else selectables
                                           ">
@@ -160,16 +158,14 @@
                                                   form-control form-control-sm
                                                 " formControlName="value">
                                                 <option [value]="
-                                                    foption.controls.value.value
+                                                    foption.value
                                                   " *ngFor="
                                                     let foption of operator
                                                       .controls
-                                                      .question_selected.value
-                                                      .controls?.options
-                                                      ?.controls
+                                                      .question_selected.value.options
                                                   ">
                                                   {{
-                                                  foption.controls.value.value
+                                                  foption.value
                                                   }}
                                                 </option>
                                               </select>

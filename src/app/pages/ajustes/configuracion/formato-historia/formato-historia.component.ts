@@ -87,11 +87,11 @@ export class FormatoHistoriaComponent implements OnInit {
         (x: any) => x.controls.id.value == r
       );
 
-      console.log(question);
+      console.log(question.value);
       g.patchValue({
-        question_selected: question,
+        question_selected: question.value,
       });
-      // console.log(g);
+       console.log(g);
     });
     return g;
   }
