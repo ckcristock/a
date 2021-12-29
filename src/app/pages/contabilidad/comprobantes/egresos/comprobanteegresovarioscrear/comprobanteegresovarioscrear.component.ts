@@ -362,7 +362,7 @@ export class ComprobanteegresovarioscrearComponent implements OnInit {
         }
         setTimeout(() => {
         
-          this.router.navigate(['/comprobante/egresos']);
+          this.router.navigate(['/comprobantes/egresos']);
         }, 1000);
       }
       

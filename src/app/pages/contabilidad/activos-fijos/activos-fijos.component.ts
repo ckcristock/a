@@ -10,6 +10,7 @@ import { SwalService } from '../../ajustes/informacion-base/services/swal.servic
 import { ActivosFijosService } from './activos-fijos.service';
 import { NgOption } from '@ng-select/ng-select';
 import { environment } from 'src/environments/environment';
+import { CentroCostosService } from '../centro-costos/centro-costos.service';
 
 @Component({
   selector: 'app-activos-fijos',
@@ -32,7 +33,8 @@ export class ActivosFijosComponent implements OnInit {
     codigo:'',
     tipo:'',
     costo_niif:'',
-    costo_pcga:''
+    costo_pcga:'',
+    Id_Empresa: ''
   };
 
 
@@ -106,11 +108,12 @@ export class ActivosFijosComponent implements OnInit {
   };
   public listaTipoActivo: Array<any>;
   public listaCentroCosto: Array<any>;
-
+  companies:any[] = [];
   constructor(
               private swalService: SwalService,
               private http: HttpClient,
-              private _activoFijo: ActivosFijosService
+              private _activoFijo: ActivosFijosService,
+              private _company: CentroCostosService
               ) 
   {
     this.GetTipoActivos();
@@ -126,7 +129,7 @@ export class ActivosFijosComponent implements OnInit {
       confirmButtonText: 'Si, Anular',
       showLoaderOnConfirm: true,
       focusCancel: true,
-      // type: 'warning',
+      icon: 'warning',
       preConfirm: () => {
         return new Promise((resolve) => {
           this.anularDocumento();
@@ -137,7 +140,7 @@ export class ActivosFijosComponent implements OnInit {
   }
 
   ngOnInit() {
-    
+    this.ListasEmpresas();
   }
   
   search_tercero = (text$: Observable<string>) =>
@@ -196,6 +199,12 @@ formatter_tercero = (x: { Nombre_Tercero: string }) => x.Nombre_Tercero;
       }
   
       this.ShowSwal(data.codigo, data.titulo, data.mensaje);
+    })
+  }
+
+  ListasEmpresas(){
+    this._company.getCompanies().subscribe((data:any) => {
+      this.companies = data.data;
     })
   }
 
@@ -300,6 +309,9 @@ formatter_tercero = (x: { Nombre_Tercero: string }) => x.Nombre_Tercero;
 
     if (this.Filtros.costo_pcga.trim() != "") {
       params.costo_pcga = this.Filtros.costo_pcga;
+    }
+    if (this.Filtros.Id_Empresa.trim() != "") {
+      params.empresa = this.Filtros.Id_Empresa;
     }
 
     return params;

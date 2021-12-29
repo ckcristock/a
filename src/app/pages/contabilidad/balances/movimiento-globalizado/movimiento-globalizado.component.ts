@@ -3,7 +3,7 @@ import { MovimientoGlobalizadoModel } from './MovimientoGlobalizadoModel';
 import { HttpClient } from '@angular/common/http';
 import { TerceroService } from '../../../../core/services/tercero.service';
 import { Observable } from 'rxjs';
-import { debounceTime, distinctUntilChanged, switchMap } from 'rxjs/operators';
+import { debounceTime, distinctUntilChanged, switchMap, map } from 'rxjs/operators';
 import { environment } from 'src/environments/environment';
 
 @Component({
@@ -22,23 +22,31 @@ export class MovimientoGlobalizadoComponent implements OnInit {
   queryParams: string;
   public listaTiposDocumentos:any = [];
   public TerceroSeleccionado:any;
-  
+  private _rutaBase:string = environment.ruta+'php/terceros/';
+  terceros:any[] = [];
   constructor(private http: HttpClient, private _terceroService: TerceroService) { }
 
   ngOnInit() {
     this.tiposDocumentos('Normal');
+    this.FiltrarTerceros().subscribe((data:any) => {
+      this.terceros = data;
+    })
   }
 
   search_tercero = (text$: Observable<string>) =>
-    text$
-    .pipe(
-      debounceTime(500),
-      distinctUntilChanged(),
-      switchMap( term => term.length < 4 ? [] :
-        this._terceroService.FiltrarTerceros(term)
-        .map(response => response)
-      )
-    );
+  text$
+  .pipe(
+    debounceTime(200),
+    map(term => term.length < 4 ? []
+        : 
+        this.terceros.filter(v => v.Nombre.toLowerCase().indexOf(term.toLowerCase()) > -1).slice(0, 10)
+        )
+  );
+
+    FiltrarTerceros():Observable<any>{
+      // let p = {coincidencia:match};
+      return this.http.get(this._rutaBase+'filtrar_terceros.php');
+    }
 
   formatter_tercero = (x: { Nombre_Tercero: string }) => x.Nombre_Tercero;
 

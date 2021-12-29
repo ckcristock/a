@@ -68,7 +68,7 @@
                                     <td class="text-center">
                                         <div class="text-center">
                                             <div ngbDropdown class="dropdown-primary">
-                                                <button ngbDropdownToggle class="btn btn-secondary btn-mini waves-effect waves-light " type="button">Acciones</button>
+                                                <button ngbDropdownToggle class="btn btn-secondary btn-sm waves-effect waves-light " type="button">Acciones</button>
                                                 <div ngbDropdownMenu>
                                                     <a class="dropdown-item waves-light waves-effect caja-botones" href="javascript:;">
                                                         <i class="fa fa-power-off"></i> {{ item.Estado == 'Cerrado' ? 'Habilitar' : 'Cerrar' }}</a>
@@ -119,18 +119,18 @@
                                     <td class="text-center">
                                         <div class="text-center">
                                             <div ngbDropdown class="dropdown-primary">
-                                                <button ngbDropdownToggle class="btn btn-secondary btn-mini waves-effect waves-light " type="button">Acciones</button>
+                                                <button ngbDropdownToggle class="btn btn-secondary btn-sm waves-effect waves-light " type="button">Acciones</button>
                                                 <div ngbDropdownMenu>
                                                     <a *ngIf="item.Estado != 'Anulado'" class="dropdown-item waves-light waves-effect caja-botones" [swal]="{ title : '¿Está Seguro?', text : 'Se dispone a Anular este Cierre de Año, esta acción no se puede revertir' , type : 'warning', showCancelButton : true , confirmButtonText : 'Si, Anular', cancelButtonText : 'No, Dejame Comprobar!' }"
                                                         (confirm)="anularCierreAnio(item.Id_Cierre_Contable)">
                                                         <i class="fa fa-times"></i> Anular</a>
-                                                    <a class="dropdown-item waves-light waves-effect caja-botones" href="{{globales.ruta}}php/contabilidad/movimientoscontables/movimientos_cierreanio_excel.php?id_registro={{item.Id_Cierre_Contable}}&id_funcionario_elabora={{funcionario}}">
+                                                    <a class="dropdown-item waves-light waves-effect caja-botones" href="{{envirom.ruta}}php/contabilidad/movimientoscontables/movimientos_cierreanio_excel.php?id_registro={{item.Id_Cierre_Contable}}&id_funcionario_elabora={{funcionario}}">
                                                         <i class="fa fa-table"></i> Cont. PCGA</a>
-                                                    <a class="dropdown-item waves-light waves-effect caja-botones" href="{{globales.ruta}}php/contabilidad/movimientoscontables/movimientos_cierreanio_excel.php?id_registro={{item.Id_Cierre_Contable}}&id_funcionario_elabora={{funcionario}}&tipo_valor=Niif">
+                                                    <a class="dropdown-item waves-light waves-effect caja-botones" href="{{envirom.ruta}}php/contabilidad/movimientoscontables/movimientos_cierreanio_excel.php?id_registro={{item.Id_Cierre_Contable}}&id_funcionario_elabora={{funcionario}}&tipo_valor=Niif">
                                                         <i class="fa fa-table"></i> Cont. NIIF</a>
-                                                    <a class="dropdown-item waves-light waves-effect caja-botones" href="{{globales.ruta}}php/contabilidad/movimientoscontables/movimientos_cierreanio_excel.php?id_registro={{item.Id_Cierre_Contable}}&id_funcionario_elabora={{funcionario}}&tipo_rep=act-pas">
+                                                    <a class="dropdown-item waves-light waves-effect caja-botones" href="{{envirom.ruta}}php/contabilidad/movimientoscontables/movimientos_cierreanio_excel.php?id_registro={{item.Id_Cierre_Contable}}&id_funcionario_elabora={{funcionario}}&tipo_rep=act-pas">
                                                         <i class="fa fa-table"></i> Cont. PCGA Activos-Pasivos</a>
-                                                    <a class="dropdown-item waves-light waves-effect caja-botones" href="{{globales.ruta}}php/contabilidad/movimientoscontables/movimientos_cierreanio_excel.php?id_registro={{item.Id_Cierre_Contable}}&id_funcionario_elabora={{funcionario}}&tipo_valor=Niif&tipo_rep=act-pas">
+                                                    <a class="dropdown-item waves-light waves-effect caja-botones" href="{{envirom.ruta}}php/contabilidad/movimientoscontables/movimientos_cierreanio_excel.php?id_registro={{item.Id_Cierre_Contable}}&id_funcionario_elabora={{funcionario}}&tipo_valor=Niif&tipo_rep=act-pas">
                                                         <i class="fa fa-table"></i> Cont. NIIF Activos-Pasivos</a>
                                                 </div>
                                             </div>

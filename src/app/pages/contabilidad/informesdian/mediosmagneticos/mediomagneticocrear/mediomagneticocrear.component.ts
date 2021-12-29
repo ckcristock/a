@@ -10,6 +10,7 @@ import { Router, ActivatedRoute } from '@angular/router';
 import { MediosmagnticosService } from '../mediosmagnticos.service';
 import { Globales } from '../../../globales';
 import { environment } from 'src/environments/environment';
+import Swal from 'sweetalert2';
 
 @Component({
   selector: 'app-mediomagneticocrear',
@@ -159,12 +160,12 @@ export class MediomagneticocrearComponent implements OnInit {
       } else {
         (document.getElementById('periodo') as HTMLInputElement).value = '';
         (document.getElementById('periodo') as HTMLInputElement).focus();
-        let swal = {
-          codigo: 'error',
-          titulo: 'Oops!',
-          mensaje: `El periodo no es valido.`
-        };
-        this.swalService.ShowMessage(swal);
+        Swal.fire({
+          icon: 'error',
+          title: 'Oops!',
+          text: `El periodo no es valido.`
+        });
+        // this.swalService.ShowMessage(swal);
       }
     }
   }
@@ -182,29 +183,29 @@ export class MediomagneticocrearComponent implements OnInit {
 
    this.http.post(environment.ruta+'php/contabilidad/mediosmagneticos/guardar_mediomagnetico.php',datos).subscribe((data:any)=>{
     if (data.tipo == 'success') {
-      let swal = {
-        codigo: data.tipo,
-        titulo: data.titulo,
-        mensaje: data.mensaje
-      };
-      this.swalService.ShowMessage(swal);
+      Swal.fire({
+        icon: data.tipo,
+        title: data.titulo,
+        text: data.mensaje
+      });
+      // this.swalService.ShowMessage(swal);
 
       setTimeout(() => {
         if (this.formatoEspecial) {
-          this.router.navigate(['/informesdian/mediosmagneticosespeciales']);
+          this.router.navigate(['/contabilidad/informesdian/mediosmagneticosespeciales']);
         } else {
-          this.router.navigate(['/informesdian/mediosmagneticos']);
+          this.router.navigate(['/contabilidad/informesdian/mediosmagneticos']);
         }
         
       }, 300);
     }
    }, error => {
-    let swal = {
-      codigo: 'warning',
-      mensaje: 'Se perdió la conexión a internet. Por favor vuelve a intentarlo',
-      titulo: 'Oops!'
-    };
-    this.swalService.ShowMessage(swal);
+    Swal.fire({
+      icon: 'warning',
+      text: 'Se perdió la conexión a internet. Por favor vuelve a intentarlo',
+      title: 'Oops!'
+    });
+    // this.swalService.ShowMessage(swal);
      
    }) 
   }
