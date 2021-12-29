@@ -1,9 +1,11 @@
 import { Component, OnInit, ViewChild } from '@angular/core';
 import { FormGroup, FormBuilder, FormArray } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
+import { ModalBasicComponent } from 'src/app/components/modal-basic/modal-basic.component';
 import { Response } from 'src/app/core/response.model';
 import { ValidatorsService } from 'src/app/pages/ajustes/informacion-base/services/reactive-validation/validators.service';
 import { SwalService } from 'src/app/pages/ajustes/informacion-base/services/swal.service';
+import { VarHiCostService } from '../../variable-hight-cost/var-hi-cost.service';
 import { ManagmentClinicalHistoryService } from '../managment-clinical-history.service';
 
 @Component({
@@ -13,12 +15,13 @@ import { ManagmentClinicalHistoryService } from '../managment-clinical-history.s
 })
 export class VariablesClinicalModelComponent implements OnInit {
 
-  @ViewChild('modal') modal: any;
+  @ViewChild(ModalBasicComponent) modal: ModalBasicComponent;
   loading: boolean = false;
   form: FormGroup;
   title: any = '';
   models: any[] = [];
   module: any = {};
+  varHiCostList: any = [];
   pagination = {
     page: 1,
     pageSize: 10,
@@ -27,6 +30,7 @@ export class VariablesClinicalModelComponent implements OnInit {
   filtro = {
     name: ''
   }
+  formVarHiCost: FormGroup;
 
   constructor(
     private fb: FormBuilder,
@@ -34,13 +38,19 @@ export class VariablesClinicalModelComponent implements OnInit {
     private _clinicalHistoryModels: ManagmentClinicalHistoryService,
     private _swal: SwalService,
     private router: Router,
-    private route: ActivatedRoute
+    private route: ActivatedRoute,
+    private _varHiCostService: VarHiCostService
 
   ) { }
 
   ngOnInit(): void {
     this.createForm();
+    this.getVarHiCost();
     this.get();
+  }
+
+  getVarHiCost() {
+    this._varHiCostService.get().subscribe((res: Response) => this.varHiCostList = res.data)
   }
 
   openModal() {
@@ -53,11 +63,19 @@ export class VariablesClinicalModelComponent implements OnInit {
     this.fieldList.clear();
     // this.dependencexList.clear();
   }
+  closeModal() {
+    this.modal.hide();
+    this.fieldList.clear();
+    // this.dependencexList.clear();
+  }
 
   createForm() {
     this.form = this.fb.group({
       id: [this.route.snapshot.params['id']],
       fields: this.fb.array([]),
+    });
+    this.formVarHiCost = this.fb.group({
+      variableHightCostList: this.fb.array([]),
     });
   }
 
@@ -65,10 +83,19 @@ export class VariablesClinicalModelComponent implements OnInit {
     return this.form.get('fields') as FormArray;
   }
 
+  get xxx() {
+    return this.formVarHiCost.get('variableHightCostList') as FormArray;
+  }
+
 
   newField() {
     let field = this.fieldList;
     field.push(this.fieldsControl());
+  }
+
+  newVariableHightCost() {
+    let field = this.xxx;
+    field.push(this.VariableHightCostControl());
   }
 
   newDependence(i: FormGroup) {
@@ -99,8 +126,19 @@ export class VariablesClinicalModelComponent implements OnInit {
     return field;
   }
 
+  VariableHightCostControl() {
+    let field = this.fb.group({
+      property: [''],
+    });
+    return field;
+  }
+
   deleteField(i) {
     this.fieldList.removeAt(i);
+  }
+
+  deleteVariableHightCost(i) {
+    this.xxx.removeAt(i);
   }
 
   deleteDependence(i) {

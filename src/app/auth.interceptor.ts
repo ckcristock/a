@@ -7,7 +7,8 @@ import {
   HttpEvent,
   HttpInterceptor,
   HttpErrorResponse,
-  HttpResponse
+  HttpResponse,
+  HttpHeaders
 
 
 } from '@angular/common/http';
@@ -31,11 +32,15 @@ export class AuthInterceptor implements HttpInterceptor {
     let token = this._user.token;
     headersConfig['Authorization'] = `Bearer ${token}`
 
-    request = request.clone({
-      setHeaders: headersConfig
+    const newRequest = request.clone({
+      headers: new HttpHeaders({
+        'Authorization': `Bearer ${token}`,
+        'Content-Type': 'application/json',
+        'Accept': 'application/json'
+      })
     });
 
-    return next.handle(request).pipe(map((event: HttpEvent<any>) => {
+    return next.handle(newRequest).pipe(map((event: HttpEvent<any>) => {
       if (event instanceof HttpResponse) {
         event = event.clone({ body: this.modifyBody(event.body) });
       }

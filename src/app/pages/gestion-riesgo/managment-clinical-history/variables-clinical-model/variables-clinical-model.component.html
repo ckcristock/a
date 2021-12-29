@@ -3,8 +3,13 @@
   <form class="bg-white" [formGroup]="form">
     <div class="row  text-center">
 
+
       <div class="col-12 card-body text-center">
         <label for="" style="font-size: 18px; ">Variables del modelo</label>
+        <div class="form-group text-center">
+          <button type="button" class="btn btn-primary btn-sm raised" (click)="openModal()"
+            title="agregar variable de alto costo">+</button>
+        </div>
       </div>
 
       <ng-container>
@@ -220,3 +225,70 @@
     </td>
   </tr>
 </ng-template>
+
+<app-modal-basic [dialogClass]="'modal-lg'">
+  <div class="app-modal-header">
+    <h5 class="modal-title"> Agregar variable de alto costo </h5>
+    <button type="button" class="close basic-close" (click)="closeModal()">
+      <span aria-hidden="true">
+        <i class="fas fa-times" (click)="closeModal()"></i>
+      </span>
+    </button>
+  </div>
+  <div class="app-modal-body">
+
+    <ng-container>
+      <form class="bg-white" [formGroup]="formVarHiCost">
+
+        <table class="table table-sm">
+          <thead>
+            <tr>
+
+              <th>
+                <label for="">Variable</label>
+              </th>
+
+              <th>
+              </th>
+
+            </tr>
+          </thead>
+
+          <tbody formArrayName="variableHightCostList">
+
+            <ng-container *ngFor="let item of xxx.controls; let i = index">
+              <tr [formGroupName]="i">
+
+                <td>
+                  <ng-select name="color" formControlName="property">
+                    <ng-option [value]="item.name" *ngFor="let item of this.varHiCostList">{{item.name}}</ng-option>
+                  </ng-select>
+                </td>
+
+                <td>
+                  <button style="float: right;" class="btn btn-danger btn-sm" placement="bottom" type="button"
+                    ngbTooltip="Borrar" (click)="deleteVariableHightCost()">
+                    <i class="fas fa-trash-alt"></i>
+                  </button>
+                </td>
+
+              </tr>
+            </ng-container>
+            <tr>
+              <td colspan="8">
+                <div class="btn-group" style="float: right">
+                  <button class="btn btn-info btn-sm" placement="bottom" type="button" ngbTooltip="Agregar"
+                    (click)="newVariableHightCost()">
+                    <i class="fas fa-plus"></i>
+                  </button>
+                </div>
+              </td>
+            </tr>
+          </tbody>
+        </table>
+
+      </form>
+    </ng-container>
+
+  </div>
+</app-modal-basic>

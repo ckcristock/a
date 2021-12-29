@@ -21,8 +21,6 @@ import { ParafiscalesConfigComponent } from './nomina/components/parafiscales-co
 import { IncapacidadesConfigComponent } from './nomina/components/incapacidades-config/incapacidades-config.component';
 import { FormatoHistoriaComponent } from './formato-historia/formato-historia.component';
 
-
-
 @NgModule({
   declarations: [
     ConfiguracionEmpresaComponent,
