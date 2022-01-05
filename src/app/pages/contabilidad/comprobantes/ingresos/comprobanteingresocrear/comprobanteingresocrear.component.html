@@ -20,7 +20,7 @@
                             <div class="col-md-2">
                                 <div class="form-group">
                                     <label>Empresa</label>
-                                    <select [(ngModel)]="Id_Empresa" name="company_id" id="company_id" class="form-control form-control-sm" required>
+                                    <select [(ngModel)]="Id_Empresa" name="Id_Empresa" id="Id_Empresa" class="form-control form-control-sm" required>
                                         <option *ngFor="let item of companies" [value]="item.value">
                                             {{ item.text }}
                                         </option>
@@ -40,7 +40,7 @@
                             <div class="col-md-3">
                                 <div class="form-group">
                                     <label>Banco</label>
-                                    <ng-select id="Cuentas" name="Id_Banco" style="margin-bottom:5px; font-size: 10px; height: 23px; max-height: 23px; line-height: 21px" placeholder="Seleccione el Banco" [items]="Cuentas" [(ngModel)]="Cuenta_Banco" required>
+                                    <ng-select id="Cuentas" name="Id_Banco" style="margin-bottom:5px; font-size: 10px; height: 23px; max-height: 23px; line-height: 21px" placeholder="Seleccione el Banco" [items]="Cuentas" bindLabel="label" bindValue="value" [(ngModel)]="Cuenta_Banco" required>
                                     </ng-select>
                                 </div>
                             </div>

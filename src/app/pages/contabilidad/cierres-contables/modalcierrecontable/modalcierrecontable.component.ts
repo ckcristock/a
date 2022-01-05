@@ -5,6 +5,8 @@ import { CierrecontableService } from '../cierrecontable.service';
 import { SwalService } from '../../../ajustes/informacion-base/services/swal.service';
 import { HttpClient } from '@angular/common/http';
 import { environment } from 'src/environments/environment';
+import { PlanCuentasService } from '../../plan-cuentas/plan-cuentas.service';
+import Swal from 'sweetalert2';
 
 @Component({
   selector: 'app-modalcierrecontable',
@@ -22,16 +24,18 @@ export class ModalcierrecontableComponent implements OnInit, OnDestroy {
     Mes: '',
     Anio: '',
     Tipo_Cierre: '',
-    Observaciones: ''
+    Observaciones: '',
+    Id_Empresa: ''
   };
   public meses:any = [];
   public Anio:any = new Date().getFullYear();
   public alertOption:SweetAlertOptions = {};
-
+  companies:any[] = [];
   constructor(
               private cierreContableService: CierrecontableService, 
               private swalService: SwalService,
-              private http: HttpClient
+              private http: HttpClient,
+              private _planCuentas: PlanCuentasService
     ) { 
 
       this.alertOption = {
@@ -64,12 +68,19 @@ export class ModalcierrecontableComponent implements OnInit, OnDestroy {
     });
 
     this.getMeses();
+    this.ListasEmpresas();
   }
 
   ngOnDestroy() {
     if (this._suscription != null && this._suscription != undefined) {
       this._suscription.unsubscribe();
     }
+  }
+
+  ListasEmpresas(){
+    this._planCuentas.getCompanies().subscribe((data:any) => {
+      this.companies = data.data;
+    })
   }
 
   private guardarCierre(datos, tipo) {
@@ -79,7 +90,12 @@ export class ModalcierrecontableComponent implements OnInit, OnDestroy {
       }
       this.ModalCierreContable.hide();
       this.resetModel();
-      this.swalService.ShowMessage(data);
+      Swal.fire({
+        icon: data.codigo,
+        title: data.titulo,
+        text: data.mensaje
+      })
+      // this.swalService.ShowMessage(data);
       this.recargarListas.emit();
     })
   }
@@ -99,7 +115,12 @@ export class ModalcierrecontableComponent implements OnInit, OnDestroy {
       if (data.codigo == 'success') {
         this.guardarCierre(datos, tipo);
       } else {
-        this.swalService.ShowMessage(data);
+        Swal.fire({
+          icon: data.codigo,
+          text: data.mensaje,
+          title: data.titulo
+        })
+        // this.swalService.ShowMessage(data);
       }
     })
   }

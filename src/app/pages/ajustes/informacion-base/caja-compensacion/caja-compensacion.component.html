@@ -18,30 +18,34 @@
     <div class="card-body">
         <table class="table table-bordered table-striped">
             <thead class="bg-light">
-                <th>Nombre</th>
-                <th>Código</th>
-                <th>NIT</th>
-                <th class="text-center">Acciones</th>
+                <tr>
+                    <th>Nombre</th>
+                    <th>Código</th>
+                    <th>NIT</th>
+                    <th class="text-center">Acciones</th>
+                </tr>
             </thead>
             <tbody>
-                <td>Camacol COMFAMILIAR CAMACOL</td>
-                <td>2</td>
-                <td>454545</td>
-                <td>
-                    <div class="text-center">
-                        <div ngbDropdown class="dropdown-primary">
-                            <button ngbDropdownToggle class="btn btn-primary btn-sm waves-effect waves-light " type="button">
-                                <i class="mdi mdi-chevron-down"></i>
-                            </button>
-                            <div ngbDropdownMenu>
-                                <a class="dropdown-item waves-light waves-effect caja-botones" target="_blank" (click)="modal.show()"><i
-                                        class="fa fa-file-pdf-o"></i>Editar</a>
-                                <a class="dropdown-item waves-light waves-effect caja-botones">
-                                    <i class="fa fa-pencil"></i>Inactivar</a>
+                <tr>
+                    <td>Camacol COMFAMILIAR CAMACOL</td>
+                    <td>2</td>
+                    <td>454545</td>
+                    <td>
+                        <div class="text-center">
+                            <div ngbDropdown class="dropdown-primary">
+                                <button ngbDropdownToggle class="btn btn-primary btn-sm waves-effect waves-light " type="button">
+                                    <i class="mdi mdi-chevron-down"></i>
+                                </button>
+                                <div ngbDropdownMenu>
+                                    <a class="dropdown-item waves-light waves-effect caja-botones" target="_blank" (click)="modal.show()"><i
+                                            class="fa fa-file-pdf-o"></i>Editar</a>
+                                    <a class="dropdown-item waves-light waves-effect caja-botones">
+                                        <i class="fa fa-pencil"></i>Inactivar</a>
+                                </div>
                             </div>
                         </div>
-                    </div>
-                </td>
+                    </td>
+                </tr>
             </tbody>
         </table>
     </div>

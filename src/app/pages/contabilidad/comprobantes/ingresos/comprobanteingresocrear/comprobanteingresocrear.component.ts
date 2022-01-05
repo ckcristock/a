@@ -573,7 +573,6 @@ formatter1 = (x: { Codigo: string }) => x.Codigo;
   }
 
   guardarComprobante(Formulario:NgForm, tipo) {
-
     let info = JSON.stringify(Formulario.value);
 
     let datos = new FormData();

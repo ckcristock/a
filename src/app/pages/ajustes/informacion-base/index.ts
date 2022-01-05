@@ -1,4 +1,3 @@
-
 export { DetalleFuncionarioComponent } from './funcionarios/detalle-funcionario/detalle-funcionario.component';
 export { PermissionsComponent } from './funcionarios/detalle-funcionario/permissions/permissions.component';
 export { MenuChildComponent } from './funcionarios/detalle-funcionario/permissions/menu-child/menu-child.component';

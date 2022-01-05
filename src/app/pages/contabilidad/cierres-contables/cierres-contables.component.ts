@@ -4,6 +4,7 @@ import { SwalService } from '../../ajustes/informacion-base/services/swal.servic
 import { HttpClient } from '@angular/common/http';
 import { CierrecontableService } from './cierrecontable.service';
 import { environment } from 'src/environments/environment';
+import Swal from 'sweetalert2';
 
 @Component({
   selector: 'app-cierres-contables',
@@ -49,7 +50,12 @@ export class CierresContablesComponent implements OnInit {
   anularCierreAnio(id) {
     let p:any = {id:id}
     this.http.get(environment.ruta+'php/contabilidad/cierres/anular_cierre.php',{params: p}).subscribe((data:any) => {
-      this.swalService.ShowMessage(data);
+      // this.swalService.ShowMessage(data);
+      Swal.fire({
+        icon: data.codigo,
+        title: data.titulo,
+        text: data.mensaje
+      })
       this.listaCierres();
     })
   }

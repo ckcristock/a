@@ -6,4 +6,5 @@ export class MedioMagneticoModel {
     public Tipo_Columna?:string;
     public Columna_Principal?:string;
     public Tipo_Medio_Magnetico?:string;
+    public Id_Empresa?:string;
 }

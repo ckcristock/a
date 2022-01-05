@@ -33,6 +33,7 @@
                                     <tr>
                                         <th>Formato</th>
                                         <th>Nombre</th>
+                                        <th>Empresa</th>
                                         <th>Tipo Exp</th>
                                         <th>Periodo</th>
                                         <th *ngIf="formatoEspecial">Columna</th>
@@ -51,6 +52,7 @@
                                     <tr *ngFor="let item of listaMediosMag">
                                         <td>{{ item.Codigo_Formato }}</td>
                                         <td>{{ item.Nombre_Formato }}</td>
+                                        <td> {{ item.Empresa }} </td>
                                         <td>{{ item.Tipo_Exportacion }}</td>
                                         <td>{{ item.Periodo }}</td>
                                         <td *ngIf="formatoEspecial" style="width: 60px">{{ item.Tipo_Columna }}</td>

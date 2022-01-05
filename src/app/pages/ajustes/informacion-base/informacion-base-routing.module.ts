@@ -34,6 +34,8 @@ import { ProveedoresComponent } from './proveedores/proveedores.component';
 import { CrearProveedorComponent } from './proveedores/crear-proveedor/crear-proveedor.component';
 import { VerProveedorComponent } from './proveedores/ver-proveedor/ver-proveedor.component';
 import { EditarProveedorComponent } from './proveedores/editar-proveedor/editar-proveedor.component';
+import { ClientesComponent } from './clientes/clientes.component';
+import { ClientecrearComponent } from './clientecrear/clientecrear.component';
 
 const routes: Routes = [
     { path: 'empresas', component: EmpresasComponent },
@@ -93,7 +95,11 @@ const routes: Routes = [
     { path: 'ciudades', component: CiudadesComponent },
     { path: 'paises', component: PaisesComponent },
 
-    { path: 'licencia-conduccion', component: LicenciaConduccionComponent }
+    { path: 'licencia-conduccion', component: LicenciaConduccionComponent },
+
+    { path: 'clientes', component: ClientesComponent },
+    { path: 'clientecrear', component: ClientecrearComponent },
+    { path: 'clienteeditar/:id', component: ClientecrearComponent }
 ]
 
 @NgModule({

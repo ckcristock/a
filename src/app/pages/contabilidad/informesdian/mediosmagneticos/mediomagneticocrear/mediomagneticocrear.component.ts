@@ -11,6 +11,7 @@ import { MediosmagnticosService } from '../mediosmagnticos.service';
 import { Globales } from '../../../globales';
 import { environment } from 'src/environments/environment';
 import Swal from 'sweetalert2';
+import { PlanCuentasService } from '../../../plan-cuentas/plan-cuentas.service';
 
 @Component({
   selector: 'app-mediomagneticocrear',
@@ -44,14 +45,15 @@ export class MediomagneticocrearComponent implements OnInit {
 
   public MediosMagModel: MedioMagneticoModel = new MedioMagneticoModel();
   enviromen:any;
-
+  companies:any[] = [];
   constructor(
               private globales: Globales,
               private http: HttpClient, 
               private swalService: SwalService, 
               private router: Router, 
               private route: ActivatedRoute, 
-              private _medios: MediosmagnticosService
+              private _medios: MediosmagnticosService,
+              private _planCuentas: PlanCuentasService
               ) { 
     this.alertOption = {
       title: "¿Está Seguro?",
@@ -85,6 +87,7 @@ export class MediomagneticocrearComponent implements OnInit {
     this.enviromen = environment;
     this.listaCuentas();
     this.tiposDocumentos();
+    this.ListasEmpresas();
 
     let id = this.route.snapshot.params.id;
     
@@ -99,6 +102,13 @@ export class MediomagneticocrearComponent implements OnInit {
       this.Cuenta = data.Activo;
     })
   }
+
+  ListasEmpresas(){
+    this._planCuentas.getCompanies().subscribe((data:any) => {
+      this.companies = data.data;
+    })
+  }
+
 
   validarCampo(campo, event, tipo) { // Funcion que validará los campos de typeahead
     this._medios.validarCampoTypeAHead(campo, event, tipo);
