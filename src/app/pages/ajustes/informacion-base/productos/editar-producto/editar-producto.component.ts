@@ -19,30 +19,34 @@ export class EditarProductoComponent implements OnInit {
   public Fotos: any;
   public Lista:any=[];
   public Codigo_Barras:any='';
+  public fieldDinamicSubcategory:any[]=[];
+  public fieldDinamic: any[];
+
+
   /* TODO ACTUALIZAR FUNCIONARIO */
 
   public Identificacion_Funcionario='1';
     constructor(private route: ActivatedRoute, private http: HttpClient, private router: Router) { }
     @ViewChild('confirmacionSwal') confirmacionSwal: any;
     ngOnInit() {
-      this.http.get(environment.ruta+ 'php/genericos/detalle.php', {
-        params: { modulo: 'Producto', id: this.id }
-      }).subscribe((data: any) => {
-        /* this.Producto=JSON.parse(this._general.Utf8.decode(JSON.stringify(data))); */
-        this.Producto=JSON.parse(functionsUtils.utf8_decode(JSON.stringify(data)));
-        this.Codigo_Barras=data.Codigo_Barras;
-       // console.log(this.Producto);
-       
+      // this.http.get(environment.ruta+ 'php/genericos/detalle.php', {params: { modulo: 'Producto', id: this.id }}).subscribe((data: any) => {
+      this.http.get(environment.ruta+ 'php/productos/producto_detalle.php', {params: { modulo: 'Producto', id: this.id }}).subscribe((data: any) => {
+      this.Producto=JSON.parse(functionsUtils.utf8_decode(JSON.stringify(data.productos[0])));
+      this.fieldDinamic = data.productos[0].Variables;
+      this.Codigo_Barras=data.productos[0].Codigo_Barras;
+
+        // this.Codigo_Barras=data.Codigo_Barras;
       });
+
       this.http.get(environment.ruta+ 'php/lista_generales.php', { params: { modulo: 'Familia' } }).subscribe((data: any) => {
         this.Familias = data;
       });
+
       this.http.get(environment.ruta+ 'php/lista_generales.php', { params: { modulo: 'Subcategoria' } }).subscribe((data: any) => {
         this.Subcategorias = data;
       });
-      this.http.get(environment.ruta+ 'php/productos/lista.php', {params:{
-        id:this.id
-      }}).subscribe((data: any) => {
+
+      this.http.get(environment.ruta+ 'php/productos/lista.php', {params:{ id:this.id}}).subscribe((data: any) => {
         this.Lista = data;
       });
     }
@@ -50,10 +54,10 @@ export class EditarProductoComponent implements OnInit {
       var from = "ÃÀÁÄÂÈÉËÊÌÍÏÎÒÓÖÔÙÚÜÛãàáäâèéëêìíïîòóöôùúüûÑñÇç",
         to = "AAAAAEEEEIIIIOOOOUUUUaaaaaeeeeiiiioooouuuunncc",
         mapping = {};
-  
+
       for (var i = 0, j = from.length; i < j; i++)
         mapping[from.charAt(i)] = to.charAt(i);
-  
+
       return function (str) {
         var ret = [];
         for (var i = 0, j = str.length; i < j; i++) {
@@ -65,24 +69,24 @@ export class EditarProductoComponent implements OnInit {
         }
         return ret.join('');
       }
-  
+
     })();
     CargaFoto(event) {
       let fot = document.getElementById("foto_visual") as HTMLImageElement;
-  
+
       if (event.target.files.length === 1) {
-  
+
         this.Fotos = event.target.files[0];
-  
+
         let url = URL.createObjectURL(event.target.files[0]);
         // console.log(url);
-        
+
         fot.src = url;
       }
     }
     GuardarProducto(formulario: NgForm) {
       // console.log(formulario.value);
-  
+
       let info = (JSON.stringify(formulario.value));
       let lista =this.normalize(JSON.stringify(this.Lista));
       let datos = new FormData();
@@ -91,6 +95,9 @@ export class EditarProductoComponent implements OnInit {
       datos.append("datos", functionsUtils.utf8_encode(info));
       datos.append("lista", lista);
       datos.append("funcionario", this.Identificacion_Funcionario);
+
+      datos.append("field", JSON.stringify(this.fieldDinamicSubcategory));
+
       datos.append('Foto', this.Fotos);
       this.http.post(environment.ruta+ 'php/productos/producto_guardar.php', datos).subscribe((data: any) => {
         this.confirmacionSwal.title ='Producto actualizado' ;
@@ -100,19 +107,19 @@ export class EditarProductoComponent implements OnInit {
         formulario.reset();
         this.VerPantallaLista();
         this.Fotos = [];
-  
+
       });
     }
     VerPantallaLista() {
       this.router.navigate(['/ajustes/informacion-base/productos']);
     }
-  
+
     ValidarCodigo(){
       this.http.get(environment.ruta+ 'php/productos/validar_codigo.php', { params: { codigo: this.Codigo_Barras } }).subscribe((data: any) => {
         if (data.Id_Producto) {
           let html = `
           <h5>Este codigo de barras ya esta asociado a otro producto:</h5>
-         
+
           <ul>
             <li><strong style="font-weight:bold;font-size:15px">Nombre: </strong> <span style="font-size:15px">${data.Nombre_Comercial}</span></li>
             <li><strong style="font-weight:bold;font-size:15px">Laboratorio: </strong> <span style="font-size:15px">${data.Laboratorio_Comercial}</span></li>
@@ -127,4 +134,30 @@ export class EditarProductoComponent implements OnInit {
       }
       });
     }
+
+    getVariablesDinamic(value){
+      this.http.get(environment.ruta + 'php/parametros/lista_subcategoria.php', { params: { id: value } }).subscribe((data: any) => {
+
+        this.fieldDinamic = data.Subcategoria[0].Variables;
+      });
+    }
+
+    saveVariablesDinamic(value,item){
+
+      let obj ={
+        subcategory_variables_id : item.id,
+        valor : value
+      }
+      this.fieldDinamicSubcategory.push(obj);
+    }
+
+    editVariablesDinamic(value,item){
+      let obj ={
+        id : item.id,
+        subcategory_variables_id : item.subcategory_variables_id,
+        valor : value
+      }
+      this.fieldDinamicSubcategory.push(obj);
+    }
+
 }

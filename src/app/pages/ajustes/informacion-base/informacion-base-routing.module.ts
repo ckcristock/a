@@ -35,6 +35,7 @@ import { CrearProveedorComponent } from './proveedores/crear-proveedor/crear-pro
 import { VerProveedorComponent } from './proveedores/ver-proveedor/ver-proveedor.component';
 import { EditarProveedorComponent } from './proveedores/editar-proveedor/editar-proveedor.component';
 import { CatalogoComponent } from "./catalogo/catalogo.component";
+import { TableProductosCatalogoComponent } from "./catalogo/components/table-productos-catalogo/table-productos-catalogo.component";
 
 const routes: Routes = [
     { path: 'empresas', component: EmpresasComponent },
@@ -48,8 +49,13 @@ const routes: Routes = [
     { path: 'regimenes-niveles', component: RegimenesNivelesComponent },
     { path: 'aseguradoras', component: AseguradorasComponent },
     { path: 'administrators', component: EpsComponent },
+
     /**Productos */
     { path: 'catalogo', component: CatalogoComponent },
+    { path: 'catalogo/crear', component: CrearProductoComponent },
+    { path: 'catalogo/editar/:id', component: EditarProductoComponent },
+
+    { path: 'tabla-catalogo', component: TableProductosCatalogoComponent },
     { path: 'productos', component: ProductosComponent },
     { path: 'productos/crear', component: CrearProductoComponent },
     { path: 'productos/editar/:id', component: EditarProductoComponent },

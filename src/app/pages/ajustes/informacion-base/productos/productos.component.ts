@@ -1,4 +1,4 @@
-import { Component, OnInit, ViewChild, TemplateRef } from '@angular/core';
+import { Component, OnInit, ViewChild, TemplateRef, Input } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { Router, ActivatedRoute } from '@angular/router';
 import { functionsUtils } from '../../../../core/utils/functionsUtils';
@@ -17,6 +17,8 @@ import Swal from 'sweetalert2';
 })
 export class ProductosComponent implements OnInit {
 
+  @Input('type') type
+
   form: FormGroup;
 
   public productos: any[];
@@ -32,6 +34,8 @@ export class ProductosComponent implements OnInit {
   columns = [];
   isLoading: boolean;
   timeout: any;
+  public fieldDinamicMaterial: any[];
+
 
   /* TODO ACTUALIZAR FUNCIONARIO */
   public funcionario:any = 1;
@@ -106,7 +110,9 @@ export class ProductosComponent implements OnInit {
   public page = 1;
   public filtro_nombre:any = '';
   public filtro_cum:any = '';
+  public tipo:any = '';
   public filtro_lab:any = '';
+  public fieldDinamicSubcategory:any[]=[];
 
   public Fotos: any;
 
@@ -124,6 +130,7 @@ export class ProductosComponent implements OnInit {
   public SubCategorias:any[]=[];
 
   constructor(private _category: CategoryService, private fb: FormBuilder,private http: HttpClient, private router: Router, private location: Location, private route: ActivatedRoute) {
+
     this.isLoading = true;
     this.http.get(environment.ruta + 'php/lista_generales.php', { params: { modulo: 'Subcategoria' } }).subscribe((data: any) => {
       this.Subcategorias = data;
@@ -132,10 +139,16 @@ export class ProductosComponent implements OnInit {
       this.Lista = data;
     });
 
-    this.ListarProductos();
+    // this.ListarProductos();
+
   }
 
   ngOnInit() {
+
+    this.tipo = this.type;
+    this.filtro();
+
+
     this.columns = [
       { cellTemplate: this.PlantillaFoto, prop: 'Foto', name: 'Foto', maxWidth: '70' },
       { prop: 'Cum', name: 'Cum', maxWidth: '100' },
@@ -150,6 +163,19 @@ export class ProductosComponent implements OnInit {
     this.getCategory();
     this.createForm();
   }
+
+  // getData(page=1){
+  //   this.pagination.page = page;
+  //   let params = {
+  //     ...this.pagination, ...this.filtros,
+  //     tipo : this.type
+
+  //   }
+  //   this._catalogo.getData(params).subscribe((r:any)=>{
+  //     console.log(r);
+
+  //   })
+  // }
 
   createForm() {
    this.form = this.fb.group({
@@ -309,6 +335,7 @@ export class ProductosComponent implements OnInit {
       // actualizando la variables con los valores de los paremetros.
       this.page = params.pag ? params.pag : 1;
       this.filtro_cum = params.cum ? params.cum : '';
+      this.tipo = params.tip ? params.tip : '';
       this.filtro_nombre = params.nom ? params.nom : '';
       this.filtro_nom_com = params.nom_com ? params.nom_com : '';
       this.filtro_lab = params.lab ? params.lab : '';
@@ -322,10 +349,11 @@ export class ProductosComponent implements OnInit {
     this.http.get(environment.ruta + 'php/productos/lista_productos.php'+queryString).subscribe((data: any) => {
 
       this.Productos = JSON.parse(functionsUtils.utf8_decode(JSON.stringify(data.productos)));
-      console.log(this.Productos);
 
       this.TotalItems = data.numReg;
     });
+
+    this.filtro();
   }
 
   paginacion() {
@@ -359,7 +387,7 @@ export class ProductosComponent implements OnInit {
 
       let queryString = Object.keys(params).map(key => key + '=' + params[key]).join('&');
 
-      this.location.replaceState('/base/productos', queryString);
+      this.location.replaceState('/base/catalogo', queryString);
 
       this.http.get(environment.ruta + '/php/productos/lista_productos.php?'+queryString).subscribe((data: any) => {
         this.Productos = JSON.parse(functionsUtils.utf8_decode(JSON.stringify(data.productos)));
@@ -396,13 +424,21 @@ export class ProductosComponent implements OnInit {
   // }
 
   filtro() {
+    console.log("filtroaaaaa");
+
+
+
+    console.log(this.tipo);
 
     let params:any = {}
 
-    if (this.filtro_nombre != "" || this.filtro_cum != "" || this.filtro_lab != "" || this.filtro_nom_com != "" || this.filtro_lab_gral != "" || this.filtro_inv != "" || this.filtro_tipo != "") { // Si algunos de los campos para filtrar no está vacío, se ejecuta el proceso de filtraje.
+    if (this.tipo != "" || this.filtro_nombre != "" || this.filtro_cum != "" || this.filtro_lab != "" || this.filtro_nom_com != "" || this.filtro_lab_gral != "" || this.filtro_inv != "" || this.filtro_tipo != "") { // Si algunos de los campos para filtrar no está vacío, se ejecuta el proceso de filtraje.
       this.page = 1; // Volver a la página 1 al filtrar
       params.pag = this.page;
 
+      if (this.tipo != "") {
+        params.tip = this.tipo;
+      }
       if (this.filtro_nombre != "") {
         params.nom = this.filtro_nombre;
       }
@@ -428,7 +464,7 @@ export class ProductosComponent implements OnInit {
 
       let queryString = Object.keys(params).map(key => key + '=' + params[key]).join('&');
 
-      this.location.replaceState('/base/productos', queryString);
+      this.location.replaceState('/base/catalogo', queryString);
 
       this.http.get(environment.ruta + '/php/productos/lista_productos.php?'+queryString).subscribe((data: any) => {
         this.Productos = JSON.parse(functionsUtils.utf8_decode(JSON.stringify(data.productos)));
@@ -436,7 +472,7 @@ export class ProductosComponent implements OnInit {
       });
 
     } else { // Resetear filtros cuando todo está vacío
-      this.location.replaceState('/base/productos', '');
+      this.location.replaceState('/base/catalogo', '');
 
       this.page = 1;
       this.filtro_cum = '';
@@ -446,6 +482,7 @@ export class ProductosComponent implements OnInit {
       this.filtro_nom_com = '';
       this.filtro_nombre = '';
       this.filtro_tipo = '';
+      this.tipo = '';
 
       this.http.get(environment.ruta + '/php/productos/lista_productos.php').subscribe((data: any) => {
         this.Productos = data.productos;
@@ -462,6 +499,7 @@ export class ProductosComponent implements OnInit {
   }
 
   GuardarProducto(formulario: NgForm, modal) {
+
     let info = (JSON.stringify(formulario.value));
     let lista =this.normalize(JSON.stringify(this.Lista));
     // console.log(info);
@@ -469,7 +507,7 @@ export class ProductosComponent implements OnInit {
     datos.append("modulo", 'Producto');
     datos.append('Foto', this.Fotos);
     datos.append("lista", lista);
-
+    datos.append("field",  JSON.stringify(this.fieldDinamicSubcategory));
     datos.append('funcionario', this.funcionario);
     datos.append("datos", functionsUtils.utf8_encode(info));
     this.http.post(environment.ruta + 'php/productos/producto_guardar_dev.php', datos).subscribe((data: any) => {
@@ -504,52 +542,55 @@ export class ProductosComponent implements OnInit {
 
   EditarProducto(id, modal) {
     this.http.get(environment.ruta + 'php/productos/producto_detalle.php', {params: { id: id }}).subscribe((data: any) => {
+    // this.http.get(environment.ruta + 'php/productos/lista_productos.php', {params: { id: id }}).subscribe((data: any) => {
 
       this.getListaProducto(id); // Lista Ganancia
       this.IdProductos =  id;
-      this.Datos['Codigo_Cum'] = functionsUtils.utf8_decode(data.Codigo_Cum);
-      this.Datos['PrincipioActivo'] = functionsUtils.utf8_decode(data.Principio_Activo);
-      this.Datos['Presentacion'] = functionsUtils.utf8_decode(data.Presentacion);
-      this.Datos['Concentracion'] = functionsUtils.utf8_decode(data.Concentracion);
-      this.Datos['NombreComercial'] = functionsUtils.utf8_decode(data.Nombre_Comercial);
-      this.Datos['Embalaje'] = functionsUtils.utf8_decode(data.Embalaje);
-      this.Datos['LaboratorioGenerico'] = functionsUtils.utf8_decode(data.Laboratorio_Generico);
-      this.Datos['LaboratorioComercial'] = functionsUtils.utf8_decode(data.Laboratorio_Comercial);
-      this.Datos['Familia'] = functionsUtils.utf8_decode(data.Familia);
-      this.Datos['CantidadMinima'] = functionsUtils.utf8_decode(data.Cantidad_Minima);
-      this.Datos['CantidadMaxima'] = functionsUtils.utf8_decode(data.Cantidad_Maxima);
-      this.Datos['ATC'] = functionsUtils.utf8_decode(data.ATC);
-      this.Datos['DescripcionATC'] = functionsUtils.utf8_decode(data.Descripcion_ATC);
-      this.Datos['Invima'] = functionsUtils.utf8_decode(data.Invima);
-      this.Datos['FechaExpedicionInvima'] = functionsUtils.utf8_decode(data.Fecha_Expedicion_Invima);
-      this.Datos['FechaVencimientoInvima'] = functionsUtils.utf8_decode(data.Fecha_Vencimiento_Invima);
-      this.Datos['PrecioMinimo'] = functionsUtils.utf8_decode(data.Precio_Minimo);
-      this.Datos['PrecioMaximo'] = functionsUtils.utf8_decode(data.Precio_Maximo);
-      this.Datos['TipoRegulacion'] = functionsUtils.utf8_decode(data.Tipo_Regulacion);
-      this.Datos['TipoPos'] = functionsUtils.utf8_decode(data.Tipo_Pos);
-      this.Datos['ViaAdministracion'] = functionsUtils.utf8_decode(data.Via_Administracion);
-      this.Datos['UnidadMedida'] = functionsUtils.utf8_decode(data.Unidad_Medida);
-      this.Datos['Cantidad'] = functionsUtils.utf8_decode(data.Cantidad);
-      this.Datos['Regulado'] = functionsUtils.utf8_decode(data.Regulado);
-      this.Datos['Tipo'] = functionsUtils.utf8_decode(data.Tipo);
-      this.Datos['PesoPresentacionMinima'] = functionsUtils.utf8_decode(data.Peso_Presentacion_Minima);
-      this.Datos['PesoPresentacionRegular'] = functionsUtils.utf8_decode(data.Peso_Presentacion_Regular);
-      this.Datos['PesoPresentacionMaxima'] = functionsUtils.utf8_decode(data.Peso_Presentacion_Maxima);
-      this.Datos['CodigoBarras'] = functionsUtils.utf8_decode(data.Codigo_Barras);
-      this.Datos['CantidadPresentacion'] = functionsUtils.utf8_decode(data.Cantidad_Presentacion);
-      this.Datos['Mantis'] = functionsUtils.utf8_decode(data.Mantis);
-      this.Datos['Imagen'] = functionsUtils.utf8_decode(data.Imagen);
-      this.Datos['IdSubcategoria'] = functionsUtils.utf8_decode(data.Id_Subcategoria);
-      this.Datos['NombreListado'] = functionsUtils.utf8_decode(data.Nombre_Listado);
-      this.Datos['Referencia'] = functionsUtils.utf8_decode(data.Referencia);
-      this.Datos['Familia'] = functionsUtils.utf8_decode(data.Familia);
-      this.Datos['Gravado'] = functionsUtils.utf8_decode(data.Gravado);
-      this.Datos['RotativoC'] = functionsUtils.utf8_decode(data.RotativoC);
-      this.Datos['RotativoD'] = functionsUtils.utf8_decode(data.RotativoD);
-      this.Datos['Subcategoria'] = functionsUtils.utf8_decode(data.Subcategoria);
-      this.Datos['Unidad_Empaque'] = functionsUtils.utf8_decode(data.Unidad_Empaque);
-      this.Datos['Porcentaje_Arancel'] = functionsUtils.utf8_decode(data.Porcentaje_Arancel);
-      this.Codigo_Barras=functionsUtils.utf8_decode(data.Codigo_Barras);
+      this.Datos['Codigo_Cum'] = functionsUtils.utf8_decode(data.productos[0].Codigo_Cum);
+      this.Datos['PrincipioActivo'] = functionsUtils.utf8_decode(data.productos[0].Principio_Activo);
+      this.Datos['Presentacion'] = functionsUtils.utf8_decode(data.productos[0].Presentacion);
+      this.Datos['Concentracion'] = functionsUtils.utf8_decode(data.productos[0].Concentracion);
+      this.Datos['NombreComercial'] = functionsUtils.utf8_decode(data.productos[0].Nombre_Comercial);
+      this.Datos['Embalaje'] = functionsUtils.utf8_decode(data.productos[0].Embalaje);
+      this.Datos['LaboratorioGenerico'] = functionsUtils.utf8_decode(data.productos[0].Laboratorio_Generico);
+      this.Datos['LaboratorioComercial'] = functionsUtils.utf8_decode(data.productos[0].Laboratorio_Comercial);
+      this.Datos['Familia'] = functionsUtils.utf8_decode(data.productos[0].Familia);
+      this.Datos['CantidadMinima'] = functionsUtils.utf8_decode(data.productos[0].Cantidad_Minima);
+      this.Datos['CantidadMaxima'] = functionsUtils.utf8_decode(data.productos[0].Cantidad_Maxima);
+      this.Datos['ATC'] = functionsUtils.utf8_decode(data.productos[0].ATC);
+      this.Datos['DescripcionATC'] = functionsUtils.utf8_decode(data.productos[0].Descripcion_ATC);
+      this.Datos['Invima'] = functionsUtils.utf8_decode(data.productos[0].Invima);
+      this.Datos['FechaExpedicionInvima'] = functionsUtils.utf8_decode(data.productos[0].Fecha_Expedicion_Invima);
+      this.Datos['FechaVencimientoInvima'] = functionsUtils.utf8_decode(data.productos[0].Fecha_Vencimiento_Invima);
+      this.Datos['PrecioMinimo'] = functionsUtils.utf8_decode(data.productos[0].Precio_Minimo);
+      this.Datos['PrecioMaximo'] = functionsUtils.utf8_decode(data.productos[0].Precio_Maximo);
+      this.Datos['TipoRegulacion'] = functionsUtils.utf8_decode(data.productos[0].Tipo_Regulacion);
+      this.Datos['TipoPos'] = functionsUtils.utf8_decode(data.productos[0].Tipo_Pos);
+      this.Datos['ViaAdministracion'] = functionsUtils.utf8_decode(data.productos[0].Via_Administracion);
+      this.Datos['UnidadMedida'] = functionsUtils.utf8_decode(data.productos[0].Unidad_Medida);
+      this.Datos['Cantidad'] = functionsUtils.utf8_decode(data.productos[0].Cantidad);
+      this.Datos['Regulado'] = functionsUtils.utf8_decode(data.productos[0].Regulado);
+      this.Datos['Tipo'] = functionsUtils.utf8_decode(data.productos[0].Tipo);
+      this.Datos['PesoPresentacionMinima'] = functionsUtils.utf8_decode(data.productos[0].Peso_Presentacion_Minima);
+      this.Datos['PesoPresentacionRegular'] = functionsUtils.utf8_decode(data.productos[0].Peso_Presentacion_Regular);
+      this.Datos['PesoPresentacionMaxima'] = functionsUtils.utf8_decode(data.productos[0].Peso_Presentacion_Maxima);
+      this.Datos['CodigoBarras'] = functionsUtils.utf8_decode(data.productos[0].Codigo_Barras);
+      this.Datos['CantidadPresentacion'] = functionsUtils.utf8_decode(data.productos[0].Cantidad_Presentacion);
+      this.Datos['Mantis'] = functionsUtils.utf8_decode(data.productos[0].Mantis);
+      this.Datos['Imagen'] = functionsUtils.utf8_decode(data.productos[0].Imagen);
+      this.Datos['IdSubcategoria'] = functionsUtils.utf8_decode(data.productos[0].Id_Subcategoria);
+      this.Datos['NombreListado'] = functionsUtils.utf8_decode(data.productos[0].Nombre_Listado);
+      this.Datos['Referencia'] = functionsUtils.utf8_decode(data.productos[0].Referencia);
+      this.Datos['Familia'] = functionsUtils.utf8_decode(data.productos[0].Familia);
+      this.Datos['Gravado'] = functionsUtils.utf8_decode(data.productos[0].Gravado);
+      this.Datos['RotativoC'] = functionsUtils.utf8_decode(data.productos[0].RotativoC);
+      this.Datos['RotativoD'] = functionsUtils.utf8_decode(data.productos[0].RotativoD);
+      this.Datos['Subcategoria'] = functionsUtils.utf8_decode(data.productos[0].Subcategoria);
+      this.Datos['Unidad_Empaque'] = functionsUtils.utf8_decode(data.productos[0].Unidad_Empaque);
+      this.Datos['Porcentaje_Arancel'] = functionsUtils.utf8_decode(data.productos[0].Porcentaje_Arancel);
+      this.fieldDinamicMaterial = data.productos[0].Variables;
+
+      this.Codigo_Barras=functionsUtils.utf8_decode(data.productos[0].Codigo_Barras);
       modal.show();
     });
   }
@@ -606,7 +647,7 @@ export class ProductosComponent implements OnInit {
           this.Datos['Subcategoria'] = '';
           this.Datos['Unidad_Empaque'] = '';
           this.Datos['Porcentaje_Arancel'] = '';
-          //this.FormProducto.reset();
+          //this.FormProductos[0].reset();
           //alert("El codigo cum ingresado no se encuentra en la base de datos de DatosAbiertos.org");
         } else {
           this.Si = true;
@@ -801,6 +842,32 @@ export class ProductosComponent implements OnInit {
   closeModal(){
     this.title = '';
     this.modalGenerico.hide();
+  }
+
+  saveVariablesDinamic(value,item){
+
+    let obj ={
+      subcategory_variables_id : item.id,
+      valor : value
+    }
+
+    this.fieldDinamicSubcategory.push(obj);
+
+  }
+
+  editVariablesDinamic(value,item){
+    let obj ={
+      id : item.id,
+      subcategory_variables_id : item.subcategory_variables_id,
+      valor : value
+    }
+    this.fieldDinamicSubcategory.push(obj);
+  }
+
+  getVariablesDinamic(value){
+    this.http.get(environment.ruta + 'php/parametros/lista_subcategoria.php', { params: { id: value } }).subscribe((data: any) => {
+      this.fieldDinamicMaterial = data.Subcategoria[0].Variables;
+    });
   }
 
 

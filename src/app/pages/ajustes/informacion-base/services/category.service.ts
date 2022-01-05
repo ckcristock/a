@@ -33,6 +33,10 @@ export class CategoryService {
     return this.http.put(`${environment.base_url}/product/${id}`, data);
   }
 
+  getData( params = {} ){
+    return this.http.get(`${environment.base_url}/product`, {params});
+  }
+
 
 
 }

@@ -42,14 +42,15 @@
                                             <div class="col-md-3">
                                                 <div class="form-group">
                                                     <label>Código de barras</label>
-                                                    <input name="Codigo_Barras" [(ngModel)]="Codigo_Barras" (change)="ValidarCodigo()" type="text" placeholder="" class="form-control">
+                                                    <input name="Codigo_Barras" [(ngModel)]="Codigo_Barras" (change)="ValidarCodigo()
+                                                    " type="text" placeholder="" class="form-control">
                                                 </div>
                                             </div>
                                             <div class="col-md-3">
 
                                                 <div class="form-group">
                                                     <label>Subcategoría</label>
-                                                    <select class="form-control form-control-sm" name="Id_Subcategoria" ngModel required>
+                                                    <select class="form-control form-control-sm" name="Id_Subcategoria" ngModel required (change)="getVariablesDinamic($event.target.value)">
                                                     <option value="">Seleccione Subcategoría</option>
                                                     <option *ngFor="let Subcategoria of Subcategoria" [value]="Subcategoria.Id_Subcategoria">{{Subcategoria.Nombre}}</option>
                                                 </select>
@@ -279,6 +280,14 @@
                                 </div>
                             </div>
                         </div>
+
+                        <div class="row">
+                            <div class="col-md-2" *ngFor="let item of fieldDinamic">
+                                <label for="">{{item.label | titlecase}}</label>
+                                <input class="form-control form-control-sm" [type]="item.type" (change)="saveVariablesDinamic($event.target.value, item)">
+                            </div>
+                        </div>
+
                         <hr>
                         <div class="row">
                             <div *ngFor="let f of Lista; let i = index" id="fila{{i}}" class="col-md-2">
