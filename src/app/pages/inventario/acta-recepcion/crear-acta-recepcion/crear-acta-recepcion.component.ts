@@ -957,7 +957,7 @@ export class CrearActaRecepcionComponent implements OnInit {
 
   CalcularRetenciones(nroFactura: string, index_retencion: string = '') {
     this.GetInfoFacturas();
-
+    
     if (nroFactura != '') {
       let index_factura = this.Facturas.findIndex(
         (x) => x.Factura == nroFactura
@@ -1268,6 +1268,7 @@ export class CrearActaRecepcionComponent implements OnInit {
 
     if (retenciones.Id_Plan_Cuenta_Retefuente != '0') {
       if (this.DataRetencionesProveedor.Regimen == 'Comun') {
+        
         this.ValorMinimoAplicaRetefuente =
           parseFloat(this.ValoresRetenciones.Valor_Unidad_Tributaria) *
           parseFloat(this.ValoresRetenciones.Base_Retencion_Compras_Reg_Comun);
@@ -1304,13 +1305,15 @@ export class CrearActaRecepcionComponent implements OnInit {
 
   CalculoRetencionFacturas() {
     this.VaciarValoresRetenciones();
+    console.log(this.Facturas,this.ValorMinimoAplicaRetefuente);
 
     this.Facturas.forEach((fac, i) => {
       if (fac.Factura != '') {
         let valores_factura = this.TotalesFacturas.find(
           (x) => x.Factura == fac.Factura
         );
-
+      console.log( valores_factura.total_factura);
+      
         if (!functionsUtils.IsObjEmpty(valores_factura)) {
           if (this.Facturas[i].Retenciones.length > 0) {
             this.Facturas[i].Retenciones.forEach((rt, ind) => {

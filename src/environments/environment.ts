@@ -29,6 +29,9 @@ export const environment = {
   // ruta: 'https://inventario.ateneoerp.com/',
   ruta: 'http://localhost:8080/inventario-ateneo-backend/'
 
+ 
+
+
 };
 
 

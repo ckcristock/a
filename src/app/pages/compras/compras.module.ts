@@ -15,6 +15,7 @@ import {
 import { HttpClientModule } from '@angular/common/http';
 import { PipesModule } from '../../core/pipes/pipes.module';
 import { VerCompraNacionalComponent } from './compra-nacional/ver-compra-nacional/ver-compra-nacional.component';
+import { NgSelectModule } from '@ng-select/ng-select';
 
 @NgModule({
   declarations: [
@@ -23,6 +24,7 @@ import { VerCompraNacionalComponent } from './compra-nacional/ver-compra-naciona
     VerCompraNacionalComponent,
   ],
   imports: [
+    NgSelectModule,
     HttpClientModule,
     PipesModule,
     CommonModule,

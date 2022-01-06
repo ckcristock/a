@@ -30,6 +30,8 @@ import { CrearProveedorComponent } from './proveedores/crear-proveedor/crear-pro
 import { NgbTypeaheadModule } from '@ng-bootstrap/ng-bootstrap';
 import { VerProveedorComponent } from './proveedores/ver-proveedor/ver-proveedor.component';
 import { EditarProveedorComponent } from './proveedores/editar-proveedor/editar-proveedor.component';
+import { CatalogoComponent } from './catalogo/catalogo.component';
+import { ActivoFijoCatalogoComponent } from './catalogo/components/activo-fijo-catalogo/activo-fijo-catalogo.component';
 
 
 
@@ -103,7 +105,9 @@ import { EditarProveedorComponent } from './proveedores/editar-proveedor/editar-
         ProveedoresComponent,
         CrearProveedorComponent,
         VerProveedorComponent,
-        EditarProveedorComponent
+        EditarProveedorComponent,
+        CatalogoComponent,
+        ActivoFijoCatalogoComponent
 
     ],
 

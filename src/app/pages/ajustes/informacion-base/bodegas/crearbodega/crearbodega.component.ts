@@ -2,6 +2,7 @@ import { Component, EventEmitter, OnInit, Input, ViewChild, ElementRef, Output }
 import { HttpClient } from '@angular/common/http';
 import { environment } from 'src/environments/environment';
 import { SwalComponent } from '@sweetalert2/ngx-sweetalert2';
+import { CompanyService } from '../../services/company.service';
 
 @Component({
   selector: 'app-crearbodega',
@@ -21,26 +22,37 @@ export class CrearbodegaComponent implements OnInit {
     Telefono:'',
     Mapa:'',
     Compra_Internacional:'',
-    Tipo: ''
+    Tipo: '',
+    company_id:'',
   }
 
-  public tipo = '';
 
-  constructor(private http:HttpClient) { }
+  public tipo = '';
+  public companies :any[]= [];
+
+  constructor(private http:HttpClient, private _company: CompanyService,) { }
 
   ngOnInit() {
+    this.getCompanies()
     this.abrirCrear.subscribe(event=>{
-      console.log('abrir',event);
       this.tipo=event.Tipo;
       if(event.Bodega){
         this.bodega=event.Bodega;
+        this.bodega.company_id =  parseInt( this.bodega.company_id) 
       }else{
         this.setBodega();
       }
       this.modalBodega.show();
     })
   }
-
+   getCompanies() {
+     this._company
+      .getCompanies({ owner: 1 })
+      .subscribe((d: any) => {
+        this.companies = d.data;
+        d.data[0] ? (this.bodega.company_id = d.data[0].value) : '';
+      });
+  }
   guardarBodega(){
 
     console.log(this.infoSwal.fire());

@@ -34,6 +34,7 @@ import { ProveedoresComponent } from './proveedores/proveedores.component';
 import { CrearProveedorComponent } from './proveedores/crear-proveedor/crear-proveedor.component';
 import { VerProveedorComponent } from './proveedores/ver-proveedor/ver-proveedor.component';
 import { EditarProveedorComponent } from './proveedores/editar-proveedor/editar-proveedor.component';
+import { CatalogoComponent } from "./catalogo/catalogo.component";
 
 const routes: Routes = [
     { path: 'empresas', component: EmpresasComponent },
@@ -48,15 +49,16 @@ const routes: Routes = [
     { path: 'aseguradoras', component: AseguradorasComponent },
     { path: 'administrators', component: EpsComponent },
     /**Productos */
+    { path: 'catalogo', component: CatalogoComponent },
     { path: 'productos', component: ProductosComponent },
     { path: 'productos/crear', component: CrearProductoComponent },
     { path: 'productos/editar/:id', component: EditarProductoComponent },
     { path: 'productos/ver/:id', component: ProductoComponent },
-    
+
     { path: 'bodegas', component: BodegasComponent },
     { path: 'estibas/:idBodega', component:  GrupoestibaComponent},
     { path: 'estibas/:idBodega', component:  GrupoestibaComponent},
-    
+
     /**Proveedores */
     { path: 'proveedores', component:  ProveedoresComponent},
     { path: 'proveedores/crear', component: CrearProveedorComponent },

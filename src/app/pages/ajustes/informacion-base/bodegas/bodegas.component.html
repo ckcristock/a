@@ -20,7 +20,7 @@
                         </div>
                     </div>
                 </div>
-                <div class="card-block">
+                <div class="card-body">
                     <div class="row">
                         <div class="col-md-12">
                             <table class="table table-striped">
@@ -83,7 +83,7 @@
                                             <div class="text-center">
                                                 <div class="btn-group " role="group" data-toggle="tooltip" data-placement="top" title="" data-original-title=".btn-mini">
                                                     <div ngbDropdown class="dropdown-primary">
-                                                        <button ngbDropdownToggle class="btn btn-secondary btn-mini waves-effect waves-light " type="button">Acciones</button>
+                                                        <button ngbDropdownToggle class="btn btn-secondary btn-sm waves-effect waves-light " type="button">Acciones</button>
                                                         <div ngbDropdownMenu>
                                                             <a class="dropdown-item waves-light waves-effect caja-botones" (click)="abrirCrear.next({Bodega:bodega,Tipo:'Editar'})"> <i class="ti-pencil"></i>Editar</a>
                                                             <a class="dropdown-item waves-light waves-effect caja-botones" [routerLink]="['/ajustes/informacion-base/estibas',bodega.Id_Bodega_Nuevo]"> <i class="fa fa-cubes"></i>Grupos - Estibas</a>

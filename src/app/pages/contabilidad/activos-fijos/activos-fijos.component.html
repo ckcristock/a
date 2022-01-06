@@ -24,7 +24,7 @@
                         </div>
                     </div>
                 </div>
-                <div class="card-block">
+                <div class="card-body">
                     <div class="row">
                         <div class="col-md-12">
                             <table class="table table-striped" style="font-size: 10px;">
@@ -34,7 +34,7 @@
                                         <th class="text-center" style="width: 150px !important;">Nombre</th>
                                         <th class="text-center">Tipo de Activo</th>
                                         <th class="text-center" style="width: 150px !important;">Centro Costo</th>
-                                        <th class="text-right">Costo PCGA(Local)</th>
+                                       <!--  <th class="text-right">Costo PCGA(Local)</th> -->
                                         <th class="text-right">Costo NIIF</th>
                                         <th class="text-center" style="max-width: 70px; width: 70px !important;">Acciones</th>
                                     </tr>
@@ -52,9 +52,9 @@
                             </select>
                                         </th>
                                         <th class="tabla-filtro"></th>
-                                        <th class="tabla-filtro" style="max-width: 120px; width: 120px !important;">
+                                       <!--  <th class="tabla-filtro" style="max-width: 120px; width: 120px !important;">
                                             <input type="text" class="form-control input-sm" placeholder="Filtro costo pcga" [(ngModel)]="Filtros.costo_pcga" (change)="ConsultaFiltrada()">
-                                        </th>
+                                        </th> -->
                                         <th class="tabla-filtro" style="max-width: 120px; width: 120px !important;">
                                             <input type="text" class="form-control input-sm" placeholder="Filtro costo niif" [(ngModel)]="Filtros.costo_niif" (change)="ConsultaFiltrada()">
                                         </th>
@@ -80,7 +80,7 @@
                                         <td>{{af.Nombre}}</td>
                                         <td>{{af.Tipo_Activo}}</td>
                                         <td class="text-center">{{af.Centro_Costo}}</td>
-                                        <td class="text-right">$ {{af.Costo_PCGA | number | puntos}}</td>
+                                      <!--   <td class="text-right">$ {{af.Costo_PCGA | number | puntos}}</td> -->
                                         <td class="text-right">$ {{af.Costo_NIIF | number | puntos}}</td>
                                         <td style="max-width: 70px !important; width: 70px !important;">
                                             <div class="text-center">

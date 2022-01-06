@@ -60,7 +60,7 @@ export class CrearProductoComponent implements OnInit {
   /* TODO ACTUALIZAR FUNCIONARIO */
 
     public Identificacion_Funcionario='1';
-  
+
     public productos: any[];
     public IdProductos: any = '';
     public Subcategoria:any[]=[];
@@ -72,10 +72,10 @@ export class CrearProductoComponent implements OnInit {
     public Bandera:any[]=[];
     public Material = "Dispositivo";
     public Medicamento = "Medicamento";
-  
+
     @ViewChild('confirmacionSwal') confirmacionSwal: any;
     constructor(private http: HttpClient,  private router: Router) { }
-  
+
     ngOnInit() {
       this.http.get(environment.ruta + 'php/lista_generales.php', { params: { modulo: 'Familia' } }).subscribe((data: any) => {
         this.Familias = data;
@@ -91,10 +91,10 @@ export class CrearProductoComponent implements OnInit {
       var from = "ÃÀÁÄÂÈÉËÊÌÍÏÎÒÓÖÔÙÚÜÛãàáäâèéëêìíïîòóöôùúüûÑñÇç",
         to = "AAAAAEEEEIIIIOOOOUUUUaaaaaeeeeiiiioooouuuunncc",
         mapping = {};
-  
+
       for (var i = 0, j = from.length; i < j; i++)
         mapping[from.charAt(i)] = to.charAt(i);
-  
+
       return function (str) {
         var ret = [];
         for (var i = 0, j = str.length; i < j; i++) {
@@ -106,19 +106,19 @@ export class CrearProductoComponent implements OnInit {
         }
         return ret.join('');
       }
-  
+
     })();
-  
+
     fetchFilterData(cb) {
       const req = new XMLHttpRequest();
       req.open('GET', environment.ruta + 'php/productos/lista_productos.php');
-  
+
       req.onload = () => {
         cb(JSON.parse(req.response));
       };
       req.send();
     }
-  
+
     BuscarProducto(cum: any, formulario: NgForm = null): void {
       let band = 0;
       this.http.get(environment.ruta + 'php/productos/detalle_cum.php', { params: { cum: cum } }).subscribe((data: any) => {
@@ -127,7 +127,7 @@ export class CrearProductoComponent implements OnInit {
           this.http.get(environment.ruta + 'php/productos/ruta_crear_producto.php', { params: { cum: cum } })
           .subscribe((data:any) => {
             // console.log("DATOS ABIERTOOOSSS >>>>>>>>>>>>>", data);
-  
+
             if (data.length == 0) {
               this.Si = false;
               this.confirmacionSwal.title = "Error En Codigo";
@@ -152,15 +152,15 @@ export class CrearProductoComponent implements OnInit {
               this.Forma_Farmaceutica=data[0].formafarmaceutica;
               var fechaexp = data[0].fechaexpedicion.split('/');
               var fechaven = data[0].fechavencimiento.split('/');
-  
-  
+
+
               this.FechaExpedicionInvima = fechaexp[2] + '-' + fechaexp[0] + "-" + fechaexp[1];
-  
-  
+
+
               this.FechaVencimientoInvima = fechaven[2] + '-' + fechaven[0] + "-" + fechaven[1];
             }
           });
-  
+
         } else {
         this.Si = false;
         this.confirmacionSwal.title = "Error En Codigo";
@@ -169,13 +169,13 @@ export class CrearProductoComponent implements OnInit {
         this.Codigo_Cum='';
         this.confirmacionSwal.fire();
         formulario.reset();
-  
+
       }
       });
-  
+
       /*if(this.respuesta==''){
        /* for (let index = 0; index < this.Direcciones.length; index++) {
-  
+
          if(index<=3){
           this.http.get('https://www.datos.gov.co/resource/'+this.Direcciones[index].cum+'?expediente=' + cum[0]+ '&consecutivocum=' + cum[1], {
           }).subscribe((data: any) => {
@@ -185,7 +185,7 @@ export class CrearProductoComponent implements OnInit {
               band = 1;
             }
           });
-  
+
          }else{
           this.http.get('https://www.datos.gov.co/resource/'+this.Direcciones[index].cum+'?expediente=' + cum[0], {
           }).subscribe((data: any) => {
@@ -195,20 +195,20 @@ export class CrearProductoComponent implements OnInit {
               band = 1;
             }
           });
-  
-  
+
+
          }
          // console.log("Band >>>>>>>>>", band);
-  
+
          if(band == 1){
            // console.log("Entra en el if");
-  
+
           break;
         }
-  
+
         }*/
-  
-  
+
+
        /* if (cum[1]) {
           this.http.get('https://www.datos.gov.co/resource/7c5e-muu4.json?expediente=' + cum[0], {
           }).subscribe((data: any) => {
@@ -270,14 +270,14 @@ export class CrearProductoComponent implements OnInit {
               this.Cantidad = data[0].cantidad;
               var fechaexp = data[0].fechaexpedicion.split('/');
               var fechaven = data[0].fechavencimiento.split('/');
-  
-  
+
+
               this.FechaExpedicionInvima = fechaexp[2] + '-' + fechaexp[0] + "-" + fechaexp[1];
-  
-  
+
+
               this.FechaVencimientoInvima = fechaven[2] + '-' + fechaven[0] + "-" + fechaven[1];
               // console.log(this.FechaVencimientoInvima);
-  
+
             }
           });
         } else {
@@ -286,10 +286,10 @@ export class CrearProductoComponent implements OnInit {
           this.confirmacionSwal.icon = "cum invalido, debe tener el numero del expediente y el consecutivo";
           this.confirmacionSwal.icon = "error";
           this.confirmacionSwal.fire();
-  
+
           //alert("cum invalido, debe tener el numero del expediente y el consecutivo");
         }*/
-  
+
     /*} else {
         this.Si = false;
         this.confirmacionSwal.title = "Error En Codigo";
@@ -297,11 +297,11 @@ export class CrearProductoComponent implements OnInit {
         this.confirmacionSwal.icon = "error";
         this.Codigo_Cum='';
         this.confirmacionSwal.fire();
-  
+
       }  */
     }
-  
-  
+
+
     BuscarExpediente(cum: any): void {
       if (cum) {
         this.http.get('https://www.datos.gov.co/resource/wqeu-3uhz.json?expediente=' + cum, {
@@ -348,15 +348,15 @@ export class CrearProductoComponent implements OnInit {
         this.confirmacionSwal.fire();
         //alert("cum invalido, debe tener el numero del expediente y el consecutivo");
       }
-  
+
     }
     CargaFoto(event) {
       let fot = document.getElementById("foto_visual") as HTMLImageElement;
-  
+
       if (event.target.files.length === 1) {
-  
+
         this.Fotos = event.target.files[0];
-  
+
         let url = URL.createObjectURL(event.target.files[0]);
         fot.src = url;
       }
@@ -364,15 +364,15 @@ export class CrearProductoComponent implements OnInit {
     GuardarProducto(formulario: NgForm) {
       if(formulario.value.Peso_Presentacion_Maxima === '')
         formulario.value.Peso_Presentacion_Maxima = 0;
-  
+
       if(formulario.value.Peso_Presentacion_Minima === '')
         formulario.value.Peso_Presentacion_Minima = 0;
-  
+
       if(formulario.value.Peso_Presentacion_Regular === '')
         formulario.value.Peso_Presentacion_Regular = 0;
         console.log(this.Lista);
-  
-  
+
+
       let info = (JSON.stringify(formulario.value));
       let lista = this.normalize(JSON.stringify(this.Lista));
       let datos = new FormData();
@@ -390,7 +390,7 @@ export class CrearProductoComponent implements OnInit {
         this.Fotos = [];
         this.VerPantallaLista();
       });
-  
+
     }
     VerPantallaLista() {
       this.router.navigate(['/ajustes/informacion-base/productos']);
@@ -400,7 +400,7 @@ export class CrearProductoComponent implements OnInit {
         if (data.Id_Producto) {
           let html = `
           <h5>Este codigo de barras ya esta asociado a otro producto:</h5>
-  
+
           <ul>
             <li><strong style="font-weight:bold;font-size:15px">Nombre: </strong> <span style="font-size:15px">${data.Nombre_Comercial}</span></li>
             <li><strong style="font-weight:bold;font-size:15px">Laboratorio: </strong> <span style="font-size:15px">${data.Laboratorio_Comercial}</span></li>

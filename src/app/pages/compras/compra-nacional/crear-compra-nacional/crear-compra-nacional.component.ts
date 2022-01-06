@@ -15,6 +15,7 @@ import { NgForm } from '@angular/forms';
   styleUrls: ['./crear-compra-nacional.component.scss'],
 })
 export class CrearCompraNacionalComponent implements OnInit {
+  tipoMaterial = ['Activo_Fijo', 'Medicamento', 'Material', 'Dotacion_EPP'];
   public reducer = (accumulator, currentValue) =>
     accumulator + parseFloat(currentValue.Cantidad);
   public reducer1 = (accumulator, currentValue) =>
@@ -77,6 +78,8 @@ export class CrearCompraNacionalComponent implements OnInit {
   public filtro_lab_com: string = '';
   public filtro_lab_gen: string = '';
   public filtro_cum: string = '';
+  public filtro_catalogo: string = '';
+  
   public Tipo: any = '';
 
   @ViewChild('confirmacionSwal') confirmacionSwal: any;
@@ -85,7 +88,7 @@ export class CrearCompraNacionalComponent implements OnInit {
   deleteSwal: any;
   ListaProducto: any[] = [];
 
-  public user = '1'
+  public user = '1';
   posicion: any = '';
   puntos: any = [];
 
@@ -105,7 +108,6 @@ export class CrearCompraNacionalComponent implements OnInit {
       icon: 'info',
       preConfirm: () => {
         return new Promise((resolve) => {
-         
           return this.GuardarCompra(this.FormCompra, resolve);
         });
       },
@@ -259,7 +261,8 @@ export class CrearCompraNacionalComponent implements OnInit {
     if (
       this.filtro_lab_com != '' ||
       this.filtro_lab_gen != '' ||
-      this.filtro_cum
+      this.filtro_cum != '' ||
+      this.filtro_catalogo
     ) {
       this.Cargando = true;
       this.ListaProducto = [];
@@ -275,6 +278,9 @@ export class CrearCompraNacionalComponent implements OnInit {
       }
       if (this.filtro_cum != '') {
         params.cum = this.filtro_cum;
+      }
+      if (this.filtro_catalogo != '') {
+        params.catalogo = this.filtro_catalogo;
       }
 
       let queryString = Object.keys(params)
@@ -295,6 +301,7 @@ export class CrearCompraNacionalComponent implements OnInit {
       this.filtro_lab_com = '';
       this.filtro_lab_gen = '';
       this.filtro_cum = '';
+      this.filtro_catalogo = '';
       this.Cargando = true;
       this.ListaProducto = [];
 
@@ -316,6 +323,7 @@ export class CrearCompraNacionalComponent implements OnInit {
     this.filtro_lab_com = '';
     this.filtro_lab_gen = '';
     this.filtro_cum = '';
+    this.filtro_catalogo = '';
     let producto = (
       document.getElementById('Producto' + pos) as HTMLInputElement
     ).value;
@@ -340,7 +348,7 @@ export class CrearCompraNacionalComponent implements OnInit {
   //INICIA BUCAR LOS PROVEEDORES
   BuscarProveedor(modelo) {
     console.log(modelo);
-    
+
     if (typeof modelo == 'object') {
       this.NombreProveedor = modelo;
       this.Id_Proveedor = modelo.Id_Proveedor;
@@ -385,7 +393,8 @@ export class CrearCompraNacionalComponent implements OnInit {
             '/php/comprasnacionales/guardar_compra_nacional.php',
           datos
         )
-        .toPromise().then(
+        .toPromise()
+        .then(
           (data: any) => {
             this.confirmacionSwal.title = 'Creacion de Orden de Compras';
             this.confirmacionSwal.text = data.mensaje;

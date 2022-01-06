@@ -2,57 +2,64 @@
   <div class="col-lg-12 col-md-12 col-md-offset-4">
     <form #FormCompra="ngForm">
       <div class="card">
-        <div
-          class="row invoice-contact"
-          style="align-items: flex-start !important"
-        >
-          <div class="col-md-8">
-            <div class="invoice-box row">
-              <div class="col-sm-12">
-                <table
-                  class="table table-responsive invoice-table table-borderless"
-                  style="text-align: left; font-size: 12px"
-                >
-                  <tbody>
-                    <tr>
-                      <td style="width: 100px">
-                        <!--  <img src="{{globales.urlLogoColor}}" class="m-b-10 img-60" alt="Pro-H Software"> -->
-                      </td>
-                      <td>
-                        <!-- TODO DATOS DE EMPRESA -->
-                        <!-- {{globales.Nombre}}
+        <div class="card-header">
+          <div
+            class="row invoice-contact"
+            style="align-items: flex-start !important"
+          >
+            <div class="col-md-8">
+              <div class="invoice-box row">
+                <div class="col-sm-12">
+                  <table
+                    class="
+                      table table-responsive
+                      invoice-table
+                      table-borderless
+                    "
+                    style="text-align: left; font-size: 12px"
+                  >
+                    <tbody>
+                      <tr>
+                        <td style="width: 100px">
+                          <!--  <img src="{{globales.urlLogoColor}}" class="m-b-10 img-60" alt="Pro-H Software"> -->
+                        </td>
+                        <td>
+                          <!-- TODO DATOS DE EMPRESA -->
+                          <!-- {{globales.Nombre}}
                                                     <br> {{globales.Nit}}
                                                     <br> {{globales.Direccion}}
                                                     <br> {{globales.Telefono}} -->
-                      </td>
-                    </tr>
-                  </tbody>
-                </table>
+                        </td>
+                      </tr>
+                    </tbody>
+                  </table>
+                </div>
               </div>
             </div>
-          </div>
 
-          <div class="col-md-4">
-            <div class="row text-right" style="margin-right: 5px">
-              <div class="col-sm-12">
-                <h4>Nueva Orden de Compra</h4>
-                <div class="clearfix"></div>
-                <h6>{{ fecha | date: "dd/MM/yyyy" }}</h6>
-                <span class="f-right">
-                  <div class="row f-12">
+            <div class="col-md-4">
+              <div class="row text-right" style="margin-right: 5px">
+                <div class="col-sm-12">
+                  <h4>Nueva Orden de Compra</h4>
+                  <div class="clearfix"></div>
+                  <h6>{{ fecha | date: "dd/MM/yyyy" }}</h6>
+
+                  <!-- <span class="f-right"> -->
+                  <div class="row">
+                    
                     <div class="col-sm-6">
                       <label>Tipo De Compra</label>
                       <select
                         name="Tipo"
                         [(ngModel)]="Tipo"
-                        class="form-control form-control-sm tipo-dis-select"
+                        class="form-control form-control-sm"
                         required
-                        style="margin-right: 0"
                       >
                         <option value="Recurrente" selected>Recurrente</option>
                         <option value="Ocasional">Ocasional</option>
                       </select>
                     </div>
+
                     <div class="col-sm-6">
                       <label>Tipo De Bodega</label>
                       <select
@@ -61,18 +68,19 @@
                         class="form-control form-control-sm tipo-dis-select"
                         (change)="TipoBodega = $event.target.value"
                         required
-                        style="margin-right: 0"
                       >
                         <option value="Bodega" selected>Bodega</option>
                         <option value="Punto">Punto Dispensación</option>
                       </select>
                     </div>
                   </div>
-                </span>
+                  <!-- </span> -->
+                </div>
               </div>
             </div>
           </div>
         </div>
+
         <div class="card-body">
           <div class="row invoive-info" style="margin-bottom: 0">
             <div class="col-md-4">
@@ -390,9 +398,9 @@
             </div>
           </div>
           <div class="row">
-              <div class="col-6"></div>
+            <div class="col-6"></div>
             <div class="col-sm-6 text-right">
-              <table class="table  ">
+              <table class="table">
                 <tbody>
                   <tr>
                     <th>( = ) Subtotal :</th>
@@ -458,6 +466,7 @@
             <tr>
               <th style="width: 40px"></th>
               <td></td>
+              <td>Catalogo</td>
               <th>Nombre</th>
               <th style="width: 120px">Lab. Comercial</th>
               <th style="width: 120px">Lab. Generico</th>
@@ -467,6 +476,11 @@
             <tr>
               <th style="width: 40px" class="tabla-filtro"></th>
               <th class="tabla-filtro"></th>
+              <th class="tabla-filtro">
+                <select (change)="filtros()" [(ngModel)]="filtro_catalogo" class="form-control input-sm">
+                  <option *ngFor="let item of tipoMaterial" [value]="item">{{item}}</option>
+                </select>
+              </th>
               <th class="tabla-filtro">
                 <input
                   type="text"
@@ -543,6 +557,7 @@
                                     </a> -->
                 </div>
               </td>
+              <td>{{producto.Tipo_Catalogo}}</td>
 
               <td>
                 <strong>{{ producto.Nombre_Comercial }}</strong>
