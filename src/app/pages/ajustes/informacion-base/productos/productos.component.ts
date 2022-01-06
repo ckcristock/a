@@ -269,7 +269,6 @@ export class ProductosComponent implements OnInit {
 
   getSubCategories(Id_Categoria_Nueva){
     this._category.getSubCategories(Id_Categoria_Nueva).subscribe((r: any) => {
-      console.log(r);
 
       this.SubCategorias = r.data
     })
@@ -424,11 +423,7 @@ export class ProductosComponent implements OnInit {
   // }
 
   filtro() {
-    console.log("filtroaaaaa");
 
-
-
-    console.log(this.tipo);
 
     let params:any = {}
 

@@ -21,6 +21,11 @@ export class CategoryService {
   return this.http.get(`${environment.base_url}/subcategory-edit/${Id_Prodcuto}/${Id_Subcategoria}`, )
 }
 
+
+  getDinamicVariables(Id_Subcategoria ) {
+  return this.http.get(`${environment.base_url}/subcategory-field/${Id_Subcategoria}`, )
+}
+
   getField(id) {
     return this.http.get(`${environment.base_url}/subcategory-field/${id}`, );
   }
@@ -36,6 +41,11 @@ export class CategoryService {
   getData( params = {} ){
     return this.http.get(`${environment.base_url}/product`, {params});
   }
+
+  getDotationType() {
+    return this.http.get(`${environment.base_url}/dotations-type`)
+}
+
 
 
 

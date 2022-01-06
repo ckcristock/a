@@ -29,7 +29,7 @@
                             <th style="width: 100px !important; max-width: 100px !important">Invima</th>
                             <th style="width: 70px !important; max-width: 70px !important">Codigo Barras</th>
                             <th style="width: 70px !important; max-width: 70px !important">Categoria</th>
-                            <th style="width: 70px !important; max-width: 70px !important">Tipo Catalogo</th>
+                            <!-- <th style="width: 70px !important; max-width: 70px !important">Tipo Catalogo</th> -->
                             <th style="width: 100px !important; max-width: 100px !important; text-align: center">Acciones</th>
                         </tr>
                         <!--
@@ -77,29 +77,17 @@
                         <tr *ngFor="let producto of Productos" [ngClass]="{'bg-danger': producto.Estado=='Inactivo'}">
 
                             <td style="width: 70px !important; max-width: 70px !important">
-                                {{producto.Cum}}
+                                {{producto.Nombre_Comercial}}
                             </td>
-                            <td *ngIf="producto.Tipo == 'Generico'" style="white-space: normal !important;min-width: 450px; max-width: 450px;">
-                                {{producto.Principio_Activo}}
+                            <td style="white-space: normal !important;min-width: 450px; max-width: 450px;">
+                                {{producto.Embalaje}}
                             </td>
-                            <td *ngIf="producto.Tipo != 'Generico'" style="white-space: normal !important;min-width: 450px; max-width: 450px;">
-                                {{producto.Nombre}}
+                            <td style="white-space: normal !important;min-width: 450px; max-width: 450px;">
+                                {{producto.Descripcion_ATC}}
                             </td>
-                            <td style="width: 100px !important; max-width: 100px !important">
-                                <span class="mytooltip tooltip-effect-2"><span class="tooltip-item2">
-                                             <p style="font-size:11px">
-                                                <i class="fa fa-info-circle"></i> Nom. Comercial
-                                             </p>
-                                          </span>
-                                <span class="tooltip-content4 clearfix">
-                                            <span class="tooltip-text2">{{producto.Nombre_Comercial}}</span>
-                                </span>
-                                </span>
 
-
-                            </td>
                             <td style="width: 100px !important; max-width: 100px !important">
-                                {{producto.Generico}}
+                                {{producto.Invima}}
                             </td>
                             <td style="width: 100px !important; max-width: 100px !important">
                                 {{producto.Comercial}}
@@ -108,7 +96,10 @@
                                 {{producto.Invima}}
                             </td>
                             <td style="width: 70px !important; max-width: 70px !important">
-                                {{producto.Tipo}}
+                                {{producto.Codigo_Barras}}
+                            </td>
+                            <td style="width: 70px !important; max-width: 70px !important">
+                                {{producto.Producto_Dotacion_Tipo}}
                             </td>
                             <td style="width: 100px !important; max-width: 100px !important">
                                 <div ngbDropdown class="dropdown-primary">
@@ -166,21 +157,32 @@
                                 </div>
                                 <div class="col-md-4">
                                     <div class="form-group">
-                                        <label>Embalaje</label>
-                                        <input type="text" class="form-control" formControlName="Embalaje">
+                                        <label>Tipo</label>
+                                        <select class="form-control" name="Tipo_Regulacion" formControlName="Producto_Dotacion_Tipo">
+                                          <option value="">Seleccione un tipo</option>
+                                          <option value="Dotacion">Dotacion</option>
+                                          <option value="Epp">Epp</option>
+                                      </select>
                                     </div>
                                 </div>
-
-                                <div class="col-md-6">
+                                <div class="col-md-4">
                                     <div class="form-group">
-                                        <label>Descripcion</label>
-                                        <textarea type="text" class="form-control" formControlName="Descripcion_ATC"></textarea>
+                                        <label>Embalaje</label>
+                                        <input type="text" class="form-control" formControlName="Embalaje">
                                     </div>
                                 </div>
 
                             </div>
 
                             <div class="row">
+
+                                <div class="col-md-4">
+                                    <div class="form-group">
+                                        <label>Tipo Dotación</label>
+                                        <ng-select formControlName="Producto_Dotation_Type_Id" [items]="DotationType" bindLabel="text" (change)="getSubCategories($event.value)" bindValue="value" loadingText="loading" ngDefaultControl>
+                                        </ng-select>
+                                    </div>
+                                </div>
 
                                 <div class="col-md-4">
                                     <div class="form-group">
@@ -189,6 +191,7 @@
                                     </div>
                                 </div>
 
+
                                 <div class="col-md-4">
                                     <div class="form-group">
                                         <label>Invima</label>
@@ -196,17 +199,18 @@
                                     </div>
                                 </div>
 
-
-                                <!-- <div class="col-md-4">
-                                    <div class="form-group">
-                                        <label>Invima</label>
-                                        <input type="text" class="form-control" formControlName="Invima">
-                                    </div>
-                                </div> -->
-
                             </div>
 
                             <div class="row">
+                                <div class="col-md-6">
+                                    <div class="form-group">
+                                        <label>Descripcion</label>
+                                        <textarea type="text" class="form-control" formControlName="Descripcion_ATC"></textarea>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="row">
+
                                 <div class="col-md-6">
                                     <div class="form-group">
                                         <label>Categoria</label>
