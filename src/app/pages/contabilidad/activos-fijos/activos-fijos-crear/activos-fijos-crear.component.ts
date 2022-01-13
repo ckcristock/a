@@ -13,6 +13,7 @@ import swal from 'sweetalert2';
 import { TerceroService } from '../../../../core/services/tercero.service';
 import { environment } from 'src/environments/environment';
 import Swal from 'sweetalert2';
+import { PlanCuentasService } from '../../plan-cuentas/plan-cuentas.service';
 type Person = {value: number, text: string};
 
 @Component({
@@ -104,13 +105,15 @@ export class ActivosFijosCrearComponent implements OnInit {
   public reducer_anticipo = (accumulator, currentValue) => accumulator + parseFloat(currentValue.Valor);
   private _rutaBase:string = environment.ruta+'php/terceros/';
   terceros:any[] = [];
+  companies:any[] = [];
   constructor( 
               private route: ActivatedRoute, 
               private http: HttpClient, 
               private router: Router, 
               private swalService: SwalService,
               private _terceroService: TerceroService,
-              private _activoFijos: ActivosFijosService
+              private _activoFijos: ActivosFijosService,
+              private _company: PlanCuentasService
               ) { 
 
     this.alertOption = {
@@ -151,11 +154,18 @@ export class ActivosFijosCrearComponent implements OnInit {
     this.FiltrarTerceros().subscribe((data:any) => {
       this.terceros = data;
     })
+    this.ListasEmpresas();
   }
 
   FiltrarTerceros():Observable<any>{
     // let p = {coincidencia:match};
     return this.http.get(this._rutaBase+'filtrar_terceros.php');
+  }
+
+  ListasEmpresas(){
+    this._company.getCompanies().subscribe((data:any) => {
+      this.companies = data.data;
+    })
   }
 
 

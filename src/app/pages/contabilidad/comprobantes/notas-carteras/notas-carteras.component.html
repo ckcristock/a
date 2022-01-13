@@ -119,7 +119,7 @@
                                 </tbody>
                             </table>
                             {{(page*maxSize)-maxSize+1}} al {{((page*maxSize) > TotalItems ? TotalItems : (page*maxSize))}} de {{ TotalItems }}
-                            <ngb-pagination class="pull-right" [(collectionSize)]="TotalItems" [(page)]="page" [maxSize]="10" [pageSize]="20" size="sm" (pageChange)="filtrar(true)" [rotate]="true" [boundaryLinks]="true"></ngb-pagination>
+                            <ngb-pagination class="d-flex justify-content-center pagination-rounded pagination-sm" [rotate]="true" [(collectionSize)]="TotalItems" [(page)]="page" [maxSize]="10" [pageSize]="20" size="sm" (pageChange)="filtrar(true)" [rotate]="true" [boundaryLinks]="true"></ngb-pagination>
                         </div>
                     </div>
                 </div>

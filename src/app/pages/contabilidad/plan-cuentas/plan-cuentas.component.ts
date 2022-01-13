@@ -43,6 +43,7 @@ export class PlanCuentasComponent implements OnInit {
     public filtro_codigo_niif:any = '';
     public filtro_nombre_niif:any = '';
     public filtro_estado_cuenta:any = '';
+    public filtro_empresa:any = '';
 
   public PlanCuentaModel:any = {
     Id_Plan_Cuenta: '',
@@ -75,7 +76,7 @@ export class PlanCuentasComponent implements OnInit {
     Clase_Cta: '',
     Cta_Numero: '',
     Reporte: '',
-    company_id:''
+    Id_Empresa:''
   };
 
   companies:any[] = [];
@@ -156,6 +157,9 @@ export class PlanCuentasComponent implements OnInit {
     if (this.filtro_estado_cuenta != "") {
       params.estado = this.filtro_estado_cuenta;
     }
+    if (this.filtro_empresa != "") {
+      params.empresa = this.filtro_empresa;
+    }
 
     let queryString = '?' + Object.keys(params).map(key => key + '=' + params[key]).join('&');
     return queryString;
@@ -184,6 +188,7 @@ export class PlanCuentasComponent implements OnInit {
     this.filtro_nombre = urlParams.nombre ? urlParams.nombre : '';
     this.filtro_nombre_niif = urlParams.nombre_niif ? urlParams.nombre_niif : '';
     this.filtro_estado_cuenta = urlParams.estado ? urlParams.estado : '';
+    this.filtro_empresa = urlParams.empresa ? urlParams.empresa : '';
   }
 
 
@@ -284,7 +289,6 @@ export class PlanCuentasComponent implements OnInit {
   VerPlanCuenta(idPlanCuenta){
     this.http.get(environment.ruta+'php/contabilidad/plancuentas/detalle_plan_cuenta.php', {params:{id_cuenta:idPlanCuenta}}).subscribe((data:any)=>{
       this.PlanCuentaModel = data.query_result;
-      console.log(this.PlanCuentaModel);
       this.modalVerCuenta.show();
     });
   }
@@ -292,11 +296,26 @@ export class PlanCuentasComponent implements OnInit {
   CambiarEstadoPlan(idPlanCuenta){
     this.http.post(environment.ruta+'php/contabilidad/plancuentas/cambiar_estado_cuenta.php', {params:{id_cuenta:idPlanCuenta}}).subscribe((data:any)=>{
       if (data.codigo == 'OK') {
-        this.ShowSwal('success', 'Cambio Exitoso', data.msg);  
+        Swal.fire({
+          icon: 'success',
+          title: 'Cambio Exitoso',
+          text: data.msg
+        })
+        // this.ShowSwal('success', 'Cambio Exitoso', data.msg);  
       }else if(data.codigo == 'ERR'){
-        this.ShowSwal('error', 'Error Inesperado', data.msg);
+        Swal.fire({
+          icon: 'error',
+          title: 'Error Inesperado',
+          text: data.msg
+        })
+        // this.ShowSwal('error', 'Error Inesperado', data.msg);
       }else if(data.codigo == 'WARNING'){
-        this.ShowSwal('warning', 'Alerta', data.msg);
+        Swal.fire({
+          icon: 'warning',
+          title: 'Alerta',
+          text: data.msg
+        })
+        // this.ShowSwal('warning', 'Alerta', data.msg);
       }
 
       setTimeout(()=>{

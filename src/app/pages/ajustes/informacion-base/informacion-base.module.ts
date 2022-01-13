@@ -32,6 +32,8 @@ import { VerProveedorComponent } from './proveedores/ver-proveedor/ver-proveedor
 import { EditarProveedorComponent } from './proveedores/editar-proveedor/editar-proveedor.component';
 import { CatalogoComponent } from './catalogo/catalogo.component';
 import { ActivoFijoCatalogoComponent } from './catalogo/components/activo-fijo-catalogo/activo-fijo-catalogo.component';
+import { ClientesComponent } from './clientes/clientes.component';
+import { ClientecrearComponent } from './clientecrear/clientecrear.component';
 
 
 
@@ -107,7 +109,9 @@ import { ActivoFijoCatalogoComponent } from './catalogo/components/activo-fijo-c
         VerProveedorComponent,
         EditarProveedorComponent,
         CatalogoComponent,
-        ActivoFijoCatalogoComponent
+        ActivoFijoCatalogoComponent,
+        ClientesComponent,
+        ClientecrearComponent
 
     ],
 

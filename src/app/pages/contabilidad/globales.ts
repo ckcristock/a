@@ -1,6 +1,7 @@
 import { Injectable } from '@angular/core';
 import { HttpClient } from '../../../../node_modules/@angular/common/http';
 import { PlatformLocation } from '../../../../node_modules/@angular/common';
+import { environment } from 'src/environments/environment';
 
 @Injectable()
 export class Globales {
@@ -49,7 +50,7 @@ export class Globales {
 
 
 
-    this.http.get(this.ruta + 'php/genericos/detalle.php', {
+    this.http.get(environment.ruta + 'php/genericos/detalle.php', {
       params: { modulo: 'Configuracion', id: '1' }
     }).subscribe((data: any) => {
       this.Nombre = data.Nombre_Empresa;
@@ -61,9 +62,9 @@ export class Globales {
       this.Nota_1 =data.Nota_1;
       this.Nota_2 =data.Nota_2;
       this.Cuenta_Bancaria =data.Cuenta_Bancaria;
-      this.urlLogoColor = this.ruta+'IMAGENES/LOGOS/'+data.Logo_Color;
-      this.urlLogoNegro = this.ruta+'IMAGENES/LOGOS/'+data.Logo_Negro;
-      this.urlLogoBlanco = this.ruta+'IMAGENES/LOGOS/'+data.Logo_Blanco;
+      this.urlLogoColor = environment.ruta+'IMAGENES/LOGOS/'+data.Logo_Color;
+      this.urlLogoNegro = environment.ruta+'IMAGENES/LOGOS/'+data.Logo_Negro;
+      this.urlLogoBlanco = environment.ruta+'IMAGENES/LOGOS/'+data.Logo_Blanco;
       this.porcentaje_rotativo = data.Porcentaje_Rotativo;
       this.dias_1= data.Dias_Capita;
       this.dias_2= data.Dias_Otros_Servicios;

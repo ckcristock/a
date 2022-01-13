@@ -9,6 +9,7 @@ import { SwalService } from '../../../../ajustes/informacion-base/services/swal.
 import { SweetAlertOptions } from 'sweetalert2';
 import { environment } from '../../../../../../environments/environment.prod';
 import { NotasCarterasService } from '../notas-carteras.service';
+import { PlanCuentasService } from '../../../plan-cuentas/plan-cuentas.service';
 
 @Component({
   selector: 'app-notascarteracrear',
@@ -101,14 +102,15 @@ export class NotascarteracrearComponent implements OnInit {
   idBorrador: any = '';
   Codigo: string = '';
   public Total_Abono:number = 0;
-
-  
+  Id_Empresa:any = '';
+  companies:any[] = [];
   constructor( 
                 private route: ActivatedRoute, 
                 private http: HttpClient, 
                 private router: Router, 
                 private swalService: SwalService,
-                private _notas: NotasCarterasService
+                private _notas: NotasCarterasService,
+                private _companies: PlanCuentasService
               ) {
     
     let queryParams = this.route.snapshot.queryParams;
@@ -142,7 +144,7 @@ export class NotascarteracrearComponent implements OnInit {
       confirmButtonText: 'Si, Guardar',
       showLoaderOnConfirm: true,
       focusCancel: true,
-      // type: 'info',
+      icon: 'info',
       input: 'select',
       inputOptions: {
         Pcga: 'Imprimir en PCGA',
@@ -219,6 +221,12 @@ export class NotascarteracrearComponent implements OnInit {
 
   getDatosTercero(nit) {
     return this.Cliente.find(x => x.ID == nit);
+  }
+
+  ListasEmpresas(){
+    this._companies.getCompanies().subscribe((data:any) => {
+      this.companies = data.data;
+    })
   }
   
   BuscarDatosCentro(centro, pos?) {

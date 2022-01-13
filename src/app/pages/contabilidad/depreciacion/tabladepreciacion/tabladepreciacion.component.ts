@@ -60,31 +60,10 @@ export class TabladepreciacionComponent implements OnInit {
     }
   }
 
-  guardar(){
-    swal.fire({
-      title: "¿Está Seguro?",
-      text: "Se dispone a generar la depreciacion",
-      showCancelButton: true,
-      cancelButtonText: "No, Dejame Comprobar!",
-      confirmButtonText: 'Si, Guardar',
-      showLoaderOnConfirm: true,
-      focusCancel: true,
-      icon: 'info',
-      preConfirm: () => {
-        return new Promise((resolve) => {
-          this.GuardarDepreciacion();
-        })
-      },
-      allowOutsideClick: () => !swal.isLoading()
-    })
-  }
-
   GuardarDepreciacion() {
     let info = JSON.stringify(this.DepreciacionModel);
-
     let datos = new FormData();
     datos.append('datos', info);
-
     this.http.post(environment.ruta+'php/depreciacion/guardar_depreciacion.php', datos).subscribe((data:any) => {
       if (data.tipo == 'success') {
 
@@ -107,12 +86,13 @@ export class TabladepreciacionComponent implements OnInit {
         // this.ShowSwal(data.tipo, data.titulo, data.mensaje);
       }
     }, error => {
+      console.log(error);
+      
       /* let response = {
         tipo: 'error',
         mensaje: 'Ha ocurrido un error en la conexión. Por favor vuelve a intentarlo',
         titulo: 'Oops!'
       }; */
-      console.log(error);
       swal.fire({
         title: 'Oops!',
         icon: 'error',

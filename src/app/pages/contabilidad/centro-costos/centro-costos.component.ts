@@ -6,6 +6,7 @@ import { HttpClient } from '@angular/common/http';
 import { Location } from '@angular/common';
 import { ActivatedRoute } from '@angular/router';
 import { environment } from '../../../../environments/environment';
+import Swal from 'sweetalert2';
 
 @Component({
   selector: 'app-centro-costos',
@@ -324,16 +325,14 @@ export class CentroCostosComponent implements OnInit {
   Validaciones(){
     if(this.CentroCostoModel.EsCentroPadre){
       if(this.CentroCostoModel.Codigo.length < 3){
-        this.ShowSwal('warning', 'Alerta', 'El código de un centro de costo padre no puede ser de dos(2) dígitos');
+        Swal.fire({
+          icon: 'warning',
+          title: 'Alerta',
+          text: 'El código de un centro de costo padre no puede ser de dos(2) dígitos'
+        })
+        // this.ShowSwal('warning', 'Alerta', 'El código de un centro de costo padre no puede ser de dos(2) dígitos');
       }
     }
-  }
-
-  ShowSwal(tipo:string, titulo:string, msg:string){
-    this.alertSwal.icon = tipo;
-    this.alertSwal.title = titulo;
-    this.alertSwal.text = msg;
-    this.alertSwal.fire();
   }
 
   VerCentroCosto(idCentroCosto){
@@ -391,10 +390,20 @@ export class CentroCostosComponent implements OnInit {
   PeticionGuardarCentro(data){
     this.http.post(environment.ruta + 'php/centroscostos/guardar_centros_costos.php', data).subscribe((data: any) => {
       if (data.codigo == 'success') {
-        this.ShowSwal('success', 'Registro Exitoso', data.mensaje);
+        Swal.fire({
+          icon: 'success',
+          title: 'Registro Exitoso',
+          text: data.mensaje
+        })
+        // this.ShowSwal('success', 'Registro Exitoso', data.mensaje);
         this.QueryCentrosCostos(); 
       }else {
-        this.ShowSwal('error', 'Error!', data.mensaje);
+        Swal.fire({
+           icon: 'error',
+           title: 'Error!',
+           text: data.mensaje
+        })
+        // this.ShowSwal('error', 'Error!', data.mensaje);
       }
     });
   }
@@ -412,12 +421,27 @@ export class CentroCostosComponent implements OnInit {
 
   CambiarEstado(id_centro){
     this.http.get(environment.ruta + 'php/centroscostos/cambiar_estado_centro_costo.php', { params: {id_centro:id_centro.toString()} }).subscribe((data: any) => {      
-      if (data.codigo == 'OK') {
-        this.ShowSwal('success', 'Cambio Exitoso', data.msg);  
-      }else if(data.codigo == 'ERR'){
-        this.ShowSwal('error', 'Error Inesperado', data.msg);
-      }else if(data.codigo == 'WARNING'){
-        this.ShowSwal('warning', 'Alerta', data.msg);
+      if (data.codigo == 'success') {
+        Swal.fire({
+          icon: 'success',
+          title: 'Cambio Exitoso',
+          text: data.msg
+        })
+        // this.ShowSwal('success', 'Cambio Exitoso', data.msg);  
+      }else if(data.codigo == 'error'){
+        Swal.fire({
+          icon: 'error',
+          title: 'Error Inesperado',
+          text: data.msg
+        })
+        // this.ShowSwal('error', 'Error Inesperado', data.msg);
+      }else if(data.codigo == 'warning'){
+        Swal.fire({
+          icon: 'warning',
+          title: 'Alerta',
+          text: data.msg
+        })
+        // this.ShowSwal('warning', 'Alerta', data.msg);
       }
 
       setTimeout(()=>{
@@ -429,9 +453,19 @@ export class CentroCostosComponent implements OnInit {
   Eliminar(id_centro){
     this.http.get(environment.ruta + 'php/centroscostos/eliminar_centro_costo.php', { params: {id:id_centro} }).subscribe((data: any) => {      
       if (data.tipo == 'success') {
-        this.ShowSwal('success', 'Cambio Exitoso', data.mensaje);  
+        Swal.fire({
+          icon: 'success',
+          title: 'Eliminado con éxito',
+          text: data.mensaje
+        })
+        // this.ShowSwal('success', 'Cambio Exitoso', data.mensaje);  
       }else if(data.tipo == 'error'){
-        this.ShowSwal('error', 'Error Inesperado', data.mensaje);
+        Swal.fire({
+          icon: 'error',
+          title: 'Error Inesperado',
+          text: data.mensaje
+        })
+        // this.ShowSwal('error', 'Error Inesperado', data.mensaje);
       }
       setTimeout(()=>{
         this.ListarCostos();

@@ -193,7 +193,7 @@ AbrirModalNuevoComprobante(){
 
     let queryString = this.getQueryString(pagination);
 
-    this.location.replaceState('/comprobante/ingresos', queryString);
+    this.location.replaceState('/comprobantes/ingresos', queryString);
 
     
     this.http.get(environment.ruta + 'php/comprobantes/lista_comprobantes.php'+queryString).subscribe((data: any) => {

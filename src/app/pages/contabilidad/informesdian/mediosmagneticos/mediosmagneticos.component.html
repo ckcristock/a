@@ -33,6 +33,7 @@
                                     <tr>
                                         <th>Formato</th>
                                         <th>Nombre</th>
+                                        <th>Empresa</th>
                                         <th>Tipo Exp</th>
                                         <th>Periodo</th>
                                         <th *ngIf="formatoEspecial">Columna</th>
@@ -51,19 +52,22 @@
                                     <tr *ngFor="let item of listaMediosMag">
                                         <td>{{ item.Codigo_Formato }}</td>
                                         <td>{{ item.Nombre_Formato }}</td>
+                                        <td> {{ item.Empresa }} </td>
                                         <td>{{ item.Tipo_Exportacion }}</td>
                                         <td>{{ item.Periodo }}</td>
                                         <td *ngIf="formatoEspecial" style="width: 60px">{{ item.Tipo_Columna }}</td>
                                         <td style="width: 20px">
                                             <div class="text-center">
                                                 <div ngbDropdown class="dropdown-primary">
-                                                    <button ngbDropdownToggle class="btn btn-secondary btn-mini waves-effect waves-light " type="button">Acciones</button>
+                                                    <button ngbDropdownToggle class="btn btn-secondary btn-mini waves-effect waves-light" type="button">
+                                                        <i class="mdi mdi-chevron-down"></i>
+                                                    </button>
                                                     <div ngbDropdownMenu>
                                                         <a class="dropdown-item waves-light waves-effect caja-botones" href="{{enviromen.ruta}}php/contabilidad/mediosmagneticos/reporte.php?id={{item.Id}}" target="_blank">
                                                             <i class="fa fa-table"></i> Reporte</a>
-                                                        <a *ngIf="!formatoEspecial" class="dropdown-item waves-light waves-effect caja-botones" [routerLink]="['/informesdian/medios-magneticos/editar', item.Id]">
+                                                        <a *ngIf="!formatoEspecial" class="dropdown-item waves-light waves-effect caja-botones" [routerLink]="['/contabilidad/informesdian/medios-magneticos/editar', item.Id]">
                                                             <i class="fa fa-pencil"></i> Editar</a>
-                                                        <a *ngIf="formatoEspecial" class="dropdown-item waves-light waves-effect caja-botones" [routerLink]="['/informesdian/medios-magneticosespeciales/editar', item.Id]">
+                                                        <a *ngIf="formatoEspecial" class="dropdown-item waves-light waves-effect caja-botones" [routerLink]="['/contabilidad/informesdian/medios-magneticosespeciales/editar', item.Id]">
                                                             <i class="fa fa-pencil"></i> Editar</a>
                                                         <a class="dropdown-item waves-light waves-effect caja-botones bg-danger" [swal]="confirmacionEliminar" (click)="IdMedioMag = item.Id">
                                                             <i class="fa fa-trash"></i> Eliminar</a>

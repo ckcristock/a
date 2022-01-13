@@ -10,6 +10,7 @@ import { Observable } from 'rxjs';
 import { debounceTime, map } from 'rxjs/operators';
 import { NgForm } from '@angular/forms';
 import { environment } from 'src/environments/environment';
+import { CentroCostosService } from '../../centro-costos/centro-costos.service';
 
 @Component({
   selector: 'app-egresos',
@@ -97,6 +98,7 @@ export class EgresosComponent implements OnInit {
     }
   
     //Variables para filtros
+    public filtro_empresa:any = '';
     public filtro_codigo:any = '';
     public filtro_fecha:any = '';
     public filtro_tipo:any = '';
@@ -109,7 +111,14 @@ export class EgresosComponent implements OnInit {
     public Comprobante:any = {};
     filtro_estado: string = '';
     enviromen:any;
-  constructor( private route: ActivatedRoute, private http: HttpClient, private router: Router, private location: Location, private swalService: SwalService) { 
+    companies:any[] = [];
+  constructor( private route: ActivatedRoute, 
+                private http: HttpClient, 
+                private router: Router, 
+                private location: Location,
+                private swalService: SwalService,
+                private _company: CentroCostosService  
+              ) { 
     this.http.get(environment.ruta + 'php/contabilidad/proveedor_buscar.php').subscribe((data: any) => {
       this.Proveedores = data;
     });
@@ -189,6 +198,13 @@ export class EgresosComponent implements OnInit {
       });
   
       this.RecargarDatos();
+      this.listarEmpresas();
+    }
+
+    listarEmpresas(){
+      this._company.getCompanies().subscribe((data:any) => {
+        this.companies = data.data;
+      })
     }
   
     BuscarProveedor(modelo) {
@@ -365,9 +381,10 @@ export class EgresosComponent implements OnInit {
       }
       if (this.filtro_codigo != "") {
         params.cod = this.filtro_codigo;
-        
       }
-      
+      if (this.filtro_empresa != "") {
+        params.empresa = this.filtro_empresa;
+      }
       if (this.filtro_fecha != null && this.filtro_fecha != '') {
         params.fecha = this.filtro_fecha.formatted;
       }
@@ -387,7 +404,7 @@ export class EgresosComponent implements OnInit {
   
       var params = this.SetFiltros(paginacion);
   
-      this.location.replaceState('/comprobante/egresos', params);    
+      this.location.replaceState('/contabilidad/comprobantes/egresos', params);    
   
       this.http.get(environment.ruta + 'php/comprobantes/lista_egresos.php'+params).subscribe((data: any) => {
         this.Comprobantes = data.Lista;

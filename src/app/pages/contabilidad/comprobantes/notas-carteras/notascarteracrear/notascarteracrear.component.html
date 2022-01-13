@@ -24,14 +24,24 @@
                                 </div>
 
                             </div>
-                            <div class=" col-md-2  ">
+                            <div class="col-md-2">
                                 <div class="form-group">
                                     <label>Fecha</label>
                                     <input type="date" name="Fecha_Documento" id="Fecha_Nota_Contable" [(ngModel)]="Fecha_Nota_Contable" class="form-control form-control-sm tab" (keyup)="tab($event,'Cliente')" (change)="getCodigoNuevaNota($event.target.value)" required>
                                 </div>
 
                             </div>
-                            <div class="col-md-3">
+                            <div class="col-md-2">
+                                <div class="form-group">
+                                    <label>Empresa</label>
+                                    <select [(ngModel)]="Id_Empresa" name="company_id" id="company_id" class="form-control form-control-sm" required>
+                                        <option *ngFor="let item of companies" [value]="item.value">
+                                            {{ item.text }}
+                                        </option>
+                                    </select>
+                                </div>
+                            </div>
+                            <div class="col-md-2">
 
                                 <div class="form-group">
                                     <label>Beneficiario Documento</label>
@@ -43,7 +53,7 @@
                                 </div>
                             </div>
 
-                            <div class="col-md-3">
+                            <div class="col-md-2">
                                 <div class="form-group">
                                     <label for="Centro_Costo">Centro Costo</label>
                                     <input [(ngModel)]="Nom_Centro_Costo" type="text" name="Nom_Centro_Costo" id="Centro_Costo" class="form-control form-control-sm f-9 tab" [ngbTypeahead]="search2" [resultTemplate]="rt2" [inputFormatter]="formatter2" (keyup)="tab($event,'Documento')" (ngModelChange)="BuscarDatosCentro(Nom_Centro_Costo)"

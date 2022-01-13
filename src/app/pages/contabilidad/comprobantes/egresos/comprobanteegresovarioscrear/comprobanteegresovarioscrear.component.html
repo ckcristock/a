@@ -24,7 +24,7 @@
                                 <div class="form-group">
                                     <label>Empresa</label>
                                     <!-- <ng-select bindLabel="text" bindValue="value" loadingText="loading " id="Id_Empresa" class="f-10" name="Id_Empresa" [(ngModel)]="Id_Empresa" placeholder="Seleccione la empresa" [items]="companies"></ng-select> -->
-                                    <select [(ngModel)]="Id_Empresa" name="company_id" id="company_id" class="form-control form-control-sm" required>
+                                    <select [(ngModel)]="Id_Empresa" name="Id_Empresa" id="Id_Empresa" class="form-control form-control-sm" required>
                                         <option *ngFor="let item of companies" [value]="item.value">
                                             {{ item.text }}
                                         </option>
