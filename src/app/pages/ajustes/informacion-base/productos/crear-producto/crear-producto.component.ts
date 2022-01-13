@@ -62,6 +62,14 @@ export class CrearProductoComponent implements OnInit {
     public Identificacion_Funcionario='1';
 
     public productos: any[];
+
+    public fieldDinamic: any[];
+    public fieldDinamicSubcategory:any[]=[];
+    // public fieldDinamicSubcategory: any =[{
+    //   subcategory_id : '',
+    //   valor: ''
+    // }];
+
     public IdProductos: any = '';
     public Subcategoria:any[]=[];
     public Direcciones=[{
@@ -128,7 +136,8 @@ export class CrearProductoComponent implements OnInit {
           .subscribe((data:any) => {
             // console.log("DATOS ABIERTOOOSSS >>>>>>>>>>>>>", data);
 
-            if (data.length == 0) {
+            // if (data.length == 0) {
+            if (data.length < 0) {
               this.Si = false;
               this.confirmacionSwal.title = "Error En Codigo";
               this.confirmacionSwal.icon = "Éste CUM no se encontró en la Base de Datos de datosabiertos.org";
@@ -376,6 +385,7 @@ export class CrearProductoComponent implements OnInit {
       let info = (JSON.stringify(formulario.value));
       let lista = this.normalize(JSON.stringify(this.Lista));
       let datos = new FormData();
+      datos.append("field",  JSON.stringify(this.fieldDinamicSubcategory));
       datos.append("modulo", 'Producto');
       datos.append("datos", functionsUtils.utf8_encode(info));
       datos.append('Foto', this.Fotos);
@@ -392,6 +402,23 @@ export class CrearProductoComponent implements OnInit {
       });
 
     }
+
+    getVariablesDinamic(value){
+      this.http.get(environment.ruta + 'php/parametros/lista_subcategoria.php', { params: { id: value } }).subscribe((data: any) => {
+        this.fieldDinamic = data.Subcategoria[0].Variables;
+      });
+    }
+
+    saveVariablesDinamic(value,item){
+      let obj ={
+        subcategory_variables_id : item.id,
+        valor : value
+      }
+      this.fieldDinamicSubcategory.push(obj);
+    }
+
+
+
     VerPantallaLista() {
       this.router.navigate(['/ajustes/informacion-base/productos']);
     }
