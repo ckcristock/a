@@ -27,7 +27,7 @@ export const environment = {
   // url_assets: 'https://backend.ateneoerp.com/',
   url_assets: 'http://127.0.0.1:8000/',
   // ruta: 'https://inventario.ateneoerp.com/',
-  ruta: 'http://localhost:8080/inventario-ateneo-backend/'
+  ruta: 'http://inventario-ateneo-backend.test/'
 
  
 

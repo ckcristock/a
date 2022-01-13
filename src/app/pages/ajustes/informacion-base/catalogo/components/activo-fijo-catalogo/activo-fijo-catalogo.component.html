@@ -157,7 +157,7 @@
 <div class="row mt-2">
   <div class="col-12">
     <div class="card">
-      <div class="card-header">
+      <div class="card-header text-right">
         <button
           type="button"
           class="pull-right btn btn-success btn-sm"
@@ -180,19 +180,21 @@
             </tr>
           </thead>
           <tbody>
-            <tr *ngFor="let active of actives">
-              <td>{{ active.Nombre }}</td>
-              <td>{{ active.Codigo_Barras }}</td>
-              <td>{{ active.Codigo_Barras }}</td>
-              <td>{{ active.Categoria }}</td>
-              <td>{{ active.Subcategoria }}</td>
-              <td>
-                <i
-                  (click)="editGeneric(active)"
-                  class="fa fa-eye text-primary"
-                ></i>
-              </td>
-            </tr>
+            <ng-container *ngIf="actives.length && !loading; else notData">
+              <tr *ngFor="let active of actives">
+                <td>{{ active.Nombre }}</td>
+                <td>{{ active.Codigo_Barras }}</td>
+                <td>{{ active.Codigo_Barras }}</td>
+                <td>{{ active.Categoria }}</td>
+                <td>{{ active.Subcategoria }}</td>
+                <td>
+                  <i
+                    (click)="editGeneric(active)"
+                    class="fa fa-eye text-primary"
+                  ></i>
+                </td>
+              </tr>
+            </ng-container>
           </tbody>
         </table>
         <ngb-pagination
@@ -212,3 +214,11 @@
     </div>
   </div>
 </div>
+
+<ng-template #notData>
+  <tr>
+    <td colspan="100%">
+      <app-not-data [loading]="loading"></app-not-data>
+    </td>
+  </tr>
+</ng-template>

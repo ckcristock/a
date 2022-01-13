@@ -20,6 +20,8 @@ import { RiesgoArlConfigComponent } from './nomina/components/riesgo-arl-config/
 import { ParafiscalesConfigComponent } from './nomina/components/parafiscales-config/parafiscales-config.component';
 import { IncapacidadesConfigComponent } from './nomina/components/incapacidades-config/incapacidades-config.component';
 import { FormatoHistoriaComponent } from './formato-historia/formato-historia.component';
+import { ContabilidadComponent } from './contabilidad/contabilidad.component';
+import {NgbNavModule} from '@ng-bootstrap/ng-bootstrap';
 
 
 
@@ -38,7 +40,8 @@ import { FormatoHistoriaComponent } from './formato-historia/formato-historia.co
     RiesgoArlConfigComponent,
     ParafiscalesConfigComponent,
     IncapacidadesConfigComponent,
-    FormatoHistoriaComponent
+    FormatoHistoriaComponent,
+    ContabilidadComponent
   ],
   imports: [
     CommonModule,
@@ -48,7 +51,8 @@ import { FormatoHistoriaComponent } from './formato-historia/formato-historia.co
     ConfiguracionRoutingModule,
     HttpClientModule,
     ReactiveFormsModule,
-    PipesModule
+    PipesModule,
+    NgbNavModule
   ]
 })
 export class ConfiguracionModule { }
