@@ -24,18 +24,25 @@ export const environment = {
 
   id_funcionario: 1,
   // base_url: 'https://backend.ateneoerp.com/api',
-  url_assets: 'http://ateneo-deploy.test/',
   // ruta: 'https://inventario.ateneoerp.com/'
 
   // base_url: 'http://ateneo-back.test/api'
   // base_url: 'http://127.0.0.1:8000/api'
   // ruta: 'http://127.0.0.1:8000/api'
-  // base_url: 'http://127.0.0.1:8000/api'
   // base_url: 'https://backend.ateneoerp.com/api',
   // base_url: 'http://localhost:3000/api'
 
-  base_url: 'http://ateneo-deploy.test/api',
-  ruta: 'http://ateneo-back-php.test/',
+
+
+  //url_assets: 'http://ateneo-deploy.test/',
+  //base_url: 'http://ateneo-deploy.test/api',
+  // ruta: 'http://ateneo-back-php.test/',
+
+
+
+  url_assets: 'http://127.0.0.1:8000/',
+  base_url: 'http://127.0.0.1:8000/api',
+  ruta: 'http://localhost/ateneo-back-php/',
 
 
 

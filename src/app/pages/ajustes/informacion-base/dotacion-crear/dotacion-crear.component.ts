@@ -1,3 +1,4 @@
+import { IvyParser } from '@angular/compiler';
 import { Component, Input, OnInit, ViewChild } from '@angular/core';
 import { FormArray, FormBuilder, FormGroup } from '@angular/forms';
 import Swal from 'sweetalert2';
@@ -29,7 +30,7 @@ export class DotacionCrearComponent implements OnInit {
     name: ''
   }
 
-  Productos:any = [];
+  Productos:any[] = [];
   Categorias: any[] = [];
   DotationType: any[] = [];
   SubCategorias:any[]=[];
@@ -49,6 +50,7 @@ export class DotacionCrearComponent implements OnInit {
        Id_Subcategoria:[''],
        Producto_Dotation_Type_Id:[''],
        Orden_Compra:[1],
+       Ubicar:[0],
        Nombre_Comercial: [''],
        Embalaje: [''],
        Descripcion_ATC: [''],
@@ -60,19 +62,36 @@ export class DotacionCrearComponent implements OnInit {
      });
    }
 
-   getSubCategories(Id_Categoria_Nueva){
-    this._category.getSubCategories(Id_Categoria_Nueva).subscribe((r: any) => {
-      this.SubCategorias = r.data
-    })
+   editDotationProduct(producto){
+
+    this.modal.show();
+    this.Producto = {...producto};
+   // this.title = 'Editar Producto';
+    this.form.patchValue({
+      Id_Producto: producto.Id_Producto,
+      Nombre_Comercial: producto.Nombre_Comercial,
+      Producto_Dotacion_Tipo: producto.Producto_Dotacion_Tipo,
+      Embalaje: producto.Embalaje,
+      Descripcion_ATC: producto.Descripcion_ATC,
+      Orden_Compra:1,
+      Ubicar:0,
+      Codigo_Barras: producto.Codigo_Barras,
+      Invima: producto.Invima,
+      Tipo_Catalogo:'Dotacion_EPP',
+      Id_Categoria: Number(producto.Id_Categoria),
+      Producto_Dotation_Type_Id: Number(producto.Producto_Dotation_Type_Id),
+      Id_Subcategoria: Number(producto.Id_Subcategoria),
+      Principio_Activo: producto.Principio_Activo
+    });
+     this.getSubCategories(producto.Id_Subcategoria)
+     this.getSubCategoryEdit(producto.Id_Producto,producto.Id_Subcategoria)
+
   }
 
-  getDinamicField(Id_Subcategoria)
-  {
-    this.getDinamicVariables(Id_Subcategoria)
-  }
+  getSubCategoryEdit(Id_Producto,Id_Subcategoria){
+    this._category.getSubCategoryEdit(Id_Producto, Id_Subcategoria).subscribe((r: any) => {
+    console.log(r);
 
-  getDinamicVariables(Id_Subcategoria){
-    this._category.getDinamicVariables(Id_Subcategoria).subscribe((r: any) => {
       this.fieldDinamic.clear();
       r.data.forEach(e => {
          let group = this.fb.group({
@@ -87,6 +106,37 @@ export class DotacionCrearComponent implements OnInit {
     })
   }
 
+  getDinamicField(Id_Subcategoria)
+  {
+    this.getDinamicVariables(Id_Subcategoria)
+  }
+
+  getDinamicVariables(Id_Subcategoria){
+    this._category.getDinamicVariables(Id_Subcategoria).subscribe((r: any) => {
+      console.log(r);
+
+      this.fieldDinamic.clear();
+      r.data.forEach(e => {
+         let group = this.fb.group({
+         //  id:e.id,
+           subcategory_variables_id: e.id,
+           label: e.label,
+           type: e.type,
+           valor: e.valor
+      })
+        this.fieldDinamic.push(group)
+      });
+    })
+  }
+
+   getSubCategories(Id_Categoria_Nueva){
+    this._category.getSubCategories(Id_Categoria_Nueva).subscribe((r: any) => {
+      this.SubCategorias = r.data
+    })
+  }
+
+
+
    get fieldDinamic(){
     return this.form.get('dynamic') as FormArray;
   }
@@ -100,6 +150,7 @@ export class DotacionCrearComponent implements OnInit {
            title: 'Producto editado con éxito',
            text: '',
          })
+         this.closeModal();
        })
 
     }else{
@@ -109,6 +160,8 @@ export class DotacionCrearComponent implements OnInit {
           title: 'Producto creado con éxito',
           text: '',
         })
+        this.modal.hide();
+        this.getData();
       })
     }
   }
@@ -119,13 +172,9 @@ export class DotacionCrearComponent implements OnInit {
       ...this.pagination,
       ...this.filtro,
       tipo : 'Dotacion_EPP'
-
     }
     this._catalogo.getData(params).subscribe((data:any)=>{
-      console.log(data);
-      // this.Productos = data.data.data[0]
-
-
+       this.Productos = data.data.data;
     })
   }
 
@@ -144,7 +193,10 @@ export class DotacionCrearComponent implements OnInit {
   }
 
   closeModal(){
+    this.fieldDinamic.reset();
+    this.form.reset();
     this.modal.hide();
+    this.getData();
 
   }
 }

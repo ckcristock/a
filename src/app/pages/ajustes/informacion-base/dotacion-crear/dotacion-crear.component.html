@@ -23,14 +23,14 @@
                 <table class="table table-striped" style="font-size: 10px;">
                     <thead>
                         <tr>
-                            <th style="width: 130px !important; max-width: 380px !important">Nombre</th>
-                            <th style="width: 130px !important; max-width: 130px !important">Embalaje</th>
-                            <th style="width: 100px !important; max-width: 100px !important">Descripción</th>
-                            <th style="width: 100px !important; max-width: 100px !important">Invima</th>
-                            <th style="width: 70px !important; max-width: 70px !important">Codigo Barras</th>
-                            <th style="width: 70px !important; max-width: 70px !important">Categoria</th>
+                            <th >Nombre</th>
+                            <th>Embalaje</th>
+                            <th >Descripción</th>
+                            <th >Invima</th>
+                            <th >Codigo Barras</th>
+                            <th >Categoria</th>
                             <!-- <th style="width: 70px !important; max-width: 70px !important">Tipo Catalogo</th> -->
-                            <th style="width: 100px !important; max-width: 100px !important; text-align: center">Acciones</th>
+                            <th >Acciones</th>
                         </tr>
                         <!--
                       <tr>
@@ -76,38 +76,33 @@
                     <tbody>
                         <tr *ngFor="let producto of Productos" [ngClass]="{'bg-danger': producto.Estado=='Inactivo'}">
 
-                            <td style="width: 70px !important; max-width: 70px !important">
+                            <td >
                                 {{producto.Nombre_Comercial}}
                             </td>
-                            <td style="white-space: normal !important;min-width: 450px; max-width: 450px;">
+                            <td>
                                 {{producto.Embalaje}}
                             </td>
-                            <td style="white-space: normal !important;min-width: 450px; max-width: 450px;">
+                            <td>
                                 {{producto.Descripcion_ATC}}
                             </td>
 
-                            <td style="width: 100px !important; max-width: 100px !important">
+                            <td >
                                 {{producto.Invima}}
                             </td>
-                            <td style="width: 100px !important; max-width: 100px !important">
-                                {{producto.Comercial}}
-                            </td>
-                            <td style="width: 70px !important; max-width: 70px !important">
-                                {{producto.Invima}}
-                            </td>
-                            <td style="width: 70px !important; max-width: 70px !important">
+
+                            <td>
                                 {{producto.Codigo_Barras}}
                             </td>
-                            <td style="width: 70px !important; max-width: 70px !important">
+                            <td>
                                 {{producto.Producto_Dotacion_Tipo}}
                             </td>
-                            <td style="width: 100px !important; max-width: 100px !important">
+                            <td >
                                 <div ngbDropdown class="dropdown-primary">
                                     <button ngbDropdownToggle class="btn btn-primary btn-sm waves-effect waves-light" type="button">
                                 <i class="mdi mdi-chevron-down"></i>
                               </button>
                                     <div ngbDropdownMenu>
-                                        <a class="dropdown-item waves-light waves-effect" (click)="EditSubcategory(item);modal.show()">
+                                        <a class="dropdown-item waves-light waves-effect" (click)="editDotationProduct(producto)">
                                             <i class="fas fa-user-edit mr-1"></i>Editar
                                         </a>
                                         <a class="dropdown-item waves-light waves-effect" [swal]="{ title : '¿Está Seguro?', text : 'Se dispone a Eliminar esta Subcategoria, esta acción no se puede revertir' , type : 'warning', showCancelButton : true , confirmButtonText : 'Si, Eliminar', cancelButtonText : 'No, Dejame Comprobar!' }"
@@ -179,7 +174,7 @@
                                 <div class="col-md-4">
                                     <div class="form-group">
                                         <label>Tipo Dotación</label>
-                                        <ng-select formControlName="Producto_Dotation_Type_Id" [items]="DotationType" bindLabel="text" (change)="getSubCategories($event.value)" bindValue="value" loadingText="loading" ngDefaultControl>
+                                        <ng-select formControlName="Producto_Dotation_Type_Id" [items]="DotationType" bindLabel="text"  bindValue="value" loadingText="loading" ngDefaultControl>
                                         </ng-select>
                                     </div>
                                 </div>
