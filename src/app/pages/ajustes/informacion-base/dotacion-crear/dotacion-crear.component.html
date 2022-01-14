@@ -26,10 +26,8 @@
                             <th >Nombre</th>
                             <th>Embalaje</th>
                             <th >Descripción</th>
-                            <th >Invima</th>
                             <th >Codigo Barras</th>
                             <th >Categoria</th>
-                            <!-- <th style="width: 70px !important; max-width: 70px !important">Tipo Catalogo</th> -->
                             <th >Acciones</th>
                         </tr>
                         <!--
@@ -86,15 +84,11 @@
                                 {{producto.Descripcion_ATC}}
                             </td>
 
-                            <td >
-                                {{producto.Invima}}
-                            </td>
-
                             <td>
                                 {{producto.Codigo_Barras}}
                             </td>
                             <td>
-                                {{producto.Producto_Dotacion_Tipo}}
+                                {{producto.type}}
                             </td>
                             <td >
                                 <div ngbDropdown class="dropdown-primary">
@@ -154,10 +148,10 @@
                                 <div class="col-md-4">
                                     <div class="form-group">
                                         <label>Tipo</label>
-                                        <select class="form-control" name="Tipo_Regulacion" formControlName="Producto_Dotacion_Tipo">
+                                        <select class="form-control" formControlName="Producto_Dotacion_Tipo">
                                           <option value="">Seleccione un tipo</option>
                                           <option value="Dotacion">Dotacion</option>
-                                          <option value="Epp">Epp</option>
+                                          <option value="EPP">Epp</option>
                                       </select>
                                     </div>
                                 </div>
@@ -190,15 +184,25 @@
 
                                 <div class="col-md-4">
                                     <div class="form-group">
-                                        <label>Invima</label>
-                                        <input type="text" class="form-control" formControlName="Invima">
+                                        <label>Código</label>
+                                        <input type="text" class="form-control" formControlName="Codigo">
                                     </div>
                                 </div>
 
                             </div>
 
                             <div class="row">
-                                <div class="col-md-6">
+                              <div class="col-md-4">
+                                <div class="form-group">
+                                    <label>Estado</label>
+                                    <select class="form-control" formControlName="Status">
+                                      <option value="">Seleccione un tipo</option>
+                                      <option value="Nuevo">Nuevo</option>
+                                      <option value="Usado">Usado</option>
+                                  </select>
+                                </div>
+                            </div>
+                                <div class="col-md-8">
                                     <div class="form-group">
                                         <label>Descripcion</label>
                                         <textarea type="text" class="form-control" formControlName="Descripcion_ATC"></textarea>

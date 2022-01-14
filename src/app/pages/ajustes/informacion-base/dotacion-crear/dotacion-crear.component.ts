@@ -50,19 +50,24 @@ export class DotacionCrearComponent implements OnInit {
        Id_Subcategoria:[''],
        Producto_Dotation_Type_Id:[''],
        Orden_Compra:[1],
-       Ubicar:[0],
+       Ubicar:["0"],
        Nombre_Comercial: [''],
        Embalaje: [''],
+       Status: [''],
        Descripcion_ATC: [''],
        Codigo_Barras: [''],
-       Invima:[''],
+       Codigo:[''],
        Tipo_Catalogo:['Dotacion_EPP'],
        Producto_Dotacion_Tipo:[''],
        dynamic: this.fb.array([]),
      });
    }
 
+
    editDotationProduct(producto){
+     console.log("editar");
+
+    console.log(producto);
 
     this.modal.show();
     this.Producto = {...producto};
@@ -70,16 +75,17 @@ export class DotacionCrearComponent implements OnInit {
     this.form.patchValue({
       Id_Producto: producto.Id_Producto,
       Nombre_Comercial: producto.Nombre_Comercial,
-      Producto_Dotacion_Tipo: producto.Producto_Dotacion_Tipo,
+      Producto_Dotacion_Tipo: producto.type,
       Embalaje: producto.Embalaje,
       Descripcion_ATC: producto.Descripcion_ATC,
       Orden_Compra:1,
-      Ubicar:0,
+      Ubicar:"0",
       Codigo_Barras: producto.Codigo_Barras,
-      Invima: producto.Invima,
+      Codigo: producto.codeInventary,
+      Status: producto.status,
       Tipo_Catalogo:'Dotacion_EPP',
       Id_Categoria: Number(producto.Id_Categoria),
-      Producto_Dotation_Type_Id: Number(producto.Producto_Dotation_Type_Id),
+      Producto_Dotation_Type_Id: Number(producto.product_dotation_type_id),
       Id_Subcategoria: Number(producto.Id_Subcategoria),
       Principio_Activo: producto.Principio_Activo
     });
@@ -174,6 +180,10 @@ export class DotacionCrearComponent implements OnInit {
       tipo : 'Dotacion_EPP'
     }
     this._catalogo.getData(params).subscribe((data:any)=>{
+      console.log("productos");
+      console.log(data);
+
+
        this.Productos = data.data.data;
     })
   }

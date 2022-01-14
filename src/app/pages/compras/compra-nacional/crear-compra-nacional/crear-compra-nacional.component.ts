@@ -79,7 +79,7 @@ export class CrearCompraNacionalComponent implements OnInit {
   public filtro_lab_gen: string = '';
   public filtro_cum: string = '';
   public filtro_catalogo: string = '';
-  
+
   public Tipo: any = '';
 
   @ViewChild('confirmacionSwal') confirmacionSwal: any;
@@ -390,7 +390,7 @@ export class CrearCompraNacionalComponent implements OnInit {
       return await this.http
         .post(
           environment.ruta +
-            '/php/comprasnacionales/guardar_compra_nacional.php',
+            'php/comprasnacionales/guardar_compra_nacional.php',
           datos
         )
         .toPromise()
