@@ -51,6 +51,9 @@ export class SeguridadSocialResumenComponent implements OnInit {
     for (let prop in objetoSeguridad) {
       let objeto = Object.create(null)
       let prefijo = prop.slice(0, 4).toLowerCase()
+      console.log( prefijo,
+        this.porcentajesDatos);
+      
       objeto['porcentaje'] = this.obtenerPrefijo(
         prefijo,
         this.porcentajesDatos
@@ -60,6 +63,7 @@ export class SeguridadSocialResumenComponent implements OnInit {
         objeto['valor'] = objetoSeguridad[prop]
         arrayAllenar.push(objeto)
       }
+      console.log(this.seguridad);
       
   }
 

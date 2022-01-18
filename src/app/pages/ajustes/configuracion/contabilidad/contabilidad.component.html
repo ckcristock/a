@@ -10,13 +10,13 @@
           <li [ngbNavItem]="2">
             <a ngbNavLink>Subcategoria</a>
             <ng-template ngbNavContent>
-              <ng-container *ngIf="false; else subcategoria"></ng-container>
+             <app-subcategoria-contabilidad [accounts]="accounts"></app-subcategoria-contabilidad>
             </ng-template>
           </li>
 
           <li [ngbNavItem]="3">
             <a ngbNavLink>Catálogo</a>
-            <ng-template ngbNavContent> two </ng-template>
+            <ng-template ngbNavContent> <app-catalogo-contabilidad></app-catalogo-contabilidad> </ng-template>
           </li>
         </ul>
       </div>
@@ -29,50 +29,3 @@
   </div>
 </div>
 
-<ng-template #subcategoria>
-  <div class="table-responsive">
-
-  <table class="table table-striped table-sm">
-    <thead>
-      <tr>
-        <th>Nombre</th>
-        <th>Cuenta Ingreso</th>
-        <th>Cuenta Inventario</th>
-        <th>Cuenta Gasto</th>
-        <th>Cuenta Costo</th>
-        <th>Cuenta Entrada</th>
-        <th>Cuenta Iva Venta</th>
-        <th>Cuenta Iva Compra</th>
-        <th>Cuenta Descuento Venta</th>
-        <th>Cuenta Descuento Compra</th>
-        <th>Cuenta Retefuente Venta</th>
-        <th>Cuenta Retefuente Compra</th>
-        <th>Cuenta ReteICA Venta</th>
-        <th>Cuenta ReteICA Compra</th>
-        <th>Cuenta ReteIVA Compra</th>
-        <th>Cuenta ReteIVA Venta</th>
-      </tr>
-    </thead>
-    <tbody>
-      <tr>
-        <td></td>
-        <td></td>
-        <td></td>
-        <td></td>
-        <td></td>
-        <td></td>
-        <td></td>
-        <td></td>
-        <td></td>
-        <td></td>
-        <td></td>
-        <td></td>
-        <td></td>
-        <td></td>
-        <td></td>
-        <td></td>
-      </tr>
-    </tbody>
-  </table>
-  </div>
-</ng-template>

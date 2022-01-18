@@ -154,7 +154,7 @@ export class ActivoFijoCatalogoComponent implements OnInit {
   getActives(page = 1) {
     this.loading = true
     this.pagination.page = page;
-    let params = { Tipo_Catalogo: 'Activo_Fijo', ...this.pagination };
+    let params = { tipo: 'Activo_Fijo', ...this.pagination };
     this._category.getProducts(params).subscribe((r: any) => {
       this.loading = false
       this.actives = r.data.data;

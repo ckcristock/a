@@ -61,10 +61,12 @@ export class SeguridadParafiscalesComponent implements OnInit {
   }
   
   async getPorcentajesDatos() {
+    console.log(this.funcionario.id);
+    
     this._payRolSocial.getScurityPercentages({
       pid: this.funcionario.id
     }).subscribe(r => {
-      console.log(r);
+      console.log(r,'datos');
       this.porcentajesDatos = r
   
     })
