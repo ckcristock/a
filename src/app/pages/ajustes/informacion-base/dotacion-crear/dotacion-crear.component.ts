@@ -30,6 +30,8 @@ export class DotacionCrearComponent implements OnInit {
     name: ''
   }
 
+  flagDinamicVariable: boolean;
+
   Productos:any[] = [];
   Categorias: any[] = [];
   DotationType: any[] = [];
@@ -65,9 +67,6 @@ export class DotacionCrearComponent implements OnInit {
 
 
    editDotationProduct(producto){
-     console.log("editar");
-
-    console.log(producto);
 
     this.modal.show();
     this.Producto = {...producto};
@@ -95,18 +94,18 @@ export class DotacionCrearComponent implements OnInit {
   }
 
   getSubCategoryEdit(Id_Producto,Id_Subcategoria){
+
     this._category.getSubCategoryEdit(Id_Producto, Id_Subcategoria).subscribe((r: any) => {
-    console.log(r);
 
       this.fieldDinamic.clear();
       r.data.forEach(e => {
-         let group = this.fb.group({
-        subcategory_variables_id: e.subcategory_variables_id,
-        id:e.id,
-        label: e.label,
-        type: e.type,
-        valor: e.valor
-      })
+        let group = this.fb.group({
+          subcategory_variables_id: e.subcategory_variables_id,
+          id:e.id,
+          label: e.label,
+          type: e.type,
+          valor: e.valor
+        })
         this.fieldDinamic.push(group)
       });
     })
@@ -114,14 +113,18 @@ export class DotacionCrearComponent implements OnInit {
 
   getDinamicField(Id_Subcategoria)
   {
-    this.getDinamicVariables(Id_Subcategoria)
+
+    this.Producto.Id_Producto ?
+                                this.getSubCategoryEdit(this.Producto.Id_Producto,Id_Subcategoria)
+                              : this.getDinamicVariables(Id_Subcategoria);
+
+
+
   }
 
   getDinamicVariables(Id_Subcategoria){
     this._category.getDinamicVariables(Id_Subcategoria).subscribe((r: any) => {
-      console.log(r);
-
-      this.fieldDinamic.clear();
+     // this.fieldDinamic.clear();
       r.data.forEach(e => {
          let group = this.fb.group({
          //  id:e.id,
@@ -203,7 +206,9 @@ export class DotacionCrearComponent implements OnInit {
   }
 
   closeModal(){
+    this.fieldDinamic.clear();
     this.fieldDinamic.reset();
+    this.Producto = {};
     this.form.reset();
     this.modal.hide();
     this.getData();

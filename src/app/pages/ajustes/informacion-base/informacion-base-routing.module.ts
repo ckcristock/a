@@ -56,6 +56,8 @@ const routes: Routes = [
     { path: 'catalogo', component: CatalogoComponent },
     { path: 'catalogo/crear', component: CrearProductoComponent },
     { path: 'catalogo/editar/:id', component: EditarProductoComponent },
+    { path: 'catalogo/ver/:id', component: ProductoComponent },
+
 
     { path: 'tabla-catalogo', component: TableProductosCatalogoComponent },
     { path: 'productos', component: ProductosComponent },

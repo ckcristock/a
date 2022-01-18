@@ -172,7 +172,7 @@ export class ProductosComponent implements OnInit {
 
   //   }
   //   this._catalogo.getData(params).subscribe((r:any)=>{
-  //     console.log(r);
+
 
   //   })
   // }
@@ -400,27 +400,7 @@ export class ProductosComponent implements OnInit {
       return d.Cum.toLowerCase().indexOf(val) !== -1 || !val;
     });
     this.rowsFilter = temp;
-   /*  this.table.offset = 0; */
   }
-
-  // actualiza_filtro(txt, col, tipo) {
-  //   switch (txt) {
-  //     default: { this.filtro(txt, col, tipo); break; }
-  //   }
-  // }
-
-  // filtro(txt, col, tipo) {
-  //   const val = txt.target.value.toLowerCase();
-  //   const temp = this.tempFilter.filter(function (d) {
-  //     if (tipo === "=") {
-  //       return d[col].toLowerCase().indexOf(val) !== -1 || !val;
-  //     } else if (tipo === "!=") {
-  //       return d[col].toLowerCase().indexOf(val) === -1;
-  //     }
-  //   });
-  //   this.rowsFilter = temp;
-  //   this.table.offset = 0;
-  // }
 
   filtro() {
 
@@ -489,7 +469,7 @@ export class ProductosComponent implements OnInit {
   onPage(event) {
     clearTimeout(this.timeout);
     this.timeout = setTimeout(() => {
-      // console.log('paged!', event);
+
     }, 100);
   }
 
@@ -497,12 +477,12 @@ export class ProductosComponent implements OnInit {
 
     let info = (JSON.stringify(formulario.value));
     let lista =this.normalize(JSON.stringify(this.Lista));
-    // console.log(info);
     let datos = new FormData();
     datos.append("modulo", 'Producto');
     datos.append('Foto', this.Fotos);
     datos.append("lista", lista);
-    datos.append("field",  JSON.stringify(this.fieldDinamicSubcategory));
+    datos.append("field",  JSON.stringify(this.fieldDinamicMaterial));
+    datos.append("fieldSave",  JSON.stringify(this.fieldDinamicSubcategory));
     datos.append('funcionario', this.funcionario);
     datos.append("datos", functionsUtils.utf8_encode(info));
     this.http.post(environment.ruta + 'php/productos/producto_guardar_dev.php', datos).subscribe((data: any) => {
@@ -528,20 +508,19 @@ export class ProductosComponent implements OnInit {
 
   getListaProducto(id)
   {
-    this.http.get(environment.ruta + 'php/productos/lista.php', {params:{
-      id:id
-    }}).subscribe((data: any) => {
+    this.http.get(environment.ruta + 'php/productos/lista.php', {params:{id:id }}).subscribe((data: any) => {
       this.Lista = data;
     });
   }
 
-  EditarProducto(id, modal) {
-    this.http.get(environment.ruta + 'php/productos/producto_detalle.php', {params: { id: id }}).subscribe((data: any) => {
+  EditarProducto(id) {
+    this.http.get(environment.ruta + 'php/productos/producto_detalle.php', {params:{id: id }}).subscribe((data: any) => {
     // this.http.get(environment.ruta + 'php/productos/lista_productos.php', {params: { id: id }}).subscribe((data: any) => {
 
       this.getListaProducto(id); // Lista Ganancia
       this.IdProductos =  id;
       this.Datos['Codigo_Cum'] = functionsUtils.utf8_decode(data.productos[0].Codigo_Cum);
+      this.Datos['Id_Producto'] = functionsUtils.utf8_decode(data.productos[0].Id_Producto);
       this.Datos['PrincipioActivo'] = functionsUtils.utf8_decode(data.productos[0].Principio_Activo);
       this.Datos['Presentacion'] = functionsUtils.utf8_decode(data.productos[0].Presentacion);
       this.Datos['Concentracion'] = functionsUtils.utf8_decode(data.productos[0].Concentracion);
@@ -586,9 +565,46 @@ export class ProductosComponent implements OnInit {
       this.fieldDinamicMaterial = data.productos[0].Variables;
 
       this.Codigo_Barras=functionsUtils.utf8_decode(data.productos[0].Codigo_Barras);
-      modal.show();
+      this.modalMaterialEditar.show();
+
     });
   }
+
+  getDinamicVariables(value,Datos){
+
+    this._category.getSubCategoryEdit(Datos.Id_Producto, value).subscribe((r: any) => {
+      this.fieldDinamicMaterial = [];
+      this.fieldDinamicMaterial = r.data;
+
+    })
+  }
+
+
+  editVariablesDinamic(value,item, i){
+
+    const t = this.fieldDinamicMaterial.find(el => el.id === item.id);
+
+   if(t.id){
+
+     this.fieldDinamicMaterial[i].valor = value;
+
+    }else{
+       let obj ={
+         id : item.id,
+         subcategory_variables_id : item.subcategory_variables_id,
+         valor : value
+       }
+       this.fieldDinamicMaterial[i] = obj;
+    }
+  }
+
+  getVariablesDinamic(value){
+    this.http.get(environment.ruta + 'php/parametros/lista_subcategoria.php', { params: { id: value } }).subscribe((data: any) => {
+      this.fieldDinamicMaterial = [];
+      this.fieldDinamicMaterial = data.Subcategoria[0].Variables;
+    });
+  }
+
 
   BuscarProducto(cum: any): void {
     cum = cum.split("-");
@@ -839,31 +855,17 @@ export class ProductosComponent implements OnInit {
     this.modalGenerico.hide();
   }
 
-  saveVariablesDinamic(value,item){
+  saveVariablesDinamic(value,item,i){
 
     let obj ={
       subcategory_variables_id : item.id,
       valor : value
     }
 
-    this.fieldDinamicSubcategory.push(obj);
+    this.fieldDinamicSubcategory[i] = obj;
 
   }
 
-  editVariablesDinamic(value,item){
-    let obj ={
-      id : item.id,
-      subcategory_variables_id : item.subcategory_variables_id,
-      valor : value
-    }
-    this.fieldDinamicSubcategory.push(obj);
-  }
-
-  getVariablesDinamic(value){
-    this.http.get(environment.ruta + 'php/parametros/lista_subcategoria.php', { params: { id: value } }).subscribe((data: any) => {
-      this.fieldDinamicMaterial = data.Subcategoria[0].Variables;
-    });
-  }
 
 
 }

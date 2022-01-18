@@ -162,7 +162,7 @@
                                             <button ngbDropdownToggle class="btn btn-secondary btn-mini waves-effect waves-light " type="button">Acciones</button>
                                             <div ngbDropdownMenu>
 
-                                                <a class="dropdown-item waves-light waves-effect caja-botones" (click)="EditarProducto(producto.Id_Producto,modalMaterialEditar)">
+                                                <a class="dropdown-item waves-light waves-effect caja-botones" (click)="EditarProducto(producto.Id_Producto)">
                                                     <i class="ti-pencil"></i>Editar</a>
 
                                                 <a class="dropdown-item waves-light waves-effect caja-botones" [routerLink]="['ver', producto.Id_Producto ]">
@@ -476,6 +476,7 @@
                         </select>
                     </div>
                 </div>
+
                 <div class="col-md-3">
                     <div class="form-group">
                         <label>Subcategoria</label>
@@ -521,9 +522,9 @@
 
 
             <div class="row">
-                <div class="col-md-2" *ngFor="let item of fieldDinamicMaterial">
+                <div class="col-md-2" *ngFor="let item of fieldDinamicMaterial; let i = index">
                     <label for="">{{item.label | titlecase}}</label>
-                    <input class="form-control form-control-sm" [type]="item.type" (change)="saveVariablesDinamic($event.target.value, item)">
+                    <input class="form-control form-control-sm" [type]="item.type" (change)="saveVariablesDinamic($event.target.value, item,i)">
                 </div>
             </div>
 
@@ -551,7 +552,7 @@
 
 <app-modal-basic #modalMaterialEditar [dialogClass]="'modal-lg'">
     <div class="app-modal-header">
-        <h4 class="modal-title">Editar Producto</h4>
+        <h4 class="modal-title">Editar Productos</h4>
         <button type="button" class="close basic-close" (click)="modalMaterialEditar.hide()">
             <span aria-hidden="true">&times;</span>
         </button>
@@ -735,7 +736,7 @@
                 <div class="col-md-3">
                     <div class="form-group">
                         <label>Subcategoria</label>
-                        <select class="form-control form-control-sm" name="Id_Subcategoria" (change)="getVariablesDinamic($event.target.value)" ngModel="{{Datos.IdSubcategoria}}" required>
+                        <select class="form-control form-control-sm" name="Id_Subcategoria" (change)="getDinamicVariables($event.target.value, Datos)" ngModel="{{Datos.IdSubcategoria}}" required>
                             <option value="">Seleccione Subcategoria</option>
                             <option *ngFor="let subcategoria of Subcategorias" [value]="subcategoria.Id_Subcategoria">{{subcategoria.Nombre}}</option>
                         </select>
@@ -782,7 +783,7 @@
             <div class="row">
                 <div class="col-md-3" *ngFor="let item of fieldDinamicMaterial; let i = index" id="fila{{i}}">
                     <label for="">{{item.label | titlecase}}</label>
-                    <input class="form-control form-control-sm" [type]="item.type" name="Value{{i}}" ngModel="{{item.valor}}" (change)="editVariablesDinamic($event.target.value, item)">
+                    <input class="form-control form-control-sm" [type]="item.type" name="Value{{i}}" ngModel="{{item.valor}}" (change)="editVariablesDinamic($event.target.value, item, i)">
                 </div>
             </div>
 
