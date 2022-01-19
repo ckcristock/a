@@ -57,6 +57,7 @@ import { RotativoComponent } from './horas-extras/lista-fijos/rotativo/rotativo.
 import { EditDiarioFixedComponent } from './horas-extras/lista-fijos/edit-diario-fixed/edit-diario-fixed.component';
 import { AlmuerzosComponent } from './almuerzos/almuerzos.component';
 
+
 @NgModule({
   declarations: [
     VacantesComponent,
