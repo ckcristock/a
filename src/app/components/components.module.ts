@@ -61,8 +61,6 @@ import { BuilderFormComponent } from '../core/builder-form/builder-form.componen
 
   imports: [
     NgbModule,
-
-
     NgbPaginationModule,
     NgbAccordionModule,
     FormsModule,
