@@ -72,6 +72,7 @@
 
                     </thead>
                     <tbody>
+                      <ng-container *ngIf="Productos.length && !loading; else notData">
                         <tr *ngFor="let producto of Productos" [ngClass]="{'bg-danger': producto.Estado=='Inactivo'}">
 
                             <td >
@@ -107,11 +108,24 @@
                                 </div>
                             </td>
                         </tr>
+                      </ng-container>
                     </tbody>
                 </table>
             </div>
         </div>
-        <!-- <ngb-pagination class="pull-right" [collectionSize]="TotalItems" [(page)]="page" [maxSize]="maxSize" size="sm" (pageChange)="paginacion()" [boundaryLinks]="true"></ngb-pagination> -->
+        <ngb-pagination
+        class="d-flex justify-content-center pagination-rounded pagination-sm"
+        [collectionSize]="pagination.collectionSize"
+        (pageChange)="getData($event)"
+        [pageSize]="pagination.pageSize"
+        [(page)]="pagination.page"
+        aria-label="Default pagination"
+        maxSize="5"
+        rotate="true"
+        ellipses="false"
+        boundaryLinks="true"
+      >
+      </ngb-pagination>
 
 
     </div>
@@ -259,3 +273,12 @@
     </div>
 
 </app-modal-basic>
+
+
+<ng-template #notData>
+  <tr>
+    <td colspan="100%">
+      <app-not-data [loading]="loading"></app-not-data>
+    </td>
+  </tr>
+</ng-template>

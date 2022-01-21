@@ -15,6 +15,7 @@ export class DotacionCrearComponent implements OnInit {
   form: FormGroup;
 
   constructor(private _category: CategoryService,private _catalogo: CatalogoService,private fb: FormBuilder) { }
+  loading = false
 
   @ViewChild('modal') modal: any;
 
@@ -176,6 +177,7 @@ export class DotacionCrearComponent implements OnInit {
   }
 
   getData(page=1){
+    this.loading = true
     this.pagination.page = page;
     let params = {
       ...this.pagination,
@@ -183,11 +185,8 @@ export class DotacionCrearComponent implements OnInit {
       tipo : 'Dotacion_EPP'
     }
     this._catalogo.getData(params).subscribe((data:any)=>{
-      console.log("productos");
-      console.log(data);
-
-
-       this.Productos = data.data.data;
+    this.loading = false
+    this.Productos = data.data.data;
     })
   }
 
