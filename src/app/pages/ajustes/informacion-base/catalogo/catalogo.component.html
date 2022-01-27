@@ -1,15 +1,7 @@
 <div class="page-body">
-  <div class="">
     <div class="row">
       <div class="col-12">
-        <ul ngbNav #nav="ngbNav" [(activeId)]="active" class="nav-tabs">
-          <li [ngbNavItem]="1">
-            <a ngbNavLink>Medicamentos</a>
-            <ng-template ngbNavContent>
-              <app-productos [type]="'Medicamento'"></app-productos>
-            </ng-template>
-          </li>
-
+ 
                 <ul ngbNav #nav="ngbNav" [(activeId)]="active" class="nav-tabs">
                     <li [ngbNavItem]="1">
                         <a ngbNavLink>Medicamentos</a>
@@ -63,11 +55,9 @@
                         </ng-template>
                     </li>
                 </ul>
-
-            </div>
+           
         </div>
     </div>
-  </div>
 </div>
 
 <div [ngbNavOutlet]="nav" class="mt-0"></div>
