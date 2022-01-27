@@ -71,4 +71,9 @@ export class UserService {
     changePassword(params) {
         return this.http.get(`${base_url}/auth/change-password`, { params })
     }
+
+
+    changeCompany( companyId ){
+        return this.http.post(`${base_url}/change-company-work/${companyId}` , {})
+    }
 }

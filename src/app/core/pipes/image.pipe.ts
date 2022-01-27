@@ -12,7 +12,7 @@ export class ImagePipe implements PipeTransform {
   transform(img: string, tipo: 'users' | 'persons' | 'companies' | 'professionals'): string {
 
     if (!img) {
-      return `assets/images/users/no-image.png`;
+      return tipo == 'companies' ? `assets/images/not-available.png` : `assets/images/users/no-image.png`;
     } else if (img.includes('https') || img.includes('http')) {
       return img;
     }

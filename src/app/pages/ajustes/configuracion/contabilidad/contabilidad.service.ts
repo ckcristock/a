@@ -17,4 +17,11 @@ export class ContabilidadService {
     return this.http.get(`${environment.base_url}php/activofijo/cuentas.php`);
   }
 
+  getAccountPlanProducts(params){
+    return this.http.get(`${environment.base_url}/product-accounting`,{params});
+  }
+  saveAccountPlanProducts(body){
+    return this.http.post(`${environment.base_url}/product-accounting`,body);
+  }
+
 }

@@ -12,6 +12,7 @@ import { RightsidebarComponent } from './rightsidebar/rightsidebar.component';
 import { HorizontaltopbarComponent } from './horizontaltopbar/horizontaltopbar.component';
 import { HorizontalnavbarComponent } from './horizontalnavbar/horizontalnavbar.component';
 import { NavItemsDynamicComponent } from './horizontalnavbar/nav-items-dynamic/nav-items-dynamic.component';
+import {PipesModule} from 'src/app/core/pipes/pipes.module';
 
 @NgModule({
   // tslint:disable-next-line: max-line-length
@@ -22,7 +23,8 @@ import { NavItemsDynamicComponent } from './horizontalnavbar/nav-items-dynamic/n
     PerfectScrollbarModule,
     NgbDropdownModule,
     ClickOutsideModule,
-    RouterModule
+    RouterModule,
+    PipesModule
   ],
   exports: [ FooterComponent,  RightsidebarComponent, HorizontaltopbarComponent, HorizontalnavbarComponent],
   providers: []

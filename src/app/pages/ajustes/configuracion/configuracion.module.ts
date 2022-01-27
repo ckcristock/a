@@ -21,10 +21,11 @@ import { ParafiscalesConfigComponent } from './nomina/components/parafiscales-co
 import { IncapacidadesConfigComponent } from './nomina/components/incapacidades-config/incapacidades-config.component';
 import { FormatoHistoriaComponent } from './formato-historia/formato-historia.component';
 import { ContabilidadComponent } from './contabilidad/contabilidad.component';
-import {NgbNavModule} from '@ng-bootstrap/ng-bootstrap';
+import {NgbNavModule, NgbPaginationModule} from '@ng-bootstrap/ng-bootstrap';
 import { SubcategoriaContabilidadComponent } from './contabilidad/components/subcategoria-contabilidad/subcategoria-contabilidad.component';
 import { SweetAlert2Module } from '@sweetalert2/ngx-sweetalert2';
 import { CatalogoContabilidadComponent } from './contabilidad/components/catalogo-contabilidad/catalogo-contabilidad.component';
+import { TableCatalogoComponent } from './contabilidad/components/table-catalogo/table-catalogo.component';
 
 
 
@@ -46,7 +47,8 @@ import { CatalogoContabilidadComponent } from './contabilidad/components/catalog
     FormatoHistoriaComponent,
     ContabilidadComponent,
     SubcategoriaContabilidadComponent,
-    CatalogoContabilidadComponent
+    CatalogoContabilidadComponent,
+    TableCatalogoComponent
   ],
   imports: [
     CommonModule,
@@ -58,7 +60,8 @@ import { CatalogoContabilidadComponent } from './contabilidad/components/catalog
     ReactiveFormsModule,
     PipesModule,
     NgbNavModule,
-    SweetAlert2Module.forRoot()
+    SweetAlert2Module.forRoot(),
+    NgbPaginationModule
   ]
 })
 export class ConfiguracionModule { }

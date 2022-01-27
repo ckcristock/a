@@ -3,6 +3,7 @@ import { HttpClient } from '@angular/common/http';
 import { environment } from 'src/environments/environment';
 import { SwalComponent } from '@sweetalert2/ngx-sweetalert2';
 import { CompanyService } from '../../services/company.service';
+import { UserService } from 'src/app/core/services/user.service';
 
 @Component({
   selector: 'app-crearbodega',
@@ -30,18 +31,23 @@ export class CrearbodegaComponent implements OnInit {
   public tipo = '';
   public companies :any[]= [];
 
-  constructor(private http:HttpClient, private _company: CompanyService,) { }
+  constructor(private http:HttpClient, private _company: CompanyService, private _user:UserService) { }
 
   ngOnInit() {
-    this.getCompanies()
+   // this.getCompanies()
     this.abrirCrear.subscribe(event=>{
       this.tipo=event.Tipo;
+      
+      
       if(event.Bodega){
         this.bodega=event.Bodega;
-        this.bodega.company_id =  parseInt( this.bodega.company_id) 
+        
       }else{
         this.setBodega();
       }
+      this.bodega.company_id = parseInt(this._user.user.person.company_worked.id)
+      console.log(this.bodega.company_id , this._user.user.person.company_worked);
+
       this.modalBodega.show();
     })
   }
@@ -107,7 +113,8 @@ export class CrearbodegaComponent implements OnInit {
       Direccion:'',
       Telefono:'',
       Mapa:'',
-      Compra_Internacional:''
+      Compra_Internacional:'',
+      company_id:''
     }
   }
 

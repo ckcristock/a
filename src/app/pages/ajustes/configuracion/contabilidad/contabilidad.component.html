@@ -10,13 +10,15 @@
           <li [ngbNavItem]="2">
             <a ngbNavLink>Subcategoria</a>
             <ng-template ngbNavContent>
-             <app-subcategoria-contabilidad [accounts]="accounts"></app-subcategoria-contabilidad>
+              <app-subcategoria-contabilidad [accounts]="accounts"></app-subcategoria-contabilidad>
             </ng-template>
           </li>
 
           <li [ngbNavItem]="3">
             <a ngbNavLink>Catálogo</a>
-            <ng-template ngbNavContent> <app-catalogo-contabilidad></app-catalogo-contabilidad> </ng-template>
+            <ng-template ngbNavContent>
+              <app-catalogo-contabilidad [accounts]="accounts"></app-catalogo-contabilidad>
+            </ng-template>
           </li>
         </ul>
       </div>
@@ -28,4 +30,3 @@
     </div>
   </div>
 </div>
-

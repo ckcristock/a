@@ -1,9 +1,10 @@
-import { Component, OnInit, ViewChild } from '@angular/core';
+import { Component, Input, OnInit, ViewChild } from '@angular/core';
 import { CategoryService } from '../../../services/category.service';
 import { FormBuilder, FormArray, FormGroup } from '@angular/forms';
 import { HttpClient } from '@angular/common/http';
 import { environment } from '../../../../../../../environments/environment';
 import { SwalService } from '../../../services/swal.service';
+import { User } from 'src/app/core/models/users.model';
 
 @Component({
   selector: 'app-activo-fijo-catalogo',
@@ -11,7 +12,10 @@ import { SwalService } from '../../../services/swal.service';
   styleUrls: ['./activo-fijo-catalogo.component.scss'],
 })
 export class ActivoFijoCatalogoComponent implements OnInit {
+  @Input('user') user : User
+
   @ViewChild('modalGenerico') modal;
+
   loading = false
   form: FormGroup;
   pagination: any = {
@@ -154,7 +158,7 @@ export class ActivoFijoCatalogoComponent implements OnInit {
   getActives(page = 1) {
     this.loading = true
     this.pagination.page = page;
-    let params = { tipo: 'Activo_Fijo', ...this.pagination };
+    let params = { tipo: 'Activo_Fijo', ...this.pagination , company_id: this.user.person.company_worked.id};
     this._category.getProducts(params).subscribe((r: any) => {
       this.loading = false
       this.actives = r.data.data;

@@ -1,6 +1,7 @@
 import { Component, EventEmitter, OnInit, ViewChild } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { environment } from 'src/environments/environment';
+import { UserService } from 'src/app/core/services/user.service';
 
 @Component({
   selector: 'app-bodegas',
@@ -36,7 +37,7 @@ export class BodegasComponent  {
     },
   ];
 
-  constructor(private http: HttpClient) {
+  constructor(private http: HttpClient, private _user:UserService) {
     this.getBodegas();
   }
 
@@ -47,7 +48,7 @@ export class BodegasComponent  {
     this.loading = true;
     let current_page = this.current_page.toString();
     let filtros = JSON.stringify(this.filtros);
-    let params = { current_page, filtros };
+    let params = { current_page, filtros, company_id:this._user.user.person.company_worked.id };
 
     this.http
       .get(environment.ruta + 'php/bodega_nuevo/get_bodegas_paginadas.php', {

@@ -5,10 +5,7 @@
             <li [ngbNavItem]="1">
                 <a ngbNavLink>Medicamentos</a>
                 <ng-template ngbNavContent>
-
-
-
-
+                    <app-table-catalogo [accounts]="accounts" [typeProduct]="'Medicamento'"></app-table-catalogo>
                 </ng-template>
             </li>
 
@@ -16,23 +13,23 @@
                 <a ngbNavLink>Materiales</a>
                 <ng-template ngbNavContent>
 
-                   
+                    <app-table-catalogo [accounts]="accounts" [typeProduct]="'Material'"></app-table-catalogo>
+
 
                 </ng-template>
             </li>
             <li [ngbNavItem]="3">
                 <a ngbNavLink>Activos Fijos</a>
                 <ng-template ngbNavContent>
-
-                    
-
+                    <app-table-catalogo [accounts]="accounts" [typeProduct]="'Activo_Fijo'"></app-table-catalogo>
                 </ng-template>
             </li>
             <li [ngbNavItem]="4">
                 <a ngbNavLink>Dotacion EPP</a>
                 <ng-template ngbNavContent>
 
-                   
+
+                    <app-table-catalogo [accounts]="accounts" [typeProduct]="'Dotacion_EPP'"></app-table-catalogo>
 
                 </ng-template>
             </li>
@@ -40,14 +37,16 @@
                 <a ngbNavLink>Servicios</a>
                 <ng-template ngbNavContent>
 
-                  
+                    <app-table-catalogo [accounts]="accounts" [typeProduct]="'Material'"></app-table-catalogo>
+
                 </ng-template>
             </li>
             <li [ngbNavItem]="6">
                 <a ngbNavLink>CUPS</a>
                 <ng-template ngbNavContent>
 
-                   
+
+                    <app-table-catalogo [accounts]="accounts" [typeProduct]="'Material'"></app-table-catalogo>
 
                 </ng-template>
             </li>

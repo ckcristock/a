@@ -15,25 +15,8 @@
   >
     <form #FormBodega="ngForm">
       <div class="row">
-        <div class="col-6">
-          <div class="form-group">
-            <label for="dependency_id" class="text-left"
-              >Empresa</label
-            >
-            <ng-select
-              class="p-0"
-              [items]="companies"
-              bindLabel="text"
-              bindValue="value"
-              loadingText="loading"
-              [(ngModel)]="bodega.company_id"
-              name="company_id"
-              ngDefaultControl
-            >
-            </ng-select>
-          </div>
-        </div>
-        <div class="col-md-6">
+       
+        <div class="col-md-12">
           <div class="form-group">
             <label>Nombre Bodega</label>
             <input
