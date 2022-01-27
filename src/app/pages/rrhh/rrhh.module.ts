@@ -8,12 +8,13 @@ import {
   NgbPaginationModule,
   NgbDropdownModule,
   NgbTypeaheadModule,
+  NgbNavModule,
 } from '@ng-bootstrap/ng-bootstrap';
 import { MyDateRangePickerModule } from 'mydaterangepicker';
 import { VacantesCrearComponent } from './vacantes/vacantes-crear/vacantes-crear.component';
 import { PipesModule } from '../../core/pipes/pipes.module';
 import { CommonModule } from '@angular/common';
-import { ComponentsModule } from 'src/app/components/components.module';
+
 import { LlegadasTardesComponent } from './llegadas-tardes/llegadas-tardes.component';
 
 import { ChartsModule } from 'ng2-charts';
@@ -21,8 +22,8 @@ import { NovedadesComponent } from './novedades/novedades.component';
 import { NgSelectModule } from '@ng-select/ng-select';
 import { VacantesVerComponent } from './vacantes/vacantes-ver/vacantes-ver.component';
 import { CrearNovedadComponent } from './novedades/crear-novedad/crear-novedad.component';
-import { InventarioDotacionComponent } from './dotacion/inventario-dotacion/inventario-dotacion.component';
-import { DotacionesComponent } from './dotacion/dotaciones/dotaciones.component';
+//import { InventarioDotacionComponent } from './dotacion/inventario-dotacion/inventario-dotacion.component';
+//import { DotacionesComponent } from './dotacion/dotaciones/dotaciones.component';
 import { ActividadesComponent } from './actividades/actividades.component';
 
 import { FullCalendarModule } from '@fullcalendar/angular';
@@ -56,6 +57,16 @@ import { EditDiarioRotatingComponent } from './horas-extras/lista-fijos/edit-dia
 import { RotativoComponent } from './horas-extras/lista-fijos/rotativo/rotativo.component';
 import { EditDiarioFixedComponent } from './horas-extras/lista-fijos/edit-diario-fixed/edit-diario-fixed.component';
 import { AlmuerzosComponent } from './almuerzos/almuerzos.component';
+import { InventarioDotacionComponent } from './dotacion/inventario-dotacion/inventario-dotacion.component';
+import { DotacionEntradasComponent } from './dotacion/dotaciones/dotacion-entradas/dotacion-entradas.component';
+import { DotacionSalidasComponent } from './dotacion/dotaciones/dotacion-salidas/dotacion-salidas.component';
+import { DotacionesComponent } from './dotacion/dotaciones/dotaciones.component';
+import { TableStockComponent } from './dotacion/dotaciones/table-stock/table-stock.component';
+import { ComponentsModule } from 'src/app/components/components.module';
+import { TableInventaryComponent } from './dotacion/dotaciones/table-inventary/table-inventary.component';
+import { CategoryStockComponent } from './dotacion/dotaciones/category-stock/category-stock.component';
+
+
 
 @NgModule({
   declarations: [
@@ -66,8 +77,13 @@ import { AlmuerzosComponent } from './almuerzos/almuerzos.component';
     NovedadesComponent,
     VacantesVerComponent,
     CrearNovedadComponent,
+    //InventarioDotacionComponent,
+    //DotacionesComponent,
     InventarioDotacionComponent,
+    DotacionEntradasComponent,
+    DotacionSalidasComponent,
     DotacionesComponent,
+
     AsignacionTurnosComponent,
     SemanaTurnoComponent,
     TurnoComponent,
@@ -95,6 +111,10 @@ import { AlmuerzosComponent } from './almuerzos/almuerzos.component';
     EditDiarioRotatingComponent,
     EditDiarioFixedComponent,
     AlmuerzosComponent,
+    TableStockComponent,
+    TableInventaryComponent,
+    CategoryStockComponent,
+
   ],
   imports: [
     RrhhRouterModule,
@@ -114,6 +134,7 @@ import { AlmuerzosComponent } from './almuerzos/almuerzos.component';
     NgSelectModule,
     FullCalendarModule,
     PerfectScrollbarModule,
+    NgbNavModule
   ],
   providers:[{provide: DEFAULT_CURRENCY_CODE, useValue: 'COP' }],
   exports: [],

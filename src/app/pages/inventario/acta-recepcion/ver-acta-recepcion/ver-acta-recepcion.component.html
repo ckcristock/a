@@ -154,7 +154,8 @@
                         }}"
                         target="_blank"
                         title="Descargar Archivo"
-                        ><i class="fas fa-file-pdf"></i></a>
+                        ><i class="fas fa-file-pdf"></i
+                      ></a>
                     </td>
                   </tr>
                 </table>
@@ -257,9 +258,7 @@
           <div class="row">
             <div class="col-6"></div>
             <div class="col-md-6">
-              <table
-                class="table "
-              >
+              <table class="table">
                 <tbody>
                   <tr>
                     <td style="font-weight: bold">(=) SubTotal :</td>
@@ -280,7 +279,6 @@
           <div class="row">
             <div class="col-md-12">
               <div class="float-right">
-                
                 <button
                   *ngIf="Tipo == 'Bodega'"
                   type="button"
@@ -291,7 +289,7 @@
                 </button>
                 <button
                   *ngIf="Tipo == 'Punto_Dispensacion'"
-                  type="button" 
+                  type="button"
                   [routerLink]="['/inventario/acta-recepcion']"
                   class="btn btn-primary btn-sm btn-block"
                 >
@@ -307,7 +305,7 @@
                     confirmButtonText: 'Si, Aprobar',
                     cancelButtonText: 'No, Dejame Comprobar!'
                   }"
-                  (confirm)="aprobarActa(Datos.Id_Acta_Recepcion)"
+                  (confirm)="aprobarActa(Datos.Id_Acta_Recepcion, Datos.Id_Bodega_Nuevo)"
                   type="button"
                   class="btn btn-success btn-sm btn-block"
                 >

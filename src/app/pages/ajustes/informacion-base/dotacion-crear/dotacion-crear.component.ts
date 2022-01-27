@@ -15,6 +15,7 @@ export class DotacionCrearComponent implements OnInit {
   form: FormGroup;
 
   constructor(private _category: CategoryService,private _catalogo: CatalogoService,private fb: FormBuilder) { }
+  loading = false
 
   @ViewChild('modal') modal: any;
 
@@ -29,6 +30,8 @@ export class DotacionCrearComponent implements OnInit {
   filtro:any = {
     name: ''
   }
+
+  flagDinamicVariable: boolean;
 
   Productos:any[] = [];
   Categorias: any[] = [];
@@ -50,17 +53,19 @@ export class DotacionCrearComponent implements OnInit {
        Id_Subcategoria:[''],
        Producto_Dotation_Type_Id:[''],
        Orden_Compra:[1],
-       Ubicar:[0],
+       Ubicar:["0"],
        Nombre_Comercial: [''],
        Embalaje: [''],
+       Status: [''],
        Descripcion_ATC: [''],
        Codigo_Barras: [''],
-       Invima:[''],
+       Codigo:[''],
        Tipo_Catalogo:['Dotacion_EPP'],
        Producto_Dotacion_Tipo:[''],
        dynamic: this.fb.array([]),
      });
    }
+
 
    editDotationProduct(producto){
 
@@ -70,16 +75,17 @@ export class DotacionCrearComponent implements OnInit {
     this.form.patchValue({
       Id_Producto: producto.Id_Producto,
       Nombre_Comercial: producto.Nombre_Comercial,
-      Producto_Dotacion_Tipo: producto.Producto_Dotacion_Tipo,
+      Producto_Dotacion_Tipo: producto.type,
       Embalaje: producto.Embalaje,
       Descripcion_ATC: producto.Descripcion_ATC,
       Orden_Compra:1,
-      Ubicar:0,
+      Ubicar:"0",
       Codigo_Barras: producto.Codigo_Barras,
-      Invima: producto.Invima,
+      Codigo: producto.codeInventary,
+      Status: producto.status,
       Tipo_Catalogo:'Dotacion_EPP',
       Id_Categoria: Number(producto.Id_Categoria),
-      Producto_Dotation_Type_Id: Number(producto.Producto_Dotation_Type_Id),
+      Producto_Dotation_Type_Id: Number(producto.product_dotation_type_id),
       Id_Subcategoria: Number(producto.Id_Subcategoria),
       Principio_Activo: producto.Principio_Activo
     });
@@ -89,18 +95,18 @@ export class DotacionCrearComponent implements OnInit {
   }
 
   getSubCategoryEdit(Id_Producto,Id_Subcategoria){
+
     this._category.getSubCategoryEdit(Id_Producto, Id_Subcategoria).subscribe((r: any) => {
-    console.log(r);
 
       this.fieldDinamic.clear();
       r.data.forEach(e => {
-         let group = this.fb.group({
-        subcategory_variables_id: e.subcategory_variables_id,
-        id:e.id,
-        label: e.label,
-        type: e.type,
-        valor: e.valor
-      })
+        let group = this.fb.group({
+          subcategory_variables_id: e.subcategory_variables_id,
+          id:e.id,
+          label: e.label,
+          type: e.type,
+          valor: e.valor
+        })
         this.fieldDinamic.push(group)
       });
     })
@@ -108,14 +114,18 @@ export class DotacionCrearComponent implements OnInit {
 
   getDinamicField(Id_Subcategoria)
   {
-    this.getDinamicVariables(Id_Subcategoria)
+
+    this.Producto.Id_Producto ?
+                                this.getSubCategoryEdit(this.Producto.Id_Producto,Id_Subcategoria)
+                              : this.getDinamicVariables(Id_Subcategoria);
+
+
+
   }
 
   getDinamicVariables(Id_Subcategoria){
     this._category.getDinamicVariables(Id_Subcategoria).subscribe((r: any) => {
-      console.log(r);
-
-      this.fieldDinamic.clear();
+     // this.fieldDinamic.clear();
       r.data.forEach(e => {
          let group = this.fb.group({
          //  id:e.id,
@@ -167,6 +177,7 @@ export class DotacionCrearComponent implements OnInit {
   }
 
   getData(page=1){
+    this.loading = true
     this.pagination.page = page;
     let params = {
       ...this.pagination,
@@ -174,7 +185,8 @@ export class DotacionCrearComponent implements OnInit {
       tipo : 'Dotacion_EPP'
     }
     this._catalogo.getData(params).subscribe((data:any)=>{
-       this.Productos = data.data.data;
+    this.loading = false
+    this.Productos = data.data.data;
     })
   }
 
@@ -193,7 +205,9 @@ export class DotacionCrearComponent implements OnInit {
   }
 
   closeModal(){
+    this.fieldDinamic.clear();
     this.fieldDinamic.reset();
+    this.Producto = {};
     this.form.reset();
     this.modal.hide();
     this.getData();

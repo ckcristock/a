@@ -4,7 +4,7 @@ import { UserService } from 'src/app/core/services/user.service';
 @Component({
   selector: 'app-catalogo',
   templateUrl: './catalogo.component.html',
-  styleUrls: ['./catalogo.component.scss']
+  styleUrls: ['./catalogo.component.scss'],
 })
 export class CatalogoComponent implements OnInit {
 
@@ -13,7 +13,5 @@ export class CatalogoComponent implements OnInit {
   //ngbNavItem
   active = 1;
 
-  ngOnInit(): void {
-  }
-
+  ngOnInit(): void {}
 }

@@ -26,10 +26,8 @@
                             <th >Nombre</th>
                             <th>Embalaje</th>
                             <th >Descripción</th>
-                            <th >Invima</th>
                             <th >Codigo Barras</th>
                             <th >Categoria</th>
-                            <!-- <th style="width: 70px !important; max-width: 70px !important">Tipo Catalogo</th> -->
                             <th >Acciones</th>
                         </tr>
                         <!--
@@ -74,6 +72,7 @@
 
                     </thead>
                     <tbody>
+                      <ng-container *ngIf="Productos.length && !loading; else notData">
                         <tr *ngFor="let producto of Productos" [ngClass]="{'bg-danger': producto.Estado=='Inactivo'}">
 
                             <td >
@@ -86,15 +85,11 @@
                                 {{producto.Descripcion_ATC}}
                             </td>
 
-                            <td >
-                                {{producto.Invima}}
-                            </td>
-
                             <td>
                                 {{producto.Codigo_Barras}}
                             </td>
                             <td>
-                                {{producto.Producto_Dotacion_Tipo}}
+                                {{producto.type}}
                             </td>
                             <td >
                                 <div ngbDropdown class="dropdown-primary">
@@ -113,16 +108,30 @@
                                 </div>
                             </td>
                         </tr>
+                      </ng-container>
                     </tbody>
                 </table>
             </div>
         </div>
-        <!-- <ngb-pagination class="pull-right" [collectionSize]="TotalItems" [(page)]="page" [maxSize]="maxSize" size="sm" (pageChange)="paginacion()" [boundaryLinks]="true"></ngb-pagination> -->
+        <ngb-pagination
+        class="d-flex justify-content-center pagination-rounded pagination-sm"
+        [collectionSize]="pagination.collectionSize"
+        (pageChange)="getData($event)"
+        [pageSize]="pagination.pageSize"
+        [(page)]="pagination.page"
+        aria-label="Default pagination"
+        maxSize="5"
+        rotate="true"
+        ellipses="false"
+        boundaryLinks="true"
+      >
+      </ngb-pagination>
 
 
     </div>
 
 </div>
+
 
 
 
@@ -153,10 +162,10 @@
                                 <div class="col-md-4">
                                     <div class="form-group">
                                         <label>Tipo</label>
-                                        <select class="form-control" name="Tipo_Regulacion" formControlName="Producto_Dotacion_Tipo">
+                                        <select class="form-control" formControlName="Producto_Dotacion_Tipo">
                                           <option value="">Seleccione un tipo</option>
                                           <option value="Dotacion">Dotacion</option>
-                                          <option value="Epp">Epp</option>
+                                          <option value="EPP">Epp</option>
                                       </select>
                                     </div>
                                 </div>
@@ -189,15 +198,25 @@
 
                                 <div class="col-md-4">
                                     <div class="form-group">
-                                        <label>Invima</label>
-                                        <input type="text" class="form-control" formControlName="Invima">
+                                        <label>Código</label>
+                                        <input type="text" class="form-control" formControlName="Codigo">
                                     </div>
                                 </div>
 
                             </div>
 
                             <div class="row">
-                                <div class="col-md-6">
+                              <div class="col-md-4">
+                                <div class="form-group">
+                                    <label>Estado</label>
+                                    <select class="form-control" formControlName="Status">
+                                      <option value="">Seleccione un tipo</option>
+                                      <option value="Nuevo">Nuevo</option>
+                                      <option value="Usado">Usado</option>
+                                  </select>
+                                </div>
+                            </div>
+                                <div class="col-md-8">
                                     <div class="form-group">
                                         <label>Descripcion</label>
                                         <textarea type="text" class="form-control" formControlName="Descripcion_ATC"></textarea>
@@ -215,11 +234,13 @@
                                 </div>
 
                                 <div class="col-md-6">
-                                    <div class="form-group">
+                                    <div class="form-group" >
                                         <label>Subcategoría</label>
                                         <ng-select formControlName="Id_Subcategoria" [items]="SubCategorias" bindLabel="text" (change)="getDinamicField($event.value)" bindValue="value" loadingText="loading" ngDefaultControl>
                                         </ng-select>
                                     </div>
+
+
                                 </div>
 
 
@@ -252,3 +273,12 @@
     </div>
 
 </app-modal-basic>
+
+
+<ng-template #notData>
+  <tr>
+    <td colspan="100%">
+      <app-not-data [loading]="loading"></app-not-data>
+    </td>
+  </tr>
+</ng-template>
