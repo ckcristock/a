@@ -567,6 +567,13 @@
   <div class="app-modal-body">
     <form #FormMaterial="ngForm">
       <input
+        name="company_id"
+        type="hidden"
+        placeholder=""
+        class="form-control"
+        [(ngModel)]="company_id"
+      />
+      <input
         name="Tipo"
         type="hidden"
         placeholder=""

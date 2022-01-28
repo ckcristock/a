@@ -14,6 +14,8 @@ import { FormArray, FormBuilder, FormGroup, NgForm } from '@angular/forms';
 import { productoForm } from './helpers/producto';
 import { CategoryService } from '../services/category.service';
 import Swal from 'sweetalert2';
+//import { User } from 'src/app/core/models/users.model';
+import { User } from 'src/app/core/models/users.model';
 
 @Component({
   selector: 'app-productos',
@@ -21,6 +23,7 @@ import Swal from 'sweetalert2';
   styleUrls: ['./productos.component.scss'],
 })
 export class ProductosComponent implements OnInit {
+  @Input('user') user: User;
   @Input('type') type;
 
   form: FormGroup;
@@ -114,21 +117,23 @@ export class ProductosComponent implements OnInit {
   public filtro_nombre: any = '';
   public filtro_cum: any = '';
   public tipo: any = '';
+  public company: any = '';
   public filtro_lab: any = '';
   public fieldDinamicSubcategory: any[] = [];
 
   public Fotos: any;
+  public company_id: any;
 
   public filtro_nom_com: any = '';
   public filtro_lab_gral: any = '';
   public filtro_inv: any = '';
   public filtro_tipo: any = '';
-  Lista: any = [];
-  Categorias: any[] = [];
-  fields: any[] = [];
-  field: any;
+  public Lista: any = [];
+  public Categorias: any[] = [];
+  public fields: any[] = [];
+  public field: any;
   public Producto: any = {};
-  title: string = 'Nuevo Producto';
+  public title: string = 'Nuevo Producto';
 
   public SubCategorias: any[] = [];
 
@@ -160,6 +165,7 @@ export class ProductosComponent implements OnInit {
   }
 
   ngOnInit() {
+    this.company_id = this.user.person.company_worked.id;
     this.tipo = this.type;
     this.filtro();
 
@@ -189,17 +195,87 @@ export class ProductosComponent implements OnInit {
     this.createForm();
   }
 
-  // getData(page=1){
-  //   this.pagination.page = page;
-  //   let params = {
-  //     ...this.pagination, ...this.filtros,
-  //     tipo : this.type
+  filtro() {
+    let params: any = {};
 
-  //   }
-  //   this._catalogo.getData(params).subscribe((r:any)=>{
+    if (
+      this.tipo != '' ||
+      this.filtro_nombre != '' ||
+      this.filtro_cum != '' ||
+      this.filtro_lab != '' ||
+      this.filtro_nom_com != '' ||
+      this.filtro_lab_gral != '' ||
+      this.filtro_inv != '' ||
+      this.filtro_tipo != ''
+    ) {
+      // Si algunos de los campos para filtrar no está vacío, se ejecuta el proceso de filtraje.
+      this.page = 1; // Volver a la página 1 al filtrar
+      params.pag = this.page;
+      params.company_id = this.user.person.company_worked.id;
 
-  //   })
-  // }
+      if (this.tipo != '') {
+        params.tip = this.tipo;
+      }
+      if (this.filtro_nombre != '') {
+        params.nom = this.filtro_nombre;
+      }
+      if (this.filtro_cum != '') {
+        params.cum = this.filtro_cum;
+      }
+      if (this.filtro_lab != '') {
+        params.lab = this.filtro_lab;
+      }
+      if (this.filtro_nom_com != '') {
+        params.nom_com = this.filtro_nom_com;
+      }
+      if (this.filtro_lab_gral != '') {
+        params.lab_gral = this.filtro_lab_gral;
+      }
+      if (this.filtro_inv != '') {
+        params.inv = this.filtro_inv;
+      }
+      if (this.filtro_tipo != '') {
+        params.tipo = this.filtro_tipo;
+      }
+
+      let queryString = Object.keys(params)
+        .map((key) => key + '=' + params[key])
+        .join('&');
+
+      this.location.replaceState('/base/catalogo', queryString);
+
+      this.http
+        .get(
+          environment.ruta + '/php/productos/lista_productos.php?' + queryString
+        )
+        .subscribe((data: any) => {
+          this.Productos = JSON.parse(
+            functionsUtils.utf8_decode(JSON.stringify(data.productos))
+          );
+          this.TotalItems = data.numReg;
+        });
+    } else {
+      // Resetear filtros cuando todo está vacío
+      this.location.replaceState('/base/catalogo', '');
+
+      this.page = 1;
+      this.filtro_cum = '';
+      this.filtro_inv = '';
+      this.filtro_lab = '';
+      this.filtro_lab_gral = '';
+      this.filtro_nom_com = '';
+      this.filtro_nombre = '';
+      this.filtro_tipo = '';
+      this.tipo = '';
+
+      this.http
+        .get(environment.ruta + '/php/productos/lista_productos.php')
+        .subscribe((data: any) => {
+          this.Productos = data.productos;
+          this.TotalItems = data.numReg;
+        });
+    }
+  }
 
   createForm() {
     this.form = this.fb.group({
@@ -418,87 +494,6 @@ export class ProductosComponent implements OnInit {
       return d.Cum.toLowerCase().indexOf(val) !== -1 || !val;
     });
     this.rowsFilter = temp;
-  }
-
-  filtro() {
-    let params: any = {};
-
-    if (
-      this.tipo != '' ||
-      this.filtro_nombre != '' ||
-      this.filtro_cum != '' ||
-      this.filtro_lab != '' ||
-      this.filtro_nom_com != '' ||
-      this.filtro_lab_gral != '' ||
-      this.filtro_inv != '' ||
-      this.filtro_tipo != ''
-    ) {
-      // Si algunos de los campos para filtrar no está vacío, se ejecuta el proceso de filtraje.
-      this.page = 1; // Volver a la página 1 al filtrar
-      params.pag = this.page;
-
-      if (this.tipo != '') {
-        params.tip = this.tipo;
-      }
-      if (this.filtro_nombre != '') {
-        params.nom = this.filtro_nombre;
-      }
-      if (this.filtro_cum != '') {
-        params.cum = this.filtro_cum;
-      }
-      if (this.filtro_lab != '') {
-        params.lab = this.filtro_lab;
-      }
-      if (this.filtro_nom_com != '') {
-        params.nom_com = this.filtro_nom_com;
-      }
-      if (this.filtro_lab_gral != '') {
-        params.lab_gral = this.filtro_lab_gral;
-      }
-      if (this.filtro_inv != '') {
-        params.inv = this.filtro_inv;
-      }
-      if (this.filtro_tipo != '') {
-        params.tipo = this.filtro_tipo;
-      }
-
-      let queryString = Object.keys(params)
-        .map((key) => key + '=' + params[key])
-        .join('&');
-
-      this.location.replaceState('/base/catalogo', queryString);
-
-      this.http
-        .get(
-          environment.ruta + '/php/productos/lista_productos.php?' + queryString
-        )
-        .subscribe((data: any) => {
-          this.Productos = JSON.parse(
-            functionsUtils.utf8_decode(JSON.stringify(data.productos))
-          );
-          this.TotalItems = data.numReg;
-        });
-    } else {
-      // Resetear filtros cuando todo está vacío
-      this.location.replaceState('/base/catalogo', '');
-
-      this.page = 1;
-      this.filtro_cum = '';
-      this.filtro_inv = '';
-      this.filtro_lab = '';
-      this.filtro_lab_gral = '';
-      this.filtro_nom_com = '';
-      this.filtro_nombre = '';
-      this.filtro_tipo = '';
-      this.tipo = '';
-
-      this.http
-        .get(environment.ruta + '/php/productos/lista_productos.php')
-        .subscribe((data: any) => {
-          this.Productos = data.productos;
-          this.TotalItems = data.numReg;
-        });
-    }
   }
 
   onPage(event) {

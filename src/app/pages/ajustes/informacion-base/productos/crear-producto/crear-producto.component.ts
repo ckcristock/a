@@ -4,6 +4,7 @@ import { Router } from '@angular/router';
 import { NgForm } from '@angular/forms';
 import { environment } from 'src/environments/environment';
 import { functionsUtils } from '../../../../../core/utils/functionsUtils';
+import { UserService } from 'src/app/core/services/user.service';
 
 @Component({
   selector: 'app-crear-producto',
@@ -52,6 +53,7 @@ export class CrearProductoComponent implements OnInit {
   NombreListado: any;
   Referencia: any;
   respuesta: any;
+  company_id: any;
   Si: boolean;
   public Forma_Farmaceutica: any = '';
   public Lista: any = [];
@@ -83,7 +85,11 @@ export class CrearProductoComponent implements OnInit {
   public Medicamento = 'Medicamento';
 
   @ViewChild('confirmacionSwal') confirmacionSwal: any;
-  constructor(private http: HttpClient, private router: Router) {}
+  constructor(
+    private http: HttpClient,
+    private router: Router,
+    private _user: UserService
+  ) {}
 
   ngOnInit() {
     this.http
@@ -107,6 +113,7 @@ export class CrearProductoComponent implements OnInit {
       .subscribe((data: any) => {
         this.Lista = data;
       });
+    this.company_id = parseInt(this._user.user.person.company_worked.id);
   }
   normalize = (function () {
     var from = 'ÃÀÁÄÂÈÉËÊÌÍÏÎÒÓÖÔÙÚÜÛãàáäâèéëêìíïîòóöôùúüûÑñÇç',
@@ -403,7 +410,7 @@ export class CrearProductoComponent implements OnInit {
     let info = JSON.stringify(formulario.value);
     let lista = this.normalize(JSON.stringify(this.Lista));
     let datos = new FormData();
-   // datos.append('field', JSON.stringify(this.fieldDinamicSubcategory));
+    // datos.append('field', JSON.stringify(this.fieldDinamicSubcategory));
     datos.append('fieldSave', JSON.stringify(this.fieldDinamicSubcategory));
 
     datos.append('modulo', 'Producto');
@@ -434,7 +441,7 @@ export class CrearProductoComponent implements OnInit {
         this.fieldDinamic = data.Subcategoria[0].Variables;
       });
   }
-/*
+  /*
   saveVariablesDinamic(value, item) {
     let obj = {
       subcategory_variables_id: item.id,
