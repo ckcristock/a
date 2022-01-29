@@ -37,16 +37,15 @@ export class CrearbodegaComponent implements OnInit {
    // this.getCompanies()
     this.abrirCrear.subscribe(event=>{
       this.tipo=event.Tipo;
-      
-      
+
+
       if(event.Bodega){
         this.bodega=event.Bodega;
-        
+
       }else{
         this.setBodega();
       }
       this.bodega.company_id = parseInt(this._user.user.person.company_worked.id)
-      console.log(this.bodega.company_id , this._user.user.person.company_worked);
 
       this.modalBodega.show();
     })
@@ -62,7 +61,7 @@ export class CrearbodegaComponent implements OnInit {
   guardarBodega(){
 
     console.log(this.infoSwal.fire());
-   
+
     let data = new FormData();
     let mapa ;
     if (this.Mapa.nativeElement.files.length === 1) {
@@ -75,8 +74,8 @@ export class CrearbodegaComponent implements OnInit {
       this.infoSwal.title = "Falta el archivo";
       this.infoSwal.text = 'La imágen del mapa es obligatoria';
 
-  
-      
+
+
       this.infoSwal.fire();
       this.infoSwal;
       return ''

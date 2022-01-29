@@ -122,6 +122,13 @@
     </div>
     <div style="overflow-x: unset !important;overflow-y: unset !important" class="app-modal-body">
         <form #FormCategoria="ngForm">
+          <input
+          name="company_id"
+          type="hidden"
+          placeholder=""
+          class="form-control"
+          [(ngModel)]="company_id"
+        />
             <div class="row">
 
                 <div class="col-md-6">
