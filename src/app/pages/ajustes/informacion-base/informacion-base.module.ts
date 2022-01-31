@@ -36,6 +36,7 @@ import { ClientesComponent } from './clientes/clientes.component';
 import { ClientecrearComponent } from './clientecrear/clientecrear.component';
 import { TableProductosCatalogoComponent } from './catalogo/components/table-productos-catalogo/table-productos-catalogo.component';
 import { DotacionCrearComponent } from './dotacion-crear/dotacion-crear.component';
+import { PuntodispensacionComponent } from './puntodispensacion/puntodispensacion.component';
 
 
 
@@ -115,7 +116,8 @@ import { DotacionCrearComponent } from './dotacion-crear/dotacion-crear.componen
         ClientesComponent,
         ClientecrearComponent,
         TableProductosCatalogoComponent,
-        DotacionCrearComponent
+        DotacionCrearComponent,
+        PuntodispensacionComponent
 
     ],
 
