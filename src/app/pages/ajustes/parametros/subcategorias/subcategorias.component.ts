@@ -68,8 +68,7 @@ export class SubcategoriasComponent implements OnInit {
 
   ngOnInit() {
     this.createForm();
-    this.http
-      .get(environment.ruta + 'php/lista_generales.php', {
+    this.http.get(environment.ruta + 'php/lista_generales.php', {
         params: { modulo: 'Bodega_Nuevo' },
       })
       .subscribe((data: any) => {
