@@ -8,6 +8,9 @@ import { debounceTime, map, distinctUntilChanged, filter } from 'rxjs/operators'
 import { SwalService } from '../../../ajustes/informacion-base/services/swal.service';
 import { functionsUtils } from '../../../../core/utils/functionsUtils';
 import { ValidatorsService } from '../../../ajustes/informacion-base/services/reactive-validation/validators.service';
+import { environment } from 'src/environments/environment';
+import { HttpClient } from '@angular/common/http';
+import { log } from 'util';
 
 @Component({
   selector: 'app-crear-terceros',
@@ -58,7 +61,8 @@ export class CrearTercerosComponent implements OnInit {
                public router: Router,
                private _swal: SwalService,
                private actRoute: ActivatedRoute,
-               private _validators: ValidatorsService
+               private _validators: ValidatorsService,
+               private http: HttpClient
               ) { }
 
   ngOnInit(): void {
@@ -101,7 +105,7 @@ export class CrearTercerosComponent implements OnInit {
       cod_dian_address: ['', this._validators.required],
       landline: ['', this._validators.required],
       cell_phone: ['', this._validators.required],
-      email: [''],
+      email: ['', Validators.email],
       zone_id: [''],
       department_id: [''],
       municipality_id: ['', this._validators.required],
@@ -112,8 +116,9 @@ export class CrearTercerosComponent implements OnInit {
       apply_iva: [''],
       contact_payments: [''],
       phone_payments:[''],
-      email_payments: [''],
+      email_payments: ['', Validators.email],
       regime: [''],
+      retention_type: [''],
       encourage_profit: [''],
       ciiu_code_id: [''],
       withholding_agent: [''],
@@ -146,6 +151,12 @@ export class CrearTercerosComponent implements OnInit {
   resultFormatListValue(value: any) {
     return value.code;
   }
+  /* search = (text$: Observable<string>) =>
+    text$.pipe(
+      debounceTime(200),
+      map(term => term.length < 4 ? []
+        : this.accountPlan.filter(v => v.Codigo.toLowerCase().indexOf(term.toLowerCase()) > -1).slice(0, 100))
+    ); */
   
   search: OperatorFunction<string, readonly { code }[]> = (
     text$: Observable<string>
@@ -265,8 +276,8 @@ export class CrearTercerosComponent implements OnInit {
   }
 
   getAccountPlan(){
-    this._terceros.getAccountPlan().subscribe((r:any) => {
-        this.accountPlan = r.data;
+    this.http.get(environment.ruta + 'php/plancuentas/lista_plan_cuentas.php').subscribe((data:any) => {
+      this.accountPlan = data.query_result;
     })
   }
 
@@ -274,15 +285,15 @@ export class CrearTercerosComponent implements OnInit {
     switch (tipo) {
       case 'Reteica':
         let reteica = this.form.get('reteica_account_id').value;
-        this.retePercentage.reteica = (reteica.percent.replace(',','.') * 100).toFixed(2);
+        this.retePercentage.reteica = (reteica.Porcentaje.replace(',','.') / 100).toFixed(2);
         break;
       case 'Reteiva':
         let reteiva = this.form.get('reteiva_account_id').value;
-        this.retePercentage.reteiva = (reteiva.percent.replace(',','.') * 100).toFixed(2);
+        this.retePercentage.reteiva = (reteiva.Porcentaje.replace(',','.') / 100).toFixed(2);
         break;
       case 'Retefuente':
         let retefuente = this.form.get('retefuente_account_id').value;
-        this.retePercentage.retefuente = (retefuente.percent.replace(',','.') * 100).toFixed(2);
+        this.retePercentage.retefuente = (retefuente.Porcentaje.replace(',','.') / 100).toFixed(2);
         break;
       default:
         break;
@@ -338,68 +349,70 @@ export class CrearTercerosComponent implements OnInit {
 
 
   getThirdParty(){
-    this._terceros.showThirdParty(this.id).subscribe( (r:any) => {
-      this.third = r.data;
-      this.form.patchValue({
-        id: this.third.id,
-        nit: this.third.nit,
-        person_type: this.third.person_type,
-        first_name: this.third.first_name,
-        second_name: this.third.second_name,
-        first_surname: this.third.first_surname,
-        second_surname: this.third.second_surname,
-        social_reason: this.third.social_reason,
-        tradename: this.third.tradename,
-        dian_address: this.third.dian_address,
-        address_one: this.third.address_one,
-        address_two: this.third.address_two,
-        address_three: this.third.address_three,
-        address_four: this.third.address_four,
-        cod_dian_address: this.third.cod_dian_address,
-        landline: this.third.landline,
-        cell_phone: this.third.cell_phone,
-        email: this.third.email,
-        zone_id: this.third.zone_id,
-        department_id: this.third.department_id,
-        municipality_id: this.third.municipality_id,
-        winning_list_id: this.third.winning_list_id,
-        apply_iva: this.third.apply_iva,
-        contact_payments: this.third.contact_payments,
-        phone_payments: this.third.phone_payments,
-        email_payments: this.third.email_payments,
-        regime: this.third.regime,
-        encourage_profit: this.third.encourage_profit,
-        ciiu_code_id: this.third.ciiu_code_id,
-        withholding_agent: this.third.withholding_agent,
-        withholding_oninvoice:  this.third.withholding_oninvoice,
-        reteica_type: this.third.reteica_type,
-        reteica_account_id: this.third.reteica_account_id,
-        retefuente_account_id: this.third.retefuente_account_id,
-        g_contribut: this.third.g_contribut,
-        reteiva_account_id: this.third.reteiva_account_id,
-        condition_payment: this.third.condition_payment,
-        assigned_space: this.third.assigned_space,
-        discount_prompt_payment: this.third.discount_prompt_payment,
-        discount_days: this.third.discount_days,
-        state: this.third.state,
-        third_party_type: this.third.third_party_type,
-        image: this.third.image,
-        rut: this.third.rut,
-      });
-
-      this.third.third_party_person.forEach(third => {
-        this.personList.push(this.fb.group({
-          id: third.id,
-          name: third.name,
-          n_document: third.n_document,
-          landline: third.landline,
-          cell_phone: third.cell_phone,
-          email: third.email,
-          position: third.position,
-          observation: third.observation
-        }));
-      });
-    })
+    if(this.id != undefined){
+      this._terceros.showThirdParty(this.id).subscribe( (r:any) => {
+        this.third = r.data;
+        this.form.patchValue({
+          id: this.third.id,
+          nit: this.third.nit,
+          person_type: this.third.person_type,
+          first_name: this.third.first_name,
+          second_name: this.third.second_name,
+          first_surname: this.third.first_surname,
+          second_surname: this.third.second_surname,
+          social_reason: this.third.social_reason,
+          tradename: this.third.tradename,
+          dian_address: this.third.dian_address,
+          address_one: this.third.address_one,
+          address_two: this.third.address_two,
+          address_three: this.third.address_three,
+          address_four: this.third.address_four,
+          cod_dian_address: this.third.cod_dian_address,
+          landline: this.third.landline,
+          cell_phone: this.third.cell_phone,
+          email: this.third.email,
+          zone_id: this.third.zone_id,
+          department_id: this.third.department_id,
+          municipality_id: this.third.municipality_id,
+          winning_list_id: this.third.winning_list_id,
+          apply_iva: this.third.apply_iva,
+          contact_payments: this.third.contact_payments,
+          phone_payments: this.third.phone_payments,
+          email_payments: this.third.email_payments,
+          regime: this.third.regime,
+          encourage_profit: this.third.encourage_profit,
+          ciiu_code_id: this.third.ciiu_code_id,
+          withholding_agent: this.third.withholding_agent,
+          withholding_oninvoice:  this.third.withholding_oninvoice,
+          reteica_type: this.third.reteica_type,
+          reteica_account_id: this.third.reteica_account_id,
+          retefuente_account_id: this.third.retefuente_account_id,
+          g_contribut: this.third.g_contribut,
+          reteiva_account_id: this.third.reteiva_account_id,
+          condition_payment: this.third.condition_payment,
+          assigned_space: this.third.assigned_space,
+          discount_prompt_payment: this.third.discount_prompt_payment,
+          discount_days: this.third.discount_days,
+          state: this.third.state,
+          third_party_type: this.third.third_party_type,
+          image: this.third.image,
+          rut: this.third.rut,
+        });
+  
+        this.third.third_party_person.forEach(third => {
+          this.personList.push(this.fb.group({
+            id: third.id,
+            name: third.name,
+            n_document: third.n_document,
+            landline: third.landline,
+            cell_phone: third.cell_phone,
+            email: third.email,
+            position: third.position,
+            observation: third.observation
+          }));
+        });
+      })
+    }
   }
 
   onFileChanged(event) {
@@ -439,12 +452,8 @@ export class CrearTercerosComponent implements OnInit {
     let rut = this.rutString;
     let typeRut = this.typeRut;
     let typeImage = this.typeImage;
-    this.form.patchValue({
-      image,
-      rut,
-      typeRut,
-      typeImage
-    })
+    console.log(this.form.value);
+    
     this.form.markAllAsTouched()
     if (this.form.invalid) {
       return this._swal.show({
@@ -462,6 +471,15 @@ export class CrearTercerosComponent implements OnInit {
         showCancel: true
       }).then((r) => {
         if (r.isConfirmed) {
+          this.form.patchValue({
+            image,
+            rut,
+            typeRut,
+            typeImage,
+            retefuente_account_id: this.form.get('retefuente_account_id').value.Id_Plan_Cuentas,
+            reteica_account_id: this.form.get('reteica_account_id').value.Id_Plan_Cuentas,
+            reteiva_account_id: this.form.get('reteiva_account_id').value.Id_Plan_Cuentas
+          })
           this.values();
           this._terceros.saveInformation(this.form.value).subscribe((r:any) => {
             this._swal.show({
@@ -550,6 +568,9 @@ export class CrearTercerosComponent implements OnInit {
 
   get municipality_valid(){
     return this.form.get('municipality_id').invalid && this.form.get('municipality_id').touched
+  }
+  get email_valid(){
+    return this.form.get('email').invalid && this.form.get('email').touched
   }
 
 }
