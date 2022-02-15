@@ -8,6 +8,7 @@ import { environment } from 'src/environments/environment';
 import { Observable } from 'rxjs';
 import { debounceTime, map } from 'rxjs/operators';
 import { NgForm } from '@angular/forms';
+import { UserService } from 'src/app/core/services/user.service';
 
 @Component({
   selector: 'app-crear-compra-nacional',
@@ -88,14 +89,15 @@ export class CrearCompraNacionalComponent implements OnInit {
   deleteSwal: any;
   ListaProducto: any[] = [];
 
-  public user = '1';
+  public user = '';
   posicion: any = '';
   puntos: any = [];
 
   constructor(
     private route: ActivatedRoute,
     private http: HttpClient,
-    private router: Router
+    private router: Router,
+    private _user: UserService
   ) {
     this.alertOption = {
       title: '¿Está Seguro?',
@@ -115,7 +117,9 @@ export class CrearCompraNacionalComponent implements OnInit {
     };
 
     this.http
-      .get(environment.ruta + 'php/comprasnacionales/proveedor_buscar.php')
+      .get(environment.ruta + 'php/comprasnacionales/proveedor_buscar.php', {params:{
+        company_id:this._user.user.person.company_worked.id
+      }})
       .subscribe((data: any) => {
         this.Proveedores = data;
       });
@@ -154,7 +158,8 @@ export class CrearCompraNacionalComponent implements OnInit {
 
   ngOnInit() {
     let params = this.route.snapshot.queryParams;
-
+    this.user = this._user.user.person.id;
+    console.log(this.user)
     if (params.Pre_Compra != undefined) {
       this.http
         .get(environment.ruta + 'php/rotativoscompras/detalle_pre_compra.php', {
@@ -182,7 +187,9 @@ export class CrearCompraNacionalComponent implements OnInit {
     }
 
     this.http
-      .get(environment.ruta + 'php/bodega_nuevo/get_bodegas.php')
+      .get(environment.ruta + 'php/bodega_nuevo/get_bodegas.php',{params:{
+        company_id:this._user.user.person.company_worked.id
+      }})
       .subscribe((data: any) => {
         this.Bodegas = data.Bodegas;
         this.Impuestos = data.impuestoli;
@@ -291,7 +298,7 @@ export class CrearCompraNacionalComponent implements OnInit {
         .get(
           environment.ruta +
             'php/comprasnacionales/lista_productos.php?' +
-            queryString
+            queryString, {params:{company_id:this._user.user.person.company_worked.id}}
         )
         .subscribe((data: any) => {
           this.Cargando = false;
@@ -307,7 +314,7 @@ export class CrearCompraNacionalComponent implements OnInit {
 
       this.http
         .get(environment.ruta + 'php/comprasnacionales/lista_productos.php', {
-          params: { nom: this.filtro_nombre },
+          params: { nom: this.filtro_nombre , company_id:this._user.user.person.company_worked.id},
         })
         .subscribe((data: any) => {
           this.Cargando = false;
@@ -334,8 +341,9 @@ export class CrearCompraNacionalComponent implements OnInit {
 
     if (producto != '') {
       this.http
+      
         .get(environment.ruta + 'php/comprasnacionales/lista_productos.php', {
-          params: { nom: producto },
+          params: { nom: producto , company_id:this._user.user.person.company_worked.id},
         })
         .subscribe((data: any) => {
           this.Cargando = false;
@@ -386,6 +394,7 @@ export class CrearCompraNacionalComponent implements OnInit {
       datos.append('datos', info);
       datos.append('productos', prod);
       datos.append('tipoBodega', this.TipoBodega);
+      datos.append('company_id', this._user.user.person.company_worked.id);
 
       return await this.http
         .post(

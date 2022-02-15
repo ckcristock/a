@@ -4,6 +4,7 @@ import { IMyDrpOptions } from 'mydaterangepicker';
 import { ActivatedRoute } from '@angular/router';
 import { environment } from 'src/environments/environment';
 import { Location } from "@angular/common";
+import { UserService } from 'src/app/core/services/user.service';
 
 @Component({
   selector: 'app-compra-nacional',
@@ -53,7 +54,7 @@ export class CompraNacionalComponent implements OnInit {
 /*     public miPerfil = JSON.parse(localStorage.getItem('miPerfil')); */
     
 
-    public requiredParams:any = { params: {tipo: "todo",funcionario:1 } };
+    public requiredParams:any = { params: {tipo: "todo",funcionario:1 , company_id:''} };
   myDateRangePickerOptions: IMyDrpOptions = {
     width:'180px', 
     height: '21px',
@@ -67,7 +68,9 @@ export class CompraNacionalComponent implements OnInit {
     public subtotal=[];
     facturacionChartTag: any;
   
-    constructor(private http: HttpClient,  private location: Location, private route: ActivatedRoute) {
+    constructor(private http: HttpClient,  private location: Location, private route: ActivatedRoute, private _user:UserService) {
+      this.requiredParams.params.company_id = this._user.user.person.company_worked.id
+      
       this.ListarComprasNacionales();
       this.getDiasAnulacion();
       this.getFuncioriosParaResponsables();
@@ -75,6 +78,7 @@ export class CompraNacionalComponent implements OnInit {
   
   
     ngOnInit() {    
+      
       this.http.get(environment.ruta+'php/rotativoscompras/lista_pre_compra.php').subscribe((data:any)=>{
         this.Pre_Compras = data;
       });
@@ -97,7 +101,9 @@ export class CompraNacionalComponent implements OnInit {
         queryString = '?' + Object.keys(params).map(key => key + '=' + params[key]).join('&');
       }
       
-      this.http.get(environment.ruta + 'php/comprasnacionales/lista_compras.php'+queryString, this.requiredParams).subscribe((data:any) => {
+      this.http.get(environment.ruta + 'php/comprasnacionales/lista_compras.php'+queryString, 
+    
+      this.requiredParams).subscribe((data:any) => {
         this.comprasnacionales = data.compras;
         this.TotalItems = data.numReg;
       });

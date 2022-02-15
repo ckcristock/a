@@ -46,8 +46,7 @@ export class CrearbodegaComponent implements OnInit {
         this.setBodega();
       }
       this.bodega.company_id = parseInt(this._user.user.person.company_worked.id)
-      console.log(this.bodega.company_id , this._user.user.person.company_worked);
-
+  
       this.modalBodega.show();
     })
   }

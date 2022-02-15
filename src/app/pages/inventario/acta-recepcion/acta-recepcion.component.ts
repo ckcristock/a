@@ -9,6 +9,7 @@ import { SwalService } from '../../ajustes/informacion-base/services/swal.servic
 import { functionsUtils } from '../../../core/utils/functionsUtils';
 import { IMyDrpOptions } from 'mydaterangepicker';
 import { SwalComponent } from '@sweetalert2/ngx-sweetalert2';
+import { UserService } from 'src/app/core/services/user.service';
 
 @Component({
   selector: 'app-acta-recepcion',
@@ -85,7 +86,8 @@ export class ActaRecepcionComponent implements OnInit {
     private http: HttpClient,
     private router: Router,
     private location: Location,
-    private _swalService: SwalService
+    private _swalService: SwalService,
+    private _user:UserService
   ) {
     this.envi = environment
     this.ListarActaRecepcion();
@@ -114,7 +116,7 @@ export class ActaRecepcionComponent implements OnInit {
     this.punto_activo = localStorage.getItem('Punto');
     this.http
       .get(environment.ruta + 'php/bodega_nuevo/lista_compras_pendientes.php', {
-        params: { compra: 'Nacional' },
+        params: { compra: 'Nacional' , company_id:this._user.user.person.company_worked.id},
       })
       .subscribe((data: any) => {
         this.ListaNacional = data;
@@ -122,7 +124,7 @@ export class ActaRecepcionComponent implements OnInit {
 
     this.http
       .get(environment.ruta + 'php/bodega_nuevo/lista_compras_pendientes.php', {
-        params: { compra: 'Internacional' },
+        params: { compra: 'Internacional' , company_id:this._user.user.person.company_worked.id},
       })
       .subscribe((data: any) => {
         this.ListaIntrernacional = data;
@@ -133,7 +135,8 @@ export class ActaRecepcionComponent implements OnInit {
   ListarActasPendientes() {
     this.http
       .get(
-        environment.ruta + 'php/actarecepcion_nuevo/lista_actas_pendientes.php'
+        environment.ruta + 'php/actarecepcion_nuevo/lista_actas_pendientes.php',
+        {params:{company_id:this._user.user.person.company_worked.id}}
       )
       .subscribe((data: any) => {
         this.actas_pendientes = data;
@@ -162,7 +165,8 @@ export class ActaRecepcionComponent implements OnInit {
       .get(
         environment.ruta +
           'php/actarecepcion_nuevo/lista_actarecepcion.php?estado=Acomodada&tipo=General&' +
-          queryString
+          queryString,
+          {params:{company_id:this._user.user.person.company_worked.id}}
       )
       .subscribe((data: any) => {
         this.actarecepciones = data.actarecepciones;
@@ -205,7 +209,8 @@ export class ActaRecepcionComponent implements OnInit {
       .get(
         environment.ruta +
           '/php/actarecepcion_nuevo/lista_actarecepcion.php?estado=Acomodada&tipo=General&' +
-          queryString
+          queryString,
+          {params:{company_id:this._user.user.person.company_worked.id}}
       )
       .subscribe((data: any) => {
         this.actarecepciones = data.actarecepciones;
@@ -274,7 +279,7 @@ export class ActaRecepcionComponent implements OnInit {
         .get(
           environment.ruta +
             'php/actarecepcion_nuevo/lista_actarecepcion.php?estado=Acomodada&tipo=General&' +
-            queryString
+            queryString, {params:{company_id:this._user.user.person.company_worked.id}}
         )
         .subscribe((data: any) => {
           this.actarecepciones = data.actarecepciones;
@@ -293,7 +298,8 @@ export class ActaRecepcionComponent implements OnInit {
       this.http
         .get(
           environment.ruta +
-            '/php/actarecepcion_nuevo/lista_actarecepcion.php?estado=Acomodada&tipo=General.php'
+            '/php/actarecepcion_nuevo/lista_actarecepcion.php?estado=Acomodada&tipo=General.php',
+            {params:{company_id:this._user.user.person.company_worked.id}}
         )
         .subscribe((data: any) => {
           this.actarecepciones = data.actarecepciones;
@@ -328,7 +334,8 @@ export class ActaRecepcionComponent implements OnInit {
         .get(
           environment.ruta +
             'php/bodega_nuevo/lista_compras_pendientes.php?compra=Nacional&' +
-            queryString
+            queryString,
+            {params:{company_id:this._user.user.person.company_worked.id}}
         )
         .subscribe((data: any) => {
           this.ListaNacional = data;
@@ -342,7 +349,7 @@ export class ActaRecepcionComponent implements OnInit {
         .get(
           environment.ruta + 'php/bodega_nuevo/lista_compras_pendientes.php',
           {
-            params: { compra: 'Nacional' },
+            params: { compra: 'Nacional' , company_id:this._user.user.person.company_worked.id },
           }
         )
         .subscribe((data: any) => {
@@ -433,7 +440,7 @@ export class ActaRecepcionComponent implements OnInit {
     var params = this.SetFiltros(paginacion);
     this.http
       .get(environment.ruta + 'php/actarecepcion/lista_acta_anula.php', {
-        params: params,
+        params: {...params, company_id:this._user.user.person.company_worked.id},
       })
       .subscribe((data: any) => {
         if (data.codigo == 'success') {

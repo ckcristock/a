@@ -4,6 +4,7 @@ import { HttpClient } from '@angular/common/http';
 import { ActivatedRoute } from '@angular/router';
 import { environment } from 'src/environments/environment';
 import { IMyDrpOptions } from 'mydaterangepicker';
+import { UserService } from 'src/app/core/services/user.service';
 
 @Component({
   selector: 'app-acta-recepion-aprobados',
@@ -38,7 +39,8 @@ export class ActaRecepionAprobadosComponent implements OnInit {
   
   public actarecepciones: any = [];
 
-  constructor(private location: Location,private http: HttpClient,private route: ActivatedRoute,){ 
+  constructor(private location: Location,private http: HttpClient,
+    private route: ActivatedRoute, private _user:UserService){ 
       //TODO auth user
       this.User = {Identificacion_Funcionario:'1'}
       this.ListarActaRecepcion();
@@ -64,7 +66,9 @@ export class ActaRecepionAprobadosComponent implements OnInit {
       queryString =  Object.keys(params).map(key => key + '=' + params[key]).join('&');
     }
     this.Cargando = true;
-    this.http.get(`${environment.ruta}php/actarecepcion_nuevo/lista_actarecepcion.php?estado=Aprobada&id_funcionario=${this.User.Identificacion_Funcionario}&${queryString}`)
+    this.http.get(`${environment.ruta}php/actarecepcion_nuevo/lista_actarecepcion.php?estado=Aprobada&id_funcionario=${this.User.Identificacion_Funcionario}&${queryString}`,{params:{
+      company_id:this._user.user.person.company_worked.id 
+    }})
       .subscribe((data: any) => {
       this.actarecepciones = data.actarecepciones;
       this.TotalItems = data.numReg;

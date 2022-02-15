@@ -8,6 +8,7 @@ import { RetencionService } from '../../../../core/services/retencion.service';
 import { functionsUtils } from 'src/app/core/utils/functionsUtils';
 import swal from 'sweetalert2';
 import { environment } from 'src/environments/environment';
+import { UserService } from 'src/app/core/services/user.service';
 
 @Component({
   selector: 'app-crear-acta-recepcion',
@@ -51,7 +52,7 @@ export class CrearActaRecepcionComponent implements OnInit {
   };
   //TODO auth usuario
   public user: any = {
-    Identificacion_Funcionario : '1'
+    Identificacion_Funcionario : this._user.user.person.id
   };
   public Subcategoria: any = [];
   public Subtotal_Final = 0;
@@ -135,7 +136,8 @@ export class CrearActaRecepcionComponent implements OnInit {
     private http: HttpClient,
     private router: Router,
     private swalService: SwalService,
-    private retencionService: RetencionService
+    private retencionService: RetencionService,
+    private _user:UserService
   ) {
     // this.http.get(environment.ruta + 'php/contabilidad/lista_retenciones.php', { params: { modulo: 'Impuesto' } }).subscribe((data: any) => {
     //   this.ListaRetenciones = data;
@@ -174,6 +176,7 @@ export class CrearActaRecepcionComponent implements OnInit {
           codigo: this.route.snapshot.params['codigo'],
           compra: this.route.snapshot.params['compra'],
           id: this.id_no_conforme,
+          company_id:this._user.user.person.company_worked.id
         },
       })
       .subscribe((data: any) => {
@@ -242,7 +245,7 @@ export class CrearActaRecepcionComponent implements OnInit {
     this.http
       .get(
         environment.ruta + 'php/actarecepcion_nuevo/lista_subcategorias.php',
-        { params: { id_bodega: id_bodega } }
+        { params: { id_bodega: id_bodega , company_id:this._user.user.person.company_worked.id} }
       )
       .subscribe((data: any) => {
         this.Subcategoria = data;
@@ -592,6 +595,7 @@ export class CrearActaRecepcionComponent implements OnInit {
           params: {
             codigo: codigo,
             orden: this.route.snapshot.params['codigo'],
+            company_id:this._user.user.person.company_worked.id
           },
         })
         .subscribe((data: any) => {
@@ -678,6 +682,9 @@ export class CrearActaRecepcionComponent implements OnInit {
     datos.append('tipoCompra', this.route.snapshot.params['compra']);
     datos.append('facturas', fact);
     datos.append('comparar', comp);
+    datos.append('company_id', this._user.user.person.company_worked.id);
+
+
 
     for (let i = 0; i < this.Archivo_Facturas.length; i++) {
       datos.append('archivos' + i, this.Archivo_Facturas[i]);
