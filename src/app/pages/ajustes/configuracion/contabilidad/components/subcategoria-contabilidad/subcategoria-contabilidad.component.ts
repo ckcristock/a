@@ -1,5 +1,6 @@
 import { Component, Input, OnInit, ViewChild } from '@angular/core';
 import { FormBuilder, FormGroup } from '@angular/forms';
+import { UserService } from 'src/app/core/services/user.service';
 import { ContabilidadService } from '../../contabilidad.service';
 
 @Component({
@@ -15,7 +16,8 @@ export class SubcategoriaContabilidadComponent implements OnInit {
   loading = false
   form: FormGroup
 
-  constructor(private _contabilidad: ContabilidadService, private fb: FormBuilder) { }
+  constructor(private _contabilidad: ContabilidadService,
+    private fb: FormBuilder, private _user: UserService) { }
 
   ngOnInit(): void {
     this.getSubcategories()
@@ -24,7 +26,7 @@ export class SubcategoriaContabilidadComponent implements OnInit {
 
   getSubcategories() {
     this.loading = true
-    this._contabilidad.getSubcategories().subscribe((r: any) => {
+    this._contabilidad.getSubcategories({company_id:this._user.user.person.company_worked.id}).subscribe((r: any) => {
       this.subcategories = r.data
       this.loading = false
     })
@@ -47,8 +49,7 @@ export class SubcategoriaContabilidadComponent implements OnInit {
       Cuenta_Reteica_Venta_Id: '',
       Cuenta_Reteica_Compra_Id: '',
       Cuenta_Reteiva_Venta_Id: '',
-      Cuenta_Reteiva_Compra_Id: '',
-
+      Cuenta_Reteiva_Compra_Id: ''
     })
   }
 
@@ -58,8 +59,8 @@ export class SubcategoriaContabilidadComponent implements OnInit {
   }
 
   save() {
-    this._contabilidad.saveSubcategoryCount().subscribe((r:any)=>{
-      
+    this._contabilidad.saveSubcategoryCount().subscribe((r: any) => {
+
     })
   }
 

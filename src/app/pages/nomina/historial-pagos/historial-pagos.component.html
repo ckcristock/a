@@ -6,44 +6,25 @@
           <h3 class="font-weight-bold">Historial de pagos</h3>
         </div>
         <div class="col-12">
-	  <form #forma="ngForm" (ngSubmit)="getHistorialPagos(forma)">
-          <div class="form-group row align-items-end">
-            <div class="col-4">
-              <label for="dependency_id" class="col-form-label text-left"
-                >Empresa</label
-              >
-              <ng-select
-                class="p-0"
-                [items]="companies"
-                bindLabel="text"
-                [ngModel]="companyId"
-                bindValue="value"
-                ngDefaultControl
-		name="company_id"
-              >
-              </ng-select>
-            </div>
-            <div class="col-3">
-              <label for="dependency_id" class="col-form-label text-left"
-                >Fecha Inicio</label
-              >
-             
-	      <input class="form-control" ngModel name="start_period" type="date">  
+          <form #forma="ngForm" (ngSubmit)="getHistorialPagos(forma)">
+            <div class="form-group row align-items-end">
+              <div class="col-3">
+                <label for="dependency_id" class="col-form-label text-left">Fecha Inicio</label>
 
-            </div>
-            <div class="col-3">
-              <label for="dependency_id" class="col-form-label text-left"
-                >Fecha Fin</label
-              >
-	      <input class="form-control" ngModel name="end_period" type="date">  
+                <input class="form-control form-control-sm" ngModel name="start_period" type="date">
 
-	    </div>
-	    <div class="col-2">
-	      <button class="btn btn-primary"><i class="fa fa-search"></i></button>
-	    </div>
-          </div>
-	  
-	  </form>
+              </div>
+              <div class="col-3">
+                <label for="dependency_id" class="col-form-label text-left">Fecha Fin</label>
+                <input class="form-control form-control-sm" ngModel name="end_period" type="date">
+
+              </div>
+              <div class="col-2">
+                <button class="btn btn-primary"><i class="fa fa-search"></i></button>
+              </div>
+            </div>
+
+          </form>
         </div>
       </div>
     </div>
@@ -74,7 +55,7 @@
           <th>Seguridad social</th>
           <th>Parafiscales</th>
           <th>Costo total empresa</th>
-	  <th></th>
+          <th></th>
         </tr>
       </thead>
       <tbody>
@@ -82,8 +63,8 @@
           <!--  {{ pago | json }} -->
           <td>{{ pago.company.name }}</td>
           <td class="custom-label">
-             {{ pago.start_period }} -
-              {{ pago.end_period }}
+            {{ pago.start_period }} -
+            {{ pago.end_period }}
           </td>
           <td class="custom-label">
             {{ pago.total_salaries | currency: "":"" }}
@@ -101,23 +82,17 @@
             {{ pago.total_parafiscals | currency: "":"" }}
           </td>
           <td class="custom-label">{{ pago.total_cost | currency: "":"" }}</td>
-	  <td>
-<a
-              [routerLink]="['/nomina/nomina']"
-              [queryParams]="{
+          <td>
+            <a [routerLink]="['/nomina/nomina']" [queryParams]="{
                 inicio: pago.start_period,
                 fin: pago.end_period,
                 company_id: pago.company_id
-              }"
-              class="btn btn-link p-0"
-              (click)="redirectToNomina(pago)"
-            >
-	    <i class="fa fa-eye"></i>
-                         </a>
-	  </td>
+              }" class="btn btn-link p-0" (click)="redirectToNomina(pago)">
+              <i class="fa fa-eye"></i>
+            </a>
+          </td>
         </tr>
       </tbody>
     </table>
   </div>
 </ng-template>
-

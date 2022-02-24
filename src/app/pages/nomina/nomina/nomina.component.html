@@ -3,29 +3,15 @@
     <h4 class="font-weight-bold">Pago de Nómina</h4>
   </div>
   <div class="col-md-4 offset-4 text-right">
+    <div>
+      <input type="month" (change)="changeDate($event.target.value)" class="form-control form-control-sm" >
+    </div>
     <span class="font-weight-bold">Periodo de pago</span>:
     <i class="fas fa-calendar-week"></i>
     <span class="font-weight-bold"> {{ inicioPeriodo }}</span>
     -
     <i class="fas fa-calendar-week"></i>
     <span class="font-weight-bold">{{ finPeriodo }}</span>
-  </div>
-</div>
-<div class="form-group row">
-  <div class="col-6">
-    <label for="dependency_id" class="col-form-label text-left">Empresa</label>
-    <ng-select
-      [disabled]="inicioParemeter"
-      class="p-0"
-      [items]="companies"
-      bindLabel="text"
-      [(ngModel)]="companyId"
-      bindValue="value"
-      loadingText="loading"
-      (change)="getPagoNomina()"
-      ngDefaultControl
-    >
-    </ng-select>
   </div>
 </div>
 

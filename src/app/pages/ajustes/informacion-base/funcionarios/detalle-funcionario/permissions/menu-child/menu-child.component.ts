@@ -1,4 +1,5 @@
 import { Component, OnInit, Input } from '@angular/core';
+import { SwalService } from '../../../../services/swal.service';
 interface NavItem {
   name: string;
   link: boolean;
@@ -13,8 +14,10 @@ interface NavItem {
 export class MenuChildComponent implements OnInit {
   /*   @Input('menuItems') menuItems:any; */
   @Input() navItems: NavItem[];
-  
-  constructor() { }
+  title:any = '';
+  checked: boolean = true;
+  collapsed:boolean[] = [];
+  constructor( private _swal:SwalService ) { }
 
   ngOnInit(): void {
   }
@@ -22,10 +25,31 @@ export class MenuChildComponent implements OnInit {
   setValues(item: any, position) {
     item['permissions'][position] != item['permissions'][position];
   }
+
+  changeAll(item){
+    item.child.forEach( el => {
+      el.permissions?.forEach(permission => {
+        permission.Activo = !permission.Activo  
+      });
+      el.child?.forEach(child => {
+        child.permissions?.forEach(childPermission => {
+          childPermission.Activo = !childPermission.Activo
+        });
+      });
+    });
+  }
+
+  changeAllChild(item){
+    item.child.forEach(child => {
+      child.permissions.forEach(el => {
+        el.Activo = !el.Activo;
+      });
+    });
+  }
+
 /*   
   save() {
     let navFilter = [...this.navItems]
-    console.log(this.filtertData(navFilter))
 
   }
  */

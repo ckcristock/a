@@ -6,6 +6,7 @@ import { PersonService } from '../../ajustes/informacion-base/persons/person.ser
 import { SwalService } from '../../ajustes/informacion-base/services/swal.service';
 import { PayRollService } from './pay-roll.service';
 import { CompanyService } from '../../ajustes/informacion-base/services/company.service';
+import { UserService } from 'src/app/core/services/user.service';
 
 @Component({
   selector: 'app-nomina',
@@ -22,7 +23,6 @@ export class NominaComponent implements OnInit {
   funcionarios = [];
   funcionariosBase = [];
   people = [];
-  companies: any[] = [];
 
   inicioParemeter:string;
   finParemeter: string;
@@ -35,34 +35,36 @@ export class NominaComponent implements OnInit {
     private _swal: SwalService,
     private route: ActivatedRoute,
     private _company: CompanyService,
-    private router:Router
+    private router:Router,
+    private _user:UserService
   ) {
     config.placement = 'left';
     config.placement = 'left-bottom';
   }
 
-  async ngOnInit() {
-    await this.getCompanies();
+   ngOnInit() {
+    this.companyId = this._user.user.person.company_worked.id
     const params = this.route.snapshot.queryParams;
     if (Object.keys(params).length) {
       this.inicioParemeter = params.inicio;
       this.finParemeter = params.fin;
       this.companyId = Number( params.company_id) 
     }
-    console.log(Number( this.companyId ))
+
     this.getPagoNomina();
     this.getPeople();
   }
 
-  async getCompanies() {
-    await this._company
-      .getCompanies({ owner: 1 })
-      .toPromise()
-      .then((d: any) => {
-        this.companies = d.data;
-        d.data[0] ? (this.companyId = d.data[0].value) : '';
-      });
+  changeDate(date){
+
+    this.inicioParemeter = moment(date).startOf('month').format('YYYY-MM-DD')
+    this.finParemeter = moment(date).endOf('month').format('YYYY-MM-DD')
+
+    this.getPagoNomina();
+    this.getPeople();
   }
+
+  
 
   getPagoNomina() {
     this.loadingPeople = true;
@@ -74,14 +76,14 @@ export class NominaComponent implements OnInit {
           }
         : {};
     params.companyId = this.companyId;
-    console.log(params);
 
     this._payroll.getPayrollPays(params).subscribe((r: any) => {
       this.nomina = r.data;
       this.pago.id = this.nomina.nomina_paga_id
         ? this.nomina.nomina_paga_id
-        : '';
-
+        : null;
+      console.log(this.pago.id);
+      
       this.getFuncionarios(r.data.funcionarios);
       this.getUsuario();
       this.loadingPeople = false;

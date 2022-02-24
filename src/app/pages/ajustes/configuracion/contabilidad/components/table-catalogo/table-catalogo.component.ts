@@ -1,5 +1,6 @@
 import { Component, Input, OnInit, ViewChild } from '@angular/core';
 import { FormBuilder, FormGroup } from '@angular/forms';
+import { UserService } from 'src/app/core/services/user.service';
 import { SwalService } from 'src/app/pages/ajustes/informacion-base/services/swal.service';
 import { ContabilidadService } from '../../contabilidad.service';
 
@@ -25,7 +26,10 @@ export class TableCatalogoComponent implements OnInit {
     collectionSize: 0,
   };
 
-  constructor(private _contabilidad: ContabilidadService, private fb: FormBuilder, private _swal : SwalService) { }
+  constructor(private _contabilidad: ContabilidadService,
+     private fb: FormBuilder,
+     private _swal : SwalService,
+     private _user: UserService) { }
 
   ngOnInit(): void {
     this.getAccounts()
@@ -35,7 +39,10 @@ export class TableCatalogoComponent implements OnInit {
   getAccounts(page = 1) {
     this.loading = true
     this.pagination.page = page;
-    this._contabilidad.getAccountPlanProducts({ Tipo_Catalogo: this.typeProduct, ...this.pagination })
+    const params = { Tipo_Catalogo: this.typeProduct,
+      company_id:this._user.user.person.company_worked.id,
+      ...this.pagination }
+    this._contabilidad.getAccountPlanProducts(params)
       .subscribe((r: any) => {
         this.loading = false
         this.products = r.data.data;

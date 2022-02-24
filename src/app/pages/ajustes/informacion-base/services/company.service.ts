@@ -12,5 +12,14 @@ export class CompanyService {
   getCompanies(params = {}) {
     return this.http.get(`${environment.base_url}/company`, {params})
   }
+  
+  setCompanies(personId, body){
+    return this.http.post(`${environment.base_url}/person/set-companies/${personId}`, body)
+  }
+
+  //Empresas en las que puede trabajar el funcionario
+  getPersonCompanies(personId){
+    return this.http.get(`${environment.base_url}/person/get-companies/${personId}`)
+  }
 
 }
