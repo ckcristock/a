@@ -109,10 +109,7 @@ export class InventarioComponent implements OnInit {
   ngOnInit() {
 
     this.http
-      .get(environment.ruta+ "php/lista_generales.php", {
-        params: { modulo: "Lista_Ganancia" },
-      })
-      .subscribe((data: any) => {
+      .get(environment.ruta+ "php/lista_generales.php", {params: { modulo: "Lista_Ganancia" },}).subscribe((data: any) => {
         this.listas = data;
       });
 

@@ -1,0 +1,939 @@
+<div class="page-body">
+  <div class="row">
+    <div class="col-md-12 filter-bar">
+      <div class="card">
+        <div class="card-header">
+          <div class="row">
+            <div class="col-md-8">
+              <h5>Punto de dispensacion</h5>
+              <span
+                >Listado de Punto de dispensacion registrados en nuestras bases
+                de datos</span
+              >
+            </div>
+
+            <div class="col-md-4">
+              <div class="pull-right">
+                <div class="card-header-left">
+                  <button
+                    type="button"
+                    class="pull-left btn btn-primary btn-sm"
+                    (click)="modalPuntoDispensacion.show()"
+                  >
+                    <i class="fa fa-plus"></i>
+                    Agregar Nuevo Punto de dispensacion
+                  </button>
+
+                  <!--  <a
+                    href="{{ globales.ruta }}php/puntodispensacion/exportar.php"
+                    target="_blank"
+                    class="btn btn-primary btn-sm"
+                  >
+                    <i class="fa fa-download"></i> Exportar
+                  </a>-->
+
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="card-body">
+          <div class="row">
+            <div class="col-md-12">
+              <table class="table table-striped">
+                <thead>
+                  <tr>
+                    <th>Nombre</th>
+                    <th>Departamento</th>
+                    <th>Tipo</th>
+                    <th style="width: 20%">Dirección</th>
+                    <th>Tipo Entrega</th>
+                    <th>Teléfono</th>
+                    <th>No Pos</th>
+                    <th>Turnero</th>
+                    <th>Entrega Doble</th>
+                    <th>Wacom</th>
+                    <th>Acciones</th>
+                  </tr>
+                  <tr>
+                    <th class="tabla-filtro">
+                      <input
+                        type="text"
+                        [(ngModel)]="filtro_punto_dispensacion"
+                        (blur)="filtros()"
+                        class="form-control input-sm"
+                        placeholder="Nombre"
+                      />
+                    </th>
+                    <th class="tabla-filtro">
+                      <select
+                        [(ngModel)]="filtro_departamento"
+                        class="form-control input-sm"
+                        (change)="filtros()"
+                      >
+                        <option value="">Todos</option>
+                        <option
+                          *ngFor="let departamento of Departamentos"
+                          [value]="departamento.Id_Departamento"
+                        >
+                          {{ departamento.Nombre }}
+                        </option>
+                      </select>
+                    </th>
+                    <th class="tabla-filtro">
+                      <input
+                        type="text"
+                        [(ngModel)]="filtro_tipo_dispensacion"
+                        (blur)="filtros()"
+                        class="form-control input-sm"
+                        placeholder="Tipo"
+                      />
+                    </th>
+                    <th class="tabla-filtro">
+                      <input
+                        type="text"
+                        [(ngModel)]="filtro_direccion"
+                        (blur)="filtros()"
+                        class="form-control input-sm"
+                        placeholder="Direccion"
+                      />
+                    </th>
+                    <th class="tabla-filtro">
+                      <select
+                        [(ngModel)]="filtro_tipo_entrega"
+                        class="form-control input-sm"
+                        (change)="filtros()"
+                      >
+                        <option value="">Tipo Entrega</option>
+                        <option value="Despacho">Despacho</option>
+                        <option value="Radicacion">Radicación</option>
+                      </select>
+                    </th>
+                    <th class="tabla-filtro">
+                      <input
+                        type="text"
+                        [(ngModel)]="filtro_telefono"
+                        (blur)="filtros()"
+                        class="form-control input-sm"
+                        placeholder="Telefono"
+                      />
+                    </th>
+                    <th class="tabla-filtro">
+                      <select
+                        [(ngModel)]="filtro_no_pos"
+                        class="form-control input-sm"
+                        (change)="filtros()"
+                      >
+                        <option value="">Todos</option>
+                        <option value="Si">Si</option>
+                        <option value="No">No</option>
+                      </select>
+                    </th>
+                    <th class="tabla-filtro">
+                      <select
+                        [(ngModel)]="filtro_turnero"
+                        class="form-control input-sm"
+                        (change)="filtros()"
+                      >
+                        <option value="">Todos</option>
+                        <option value="Si">Si</option>
+                        <option value="No">No</option>
+                      </select>
+                    </th>
+                    <th class="tabla-filtro">
+                      <select
+                        [(ngModel)]="filtro_entrega"
+                        class="form-control input-sm"
+                        (change)="filtros()"
+                      >
+                        <option value="">Todos</option>
+                        <option value="Si">Si</option>
+                        <option value="No">No</option>
+                      </select>
+                    </th>
+                    <th class="tabla-filtro">
+                      <select
+                        [(ngModel)]="filtro_wacom"
+                        class="form-control input-sm"
+                        (change)="filtros()"
+                      >
+                        <option value="">Todos</option>
+                        <option value="Si">Si</option>
+                        <option value="No">No</option>
+                      </select>
+                    </th>
+                    <th class="tabla-filtro"></th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr
+                    *ngFor="let punto of puntodispensacion"
+                    [ngClass]="{ 'bg-danger': punto.Estado == 'Inactivo' }"
+                  >
+                    <td>{{ punto.Nombre }}</td>
+                    <td>{{ punto.NombreDepartamento }}</td>
+                    <td>{{ punto.Tipo }}</td>
+                    <td>{{ punto.Direccion }}</td>
+                    <td>{{ punto.Tipo_Entrega }}</td>
+                    <td>{{ punto.Telefono }}</td>
+                    <td>{{ punto.No_Pos }}</td>
+                    <td>{{ punto.Turnero }}</td>
+                    <td>{{ punto.Entrega_Doble }}</td>
+                    <td>{{ punto.Wacom }}</td>
+                    <td>
+                      <div class="text-center">
+                        <div
+                          class="btn-group"
+                          role="group"
+                          data-toggle="tooltip"
+                          data-placement="top"
+                          title=""
+                          data-original-title=".btn-mini"
+                        >
+                          <div ngbDropdown class="dropdown-primary">
+                            <button
+                              ngbDropdownToggle
+                              class="btn btn-secondary btn-mini waves-effect waves-light"
+                              type="button"
+                            >
+                              Acciones
+                            </button>
+                            <div ngbDropdownMenu>
+                              <a
+                                class="dropdown-item waves-light waves-effect caja-botones"
+                                (click)="
+                                  EditarPuntoDispensacionNuevo(
+                                    punto.Id_Punto_Dispensacion
+                                  )
+                                "
+                              >
+                                <i class="ti-pencil"></i>Editar</a
+                              >
+                              <a
+                                class="dropdown-item waves-light waves-effect caja-botones"
+                                (click)="
+                                  AsignacionDeGruposAndEstibas(
+                                    punto.Id_Punto_Dispensacion
+                                  )
+                                "
+                              >
+                                <i class="ti-layout-grid2"></i>Grupos y
+                                Estibas</a
+                              >
+
+                              <a
+                                class="dropdown-item waves-light waves-effect caja-botones text-danger"
+                                [swal]="{
+                                  title: '¿Está Seguro?',
+                                  text:
+                                    'Se dispone a ' +
+                                    (punto.Estado == 'Activo'
+                                      ? 'Inactivar'
+                                      : 'Activar') +
+                                    ' este Punto de Dispensación',
+                                  type: 'warning',
+                                  showCancelButton: true,
+                                  confirmButtonText: 'Si, Confirmar',
+                                  cancelButtonText: 'No, Dejame Comprobar!'
+                                }"
+                                (confirm)="
+                                  EliminarPuntoDispensacion(
+                                    punto.Id_Punto_Dispensacion,
+                                    punto.Estado == 'Activo'
+                                      ? 'Inactivo'
+                                      : 'Activo'
+                                  )
+                                "
+                              >
+                                <i
+                                  [ngClass]="{
+                                    'ti-trash': punto.Estado == 'Activo',
+                                    'fa fa-reply': punto.Estado == 'Inactivo'
+                                  }"
+                                ></i
+                                >{{
+                                  punto.Estado == "Activo"
+                                    ? "Inactivar"
+                                    : "Activar"
+                                }}</a
+                              >
+                            </div>
+                          </div>
+                        </div>
+                      </div>
+                    </td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+          </div>
+          <div id="paginacion-container" *ngIf="puntodispensacion.length > 0">
+            <div class="row">
+              <div class="col-md-3">
+                <p>
+                  <b
+                    >Mostrando del {{ InformacionPaginacion.desde }} al
+                    {{ InformacionPaginacion.hasta }} de
+                    {{ InformacionPaginacion.total }}</b
+                  >
+                </p>
+              </div>
+              <div class="col-md-9">
+                <ngb-pagination
+                  class="pull-right"
+                  [collectionSize]="TotalItems"
+                  [(page)]="page"
+                  [maxSize]="maxSize"
+                  [pageSize]="pageSize"
+                  size="sm"
+                  (pageChange)="filtros(true)"
+                  [boundaryLinks]="true"
+                ></ngb-pagination>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<app-modal-basic #modalPuntoDispensacion [dialogClass]="'modal-lg'">
+  <div class="app-modal-header">
+    <h4 class="modal-title">Nuevo Punto de dispensacion</h4>
+    <button
+      type="button"
+      class="close basic-close"
+      (click)="modalPuntoDispensacion.hide()"
+    >
+      <span aria-hidden="true">&times;</span>
+    </button>
+  </div>
+  <div class="app-modal-body">
+    <form #FormPuntoDispensacion="ngForm">
+      <div class="row">
+        <div class="col-md-4">
+          <div class="form-group">
+            <label>Nombre Punto de dispensacion</label>
+            <input
+              type="text"
+              name="Nombre"
+              placeholder=""
+              class="form-control"
+              ngModel
+              required
+            />
+          </div>
+        </div>
+
+        <div class="col-md-4">
+          <div class="form-group">
+            <label>Tipo Punto de dispensacion</label>
+            <input
+              type="text"
+              name="Tipo"
+              placeholder=""
+              class="form-control"
+              ngModel
+              required
+            />
+          </div>
+        </div>
+
+        <div class="col-md-4">
+          <div class="form-group">
+            <label>Departamento</label>
+            <select
+              class="form-control"
+              ngModel
+              name="Departamento"
+              #SelectDepartamento
+              (change)="Municipios_Departamento($event.target.value)"
+              required
+            >
+              <option value="">Seleccione Departamento</option>
+              <option
+                *ngFor="let Departamento of Departamentos"
+                [value]="Departamento.Id_Departamento"
+              >
+                {{ Departamento.Nombre }}
+              </option>
+            </select>
+          </div>
+        </div>
+      </div>
+
+      <div class="row">
+        <div class="col-md-4">
+          <div class="form-group">
+            <label>Municipio</label>
+            <select class="form-control" name="Municipio" ngModel required>
+              <option value="">Seleccione Municipio</option>
+              <option
+                *ngFor="let Municipio of Municipios"
+                [value]="Municipio.Id_Municipio"
+              >
+                {{ Municipio.Nombre }}
+              </option>
+            </select>
+          </div>
+        </div>
+
+        <div class="col-md-4">
+          <div class="form-group">
+            <label>Direccion</label>
+            <input
+              type="text"
+              name="Direccion"
+              placeholder=""
+              class="form-control"
+              ngModel
+              required
+            />
+          </div>
+        </div>
+
+        <div class="col-md-4">
+          <div class="form-group">
+            <label>Telefono</label>
+            <input
+              type="text"
+              name="Telefono"
+              placeholder=""
+              class="form-control"
+              ngModel
+              required
+            />
+          </div>
+        </div>
+      </div>
+
+      <div class="row">
+        <!-- <div class="col-md-12"> -->
+
+        <div class="col-md-4">
+          <div class="form-group">
+            <label>Tipo Entrega</label>
+            <select
+              name="Tipo_Entrega"
+              class="form-control"
+              required
+              ngModel
+              (change)="changeTipo($event.target.value)"
+            >
+              <option value="">Seleccione</option>
+              <option value="Radicacion">Radicacion</option>
+              <option value="Despacho">Despacho</option>
+            </select>
+          </div>
+        </div>
+
+        <div class="col-md-6" *ngIf="Control" class="form-group">
+          <label>Bodega</label>
+          <ng-select
+            [options]="Bodegas"
+            name="Id_Bodega_Despacho"
+            bindLabel="label"
+            bindValue="value"
+            placeholder="Selecciona Bodega"
+            ngModel="{{ Id_Bodega_Despacho }}"
+          ></ng-select>
+        </div>
+        <!-- </div> -->
+      </div>
+
+      <div class="row">
+        <div class="col-md-3">
+          <div class="form-group">
+            <label>Turnero</label>
+            <select name="Turnero" class="form-control" required ngModel>
+              <option value="">Seleccione Turnero</option>
+              <option value="Si">Si</option>
+              <option value="No">No</option>
+            </select>
+          </div>
+        </div>
+
+        <div class="col-md-3">
+          <div class="form-group">
+            <label>Wacom</label>
+            <select name="Wacom" class="form-control" required ngModel>
+              <option value="">Seleccione Wacom</option>
+              <option value="Si">Si</option>
+              <option value="No">No</option>
+            </select>
+          </div>
+        </div>
+
+        <div class="col-md-3">
+          <div class="form-group">
+            <label>Cajas</label>
+            <input
+              type="number"
+              name="Cajas"
+              placeholder=""
+              class="form-control"
+              ngModel
+              required
+            />
+          </div>
+        </div>
+        <div class="col-md-3">
+          <div class="form-group">
+            <label>Campo Mipres</label>
+            <select name="Campo_Mipres" class="form-control" required ngModel>
+              <option value="Numero_Prescripcion" selected>
+                Número Prescripción
+              </option>
+              <option value="Id_Direccionamiento">Id Direccionamineto</option>
+            </select>
+          </div>
+        </div>
+      </div>
+
+      <!-- <div class="row">
+                <div class="col-md-3">
+                    <div class="form-group">
+                        <label>Entrega Formula</label>
+                        <select name="Entrega_Formula" class="form-control" required ngModel>
+                            <option value="Si">Si</option>
+                            <option value="No" selected>No</option>
+                        </select>
+                    </div>
+                </div>
+                <div class="col-md-3">
+                    <div class="form-group">
+                        <label>Entrega Doble</label>
+                        <select name="Entrega_Doble" class="form-control" required ngModel>
+                            <option value="Si">Si</option>
+                            <option value="No" selected>No</option>
+                        </select>
+                    </div>
+                </div>
+                <div class="col-md-3">
+                    <div class="form-group">
+                        <label>Autorizacion</label>
+                        <select name="Autorizacion" class="form-control" required ngModel>
+                            <option value="Si">Si</option>
+                            <option value="No" selected>No</option>
+                        </select>
+                    </div>
+                </div>
+            </div> -->
+
+      <div class="row">
+        <div class="col-md-6">
+          <div class="form-group">
+            <label for="servicio">Servicio</label>
+            <ng-select
+              [ngClass]="'ng-select'"
+              class="ang-select"
+              (blur)="GetTipoServicioNgSelect()"
+              [items]="Servicios"
+              bindValue="value"
+              bindLabel="label"
+              name="Servicio"
+              id="servicio"
+              [(ngModel)]="ServiciosEscogidos"
+              [multiple]="true"
+            >
+            </ng-select>
+          </div>
+        </div>
+        <div class="col-md-6">
+          <div class="form-group">
+            <label for="tipo_servicio">Tipo Servicio</label>
+            <ng-select
+              [ngClass]="'ng-select'"
+              class="ang-select"
+              [items]="TipoServicios"
+              name="Tipo_Servicio"
+              id="tipo_servicio"
+              [(ngModel)]="TipoServiciosEscogidos"
+              [multiple]="true"
+            ></ng-select>
+          </div>
+        </div>
+      </div>
+    </form>
+  </div>
+  <div class="app-modal-footer">
+    <div class="text-right">
+      <button
+        type="button"
+        class="btn btn-default btn-sm"
+        (click)="modalPuntoDispensacion.hide()"
+      >
+        Cancelar
+      </button>
+      <button
+        type="button"
+        [swal]="{
+          title: '¿Está Seguro?',
+          text: 'Se dispone a Guardar este punto de dispensación',
+          type: 'warning',
+          showCancelButton: true,
+          confirmButtonText: 'Si, Guardar',
+          cancelButtonText: 'No, Dejame Comprobar!'
+        }"
+        (confirm)="
+          GuardarPuntoDispensacionNuevo(
+            FormPuntoDispensacion,
+            modalPuntoDispensacion
+          )
+        "
+        [disabled]="!FormPuntoDispensacion.valid"
+        class="btn btn-primary btn-sm"
+      >
+        Guardar
+      </button>
+    </div>
+  </div>
+</app-modal-basic>
+
+<app-modal-basic #modalPuntoDispensacionEditar [dialogClass]="'modal-lg'">
+  <div class="app-modal-header">
+    <h4 class="modal-title">Editar Punto de dispensacion</h4>
+    <button
+      type="button"
+      class="close basic-close"
+      (click)="modalPuntoDispensacionEditar.hide()"
+    >
+      <span aria-hidden="true">&times;</span>
+    </button>
+  </div>
+  <div class="app-modal-body">
+    <form #FormPuntoDispensacionEditar="ngForm">
+      <input
+        type="hidden"
+        name="id"
+        ngModel="{{ IdPuntoDispensacion }}"
+        required
+      />
+
+      <div class="row">
+        <div class="col-md-4">
+          <div class="form-group">
+            <label>Nombre Punto de dispensacion</label>
+            <input
+              type="text"
+              name="Nombre"
+              placeholder=""
+              class="form-control"
+              ngModel="{{ PuntoDispensacion.Nombre }}"
+              required
+            />
+          </div>
+        </div>
+
+        <div class="col-md-4">
+          <div class="form-group">
+            <label>Tipo Punto de dispensacion</label>
+            <input
+              type="text"
+              name="Tipo"
+              placeholder=""
+              class="form-control"
+              ngModel="{{ PuntoDispensacion.Tipo }}"
+              required
+            />
+          </div>
+        </div>
+
+        <div class="col-md-4">
+          <div class="form-group">
+            <label>Departamento</label>
+            <select
+              class="form-control"
+              name="Departamento"
+              (change)="Municipios_Departamento($event.target.value)"
+              ngModel="{{ PuntoDispensacion.Departamento }}"
+              required
+            >
+              <option>Seleccione Departamento</option>
+              <option
+                *ngFor="let Departamento of Departamentos"
+                [value]="Departamento.Id_Departamento"
+              >
+                {{ Departamento.Nombre }}
+              </option>
+            </select>
+          </div>
+        </div>
+      </div>
+      <div class="row">
+        <div class="col-md-4">
+          <div class="form-group">
+            <label>Municipio</label>
+            <select
+              class="form-control"
+              name="Municipio"
+              ngModel="{{ PuntoDispensacion.Municipio }}"
+              required
+            >
+              <option>Seleccione Municipio</option>
+              <option
+                *ngFor="let Municipio of Municipios"
+                [value]="Municipio.Id_Municipio"
+              >
+                {{ Municipio.Nombre }}
+              </option>
+            </select>
+          </div>
+        </div>
+
+        <div class="col-md-4">
+          <div class="form-group">
+            <label>Direccion</label>
+            <input
+              type="text"
+              name="Direccion"
+              placeholder=""
+              class="form-control"
+              ngModel="{{ PuntoDispensacion.Direccion }}"
+              required
+            />
+          </div>
+        </div>
+
+        <div class="col-md-4">
+          <div class="form-group">
+            <label>Telefono</label>
+            <input
+              type="text"
+              name="Telefono"
+              placeholder=""
+              class="form-control"
+              ngModel="{{ PuntoDispensacion.Telefono }}"
+              required
+            />
+          </div>
+        </div>
+      </div>
+      <div class="row">
+        <!-- <div class="col-md-3">
+                    <div class="form-group">
+                        <label>No Pos</label>
+                        <input type="text" name="No_Pos" placeholder="" class="form-control" ngModel="{{PuntoDispensacion.No_Pos}}" required>
+                        <select name="No_Pos" class="form-control" required ngModel="{{PuntoDispensacion.No_Pos}}" >
+                            <option value="">Seleccione</option>
+                            <option value="Si">Si</option>
+                            <option value="No">No</option>
+                        </select>
+                    </div>
+                </div> -->
+
+        <div class="col-md-3">
+          <div class="form-group">
+            <label>Turnero</label>
+            <select
+              name="Turnero"
+              class="form-control"
+              required
+              ngModel="{{ PuntoDispensacion.Turnero }}"
+            >
+              <option value="">Seleccione Turnero</option>
+              <option value="Si">Si</option>
+              <option value="No">No</option>
+            </select>
+          </div>
+        </div>
+
+        <div class="col-md-3">
+          <div class="form-group">
+            <label>Wacom</label>
+            <select
+              name="Wacom"
+              class="form-control"
+              required
+              ngModel="{{ PuntoDispensacion.Wacom }}"
+            >
+              <option value="">Seleccione Wacom</option>
+              <option value="Si">Si</option>
+              <option value="No">No</option>
+            </select>
+          </div>
+        </div>
+
+        <div class="col-md-3">
+          <div class="form-group">
+            <label>Caja</label>
+            <input
+              type="text"
+              name="Cajas"
+              placeholder=""
+              class="form-control"
+              ngModel="{{ PuntoDispensacion.Cajas }}"
+              required
+            />
+          </div>
+        </div>
+        <div class="col-md-3">
+          <div class="form-group">
+            <label>Campo Mipres</label>
+            <select
+              name="Campo_Mipres"
+              class="form-control"
+              required
+              ngModel="{{ PuntoDispensacion.Campo_Mipres }}"
+            >
+              <option value="Numero_Prescripcion" selected>
+                Número Prescripción
+              </option>
+              <option value="Id_Direccionamiento">Id Direccionamineto</option>
+            </select>
+          </div>
+        </div>
+      </div>
+
+      <div class="row">
+        <div class="col-md-3">
+          <div class="form-group">
+            <label>Tipo Entrega</label>
+            <select
+              name="Wacom"
+              class="form-control"
+              required
+              ngModel="{{ PuntoDispensacion.Tipo_Entrega }}"
+            >
+              <option value="">Tipo Entrega</option>
+              <option value="Despacho">Despacho</option>
+              <option value="Radicacion">Radicación</option>
+            </select>
+          </div>
+        </div>
+        <div class="col-md-4">
+          <div class="form-group">
+            <label>Entregas Dobles en el Mes</label>
+            <select
+              class="form-control encabezado"
+              name="Entrega_Doble"
+              ngModel="{{ PuntoDispensacion.Entrega_Doble }}"
+            >
+              <option value="Si">Si</option>
+              <option value="No" selected>No</option>
+            </select>
+            <small id="Entrega_Doble" class="form-text text-muted">
+              Esta opción habilita la entrega de pendientes por ATC y entregar
+              el mismo producto dos veces o mas en el mismo mes
+            </small>
+          </div>
+        </div>
+
+        <div class="col-md-4">
+          <div class="form-group">
+            <label>Bodega</label>
+
+            <!-- <ng-select [options]="Bodegas" name="Id_Bodega_Despacho" bindLabel="label" bindValue="value" placeholder="Selecciona Bodega" [(ngModel)]="PuntoDispensacion.Id _Bodega_Despacho" ></ng-select> -->
+            <ng-select
+              [items]="Bodegas"
+              name="Id_Bodega_Despacho"
+              bindLabel="label"
+              bindValue="value"
+              placeholder="Selecciona Bodega"
+              ngModel="{{ PuntoDispensacion.Id_Bodega_Despacho }}"
+            ></ng-select>
+          </div>
+        </div>
+
+      </div>
+
+      <div class="row">
+
+      </div>
+
+      <div class="row">
+
+      </div>
+
+      <!-- <div class="row">
+        <div class="col-md-4">
+          <div class="form-group">
+            <label>Bodega</label>
+            <select class="form-control" name="Id_Bodega_Despacho" ngModel="{{PuntoDispensacion.Id_Bodega_Despacho}}"
+              required>
+              <option value="">Seleccione Bodega</option>
+              <option *ngFor="let Bodega of Bodegas" [value]="Bodega.Id_Bodega_Nuevo">{{Bodega.Nombre}}</option>
+            </select>
+          </div>
+        </div>
+      </div> -->
+
+      <div class="row">
+        <div class="col-md-6">
+          <div class="form-group">
+            <label for="servicio">Servicio</label>
+            <ng-select
+              [ngClass]="'ng-select'"
+              class="ang-select"
+              (blur)="GetTipoServicioNgSelect()"
+              [items]="Servicios"
+              name="Servicio_E"
+              id="servicio"
+              bindValue="value"
+              bindLabel="label"
+              [(ngModel)]="ServiciosEscogidos"
+              [multiple]="true"
+            >
+            </ng-select>
+          </div>
+        </div>
+        <div class="col-md-6">
+          <div class="form-group">
+            <label for="tipo_servicio">Tipo Servicio</label>
+            <ng-select
+              [ngClass]="'ng-select'"
+              class="ang-select"
+              [items]="TipoServicios"
+              name="Tipo_Servicio_E"
+              id="tipo_servicio"
+              [(ngModel)]="TipoServiciosEscogidos"
+              [multiple]="true"
+            ></ng-select>
+          </div>
+        </div>
+      </div>
+    </form>
+  </div>
+
+  <div class="app-modal-footer">
+    <div class="text-right">
+      <button
+        type="button"
+        class="btn btn-default btn-sm"
+        (click)="modalPuntoDispensacionEditar.hide(); LimpiarVariablesEditar()"
+      >
+        Cancelar
+      </button>
+      <button
+        type="button"
+        [swal]="{
+          title: '¿Está Seguro?',
+          text: 'Se dispone a Guardar este punto de dispensación',
+          type: 'warning',
+          showCancelButton: true,
+          confirmButtonText: 'Si, Guardar',
+          cancelButtonText: 'No, Dejame Comprobar!'
+        }"
+        (confirm)="
+          EdicionPuntoDispensacion(
+            FormPuntoDispensacionEditar,
+            modalPuntoDispensacionEditar
+          )
+        "
+        [disabled]="!FormPuntoDispensacionEditar.valid"
+        class="btn btn-primary btn-sm"
+      >
+        Guardar
+      </button>
+    </div>
+  </div>
+</app-modal-basic>
+
+<swal #deleteSwal title="" text="" type="">
+  <!-- <swal #deleteSwal title="Punto de dispensacion Eliminada" text="Se ha eliminado correctamente la bodega" type="success">
+</swal> -->
+</swal>
+
+<swal #confirmacionSwal title="" text="" html="" icon=""></swal>
+

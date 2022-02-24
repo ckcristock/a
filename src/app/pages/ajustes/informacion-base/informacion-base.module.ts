@@ -37,6 +37,7 @@ import { ClientecrearComponent } from './clientecrear/clientecrear.component';
 import { TableProductosCatalogoComponent } from './catalogo/components/table-productos-catalogo/table-productos-catalogo.component';
 import { DotacionCrearComponent } from './dotacion-crear/dotacion-crear.component';
 import { CompaniesToWorkComponent } from './funcionarios/detalle-funcionario/permissions/companies-to-work/companies-to-work.component';
+import { PuntodispensacionComponent } from './puntodispensacion/puntodispensacion.component';
 
 
 
@@ -117,7 +118,8 @@ import { CompaniesToWorkComponent } from './funcionarios/detalle-funcionario/per
         ClientecrearComponent,
         TableProductosCatalogoComponent,
         DotacionCrearComponent,
-        CompaniesToWorkComponent
+        CompaniesToWorkComponent,
+        PuntodispensacionComponent,
 
     ],
 

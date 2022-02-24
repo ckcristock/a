@@ -38,6 +38,7 @@ import { CatalogoComponent } from "./catalogo/catalogo.component";
 import { ClientesComponent } from './clientes/clientes.component';
 import { ClientecrearComponent } from './clientecrear/clientecrear.component';
 import { TableProductosCatalogoComponent } from "./catalogo/components/table-productos-catalogo/table-productos-catalogo.component";
+import { PuntodispensacionComponent } from "./puntodispensacion/puntodispensacion.component";
 
 const routes: Routes = [
     { path: 'empresas', component: EmpresasComponent },
@@ -47,6 +48,7 @@ const routes: Routes = [
     { path: 'funcionarios/crear', component: CreateComponent },
     // { path: 'persons', component: PersonsComponent },
     { path: 'pacientes', component: PacientesComponent },
+    { path: 'puntosdispensacion', component: PuntodispensacionComponent },
     { path: 'cups', component: CupsComponent },
     { path: 'regimenes-niveles', component: RegimenesNivelesComponent },
     { path: 'aseguradoras', component: AseguradorasComponent },

@@ -12,11 +12,11 @@ import { User } from 'src/app/core/models/users.model';
   styleUrls: ['./activo-fijo-catalogo.component.scss'],
 })
 export class ActivoFijoCatalogoComponent implements OnInit {
-  @Input('user') user : User
+  @Input('user') user: User;
 
   @ViewChild('modalGenerico') modal;
 
-  loading = false
+  loading = false;
   form: FormGroup;
   pagination: any = {
     page: 1,
@@ -156,11 +156,15 @@ export class ActivoFijoCatalogoComponent implements OnInit {
   }
 
   getActives(page = 1) {
-    this.loading = true
+    this.loading = true;
     this.pagination.page = page;
-    let params = { tipo: 'Activo_Fijo', ...this.pagination , company_id: this.user.person.company_worked.id};
+    let params = {
+      tipo: 'Activo_Fijo',
+      ...this.pagination,
+      company_id: this.user.person.company_worked.id,
+    };
     this._category.getProducts(params).subscribe((r: any) => {
-      this.loading = false
+      this.loading = false;
       this.actives = r.data.data;
       this.pagination.collectionSize = r.data.total;
     });

@@ -12,6 +12,13 @@
         <div class="col-sm-12">
           <form #FormMedicamento="ngForm">
             <input
+              name="company_id"
+              type="hidden"
+              placeholder=""
+              class="form-control"
+              [(ngModel)]="company_id"
+            />
+            <input
               hidden
               name="Tipo"
               type="text"
@@ -514,7 +521,10 @@
             </div>
 
             <div class="row">
-              <div class="col-md-2" *ngFor="let item of fieldDinamic; let i = index">
+              <div
+                class="col-md-2"
+                *ngFor="let item of fieldDinamic; let i = index"
+              >
                 <label for="">{{ item.label | titlecase }}</label>
                 <input
                   class="form-control form-control-sm"
@@ -569,6 +579,5 @@
     </div>
   </div>
 </div>
-
 
 <swal #confirmacionSwal title="" text="" html="" icon=""></swal>
