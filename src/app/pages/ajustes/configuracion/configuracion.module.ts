@@ -27,8 +27,6 @@ import { SweetAlert2Module } from '@sweetalert2/ngx-sweetalert2';
 import { CatalogoContabilidadComponent } from './contabilidad/components/catalogo-contabilidad/catalogo-contabilidad.component';
 import { TableCatalogoComponent } from './contabilidad/components/table-catalogo/table-catalogo.component';
 
-
-
 @NgModule({
   declarations: [
     ConfiguracionEmpresaComponent,

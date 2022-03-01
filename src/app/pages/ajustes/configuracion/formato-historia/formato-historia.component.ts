@@ -6,8 +6,8 @@ import { VariablesHightCostServiceService } from './variables-hight-cost-service
   selector: 'app-formato-historia',
   templateUrl: './formato-historia.component.html',
   styleUrls: ['./formato-historia.component.scss'],
-  providers: [VariablesHightCostServiceService]
 })
+
 export class FormatoHistoriaComponent implements OnInit {
   forma: FormGroup;
   constructor(private fb: FormBuilder, private _sendVariablesHightCostService: VariablesHightCostServiceService) { }
@@ -91,7 +91,7 @@ export class FormatoHistoriaComponent implements OnInit {
       g.patchValue({
         question_selected: question.value,
       });
-       console.log(g);
+      console.log(g);
     });
     return g;
   }
@@ -132,10 +132,7 @@ export class FormatoHistoriaComponent implements OnInit {
   }
 
   save = () => {
-    console.log(this.forma.value);
-
-    this._sendVariablesHightCostService.store(this.forma.value)
-      .subscribe((arg) => console.log(arg));
-
+    console.log('xxx');
+    this._sendVariablesHightCostService.store(this.forma.value).subscribe((arg) => console.log(arg));
   }
 }
