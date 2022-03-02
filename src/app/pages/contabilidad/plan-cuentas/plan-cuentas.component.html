@@ -11,7 +11,7 @@
                         <div class="col-6">
                             <div class="pull-right">
                                 <div>
-                                    <a style="float: right;" href="{{envirom.ruta}}php/centroscostos/exportar.php" target="_blank" class="btn btn-success btn-sm">
+                                    <a style="float: right;" (click)="ImprimirExcel()" target="_blank" class="btn btn-success btn-sm">
                                         <i class="fas fa-table"></i> Exportar
                                     </a>
                                 </div>
@@ -33,7 +33,6 @@
                                     <tr>
                                         <th style="max-width: 150px; width: 150px !important;">Codigo Cuenta</th>
                                         <th>Nombre Cuenta</th>
-                                        <th style="max-width: 150px; width: 150px !important;">Empresa</th>
                                         <th style="max-width: 150px; width: 150px !important;">Codigo Cuenta NIIF</th>
                                         <th>Nombre Cuenta NIIF</th>
                                         <th>Estado</th>
@@ -45,13 +44,6 @@
                                         </th>
                                         <th class="tabla-filtro">
                                             <input type="text" [(ngModel)]="filtro_nombre" (blur)="filtros()" class="form-control form-control-sm" placeholder="Filtro Nombre Cuenta">
-                                        </th>
-                                        <th class="tabla-filtro">
-                                            <select [(ngModel)]="filtro_empresa" (blur)="filtros()" class="form-control form-control-sm">
-                                                <option *ngFor="let item of companies" [value]="item.value">
-                                                    {{ item.text }}
-                                                </option>
-                                            </select>
                                         </th>
                                         <th class="tabla-filtro">
                                             <input type="text" [(ngModel)]="filtro_codigo_niif" (blur)="filtros()" class="form-control form-control-sm" placeholder="Filtro Código Niif">
@@ -86,7 +78,6 @@
                                     <tr *ngFor="let item of Planes">
                                         <td>{{ item.Codigo }}</td>
                                         <td>{{ item.Nombre }}</td>
-                                        <td> {{ item.Empresa }} </td>
                                         <td>{{ item.Codigo_Niif }}</td>
                                         <td>{{ item.Nombre_Niif }}</td>
                                         <td>{{ item.Estado }}</td>
@@ -164,6 +155,7 @@
                                             <option value="AUXILIAR">AUXILIAR</option>
                                         </select>
                                     </div>
+                                    <input type="hidden" name="company_id" [(ngModel)]="company_id" required>
                                     <div class="col-md-6 mt-2" style="text-align: left">
                                         Código
                                     </div>
@@ -228,14 +220,6 @@
 
                         <hr>
                         <div class="row">
-                            <div class="col-md-6">
-                                <label for="company_id">Empresa</label>
-                                <select ngModel name="Id_Empresa" id="Id_Empresa" class="form-control form-control-sm" required>
-                                <option *ngFor="let item of companies" [value]="item.value">
-                                    {{ item.text }}
-                                </option>
-                                </select>
-                            </div>
                             <div class="col-md-6">
                                 <label for="">Cuenta es Movimiento?</label>
                                 <select [ngModel]="'N'" name="Movimiento" id="Movimiento" class="form-control form-control-sm" (change)="habCampos($event.target.value)">
@@ -392,7 +376,7 @@
     <div class="app-modal-footer">
         <div class="text-right">
             <button type="button" class="btn btn-default btn-sm" (click)="modalCrearCuenta.hide()">Cancelar</button>
-            <button type="button" class="btn btn-primary btn-sm" [swal]="{ title : '¿Está Seguro?', text : 'Se Dispone a Guardar Esta Informacion' , type : 'warning', showCancelButton : true , confirmButtonText : 'Si, Guardar', cancelButtonText : 'No, Dejame Comprobar!' }"
+            <button type="button" class="btn btn-primary btn-sm" [swal]="{ title : '¿Está Seguro?', text : 'Se Dispone a Guardar Esta Informacion' , icon : 'warning', showCancelButton : true , confirmButtonText : 'Si, Guardar', cancelButtonText : 'No, Dejame Comprobar!' }"
                 (confirm)="guardarPlan(FormPlan, 'guardar')" [disabled]="!FormPlan.valid">Guardar</button>
         </div>
     </div>
@@ -493,14 +477,6 @@
 
                         <hr>
                         <div class="row">
-                            <div class="col-md-6">
-                                <label for="company_id">Empresa</label>
-                                <select [(ngModel)]="PlanCuentaModel.company_id" name="company_id" id="company_id" class="form-control form-control-sm" required>
-                                    <option *ngFor="let item of companies" [value]="item.value">
-                                        {{ item.text }}
-                                    </option>
-                                </select>
-                            </div>
                             <div class="col-md-6">
                                 <label for="">Cuenta es Movimiento?</label>
                                 <select [(ngModel)]="PlanCuentaModel.Movimiento" name="Movimiento" id="Movimiento_Editar" class="form-control form-control-sm" (change)="habCampos($event.target.value)">
@@ -659,7 +635,7 @@
     <div class="app-modal-footer">
         <div class="text-right">
             <button type="button" class="btn btn-default btn-sm" (click)="modalEditarCuenta.hide()">Cancelar</button>
-            <button type="button" class="btn btn-primary btn-sm" [swal]="{ title : '¿Está Seguro?', text : 'Se Dispone a Guardar Esta Informacion' , type : 'warning', showCancelButton : true , confirmButtonText : 'Si, Guardar', cancelButtonText : 'No, Dejame Comprobar!' }"
+            <button type="button" class="btn btn-primary btn-sm" [swal]="{ title : '¿Está Seguro?', text : 'Se Dispone a Guardar Esta Informacion' , icon : 'warning', showCancelButton : true , confirmButtonText : 'Si, Guardar', cancelButtonText : 'No, Dejame Comprobar!' }"
                 (confirm)="guardarPlan(FormEditarPlan, 'editar')">Guardar</button>
         </div>
     </div>
@@ -737,14 +713,12 @@
                             <table class="table table-striped">
                                 <tbody>
                                     <tr>
-                                        <td style="font-weight: bold; font-size: .8rem">Empresa</td>
                                         <td style="font-weight: bold; font-size: .8rem">¿Cuenta es Movimiento?</td>
                                         <td style="font-weight: bold; font-size: .8rem">Base</td>
                                         <td style="font-weight: bold; font-size: .8rem">Valor</td>
                                         <td style="font-weight: bold; font-size: .8rem">Porcentaje</td>
                                     </tr>
                                     <tr>
-                                        <td> {{ PlanCuentaModel.company_name }} </td>
                                         <td>{{TransformarValor(PlanCuentaModel.Movimiento)}}</td>
                                         <td>{{TransformarValor(PlanCuentaModel.Base)}}</td>
                                         <td>{{PlanCuentaModel.Valor}}</td>
@@ -811,5 +785,5 @@
     </div>
 </app-modal-basic>
 
-<swal #alertSwal title="" text="" type="">
+<swal #alertSwal title="" text="" icon="">
 </swal>

@@ -26,10 +26,10 @@ export const environment = {
   //base_url: 'http://127.0.0.1:8000/api',
   // url_assets: 'https://backend.ateneoerp.com/',
   //url_assets: 'http://127.0.0.1:8000/',
-  // ruta: 'https://inventario.ateneoerp.com/',
+  ruta: 'http://localhost/inventario-ateneo-backend/',
   url_assets: 'http://127.0.0.1:8000/',
   base_url: 'http://127.0.0.1:8000/api',
-  ruta: 'http://localhost/ateneo-back-php/',
+  // ruta: 'http://localhost/ateneo-back-php/',
 
 
 
