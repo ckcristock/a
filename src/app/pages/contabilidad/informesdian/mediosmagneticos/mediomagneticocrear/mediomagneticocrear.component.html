@@ -13,6 +13,7 @@
                     <form #FormMediosMag="ngForm">
                         <div class="row mt-4">
                             <div class="col-md-3">
+                            <input type="hidden" name="Id_Empresa" [(ngModel)]="MediosMagModel.Id_Empresa">
                                 <div class="form-group">
                                     <label for="periodo">Periodo</label>
                                     <input type="text" id="periodo" class="form-control form-control-sm" [(ngModel)]="MediosMagModel.Periodo" (blur)="campoPeriodo($event)" name="periodo" required>
@@ -60,16 +61,6 @@
                                     <select name="columna_principal" id="columna_principal" class="form-control form-control-sm" [(ngModel)]="MediosMagModel.Columna_Principal">
                           <option value="">Ninguno</option>
                         </select>
-                                </div>
-                            </div>
-                            <div class="col-md-3">
-                                <div class="form-group">
-                                    <label>Empresa</label>
-                                    <select name="Id_Empresa" id="Id_Empresa" class="form-control form-control-sm" [(ngModel)]="MediosMagModel.Id_Empresa">
-                                        <option *ngFor="let item of companies" [value]="item.value">
-                                            {{ item.text }}
-                                        </option>
-                                    </select>
                                 </div>
                             </div>
                         </div>
