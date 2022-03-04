@@ -12,6 +12,7 @@
                 <div class="card-body" style="padding-bottom: 0px;">
                     <form #FormEgreso="ngForm">
                         <input type="hidden" name="Id_Borrador" [(ngModel)]="idBorrador">
+                        <input type="hidden" name="Id_Empresa" [(ngModel)]="Id_Empresa">
                         <div class="row invoive-info" style="margin-bottom: 0; padding-bottom: 0px;">
                             <div class="col-md-2">
                                 <div class="form-group">
@@ -19,17 +20,6 @@
                                     <input type="date" name="Fecha_Documento" id="Fecha_Nota_Contable" [(ngModel)]="Fecha_Nota_Contable" class="form-control form-control-sm tab" (keyup)="tab($event,'Cliente')" (change)="getCodigoEgreso($event.target.value)" required>
                                 </div>
 
-                            </div>
-                            <div class="col-md-2">
-                                <div class="form-group">
-                                    <label>Empresa</label>
-                                    <!-- <ng-select bindLabel="text" bindValue="value" loadingText="loading " id="Id_Empresa" class="f-10" name="Id_Empresa" [(ngModel)]="Id_Empresa" placeholder="Seleccione la empresa" [items]="companies"></ng-select> -->
-                                    <select [(ngModel)]="Id_Empresa" name="Id_Empresa" id="Id_Empresa" class="form-control form-control-sm" required>
-                                        <option *ngFor="let item of companies" [value]="item.value">
-                                            {{ item.text }}
-                                        </option>
-                                    </select>
-                                </div>
                             </div>
                             <div class="col-md-2">
 
@@ -157,7 +147,6 @@
 
                         </div>
                     </div>
-
                     <hr>
                     <div class="row">
                         <div class="col-md-12">

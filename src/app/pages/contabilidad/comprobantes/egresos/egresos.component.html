@@ -27,7 +27,6 @@
                                 <thead>
                                     <tr>
                                         <th>Fecha</th>
-                                        <th>Empresa</th>
                                         <th>Documento</th>
                                         <th>Beneficiario</th>
                                         <th>Concepto</th>
@@ -44,13 +43,6 @@
                                         <th class="tabla-filtro">
                                             <my-date-range-picker name="mydaterange" [options]="myDateRangePickerOptions" [(ngModel)]="filtro_fecha" (dateRangeChanged)="dateRangeChanged($event)" placeholder="Filtro Fechas"></my-date-range-picker>
                                         </th>
-                                        <th>
-                                            <select (change)="filtros()" name="Id_Empresa" id="Id_Empresa" [(ngModel)]="filtro_empresa" class="form-control input-sm" placeholder="Filtro Empresa" required>
-                                                <option *ngFor="let item of companies" [value]="item.value">
-                                                    {{ item.text }}
-                                                </option>
-                                            </select>
-                                        </th>
                                         <th class="tabla-filtro">
                                             <input type="text" class="form-control input-sm " placeholder="Filtro Código" [(ngModel)]="filtro_codigo" (change)="filtros()">
                                         </th>
@@ -58,8 +50,6 @@
                                             <input type="text" class="form-control input-sm" placeholder="Filtro Cliente" [(ngModel)]="filtro_cliente" (change)="filtros()">
                                         </th>
                                         <th class="tabla-filtro">
-
-
                                         </th>
                                         <th class="tabla-filtro">
                                             <input type="text" class="form-control input-sm" placeholder="Filtro Cheque" [(ngModel)]="filtro_cheque" (change)="filtros()">
@@ -68,7 +58,6 @@
 
                                         </th>
                                         <th class="tabla-filtro">
-
                                         </th>
                                         <th class="tabla-filtro"></th>
                                         <th class="tabla-filtro"></th>
@@ -92,7 +81,6 @@
                                     </tr>
                                     <tr *ngFor="let comprobante of Comprobantes" [ngClass]="{'bg-danger': comprobante.Estado == 'Anulada'}">
                                         <td>{{comprobante.Fecha}}</td>
-                                        <td> {{ comprobante.Empresa }} </td>
                                         <td>{{comprobante.Codigo}}</td>
                                         <td>{{comprobante.Beneficiario}} - {{comprobante.Tercero}}</td>
                                         <td>{{comprobante.Concepto}}</td>
@@ -140,7 +128,7 @@
 </div>
 
 <ng-template #rt2 let-r="result" let-t="term">
-    <span class="f-9"><strong>{{ r.NombreProveedor }}</strong> 
+    <span class="f-9"><strong>{{ r.NombreProveedor }}</strong>
     </span>
 </ng-template>
 
