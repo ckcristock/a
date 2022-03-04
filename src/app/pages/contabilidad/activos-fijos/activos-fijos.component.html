@@ -15,10 +15,10 @@
                         class="fa fa-plus"></i>
                       Agregar Nuevo Activo Fijo
                     </button> -->
-                                    <button type="button" style="float: right;" class="pull-left btn btn-primary btn-sm" [routerLink]="['/contabilidad/activos-fijos-crear']"><i
+                                    <!-- <button type="button" style="float: right;" class="pull-left btn btn-primary btn-sm" [routerLink]="['/contabilidad/activos-fijos-crear']"><i
                                         class="fa fa-plus"></i>
                                     Agregar Nuevo Activo Fijo
-                                    </button>
+                                    </button> -->
                                 </div>
                             </div>
                         </div>
@@ -32,7 +32,6 @@
                                     <tr>
                                         <th class="text-center" style="width: 110px !important;">Documento</th>
                                         <th class="text-center" style="width: 150px !important;">Nombre</th>
-                                        <th class="text-center" style="width: 150px !important;">Empresa</th>
                                         <th class="text-center">Tipo de Activo</th>
                                         <th class="text-center" style="width: 150px !important;">Centro Costo</th>
                                        <!--  <th class="text-right">Costo PCGA(Local)</th> -->
@@ -45,13 +44,6 @@
                                         </th>
                                         <th class="tabla-filtro" style="max-width: 120px; width: 120px !important;">
                                             <input type="text" class="form-control input-sm " placeholder="Filtro Nombre" [(ngModel)]="Filtros.nombre" (change)="ConsultaFiltrada()">
-                                        </th>
-                                        <th>
-                                            <select (change)="ConsultaFiltrada()" name="Id_Empresa" id="Id_Empresa" [(ngModel)]="Filtros.Id_Empresa" class="form-control input-sm" placeholder="Filtro Empresa" required>
-                                                <option *ngFor="let item of companies" [value]="item.value">
-                                                    {{ item.text }}
-                                                </option>
-                                            </select>
                                         </th>
                                         <th class="tabla-filtro" style="max-width: 120px; width: 120px !important;">
                                             <select name="Id_Tipo_Activo_Fijo" id="tipo_activo" class="form-control form-control-sm custom-select" [(ngModel)]="Filtros.tipo" (change)="ConsultaFiltrada()">
@@ -86,7 +78,6 @@
                                     <tr *ngFor="let af of ActivosFijos" [ngClass]="{'bg-danger': af.Estado == 'Anulada'}">
                                         <td>{{af.Codigo}}</td>
                                         <td>{{af.Nombre}}</td>
-                                        <td> {{ af.Empresa }} </td>
                                         <td>{{af.Tipo_Activo}}</td>
                                         <td class="text-center">{{af.Centro_Costo}}</td>
                                       <!--   <td class="text-right">$ {{af.Costo_PCGA | number | puntos}}</td> -->
