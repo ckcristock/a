@@ -8,6 +8,7 @@ import { SwalService } from '../../../ajustes/informacion-base/services/swal.ser
 import { Location } from '@angular/common';
 import { environment } from 'src/environments/environment';
 import { CentroCostosService } from '../../centro-costos/centro-costos.service';
+import { UserService } from 'src/app/core/services/user.service';
 
 @Component({
   selector: 'app-notas-contables',
@@ -18,19 +19,19 @@ export class NotasContablesComponent implements OnInit {
 
   public NotasContables:any = [];
   public Cargando:boolean = true;
-  public maxSize = 20; 
+  public maxSize = 20;
   public TotalItems:number;
   public page = 1;
   public filtros = {
     codigo: '',
     fechas: '',
     tercero: '',
-    estado: '',
-    Id_Empresa: ''
+    estado: ''
   }
 public filtro_fecha:any='';
+public company_id:any = '';
 myDateRangePickerOptions: IMyDrpOptions = {
-    width:'200px', 
+    width:'200px',
     height: '21px',
     selectBeginDateTxt:'Inicio',
     selectEndDateTxt:'Fin',
@@ -43,7 +44,7 @@ myDateRangePickerOptions: IMyDrpOptions = {
   alertOption: SweetAlertOptions;
   // perfilUsuario:any = localStorage.getItem('miPerfil');
   companies:any[] = [];
-  constructor(private http: HttpClient, private route: ActivatedRoute, private location: Location, private swalService: SwalService, private _company: CentroCostosService) { 
+  constructor(private http: HttpClient, private route: ActivatedRoute, private location: Location, private swalService: SwalService, private _company: CentroCostosService, private _user: UserService) {
     this.alertOption = {
       title: "¿Está Seguro?",
       text: "Se dispone a Anular este Documento",
@@ -65,34 +66,28 @@ myDateRangePickerOptions: IMyDrpOptions = {
   ngOnInit() {
     this.ListarNotasContables()
     this.envirom = environment;
-    this.listarEmpresas();
+    this.company_id = this._user.user.person.company_worked.id;
   }
 
   ListarNotasContables() {
 
-    this.http.get(environment.ruta+'php/contabilidad/notascontables/lista_notas_contables.php').subscribe((data:any) => {
+    this.http.get(environment.ruta+'php/contabilidad/notascontables/lista_notas_contables.php', {params: { company_id: this._user.user.person.company_worked.id }}).subscribe((data:any) => {
       this.Cargando = false;
       this.NotasContables = data.Notas;
       this.TotalItems = data.numReg;
-    });    
-    
-  }
-  
-  listarEmpresas(){
-    this._company.getCompanies().subscribe((data:any) => {
-      this.companies = data.data;
-    })
+    });
+
   }
 
   dateRangeChanged(event) {
-    
+
     if (event.formatted != "") {
       this.filtros.fechas = event.formatted;
     } else {
       this.filtros.fechas = '';
     }
-    
-    this.filtrar(); 
+
+    this.filtrar();
   }
 
   getStrConditions(pagination = false) {
@@ -109,9 +104,6 @@ myDateRangePickerOptions: IMyDrpOptions = {
     }
     if (this.filtros.estado != '') {
       params.est = this.filtros.estado;
-    }
-    if (this.filtros.Id_Empresa != '') {
-      params.empresa = this.filtros.Id_Empresa;
     }
     if (pagination) {
       params.pag = this.page
@@ -136,8 +128,8 @@ myDateRangePickerOptions: IMyDrpOptions = {
       this.Cargando = false;
       this.NotasContables = data.Notas;
       this.TotalItems = data.numReg;
-    });    
-    
+    });
+
   }
 
   anularDocumento() {
@@ -164,7 +156,7 @@ myDateRangePickerOptions: IMyDrpOptions = {
       };
       this.swalService.ShowMessage(swal);
     });
-    
+
   }
 
   public AnularDocumentoContable(datos) {

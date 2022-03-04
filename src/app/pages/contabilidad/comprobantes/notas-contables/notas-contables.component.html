@@ -27,7 +27,6 @@
                                 <thead>
                                     <tr>
                                         <th>Fecha</th>
-                                        <th>Empresa</th>
                                         <th>Documento</th>
                                         <th>Beneficiario</th>
                                         <th>Concepto</th>
@@ -42,13 +41,6 @@
                                     <tr>
                                         <th class="tabla-filtro">
                                             <my-date-range-picker name="mydaterange" [options]="myDateRangePickerOptions" [(ngModel)]="filtro_fecha" (dateRangeChanged)="dateRangeChanged($event)" placeholder="Filtro Fechas"></my-date-range-picker>
-                                        </th>
-                                        <th>
-                                            <select (change)="filtrar()" name="Id_Empresa" id="Id_Empresa" [(ngModel)]="filtros.Id_Empresa" class="form-control input-sm" placeholder="Filtro Empresa" required>
-                                                <option *ngFor="let item of companies" [value]="item.value">
-                                                    {{ item.text }}
-                                                </option>
-                                            </select>
                                         </th>
                                         <th class="tabla-filtro">
                                             <input type="text" class="form-control input-sm " placeholder="Filtro Código" [(ngModel)]="filtros.codigo" (change)="filtrar()">
@@ -97,7 +89,6 @@
                                     </tr>
                                     <tr *ngFor="let item of NotasContables" [ngClass]="{'bg-danger': item.Estado == 'Anulada'}">
                                         <td>{{item.Fecha}}</td>
-                                        <td> {{ item.Empresa }} </td>
                                         <td>{{item.Codigo}}</td>
                                         <td>{{item.Beneficiario}} - {{item.Tercero}}</td>
                                         <td>{{item.Concepto}}</td>
