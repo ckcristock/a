@@ -3,6 +3,8 @@ import { Component, Input, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 import { NgbActiveModal, NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { environment } from 'src/environments/environment';
+import { UserService } from 'src/app/core/services/user.service';
+
 
 @Component({
   selector: 'app-modalform',
@@ -11,6 +13,7 @@ import { environment } from 'src/environments/environment';
 })
 export class ModalformComponent implements OnInit {
 
+  public company_id: any = '';
 
   Funcionario_Cuenta;
   Funcionario_Digita;
@@ -25,8 +28,10 @@ export class ModalformComponent implements OnInit {
   Error_Codigo_Barras = false;
 
   constructor(public activeModal: NgbActiveModal, private modalService: NgbModal,
-    private http: HttpClient, private router:Router
+    private _user: UserService,
+    private http: HttpClient, private router:Router,
   ) {
+    this.company_id = this._user.user.person.company_worked.id;
 
   }
 
@@ -39,7 +44,7 @@ export class ModalformComponent implements OnInit {
   }
 
   listarProductosCategoria() {
-
+/*
     let Codigo_Barras = this.Codigo_Barras;
     if (!this.Funcionario_Digita || this.Funcionario_Cuenta=='') {
       this.Error_Funcionario_Digita = true;
@@ -53,13 +58,14 @@ export class ModalformComponent implements OnInit {
       this.Error_Funcionario_Digita = true;
       return false;
     }
-
+*/
 
 
     let params: any = {
       Contador:  this.Funcionario_Cuenta,
       Digitador: this.Funcionario_Digita,
-      Codigo_Barras: this.Codigo_Barras
+      Codigo_Barras: this.Codigo_Barras,
+      company_id: this.company_id
     }
 
     this.http.get(environment.ruta + 'php/inventariofisico/estiba/iniciar_inventario.php', { params })
