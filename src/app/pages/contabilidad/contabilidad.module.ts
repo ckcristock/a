@@ -31,6 +31,7 @@ import { VerFacturaAdministrativaComponent } from './factura-administrativa/ver-
 import { CrearFacturaAdministrativaComponent } from './factura-administrativa/crear-factura-administrativa/crear-factura-administrativa.component';
 import { Globales } from './globales';
 import { ComprobantesModule } from './comprobantes/comprobantes.module';
+import { PerfectScrollbarModule } from 'ngx-perfect-scrollbar';
 
 @NgModule({
   declarations: [
@@ -69,7 +70,8 @@ import { ComprobantesModule } from './comprobantes/comprobantes.module';
     NgbTypeaheadModule,
     NgSelectModule,
     SweetAlert2Module.forRoot(),
-    MyDateRangePickerModule
+    MyDateRangePickerModule,
+    PerfectScrollbarModule
   ],
   providers: [
     Globales

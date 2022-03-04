@@ -8,7 +8,8 @@
     <div class="app-modal-body">
         <form #FormCierre="ngForm">
             <div class="row">
-                <div class="col-md-6">
+                <input type="hidden" name="Id_Empresa" [(ngModel)]="modelCierre.Id_Empresa">
+                <div class="col-md-12">
                     <div class="form-group">
                         <label for="Anio">Año: </label>
                         <select name="Anio" id="Anio" [(ngModel)]="modelCierre.Anio" class="form-control form-control-sm" required>
@@ -18,23 +19,13 @@
               </select>
                     </div>
                 </div>
-                <div *ngIf="modelCierre.Tipo_Cierre == 'Mes'" class="col-md-6">
+                <div *ngIf="modelCierre.Tipo_Cierre == 'Mes'" class="col-md-12">
                     <div class="form-group">
                         <label for="Mes">Mes: </label>
                         <select name="Mes" id="Mes" [(ngModel)]="modelCierre.Mes" class="form-control form-control-sm" required>
                 <option value="">Seleccione Mes</option>
                 <option *ngFor="let mes of meses; let i=index" [value]="i+1">{{ mes }}</option>
               </select>
-                    </div>
-                </div>
-                <div class="col-md-6">
-                    <div class="form-group">
-                        <label>Empresa</label>
-                        <select name="Id_Empresa" id="Id_Empresa" class="form-control form-control-sm" [(ngModel)]="modelCierre.Id_Empresa">
-                            <option *ngFor="let item of companies" [value]="item.value">
-                                {{ item.text }}
-                            </option>
-                        </select>
                     </div>
                 </div>
                 <div class="col-md-12">
