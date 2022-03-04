@@ -9,6 +9,7 @@ import { debounceTime, map } from 'rxjs/operators';
 import { NgForm } from '@angular/forms';
 import { environment } from 'src/environments/environment';
 import { PlanCuentasService } from '../../../plan-cuentas/plan-cuentas.service';
+import { UserService } from 'src/app/core/services/user.service';
 
 @Component({
   selector: 'app-comprobanteingresocrear',
@@ -98,12 +99,13 @@ export class ComprobanteingresocrearComponent implements OnInit {
   public Valor_Devoluciones:number = 0;
   companies:any[] = [];
 
-  constructor( 
-                private route: ActivatedRoute, 
-                private http: HttpClient, 
-                private router: Router, 
+  constructor(
+                private route: ActivatedRoute,
+                private http: HttpClient,
+                private router: Router,
                 private _swalService:SwalService,
-                private _companies: PlanCuentasService
+                private _companies: PlanCuentasService,
+                private _user: UserService
               ) {
 
     let queryParams = this.route.snapshot.queryParams;
@@ -166,17 +168,17 @@ export class ComprobanteingresocrearComponent implements OnInit {
     );
 formatter1 = (x: { Codigo: string }) => x.Codigo;
     ngOnInit() {
-      this.ListasEmpresas();
+      this.Id_Empresa = this._user.user.person.company_worked.id;
       this.http.get(environment.ruta + 'php/comprobantes/lista_cliente.php').subscribe((data: any) => {
         this.Cliente = data;
       });
-      this.http.get(environment.ruta + 'php/comprobantes/cuentas.php').subscribe((data: any) => {
+      this.http.get(environment.ruta + 'php/comprobantes/cuentas.php', {params: {company_id: this._user.user.person.company_worked.id}}).subscribe((data: any) => {
         this.Cuentas = data;
       });
       this.http.get(environment.ruta + 'php/comprobantes/formas_pago.php').subscribe((data: any) => {
         this.FormaPago = data;
       });
-      this.http.get(environment.ruta + 'php/comprobantes/lista_cuentas.php').subscribe((data: any) => {
+      this.http.get(environment.ruta + 'php/comprobantes/lista_cuentas.php', {params: {company_id: this._user.user.person.company_worked.id}}).subscribe((data: any) => {
         this.Cuenta = data.Activo;
       });
       this.http.get(environment.ruta + 'php/lista_generales.php', { params: { modulo: 'Impuesto' } }).subscribe((data: any) => {
@@ -193,14 +195,9 @@ formatter1 = (x: { Codigo: string }) => x.Codigo;
     this.Id_Proveedor = modelo.Id_Proveedor;
   }
 
-  ListasEmpresas(){
-    this._companies.getCompanies().subscribe((data:any) => {
-      this.companies = data.data;
-    })
-  }
-
   BuscarDatosCliente(cliente) {
     this.Id_Cliente=cliente.Id_Cliente;
+    console.log(cliente);
     this.ListaFact = [];
 
     if (this.Mostrar_Cliente) {
@@ -581,7 +578,6 @@ formatter1 = (x: { Codigo: string }) => x.Codigo;
     datos.append('Facturas', JSON.stringify(this.ListaFact));
     datos.append('Categorias', JSON.stringify(this.Categorias));
     datos.append('Retenciones', JSON.stringify(this.Rentenciones));
-
     this.http.post(environment.ruta+'php/comprobantes/guardar_comprobante.php', datos).subscribe((data:any)=>{
 
       this.confirmacionSwal.title =data.titulo;
@@ -599,7 +595,7 @@ formatter1 = (x: { Codigo: string }) => x.Codigo;
 
         setTimeout(() => {
 
-          this.router.navigate(['/comprobante/ingresos']);
+          this.router.navigate(['/contabilidad/comprobantes/ingresos']);
         }, 1000);
       }
 
