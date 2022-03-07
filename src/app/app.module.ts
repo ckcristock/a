@@ -28,7 +28,8 @@ export function createTranslateLoader(http: HttpClient): any {
   declarations: [
     AppComponent,
     LoginComponent,
-    FilterPipe,
+    FilterPipe
+
   ],
   imports: [
     HttpClientModule,

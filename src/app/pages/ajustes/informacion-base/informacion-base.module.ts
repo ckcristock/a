@@ -38,6 +38,7 @@ import { TableProductosCatalogoComponent } from './catalogo/components/table-pro
 import { DotacionCrearComponent } from './dotacion-crear/dotacion-crear.component';
 import { CompaniesToWorkComponent } from './funcionarios/detalle-funcionario/permissions/companies-to-work/companies-to-work.component';
 import { PuntodispensacionComponent } from './puntodispensacion/puntodispensacion.component';
+import { DispensingPointComponent } from './funcionarios/detalle-funcionario/permissions/dispensing-point/dispensing-point.component';
 
 
 
@@ -120,6 +121,7 @@ import { PuntodispensacionComponent } from './puntodispensacion/puntodispensacio
         DotacionCrearComponent,
         CompaniesToWorkComponent,
         PuntodispensacionComponent,
+        DispensingPointComponent
 
     ],
 

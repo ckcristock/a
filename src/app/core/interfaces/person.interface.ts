@@ -10,4 +10,5 @@ export interface Person {
     image: string;
     company_worked:any;
     companies: any[];
+    dispensing_point_id: string;
 }
