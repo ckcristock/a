@@ -1,6 +1,7 @@
 import { environment } from '../../../environments/environment';
 import { Person } from '../interfaces/person.interface';
 import { Menu } from '../interfaces/menu';
+import { Board } from '../interfaces/board.interface';
 
 const base_url = environment.base_url;
 
@@ -13,6 +14,7 @@ export class User {
         public change_password: boolean,
         public person: Person,
         public menu: Array<any>,
+        public board: Board,
         public password?: string,
 
     ) { }

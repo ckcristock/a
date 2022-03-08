@@ -23,6 +23,9 @@ import { NgSelectModule } from '@ng-select/ng-select';
     NgbDatepickerModule,
     NgSelectModule
   ],
-  declarations: [GraficalModuleComponent, PagetitleComponent, StatComponent]
+  declarations: [GraficalModuleComponent, PagetitleComponent, StatComponent],
+  exports: [
+    GraficalModuleComponent
+  ],
 })
 export class GraficalModuleModule { }

@@ -6,8 +6,7 @@ import { ComprasModule } from './compras/compras.module';
 
 const routes: Routes = [
     { path: '', component: DashboardComponent },
-    { path: 'grafical-resume', loadChildren: () => import('./grafical-module/grafical-module.module').then(m => m.GraficalModuleModule) },
-
+    //{ path: 'grafical-resume', loadChildren: () => import('./grafical-module/grafical-module.module').then(m => m.GraficalModuleModule) },
     {
         path: 'agendamiento',
         loadChildren: () => import('./agendamiento/agendamiento.module').then(m => m.AgendamientoModule)
