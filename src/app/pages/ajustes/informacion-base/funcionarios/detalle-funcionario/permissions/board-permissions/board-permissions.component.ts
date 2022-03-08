@@ -36,15 +36,12 @@ export class BoardPermissionsComponent implements OnInit {
       .getPersonBoards(this.personId)
       .subscribe(
         (d: any) => {
-          var r = d.data.reduce((acc, el) => [...acc, el.name_board]);
-          if (r != null){
+          if (d.data.length != 0){
             this.boardsSelected =
             d.data.reduce((acc, el) => [...acc, el.name_board]);
-          } else if (r == null){
-            this.boardsSelected = 'No se ha asignado un tablero';
-          } 
-          
-                   
+          } else if (d.data.length == 0) {
+            this.boardsSelected = 'USUARIO SIN TABLETO ASIGNADO'
+          }
         });
   }
 
