@@ -2,6 +2,7 @@ import { NgModule } from '@angular/core';
 import { Routes, RouterModule } from '@angular/router';
 
 import { AbrirAgendasComponent } from './abrir-agendas/abrir-agendas.component';
+import { ActaAplicacionComponent } from './acta-aplicacion/acta-aplicacion.component';
 import { AgendasComponent } from './agendas/agendas.component';
 import { VerAgendaComponent } from './agendas/ver-agenda/ver-agenda.component';
 import { AsignacionCitasComponent } from './asignacion-citas/asignacion-citas.component';
@@ -14,7 +15,9 @@ import { ReportesComponent } from './reportes/reportes.component';
 
 
 const routes: Routes = [
-    { path: 'abrir-agendas', component: AbrirAgendasComponent },
+  { path: 'abrir-agendas', component: AbrirAgendasComponent },
+  { path: 'actaaplicacion', component: ActaAplicacionComponent },
+
     { path: 'asignacion-citas/:id', component: AsignacionCitasComponent },
     { path: 'asignacion-citas', component: AsignacionCitasComponent },
     { path: 'lista-espera', component: ListaEsperaComponent },

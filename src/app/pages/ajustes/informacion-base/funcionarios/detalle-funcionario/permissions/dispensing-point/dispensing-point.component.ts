@@ -31,16 +31,6 @@ export class DispensingPointComponent implements OnInit {
       );
     });
   }
-  /*
-  getCompaniesWorked() {
-    this._dispensing
-      .getPersonCompanies(this.personId)
-      .subscribe(
-        (d: any) => {
-          this.companiesSelected =
-            d.data.reduce((acc, el) => [...acc, parseInt(el.company_id)], [])
-        });
-  }*/
 
   save() {
     this.saving = true;

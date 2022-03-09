@@ -15,6 +15,8 @@ import { IndicadoresGestionComponent } from './indicadores-gestion/indicadores-g
 import { ReportesComponent } from './reportes/reportes.component';
 import { FullCalendarModule } from '@fullcalendar/angular';
 import { TopWaitingComponent } from './lista-espera/top-waiting/top-waiting.component';
+//import { ActaAplicacionComponent } from './pages/agendamiento/acta-aplicacion/acta-aplicacion.component';
+
 
 
 
@@ -27,6 +29,10 @@ import { PipesModule } from '../../core/pipes/pipes.module';
 import { RecaudosComponent } from './recaudos/recaudos.component';
 import { ReplayMigrateModule } from './replay-migrate/replay-migrate.module';
 import { CallInComponent } from './call-in/call-in.component';
+import { ActaAplicacionComponent } from './acta-aplicacion/acta-aplicacion.component';
+//import { NgxDropzoneModule } from 'ngx-dropzone';
+
+
 
 @NgModule({
     declarations: [
@@ -41,7 +47,9 @@ import { CallInComponent } from './call-in/call-in.component';
         VerAgendaComponent,
         DetailStatsComponent,
         RecaudosComponent,
-        CallInComponent
+        CallInComponent,
+        ActaAplicacionComponent
+
 
     ],
     imports: [
