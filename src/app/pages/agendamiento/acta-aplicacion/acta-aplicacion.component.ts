@@ -10,8 +10,7 @@ import { TimeGridSlicer } from '@fullcalendar/timegrid';
 })
 export class ActaAplicacionComponent implements OnInit {
   @ViewChild('modal') modal: any;
-  @ViewChild('modalDocuments') modalDocuments:any;
-
+  @ViewChild('modalDocuments') modalDocuments: any;
 
   form: FormGroup;
 
@@ -29,31 +28,59 @@ export class ActaAplicacionComponent implements OnInit {
   };
 
   people: any[] = [];
+  diagnostics: any[] = [];
+  cups: any[] = [];
   ListaProductos: any[] = [];
   productsAdd: any[] = [];
   productS: any[] = [];
   productList: any[] = [];
-  files: File[] = [];  // Para Documentos legales
-  fileArr:any[] = [];
+  files: File[] = []; // Para Documentos legales
+  fileArr: any[] = [];
 
-
+  myFiles: string[] = [];
 
   constructor(private fb: FormBuilder, private _acta: ActaAplicacionService) {}
-
+  get f() {
+    return this.form.controls;
+  }
   ngOnInit(): void {
     this.createForm();
-
     this.getPeople();
+    this.getDiagnostics();
+    this.getCups();
+  }
+
+  getDiagnostics() {
+    let params = {
+      xxx: 'Dotacion_EPP',
+    };
+    this._acta.getDiagnostics(params).subscribe((data: any) => {
+      this.diagnostics = data.data;
+    });
+  }
+
+  getCups() {
+    let params = {
+      xxx: 'Dotacion_EPP',
+    };
+    this._acta.getCups(params).subscribe((data: any) => {
+      this.cups = data.data;
+    });
   }
 
   createForm() {
     this.form = this.fb.group({
       person: [''],
+      diagnostic: [''],
       date: [''],
+      cups: [''],
+      observation:[''],
       file: [''],
       productSelected: this.fb.array([]),
     });
   }
+
+  onFileChange(event) {}
 
   selectedProduct(event: any, p) {
     let selected = {
@@ -98,22 +125,19 @@ export class ActaAplicacionComponent implements OnInit {
       return group;
     });
   }
-  verF(){
+  verF() {
     console.log(this.form);
-
   }
 
   onSelect(event) {
     this.files.push(...event.addedFiles);
   }
-  hideModalDocuments(){
+  hideModalDocuments() {
     this.modalDocuments.hide();
     this.files = [];
     this.fileArr = [];
   }
-  saveDocuments(){}
-
-
+  saveDocuments() {}
 
   get getProductList() {
     return this.form.get('productSelected') as FormArray;
@@ -145,11 +169,9 @@ export class ActaAplicacionComponent implements OnInit {
     });
   }
 
-  close(){
+  close() {
     this.productS = [];
     this.modal.hide();
     this.loading = false;
-
-
   }
 }

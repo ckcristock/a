@@ -16,4 +16,11 @@ export class ActaAplicacionService {
   GetProducts(params){
     return this.http.get(`${environment.base_url}/product-acta`, {params});
   }
+
+  getDiagnostics(params){
+    return this.http.get(`${environment.base_url}/cie10s`, {params});
+  }
+  getCups(params){
+    return this.http.get(`${environment.base_url}/cups`, {params});
+  }
 }

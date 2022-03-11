@@ -30,7 +30,8 @@ import { RecaudosComponent } from './recaudos/recaudos.component';
 import { ReplayMigrateModule } from './replay-migrate/replay-migrate.module';
 import { CallInComponent } from './call-in/call-in.component';
 import { ActaAplicacionComponent } from './acta-aplicacion/acta-aplicacion.component';
-//import { NgxDropzoneModule } from 'ngx-dropzone';
+import { HttpClientModule } from '@angular/common/http';
+
 
 
 
@@ -69,7 +70,8 @@ import { ActaAplicacionComponent } from './acta-aplicacion/acta-aplicacion.compo
         NgbAlertModule,
         NgbDatepickerModule,
         PipesModule,
-        ReplayMigrateModule
+        ReplayMigrateModule,
+        HttpClientModule
     ],
 
     bootstrap: [],
