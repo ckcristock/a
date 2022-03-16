@@ -5,7 +5,7 @@
         <div class="form-group col-md-4">
           <label for="">Paciente</label>
           <ng-select
-            formControlName="person"
+            formControlName="patient_id"
             [items]="people"
             bindLabel="text"
             bindValue="value"
@@ -26,24 +26,10 @@
           />
         </div>
 
-        <div class="col-md-4">
-          <button
-            style="float: right"
-            type="button"
-            class="btn btn-primary mt-4"
-            (click)="listarProducto()"
-          >
-            <i class="fa fa-plus"></i>
-            Agregar Producto
-          </button>
-        </div>
-      </div>
-
-      <div class="row">
-        <div class="form-group col-md-4">
+        <div class="form-group col-md-5">
           <label for="">CUPs</label>
           <ng-select
-            formControlName="cups"
+            formControlName="cups_id"
             [items]="cups"
             bindLabel="text"
             bindValue="value"
@@ -52,8 +38,10 @@
           >
           </ng-select>
         </div>
+      </div>
 
-        <div class="form-group col-md-4">
+      <div class="row">
+        <div class="form-group col-md-6">
           <label for="">Diagnostico Principal</label>
           <ng-select
             formControlName="diagnostic"
@@ -66,11 +54,12 @@
           </ng-select>
         </div>
 
-        <div class="form-group col-md-4">
+        <div class="form-group col-md-6">
           <label for="">Diagnostico Secundario</label>
           <ng-select
-            formControlName="diagnostic"
+            formControlName="diagnosticS"
             [items]="diagnostics"
+            multiple="true"
             bindLabel="text"
             bindValue="value"
             loadingText="loading "
@@ -81,16 +70,37 @@
       </div>
 
       <div class="row">
-        <div class="form-group col-md-8">
+        <div class="form-group col-md-12">
           <label for="">Nota Enfermeria</label>
 
           <textarea
             class="form-control form-control-sm"
             cols="100%"
             formControlName="observation"
-            rows="10"
+            rows="6"
           ></textarea>
         </div>
+      </div>
+
+      <div class="row mt-3 mb-3">
+        <div class="col-md-5">
+          <label class="mr-1" for="importFile">Acta Aplicacion</label>
+          <input type="file" id="importFile" (change)="fileActa($event)" />
+
+        </div>
+        <div class="col-md-7">
+
+          <button
+            style="float: right"
+            type="button"
+            class="btn btn-primary mt-0"
+            (click)="listarProducto()"
+          >
+            <i class="fa fa-plus"></i>
+            Agregar Producto
+          </button>
+        </div>
+
       </div>
 
       <!-- <table class="table table-borderless table-striped" *ngIf="!loading && thirdParties.length > 0; else notData">-->
@@ -124,27 +134,50 @@
                   <td>{{ pl.value.Codigo_Cum }}</td>
                   <td>
                     <input
-                      formControlName="Cantidad"
+                      formControlName="amount"
                       class="form-control input"
-                      type="text"
+                      type="number"
                     />
                   </td>
                   <td>
                     <div class="text-center">
-                      <button
-                        class="btn btn-success btn-sm"
-                        style="float: right"
-                        (click)="modalDocuments.show()"
-                      >
-                        <i class="fas fa-file-pdf"></i>
-                      </button>
-                      <button
+                      <label class="btn btn-primary btn-sm mr-1">
+                        <i
+                          class="fas fa-file-pdf"
+                          style="font-size: 18px"
+                          aria-hidden="false"
+                        >
+                          <input
+                            (change)="file1($event, pl, i)"
+                            style="display: none"
+                            id="file-input"
+                            type="file"
+                          />
+                        </i>
+                      </label>
+
+                      <label class="btn btn-primary btn-sm mr-1">
+                        <i
+                          class="fas fa-file-pdf"
+                          style="font-size: 18px"
+                          aria-hidden="false"
+                        >
+                          <input
+                            (change)="file2($event, pl, i)"
+                            style="display: none"
+                            id="file-input"
+                            type="file"
+                          />
+                        </i>
+                      </label>
+
+                      <label
                         class="btn btn-danger btn-sm"
                         type="button"
                         (click)="deletedProduct(i)"
                       >
                         <i class="fas fa-trash-alt"></i>
-                      </button>
+                      </label>
                     </div>
                   </td>
                 </tr>
@@ -156,10 +189,11 @@
     </form>
     <button
       type="submit"
-      class="btn btn-primary btn-sm raised"
-      (click)="verF()"
+      class="btn btn-success raised ml-3"
+      (click)="save()"
+      [disabled]="!form.valid"
     >
-      Agregar
+      Generar Acta
     </button>
   </div>
 </div>
@@ -224,61 +258,6 @@
         (click)="addProduct()"
       >
         Agregar
-      </button>
-    </div>
-  </div>
-</app-modal-basic>
-
-<app-modal-basic #modalDocuments [dialogClass]="'modal-lg'">
-  <div class="app-modal-header">
-    <h5 class="modal-title">Agregar Documentos</h5>
-    <button
-      type="button"
-      class="close basic-close"
-      (click)="hideModalDocuments()"
-    >
-      <span aria-hidden="true">
-        <i class="fas fa-times" (click)="hideModalDocuments()"></i>
-      </span>
-    </button>
-  </div>
-  <div class="app-modal-body">
-    <div class="col-12">
-      <label for="">Documentos</label>
-      <div class="col"></div>
-    </div>
-    <div class="form-group">
-      <label for="file">File</label>
-      <input
-        formControlName="file"
-        id="file"
-        type="file"
-        multiple
-        class="form-control"
-        (change)="onFileChange($event)"
-      />
-      <div *ngIf="f.file.touched && f.file.invalid" class="alert alert-danger">
-        <div *ngIf="f.file.errors && f.file.errors.required">
-          File is required.
-        </div>
-      </div>
-    </div>
-  </div>
-  <div class="app-modal-footer">
-    <div class="form-group text-right">
-      <button
-        (click)="hideModalDocuments()"
-        type="button"
-        class="btn btn-danger raised mr-2 btn-sm"
-      >
-        Cerrar
-      </button>
-      <button
-        type="submit"
-        class="btn btn-primary btn-sm raised"
-        (click)="saveDocuments()"
-      >
-        Guardar Documentos
       </button>
     </div>
   </div>

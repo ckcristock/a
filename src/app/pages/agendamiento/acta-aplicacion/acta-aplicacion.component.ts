@@ -1,7 +1,11 @@
 import { Component, OnInit, ViewChild } from '@angular/core';
 import { ActaAplicacionService } from '../acta-aplicacion.service';
-import { FormGroup, FormBuilder, FormArray } from '@angular/forms';
+import { FormGroup, FormBuilder, FormArray,Validators } from '@angular/forms';
 import { TimeGridSlicer } from '@fullcalendar/timegrid';
+import { functionsUtils } from '../../../core/utils/functionsUtils';
+import { UserService } from 'src/app/core/services/user.service';
+import Swal from 'sweetalert2';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-acta-aplicacion',
@@ -34,15 +38,23 @@ export class ActaAplicacionComponent implements OnInit {
   productsAdd: any[] = [];
   productS: any[] = [];
   productList: any[] = [];
-  files: File[] = []; // Para Documentos legales
-  fileArr: any[] = [];
 
-  myFiles: string[] = [];
+  fileString: any = '';
+  file: any = '';
+  type: any = '';
 
-  constructor(private fb: FormBuilder, private _acta: ActaAplicacionService) {}
-  get f() {
-    return this.form.controls;
-  }
+  //files: File[] = []; // Para Documentos legales
+  //fileArr: any[] = [];
+
+  //myFiles: string[] = [];
+
+  constructor(
+    private router: Router,
+    private _user: UserService,
+    private fb: FormBuilder,
+    private _acta: ActaAplicacionService
+  ) {}
+
   ngOnInit(): void {
     this.createForm();
     this.getPeople();
@@ -70,17 +82,85 @@ export class ActaAplicacionComponent implements OnInit {
 
   createForm() {
     this.form = this.fb.group({
-      person: [''],
-      diagnostic: [''],
-      date: [''],
-      cups: [''],
-      observation:[''],
-      file: [''],
+      patient_id:  ['', Validators.required],
+      person_id: [''],
+      date:  ['', Validators.required],
+      cups_id:  ['', Validators.required],
+      diagnostic:  ['', Validators.required],
+      diagnosticS: [''],
+      observation: [''],
+      file:  [''],
+      type: [''],
       productSelected: this.fb.array([]),
     });
   }
 
-  onFileChange(event) {}
+  fileActa(event) {
+    if (event.target.files[0]) {
+      let file = event.target.files[0];
+      var reader = new FileReader();
+      reader.readAsDataURL(event.target.files[0]);
+      reader.onload = (event) => {
+        this.fileString = (<FileReader>event.target).result;
+        const type = { ext: this.fileString };
+        this.type = type.ext.match(/[^:/]\w+(?=;|,)/)[0];
+      };
+      functionsUtils.fileToBase64(file).subscribe((base64) => {
+        this.file = base64;
+      });
+    }
+  }
+
+  productControl(event) {
+    let groupSelect = this.form.get('productSelected') as FormArray;
+    event.productSelected.forEach((element) => {
+      let group = this.fb.group({
+        Nombre_Comercial: [element.Nombre_Comercial],
+        Codigo_Cum: [element.Codigo_Cum],
+        lote: [element.Lote],
+        amount: [''],
+        file1: [''],
+        file2: [''],
+        product_id: [element.Id_Producto],
+      });
+      groupSelect.push(group);
+      this.loading = false;
+      return group;
+    });
+  }
+  file1(event, data, i) {
+    if (event.target.files[0]) {
+      let file = event.target.files[0];
+      var reader = new FileReader();
+      reader.readAsDataURL(event.target.files[0]);
+      reader.onload = (event) => {
+        this.fileString = (<FileReader>event.target).result;
+        const type = { ext: this.fileString };
+        this.type = type.ext.match(/[^:/]\w+(?=;|,)/)[0];
+      };
+      functionsUtils.fileToBase64(file).subscribe((base64) => {
+        this.file = base64;
+        this.form.get('productSelected').value[i].file1 = this.fileString;
+      });
+    }
+  }
+
+  file2(event, data, i) {
+    if (event.target.files[0]) {
+      let file = event.target.files[0];
+      var reader = new FileReader();
+      reader.readAsDataURL(event.target.files[0]);
+      reader.onload = (event) => {
+        this.fileString = (<FileReader>event.target).result;
+        const type = { ext: this.fileString };
+        this.type = type.ext.match(/[^:/]\w+(?=;|,)/)[0];
+      };
+      functionsUtils.fileToBase64(file).subscribe((base64) => {
+        this.file = base64;
+        this.form.get('productSelected').value[i].file2 = this.fileString;
+      });
+    }
+  }
 
   selectedProduct(event: any, p) {
     let selected = {
@@ -100,6 +180,49 @@ export class ActaAplicacionComponent implements OnInit {
     }
   }
 
+  save() {
+    Swal.fire({
+      title: '¿Seguro?',
+      text: 'Va a generar una nueva Acta',
+      icon: 'warning',
+      showCancelButton: true,
+      confirmButtonColor: '#34c38f',
+      cancelButtonColor: '#f46a6a',
+      confirmButtonText: 'Si, Hazlo!',
+    }).then((result) => {
+      if (result.value) {
+        this.saveActa();
+      }
+    });
+  }
+
+  saveActa() {
+    let file = this.form.value.file;
+    file = this.fileString;
+    let type = this.type;
+    let person_id = this._user.user.person.company_worked.id;
+
+    //  let person_id = this.form.value.person_id.value;
+    this.form.patchValue({
+      person_id,
+      file,
+      type,
+    });
+    this._acta.saveActa(this.form.value).subscribe((res: any) => {
+      Swal.fire({
+        icon: 'success',
+        title: res.data,
+        text: 'Acta creada satisfactoriamente',
+      });
+      this.form.reset();
+      this.router.navigate(['/agendamiento/lista-acta-aplicacion'])
+
+
+      //  this.getDisciplinaryProcess();
+      // this.modal.hide();
+    });
+  }
+
   addProduct() {
     this.loading = false;
     let forma = this.form.value;
@@ -110,34 +233,7 @@ export class ActaAplicacionComponent implements OnInit {
     this.productS = [];
   }
 
-  productControl(event) {
-    let groupSelect = this.form.get('productSelected') as FormArray;
-    event.productSelected.forEach((element) => {
-      let group = this.fb.group({
-        Nombre_Comercial: [element.Nombre_Comercial],
-        Codigo_Cum: [element.Codigo_Cum],
-        Lote: [element.Lote],
-        Cantidad: [''],
-        Id_Producto: [element.Id_Producto],
-      });
-      groupSelect.push(group);
-      this.loading = false;
-      return group;
-    });
-  }
-  verF() {
-    console.log(this.form);
-  }
-
-  onSelect(event) {
-    this.files.push(...event.addedFiles);
-  }
-  hideModalDocuments() {
-    this.modalDocuments.hide();
-    this.files = [];
-    this.fileArr = [];
-  }
-  saveDocuments() {}
+  verF() {}
 
   get getProductList() {
     return this.form.get('productSelected') as FormArray;

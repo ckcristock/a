@@ -31,6 +31,7 @@ import { ReplayMigrateModule } from './replay-migrate/replay-migrate.module';
 import { CallInComponent } from './call-in/call-in.component';
 import { ActaAplicacionComponent } from './acta-aplicacion/acta-aplicacion.component';
 import { HttpClientModule } from '@angular/common/http';
+import { ListaActaAplicacionComponent } from './lista-acta-aplicacion/lista-acta-aplicacion.component';
 
 
 
@@ -49,7 +50,8 @@ import { HttpClientModule } from '@angular/common/http';
         DetailStatsComponent,
         RecaudosComponent,
         CallInComponent,
-        ActaAplicacionComponent
+        ActaAplicacionComponent,
+        ListaActaAplicacionComponent
 
 
     ],

@@ -12,11 +12,13 @@ import { ListaEsperaComponent } from './lista-espera/lista-espera.component';
 import { ListaTrabajoComponent } from './lista-trabajo/lista-trabajo.component';
 import { RecaudosComponent } from './recaudos/recaudos.component';
 import { ReportesComponent } from './reportes/reportes.component';
+import { ListaActaAplicacionComponent } from './lista-acta-aplicacion/lista-acta-aplicacion.component';
 
 
 const routes: Routes = [
   { path: 'abrir-agendas', component: AbrirAgendasComponent },
   { path: 'actaaplicacion', component: ActaAplicacionComponent },
+  { path: 'listaactaaplicacion', component: ListaActaAplicacionComponent },
 
     { path: 'asignacion-citas/:id', component: AsignacionCitasComponent },
     { path: 'asignacion-citas', component: AsignacionCitasComponent },
