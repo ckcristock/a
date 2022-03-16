@@ -32,6 +32,12 @@ import { InventarioVencerComponent } from './inventario-vencer/inventario-vencer
 import { AlistamientoComponent } from './alistamiento/alistamiento.component';
 import { AlistamientoCrearComponent } from './alistamiento/alistamiento-crear/alistamiento-crear.component';
 import { ArchwizardModule } from 'angular-archwizard';
+import { InventarioEstibasComponent } from './inventario-fisico/inventario-estibas/inventario-estibas.component';
+import { AjustarDocumentosComponent } from './inventario-fisico/ajustar-documentos/ajustar-documentos.component';
+import { InventarioEstibaComponent } from './inventario-fisico/inventario-estiba/inventario-estiba.component';
+import { ReconteoEstibaComponent } from './inventario-fisico/reconteo-estiba/reconteo-estiba.component';
+import { ListadoproductosyainventariadosestibaComponent } from './inventario-fisico/listadoproductosyainventariadosestiba/listadoproductosyainventariadosestiba.component';
+import { VerInventarioComponent } from './inventario-fisico/ver-inventario/ver-inventario.component';
 
 @NgModule({
   declarations: [
@@ -48,6 +54,13 @@ import { ArchwizardModule } from 'angular-archwizard';
     InventarioVencerComponent,
     AlistamientoComponent,
     AlistamientoCrearComponent,
+    InventarioEstibasComponent,
+    InventarioEstibaComponent,
+    AjustarDocumentosComponent,
+    ReconteoEstibaComponent,
+    ListadoproductosyainventariadosestibaComponent,
+    VerInventarioComponent
+
   ],
   imports: [
     CommonModule,
@@ -62,7 +75,9 @@ import { ArchwizardModule } from 'angular-archwizard';
     NgbModalModule,
     NgbDropdownModule,
     PipesModule,
-    ArchwizardModule
+    ArchwizardModule,
+    SweetAlert2Module.forRoot(),
+
   ],
   providers:[]
 })

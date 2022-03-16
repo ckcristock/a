@@ -1,17 +1,19 @@
 <div class="row">
-  <div class="col-6">
+  <div class="col-5">
     <label for="dependency_id" class="col-form-label text-left"
-      >Empresas permitidas</label
+      >Punto dispensación</label
     >
     <ng-select
-      class="p-0"
-      [items]="companies"
-      multiple="true"
+      [items]="points"
+      required
       bindLabel="text"
-      [(ngModel)]="companiesSelected"
       bindValue="value"
+      [(ngModel)]="dispensing_point_id"
+      placeholder="Seleccione "
+      name="dispensing_point_id"
+      loadingText="loading"
       ngDefaultControl
-      name="companiesSelected"
+
     >
     </ng-select>
   </div>

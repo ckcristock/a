@@ -2,6 +2,7 @@ import { NgModule } from '@angular/core';
 import { Routes, RouterModule } from '@angular/router';
 
 import { AbrirAgendasComponent } from './abrir-agendas/abrir-agendas.component';
+import { ActaAplicacionComponent } from './acta-aplicacion/acta-aplicacion.component';
 import { AgendasComponent } from './agendas/agendas.component';
 import { VerAgendaComponent } from './agendas/ver-agenda/ver-agenda.component';
 import { AsignacionCitasComponent } from './asignacion-citas/asignacion-citas.component';
@@ -11,10 +12,14 @@ import { ListaEsperaComponent } from './lista-espera/lista-espera.component';
 import { ListaTrabajoComponent } from './lista-trabajo/lista-trabajo.component';
 import { RecaudosComponent } from './recaudos/recaudos.component';
 import { ReportesComponent } from './reportes/reportes.component';
+import { ListaActaAplicacionComponent } from './lista-acta-aplicacion/lista-acta-aplicacion.component';
 
 
 const routes: Routes = [
-    { path: 'abrir-agendas', component: AbrirAgendasComponent },
+  { path: 'abrir-agendas', component: AbrirAgendasComponent },
+  { path: 'actaaplicacion', component: ActaAplicacionComponent },
+  { path: 'listaactaaplicacion', component: ListaActaAplicacionComponent },
+
     { path: 'asignacion-citas/:id', component: AsignacionCitasComponent },
     { path: 'asignacion-citas', component: AsignacionCitasComponent },
     { path: 'lista-espera', component: ListaEsperaComponent },
