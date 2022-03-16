@@ -5,6 +5,7 @@ import { TerceroService } from '../../../../core/services/tercero.service';
 import { Observable } from 'rxjs';
 import { debounceTime, distinctUntilChanged, switchMap, map } from 'rxjs/operators';
 import { environment } from 'src/environments/environment';
+import { UserService } from '../../../../core/services/user.service';
 
 @Component({
   selector: 'app-movimiento-globalizado',
@@ -20,17 +21,19 @@ export class MovimientoGlobalizadoComponent implements OnInit {
 
   public MovimientoGlobalizadoModel:MovimientoGlobalizadoModel = new MovimientoGlobalizadoModel();
   queryParams: string;
+  company_id:any = '';
   public listaTiposDocumentos:any = [];
   public TerceroSeleccionado:any;
   private _rutaBase:string = environment.ruta+'php/terceros/';
   terceros:any[] = [];
-  constructor(private http: HttpClient, private _terceroService: TerceroService) { }
+  constructor(private http: HttpClient, private _terceroService: TerceroService, private _user: UserService ) { }
 
   ngOnInit() {
     this.tiposDocumentos('Normal');
     this.FiltrarTerceros().subscribe((data:any) => {
       this.terceros = data;
     })
+    this.company_id = this._user.user.person.company_worked.id;
   }
 
   search_tercero = (text$: Observable<string>) =>
@@ -82,6 +85,7 @@ export class MovimientoGlobalizadoComponent implements OnInit {
     if (this.MovimientoGlobalizadoModel.Estado != '') {
       params.Estado = this.MovimientoGlobalizadoModel.Estado
     }
+    params.company_id = this.company_id
   
     this.queryParams = Object.keys(params).map(key => key + '=' + params[key]).join('&');
     

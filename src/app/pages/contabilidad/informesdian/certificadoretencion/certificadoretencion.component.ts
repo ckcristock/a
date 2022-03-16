@@ -6,6 +6,7 @@ import { TerceroService } from '../../../../core/services/tercero.service';
 import { Observable } from 'rxjs';
 import { debounceTime, distinctUntilChanged, switchMap, map } from 'rxjs/operators';
 import { environment } from 'src/environments/environment';
+import { UserService } from '../../../../core/services/user.service';
 
 @Component({
   selector: 'app-certificadoretencion',
@@ -23,16 +24,18 @@ export class CertificadoretencionComponent implements OnInit {
   public CertificadoRetencionModel: CertificadoRetencionModel = new CertificadoRetencionModel();
   queryParams: string;
   Cuentas: any = [];
+  company_id:any = '';
   enviromen:any;
   private _rutaBase:string = environment.ruta+'php/terceros/';
   terceros:any[] = [];
   
 
-  constructor(private globales: Globales, private http: HttpClient, private _terceroService: TerceroService) { }
+  constructor(private globales: Globales, private http: HttpClient, private _terceroService: TerceroService, private _user: UserService ) { }
 
   ngOnInit() {
     this.ListarCuentas();
     this.enviromen = environment;
+    this.company_id = this._user.user.person.company_worked.id;
     this.FiltrarTerceros().subscribe((data:any) => {
       this.terceros = data;
     })
@@ -68,7 +71,7 @@ search1 = (text$: Observable<string>) =>
   formatter1 = (x: { Codigo: string }) => x.Codigo;
 
   ListarCuentas() {
-    this.http.get(environment.ruta+'php/contabilidad/certificadoretencion/lista_cuentas.php').subscribe((data:any)=>{
+    this.http.get(environment.ruta+'php/contabilidad/certificadoretencion/lista_cuentas.php', {params: { company_id: this._user.user.person.company_worked.id }}).subscribe((data:any)=>{
       this.Cuentas = data;
     });
     /* this.http.get(this.globales.ruta+'php/contabilidad/balanceprueba/lista_cuentas.php').subscribe((data:any)=>{
@@ -132,6 +135,7 @@ setQueryParams() {
   if (this.CertificadoRetencionModel.Cuentas.length > 0) {
     params.Cuentas = this.CertificadoRetencionModel.Cuentas.join();
   }
+  params.company_id = this.company_id
 
   this.queryParams = Object.keys(params).map(key => key + '=' + params[key]).join('&');
   
