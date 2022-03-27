@@ -4,6 +4,8 @@ import { ApplyComponent } from './encuestas/apply/apply.component';
 
 const routes: Routes = [
     { path: 'apply', component: ApplyComponent },
+    { path: 'taskmanager', loadChildren: () => import('../layouts/shared/task-manager/task-manager.component').then(m => m.TaskManagerComponent) },
+
 ];
 
 @NgModule({

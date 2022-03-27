@@ -75,15 +75,18 @@
       <div class="card-body">
         <div>
           <div class="row mb-2">
-            <div class="col-md-6">
+            
+            <div class="col-md-4">
               <h5>Funcionarios</h5>
             </div>
 
-            <div class="col-md-6">
-
+            <div class="col-md-4">
               <button [routerLink]="['crear']" class="btn btn-primary">
                 <i class="fa fa-user-plus"></i> Nuevo Funcionario
               </button>
+            </div>
+
+            <div class="col-md-4">
               <div class="form-inline float-md-right">
                 <div class="search-box ml-2">
                   <div class="position-relative">
@@ -94,6 +97,7 @@
                 </div>
               </div>
             </div>
+
           </div>
 
           <div *ngIf="!loading && people.length > 0; else notData" class="row no-gutters text-center">
@@ -107,8 +111,7 @@
                       '/ajustes/informacion-base/funcionario',
                       person.id
                     ]">
-                    <img src="{{ person.image | image: 'users' }}" alt="" class="img-fluid mx-auto d-block"
-                      style="height: 12rem; width: 10rem;" />
+                    <img src="{{ person.image | image: 'users' }}" alt="" class="img-fluid mx-auto d-block"/>
                   </a>
                 </div>
 

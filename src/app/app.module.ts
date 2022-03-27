@@ -15,11 +15,9 @@ import { AuthInterceptor } from './auth.interceptor';
 // import { PublicModule } from './public/public.module';
 import { NgSelectModule } from '@ng-select/ng-select';
 import { FormsModule } from '@angular/forms';
-
 import { ArchwizardModule } from 'angular-archwizard';
 import { FilterPipe } from './filter.pipe';
 import { CacheInterceptor } from './cache.interceptor';
-
 export function createTranslateLoader(http: HttpClient): any {
   return new TranslateHttpLoader(http, 'assets/i18n/', '.json');
 }

@@ -32,8 +32,8 @@ export class UserService {
   validarToken(): Observable<boolean> {
     return this.http.get(`${base_url}/auth/renew`, {}).pipe(
       map((resp: any) => {
-        const { id, usuario, change_password, person, menu, board } = resp.user;
-        this.user = new User(id, usuario, change_password, person, menu, board);
+        const { id, usuario, change_password, person, menu, board, task } = resp.user;
+        this.user = new User(id, usuario, change_password, person, menu, board, task);
         this.guardarLocalStorage(resp.token);
         return true;
       }),

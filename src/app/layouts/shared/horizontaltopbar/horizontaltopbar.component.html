@@ -96,8 +96,8 @@
           </div>
           <perfect-scrollbar style="position: relative; height: 230px" [config]="configData">
             <a class="text-reset notification-item">
-              <div (click)="changeCompany(company.id)" style="cursor: pointer;" *ngFor="let company of user.person.companies"
-                class="media d-flex flex-column align-items-center">
+              <div (click)="changeCompany(company.id)" style="cursor: pointer;"
+                *ngFor="let company of user.person.companies" class="media d-flex flex-column align-items-center">
                 <img height="50" [alt]="company.short_name" [title]="company.short_name"
                   [src]="company.logo | image: 'companies'" />
               </div>
@@ -126,7 +126,12 @@
           </a>
         </div>
       </div>
-
+      <div class="dropdown d-inline-block">
+        <button type="button" class="btn header-item noti-icon right-bar-toggle waves-effect"
+          (click)="onSettingsButtonClicked()">
+          <i class="ri-todo-line"></i>
+        </button>
+      </div>
       <!-- <div class="dropdown d-inline-block">
                 <button type="button" class="btn header-item noti-icon right-bar-toggle waves-effect" (click)="onSettingsButtonClicked()">
                   <i class="ri-settings-2-line"></i>
