@@ -1,4 +1,5 @@
 import { Component, OnInit, ViewChild } from '@angular/core';
+import { MatAccordion } from '@angular/material/expansion';
 import { Response } from 'src/app/core/response.model';
 import { showConfirm, successMessage } from 'src/app/core/utils/confirmMessage';
 import { SpecialityModalComponent } from './speciality-modal/speciality-modal.component';
@@ -10,7 +11,17 @@ import { SpecialityService } from './speciality.service';
   styleUrls: ['./speciality.component.scss']
 })
 export class SpecialityComponent implements OnInit {
-
+  @ViewChild(MatAccordion) accordion: MatAccordion;
+  matPanel = false;
+  openClose(){
+    if (this.matPanel == false){
+      this.accordion.openAll()
+      this.matPanel = true;
+    } else {
+      this.accordion.closeAll()
+      this.matPanel = false;
+    }    
+  }
   specialities: Array<object> = [];
   loading: boolean = false;
 

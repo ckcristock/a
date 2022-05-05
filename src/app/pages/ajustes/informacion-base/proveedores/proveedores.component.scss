@@ -1,5 +1,5 @@
 
-Form{
+/* Form{
     .form-control-sm{
         font-size: 11px !important;
         padding: 2px 5px !important;
@@ -68,4 +68,12 @@ Form{
         word-wrap: break-word;
         white-space: normal;
     }
+} */
+
+::ng-deep .mat-expansion-panel-body {
+    padding: 0px !important;
+}
+::ng-deep .mat-form-field-infix {
+    height: 40px;
+    font-size: 12px;
 }

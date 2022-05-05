@@ -1,217 +1,177 @@
-<div>
-    <div class="row">
-        <div class="col-12 ">
-            <div class="card">
-                <div class="card-body"></div>
-                <form #agenda="ngForm">
-                    <div class="panel-body">
-                        <div class="row p-3">
-                            <div class="col-md-2 my-2">
+<div class="card">
+    <div class="card-body">
+        <div class="card-title">
+            <h4 class="text-primary">Abrir Agenda</h4>
+        </div>
+        <hr class="line">
+        <form #agenda="ngForm">
+            <div class="row">
+                <div class="form-group col-md-2">
+                    <label>Tipo de Agenda</label>
+                    <ng-select [items]="type_appointments" required bindLabel="text" bindValue="value"
+                        [(ngModel)]="appointmentId" placeholder="Seleccione " name="type_agenda_id"
+                        loadingText="loading" ngDefaultControl
+                        (ngModelChange)="getSubTypeAppointment() ; getTypeLocations()">
+                    </ng-select>
+                </div>
+                <div class="form-group col-md-2">
+                    <label>Tipo de Consulta</label>
+                    <ng-select [items]="type_subappointments" required bindLabel="text" bindValue="value"
+                        [(ngModel)]="subappointmentId" placeholder="Seleccione " name="type_appointment_id"
+                        loadingText="loading" (ngModelChange)="getIps()" ngDefaultControl>
+                    </ng-select>
+                </div>
+                <div class="form-group col-md-4">
+                    <label>Especialidad</label>
+                    <ng-select [items]="specialties" required bindLabel="text" bindValue="value"
+                        [(ngModel)]="speciality" placeholder="Seleccione " name="speciality_id" loadingText="loading"
+                        ngDefaultControl (ngModelChange)="getProfesionals()">
+                    </ng-select>
+                </div>
+                <div class="form-group col-md-4">
+                    <label>Profesional</label>
+                    <ng-select [items]="profesionals" required bindLabel="text" bindValue="value"
+                        [(ngModel)]="profesional" [placeholder]="(profesional == 0) ? 'Seleccione' : 'Select' "
+                        name="person_id" loadingText="loading" ngDefaultControl (change)="dispatchPerson()">
+                    </ng-select>
+                </div>
+            </div>
+
+            <div class="row">
+                <div class="form-group col-md-12" *ngIf="isProcedure">
+                    <label>Procedimiento</label>
+                    <ng-select [items]="cups" required bindLabel="text" bindValue="value" [(ngModel)]="procedureId"
+                        placeholder="Código CUPS del procedimiento " name="procedureId" loadingText="loading"
+                        ngDefaultControl appendTo="body" [multiple]="true">
+                    </ng-select>
+                </div>
+            </div>
+
+            <div class="row">
+                <div class="form-group col-md-2" *ngIf="appointment.face_to_face">
+                    <label>Tipo de Sede</label>
+                    <ng-select [items]="type_locations" required bindLabel="text" bindValue="value"
+                        [(ngModel)]="type_location_id" placeholder="Seleccione " name="type_location_id"
+                        loadingText="loading" ngDefaultControl (ngModelChange)="getIps()">
+                    </ng-select>
+                </div>
+                <div class="form-group col-md-5" *ngIf="appointment.face_to_face">
+                    <label>Ips</label>
+                    <ng-select [items]="ipss" required bindLabel="text" bindValue="value" [(ngModel)]="ipsId"
+                        placeholder="Seleccione " name="ips_id" loadingText="loading" (ngModelChange)="getSedes()"
+                        ngDefaultControl>
+                    </ng-select>
+                </div>
+                <div class="form-group col-md-5" *ngIf="appointment.face_to_face">
+                    <label>Sede</label>
+                    <ng-select [items]="sedes" required bindLabel="text" bindValue="value" [(ngModel)]="location_id"
+                        placeholder="Seleccione " name="location_id" loadingText="loading" ngDefaultControl
+                        (ngModelChange)="getSpecialties()">
+                    </ng-select>
+                </div>
+            </div>
 
 
+            <div class="row"  *ngIf="profesional">
+                <div class="form-group col-md-2">
+                    <label>Inicio de Agendamiento</label>
+                    <input class="form-control" type="date" name="date_start" value="2018-01-01" [(ngModel)]="fechaInicio"
+                        required #date_start="ngModel" />
+                </div>
+                <div class="col-md-2">
+                    <label>Fin de Agendamiento</label>
+                    <input class="form-control" required type="date" name="date_end" [(ngModel)]="fechaFin" />
+                </div>
+                <div class="col-md-2">
+                    <label>Hora Inicio</label>
+                    <input class="form-control" required step="300" ngModel type="time" [(ngModel)]="hour_start"
+                        name="hour_start" value="08:00" />
+                </div>
+                <div class="col-md-2">
+                    <label>Hora Fin</label>
+                    <input class="form-control" required ngModel type="time" name="hour_end" [(ngModel)]="hour_end"
+                        value="18:00" />
+                </div>
+                <div class="col-md-1">
+                    <label>Duración</label>
+                    <ng-select [items]="optionesTime" required bindLabel="text" bindValue="value" ngModel
+                        placeholder="Seleccione " [(ngModel)]="long" name="long" loadingText="loading" ngDefaultControl>
+                    </ng-select>
+                </div>
+                <div class="col-md-3">
+                    <label>Dias</label>
+                    <ng-select [items]="diasSemana" required multiple="true" bindLabel="text" bindValue="value" ngModel
+                        placeholder="Seleccione " [(ngModel)]="days" name="days" loadingText="loading" ngDefaultControl>
+                    </ng-select>
+                </div>
+            </div>
 
+            <div class="col-md-3" *ngIf="procedureId && procedureId.length > 0 ">
+                <label>Cupos por espacio </label>
+                <ng-select [items]="optionesShare" required bindLabel="text" bindValue="value" ngModel
+                    placeholder="Seleccione " [(ngModel)]="share" name="share" loadingText="loading" ngDefaultControl>
+                </ng-select>
+            </div>
 
-                                <label>Tipo de Agenda</label>
-                                <ng-select [items]="type_appointments" required bindLabel="text" bindValue="value"
-                                    [(ngModel)]="appointmentId" placeholder="Seleccione " name="type_agenda_id"
-                                    loadingText="loading" ngDefaultControl
-                                    (ngModelChange)="getSubTypeAppointment() ; getTypeLocations()">
-                                </ng-select>
-                            </div>
+            <ng-container *ngIf="profesional && !appointment.face_to_face">
 
-                            <div class="col-md-2 my-2">
-                                <label>Tipo de Consulta</label>
-                                <ng-select [items]="type_subappointments" required bindLabel="text" bindValue="value"
-                                    [(ngModel)]="subappointmentId" placeholder="Seleccione " name="type_appointment_id"
-                                    loadingText="loading" (ngModelChange)="getIps()" ngDefaultControl>
-                                </ng-select>
-                            </div>
+                <div class="col-md-12 my-3  d-flex justify-content-center">
+                    <p class="text text-secondary font-weight-bolder">
+                        Porcentaje para citas regionales <span class="h6 text text-danger">
+                            {{regionalPercent}}
+                        </span>
+                    </p>
+                </div>
 
-                            <div class="col-md-4 my-2">
-                                <label>Especialidad</label>
-                                <ng-select [items]="specialties" required bindLabel="text" bindValue="value"
-                                    [(ngModel)]="speciality" placeholder="Seleccione " name="speciality_id"
-                                    loadingText="loading" ngDefaultControl (ngModelChange)="getProfesionals()">
-                                </ng-select>
-                            </div>
+                <div class="col-md-12  d-flex justify-content-center">
+                    <span class="text text-secondary font-weight-bolder">Regional</span>
 
-
-                            <div class="col-md-4 my-2">
-                                <label>Profesional</label>
-                                <ng-select [items]="profesionals" required bindLabel="text" bindValue="value"
-                                    [(ngModel)]="profesional"
-                                    [placeholder]="(profesional == 0) ? 'Seleccione' : 'Select' " name="person_id"
-                                    loadingText="loading" ngDefaultControl (change)="dispatchPerson()">
-                                </ng-select>
-                            </div>
-
-                            <div class="col-md-12 my-2" *ngIf="isProcedure">
-                                <label>Procedimiento</label>
-                                <div class="input-group mb-3">
-
-                                    <ng-select [items]="cups" style="width: 100%;" required bindLabel="text"
-                                        bindValue="value" [(ngModel)]="procedureId"
-                                        placeholder="Código CUPS del procedimiento " name="procedureId"
-                                        loadingText="loading" ngDefaultControl appendTo="body" [multiple]="true">
-                                    </ng-select>
-
-
-                                </div>
-                            </div>
-
-                            <div class="col-md-2 my-2" *ngIf="appointment.face_to_face">
-                                <label>Tipo de Sede</label>
-                                <ng-select [items]="type_locations" required bindLabel="text" bindValue="value"
-                                    [(ngModel)]="type_location_id" placeholder="Seleccione " name="type_location_id"
-                                    loadingText="loading" ngDefaultControl (ngModelChange)="getIps()">
-                                </ng-select>
-                            </div>
-
-                            <div class="col-md-5 my-2" *ngIf="appointment.face_to_face">
-                                <label>Ips</label>
-                                <ng-select [items]="ipss" required bindLabel="text" bindValue="value"
-                                    [(ngModel)]="ipsId" placeholder="Seleccione " name="ips_id" loadingText="loading"
-                                    (ngModelChange)="getSedes()" ngDefaultControl>
-                                </ng-select>
-                            </div>
-
-
-                            <div class="col-md-5 my-2" *ngIf="appointment.face_to_face">
-                                <label>Sede</label>
-                                <ng-select [items]="sedes" required bindLabel="text" bindValue="value"
-                                    [(ngModel)]="location_id" placeholder="Seleccione " name="location_id"
-                                    loadingText="loading" ngDefaultControl (ngModelChange)="getSpecialties()">
-                                </ng-select>
-                            </div>
-
-                        </div>
-                        <div class="row p-3">
-                            <div class="col-md-2 my-2" *ngIf="profesional">
-                                <label>Inicio de Agendamiento</label>
-                                <input class="form-control" type="date" name="date_start" value="2018-01-01"
-                                    [(ngModel)]="fechaInicio" required #date_start="ngModel" />
-
-                            </div>
-
-                            <div class="col-md-2 my-2" *ngIf="profesional">
-                                <label>Fin de Agendamiento</label>
-                                <input class="form-control" required type="date" name="date_end"
-                                    [(ngModel)]="fechaFin" />
-                            </div>
-
-                            <div class="col-md-2 my-2" *ngIf="profesional">
-                                <label>Hora Inicio</label>
-                                <input class="form-control" required step="300" ngModel type="time"
-                                    [(ngModel)]="hour_start" name="hour_start" value="08:00" />
-                            </div>
-
-                            <div class="col-md-2 my-2" *ngIf="profesional">
-                                <label>Hora Fin</label>
-                                <input class="form-control" required ngModel type="time" name="hour_end"
-                                    [(ngModel)]="hour_end" value="18:00" />
-                            </div>
-
-                            <div class="col-md-1 my-2" *ngIf="profesional">
-                                <label>Duración</label>
-                                <ng-select [items]="optionesTime" required bindLabel="text" bindValue="value" ngModel
-                                    placeholder="Seleccione " [(ngModel)]="long" name="long" loadingText="loading"
-                                    ngDefaultControl>
-                                </ng-select>
-                            </div>
-
-                            <div class="col-md-3 my-2" *ngIf="profesional">
-                                <label>Dias</label>
-                                <ng-select [items]="diasSemana" required multiple="true" bindLabel="text"
-                                    bindValue="value" ngModel placeholder="Seleccione " [(ngModel)]="days" name="days"
-                                    loadingText="loading" ngDefaultControl>
-                                </ng-select>
-                            </div>
-
-                            <div class="col-md-3 my-2" *ngIf="procedureId && procedureId.length > 0 ">
-                                <label>Cupos por espacio </label>
-                                <ng-select [items]="optionesShare" required bindLabel="text" bindValue="value" ngModel
-                                    placeholder="Seleccione " [(ngModel)]="share" name="share" loadingText="loading"
-                                    ngDefaultControl>
-                                </ng-select>
-                            </div>
-
-                            <ng-container *ngIf="profesional && !appointment.face_to_face">
-
-                                <div class="col-md-6 my-3  d-flex justify-content-center">
-                                    <p class="text text-secondary font-weight-bolder">
-                                        Porcentaje para citas regionales <span class="h6 text text-danger">
-                                            {{regionalPercent}}
-                                        </span>
-                                    </p>
-                                </div>
-
-                                <div class="col-md-12  d-flex justify-content-center">
-                                    <span class="text text-secondary font-weight-bolder">Regional</span>
-
-                                    <div class="col-md-4 ">
-                                        <input class="form-control" type="range" min="0" name="regionalPercent"
-                                            max="100" [(ngModel)]="regionalPercent" step="5"
-                                            (change)="showRange(regionalPercent)" value="{{regionalPercent}}">
-                                    </div>
-
-                                    <span class="text text-secondary font-weight-bolder">Nacional</span>
-
-                                </div>
-                            </ng-container>
-
-                            <div class="col-md-3 my-2" *ngIf="profesional">
-                                <div class="form-check">
-                                    <input class="form-check-input" type="checkbox" value="" ngModel name="holiday"
-                                        [(ngModel)]="holiday" id="holidaybrand">
-                                    <label class="form-check-label" for="holidaybrand">
-                                        ¿ Agendar en festivos?
-                                    </label>
-                                </div>
-                            </div>
-
-                            <div class="col-md-12 my-2" *ngIf="profesional ">
-                                <button type="button" [disabled]="agenda.invalid" required
-                                    class="btn btn-info btn-sm btn-block" (click)="saveAgenda(agenda)">Aperturar
-                                    Agenda</button>
-                            </div>
-                        </div>
-
+                    <div class="col-md-4 ">
+                        <input class="form-control" type="range" min="0" name="regionalPercent" max="100"
+                            [(ngModel)]="regionalPercent" step="5" (change)="showRange(regionalPercent)"
+                            value="{{regionalPercent}}">
                     </div>
-                </form>
+
+                    <span class="text text-secondary font-weight-bolder">Nacional</span>
+
+                </div>
+            </ng-container>
+
+            <div class="row">
+                <div class="col-md-3 my-2" *ngIf="profesional">
+                    <div class="form-check mx-0">
+                        <input class="form-check-input" type="checkbox" value="" ngModel name="holiday"
+                            [(ngModel)]="holiday" id="holidaybrand">
+                        <label class="form-check-label" for="holidaybrand">
+                            ¿ Agendar en festivos?
+                        </label>
+                    </div>
+                </div>
+                <div class="col-md-12 my-2" *ngIf="profesional ">
+                    <button type="button" [disabled]="agenda.invalid" required class="btn btn-primary btn-lg btn-block"
+                        (click)="saveAgenda(agenda)">Aperturar
+                        Agenda</button>
+                </div>
+            </div>
+
+        </form>
+
+        <div class="mt-4">
+            <div class="app-calendar" *ngIf="profesional; else elseTemplate">
+                <app-callendar [person]='profesional'></app-callendar>
             </div>
         </div>
     </div>
-
-    <div class="row" *ngIf="profesional; else elseTemplate">
-        <div class="col-12">
-            <div class="card">
-                <div class="card-body">
-                    <div class="app-calendar">
-                        <app-callendar [person]='profesional'></app-callendar>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </div>
-
-    <ng-template #elseTemplate>
-        <div class="row ">
-            <div class="col-12">
-                <div class="card">
-                    <div class="card-body">
-                        <div class="row justify-content-center">
-                            <div class="col-8 text-center">
-                                <h4>Por favor seleccione los parámetros de búsqueda</h4>
-                                <img src="/assets/images/abrir-agenda.jpg" class="img-fluid" alt="" srcset="">
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </ng-template>
-
 </div>
+
+<ng-template #elseTemplate>
+    <div class="row justify-content-center">
+        <div class="col-8 text-center">
+            <h4>Por favor seleccione los parámetros de búsqueda</h4>
+            <img src="/assets/images/abrir-agenda.jpg" class="img-fluid" alt="" srcset="">
+        </div>
+    </div>
+</ng-template>
 
 <ng-template #procedure let-r="result" let-t="term">
     <span class="f-9">

@@ -50,7 +50,6 @@ export class LoginComponent implements OnInit {
 
         // Navegar al Dashboard
         this.router.navigateByUrl('/');
-
        }, (err) => { 
         // Si sucede un error
         

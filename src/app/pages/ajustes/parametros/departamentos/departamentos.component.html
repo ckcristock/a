@@ -1,19 +1,32 @@
 <div class="row">
-    <div class="col-sm-6">
+    <div class="col-md-6">
         <div class="card">
             <div class="card-body">
-                <div class="card-title">
-                    <button class="btn btn-primary btn-sm" style="float: right;" (click)="openModal()">Agregar nuevo Departamento</button>
-                    <h5>Departamentos</h5>
-                    <p>Departamentos del País</p>
-                </div>
-                <div class="row">
-                    <div class="col-sm-4">
-                        <input type="text" placeholder="Nombre" class="form-control form-control-sm" (change)="getAllDepartment()" [(ngModel)]="filtro.name" name="name">
+                <div class="card-title d-flex justify-content-between">
+                    <h4 class="text-primary">Departamentos</h4>
+                    <div class="btn-group rounded">
+                        <button class="btn btn-primary btn-sm" style="float: right;" (click)="openModal()">
+                            <i class="fa fa-plus"></i> Agregar
+                        </button>
+                        <button class="btn btn-info btn-sm" style="float: right;" (click)="openClose()">
+                            <i class="fas fa-sliders-h"></i> Filtros
+                        </button>
                     </div>
                 </div>
-                <table class="table table-bordered table-striped table-sm mt-4" *ngIf="!loading && departamentos.length > 0; else notData">
-                    <thead class="bg-light">
+                <hr class="line">
+                <mat-accordion multi>
+                    <mat-expansion-panel class="mat-elevation-z0">
+                        <mat-form-field class="col-md-6 pl-0" appearance="outline">
+                            <mat-label>Nombre</mat-label>
+                            <input autocomplete="off" type="text" matInput placeholder="Busca por nombre"
+                                (input)="getAllDepartment()" [(ngModel)]="filtro.name" name="name">
+                        </mat-form-field>
+                    </mat-expansion-panel>
+                </mat-accordion>
+        
+                <table class="table table-bordered table-striped table-sm table-responsive-sm" style="font-size: small;"
+                    *ngIf="!loading && departamentos.length > 0; else notData">
+                    <thead>
                         <tr>
                             <th>Nombre</th>
                         </tr>
@@ -24,19 +37,21 @@
                         </tr>
                     </tbody>
                 </table>
+                <ngb-pagination class="d-flex justify-content-center pagination-rounded pagination-sm"
+                    [collectionSize]="pagination.collectionSize" (pageChange)="getAllDepartment($event)" maxSize="5"
+                    rotate="true" ellipses="false" boundaryLinks="true" [pageSize]="pagination.pageSize"
+                    [(page)]="pagination.page" aria-label="Default pagination">
+                </ngb-pagination>
             </div>
-            <ngb-pagination class="d-flex justify-content-center pagination-rounded pagination-sm" [collectionSize]="pagination.collectionSize" (pageChange)="getAllDepartment($event)" maxSize="5" rotate="true" ellipses="false" boundaryLinks="true" [pageSize]="pagination.pageSize"
-                [(page)]="pagination.page" aria-label="Default pagination">
-            </ngb-pagination>
         </div>
     </div>
     <app-modal-basic #modal [dialogClass]="'modal-md'">
         <div class="app-modal-header">
             <h5 class="modal-title"> Nuevo Departamento </h5>
             <button type="button" class="close basic-close" (click)="modal.hide()">
-              <span aria-hidden="true">
-                <i class="fas fa-times" (click)="modal.hide()"></i>
-              </span>
+                <span aria-hidden="true">
+                    <i class="fas fa-times" (click)="modal.hide()"></i>
+                </span>
             </button>
         </div>
         <div class="app-modal-body">
@@ -44,9 +59,12 @@
                 <div class="form-row">
                     <div class="form-group col-md-12">
                         <label class="custom-label" for="department_name">Nombre</label>
-                        <input type="text" class="form-control form-control-sm" id="department_name" [(ngModel)]="department.name" [class.is-invalid]="name_department" formControlName="name" required>
+                        <input type="text" class="form-control form-control-sm" id="department_name"
+                            [(ngModel)]="department.name" [class.is-invalid]="name_department" formControlName="name"
+                            required>
                         <div class="col-md-7 offset-4">
-                            <small class="invalid text-danger" *ngIf="name_department"> Es necesario la nombre del Departamento 
+                            <small class="invalid text-danger" *ngIf="name_department"> Es necesario la nombre del
+                                Departamento
                             </small>
                         </div>
                     </div>
@@ -56,7 +74,8 @@
         <div class="app-modal-footer">
             <div class="form-group text-right">
                 <button (click)="modal.hide()" type="button" class="btn btn-danger raised mr-2 btn-sm">Cerrar</button>
-                <button type="submit" class="btn btn-primary btn-sm raised" (click)="createNewDepartment()" [disabled]="!form.valid">Guardar Departamento</button>
+                <button type="submit" class="btn btn-primary btn-sm raised" (click)="createNewDepartment()"
+                    [disabled]="!form.valid">Guardar Departamento</button>
             </div>
         </div>
     </app-modal-basic>

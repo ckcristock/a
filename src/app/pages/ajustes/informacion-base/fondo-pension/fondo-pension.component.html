@@ -1,20 +1,26 @@
 <div class="card">
     <div class="card-body">
-        <div class="card-title">
-            <button class="btn btn-primary btn-sm" style="float: right;" (click)="openModal()">Agregar Nuevo fondo de Pensión</button>
-            <h5>Fondo de Pensión</h5>
-            <div class="form-row mt-4 ml-1">
-                <div class="form-group">
-                    <label for="">Filtro nombre</label>
-                    <input type="text" class="form-control form-control-sm" [(ngModel)]="filtro.name" (change)="getPensionFunds()" name="name">
-                </div>
+        <div class="card-title d-flex justify-content-between">
+            <h4 class="text-primary">Fondo de Pensión</h4>
+            <div class="btn-group rounded">
+                <button class="btn btn-primary btn-sm" style="float: right;" (click)="openModal()">
+                    <i class="fa fa-plus"></i> Agregar
+                </button>
+                <button class="btn btn-info btn-sm" style="float: right;" (click)="openClose()">
+                    <i class="fas fa-sliders-h"></i> Filtros
+                </button>
             </div>
         </div>
-    </div>
-</div>
-
-<div class="card">
-    <div class="card-body">
+        <hr class="line">
+        <mat-accordion multi>
+            <mat-expansion-panel class="mat-elevation-z0">
+                <mat-form-field class="col-md-3 pl-0" appearance="outline">
+                    <mat-label>Nombre</mat-label>
+                    <input matInput type="text" placeholder="Busca por nombre" [(ngModel)]="filtro.name"
+                        (change)="getPensionFunds()" name="name" autocomplete="off">
+                </mat-form-field>
+            </mat-expansion-panel>
+        </mat-accordion>
         <table class="table table-bordered table-striped" *ngIf="!loading && pensions.length > 0; else notData">
             <thead class="bg-light">
                 <tr>
@@ -25,22 +31,29 @@
                 </tr>
             </thead>
             <tbody>
-                <tr *ngFor="let pension of pensions" [ngClass]="{'bg-danger text-white': (pension.status === 'Inactivo' )}">
+                <tr *ngFor="let pension of pensions"
+                    [ngClass]="{'bg-danger text-white': (pension.status === 'Inactivo' )}">
                     <td> {{ pension.name }} </td>
                     <td> {{ pension.code }} </td>
                     <td> {{ pension.nit }} </td>
                     <td>
                         <div class="text-center">
                             <div ngbDropdown class="dropdown-primary">
-                                <button ngbDropdownToggle class="btn btn-primary btn-sm waves-effect waves-light " type="button">
+                                <button ngbDropdownToggle class="btn btn-primary btn-sm waves-effect waves-light "
+                                    type="button">
                                     <i class="mdi mdi-chevron-down"></i>
                                 </button>
                                 <div ngbDropdownMenu>
-                                    <a class="dropdown-item waves-light waves-effect caja-botones" target="_blank" (click)="getData(pension); modal.show()"><i
+                                    <a class="dropdown-item waves-light waves-effect caja-botones" target="_blank"
+                                        (click)="getData(pension); modal.show()"><i
                                             class="fa fa-file-pdf-o"></i>Editar</a>
-                                    <a *ngIf="pension.status == 'Activo'" class="dropdown-item waves-light waves-effect caja-botones" (click)="activateOrInactivate(pension, 'Inactivo')">
+                                    <a *ngIf="pension.status == 'Activo'"
+                                        class="dropdown-item waves-light waves-effect caja-botones"
+                                        (click)="activateOrInactivate(pension, 'Inactivo')">
                                         <i class="fa fa-pencil"></i>Inactivar</a>
-                                    <a *ngIf="pension.status == 'Inactivo'" class="dropdown-item waves-light waves-effect caja-botones" (click)="activateOrInactivate(pension, 'Activo')">
+                                    <a *ngIf="pension.status == 'Inactivo'"
+                                        class="dropdown-item waves-light waves-effect caja-botones"
+                                        (click)="activateOrInactivate(pension, 'Activo')">
                                         <i class="fa fa-pencil"></i>Activar</a>
                                 </div>
                             </div>
@@ -49,17 +62,20 @@
                 </tr>
             </tbody>
         </table>
+        <ngb-pagination class="d-flex justify-content-center pagination-rounded pagination-sm"
+            [collectionSize]="pagination.collectionSize" [pageSize]="pagination.pageSize" [(page)]="pagination.page"
+            (pageChange)="getPensionFunds($event)" aria-label="Default pagination" maxSize="5" rotate="true"
+            ellipses="false" boundaryLinks="true" rotate="true" ellipses="false" boundaryLinks="true">
+        </ngb-pagination>
     </div>
-    <ngb-pagination class="d-flex justify-content-center pagination-rounded pagination-sm" [collectionSize]="pagination.collectionSize" [pageSize]="pagination.pageSize" [(page)]="pagination.page" (pageChange)="getPensionFunds($event)" aria-label="Default pagination"
-        maxSize="5" rotate="true" ellipses="false" boundaryLinks="true" rotate="true" ellipses="false" boundaryLinks="true">
-    </ngb-pagination>
 </div>
+
 <app-modal-basic #modal [dialogClass]="'modal-md'">
     <div class="app-modal-header">
         <h5 class="modal-title"> {{ selected }} </h5>
         <button type="button" class="close basic-close" (click)="modal.hide()">
             <span aria-hidden="true">
-              <i class="fas fa-times" (click)="modal.hide()"></i>
+                <i class="fas fa-times" (click)="modal.hide()"></i>
             </span>
         </button>
     </div>
@@ -88,7 +104,8 @@
     <div class="app-modal-footer">
         <div class="form-group text-right">
             <button (click)="modal.hide()" type="button" class="btn btn-danger raised mr-2 btn-sm">Cerrar</button>
-            <button type="submit" class="btn btn-primary btn-sm raised" (click)="createPensionFund()" [disabled]="!form.valid">Guardar</button>
+            <button type="submit" class="btn btn-primary btn-sm raised" (click)="createPensionFund()"
+                [disabled]="!form.valid">Guardar</button>
         </div>
     </div>
 </app-modal-basic>

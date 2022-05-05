@@ -1,7 +1,7 @@
 import { NgModule } from '@angular/core';
 import { ComprasRoutingModule } from './compras-routing.module';
 import { MyDateRangePickerModule } from 'mydaterangepicker';
-import { FormsModule } from '@angular/forms';
+import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { CommonModule } from '@angular/common';
 
 import { CompraNacionalComponent } from './compra-nacional/compra-nacional.component';
@@ -16,6 +16,10 @@ import { HttpClientModule } from '@angular/common/http';
 import { PipesModule } from '../../core/pipes/pipes.module';
 import { VerCompraNacionalComponent } from './compra-nacional/ver-compra-nacional/ver-compra-nacional.component';
 import { NgSelectModule } from '@ng-select/ng-select';
+import { MatExpansionModule } from '@angular/material/expansion';
+import { MatFormFieldModule } from '@angular/material/form-field';
+import { MatInputModule } from '@angular/material/input';
+import { MatSelectModule } from '@angular/material/select';
 
 @NgModule({
   declarations: [
@@ -34,6 +38,11 @@ import { NgSelectModule } from '@ng-select/ng-select';
     MyDateRangePickerModule,
     NgbTypeaheadModule,
     NgbDropdownModule,
+    ReactiveFormsModule,
+    MatExpansionModule,
+    MatFormFieldModule,
+    MatInputModule,
+    MatSelectModule,
     SweetAlert2Module.forRoot(),
   ],
 })

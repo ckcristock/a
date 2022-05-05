@@ -3,6 +3,7 @@ import { FormGroup, Validators, FormBuilder } from '@angular/forms';
 import Swal from 'sweetalert2';
 import { EpsService } from './eps.service';
 import { ValidatorsService } from '../../informacion-base/services/reactive-validation/validators.service';
+import { MatAccordion } from '@angular/material/expansion';
 
 @Component({
   selector: 'app-eps',
@@ -11,6 +12,17 @@ import { ValidatorsService } from '../../informacion-base/services/reactive-vali
 })
 export class EpsComponent implements OnInit {
   @ViewChild('modal') modal: any;
+  @ViewChild(MatAccordion) accordion: MatAccordion;
+  matPanel = false;
+  openClose(){
+    if (this.matPanel == false){
+      this.accordion.openAll()
+      this.matPanel = true;
+    } else {
+      this.accordion.closeAll()
+      this.matPanel = false;
+    }    
+  }
   epss: any = [];
   eps: any = {};
   filtros: any = {

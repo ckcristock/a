@@ -3,6 +3,7 @@ import { FormBuilder, FormGroup } from '@angular/forms';
 import { HotelesService } from '../hoteles/hoteles.service';
 import { TaxisService } from './taxis.service';
 import { SwalService } from '../services/swal.service';
+import { MatAccordion } from '@angular/material/expansion';
 
 @Component({
   selector: 'app-taxis',
@@ -11,6 +12,18 @@ import { SwalService } from '../services/swal.service';
 })
 export class TaxisComponent implements OnInit {
   @ViewChild('modal') modal:any;
+  @ViewChild(MatAccordion) accordion: MatAccordion;
+  matPanel = false;
+  openClose(){
+    if (this.matPanel == false){
+      this.accordion.openAll()
+      this.matPanel = true;
+    } else {
+      this.accordion.closeAll()
+      this.matPanel = false;
+    }    
+  }
+
   loading:boolean = false;
   form: FormGroup;
   cities:any[] = [];

@@ -1,4 +1,4 @@
-import { Component, Input, OnInit } from '@angular/core';
+import { Component, ElementRef, Input, OnInit, ViewChild, AfterViewInit, } from '@angular/core';
 import { CdkDragDrop, moveItemInArray, transferArrayItem } from '@angular/cdk/drag-drop';
 import listPlugin from '@fullcalendar/list';
 import dayGridPlugin from '@fullcalendar/daygrid';
@@ -11,7 +11,12 @@ import { EventInput } from '@fullcalendar/core';
 import { TaskService } from '../ajustes/informacion-base/services/task.service';
 import { RightsidebarComponent } from 'src/app/layouts/shared/rightsidebar/rightsidebar.component';
 import { Router } from '@angular/router';
-import {NgbModal, ModalDismissReasons} from '@ng-bootstrap/ng-bootstrap';
+import { NgbModal, ModalDismissReasons } from '@ng-bootstrap/ng-bootstrap';
+import { FormControl, Validators } from '@angular/forms';
+import { FormBuilder, FormGroup } from '@angular/forms';
+import { HttpClient } from '@angular/common/http';
+import { TexteditorService } from '../ajustes/informacion-base/services/texteditor.service';
+import { DomSanitizer } from '@angular/platform-browser';
 
 
 @Component({
@@ -20,6 +25,8 @@ import {NgbModal, ModalDismissReasons} from '@ng-bootstrap/ng-bootstrap';
   styleUrls: ['./tasks.component.scss']
 })
 export class TasksComponent implements OnInit {
+
+
   closeResult = '';
   active = 1;
   pendientes: [];
@@ -45,57 +52,66 @@ export class TasksComponent implements OnInit {
   task3: any;
   taskview: any;
   constructor(
-    private _task: TaskService, 
-    private _user: UserService, 
-    private router: Router, 
-    private modalService: NgbModal,) { }
+    public _task: TaskService,
+    private _user: UserService,
+    private router: Router,
+    private modalService: NgbModal,
+    private _texteditor: TexteditorService,
+    private sanitizer: DomSanitizer,
+    private fb: FormBuilder,) { }
+
+    count:any;
+
+  @ViewChild('list') list: ElementRef;
+  ngAfterViewInit() {
+    this.count = this.list.nativeElement.offsetheight
+    //this.count.subscribe(res => console.log(res));
+  }
 
   ngOnInit(): void {
     this.getPersonTaskPendiente();
     this.getTask();
     this.getTaskFor();
+    this._task.getPerson();
+    this.getArchivadas();
   }
 
-  onEventClick(event){
+  onEventClick(event) {
     this.taskview = event.event._def.extendedProps.publicId
     this.router.navigate(['/task', this.taskview]);
     console.log(event.event._def.extendedProps.publicId)
   }
-  
 
-  getTask(){
+  archivadas = []
+  getArchivadas() {
+    this._task.getArchivada(this._user.user.person.id).subscribe(
+      (d: any) => {
+        this.archivadas = d.data;
+        for (let i in d.data) {
+          this.archivadas[i].descripcion = this.sanitizer.bypassSecurityTrustHtml(atob(this.archivadas[i].descripcion))
+        }
+      });
+  }
+
+  getTask() {
     this._task.personTask(this._user.user.person.id).subscribe(
       (d: any) => {
         this.task2 = d.data;
       });
   }
 
-  getTaskFor(){
+  getTaskFor() {
     this._task.personTaskFor(this._user.user.person.id).subscribe(
       (d: any) => {
         this.task3 = d.data;
+        for (let i in d.data) {
+          this.task3[i].descripcion = this.sanitizer.bypassSecurityTrustHtml(atob(this.task3[i].descripcion))
+          this.ngAfterViewInit()
+        }
       });
+      
   }
 
-  open(content, item) {
-    this.task = item;
-    //console.log(this.task)
-    this.modalService.open(content, {ariaLabelledBy: 'modal-basic-title'}).result.then((result) => {
-      this.closeResult = `Closed with: ${result}`;
-    }, (reason) => {
-      this.closeResult = `Dismissed ${this.getDismissReason(reason)}`;
-    });
-  }
-
-  private getDismissReason(reason: any): string {
-    if (reason === ModalDismissReasons.ESC) {
-      return 'by pressing ESC';
-    } else if (reason === ModalDismissReasons.BACKDROP_CLICK) {
-      return 'by clicking on a backdrop';
-    } else {
-      return `with: ${reason}`;
-    }
-  }
   drop(event: CdkDragDrop<string[]>) {
     if (event.previousContainer === event.container) {
       moveItemInArray(event.container.data, event.previousIndex, event.currentIndex);
@@ -151,7 +167,10 @@ export class TasksComponent implements OnInit {
       .subscribe(
         (d: any) => {
           this.pendientes = d.data;
-          for (let i= 0 ; i < d.data.length; i++){            
+          for (let i in d.data) {
+            this.pendientes[i].descripcion = this.sanitizer.bypassSecurityTrustHtml(atob(this.pendientes[i].descripcion))
+          }
+          for (let i = 0; i < d.data.length; i++) {
             var object = {
               title: d.data[i]["titulo"],
               start: d.data[i]["fecha"],
@@ -160,7 +179,7 @@ export class TasksComponent implements OnInit {
               publicId: d.data[i]["id"],
             }
             this.events.push(object);
-          } 
+          }
         });
 
     this._task
@@ -168,7 +187,10 @@ export class TasksComponent implements OnInit {
       .subscribe(
         (d: any) => {
           this.ejecucion = d.data;
-          for (let i= 0 ; i < d.data.length; i++){
+          for (let i in d.data) {
+            this.ejecucion[i].descripcion = this.sanitizer.bypassSecurityTrustHtml(atob(this.ejecucion[i].descripcion))
+          }
+          for (let i = 0; i < d.data.length; i++) {
             var object = {
               title: d.data[i]["titulo"],
               start: d.data[i]["fecha"],
@@ -177,7 +199,7 @@ export class TasksComponent implements OnInit {
               publicId: d.data[i]["id"],
             }
             this.events.push(object);
-          } 
+          }
         });
 
     this._task
@@ -185,8 +207,11 @@ export class TasksComponent implements OnInit {
       .subscribe(
         (d: any) => {
           this.espera = d.data;
-          for (let i= 0 ; i < d.data.length; i++){
-            
+          for (let i in d.data) {
+            this.espera[i].descripcion = this.sanitizer.bypassSecurityTrustHtml(atob(this.espera[i].descripcion))
+          }
+          for (let i = 0; i < d.data.length; i++) {
+
             var object = {
               title: d.data[i]["titulo"],
               start: d.data[i]["fecha"],
@@ -195,7 +220,7 @@ export class TasksComponent implements OnInit {
               publicId: d.data[i]["id"],
             }
             this.events.push(object);
-          } 
+          }
         });
 
     this._task
@@ -203,8 +228,11 @@ export class TasksComponent implements OnInit {
       .subscribe(
         (d: any) => {
           this.finalizado = d.data;
-          for (let i= 0 ; i < d.data.length; i++){
-            
+          for (let i in d.data) {
+            this.finalizado[i].descripcion = this.sanitizer.bypassSecurityTrustHtml(atob(this.finalizado[i].descripcion))
+          }
+          for (let i = 0; i < d.data.length; i++) {
+
             var object = {
               title: d.data[i]["titulo"],
               start: d.data[i]["fecha"],
@@ -213,7 +241,7 @@ export class TasksComponent implements OnInit {
               publicId: d.data[i]["id"],
             }
             this.events.push(object);
-          } 
+          }
         });
   }
 }

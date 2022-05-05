@@ -16,6 +16,7 @@ import { CategoryService } from '../services/category.service';
 import Swal from 'sweetalert2';
 //import { User } from 'src/app/core/models/users.model';
 import { User } from 'src/app/core/models/users.model';
+import { MatAccordion } from '@angular/material/expansion';
 
 @Component({
   selector: 'app-productos',
@@ -23,6 +24,17 @@ import { User } from 'src/app/core/models/users.model';
   styleUrls: ['./productos.component.scss'],
 })
 export class ProductosComponent implements OnInit {
+  @ViewChild(MatAccordion) accordion: MatAccordion;
+  matPanel = false;
+  openClose(){
+    if (this.matPanel == false){
+      this.accordion.openAll()
+      this.matPanel = true;
+    } else {
+      this.accordion.closeAll()
+      this.matPanel = false;
+    }    
+  }
   @Input('user') user: User;
   @Input('type') type;
 

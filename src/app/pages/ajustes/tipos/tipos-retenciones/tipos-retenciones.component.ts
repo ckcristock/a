@@ -4,6 +4,7 @@ import { TiposRetencionesService } from './tipos-retenciones.service';
 import { SwalService } from '../../informacion-base/services/swal.service';
 import { OperatorFunction, Observable } from 'rxjs';
 import { debounceTime, distinctUntilChanged, filter, map } from 'rxjs/operators';
+import { MatAccordion } from '@angular/material/expansion';
 
 @Component({
   selector: 'app-tipos-retenciones',
@@ -13,6 +14,17 @@ import { debounceTime, distinctUntilChanged, filter, map } from 'rxjs/operators'
 export class TiposRetencionesComponent implements OnInit {
   form: FormGroup;
   @ViewChild('modal') modal:any;
+  @ViewChild(MatAccordion) accordion: MatAccordion;
+  matPanel = false;
+  openClose(){
+    if (this.matPanel == false){
+      this.accordion.openAll()
+      this.matPanel = true;
+    } else {
+      this.accordion.closeAll()
+      this.matPanel = false;
+    }    
+  }
   loading:boolean =  false;
   accountPlan:any[] = [];
   retentionTypes:any[] = [];

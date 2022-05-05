@@ -1,5 +1,6 @@
 import { Component, OnInit, ViewChild } from '@angular/core';
 import { FormGroup, FormBuilder, FormControl, Validators } from '@angular/forms';
+import { MatAccordion } from '@angular/material/expansion';
 import Swal from 'sweetalert2';
 import { ValidatorsService } from '../../informacion-base/services/reactive-validation/validators.service';
 import { TiposDocumentoService } from './tipos-documento.service';
@@ -11,6 +12,17 @@ import { TiposDocumentoService } from './tipos-documento.service';
 })
 export class TiposDocumentoComponent implements OnInit {
   @ViewChild('modal') modal:any;
+  @ViewChild(MatAccordion) accordion: MatAccordion;
+  matPanel = false;
+  openClose(){
+    if (this.matPanel == false){
+      this.accordion.openAll()
+      this.matPanel = true;
+    } else {
+      this.accordion.closeAll()
+      this.matPanel = false;
+    }    
+  }
   loading:boolean = false;
   selected:any;
   pagination:any = {

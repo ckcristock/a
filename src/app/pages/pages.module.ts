@@ -1,7 +1,7 @@
 import { NgModule } from '@angular/core';
 
 import { CommonModule } from '@angular/common';
-import { FormsModule } from '@angular/forms';
+import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { DashboardComponent } from './dashboard/dashboard.component';
 import { PagesRoutingModule } from './pages-routing.module';
 import { ComponentsModule } from '../components/components.module';
@@ -15,6 +15,9 @@ import { LOCALE_ID } from '@angular/core';
 import localeEs from '@angular/common/locales/es';
 import { registerLocaleData } from '@angular/common';
 import { TaskViewComponent } from './tasks/task-view/task-view.component';
+import { NgSelectModule } from '@ng-select/ng-select';
+import { CKEditorModule } from '@ckeditor/ckeditor5-angular';
+import { AngularFileUploaderModule } from "angular-file-uploader";
 registerLocaleData(localeEs, 'es');
 
 
@@ -22,7 +25,7 @@ registerLocaleData(localeEs, 'es');
     declarations: [DashboardComponent, TasksComponent, TaskViewComponent],
     imports: [
         FullCalendarModule,
-
+        ReactiveFormsModule,
         CommonModule,
         FormsModule,
         PagesRoutingModule,
@@ -30,6 +33,9 @@ registerLocaleData(localeEs, 'es');
         GraficalModuleModule,
         DragDropModule,
         NgbModule,
+        NgSelectModule,
+        CKEditorModule,
+        AngularFileUploaderModule,
     ],
     exports: [],
     providers: [{ provide: LOCALE_ID, useValue: 'es' } // Añades esta línea en los providers

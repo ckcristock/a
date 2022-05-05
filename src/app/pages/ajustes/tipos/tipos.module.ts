@@ -27,31 +27,34 @@ import { TiposVisaComponent } from './tipos-visa/tipos-visa.component';
 import { TipoactivofijoComponent } from './tipoactivofijo/tipoactivofijo.component';
 import { TablatipoactivofijoComponent } from './tipoactivofijo/tablatipoactivofijo/tablatipoactivofijo.component';
 import { SweetAlert2Module } from '@sweetalert2/ngx-sweetalert2';
-
+import { MatExpansionModule } from '@angular/material/expansion';
+import { MatFormFieldModule } from '@angular/material/form-field';
+import { MatInputModule } from '@angular/material/input';
+import { MatSelectModule } from '@angular/material/select';
 
 @NgModule({
-    declarations : [
+    declarations: [
         TiposAgendaComponent,
         TiposConsultaComponent,
         TiposContratoComponent,
-        TiposSalarioComponent, 
-        TiposDocumentoComponent, 
-        TiposNovedadesComponent, 
-        TiposGlosaComponent, 
-        TiposRetencionesComponent, 
-        TiposEgresoComponent, 
-        TiposIngresoComponent, 
+        TiposSalarioComponent,
+        TiposDocumentoComponent,
+        TiposNovedadesComponent,
+        TiposGlosaComponent,
+        TiposRetencionesComponent,
+        TiposEgresoComponent,
+        TiposIngresoComponent,
         TiposEstadoFinancieroComponent,
-        TiposAnulacionComponent, 
-        TiposRechazoComponent, 
+        TiposAnulacionComponent,
+        TiposRechazoComponent,
         // TiposActivoFijoComponent,
-        TiposRiesgoComponent, 
-        ProfesionesComponent, 
+        TiposRiesgoComponent,
+        ProfesionesComponent,
         TiposVisaComponent,
         TipoactivofijoComponent,
         TablatipoactivofijoComponent
     ],
-    imports : [
+    imports: [
         TiposRoutingModule,
         ComponentsModule,
         NgbDropdownModule,
@@ -63,8 +66,12 @@ import { SweetAlert2Module } from '@sweetalert2/ngx-sweetalert2';
         NgbPaginationModule,
         NgSelectModule,
         NgbTypeaheadModule,
+        MatExpansionModule,
+        MatFormFieldModule,
+        MatInputModule,
+        MatSelectModule,
         SweetAlert2Module.forRoot()
     ]
 })
 
-export class TiposModule{}
+export class TiposModule { }

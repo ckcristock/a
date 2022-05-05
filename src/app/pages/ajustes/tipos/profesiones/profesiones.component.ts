@@ -3,6 +3,7 @@ import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { ProfesionesService } from './profesiones.service';
 import { SwalService } from '../../informacion-base/services/swal.service';
 import { timer } from 'rxjs';
+import { MatAccordion } from '@angular/material/expansion';
 
 @Component({
   selector: 'app-profesiones',
@@ -11,6 +12,17 @@ import { timer } from 'rxjs';
 })
 export class ProfesionesComponent implements OnInit {
   @ViewChild('modal') modal:any;
+  @ViewChild(MatAccordion) accordion: MatAccordion;
+  matPanel = false;
+  openClose(){
+    if (this.matPanel == false){
+      this.accordion.openAll()
+      this.matPanel = true;
+    } else {
+      this.accordion.closeAll()
+      this.matPanel = false;
+    }    
+  }
   loading:boolean = false;
   form: FormGroup;
   professions:any[] = [];

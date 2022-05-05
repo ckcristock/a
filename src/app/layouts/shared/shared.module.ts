@@ -16,6 +16,7 @@ import {PipesModule} from 'src/app/core/pipes/pipes.module';
 import { TaskManagerComponent } from './task-manager/task-manager.component';
 import { FormsModule, NgForm, ReactiveFormsModule } from '@angular/forms';
 import { NgSelectModule } from '@ng-select/ng-select';
+import { CKEditorModule } from '@ckeditor/ckeditor5-angular';
 
 @NgModule({
   // tslint:disable-next-line: max-line-length
@@ -31,6 +32,7 @@ import { NgSelectModule } from '@ng-select/ng-select';
     PipesModule,
     FormsModule,
     ReactiveFormsModule,
+    CKEditorModule,
   ],
   exports: [ FooterComponent,  RightsidebarComponent, HorizontaltopbarComponent, HorizontalnavbarComponent, TaskManagerComponent],
   providers: []

@@ -4,6 +4,7 @@ import { ValidatorsService } from '../../informacion-base/services/reactive-vali
 import { FormBuilder, FormGroup } from '@angular/forms';
 import { consts } from '../../../../core/utils/consts';
 import { TiposIngresoService } from './tipos-ingreso.service';
+import { MatAccordion } from '@angular/material/expansion';
 
 @Component({
   selector: 'app-tipos-ingreso',
@@ -13,6 +14,18 @@ import { TiposIngresoService } from './tipos-ingreso.service';
 export class TiposIngresoComponent implements OnInit {
 
   @ViewChild('modal') modal:any;
+  @ViewChild(MatAccordion) accordion: MatAccordion;
+  matPanel = false;
+  openClose(){
+    if (this.matPanel == false){
+      this.accordion.openAll()
+      this.matPanel = true;
+    } else {
+      this.accordion.closeAll()
+      this.matPanel = false;
+    }    
+  }
+
   loading:boolean = false;
   selected:any;
   ingresss:any[] = [];

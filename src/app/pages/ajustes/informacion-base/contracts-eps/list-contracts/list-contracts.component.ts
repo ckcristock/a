@@ -1,4 +1,5 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, ViewChild } from '@angular/core';
+import { MatAccordion } from '@angular/material/expansion';
 import { Router } from '@angular/router';
 import { EpssService } from '../../services/epss.service';
 
@@ -8,7 +9,17 @@ import { EpssService } from '../../services/epss.service';
   styleUrls: ['./list-contracts.component.scss']
 })
 export class ListContractsComponent implements OnInit {
-
+  @ViewChild(MatAccordion) accordion: MatAccordion;
+  matPanel = false;
+  openClose(){
+    if (this.matPanel == false){
+      this.accordion.openAll()
+      this.matPanel = true;
+    } else {
+      this.accordion.closeAll()
+      this.matPanel = false;
+    }    
+  }
   contracts: any = [];
   contract: any = {};
   filtros: any = {

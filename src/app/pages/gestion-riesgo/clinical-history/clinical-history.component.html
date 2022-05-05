@@ -1,22 +1,20 @@
-<div class="card p-5">
-  <div class="row">
-    <button class="btn btn-info btn-sm my-1 ml-2" (click)="newClinicalHistory()">Crear Historia clinica</button>
-
-
-    <div class="col-12">
-      <div class="card alert-info p-2">
-
-
-        <span class="text-center">
-          ingrese numero de identificacion y haga click en Ver Historial
-        </span>
-      </div>
+<div class="card">
+  <div class="card-body">
+    <div class="card-title d-flex justify-content-between">
+      <h4 class="text-primary">
+        Historias Clínicas
+      </h4>
+      <button class="btn btn-primary btn-sm" (click)="newClinicalHistory()">
+        <i class="fa fa-plus"></i> Crear
+      </button>
     </div>
-
-    <div class="col-12 mx-auto d-flex justify-content-center">
-      <input class="form-control form-control-sm" placeholder="Documento" type="text" [(ngModel)]="identifier">
+    <hr class="line">
+    <div class="alert alert-primary text-center" role="alert">
+      Ingrese número de identificación y haga click en Ver Historial.
     </div>
-
+    <div class="d-flex justify-content-center">
+      <input class="form-control" placeholder="Documento" type="text" [(ngModel)]="identifier">
+    </div>
     <div class="col-12 mx-auto d-flex justify-content-center my-1">
       <button [disabled]="loading" class="btn btn-info" (click)="getClinicalHistory()">
         <span *ngIf="loading;else elseTemplate">Cargando...</span>
@@ -25,6 +23,6 @@
         </ng-template>
       </button>
     </div>
-  </div>
-  <app-detail-clinical-history [histories]="histories"> </app-detail-clinical-history>
+    <app-detail-clinical-history [histories]="histories"> </app-detail-clinical-history>
+  </div>  
 </div>

@@ -79,29 +79,28 @@
 </div>
 
 <ng-template #presential>
-    <div class="col-12">
-        <app-tipificacion></app-tipificacion>
-    </div>
-    <div class="col-12">
-        <div class="card">
-            <div class="card-body">
-                <form #formD="ngForm">
-                    <input name="type" type="hidden" [(ngModel)]="typeCall">
-                    <input name="Ambito" type="hidden" [(ngModel)]="tramiteData.ambit_id">
-                    <input name="Tipo_Tramite" type="hidden" [(ngModel)]="tramiteData.formality_id">
-                    <input name="Tipo_Servicio" type="hidden" [(ngModel)]="tramiteData.type_service_id">
-                    <div class="form-group">
-                        <label for="exampleFormControlInput1">Documento del paciente</label>
-                        <input required type="number" class="form-control" ngModel pattern="\d+" step="1"
-                            name="Identificacion_Paciente" id="exampleFormControlInput1"
-                            placeholder="Ingrese el documento">
-                    </div>
-
-                    <button class="btn btn-success btn-sm btn-block" [disabled]="formD.invalid"
-                        (click)="newCall(formD)">Iniciar Gestión </button>
-                </form>
+    <div class="card col-12">
+        <div class="card-body">
+            <div class="card-title">
+                <h4 class="text-primary">Asignación de Citas</h4>
             </div>
+            <hr class="line">
+            <app-tipificacion></app-tipificacion>
+            <form #formD="ngForm">
+                <input name="type" type="hidden" [(ngModel)]="typeCall">
+                <input name="Ambito" type="hidden" [(ngModel)]="tramiteData.ambit_id">
+                <input name="Tipo_Tramite" type="hidden" [(ngModel)]="tramiteData.formality_id">
+                <input name="Tipo_Servicio" type="hidden" [(ngModel)]="tramiteData.type_service_id">
+                <div class="form-group">
+                    <label for="exampleFormControlInput1">Documento del paciente</label>
+                    <input required type="number" class="form-control" ngModel pattern="\d+" step="1"
+                        name="Identificacion_Paciente" id="exampleFormControlInput1" placeholder="Ingrese el documento">
+                </div>
+                <button class="btn btn-primary btn-sm btn-block" [disabled]="formD.invalid"
+                    (click)="newCall(formD)">Iniciar Gestión </button>
+            </form>
         </div>
+
     </div>
 
 </ng-template>

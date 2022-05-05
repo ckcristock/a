@@ -1,19 +1,26 @@
 <div class="card">
     <div class="card-body">
-        <div class="card-title">
-            <button class="btn btn-primary btn-sm" style="float: right;" (click)="openModal()">
-                <i class="fa fa-plus"></i> Nuevo País
-            </button>
-            <h5 class="text-primary">Paises</h5>
-            <p>Paises registrados en nuestra bases de datos.</p>
-            <hr class="bg-primary">
-            <div class="form-row">
-                <div class="form-group col-4">
-                    <label for="">Filtro nombre</label>
-                    <input type="text" class="form-control" [(ngModel)]="filtro.name" (change)="getCountries()" name="name" autocomplete="off">
-                </div>
+        <div class="card-title d-flex justify-content-between">
+            <h4 class="text-primary">Paises</h4>
+            <div class="btn-group rounded">
+                <button class="btn btn-primary btn-sm" style="float: right;" (click)="openModal()">
+                    <i class="fa fa-plus"></i> Agregar
+                </button>
+                <button class="btn btn-info btn-sm" style="float: right;" (click)="openClose()">
+                    <i class="fas fa-sliders-h"></i> Filtros
+                </button>
             </div>
         </div>
+        <hr class="line">
+        <mat-accordion multi>
+            <mat-expansion-panel class="mat-elevation-z0">
+                <mat-form-field class="col-md-6 pl-0" appearance="outline">
+                    <mat-label>Nombre</mat-label>
+                    <input type="text" matInput [(ngModel)]="filtro.name" (input)="getCountries()"
+                    name="name" autocomplete="off" placeholder="Busca por nombre">
+                </mat-form-field>
+            </mat-expansion-panel>
+        </mat-accordion>       
         <table class="table table-sm table-borderless table-striped" *ngIf="!loading && paises.length > 0; else notData">
             <thead class="bg-light">
                 <tr>

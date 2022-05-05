@@ -1,21 +1,26 @@
 <div class="card">
     <div class="card-body">
-        <div class="card-title">
-            <button class="btn btn-primary btn-sm" style="float: right;" (click)="openModal()">Agregar Nuevo Banco</button>
-            <h5>Bancos</h5>
-            <p>Todos los Bancos Registrados</p>
-            <div class="form-row ml-0">
-                <div class="form-group">
-                    <label for="">Filtro nombre</label>
-                    <input type="text" class="form-control form-control-sm" [(ngModel)]="filtro.name" (change)="getBanks()" name="name" autocomplete="off">
-                </div>
+        <div class="card-title d-flex justify-content-between">
+            <h4 class="text-primary">Bancos</h4>
+            <div class="btn-group rounded">
+                <button class="btn btn-primary btn-sm" style="float: right;" (click)="openModal()">
+                    <i class="fa fa-plus"></i> Agregar
+                </button>
+                <button class="btn btn-info btn-sm" style="float: right;" (click)="openClose()">
+                    <i class="fas fa-sliders-h"></i> Filtros
+                </button>
             </div>
         </div>
-    </div>
-</div>
-
-<div class="card">
-    <div class="card-body">
+        <hr class="line">
+        <mat-accordion multi>
+            <mat-expansion-panel class="mat-elevation-z0">
+                <mat-form-field class="col-md-3 pl-0" appearance="outline">
+                    <mat-label>Nombre</mat-label>
+                    <input matInput type="text" placeholder="Busca por nombre" [(ngModel)]="filtro.name"
+                        (change)="getBanks()" name="name" autocomplete="off">
+                </mat-form-field>
+            </mat-expansion-panel>
+        </mat-accordion>
         <table class="table table-bordered table-striped" *ngIf="!loading && banks.length > 0; else notData">
             <thead class="bg-light">
                 <tr>
@@ -48,11 +53,13 @@
                 </tr>
             </tbody>
         </table>
-    </div>
-    <ngb-pagination class="d-flex justify-content-center pagination-rounded pagination-sm" [collectionSize]="pagination.collectionSize" [pageSize]="pagination.pageSize" [(page)]="pagination.page" (pageChange)="getBanks($event)" aria-label="Default pagination"
+        <ngb-pagination class="d-flex justify-content-center pagination-rounded pagination-sm" [collectionSize]="pagination.collectionSize" [pageSize]="pagination.pageSize" [(page)]="pagination.page" (pageChange)="getBanks($event)" aria-label="Default pagination"
         maxSize="5" rotate="true" ellipses="false" boundaryLinks="true" rotate="true" ellipses="false" boundaryLinks="true">
     </ngb-pagination>
+    </div>
 </div>
+
+
 <app-modal-basic #modal [dialogClass]="'modal-md'">
     <div class="app-modal-header">
         <h5 class="modal-title"> {{ selected }} </h5>

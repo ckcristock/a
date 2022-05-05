@@ -1,167 +1,161 @@
-<div class="row">
-  <div class="col-12">
-    <div class="card">
-      <div class="card-body">
-
-        <form #formD="ngForm">
+<div class="card">
+  <div class="card-body">
+    <div class="card-title">
+      <h4 class="text-primary">
+        Re-Migrar Cita
+      </h4>
+      <hr class="line">
+    </div>
+    <form #formD="ngForm">
+      <div class="row">
+        <div class="col-12">
           <div class="row">
-            <div class="col-12">
-              <div class="row">
-                <div class="col-md-2 my-2">
-                  <label>Tipo de Agenda</label>
-                  <ng-select [items]="type_appointments" bindLabel="text" bindValue="value"
-                    [(ngModel)]="filters.type_appointment_id" placeholder="Seleccione " name="type_appointment_id"
-                    loadingText="loading" ngDefaultControl (ngModelChange)="getSubTypeAppointment()">
-                  </ng-select>
-                </div>
+            <div class="col-md-2 my-2">
+              <label>Tipo de Agenda</label>
+              <ng-select [items]="type_appointments" bindLabel="text" bindValue="value"
+                [(ngModel)]="filters.type_appointment_id" placeholder="Seleccione " name="type_appointment_id"
+                loadingText="loading" ngDefaultControl (ngModelChange)="getSubTypeAppointment()">
+              </ng-select>
+            </div>
 
-                <div class="col-md-2 my-2">
-                  <label>Tipo de Consulta</label>
-                  <ng-select [items]="type_subappointments" bindLabel="text" bindValue="value"
-                    [(ngModel)]="filters.sub_type_appointment_id" placeholder="Seleccione "
-                    name="sub_type_appointment_id" loadingText="loading" (ngModelChange)="getIps()" ngDefaultControl>
-                  </ng-select>
-                </div>
+            <div class="col-md-2 my-2">
+              <label>Tipo de Consulta</label>
+              <ng-select [items]="type_subappointments" bindLabel="text" bindValue="value"
+                [(ngModel)]="filters.sub_type_appointment_id" placeholder="Seleccione " name="sub_type_appointment_id"
+                loadingText="loading" (ngModelChange)="getIps()" ngDefaultControl>
+              </ng-select>
+            </div>
 
 
-                <div class="col-md-4 my-2">
-                  <label>Especialidad</label>
-                  <ng-select [items]="specialties" bindLabel="text" bindValue="value" [(ngModel)]="filters.speciality"
-                    placeholder="Seleccione " name="speciality_id" loadingText="loading" ngDefaultControl
-                    (ngModelChange)="getProfesionals()">
-                  </ng-select>
-                </div>
+            <div class="col-md-4 my-2">
+              <label>Especialidad</label>
+              <ng-select [items]="specialties" bindLabel="text" bindValue="value" [(ngModel)]="filters.speciality"
+                placeholder="Seleccione " name="speciality_id" loadingText="loading" ngDefaultControl
+                (ngModelChange)="getProfesionals()">
+              </ng-select>
+            </div>
 
-                <div class="col-md-4 my-2">
-                  <label>Profesional</label>
-                  <ng-select [items]="persons" bindLabel="text" bindValue="value" [(ngModel)]="filters.person"
-                    [placeholder]="'Seleccione'" name="person_id" loadingText="loading" ngDefaultControl>
-                  </ng-select>
-                </div>
+            <div class="col-md-4 my-2">
+              <label>Profesional</label>
+              <ng-select [items]="persons" bindLabel="text" bindValue="value" [(ngModel)]="filters.person"
+                [placeholder]="'Seleccione'" name="person_id" loadingText="loading" ngDefaultControl>
+              </ng-select>
+            </div>
 
-                <div class="col-md-6 my-2" *ngIf="appointment.face_to_face">
-                  <label>Ips</label>
-                  <ng-select [items]="ipss" bindLabel="text" bindValue="value" [(ngModel)]="filters.company_id"
-                    placeholder="Seleccione " name="company_id" loadingText="loading" (ngModelChange)="getSedes()"
-                    ngDefaultControl>
-                  </ng-select>
-                </div>
-                <div class="col-md-6 my-2" *ngIf="appointment.face_to_face">
-                  <label>Sede</label>
-                  <ng-select [items]="sedes" bindLabel="text" bindValue="value" [(ngModel)]="filters.location_id"
-                    placeholder="Seleccione " name="location_id" loadingText="loading" ngDefaultControl
-                    (ngModelChange)="getSpecialties()">
-                  </ng-select>
-                </div>
+            <div class="col-md-6 my-2" *ngIf="appointment.face_to_face">
+              <label>Ips</label>
+              <ng-select [items]="ipss" bindLabel="text" bindValue="value" [(ngModel)]="filters.company_id"
+                placeholder="Seleccione " name="company_id" loadingText="loading" (ngModelChange)="getSedes()"
+                ngDefaultControl>
+              </ng-select>
+            </div>
+            <div class="col-md-6 my-2" *ngIf="appointment.face_to_face">
+              <label>Sede</label>
+              <ng-select [items]="sedes" bindLabel="text" bindValue="value" [(ngModel)]="filters.location_id"
+                placeholder="Seleccione " name="location_id" loadingText="loading" ngDefaultControl
+                (ngModelChange)="getSpecialties()">
+              </ng-select>
+            </div>
 
-                <div class="col-md-4 mb-2">
-                  <label>Fecha</label>
-                  <div class="input-group">
-                    <input type="date" name="space_date" ngModel class="form-control" placeholder="Ingrese la fecha"
-                      aria-describedby="inputGroupPrepend3" required>
-                  </div>
-                </div>
-
-                <div class="col-md-4 mb-3">
-                  <label>Paciente</label>
-                  <div class="input-group">
-                    <input type="text" name="identifier" [ngModel]="filters.state" class="form-control"
-                      placeholder="Nombre / Identificación " aria-describedby="inputGroupPrepend3" required>
-                  </div>
-                </div>
-
-
-                <!-- <div class="col-md-2 mb-3">
-                  <label>Estado</label>
-                  <div class="input-group">
-                    <select name="state" [ngModel]="filters.state" class="form-control" id="">
-                      <option *ngFor="let state of states" [value]="state.value">{{state.name}}
-                      </option>
-                    </select>
-                  </div>
-                </div> -->
-
-                <div class="col-12">
-                  <button class="btn btn-primary btn-block btn-sm" (click)="setPage(1);getCitas(formD)">Buscar</button>
-                </div>
+            <div class="col-md-4 mb-2">
+              <label>Fecha</label>
+              <div class="input-group">
+                <input type="date" name="space_date" ngModel class="form-control" placeholder="Ingrese la fecha"
+                  aria-describedby="inputGroupPrepend3" required>
               </div>
             </div>
-          </div>
-        </form>
-      </div>
-    </div>
-  </div>
-  <div class="col-12">
-    <div class="card">
-      <div class="card-body p-0">
-        <div class="row" *ngIf="!loading && citas.length > 0; else notData">
-          <div class="col-12">
-            <table class="table table-hover table-bordered small">
-              <thead class="thead-dark">
-                <tr class="text-center text-uppercase">
-                  <th style="width: 85px;">Fecha</th>
-                  <th style="width: 200px;">Profesional</th>
-                  <th style="width: 200px;">Paciente</th>
-                  <th style="width: 160px;">Telefono Paciente</th>
-                  <th style="width: 160px;">Especialidad</th>
-                  <th>Descripción</th>
-                  <th style="width: 75px;">Estado</th>
-                  <th style="width: 50px;"></th>
-                </tr>
-              </thead>
-              <tbody>
-                <tr class="text-center" *ngFor="let cita of citas"
-                  [ngClass]="{'alert alert-success' : cita.state == 'Confirmado' }">
-                  <td>{{cita.hour_start | date:'dd/MM/yyyy hh:mm a' }}</td>
-                  <td>{{cita.profesional_name}}</td>
-                  <td>{{cita.patient_name}}</td>
-                  <td>{{cita.phone}}</td>
-                  <td>{{cita.speciality}}</td>
-                  <td>{{cita.observation}}</td>
-                  <td>{{cita.state}}</td>
-                  <td class="text-center">
-                    <div class="btn-group" role="group" ngbDropdown>
-                      <button id="btnGroupVerticalDrop1 " type="button" class="btn btn-primary btn-sm dropdown-toggle "
-                        ngbDropdownToggle>
-                        <i class="mdi mdi-chevron-down "></i>
-                      </button>
 
-                      <div style="cursor: pointer; " class="dropdown-menu font-weight-bolder "
-                        aria-labelledby="btnGroupVerticalDrop1 " ngbDropdownMenu>
-                        <a class="dropdown-item" (click)="detalleCita(cita)">
-                          <i class="fas fa-search mr-2 "></i> Detalle cita</a>
+            <div class="col-md-4 mb-3">
+              <label>Paciente</label>
+              <div class="input-group">
+                <input type="text" name="identifier" [ngModel]="filters.state" class="form-control"
+                  placeholder="Nombre / Identificación " aria-describedby="inputGroupPrepend3" required>
+              </div>
+            </div>
 
-                        <a class="dropdown-item" (click)="Cancel(cita.status, cita.id)">
-                          <i class="fas fa-plus mr-2 "></i> Cancelar Cita
-                        </a>
 
-                        <a class="dropdown-item" (click)="Migrate(cita.id)">
-                          <i class="fas fa-coins mr-2 "></i> Migrar Cita
-                        </a>
+            <!-- <div class="col-md-2 mb-3">
+              <label>Estado</label>
+              <div class="input-group">
+                <select name="state" [ngModel]="filters.state" class="form-control" id="">
+                  <option *ngFor="let state of states" [value]="state.value">{{state.name}}
+                  </option>
+                </select>
+              </div>
+            </div> -->
 
-                      </div>
-
-                    </div>
-                  </td>
-                </tr>
-            </table>
-          </div>
-          <div class="col-sm-12">
-            <div class="text-md-right float-md-right pagination-rounded">
-              <ngb-pagination maxSize="5" [collectionSize]="pagination.collectionSize"
-                (pageChange)="setPage($event);getCitas(formD)" [pageSize]="pagination.pageSize"
-                [(page)]="pagination.page" aria-label="Default pagination ">
-              </ngb-pagination>
+            <div class="col-12">
+              <button class="btn btn-primary btn-block btn-sm" (click)="setPage(1);getCitas(formD)">Buscar</button>
             </div>
           </div>
-
         </div>
-
       </div>
-    </div>
+    </form>
+    <div class="row mt-4" *ngIf="!loading && citas.length > 0; else notData">
+      <div class="col-12">
+        <table class="table table-hover table-bordered small">
+          <thead class="thead-dark">
+            <tr class="text-center text-uppercase">
+              <th style="width: 85px;">Fecha</th>
+              <th style="width: 200px;">Profesional</th>
+              <th style="width: 200px;">Paciente</th>
+              <th style="width: 160px;">Telefono Paciente</th>
+              <th style="width: 160px;">Especialidad</th>
+              <th>Descripción</th>
+              <th style="width: 75px;">Estado</th>
+              <th style="width: 50px;"></th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr class="text-center" *ngFor="let cita of citas"
+              [ngClass]="{'alert alert-success' : cita.state == 'Confirmado' }">
+              <td>{{cita.hour_start | date:'dd/MM/yyyy hh:mm a' }}</td>
+              <td>{{cita.profesional_name}}</td>
+              <td>{{cita.patient_name}}</td>
+              <td>{{cita.phone}}</td>
+              <td>{{cita.speciality}}</td>
+              <td>{{cita.observation}}</td>
+              <td>{{cita.state}}</td>
+              <td class="text-center">
+                <div class="btn-group" role="group" ngbDropdown>
+                  <button id="btnGroupVerticalDrop1 " type="button" class="btn btn-primary btn-sm dropdown-toggle "
+                    ngbDropdownToggle>
+                    <i class="mdi mdi-chevron-down "></i>
+                  </button>
 
+                  <div style="cursor: pointer; " class="dropdown-menu font-weight-bolder "
+                    aria-labelledby="btnGroupVerticalDrop1 " ngbDropdownMenu>
+                    <a class="dropdown-item" (click)="detalleCita(cita)">
+                      <i class="fas fa-search mr-2 "></i> Detalle cita</a>
+
+                    <a class="dropdown-item" (click)="Cancel(cita.status, cita.id)">
+                      <i class="fas fa-plus mr-2 "></i> Cancelar Cita
+                    </a>
+
+                    <a class="dropdown-item" (click)="Migrate(cita.id)">
+                      <i class="fas fa-coins mr-2 "></i> Migrar Cita
+                    </a>
+
+                  </div>
+
+                </div>
+              </td>
+            </tr>
+        </table>
+      </div>
+      <div class="col-sm-12">
+        <div class="text-md-right float-md-right pagination-rounded">
+          <ngb-pagination maxSize="5" [collectionSize]="pagination.collectionSize"
+            (pageChange)="setPage($event);getCitas(formD)" [pageSize]="pagination.pageSize" [(page)]="pagination.page"
+            aria-label="Default pagination ">
+          </ngb-pagination>
+        </div>
+      </div>
+
+    </div>
   </div>
 </div>
+
 
 <ng-template #institution let-r="result" let-t="term">
   <span class="f-9">

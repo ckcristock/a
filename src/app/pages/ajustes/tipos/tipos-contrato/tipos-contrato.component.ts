@@ -6,6 +6,7 @@ import swal from 'sweetalert2';
 import { consts } from 'src/app/core/utils/consts';
 import { ThemeService } from 'ng2-charts';
 import Swal from 'sweetalert2';
+import { MatAccordion } from '@angular/material/expansion';
 
 @Component({
   selector: 'app-tipos-contrato',
@@ -14,6 +15,17 @@ import Swal from 'sweetalert2';
 })
 export class TiposContratoComponent implements OnInit {
   @ViewChild('modal') modal:any;
+  @ViewChild(MatAccordion) accordion: MatAccordion;
+  matPanel = false;
+  openClose(){
+    if (this.matPanel == false){
+      this.accordion.openAll()
+      this.matPanel = true;
+    } else {
+      this.accordion.closeAll()
+      this.matPanel = false;
+    }    
+  }
   loading:boolean = false;
   selected:any;
   pagination:any = {

@@ -1,10 +1,11 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, ViewChild } from '@angular/core';
 
 import { personsList } from './data';
 import { PersonService } from '../professionals/profesionales.service';
 import { Person } from 'src/app/core/models/person.model';
 import { DependenciesService } from '../services/dependencies.service';
 import { CompanyService } from '../services/company.service';
+import { MatAccordion } from '@angular/material/expansion';
 
 
 @Component({
@@ -14,6 +15,7 @@ import { CompanyService } from '../services/company.service';
 })
 
 export class FuncionariosComponent implements OnInit {
+  @ViewChild(MatAccordion) accordion: MatAccordion;
   pagination = {
     pageSize: 12,
     page: 1,

@@ -1,25 +1,12 @@
-<div class="row">
-    <div class="col12">
-
-    </div>
-    <div class="col-12">
-        <div class="card">
-            <div class="card-body">
-                <div class="row ">
-                    <div class="col-12 ">
-                        <h4 class="">Datos de profesionales</h4>
-                    </div>
-                </div>
-
-                <div class="row  d-flex align-items-baseline mb-4">
-                    <div class="col-6">
-                        <button (click)="createOrUpdated()" class="btn btn-primary btn-sm">
-                            <i class="fa fa-user-md"></i>
-                            Nuevo Profesional</button>
-                    </div>
-                </div>
-                <app-table (edit)="createOrUpdated($event)"></app-table>
-            </div>
+<div class="card">
+    <div class="card-body">
+        <div class="card-title d-flex justify-content-between">
+            <h4 class="">Datos de profesionales</h4>
+            <button (click)="createOrUpdated()" class="btn btn-primary btn-sm">
+                <i class="fa fa-user-md"></i> Agregar
+            </button>
         </div>
+        <hr class="line">
+        <app-table (edit)="createOrUpdated($event)"></app-table>
     </div>
 </div>
