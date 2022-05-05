@@ -38,6 +38,7 @@ import { TableProductosCatalogoComponent } from './catalogo/components/table-pro
 import { DotacionCrearComponent } from './dotacion-crear/dotacion-crear.component';
 import { CompaniesToWorkComponent } from './funcionarios/detalle-funcionario/permissions/companies-to-work/companies-to-work.component';
 import { PuntodispensacionComponent } from './puntodispensacion/puntodispensacion.component';
+import { DispensingPointComponent } from './funcionarios/detalle-funcionario/permissions/dispensing-point/dispensing-point.component';
 import { BoardPermissionsComponent } from './funcionarios/detalle-funcionario/permissions/board-permissions/board-permissions.component';
 import { CKEditorModule } from '@ckeditor/ckeditor5-angular';
 import { MatExpansionModule } from '@angular/material/expansion';
@@ -131,6 +132,7 @@ import { MatAutocompleteModule } from '@angular/material/autocomplete';
         DotacionCrearComponent,
         CompaniesToWorkComponent,
         PuntodispensacionComponent,
+        DispensingPointComponent,
         BoardPermissionsComponent,
         SedesComponent,
     ],
