@@ -6,6 +6,7 @@ import { HttpClient } from '@angular/common/http';
 import { CertificadoRetencionModel } from '../certificadoretencion/CertificadoRetencionModel';
 import { TerceroService } from '../../../../core/services/tercero.service';
 import { environment } from 'src/environments/environment';
+import { UserService } from '../../../../core/services/user.service';
 
 @Component({
   selector: 'app-certificadoingresoyretencion',
@@ -23,13 +24,15 @@ export class CertificadoingresoyretencionComponent implements OnInit {
   queryParams: string;
   private _rutaBase:string = environment.ruta+'php/terceros/';
   terceros:any[] = [];
+  company_id:any = '';
   
-  constructor(private globales: Globales, private http: HttpClient, private _terceroService: TerceroService) { }
+  constructor(private globales: Globales, private http: HttpClient, private _terceroService: TerceroService, private _user: UserService) { }
 
   ngOnInit() {
     this.FiltrarTerceros().subscribe((data:any) => {
       this.terceros = data;
     })
+    this.company_id = this._user.user.person.company_worked.id;
   }
 
   search_tercero = (text$: Observable<string>) =>
@@ -83,6 +86,7 @@ setQueryParams() {
   if (this.CertificadoRetencionModel.Fecha_Expedicion != '') {
     params.Fecha_Expedicion = this.CertificadoRetencionModel.Fecha_Expedicion
   }
+  params.company_id = this.company_id;
 
   this.queryParams = Object.keys(params).map(key => key + '=' + params[key]).join('&');
   

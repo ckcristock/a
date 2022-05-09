@@ -21,6 +21,11 @@ import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatInputModule } from '@angular/material/input';
 import { MatSelectModule } from '@angular/material/select';
 import { MatSliderModule } from '@angular/material/slider';
+//import { ActaAplicacionComponent } from './pages/agendamiento/acta-aplicacion/acta-aplicacion.component';
+
+
+
+
 import { NgModule } from "@angular/core";
 import { CallendarComponent } from './callendar/callendar.component';
 import { AgendasComponent } from './agendas/agendas.component';
@@ -31,6 +36,12 @@ import { RecaudosComponent } from './recaudos/recaudos.component';
 import { ReplayMigrateModule } from './replay-migrate/replay-migrate.module';
 import { CallInComponent } from './call-in/call-in.component';
 import { MatSlideToggleModule } from '@angular/material/slide-toggle';
+import { ActaAplicacionComponent } from './acta-aplicacion/acta-aplicacion.component';
+import { HttpClientModule } from '@angular/common/http';
+import { ListaActaAplicacionComponent } from './lista-acta-aplicacion/lista-acta-aplicacion.component';
+
+
+
 
 @NgModule({
     declarations: [
@@ -46,7 +57,11 @@ import { MatSlideToggleModule } from '@angular/material/slide-toggle';
         DetailStatsComponent,
         RecaudosComponent,
         CallInComponent,
-        SearchPipe
+        SearchPipe,
+        ActaAplicacionComponent,
+        ListaActaAplicacionComponent
+
+
     ],
     imports: [
         NgbNavModule,
@@ -72,6 +87,7 @@ import { MatSlideToggleModule } from '@angular/material/slide-toggle';
         MatSelectModule,
         MatSlideToggleModule,
         MatSliderModule,
+        HttpClientModule
     ],
 
     bootstrap: [],

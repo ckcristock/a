@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { environment } from 'src/environments/environment';
+import { UserService } from '../../../../core/services/user.service';
 
 @Component({
   selector: 'app-balance-general',
@@ -37,17 +38,19 @@ export class BalanceGeneralComponent implements OnInit {
   Discriminado:any = '';
   queryParams: string = '';
   envirom: any;
+  company_id:any = '';
 
-  constructor(private http: HttpClient) { }
+  constructor( private http: HttpClient, private _user: UserService ) { }
 
   ngOnInit() {
     this.ListarCentroCostos();
     this.envirom = environment;
+    this.company_id = this._user.user.person.company_worked.id;
   }
 
   ListarCentroCostos() {
 
-    this.http.get(environment.ruta+'php/contabilidad/balanceprueba/lista_centro_costos.php').subscribe((data:any)=>{
+    this.http.get(environment.ruta+'php/contabilidad/balanceprueba/lista_centro_costos.php', {params: { company_id: this._user.user.person.company_worked.id }}).subscribe((data:any)=>{
       this.Centro_Costos = data;
     })
     
@@ -57,7 +60,8 @@ export class BalanceGeneralComponent implements OnInit {
     let params:any = {
       tipo: this.Parametros.Tipo_Reporte,
       fecha_corte: this.Parametros.Fecha_Corte,
-      nivel: this.Parametros.Nivel
+      nivel: this.Parametros.Nivel,
+      company_id: this.company_id
     };
 
     if (this.Parametros.Centro_Costo != '') {

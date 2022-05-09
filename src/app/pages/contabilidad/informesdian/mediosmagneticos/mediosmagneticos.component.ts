@@ -6,6 +6,7 @@ import { Router } from '@angular/router';
 import swal from 'sweetalert2';
 import { environment } from 'src/environments/environment';
 import Swal from 'sweetalert2';
+import { UserService } from 'src/app/core/services/user.service';
 
 @Component({
   selector: 'app-mediosmagneticos',
@@ -18,10 +19,11 @@ export class MediosmagneticosComponent implements OnInit {
   public alertOption: SweetAlertOptions;
   public IdMedioMag = '';
   public url:string = this.router.url;
+  public Id_Empresa:any = '';
   public formatoEspecial:boolean = false;
   enviromen:any;
 
-  constructor(private http: HttpClient, private swalService: SwalService, private router: Router) { 
+  constructor(private http: HttpClient, private router: Router, private _user: UserService) {
     this.alertOption = {
       title: "¿Está Seguro?",
       text: "Se dispone a Eliminar este Formato",
@@ -44,6 +46,7 @@ export class MediosmagneticosComponent implements OnInit {
 
   ngOnInit() {
     this.getListaMediosMag();
+    this.Id_Empresa = this._user.user.person.company_worked.id;
     this.enviromen = environment
   }
 
@@ -54,7 +57,7 @@ export class MediosmagneticosComponent implements OnInit {
       p.Tipo = 'Especial';
     }
 
-    this.http.get(environment.ruta+'php/contabilidad/mediosmagneticos/lista_medios_magneticos.php',{params: p}).subscribe((data:any)=> {
+    this.http.get(environment.ruta+'php/contabilidad/mediosmagneticos/lista_medios_magneticos.php?company_id='+this._user.user.person.company_worked.id,{params:p}).subscribe((data:any)=> {
       this.listaMediosMag = data;
     })
   }

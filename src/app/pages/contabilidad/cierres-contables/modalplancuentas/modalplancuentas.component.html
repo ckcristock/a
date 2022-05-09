@@ -7,8 +7,8 @@
     </div>
     <div class="app-modal-body">
         <div class="row">
-
             <div class="col-md-12">
+              <perfect-scrollbar style="height: 500px;">
                 <table class="table table-product table-striped ">
                     <thead>
                         <tr>
@@ -17,7 +17,6 @@
                             <th style="width: 30%;">Nombre</th>
                             <th style="width: 16%;">Tipo Cierre</th>
                         </tr>
-
                         <tr>
                             <th></th>
                             <th><input class="form-control input-sm" type="text" [(ngModel)]="filtros.codigo" (change)="buscarPlanes()" placeholder="Buscar Codigo"></th>
@@ -58,10 +57,11 @@
                                 </select>
 
                             </td>
-                        </tr>
-                    </tbody>
+                          </tr>
+                        </tbody>
 
-                </table>
+                      </table>
+                      </perfect-scrollbar>
             </div>
         </div>
     </div>

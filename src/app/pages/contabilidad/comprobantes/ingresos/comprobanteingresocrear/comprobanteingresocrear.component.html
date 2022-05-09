@@ -10,22 +10,13 @@
                 <div class="card-body" style="padding-bottom: 0px;">
                     <form #FormComprobante="ngForm">
                         <div class="row invoive-info" style="margin-bottom: 0; padding-bottom: 0px;">
+                        <input type="hidden" name="Id_Empresa" [(ngModel)]="Id_Empresa">
                             <div class="col-md-2">
                                 <div class="form-group">
                                     <label>Fecha</label>
                                     <input type="date" name="Fecha_Comprobante" id="Fecha_Comprobante" [(ngModel)]="Fecha_Comprobante" class="form-control form-control-sm" (change)="getCodigoIngreso($event.target.value)" required>
                                 </div>
                                 <input type="hidden" name="Tipo" [ngModel]="'Ingreso'">
-                            </div>
-                            <div class="col-md-2">
-                                <div class="form-group">
-                                    <label>Empresa</label>
-                                    <select [(ngModel)]="Id_Empresa" name="Id_Empresa" id="Id_Empresa" class="form-control form-control-sm" required>
-                                        <option *ngFor="let item of companies" [value]="item.value">
-                                            {{ item.text }}
-                                        </option>
-                                    </select>
-                                </div>
                             </div>
                             <div class="col-md-2">
                                 <div class="form-group">
@@ -114,14 +105,14 @@
                 <table class="table  invoice-detail-table tabla">
                   <thead>
                     <tr class="thead-default">
-  
+
                       <th>Cuenta</th>
                       <th style="width:100px;">Valor</th>
                       <th style="width:30px">Impuesto</th>
                       <th style="width:50px;">Cantidad</th>
                       <th style="width:50px;">Observaciones</th>
                       <th style="width:50px;">Total</th>
-  
+
                     </tr>
                   </thead>
                   <tbody>
@@ -139,7 +130,7 @@
                       <td><input name="Cantidad{{i}}" [(ngModel)]="item.Cantidad" class="form-control form-control-sm text-right" type="number"
                           (change)="Calcular(i)"></td>
                       <td><input name="Observaciones{{i}}" [(ngModel)]="item.Observaciones" class="form-control form-control-sm"></td>
-  
+
                       <td><input name="Total{{i}}" [(ngModel)]="item.Subtotal" class="form-control form-control-sm text-right"
                           readonly></td>
                     </tr>
@@ -157,7 +148,7 @@
                         <td>Tipo de Retención </td>
                         <td style="width:70px;">Valor </td>
                         <td style="width:10px;"> </td>
-  
+
                       </thead>
                       <tbody>
                         <tr *ngFor="let item of Rentenciones; let i = index" id="fila{{i}}">
@@ -172,15 +163,15 @@
                               </span>
                             </a>
                         </tr>
-  
+
                       </tbody>
-                     
+
                     </table>
                     <a href="javascript:;" (click)="AgregarRetencion()"><i class="fa fa-plus-square"></i> Agregar retención</a>
                   </div>
                 </div>
               </div>
-  
+
               </div>
             <div *ngIf="Mostrar" class="row">
               <div class="col-sm-12">
@@ -190,7 +181,7 @@
                       <th>Subtotal:</th>
                       <td>{{ Subtotal_Ingreso | currency }}</td>
                     </tr>
-  
+
                     <tr>
                       <th>Impuestos:</th>
                       <td>{{ Impuesto_Ingreso| currency }}</td>
@@ -205,7 +196,7 @@
                     </tr>
                   </tbody>
                 </table>
-  
+
               </div>
             </div> -->
 

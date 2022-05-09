@@ -6,6 +6,7 @@ import { HttpClient } from '@angular/common/http';
 import { SwalService } from '../../../../ajustes/informacion-base/services/swal.service';
 import { environment } from 'src/environments/environment';
 import Swal from 'sweetalert2';
+import { UserService } from 'src/app/core/services/user.service';
 
 @Component({
   selector: 'app-mediomagagrupadosesp',
@@ -19,7 +20,7 @@ export class MediomagagrupadosespComponent implements OnInit {
   public IdMedioMag:string = '';
   enviromen:any;
 
-  constructor(public globales: Globales, private http: HttpClient, private swalService: SwalService) { 
+  constructor(public globales: Globales, private http: HttpClient, private _user: UserService) {
     this.alertOption = {
       title: "¿Está Seguro?",
       text: "Se dispone a Eliminar este Formato",
@@ -40,7 +41,7 @@ export class MediomagagrupadosespComponent implements OnInit {
 
   ngOnInit() {
     this.listaFormatosAgrupados();
-    this.enviromen = environment
+    this.enviromen = environment;
   }
 
   listaFormatosAgrupados() {

@@ -23,7 +23,8 @@ export class AjustarDocumentosComponent implements OnInit {
   public alertOpt  : SweetAlertOptions = {}
   @ViewChild('respuestaSwal') respuestaSwal: any;
   @ViewChild('respuestaRedirectSwal') respuestaRedirectSwal: any;
-  constructor(public router: Router, private route: ActivatedRoute, private http: HttpClient) {
+
+    constructor(public router: Router, private route: ActivatedRoute, private http: HttpClient) {
   this.alertOpt = {
     title:'Guardar Inventario Final',
     text:'¿Está Seguro que desea guardar el inventario?',

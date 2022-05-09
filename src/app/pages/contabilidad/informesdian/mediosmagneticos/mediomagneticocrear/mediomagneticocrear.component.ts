@@ -12,6 +12,7 @@ import { Globales } from '../../../globales';
 import { environment } from 'src/environments/environment';
 import Swal from 'sweetalert2';
 import { PlanCuentasService } from '../../../plan-cuentas/plan-cuentas.service';
+import { UserService } from 'src/app/core/services/user.service';
 
 @Component({
   selector: 'app-mediomagneticocrear',
@@ -21,7 +22,7 @@ import { PlanCuentasService } from '../../../plan-cuentas/plan-cuentas.service';
 export class MediomagneticocrearComponent implements OnInit {
 
   @ViewChild('FormMediosMag') FormMediosMag:any;
-  
+
   public datosCabecera:any = {
     Titulo: 'Medios Magneticos',
     Fecha: new Date(),
@@ -45,16 +46,14 @@ export class MediomagneticocrearComponent implements OnInit {
 
   public MediosMagModel: MedioMagneticoModel = new MedioMagneticoModel();
   enviromen:any;
-  companies:any[] = [];
   constructor(
               private globales: Globales,
-              private http: HttpClient, 
-              private swalService: SwalService, 
-              private router: Router, 
-              private route: ActivatedRoute, 
+              private http: HttpClient,
+              private router: Router,
+              private route: ActivatedRoute,
               private _medios: MediosmagnticosService,
-              private _planCuentas: PlanCuentasService
-              ) { 
+              private _user: UserService
+              ) {
     this.alertOption = {
       title: "¿Está Seguro?",
       text: "Se dispone a Guardar este Formato",
@@ -85,30 +84,23 @@ export class MediomagneticocrearComponent implements OnInit {
 
   ngOnInit() {
     this.enviromen = environment;
+    this.MediosMagModel.Id_Empresa = this._user.user.person.company_worked.id;
     this.listaCuentas();
     this.tiposDocumentos();
-    this.ListasEmpresas();
 
     let id = this.route.snapshot.params.id;
-    
+
     if (id !== null && id !== undefined) {
       this.getDetallesMedioMag(id);
     }
   }
 
   listaCuentas() {
-    this.http.get(environment.ruta + 'php/comprobantes/lista_cuentas.php')
+    this.http.get(environment.ruta + 'php/comprobantes/lista_cuentas.php', {params: {company_id: this._user.user.person.company_worked.id}})
     .subscribe((data:any) => {
       this.Cuenta = data.Activo;
     })
   }
-
-  ListasEmpresas(){
-    this._planCuentas.getCompanies().subscribe((data:any) => {
-      this.companies = data.data;
-    })
-  }
-
 
   validarCampo(campo, event, tipo) { // Funcion que validará los campos de typeahead
     this._medios.validarCampoTypeAHead(campo, event, tipo);
@@ -143,7 +135,7 @@ export class MediomagneticocrearComponent implements OnInit {
     let pos2 = pos+1;
 
     if (this.Tipos_Documentos[pos2] == undefined) {
-      
+
       let obj:any = {
         Tipo: ''
       };
@@ -184,8 +176,8 @@ export class MediomagneticocrearComponent implements OnInit {
     let info = this.globales.normalize(JSON.stringify(this.MediosMagModel));
     let detalles = this.globales.normalize(JSON.stringify(this.Cuentas_Contables));
     let tipos_documentos = this.globales.normalize(JSON.stringify(this.Tipos_Documentos));
-
     let datos = new FormData();
+    console.log(info);
 
     datos.append('datos', info);
     datos.append('cuentas', detalles);
@@ -206,7 +198,7 @@ export class MediomagneticocrearComponent implements OnInit {
         } else {
           this.router.navigate(['/contabilidad/informesdian/mediosmagneticos']);
         }
-        
+
       }, 300);
     }
    }, error => {
@@ -216,8 +208,8 @@ export class MediomagneticocrearComponent implements OnInit {
       title: 'Oops!'
     });
     // this.swalService.ShowMessage(swal);
-     
-   }) 
+
+   })
   }
 
   getDetallesMedioMag(id) {

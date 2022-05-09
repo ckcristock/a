@@ -7,6 +7,7 @@ import { HttpClient } from '@angular/common/http';
 import { environment } from 'src/environments/environment';
 import { PlanCuentasService } from '../../plan-cuentas/plan-cuentas.service';
 import Swal from 'sweetalert2';
+import { UserService } from 'src/app/core/services/user.service';
 
 @Component({
   selector: 'app-modalcierrecontable',
@@ -30,13 +31,11 @@ export class ModalcierrecontableComponent implements OnInit, OnDestroy {
   public meses:any = [];
   public Anio:any = new Date().getFullYear();
   public alertOption:SweetAlertOptions = {};
-  companies:any[] = [];
   constructor(
-              private cierreContableService: CierrecontableService, 
-              private swalService: SwalService,
+              private cierreContableService: CierrecontableService,
               private http: HttpClient,
-              private _planCuentas: PlanCuentasService
-    ) { 
+              private _user: UserService
+    ) {
 
       this.alertOption = {
         title: "¿Está Seguro?",
@@ -66,21 +65,14 @@ export class ModalcierrecontableComponent implements OnInit, OnDestroy {
       this.modelCierre.Tipo_Cierre = data;
       this.ModalCierreContable.show();
     });
-
+    this.modelCierre.Id_Empresa = this._user.user.person.company_worked.id;
     this.getMeses();
-    this.ListasEmpresas();
   }
 
   ngOnDestroy() {
     if (this._suscription != null && this._suscription != undefined) {
       this._suscription.unsubscribe();
     }
-  }
-
-  ListasEmpresas(){
-    this._planCuentas.getCompanies().subscribe((data:any) => {
-      this.companies = data.data;
-    })
   }
 
   private guardarCierre(datos, tipo) {
@@ -110,8 +102,7 @@ export class ModalcierrecontableComponent implements OnInit, OnDestroy {
     let info = this.cierreContableService.Utf8.encode(JSON.stringify(this.modelCierre));
     let datos = new FormData;
     datos.append('datos', info);
-
-    this.http.post(environment.ruta+'php/contabilidad/cierres/validar_cierre.php',datos).subscribe((data:any) => {
+    this.http.post(environment.ruta+'php/contabilidad/cierres/validar_cierre.php',datos, { params: { company_id: this._user.user.person.company_worked.id }}).subscribe((data:any) => {
       if (data.codigo == 'success') {
         this.guardarCierre(datos, tipo);
       } else {

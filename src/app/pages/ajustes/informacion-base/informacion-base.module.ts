@@ -53,6 +53,7 @@ import { MatNativeDateModule } from '@angular/material/core';
 import { MatAutocompleteModule } from '@angular/material/autocomplete';
 
 
+
 @NgModule({
     declarations: [
         myModules.EmpresasComponent,
@@ -135,6 +136,7 @@ import { MatAutocompleteModule } from '@angular/material/autocomplete';
         DispensingPointComponent,
         BoardPermissionsComponent,
         SedesComponent,
+
     ],
 
     imports: [

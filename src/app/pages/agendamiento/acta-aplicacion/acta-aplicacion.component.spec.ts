@@ -1,23 +1,24 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 
-import { DispensingPointComponent } from './dispensing-point.component';
+import { ActaAplicacionComponent } from './acta-aplicacion.component';
 
-describe('DispensingPointComponent', () => {
-  let component: DispensingPointComponent;
-  let fixture: ComponentFixture<DispensingPointComponent>;
+describe('ActaAplicacionComponent', () => {
+  let component: ActaAplicacionComponent;
+  let fixture: ComponentFixture<ActaAplicacionComponent>;
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      declarations: [ DispensingPointComponent ]
+      declarations: [ ActaAplicacionComponent ]
     })
     .compileComponents();
   });
 
   beforeEach(() => {
-    fixture = TestBed.createComponent(DispensingPointComponent);
+    fixture = TestBed.createComponent(ActaAplicacionComponent);
     component = fixture.componentInstance;
     fixture.detectChanges();
   });
+
   it('should create', () => {
     expect(component).toBeTruthy();
   });

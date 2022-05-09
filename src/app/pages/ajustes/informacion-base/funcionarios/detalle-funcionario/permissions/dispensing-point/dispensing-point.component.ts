@@ -5,10 +5,9 @@ import { UserService } from 'src/app/core/services/user.service';
 @Component({
   selector: 'app-dispensing-point',
   templateUrl: './dispensing-point.component.html',
-  styleUrls: ['./dispensing-point.component.scss']
+  styleUrls: ['./dispensing-point.component.scss'],
 })
 export class DispensingPointComponent implements OnInit {
-
   @Input('personId') personId: string = '';
 
   points: any[] = [];
@@ -43,6 +42,5 @@ export class DispensingPointComponent implements OnInit {
         this.saving = false;
         this._user.user.person.id == this.personId ? location.reload() : null;
       });
-  }/*  */
-
+  }
 }

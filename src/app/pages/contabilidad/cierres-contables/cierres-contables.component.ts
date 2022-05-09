@@ -5,6 +5,7 @@ import { HttpClient } from '@angular/common/http';
 import { CierrecontableService } from './cierrecontable.service';
 import { environment } from 'src/environments/environment';
 import Swal from 'sweetalert2';
+import { UserService } from 'src/app/core/services/user.service';
 
 @Component({
   selector: 'app-cierres-contables',
@@ -19,16 +20,18 @@ export class CierresContablesComponent implements OnInit {
     Mes: [],
     Anio: []
   }
-
+  public Id_Empresa:any = '';
   constructor(
     private cierresContableService: CierrecontableService,
     private swalService: SwalService,
-    private http: HttpClient
+    private http: HttpClient,
+    private _user: UserService
     ) { }
 
   ngOnInit() {
     this.listaCierres();
     this.envirom = environment
+    this.Id_Empresa = this._user.user.person.company_worked.id;
   }
 
   abrirModalCierre(tipo) {
@@ -41,7 +44,7 @@ export class CierresContablesComponent implements OnInit {
   }
 
   listaCierres() {
-    this.http.get(environment.ruta + 'php/contabilidad/cierres/lista_cierre.php').subscribe((data:any) => {
+    this.http.get(environment.ruta + 'php/contabilidad/cierres/lista_cierre.php', { params: { company_id: this._user.user.person.company_worked.id }}).subscribe((data:any) => {
       this.Cierres.Mes = data.Mes;
       this.Cierres.Anio = data.Anio;
     });
@@ -59,7 +62,7 @@ export class CierresContablesComponent implements OnInit {
       this.listaCierres();
     })
   }
-  
+
   OnDestroy(){
     this.abrirPlanesCuenta.unsubscribe();
     this.modalCierre.unsubscribe();

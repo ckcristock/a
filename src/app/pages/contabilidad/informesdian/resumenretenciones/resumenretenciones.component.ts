@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { Globales } from '../../globales';
 import { HttpClient } from '@angular/common/http';
 import { environment } from 'src/environments/environment';
+import { UserService } from '../../../../core/services/user.service';
 
 @Component({
   selector: 'app-resumenretenciones',
@@ -21,10 +22,12 @@ export class ResumenretencionesComponent implements OnInit {
     Tipo_Reporte: 'Pcga'
   }
   queryParams: string;
+  company_id:any = '';
 
-  constructor(private globales: Globales, private http: HttpClient) { }
+  constructor(private globales: Globales, private http: HttpClient, private _user: UserService) { }
 
   ngOnInit() {
+    this.company_id = this._user.user.person.company_worked.id;
   }
 
   setQueryParams() {
@@ -33,6 +36,7 @@ export class ResumenretencionesComponent implements OnInit {
     for (const key in this.model) {
       params[key] = this.model[key];
     }
+    params.company_id = this.company_id
 
     this.queryParams = Object.keys(params).map(key => key + '=' + params[key]).join('&');
   }

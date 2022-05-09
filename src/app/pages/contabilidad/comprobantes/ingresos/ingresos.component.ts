@@ -10,6 +10,7 @@ import { Observable } from 'rxjs';
 import { debounceTime, map } from 'rxjs/operators';
 import { NgForm } from '@angular/forms';
 import { environment } from 'src/environments/environment';
+import { UserService } from 'src/app/core/services/user.service';
 
 @Component({
   selector: 'app-ingresos',
@@ -23,7 +24,7 @@ export class IngresosComponent implements OnInit {
   @ViewChild('alertSwal') alertSwal: any;
   envirom: any;
   myDateRangePickerOptions: IMyDrpOptions = {
-    width:'180px', 
+    width:'180px',
     height: '21px',
     selectBeginDateTxt:'Inicio',
     selectEndDateTxt:'Fin',
@@ -53,12 +54,12 @@ export class IngresosComponent implements OnInit {
   ];
 
   public ComprobanteModel:any = {
-    Codigo: '', 
-    Concepto: '', 
-    Fecha: '', 
-    Cliente: '', 
-    Forma_Pago:'', 
-    Valor:'', 
+    Codigo: '',
+    Concepto: '',
+    Fecha: '',
+    Cliente: '',
+    Forma_Pago:'',
+    Valor:'',
     Banco:'',
     Soporte:'CuentasContables'
   };
@@ -89,7 +90,7 @@ export class IngresosComponent implements OnInit {
   IdDocumento: string = '';
   // id_funcionario: any = JSON.parse(localStorage.getItem('User')).Identificacion_Funcionario;
   alertOption: SweetAlertOptions;
-
+  public Id_Empresa:any = '';
   public filtro:any = {
     codigo: '',
     fechas: '',
@@ -97,7 +98,13 @@ export class IngresosComponent implements OnInit {
     estado: ''
   }
 
-  constructor(private http: HttpClient, private route: ActivatedRoute, private location: Location, private swalService: SwalService) {
+  constructor(
+                private http: HttpClient,
+                private route: ActivatedRoute,
+                private location: Location,
+                private swalService: SwalService,
+                private _user: UserService
+              ) {
     this.ListarComprobantes();
 
     this.alertOption = {
@@ -143,11 +150,11 @@ export class IngresosComponent implements OnInit {
     this.http.get(environment.ruta + 'php/comprobantes/lista_cliente.php').subscribe((data: any) => {
       this.Cliente = data;
     });
-    this.http.get(environment.ruta + 'php/comprobantes/lista_cuentas.php').subscribe((data: any) => {
+    this.http.get(environment.ruta + 'php/comprobantes/lista_cuentas.php',{params: { company_id: this._user.user.person.company_worked.id }}).subscribe((data: any) => {
       this.Cuenta = data.Activo;
       this.Cuenta_Pasivos=data.Pasivo;
     });
-   
+
     this.http.get(environment.ruta + 'php/comprobantes/lista_bancos.php').subscribe((data: any) => {
       this.Bancos = data;
     });
@@ -156,13 +163,14 @@ export class IngresosComponent implements OnInit {
     });
   }
 ListarComprobantes(){
-  this.http.get(environment.ruta + 'php/comprobantes/lista_comprobantes.php',{params:{tipo_comprobante:'ingreso'}}).subscribe((data: any) => {
+  this.http.get(environment.ruta + 'php/comprobantes/lista_comprobantes.php',{params:{tipo_comprobante:'ingreso', company_id: this._user.user.person.company_worked.id }}).subscribe((data: any) => {
     this.Comprobantes = data.Lista;
+    console.log(this.Comprobantes);
     this.TotalItems = data.numReg;
   });
 }
 dateRangeChanged(event) {
-    
+
   if (event.formatted != "") {
     this.filtro.fechas = event.formatted;
   } else {
@@ -179,7 +187,7 @@ pagination() {
 
   this.location.replaceState('/comprobante/ingresos', queryString);
 
-  
+
   this.http.get(environment.ruta + 'php/comprobantes/lista_comprobantes.php'+queryString).subscribe((data: any) => {
     this.Comprobantes = data.Lista;
     this.TotalItems = data.numReg;
@@ -195,13 +203,13 @@ AbrirModalNuevoComprobante(){
 
     this.location.replaceState('/comprobantes/ingresos', queryString);
 
-    
+
     this.http.get(environment.ruta + 'php/comprobantes/lista_comprobantes.php'+queryString).subscribe((data: any) => {
       this.Comprobantes = data.Lista;
       this.TotalItems = data.numReg;
 
     });
-    
+
   }
   getQueryString(pagination:boolean = false) {
 
@@ -212,10 +220,10 @@ AbrirModalNuevoComprobante(){
 
     if (!pagination) {
       this.page = 1;
-    } 
-    
+    }
+
     params.pag = this.page;
-    
+
     if (this.filtro.cliente != "") {
       params.cli = this.filtro.cliente;
     }
@@ -231,17 +239,17 @@ AbrirModalNuevoComprobante(){
 
     queryString = '?'+ Object.keys(params).map(key => key + '=' + params[key]).join('&');
     return queryString;
-    
+
     }
 
     Archivo(event){
       if (event.target.files.length === 1) {
         this.Soporte = event.target.files[0];
-      } 
+      }
     }
 
   GuardarComprobante(formulario: NgForm, modal:any) {
-    
+
     let datos = new FormData();
     let info=this.normalize(JSON.stringify(formulario.value))
     datos.append("Datos", info);
@@ -250,14 +258,14 @@ AbrirModalNuevoComprobante(){
       this.confirmacionSwal.title = 'Operación Exitosa';
       this.confirmacionSwal.html = data.mensaje;
       this.confirmacionSwal.type = data.tipo;
-      this.confirmacionSwal.show();   
+      this.confirmacionSwal.show();
       formulario.reset();
 
       this.ListarComprobantes();
- 
+
     });
 
-  
+
   }
 
   ShowSwal(tipo:string, titulo:string, msg:string){
@@ -291,12 +299,12 @@ AbrirModalNuevoComprobante(){
 
   ArmarComprobante(comprobanteObject:any){
     let comprobante = {
-      Codigo: comprobanteObject.Codigo, 
-      Concepto: comprobanteObject.Concepto, 
-      Fecha: comprobanteObject.Fecha, 
-      Cliente: comprobanteObject.Cliente, 
-      Forma_Pago: comprobanteObject.Forma_Pago, 
-      Valor: comprobanteObject.Valor, 
+      Codigo: comprobanteObject.Codigo,
+      Concepto: comprobanteObject.Concepto,
+      Fecha: comprobanteObject.Fecha,
+      Cliente: comprobanteObject.Cliente,
+      Forma_Pago: comprobanteObject.Forma_Pago,
+      Valor: comprobanteObject.Valor,
       Banco: comprobanteObject.Banco
     };
 
@@ -305,12 +313,12 @@ AbrirModalNuevoComprobante(){
 
   LimpiarModelo(){
     this.ComprobanteModel = {
-      Codigo: '', 
-      Concepto: '', 
-      Fecha: '', 
-      Cliente: '', 
-      Forma_Pago:'', 
-      Valor:'', 
+      Codigo: '',
+      Concepto: '',
+      Fecha: '',
+      Cliente: '',
+      Forma_Pago:'',
+      Valor:'',
       Banco:'',
       Cuenta_Debita: '',
       Cuenta_Acredita: ''
@@ -319,7 +327,7 @@ AbrirModalNuevoComprobante(){
 
   MostrarBanco(){
     // console.log(this.ComprobanteModel.Forma_Pago);
-    
+
     if(this.ComprobanteModel.Forma_Pago == '4' || this.ComprobanteModel.Forma_Pago == ''){
       this.boolVal = false;
     }else{
@@ -351,8 +359,8 @@ AbrirModalNuevoComprobante(){
       case 'Debita':
         this.Id_Cuenta_Debita=cuenta.Id_Plan_Cuentas;
         break;
-    
-      
+
+
     }
   }
   VerComprobante(id){
@@ -388,7 +396,7 @@ AbrirModalNuevoComprobante(){
       };
       this.swalService.ShowMessage(swal);
     });
-    
+
   }
 
   public AnularDocumentoContable(datos) {

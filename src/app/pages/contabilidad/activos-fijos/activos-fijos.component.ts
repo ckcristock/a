@@ -11,6 +11,7 @@ import { ActivosFijosService } from './activos-fijos.service';
 import { NgOption } from '@ng-select/ng-select';
 import { environment } from 'src/environments/environment';
 import { CentroCostosService } from '../centro-costos/centro-costos.service';
+import { UserService } from 'src/app/core/services/user.service';
 
 @Component({
   selector: 'app-activos-fijos',
@@ -66,7 +67,7 @@ export class ActivosFijosComponent implements OnInit {
   public typeahead_Cuenta:any={
     placeholder:'Contrapartida',
     name:'Contrapartida',
-    id:'Contrapartida', 
+    id:'Contrapartida',
     Requerido:true
   }
   public typeahead_Rete_Iva:any={
@@ -81,7 +82,7 @@ export class ActivosFijosComponent implements OnInit {
     id:'Rete_Fuente',
     Requerido:false
   }
- 
+
  public Codigo:any='';
   public TerceroSeleccionado:any='';
   public Retenciones:any=[];
@@ -92,7 +93,7 @@ export class ActivosFijosComponent implements OnInit {
   // perfilUsuario:any = localStorage.getItem('miPerfil');
 
   myDateRangePickerOptions: IMyDrpOptions = {
-    width:'150px', 
+    width:'150px',
     height: '21px',
     selectBeginDateTxt:'Inicio',
     selectEndDateTxt:'Fin',
@@ -108,13 +109,12 @@ export class ActivosFijosComponent implements OnInit {
   };
   public listaTipoActivo: Array<any>;
   public listaCentroCosto: Array<any>;
-  companies:any[] = [];
   constructor(
               private swalService: SwalService,
               private http: HttpClient,
               private _activoFijo: ActivosFijosService,
-              private _company: CentroCostosService
-              ) 
+              private _user: UserService
+              )
   {
     this.GetTipoActivos();
     this.ConsultaFiltrada();
@@ -140,9 +140,8 @@ export class ActivosFijosComponent implements OnInit {
   }
 
   ngOnInit() {
-    this.ListasEmpresas();
   }
-  
+
   search_tercero = (text$: Observable<string>) =>
   text$
   .pipe(
@@ -166,7 +165,7 @@ formatter_tercero = (x: { Nombre_Tercero: string }) => x.Nombre_Tercero;
     this.http.post(environment.ruta+'php/activofijo/guardar_activo_fijo_adicion.php', data)
     .subscribe((data:any) => {
       if (data.codigo == 'success') {
-        
+
         this.CerrarModal();
         this.ConsultaFiltrada();
         // window.open(environment.ruta+'php/contabilidad/movimientoscontables/movimientos_activo_fijo_pdf.php?id_registro='+data.Id+'&id_funcionario_elabora='+this.ActivoFijoModel.Identificacion_Funcionario,'_blank');
@@ -174,7 +173,7 @@ formatter_tercero = (x: { Nombre_Tercero: string }) => x.Nombre_Tercero;
           this.LimpiarModelo();
         }, 200);
       }
-  
+
       this.ShowSwal(data.codigo, data.titulo, data.mensaje);
     })
   }
@@ -188,23 +187,17 @@ formatter_tercero = (x: { Nombre_Tercero: string }) => x.Nombre_Tercero;
     this.http.post(environment.ruta+'php/activofijo/guardar_activo_fijo_adicion.php', data)
     .subscribe((data:any) => {
       if (data.codigo == 'success') {
-        
+
         this.CerrarModal();
         this.ConsultaFiltrada();
         // window.open(environment.ruta+'php/contabilidad/movimientoscontables/movimientos_activo_fijo_pdf.php?id_registro='+data.Id+'&id_funcionario_elabora='+this.ActivoFijoModel.Identificacion_Funcionario,'_blank');
         setTimeout(() => {
           this.LimpiarModelo();
         }, 200);
-       
-      }
-  
-      this.ShowSwal(data.codigo, data.titulo, data.mensaje);
-    })
-  }
 
-  ListasEmpresas(){
-    this._company.getCompanies().subscribe((data:any) => {
-      this.companies = data.data;
+      }
+
+      this.ShowSwal(data.codigo, data.titulo, data.mensaje);
     })
   }
 
@@ -232,7 +225,7 @@ formatter_tercero = (x: { Nombre_Tercero: string }) => x.Nombre_Tercero;
     .subscribe((data:any) => {
       if (data.codigo = 'success') {
         this.TipoActivos = data.query_result;
-  
+
       }else{
         this.TipoActivos = [];
         this.ShowSwal(data.codigo, data.titulo, data.mensaje);
@@ -243,7 +236,7 @@ formatter_tercero = (x: { Nombre_Tercero: string }) => x.Nombre_Tercero;
     this.http.get(environment.ruta+'php/activofijo/retenciones.php')
     .subscribe((data:any) => {
       if (data.codigo = 'success') {
-        this.Retenciones = data;        
+        this.Retenciones = data;
       }else{
         this.Retenciones = [];
         this.ShowSwal(data.codigo, data.titulo, data.mensaje);
@@ -265,7 +258,7 @@ formatter_tercero = (x: { Nombre_Tercero: string }) => x.Nombre_Tercero;
         this.Codigo=data.Activo.Codigo;
         this.ModalActivoFijo.show();
       }else{
-        
+
         this.ShowSwal(data.codigo, data.titulo, data.mensaje);
       }
     });
@@ -286,7 +279,7 @@ formatter_tercero = (x: { Nombre_Tercero: string }) => x.Nombre_Tercero;
 
     if(paginacion === true){
       params.pag = this.page;
-    }else{        
+    }else{
       this.page = 1; // Volver a la página 1 al filtrar
       params.pag = this.page;
     }
@@ -310,11 +303,10 @@ formatter_tercero = (x: { Nombre_Tercero: string }) => x.Nombre_Tercero;
     if (this.Filtros.costo_pcga.trim() != "") {
       params.costo_pcga = this.Filtros.costo_pcga;
     }
-    if (this.Filtros.Id_Empresa.trim() != "") {
-      params.empresa = this.Filtros.Id_Empresa;
-    }
+    let queryString = '?'+ Object.keys(params).map(key => key + '=' + params[key]).join('&');
 
-    return params;
+
+    return queryString;
   }
 
   ConsultaFiltrada(paginacion:boolean = false) {
@@ -325,9 +317,9 @@ formatter_tercero = (x: { Nombre_Tercero: string }) => x.Nombre_Tercero;
       this.ResetValues();
       return;
     }
-    
+
     this.Cargando = true;
-    this.http.get(environment.ruta+'php/activofijo/get_lista_activo_fijo.php', {params:params})
+    this.http.get(environment.ruta+'php/activofijo/get_lista_activo_fijo.php'+params, {params:{company_id: this._user.user.person.company_worked.id}})
     .subscribe((data:any) => {
       if (data.codigo == 'success') {
         this.ActivosFijos = data.query_result;
@@ -337,7 +329,7 @@ formatter_tercero = (x: { Nombre_Tercero: string }) => x.Nombre_Tercero;
         this.ActivosFijos = [];
         this.ShowSwal(data.codigo, data.titulo, data.mensaje);
       }
-      
+
       this.Cargando = false;
       this.SetInformacionPaginacion();
     });
@@ -382,24 +374,24 @@ formatter_tercero = (x: { Nombre_Tercero: string }) => x.Nombre_Tercero;
 
     this.http.post(environment.ruta+'php/activofijo/adicion_activo.php', datos)
     .subscribe((data:any)=> {
-      
+
       this.ShowSwal(data.codigo, data.titulo, data.mensaje);
       this.ConsultaFiltrada();
-      
+
     })
   }
 
   AsignarTercero(){
-    
+
     if (typeof(this.TerceroSeleccionado) == 'object') {
 
-      this.ActivoFijoModel.Nit = this.TerceroSeleccionado.Nit;   
-      this.ActivoFijoModel.Tipo=this.TerceroSeleccionado.Tipo;   
+      this.ActivoFijoModel.Nit = this.TerceroSeleccionado.Nit;
+      this.ActivoFijoModel.Tipo=this.TerceroSeleccionado.Tipo;
     }else{
       this.ActivoFijoModel.Nit = '';
     }
   }
-  AsignarConcepto(){  
+  AsignarConcepto(){
     this.ActivoFijoModel.Concepto=this.ActivoFijoModel.Nombre+' '+this.ActivoFijoModel.Documento;
   }
 
@@ -408,11 +400,11 @@ formatter_tercero = (x: { Nombre_Tercero: string }) => x.Nombre_Tercero;
       this.Codigo=data.consecutivo;
       this.ModalActivoFijo.show();
     })
-   
+
   }
   CapturarIdCentroCosto(id:string, tipo:string){
     if(tipo=='Centro'){
-      this.ActivoFijoModel.Id_Centro_Costo=id; 
+      this.ActivoFijoModel.Id_Centro_Costo=id;
     }else if(tipo=='Rete_Ica'){
       this.ActivoFijoModel.Id_Cuenta_Rete_Ica=parseInt(id);
       if (id!='') {
@@ -430,7 +422,7 @@ formatter_tercero = (x: { Nombre_Tercero: string }) => x.Nombre_Tercero;
         }
        }
     }
-      
+
   }
   AsignarValor(){
     let valor=parseFloat(this.ActivoFijoModel.Base.toString())+parseFloat(this.ActivoFijoModel.Iva.toString());
@@ -454,7 +446,7 @@ formatter_tercero = (x: { Nombre_Tercero: string }) => x.Nombre_Tercero;
         this.ModalActivoFijo.show();
 
       }else{
-        
+
         this.ShowSwal(data.codigo, data.titulo, data.mensaje);
       }
     });
@@ -462,7 +454,7 @@ formatter_tercero = (x: { Nombre_Tercero: string }) => x.Nombre_Tercero;
   RecalcularRetenciones(){
     if(parseFloat(this.ActivoFijoModel.Id_Cuenta_Rete_Fuente.toString())!=0){
       let  pos=this.Retenciones.findIndex(x=> x.Id_Plan_Cuenta===this.ActivoFijoModel.Id_Cuenta_Rete_Fuente);
-     
+
       if(pos>=0){
         this.ActivoFijoModel.Costo_Rete_Fuente=(this.Retenciones[pos].Porcentaje/100)*this.ActivoFijoModel.Base;
       }
@@ -470,11 +462,11 @@ formatter_tercero = (x: { Nombre_Tercero: string }) => x.Nombre_Tercero;
     if(parseFloat(this.ActivoFijoModel.Id_Cuenta_Rete_Ica.toString())!=0){
       let  pos=this.Retenciones.findIndex(x=> x.Id_Plan_Cuenta===this.ActivoFijoModel.Id_Cuenta_Rete_Ica);
       if(pos>=0){
-        
+
         this.ActivoFijoModel.Costo_Rete_Ica=(this.Retenciones[pos].Porcentaje/100)*this.ActivoFijoModel.Base;
       }
     }
-    
+
   }
 
   anularDocumento() {
@@ -501,7 +493,7 @@ formatter_tercero = (x: { Nombre_Tercero: string }) => x.Nombre_Tercero;
       };
       this.swalService.ShowMessage(swal);
     });
-    
+
   }
 
   public AnularDocumentoContable(datos) {
@@ -518,7 +510,7 @@ formatter_tercero = (x: { Nombre_Tercero: string }) => x.Nombre_Tercero;
   }
 
   loadListasDatosReporte() {
-    this.http.get(environment.ruta+'php/activofijo/datos_reporte.php').subscribe((data:any) => {
+    this.http.get(environment.ruta+'php/activofijo/datos_reporte.php', {params:{company_id: this._user.user.person.company_worked.id}}).subscribe((data:any) => {
       this.listaTipoActivo = data.Tipos_Activos;
       this.listaCentroCosto = data.Centro_Costos;
     })
