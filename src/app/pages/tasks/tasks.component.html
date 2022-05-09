@@ -4,19 +4,18 @@
             <a ngbNavLink>Administrador de tareas</a>
             <ng-template ngbNavContent>
                 <div class="container mt-4">
-                    <div class="row" cdkDropListGroup >
-                        <div class="col-3">
+                    <div class="row d-flex align-items-stretch" cdkDropListGroup>
+                        <div class="col-3 d-flex align-items-stretch">
                             <div class="card">
                                 <div class="card-header text-center">
                                     <h4 class="card-title">Pendientes</h4>
                                     <hr style="border-color: #ef476f;">
                                 </div>
                                 <div #list class="m-2 example-list" cdkDropList [cdkDropListData]="pendientes"
-                                    cdkDropListSortingDisabled 
+                                    cdkDropListSortingDisabled
                                     [cdkDropListConnectedTo]="['list-ejecucion','list-espera','list-finalizado']"
                                     (cdkDropListDropped)="drop($event)" id="list-pendientes"
-                                    [cdkDropListAutoScrollDisabled]="true" >
-
+                                    [cdkDropListAutoScrollDisabled]="true">
                                     <div class="card bg-light" *ngFor="let item of pendientes" cdkDrag
                                         [routerLink]="['/task', item.id]">
                                         <div class="p-3">
@@ -32,12 +31,11 @@
                                         <div class="px-3">
                                             <h4 class="name">{{item["titulo"]}}</h4>
                                             <!-- <div class="truncate-module">
-                                                <p class="quote2" [innerHTML]="item.descripcion"></p>
-                                            </div> -->
+                                                    <p class="quote2" [innerHTML]="item.descripcion"></p>
+                                                </div> -->
                                         </div>
                                         <div class="d-flex justify-content-start px-3 align-items-center"> <i
-                                                class="mdi mdi-view-comfy task"></i> <span
-                                                class="quote2 pl-2">Categoría:
+                                                class="mdi mdi-view-comfy task"></i> <span class="quote2 pl-2">Categoría:
                                                 {{item["tipo"]}}</span>
                                         </div>
                                         <div class="d-flex justify-content-between px-3 align-items-center pb-3">
@@ -50,7 +48,7 @@
                                 </div>
                             </div>
                         </div>
-                        <div class="col-3">
+                        <div class="col-3 d-flex align-items-stretch">
                             <div class="card">
                                 <div class="card-header text-center">
                                     <h5 class="card-title">En ejecución</h5>
@@ -92,8 +90,8 @@
                                 </div>
                             </div>
                         </div>
-                        <div class="col-3">
-                            <div class="card">
+                        <div class="col-3 d-flex align-items-stretch">
+                            <div class="card" >
                                 <div class="card-header text-center">
                                     <h5 class="card-title">En espera</h5>
                                     <hr style="border-color: #118ab2;">
@@ -134,7 +132,7 @@
                                 </div>
                             </div>
                         </div>
-                        <div class="col-3">
+                        <div class="col-3 d-flex align-items-stretch">
                             <div class="card">
                                 <div class="card-header">
                                     <h5 class="card-title text-center">Finalizado</h5>
@@ -451,8 +449,8 @@
                                 <p>{{item.name}}</p>
                                 <div (click)="_task.eliminarAdjunto(item.id)">
                                     <button class="btn btn-outline-danger btn-sm rounded-2" type="button"
-                                        data-toggle="tooltip" data-placement="top" title="Delete"><i class="fa fa-trash"
-                                            ></i></button>
+                                        data-toggle="tooltip" data-placement="top" title="Delete"><i
+                                            class="fa fa-trash"></i></button>
                                 </div>
 
                             </div>
@@ -495,9 +493,11 @@
                 <p>¿Desea ser redirigido a la tarea que acaba de crear?</p>
             </div>
             <div class="modal-footer">
-                <button type="button" [routerLink]="['/task', _task.taskRedirect]" class="btn btn-primary" (click)="modal.dismiss('Cross click')">¡Sí,
+                <button type="button" [routerLink]="['/task', _task.taskRedirect]" class="btn btn-primary"
+                    (click)="modal.dismiss('Cross click')">¡Sí,
                     redirigir!</button>
-                <button type="button" class="btn btn-secondary" data-dismiss="modal" (click)="modal.dismiss('Cross click')">No</button>
+                <button type="button" class="btn btn-secondary" data-dismiss="modal"
+                    (click)="modal.dismiss('Cross click')">No</button>
             </div>
         </div>
     </div>

@@ -17,7 +17,11 @@ import { CitaComponent } from "./disponibilidad-cita/cita.component";
 import { FullCalendarModule } from '@fullcalendar/angular';
 import { ResumenComponent } from './agendar-citas-panel/resumen/resumen.component';
 import { OtroConceptoComponent } from './otro-concepto/otro-concepto.component';
-
+import { MatExpansionModule } from '@angular/material/expansion';
+import { MatFormFieldModule } from '@angular/material/form-field';
+import { MatInputModule } from '@angular/material/input';
+import { MatSelectModule } from '@angular/material/select';
+import { SearchPipe } from "./search.pipe";
 
 @NgModule({
     declarations: [
@@ -30,7 +34,8 @@ import { OtroConceptoComponent } from './otro-concepto/otro-concepto.component';
         CitaComponent,
         CitasComponent,
         ResumenComponent,
-        OtroConceptoComponent
+        OtroConceptoComponent,
+        SearchPipe
     ],
     imports: [
         NgbNavModule,
@@ -40,7 +45,11 @@ import { OtroConceptoComponent } from './otro-concepto/otro-concepto.component';
         ArchwizardModule,
         CommonModule,
         FullCalendarModule,
-        NgbModule
+        NgbModule,
+        MatExpansionModule,
+        MatFormFieldModule,
+        MatInputModule,
+        MatSelectModule,
 
     ],
     exports: [
@@ -51,7 +60,7 @@ import { OtroConceptoComponent } from './otro-concepto/otro-concepto.component';
         CitasComponent,
         CitaComponent,
         AsignacionCitasComponent,
-        
+
     ]
 })
 

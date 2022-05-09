@@ -21,7 +21,10 @@ import { ShowErrorsComponent } from './show-errors/show-errors.component';
 import { CabeceraComponent } from './cabecera/cabecera.component';
 import { ApplicantComponent } from './applicant/applicant.component';
 import { BuilderFormComponent } from '../core/builder-form/builder-form.component';
-
+import { MatExpansionModule } from '@angular/material/expansion';
+import { MatFormFieldModule } from '@angular/material/form-field';
+import { MatInputModule } from '@angular/material/input';
+import { MatSelectModule } from '@angular/material/select';
 
 @NgModule({
   declarations: [
@@ -69,7 +72,11 @@ import { BuilderFormComponent } from '../core/builder-form/builder-form.componen
     PerfectScrollbarModule,
     PipesModule,
     NgbToastModule,
-    ReactiveFormsModule
+    ReactiveFormsModule,
+    MatExpansionModule,
+    MatFormFieldModule,
+    MatInputModule,
+    MatSelectModule,
   ]
 })
 export class ComponentsModule { }

@@ -1,9 +1,9 @@
 <div class="card">
     <div class="card-body">
-        <div class="card-title">
-            <h5 class="font-weight-bold text-primary">Vacaciones</h5>
-            <hr>
+        <div class="card-title d-flex justify-content-between">
+            <h4 class="text-primary">Vacaciones</h4>
         </div>
+        <hr class="line">
         <table class="table table-borderless table-striped mt-4" *ngIf="!loading && vacations.length > 0; else notData">
             <thead class="bg-light">
                 <tr>

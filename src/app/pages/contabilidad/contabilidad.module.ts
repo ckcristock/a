@@ -31,6 +31,10 @@ import { VerFacturaAdministrativaComponent } from './factura-administrativa/ver-
 import { CrearFacturaAdministrativaComponent } from './factura-administrativa/crear-factura-administrativa/crear-factura-administrativa.component';
 import { Globales } from './globales';
 import { ComprobantesModule } from './comprobantes/comprobantes.module';
+import { MatExpansionModule } from '@angular/material/expansion';
+import { MatFormFieldModule } from '@angular/material/form-field';
+import { MatInputModule } from '@angular/material/input';
+import { MatSelectModule } from '@angular/material/select';
 
 @NgModule({
   declarations: [
@@ -69,7 +73,11 @@ import { ComprobantesModule } from './comprobantes/comprobantes.module';
     NgbTypeaheadModule,
     NgSelectModule,
     SweetAlert2Module.forRoot(),
-    MyDateRangePickerModule
+    MyDateRangePickerModule,
+    MatExpansionModule,
+    MatFormFieldModule,
+    MatInputModule,
+    MatSelectModule,
   ],
   providers: [
     Globales

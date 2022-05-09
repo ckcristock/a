@@ -14,7 +14,10 @@ import { AsignarCalendarioComponent } from '../agendar-citas-panel/asignar-calen
   styleUrls: ['./cita.component.scss']
 })
 export class CitaComponent implements OnInit {
-
+  searchEspecialidad:any
+  searchProfesional:any
+  searchIPS:any
+  searchSede:any
   public dataCitaToAssign = new dataCitaToAssign();
   public type_appointments: [];
   public regimeIdFromService: any;

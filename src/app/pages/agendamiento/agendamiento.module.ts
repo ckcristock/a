@@ -15,9 +15,12 @@ import { IndicadoresGestionComponent } from './indicadores-gestion/indicadores-g
 import { ReportesComponent } from './reportes/reportes.component';
 import { FullCalendarModule } from '@fullcalendar/angular';
 import { TopWaitingComponent } from './lista-espera/top-waiting/top-waiting.component';
-
-
-
+import { SearchPipe } from './search.pipe';
+import { MatExpansionModule } from '@angular/material/expansion';
+import { MatFormFieldModule } from '@angular/material/form-field';
+import { MatInputModule } from '@angular/material/input';
+import { MatSelectModule } from '@angular/material/select';
+import { MatSliderModule } from '@angular/material/slider';
 import { NgModule } from "@angular/core";
 import { CallendarComponent } from './callendar/callendar.component';
 import { AgendasComponent } from './agendas/agendas.component';
@@ -27,6 +30,7 @@ import { PipesModule } from '../../core/pipes/pipes.module';
 import { RecaudosComponent } from './recaudos/recaudos.component';
 import { ReplayMigrateModule } from './replay-migrate/replay-migrate.module';
 import { CallInComponent } from './call-in/call-in.component';
+import { MatSlideToggleModule } from '@angular/material/slide-toggle';
 
 @NgModule({
     declarations: [
@@ -41,8 +45,8 @@ import { CallInComponent } from './call-in/call-in.component';
         VerAgendaComponent,
         DetailStatsComponent,
         RecaudosComponent,
-        CallInComponent
-
+        CallInComponent,
+        SearchPipe
     ],
     imports: [
         NgbNavModule,
@@ -61,7 +65,13 @@ import { CallInComponent } from './call-in/call-in.component';
         NgbAlertModule,
         NgbDatepickerModule,
         PipesModule,
-        ReplayMigrateModule
+        ReplayMigrateModule,
+        MatExpansionModule,
+        MatFormFieldModule,
+        MatInputModule,
+        MatSelectModule,
+        MatSlideToggleModule,
+        MatSliderModule,
     ],
 
     bootstrap: [],

@@ -1,65 +1,39 @@
-<div class="row">
-  <div class="col-md-12">
-    <div class="card">
-      <div class="card-header d-flex justify-content-between">
-        <h4>Calendario Actividades</h4>
-        <div>
-          <button
-            class="btn btn-info btn-sm mr-2"
-            (click)="ModalActividad.show(); agregarEvento()"
-          >
-            <i class="fa fa-plus"></i>Nuevo evento
-          </button>
-          <button
-            class="btn btn-primary btn-sm"
-            (click)="ModalTipoActividad.show()"
-          >
-            <i class="fa fa-plus"></i>Tipo Actividad
-          </button>
-        </div>
+<div class="card">
+  <div class="card-body">
+    <div class="card-title d-flex justify-content-between">
+      <h4 class="text-primary">Calendario de Actividades</h4>
+      <div class="btn-group rounded">
+        <button class="btn btn-primary btn-sm" (click)="ModalActividad.show(); agregarEvento()">
+          <i class="fa fa-plus"></i> Nuevo evento
+        </button>
+        <button class="btn btn-primary btn-sm" (click)="ModalTipoActividad.show()">
+          <i class="fa fa-plus"></i> Tipo Actividad
+        </button>
       </div>
-
-      <div class="card-body" style="padding-top: 10px">
-        <full-calendar
-          #calendar
-          defaultView="dayGridMonth"
-          [header]="{
+    </div>
+    <hr class="line">
+    <full-calendar #calendar defaultView="dayGridMonth" [header]="{
             left: 'prevYear,prev,next,nextYear today',
             center: 'title',
             right: 'dayGridMonth,dayGridWeek,dayGridDay'
-          }"
-          [plugins]="calendarPlugins"
-          [eventResizableFromStart]="'true'"
-          [eventLimit]="false"
-          themeSystem="bootstrap"
-          [weekends]="calendarWeekends"
-          [bootstrapFontAwesome]="true"
-          deepChangeDetection="true"
-          [events]="calendarEvents"
-          (dateClick)="accionarEvento($event)"
-          (eventClick)="accionarEvento($event)"
-          locale="es"
-          [eventTimeFormat]="{
+          }" [plugins]="calendarPlugins" [eventResizableFromStart]="'true'" [eventLimit]="false"
+      themeSystem="bootstrap" [weekends]="calendarWeekends" [bootstrapFontAwesome]="true" deepChangeDetection="true"
+      [events]="calendarEvents" (dateClick)="accionarEvento($event)" (eventClick)="accionarEvento($event)" locale="es"
+      [eventTimeFormat]="{
             hour: '2-digit',
             minute: '2-digit',
             meridiem: false,
             hour12: true
-          }"
-        >
-        </full-calendar>
-      </div>
-    </div>
+          }">
+    </full-calendar>
   </div>
 </div>
+
 
 <!-- <swal #alertSwal title="" text="" type=""></swal> -->
 
 <!--modal para guardar tipo actividad-->
-<app-modal-basic
-  [dialogClass]="'modal-md'"
-  id="ModalTipoActividad"
-  #ModalTipoActividad
->
+<app-modal-basic [dialogClass]="'modal-md'" id="ModalTipoActividad" #ModalTipoActividad>
   <div class="app-modal-header">
     <h4 class="modal-title">Agregar Tipo Actividad</h4>
     <button type="button" class="close basic-close" (click)="CerrarModalTipo()">
@@ -73,35 +47,17 @@
         <div class="col-md-5">
           <div class="form-group">
             <label for="actividad">Nombre Tipo Actividad</label>
-            <input
-              type="text"
-              name="name"
-              ngModel
-              id="actividad"
-              required
-              minlength="0"
-              maxlength="30"
-              class="form-control form-control-sm"
-            />
+            <input type="text" name="name" ngModel id="actividad" required minlength="0" maxlength="30"
+              class="form-control form-control-sm" />
           </div>
         </div>
         <div class="col-md-2">
           <label for="actividad">Color</label>
-          <input
-            type="color"
-            name="color"
-            ngModel
-            id="actividad"
-            required
-            class="form-control form-control-sm"
-          />
+          <input type="color" name="color" ngModel id="actividad" required class="form-control form-control-sm" />
         </div>
         <div class="col-md-4 mt-3 d-flex align-items-center">
-          <button
-            class="btn btn-outline-primary btn-sm rounded"
-            [disabled]="FormTipoActividad.invalid"
-            (click)="GuardarTipoActividad(FormTipoActividad)"
-          >
+          <button class="btn btn-outline-primary btn-sm rounded" [disabled]="FormTipoActividad.invalid"
+            (click)="GuardarTipoActividad(FormTipoActividad)">
             <i class="fa fa-save mr-2"></i>Guardar Tipo
           </button>
         </div>
@@ -131,18 +87,13 @@
               <div class="d-flex justify-content-end mb-2">
                 <td>
                   <div *ngIf="type.state != 'Activo'">
-                    <button
-                      class="activar btn btn-sm btn-outline-success"
-                      (click)="CambiarEstadoTipo(type.id, 'Activo')"
-                    >
+                    <button class="activar btn btn-sm btn-outline-success"
+                      (click)="CambiarEstadoTipo(type.id, 'Activo')">
                       Activar
                     </button>
                   </div>
                   <div *ngIf="type.state == 'Activo'">
-                    <button
-                      class="btn btn-sm btn-outline-danger"
-                      (click)="CambiarEstadoTipo(type.id, 'Cancelado')"
-                    >
+                    <button class="btn btn-sm btn-outline-danger" (click)="CambiarEstadoTipo(type.id, 'Cancelado')">
                       Desactivar
                     </button>
                   </div>
@@ -170,30 +121,15 @@
         <div class="col-md-8">
           <div class="form-group">
             <label for="actividad">Nombre Actividad</label>
-            <input
-              type="text"
-              name="name"
-              id="actividad"
-              [readonly]="ver == 1"
-              required
-              minlength="0"
-              maxlength="30"
-              class="form-control form-control-sm"
-              [(ngModel)]="ActividadModel.Actividad_Recursos_Humanos"
-            />
+            <input type="text" name="name" id="actividad" [readonly]="ver == 1" required minlength="0" maxlength="30"
+              class="form-control form-control-sm" [(ngModel)]="ActividadModel.Actividad_Recursos_Humanos" />
           </div>
         </div>
         <div class="col-md-4">
           <div class="form-group">
             <label for="tipo_actividad">Tipo Actividad</label>
-            <select
-              class="otra form-control form-control-sm"
-              name="rrhh_activity_type_id"
-              id="tipo_actividad"
-              [disabled]="ver == 1"
-              [(ngModel)]="ActividadModel.Id_Tipo_Actividad_Recursos_Humanos"
-              required
-            >
+            <select class="otra form-control form-control-sm" name="rrhh_activity_type_id" id="tipo_actividad"
+              [disabled]="ver == 1" [(ngModel)]="ActividadModel.Id_Tipo_Actividad_Recursos_Humanos" required>
               <option value="" selected>Seleccione tipo</option>
               <option *ngFor="let ta of TiposActividad" [value]="ta.id">
                 {{ ta.name }}
@@ -207,74 +143,37 @@
         <div class="col-md-3">
           <div class="form-group">
             <label for="fechai">Fecha Inicio</label>
-            <input
-              type="date"
-              class="otra form-control form-control-sm"
-              [readonly]="ver ? 1 : ''"
-              required
-              name="date_start"
-              id="fechai"
-              [(ngModel)]="ActividadModel.Fecha_Inicio"
-            />
+            <input type="date" class="otra form-control form-control-sm" [readonly]="ver ? 1 : ''" required
+              name="date_start" id="fechai" [(ngModel)]="ActividadModel.Fecha_Inicio" />
           </div>
         </div>
         <div class="col-md-3">
           <div class="form-group">
             <label for="fechaf">Fecha Fin</label>
-            <input
-              type="date"
-              class="otra form-control form-control-sm"
-              [readonly]="ver ? 1 : ''"
-              required
-              name="date_end"
-              id="fechaf"
-              [(ngModel)]="ActividadModel.Fecha_Fin"
-            />
+            <input type="date" class="otra form-control form-control-sm" [readonly]="ver ? 1 : ''" required
+              name="date_end" id="fechaf" [(ngModel)]="ActividadModel.Fecha_Fin" />
           </div>
         </div>
         <div class="col-md-3">
           <div class="form-group">
             <label for="fechaf">Hora 1</label>
-            <input
-              type="time"
-              class="otra form-control form-control-sm"
-              [readonly]="ver ? 1 : ''"
-              required
-              name="hour_start"
-              id="fechaf"
-              [(ngModel)]="ActividadModel.Hora_Inicio"
-            />
+            <input type="time" class="otra form-control form-control-sm" [readonly]="ver ? 1 : ''" required
+              name="hour_start" id="fechaf" [(ngModel)]="ActividadModel.Hora_Inicio" />
           </div>
         </div>
         <div class="col-md-3">
           <div class="form-group">
             <label for="fechaf">Hora 2</label>
-            <input
-              type="time"
-              class="otra form-control form-control-sm"
-              [readonly]="ver ? 1 : ''"
-              required
-              name="hour_end"
-              id="fechaf"
-              [(ngModel)]="ActividadModel.Hora_Fin"
-            />
+            <input type="time" class="otra form-control form-control-sm" [readonly]="ver ? 1 : ''" required
+              name="hour_end" id="fechaf" [(ngModel)]="ActividadModel.Hora_Fin" />
           </div>
         </div>
 
         <div class="col-12" *ngIf="!ver">
           <div class="form-group">
             <label>Dias (*)</label>
-            <ng-select
-              [ngClass]="'ng-select'"
-              name="days"
-              [items]="daysOfWeek"
-              bindLabel="text"
-              bindValue="value"
-              required
-              [multiple]="true"
-              [(ngModel)]="ActividadModel.Days"
-
-            >
+            <ng-select [ngClass]="'ng-select'" name="days" [items]="daysOfWeek" bindLabel="text" bindValue="value"
+              required [multiple]="true" [(ngModel)]="ActividadModel.Days">
             </ng-select>
           </div>
         </div>
@@ -282,15 +181,8 @@
         <div class="col-md-12">
           <div class="form-group">
             <label for="fechaf">Detalles</label>
-            <input
-              type="text"
-              class="otra form-control form-control-sm"
-              [readonly]="ver ? 1 : ''"
-              required
-              name="description"
-              id="Detalles"
-              [(ngModel)]="ActividadModel.Detalles"
-            />
+            <input type="text" class="otra form-control form-control-sm" [readonly]="ver ? 1 : ''" required
+              name="description" id="Detalles" [(ngModel)]="ActividadModel.Detalles" />
           </div>
         </div>
       </div>
@@ -299,18 +191,9 @@
         <div class="col-md-6">
           <div class="form-group">
             <label>Grupo (*)</label>
-            <ng-select
-              [(ngModel)]="ActividadModel.Id_Grupo"
-              [readonly]="ver ? 1 : ''"
-              name="group_id"
-              (change)="getDependencies($event.value)"
-              [items]="groups"
-              bindLabel="text"
-              required
-              bindValue="value"
-              loadingText="loading"
-              ngDefaultControl
-            >
+            <ng-select [(ngModel)]="ActividadModel.Id_Grupo" [readonly]="ver ? 1 : ''" name="group_id"
+              (change)="getDependencies($event.value)" [items]="groups" bindLabel="text" required bindValue="value"
+              loadingText="loading" ngDefaultControl>
             </ng-select>
           </div>
         </div>
@@ -318,36 +201,19 @@
         <div class="col-md-6">
           <div class="form-group">
             <label>Dependencia (*)</label>
-            <ng-select
-              required
-              name="dependency_id"
-              [(ngModel)]="ActividadModel.Id_Dependencia"
-              [(ngModel)]="ActividadModel.Id_Dependencia"
-              (change)="Dependencia_Cargo($event.value)"
-              [items]="dependencies"
-              bindLabel="text"
-              bindValue="value"
-              loadingText="loading"
-              ngDefaultControl
-            >
+            <ng-select required name="dependency_id" [(ngModel)]="ActividadModel.Id_Dependencia"
+              [(ngModel)]="ActividadModel.Id_Dependencia" (change)="Dependencia_Cargo($event.value)"
+              [items]="dependencies" bindLabel="text" bindValue="value" loadingText="loading" ngDefaultControl>
             </ng-select>
           </div>
         </div>
       </div>
 
-      <div class="form-row" >
+      <div class="form-row">
         <div class="form-group col-md-12" *ngIf="!ver">
           <label>Funcionarios (*)</label>
-          <ng-select
-            [ngClass]="'ng-select'"
-            name="people_id"
-            [items]="Funcionarios"
-            bindLabel="text"
-            bindValue="value"
-            required
-            [multiple]="true"
-            [(ngModel)]="ActividadModel.Funcionario_Asignado"
-          >
+          <ng-select [ngClass]="'ng-select'" name="people_id" [items]="Funcionarios" bindLabel="text" bindValue="value"
+            required [multiple]="true" [(ngModel)]="ActividadModel.Funcionario_Asignado">
           </ng-select>
         </div>
         <div class="form-group col-md-5 ml-1 rounded">
@@ -370,13 +236,8 @@
     </form>
     <div class="modal-footer">
       <div class="text-right">
-        <button
-        *ngIf="!ver"
-          class="btn btn-outline-primary btn-sm rounded"
-          style="display: flex; align-items: center"
-          [disabled]="!FormActividad.valid"
-          (click)="GuardarActividad(FormActividad)"
-        >
+        <button *ngIf="!ver" class="btn btn-outline-primary btn-sm rounded" style="display: flex; align-items: center"
+          [disabled]="!FormActividad.valid" (click)="GuardarActividad(FormActividad)">
           <i class="fa fa-save mr-2"></i> Guardar Actividad
         </button>
       </div>

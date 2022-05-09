@@ -18,6 +18,7 @@ import { PuntodispensacionService } from '../services/puntosdispensacion/puntodi
 import { environment } from 'src/environments/environment';
 import Swal from 'sweetalert2';
 import { SwalService } from '../services/swal.service';
+import { MatAccordion } from '@angular/material/expansion';
 
 @Component({
   selector: 'app-puntodispensacion',
@@ -36,6 +37,17 @@ export class PuntodispensacionComponent implements OnInit {
   @ViewChild('deleteSwal') deleteSwal: any;
   @ViewChild('PlantillaBotones') PlantillaBotones: TemplateRef<any>;
   //@ViewChild(DatatableComponent) table: DatatableComponent;
+  @ViewChild(MatAccordion) accordion: MatAccordion;
+  matPanel = false;
+  openClose(){
+    if (this.matPanel == false){
+      this.accordion.openAll()
+      this.matPanel = true;
+    } else {
+      this.accordion.closeAll()
+      this.matPanel = false;
+    }    
+  }
 
   PuntoDispensacion: any = [];
   bodegaDepartamento = [];

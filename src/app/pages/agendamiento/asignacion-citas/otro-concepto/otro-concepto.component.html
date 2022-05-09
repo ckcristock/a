@@ -9,16 +9,15 @@
             <input name="formality_id" type="hidden" [ngModel]="tramiteData.formality_id">
             <input name="call_id" type="hidden" [ngModel]="call.id">
 
-            <div class="col-12 ">
-                <div class="form-group row ">
-                    <label for="staticEmail " required class="col-sm-12 col-form-label ">Observación:</label>
-                    <div class="col-sm-12 ">
-                        <textarea ngModel name="observation" type="text " cols="12" rows="3" class="form-control " id="staticEmail "></textarea>
-                    </div>
+            <div class="col-12">
+                <div class="form-group">
+                    <label for="staticEmail " required>Observación:</label>
+                    <textarea ngModel name="observation" rows="3" class="form-control" id="staticEmail "></textarea>
+
                 </div>
             </div>
             <div class="col-12">
-                <button class="btn btn-primary btn-sm btn-block" [disabled]="saveForm.invalid" (click)="save(saveForm)">Guardar</button>
+                <button class="btn btn-primary btn-block" [disabled]="saveForm.invalid" (click)="save(saveForm)">Guardar</button>
             </div>
 
 
