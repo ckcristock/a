@@ -1,4 +1,5 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, ViewChild } from '@angular/core';
+import { MatAccordion } from '@angular/material/expansion';
 import { SwalService } from '../../services/swal.service';
 import { FixedTurnService } from './turno-fijo.service';
 
@@ -8,6 +9,17 @@ import { FixedTurnService } from './turno-fijo.service';
   styleUrls: ['./turno-fijo.component.scss'],
 })
 export class TurnoFijoComponent implements OnInit {
+  @ViewChild(MatAccordion) accordion: MatAccordion;
+  matPanel = false;
+  openClose(){
+    if (this.matPanel == false){
+      this.accordion.openAll()
+      this.matPanel = true;
+    } else {
+      this.accordion.closeAll()
+      this.matPanel = false;
+    }    
+  }
   turnosFijos = [];
   hours: any = [];
   loading = false;

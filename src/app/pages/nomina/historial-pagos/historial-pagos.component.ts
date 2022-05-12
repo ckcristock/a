@@ -1,5 +1,6 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, ViewChild } from '@angular/core';
 import { NgForm } from '@angular/forms';
+import { MatAccordion } from '@angular/material';
 import * as moment from 'moment';
 import { UserService } from 'src/app/core/services/user.service';
 import { PayRollPaymentsService } from './pay-roll-payments.service';
@@ -10,6 +11,17 @@ import { PayRollPaymentsService } from './pay-roll-payments.service';
   styleUrls: ['./historial-pagos.component.scss'],
 })
 export class HistorialPagosComponent implements OnInit {
+  @ViewChild(MatAccordion) accordion: MatAccordion;
+  matPanel = false;
+  openClose(){
+    if (this.matPanel == false){
+      this.accordion.openAll()
+      this.matPanel = true;
+    } else {
+      this.accordion.closeAll()
+      this.matPanel = false;
+    }    
+  }
   historialPagos: any[] = [];
   renderizar = false;
 

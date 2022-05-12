@@ -1,19 +1,29 @@
 <div class="card">
   <div class="card-body">
-    <div class="card-title">
-      <button class="btn btn-sm btn-primary" style="float: right;" (click)="openModal()">
-        <i class="fa fa-plus"></i> Agregar
-      </button>
-      <h5 class="text-primary">Modelos de Historias clinicas</h5>
-      <div class="form-row ml-0 mt-2">
-        <div class="form-group">
-          <label for="">Filtro nombre</label>
-          <input type="text" class="form-control form-control-sm" [(ngModel)]="filtro.name" (change)="get()" name="name"
-            autocomplete="off">
-        </div>
+    <div class="card-title d-flex justify-content-between">
+      <h4 class="text-primary">
+        Modelos de Historias Clínicas
+      </h4>
+      <div class="btn-group rounded">
+        <button class="btn btn-sm btn-primary" style="float: right;" (click)="openModal()">
+          <i class="fa fa-plus"></i> Agregar
+        </button>
+        <button class="btn btn-info btn-sm" style="float: right;" (click)="openClose()">
+          <i class="fas fa-sliders-h"></i> Filtros
+        </button>
       </div>
-      <hr class="bg-primary">
     </div>
+    <hr class="line">
+    <mat-accordion multi>
+      <mat-expansion-panel class="mat-elevation-z0">
+        <mat-form-field class="col-md-3 pl-0" appearance="outline">
+          <mat-label>Nombre</mat-label>
+          <input matInput type="text" placeholder="Busca por nombre" [(ngModel)]="filtro.name" (change)="get()"
+            name="name" autocomplete="off">
+        </mat-form-field>
+
+      </mat-expansion-panel>
+    </mat-accordion>
     <table class="table table-borderless table-striped mt-4" *ngIf="!loading && models.length > 0; else notData">
       <thead class="bg-light">
         <tr>

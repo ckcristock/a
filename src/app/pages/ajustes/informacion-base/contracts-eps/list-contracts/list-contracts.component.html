@@ -1,22 +1,31 @@
 <div class="card">
   <div class="card-body">
-    <div class="card-title">
-      <a routerLink="/ajustes/informacion-base/create-contract">
-        <button class="btn btn-primary btn-sm" style="float: right;"> Agregar nuevo Contracto</button>
-      </a>
-
-      <h5>Contractos</h5>
-
-      <p>Contractos resgistradas en la base de datos</p>
+    <div class="card-title d-flex justify-content-between">
+      <h4 class="text-primary">Contractos</h4>
+      <div class="btn-group rounded">
+        <button class="btn btn-primary btn-sm" style="float: right;"
+          routerLink="/ajustes/informacion-base/create-contract">
+          <i class="fa fa-plus"></i> Agregar
+        </button>
+        <button class="btn btn-info btn-sm" style="float: right;" (click)="openClose()">
+          <i class="fas fa-sliders-h"></i> Filtros
+        </button>
+      </div>
     </div>
-    <div class="row">
-      <!-- <div class="col d-flex">
+    <hr class="line">
+    <mat-accordion multi>
+      <mat-expansion-panel class="mat-elevation-z0">
+        <div class="alert alert-primary text-center" role="alert">
+          Aún no hay filtros para esta sección
+        </div>
+        <!-- <div class="col d-flex">
               <input type="text" placeholder="Buscar por Contractos" class="form-control form-control-sm col-sm-2 mr-4"
                   (change)="getAllContractos()" [(ngModel)]="filtros.description" name="description" autocomplete="off">
               <input type="text" placeholder="Buscar código Contractos" class="form-control form-control-sm col-sm-2"
                   (change)="getAllContractos()" [(ngModel)]="filtros.code" name="code" autocomplete="off">
           </div> -->
-    </div>
+      </mat-expansion-panel>
+    </mat-accordion>
     <table class="table table-bordered table-striped mt-4" *ngIf="!loading && contracts.length > 0; else notData">
       <thead class="bg-light">
         <tr>
@@ -44,7 +53,8 @@
                   <i class="mdi mdi-chevron-down"></i>
                 </button>
                 <div ngbDropdownMenu>
-                  <a class="dropdown-item waves-light waves-effect caja-botones" target="_blank" (click)="edit(contract.id)">
+                  <a class="dropdown-item waves-light waves-effect caja-botones" target="_blank"
+                    (click)="edit(contract.id)">
                     <i class="fa fa-file-pdf-o"></i>Editar</a>
                   <a *ngIf="contract.status" class="dropdown-item waves-light waves-effect caja-botones"
                     (click)="anularOActivar(contract, 0)">

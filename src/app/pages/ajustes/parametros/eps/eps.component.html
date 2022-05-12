@@ -1,19 +1,31 @@
 <div class="card">
     <div class="card-body">
-        <div class="card-title">
-            <button class="btn btn-primary btn-sm" style="float: right;" (click)="openModal()">Agregar nueva
-                EPS</button>
-            <h5>EPS</h5>
-            <p>EPS resgistradas en la base de datos</p>
-        </div>
-        <div class="row">
-            <div class="col d-flex">
-                <input type="text" placeholder="Buscar por EPS" class="form-control form-control-sm col-sm-2 mr-4"
-                    (change)="getAllEps()" [(ngModel)]="filtros.name" name="name" autocomplete="off">
-                <input type="text" placeholder="Buscar código EPS" class="form-control form-control-sm col-sm-2"
-                    (change)="getAllEps()" [(ngModel)]="filtros.code" name="code" autocomplete="off">
+        <div class="card-title d-flex justify-content-between">
+            <h4 class="text-primary">EPS</h4>
+            <div class="btn-group rounded">
+                <button class="btn btn-primary btn-sm" style="float: right;" (click)="openModal()">
+                    <i class="fa fa-plus"></i> Agregar
+                </button>
+                <button class="btn btn-info btn-sm" style="float: right;" (click)="openClose()">
+                    <i class="fas fa-sliders-h"></i> Filtros
+                </button>
             </div>
         </div>
+        <hr class="line">
+        <mat-accordion multi>
+            <mat-expansion-panel class="mat-elevation-z0">
+                <mat-form-field class="col-md-3 pl-0" appearance="outline">
+                    <mat-label>Nombre</mat-label>
+                    <input matInput type="text" placeholder="Busca por nombre" [(ngModel)]="filtros.name"
+                        (change)="getAllEps()" name="name" autocomplete="off">
+                </mat-form-field>
+                <mat-form-field class="col-md-3 pl-0" appearance="outline">
+                    <mat-label>Código</mat-label>
+                    <input matInput type="text" placeholder="Busca por código" [(ngModel)]="filtros.code"
+                        (change)="getAllEps()" name="code" autocomplete="off">
+                </mat-form-field>
+            </mat-expansion-panel>
+        </mat-accordion>
         <table class="table table-bordered table-striped mt-4" *ngIf="!loading && epss.length > 0; else notData">
             <thead class="bg-light">
                 <tr>
@@ -54,16 +66,11 @@
                 </tr>
             </tbody>
         </table>
-
-
-        <div class="col-sm-12">
-            <div class="text-md-right float-md-right pagination-rounded">
-                <ngb-pagination maxSize="5" [collectionSize]="pagination.collectionSize"
-                    (pageChange)="getAllEps($event)" [pageSize]="pagination.pageSize" [(page)]="pagination.page"
-                    rotate="true" ellipses="false" boundaryLinks="true" aria-label="Default pagination ">
-                </ngb-pagination>
-            </div>
-        </div>
+        <ngb-pagination class="d-flex justify-content-center pagination-rounded pagination-sm" maxSize="5"
+            [collectionSize]="pagination.collectionSize" (pageChange)="getAllEps($event)"
+            [pageSize]="pagination.pageSize" [(page)]="pagination.page" rotate="true" ellipses="false"
+            boundaryLinks="true" aria-label="Default pagination ">
+        </ngb-pagination>
 
         <!-- <ngb-pagination class="d-flex justify-content-center pagination-rounded pagination-sm" [collectionSize]="pagination.collectionSize" (pageChange)="getAllEps($event)" [pageSize]="pagination.pageSize" [(page)]="pagination.page" aria-label="Default pagination"
             maxSize="5" rotate="true" ellipses="false" boundaryLinks="true">

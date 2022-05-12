@@ -1,20 +1,28 @@
 <div class="card">
     <div class="card-body">
-        <div class="card-title">
-            <button class="btn btn-sm btn-primary" style="float: right;" (click)="openModal()">
-                <i class="fa fa-plus"></i> Agregar</button>
-            <h5 class="text-primary">Hoteles</h5>
-            <div class="form-row mt-4">
-                <div class="form-group col-md-2">
-                    <label for="">Filtro Tipo</label>
-                    <select class="form-control form-control-sm" [(ngModel)]="filtro.tipo" (change)="getHotels()">
-                        <option value="Nacional">Nacional</option>
-                        <option value="Internacional">Internacional</option>
-                    </select>
-                </div>
+        <div class="card-title d-flex justify-content-between">
+            <h4 class="text-primary">Hoteles</h4>
+            <div class="btn-group rounded">
+                <button class="btn btn-primary btn-sm" style="float: right;" (click)="openModal()">
+                    <i class="fa fa-plus"></i> Agregar
+                </button>
+                <button class="btn btn-info btn-sm" style="float: right;" (click)="openClose()">
+                    <i class="fas fa-sliders-h"></i> Filtros
+                </button>
             </div>
-            <hr class="bg-primary">
         </div>
+        <hr class="line">
+        <mat-accordion multi>
+            <mat-expansion-panel class="mat-elevation-z0">
+                <mat-form-field class="col-md-2 pl-0" appearance="outline">
+                    <mat-label>Tipo</mat-label>
+                    <mat-select [(ngModel)]="filtro.tipo" (selectionChange)="getHotels()">
+                        <mat-option value="Nacional">Nacional</mat-option>
+                        <mat-option value="Internacional">Internacional</mat-option>
+                    </mat-select>
+                </mat-form-field>
+            </mat-expansion-panel>
+        </mat-accordion>
         <table class="table table-borderless table-striped" *ngIf="!loading && hotels.length > 0; else notData">
             <thead class="bg-light">
                 <tr>
@@ -42,11 +50,13 @@
                     <td>
                         <div class="text-center">
                             <div ngbDropdown class="dropdown-primary">
-                                <button ngbDropdownToggle class="btn btn-primary btn-sm waves-effect waves-light " type="button">
+                                <button ngbDropdownToggle class="btn btn-primary btn-sm waves-effect waves-light "
+                                    type="button">
                                     <i class="mdi mdi-chevron-down"></i>
                                 </button>
                                 <div ngbDropdownMenu>
-                                    <a class="dropdown-item waves-light text-info waves-effect caja-botones" (click)="getHotel(hotel); modal.show()">
+                                    <a class="dropdown-item waves-light text-info waves-effect caja-botones"
+                                        (click)="getHotel(hotel); modal.show()">
                                         <i class="far fa-edit"></i> Editar
                                     </a>
                                 </div>
@@ -56,8 +66,10 @@
                 </tr>
             </tbody>
         </table>
-        <ngb-pagination class="d-flex justify-content-center pagination-rounded pagination-sm" [collectionSize]="pagination.collectionSize" [pageSize]="pagination.pageSize" [(page)]="pagination.page" (pageChange)="getHotels($event)" aria-label="Default pagination"
-            maxSize="5" rotate="true" ellipses="false" boundaryLinks="true" rotate="true" ellipses="false" boundaryLinks="true">
+        <ngb-pagination class="d-flex justify-content-center pagination-rounded pagination-sm"
+            [collectionSize]="pagination.collectionSize" [pageSize]="pagination.pageSize" [(page)]="pagination.page"
+            (pageChange)="getHotels($event)" aria-label="Default pagination" maxSize="5" rotate="true" ellipses="false"
+            boundaryLinks="true" rotate="true" ellipses="false" boundaryLinks="true">
         </ngb-pagination>
     </div>
 </div>
@@ -66,9 +78,9 @@
         <h5 class="modal-title"> {{ title }} </h5>
         <button type="button" class="close basic-close" (click)="modal.hide()">
             <span aria-hidden="true">
-              <i class="fas fa-times" (click)="modal.hide()"></i>
+                <i class="fas fa-times" (click)="modal.hide()"></i>
             </span>
-          </button>
+        </button>
     </div>
     <div class="app-modal-body">
         <form [formGroup]="form">

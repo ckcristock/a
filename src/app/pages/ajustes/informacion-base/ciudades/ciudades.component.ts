@@ -2,6 +2,7 @@ import { Component, OnInit, ViewChild } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { CiudadesService } from './ciudades.service';
 import { SwalService } from '../services/swal.service';
+import { MatAccordion } from '@angular/material/expansion';
 
 @Component({
   selector: 'app-ciudades',
@@ -10,6 +11,17 @@ import { SwalService } from '../services/swal.service';
 })
 export class CiudadesComponent implements OnInit {
   @ViewChild('modal') modal:any;
+  @ViewChild(MatAccordion) accordion: MatAccordion;
+  matPanel = false;
+  openClose(){
+    if (this.matPanel == false){
+      this.accordion.openAll()
+      this.matPanel = true;
+    } else {
+      this.accordion.closeAll()
+      this.matPanel = false;
+    }    
+  }
   loading:boolean = false;
   form: FormGroup;
   countries:any[] = [];

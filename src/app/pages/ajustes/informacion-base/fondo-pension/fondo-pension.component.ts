@@ -3,6 +3,7 @@ import { FormGroup, FormControl, Validators, FormBuilder } from '@angular/forms'
 import Swal from 'sweetalert2';
 import { FondoPensionService } from './fondo-pension.service';
 import { ValidatorsService } from '../services/reactive-validation/validators.service';
+import { MatAccordion } from '@angular/material/expansion';
 
 @Component({
   selector: 'app-fondo-pension',
@@ -11,6 +12,17 @@ import { ValidatorsService } from '../services/reactive-validation/validators.se
 })
 export class FondoPensionComponent implements OnInit {
   @ViewChild('modal') modal:any;
+  @ViewChild(MatAccordion) accordion: MatAccordion;
+  matPanel = false;
+  openClose(){
+    if (this.matPanel == false){
+      this.accordion.openAll()
+      this.matPanel = true;
+    } else {
+      this.accordion.closeAll()
+      this.matPanel = false;
+    }    
+  }
   loading:boolean = false;
   selected:any;
   pensions:any[] = [];

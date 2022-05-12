@@ -4,6 +4,7 @@ import { debounceTime, map, distinctUntilChanged, switchMap, filter } from 'rxjs
 import { environment } from 'src/environments/environment';
 import { HttpClient } from '@angular/common/http';
 import { TiposAnulacionService } from '../../tipos-anulacion/tipos-anulacion.service';
+import { MatAccordion } from '@angular/material/expansion';
 
 @Component({
   selector: 'app-tablatipoactivofijo',
@@ -16,6 +17,17 @@ export class TablatipoactivofijoComponent implements OnInit {
   @Output() MostrarSwal:EventEmitter<any> = new EventEmitter();
 
   @ViewChild('ModalTipoActivo') ModalTipoActivo:any;
+  @ViewChild(MatAccordion) accordion: MatAccordion;
+  matPanel = false;
+  openClose(){
+    if (this.matPanel == false){
+      this.accordion.openAll()
+      this.matPanel = true;
+    } else {
+      this.accordion.closeAll()
+      this.matPanel = false;
+    }    
+  }
 
   public Cargando:boolean = false;
   public TiposActivosFijos:Array<any> = [];

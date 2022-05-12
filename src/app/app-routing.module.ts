@@ -8,6 +8,7 @@ import { AuthGuard } from './core/guards/auth.guard';
 import { ApplyComponent } from './public/encuestas/apply/apply.component';
 
 
+
 const routes: Routes = [
 
   {
@@ -28,6 +29,9 @@ const routes: Routes = [
     RouterModule.forRoot(routes),
     AuthRoutingModule
   ],
-  exports: [RouterModule]
+  exports: [RouterModule],
+   declarations: [
+    
+  ]
 })
 export class AppRoutingModule { }

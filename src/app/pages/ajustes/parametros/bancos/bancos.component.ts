@@ -3,6 +3,7 @@ import { FormBuilder, FormGroup } from '@angular/forms';
 import { BancosService } from './bancos.service';
 import { ValidatorsService } from '../../informacion-base/services/reactive-validation/validators.service';
 import Swal from 'sweetalert2';
+import { MatAccordion } from '@angular/material/expansion';
 
 @Component({
   selector: 'app-bancos',
@@ -11,6 +12,18 @@ import Swal from 'sweetalert2';
 })
 export class BancosComponent implements OnInit {
   @ViewChild('modal') modal:any;
+  @ViewChild(MatAccordion) accordion: MatAccordion;
+  matPanel = false;
+  openClose(){
+    if (this.matPanel == false){
+      this.accordion.openAll()
+      this.matPanel = true;
+    } else {
+      this.accordion.closeAll()
+      this.matPanel = false;
+    }    
+  }
+
   loading:boolean = false;
   banks:any[] = [];
   bank:any = {};

@@ -5,25 +5,33 @@
     <div class="col-6">
         <div class="card">
             <div class="card-body">
-                <div class="card-title">
-                    <button class="btn btn-sm btn-primary" style="float: right;" (click)="openModal()">
-                       <i class="fa fa-plus"></i> Nueva Ciudad
-                    </button>
-                    <h5 class="text-primary">Ciudades</h5>
-                    <p>Ciudades Registradas en nuestra base datos.</p>
-                    <hr class="bg-primary">
-                    <div class="form-row">
-                        <div class="form-group col-4">
-                            <label for="">Filtro ciudad</label>
-                            <input type="text" class="form-control" [(ngModel)]="filtro.name" (change)="getCities()" name="name" autocomplete="off">
-                        </div>
-                        <div class="form-group col-4">
-                            <label for="">Filtro País</label>
-                            <ng-select [(ngModel)]="filtro.country" (change)="getCities()" [items]="countries" bindLabel="text" bindValue="value" loadingText="loading" ngDefaultControl>
-                            </ng-select>
-                        </div>
+                <div class="card-title d-flex justify-content-between">
+                    <h4 class="text-primary">Ciudades</h4>
+                    <div class="btn-group rounded">
+                        <button class="btn btn-primary btn-sm" style="float: right;" (click)="openModal()">
+                            <i class="fa fa-plus"></i> Agregar
+                        </button>
+                        <button class="btn btn-info btn-sm" style="float: right;" (click)="openClose()">
+                            <i class="fas fa-sliders-h"></i> Filtros
+                        </button>
                     </div>
                 </div>
+                <hr class="line">
+                <mat-accordion multi>
+                    <mat-expansion-panel class="mat-elevation-z0">
+                        <mat-form-field class="col-md-6 pl-0" appearance="outline">
+                            <mat-label>Ciudad</mat-label>
+                            <input type="text" matInput [(ngModel)]="filtro.name" (input)="getCities()"
+                            name="name" autocomplete="off" placeholder="Busca por ciudad">
+                        </mat-form-field>
+                        <mat-form-field class="col-md-6 pl-0" appearance="outline">
+                            <mat-label>País</mat-label>
+                            <mat-select [(ngModel)]="filtro.country" (selectionChange)="getContries()">
+                                <mat-option *ngFor="let item of countries" [value]="item.value">{{item.text}}</mat-option>
+                            </mat-select>
+                        </mat-form-field>
+                    </mat-expansion-panel>
+                </mat-accordion>
                 <table class="table table-sm table-borderless table-striped" *ngIf="!loading && cities.length > 0; else notData">
                     <thead class="bg-light">
                         <tr>

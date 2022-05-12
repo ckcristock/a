@@ -18,9 +18,13 @@ import { CuentasBancariasComponent } from './cuentas-bancarias/cuentas-bancarias
 import { CategoriasComponent } from './categorias/categorias.component';
 import { SubcategoriasComponent } from './subcategorias/subcategorias.component';
 import { SweetAlert2Module } from '@sweetalert2/ngx-sweetalert2';
+import { MatExpansionModule } from '@angular/material/expansion';
+import { MatFormFieldModule } from '@angular/material/form-field';
+import { MatInputModule } from '@angular/material/input';
+import { MatSelectModule } from '@angular/material/select';
 
 @NgModule({
-    declarations : [
+    declarations: [
         NotasTecnicasComponent,
         PerfilesComponent,
         ZonasComponent,
@@ -36,6 +40,10 @@ import { SweetAlert2Module } from '@sweetalert2/ngx-sweetalert2';
         FormsModule,
         NgSelectModule,
         CommonModule,
+        MatExpansionModule,
+        MatFormFieldModule,
+        MatInputModule,
+        MatSelectModule,
         SweetAlert2Module.forRoot(),
 
 
@@ -43,4 +51,4 @@ import { SweetAlert2Module } from '@sweetalert2/ngx-sweetalert2';
     exports: []
 })
 
-export class ParametrosModule {}
+export class ParametrosModule { }

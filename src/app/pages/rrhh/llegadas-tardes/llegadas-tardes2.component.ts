@@ -1,4 +1,4 @@
-import { Component, OnInit, ViewChild, ElementRef } from '@angular/core';
+/* import { Component, OnInit, ViewChild, ElementRef } from '@angular/core';
 
 import { HttpClient } from '@angular/common/http';
 import { Location } from '@angular/common';
@@ -55,3 +55,4 @@ export class LlegadasTardesComponent implements OnInit {
     return 0
   }
 }
+ */

@@ -1,4 +1,5 @@
 import { Component, OnInit, ViewChild } from '@angular/core';
+import { MatAccordion } from '@angular/material/expansion';
 import { Router } from '@angular/router';
 import { ModalBasicComponent } from 'src/app/components/modal-basic/modal-basic.component';
 import { BuilderFormComponent } from 'src/app/core/builder-form/builder-form.component';
@@ -15,7 +16,17 @@ export class ManagmentClinicalHistoryComponent implements OnInit {
   @ViewChild('modal') modal: any;
   @ViewChild(ModalBasicComponent) modalForm: ModalBasicComponent;
   @ViewChild(BuilderFormComponent) builderForm: BuilderFormComponent;
-
+  @ViewChild(MatAccordion) accordion: MatAccordion;
+  matPanel = false;
+  openClose(){
+    if (this.matPanel == false){
+      this.accordion.openAll()
+      this.matPanel = true;
+    } else {
+      this.accordion.closeAll()
+      this.matPanel = false;
+    } 
+  }
   loading: boolean = false;
 
   title: any = '';

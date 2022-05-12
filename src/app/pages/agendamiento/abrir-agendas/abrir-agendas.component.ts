@@ -1,4 +1,4 @@
-import { Component, OnInit, ViewChild } from '@angular/core';
+import { AfterViewInit, Component, OnInit, ViewChild } from '@angular/core';
 import { NgForm } from '@angular/forms';
 import { catchError, debounceTime, distinctUntilChanged, filter, subscribeOn, switchMap, tap } from 'rxjs/operators';
 import { OpenAgendaService } from '../open-agenda.service';
@@ -9,6 +9,7 @@ import Swal from 'sweetalert2';
 import { QueryPerson } from '../query-person.service';
 import { concat, Observable, of, OperatorFunction, Subject } from 'rxjs';
 import { Router } from '@angular/router';
+import { MatAccordion } from '@angular/material';
 
 
 @Component({
@@ -16,10 +17,27 @@ import { Router } from '@angular/router';
   templateUrl: './abrir-agendas.component.html',
   styleUrls: ['./abrir-agendas.component.scss']
 })
-export class AbrirAgendasComponent implements OnInit {
-
+export class AbrirAgendasComponent implements OnInit, AfterViewInit {
+  @ViewChild(MatAccordion) accordion: MatAccordion;
+  matPanel = false;
+  openClose(){
+    if (this.matPanel == false){
+      this.accordion.openAll()
+      this.matPanel = true;
+    } else {
+      this.accordion.closeAll()
+      this.matPanel = false;
+    }    
+  }
+  searchEspecialidad: any
+  searchProfesional: any
+  searchIPS: any
+  searchSede: any
+  searchProcedimiento: any
   selectedCar: number;
-
+  ngAfterViewInit(){
+    this.openClose()
+  }
   cars = [
     { value: 1, name: 'Volvo' },
     { value: 2, name: 'Saab' },

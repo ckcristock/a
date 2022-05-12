@@ -1,4 +1,4 @@
-import { Component, EventEmitter, OnDestroy, OnInit, ViewChild } from '@angular/core';
+import { AfterViewInit, Component, EventEmitter, OnDestroy, OnInit, ViewChild } from '@angular/core';
 import { NgForm } from '@angular/forms';
 import { OperatorFunction, Observable, of, Subscription } from 'rxjs';
 import { catchError, debounceTime, distinctUntilChanged, switchMap, tap } from 'rxjs/operators';
@@ -7,6 +7,7 @@ import { SearchService } from '../../../core/services/search.service';
 import { OpenAgendaService } from '../open-agenda.service';
 import Swal from 'sweetalert2'
 import { EpssService } from '../../ajustes/informacion-base/services/epss.service';
+import { MatAccordion } from '@angular/material';
 
 @Component({
   selector: 'app-lista-trabajo',
@@ -14,14 +15,32 @@ import { EpssService } from '../../ajustes/informacion-base/services/epss.servic
   styleUrls: ['./lista-trabajo.component.scss']
 })
 
-export class ListaTrabajoComponent implements OnInit, OnDestroy {
-
+export class ListaTrabajoComponent implements OnInit, OnDestroy, AfterViewInit {
+  searchEspecialidad: any
+  searchProfesional: any
+  searchIPS: any
+  searchSede: any
   citas: Array<any> = [];
   public type_appointments: [];
   public epss: any[] = [];
   loading = false;
 
   @ViewChild('formD') formD: NgForm;
+  @ViewChild(MatAccordion) accordion: MatAccordion;
+  matPanel = false;
+  openClose(){
+    if (this.matPanel == false){
+      this.accordion.openAll()
+      this.matPanel = true;
+    } else {
+      this.accordion.closeAll()
+      this.matPanel = false;
+    }    
+  }
+
+  ngAfterViewInit(){
+    this.openClose()
+  }
 
   constructor(private _search: SearchService,
     private _openAgendaService: OpenAgendaService,

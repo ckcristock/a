@@ -3,6 +3,7 @@ import { FormGroup, FormBuilder } from '@angular/forms';
 import { TiposNovedadesService } from './tipos-novedades.service';
 import { consts } from '../../../../core/utils/consts';
 import Swal from 'sweetalert2';
+import { MatAccordion } from '@angular/material/expansion';
 
 @Component({
   selector: 'app-tipos-novedades',
@@ -11,6 +12,17 @@ import Swal from 'sweetalert2';
 })
 export class TiposNovedadesComponent implements OnInit {
   @ViewChild('modal') modal: any;
+  @ViewChild(MatAccordion) accordion: MatAccordion;
+  matPanel = false;
+  openClose(){
+    if (this.matPanel == false){
+      this.accordion.openAll()
+      this.matPanel = true;
+    } else {
+      this.accordion.closeAll()
+      this.matPanel = false;
+    }    
+  }
   loading: boolean = false;
   selected: any;
   form: FormGroup;

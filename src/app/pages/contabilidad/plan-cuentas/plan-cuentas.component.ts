@@ -9,6 +9,7 @@ import Swal from 'sweetalert2';
 import { PlanCuentasService } from './plan-cuentas.service';
 import { SwalComponent } from '@sweetalert2/ngx-sweetalert2';
 import swal from 'sweetalert2';
+import { MatAccordion } from '@angular/material';
 import { User } from 'src/app/core/models/users.model';
 import { UserService } from 'src/app/core/services/user.service';
 
@@ -18,8 +19,19 @@ import { UserService } from 'src/app/core/services/user.service';
   styleUrls: ['./plan-cuentas.component.scss']
 })
 export class PlanCuentasComponent implements OnInit {
+  @ViewChild(MatAccordion) accordion: MatAccordion;
+  matPanel = false;
+  openClose(){
+    if (this.matPanel == false){
+      this.accordion.openAll()
+      this.matPanel = true;
+    } else {
+      this.accordion.closeAll()
+      this.matPanel = false;
+    }    
+  }
   public Planes:any = [];
-  public Cargando = true;
+  public Cargando = false;
   Bancos: any;
 
   envirom : any = {}
@@ -177,6 +189,10 @@ export class PlanCuentasComponent implements OnInit {
       this.SetInformacionPaginacion();
       this.Cargando = false;
     });
+  }
+
+  openInNewTab() {
+    window.open(this.envirom.ruta + 'php/centroscostos/exportar.php', '_blank').focus();
   }
 
   AsignarParametrosUrl(urlParams:any){

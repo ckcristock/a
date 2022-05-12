@@ -7,6 +7,9 @@
     box-shadow: 0 0 24px 0 rgba(0, 0, 0, 0.06), 0 1px 0 0 rgba(0, 0, 0, 0.02);
     display: block;
     position: fixed;
+
+    overflow: scroll;
+
     transition: all 200ms ease-out;
     width: $rightbar-width;
     z-index: 9999;
@@ -14,7 +17,7 @@
     right: -($rightbar-width + 10px);
     top: 0;
     bottom: 0;
-
+    
     .right-bar-toggle {
         background-color: lighten($dark, 7%);
         height: 24px;
@@ -28,6 +31,9 @@
             background-color: lighten($dark, 10%);
         }
     }
+}
+.right-bar::-webkit-scrollbar {
+    display: none;
 }
 
 // Rightbar overlay

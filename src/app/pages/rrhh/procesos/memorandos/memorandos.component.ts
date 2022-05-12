@@ -8,6 +8,7 @@ import Swal from 'sweetalert2';
 import { Permissions } from '../../../../core/interfaces/permissions-interface';
 import { PermissionService } from '../../../../core/services/permission.service';
 import { SwalService } from '../../../ajustes/informacion-base/services/swal.service';
+import { MatAccordion } from '@angular/material';
 type Person = {value: number, text: string};
 @Component({
   selector: 'app-memorandos',
@@ -18,6 +19,17 @@ export class MemorandosComponent implements OnInit {
   @ViewChild('modalMotivo') modalMotivo:any;
   @ViewChild('modalMemorando') modalMemorando:any;
   @ViewChild('modalLlamada') modalLlamada:any;
+  @ViewChild(MatAccordion) accordion: MatAccordion;
+  matPanel = false;
+  openClose(){
+    if (this.matPanel == false){
+      this.accordion.openAll()
+      this.matPanel = true;
+    } else {
+      this.accordion.closeAll()
+      this.matPanel = false;
+    }    
+  }
   formMotivo:FormGroup;
   formMemorando:FormGroup;
   formLlamada:FormGroup;

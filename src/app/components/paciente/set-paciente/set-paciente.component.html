@@ -3,14 +3,20 @@
         <div *ngIf="paciente.isNew" class="alert" role="alert">
 
             <!-- (click)="save(formPatient)"> -->
-            <button class="mx-2 btn btn-sm btn-outline-info" (click)="validateInfoPatient(formPatient)">
-                El paciente no se encuentra
+            <button class="btn btn-sm btn-block btn-outline-info" (click)="validateInfoPatient(formPatient)">
+                El paciente no se encuentra <br>
                 <strong>Click para validar información</strong>
             </button>
 
         </div>
 
         <form #formPatient="ngForm">
+            <mat-form-field class="col-md-6 pl-0" appearance="outline">
+                <mat-label>Tipo de identificación</mat-label>
+                <mat-select required name="type_document_id" [(ngModel)]="paciente.type_document_id">
+                    <mat-option *ngFor="let type of typeDocuments" [value]="type.value">{{type.text}}</mat-option>
+                </mat-select>
+            </mat-form-field>
             <div class="form-row">
 
                 <div class="form-group col-md-6">
@@ -74,8 +80,7 @@
                     <label for="">Regimen</label>
                     <ng-select required name="regimen_id" #regimen_id="ngModel"
                         [ngClass]="{'is-invalid': ( regimen_id.invalid && regimen_id.touched )}"
-                        [(ngModel)]="paciente.regimen_id"
-                        (change)="changeRegime()">
+                        [(ngModel)]="paciente.regimen_id" (change)="changeRegime()">
                         <ng-option [value]="type.value" *ngFor="let type of typeRegimens">{{type.text}}</ng-option>
                     </ng-select>
                 </div>
@@ -94,7 +99,8 @@
                     <label for=""> Tipo de Afilición</label>
                     <ng-select name="affiliate_type" bindValue="customId" bindLabel="customText" placeholder="Select"
                         [items]="types" bindValue="value" bindLabel="text" required #type="ngModel"
-                        [ngClass]="{'is-invalid': ( type.invalid && type.touched )}" [(ngModel)]="paciente.affiliate_type">
+                        [ngClass]="{'is-invalid': ( type.invalid && type.touched )}"
+                        [(ngModel)]="paciente.affiliate_type">
                     </ng-select>
                 </div>
 

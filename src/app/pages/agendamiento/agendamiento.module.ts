@@ -15,6 +15,12 @@ import { IndicadoresGestionComponent } from './indicadores-gestion/indicadores-g
 import { ReportesComponent } from './reportes/reportes.component';
 import { FullCalendarModule } from '@fullcalendar/angular';
 import { TopWaitingComponent } from './lista-espera/top-waiting/top-waiting.component';
+import { SearchPipe } from './search.pipe';
+import { MatExpansionModule } from '@angular/material/expansion';
+import { MatFormFieldModule } from '@angular/material/form-field';
+import { MatInputModule } from '@angular/material/input';
+import { MatSelectModule } from '@angular/material/select';
+import { MatSliderModule } from '@angular/material/slider';
 //import { ActaAplicacionComponent } from './pages/agendamiento/acta-aplicacion/acta-aplicacion.component';
 
 
@@ -29,6 +35,7 @@ import { PipesModule } from '../../core/pipes/pipes.module';
 import { RecaudosComponent } from './recaudos/recaudos.component';
 import { ReplayMigrateModule } from './replay-migrate/replay-migrate.module';
 import { CallInComponent } from './call-in/call-in.component';
+import { MatSlideToggleModule } from '@angular/material/slide-toggle';
 import { ActaAplicacionComponent } from './acta-aplicacion/acta-aplicacion.component';
 import { HttpClientModule } from '@angular/common/http';
 import { ListaActaAplicacionComponent } from './lista-acta-aplicacion/lista-acta-aplicacion.component';
@@ -50,6 +57,7 @@ import { ListaActaAplicacionComponent } from './lista-acta-aplicacion/lista-acta
         DetailStatsComponent,
         RecaudosComponent,
         CallInComponent,
+        SearchPipe,
         ActaAplicacionComponent,
         ListaActaAplicacionComponent
 
@@ -73,6 +81,12 @@ import { ListaActaAplicacionComponent } from './lista-acta-aplicacion/lista-acta
         NgbDatepickerModule,
         PipesModule,
         ReplayMigrateModule,
+        MatExpansionModule,
+        MatFormFieldModule,
+        MatInputModule,
+        MatSelectModule,
+        MatSlideToggleModule,
+        MatSliderModule,
         HttpClientModule
     ],
 

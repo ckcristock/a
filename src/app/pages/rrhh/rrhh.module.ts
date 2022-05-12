@@ -65,9 +65,15 @@ import { TableStockComponent } from './dotacion/dotaciones/table-stock/table-sto
 import { ComponentsModule } from 'src/app/components/components.module';
 import { TableInventaryComponent } from './dotacion/dotaciones/table-inventary/table-inventary.component';
 import { CategoryStockComponent } from './dotacion/dotaciones/category-stock/category-stock.component';
-
-
-
+import { MatExpansionModule } from '@angular/material/expansion';
+import { MatFormFieldModule } from '@angular/material/form-field';
+import { MatInputModule } from '@angular/material/input';
+import { MatSelectModule } from '@angular/material/select';
+import { NgxMatSelectSearchModule } from 'ngx-mat-select-search';
+import { SearchPipe } from './search.pipe';
+import { MatAutocompleteModule } from '@angular/material/autocomplete';
+import { MatIconModule } from '@angular/material/icon';
+import { MatButtonModule } from '@angular/material/button';
 @NgModule({
   declarations: [
     VacantesComponent,
@@ -114,7 +120,7 @@ import { CategoryStockComponent } from './dotacion/dotaciones/category-stock/cat
     TableStockComponent,
     TableInventaryComponent,
     CategoryStockComponent,
-
+    SearchPipe
   ],
   imports: [
     RrhhRouterModule,
@@ -134,9 +140,17 @@ import { CategoryStockComponent } from './dotacion/dotaciones/category-stock/cat
     NgSelectModule,
     FullCalendarModule,
     PerfectScrollbarModule,
-    NgbNavModule
+    NgbNavModule,
+    MatExpansionModule,
+    MatFormFieldModule,
+    MatInputModule,
+    MatSelectModule,
+    NgxMatSelectSearchModule,
+    MatAutocompleteModule,
+    MatIconModule,
+    MatButtonModule,
   ],
-  providers:[{provide: DEFAULT_CURRENCY_CODE, useValue: 'COP' }],
+  providers: [{ provide: DEFAULT_CURRENCY_CODE, useValue: 'COP' }],
   exports: [],
 })
-export class RrhhModule {}
+export class RrhhModule { }

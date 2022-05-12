@@ -31,6 +31,10 @@ import { VerFacturaAdministrativaComponent } from './factura-administrativa/ver-
 import { CrearFacturaAdministrativaComponent } from './factura-administrativa/crear-factura-administrativa/crear-factura-administrativa.component';
 import { Globales } from './globales';
 import { ComprobantesModule } from './comprobantes/comprobantes.module';
+import { MatExpansionModule } from '@angular/material/expansion';
+import { MatFormFieldModule } from '@angular/material/form-field';
+import { MatInputModule } from '@angular/material/input';
+import { MatSelectModule } from '@angular/material/select';
 import { PerfectScrollbarModule } from 'ngx-perfect-scrollbar';
 
 @NgModule({
@@ -71,6 +75,10 @@ import { PerfectScrollbarModule } from 'ngx-perfect-scrollbar';
     NgSelectModule,
     SweetAlert2Module.forRoot(),
     MyDateRangePickerModule,
+    MatExpansionModule,
+    MatFormFieldModule,
+    MatInputModule,
+    MatSelectModule,
     PerfectScrollbarModule
   ],
   providers: [

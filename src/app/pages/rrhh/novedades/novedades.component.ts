@@ -1,5 +1,6 @@
 import { Component, OnInit, EventEmitter, ViewChild } from '@angular/core';
 import { FormBuilder, FormGroup, Validators, NgForm } from '@angular/forms';
+import { MatAccordion } from '@angular/material/expansion';
 import * as moment from 'moment';
 import { DisabilityLeavesService } from './disability-leaves.service';
 import { PayrollFactorService } from './payroll-factor.service';
@@ -9,7 +10,18 @@ import { PayrollFactorService } from './payroll-factor.service';
   templateUrl: './novedades.component.html',
   styleUrls: ['./novedades.component.scss']
 })
-export class NovedadesComponent implements OnInit {
+export class NovedadesComponent implements OnInit {  
+@ViewChild(MatAccordion) accordion: MatAccordion;
+  matPanel = false;
+  openClose(){
+    if (this.matPanel == false){
+      this.accordion.openAll()
+      this.matPanel = true;
+    } else {
+      this.accordion.closeAll()
+      this.matPanel = false;
+    }    
+  }
   openModal = new EventEmitter<any>()
   form: FormGroup
 

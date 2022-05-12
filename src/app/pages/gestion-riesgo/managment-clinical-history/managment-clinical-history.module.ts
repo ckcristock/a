@@ -10,6 +10,10 @@ import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
 import { PerfectScrollbarModule } from 'ngx-perfect-scrollbar';
 import { EditClinicalModelComponent } from './edit-clinical-model/edit-clinical-model.component';
 import { VariablesClinicalModelComponent } from './variables-clinical-model/variables-clinical-model.component';
+import { MatExpansionModule } from '@angular/material/expansion';
+import { MatFormFieldModule } from '@angular/material/form-field';
+import { MatInputModule } from '@angular/material/input';
+import { MatSelectModule } from '@angular/material/select';
 
 @NgModule({
   imports: [
@@ -22,6 +26,10 @@ import { VariablesClinicalModelComponent } from './variables-clinical-model/vari
     CommonModule,
     PerfectScrollbarModule,
     NgbModule,
+    MatExpansionModule,
+    MatFormFieldModule,
+    MatInputModule,
+    MatSelectModule,
   ],
   declarations: [
     ManagmentClinicalHistoryComponent,

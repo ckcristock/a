@@ -4,6 +4,7 @@ import { TiposEgresoService } from './tipos-egreso.service';
 import { ValidatorsService } from '../../informacion-base/services/reactive-validation/validators.service';
 import Swal from 'sweetalert2';
 import { consts } from '../../../../core/utils/consts';
+import { MatAccordion } from '@angular/material/expansion';
 
 @Component({
   selector: 'app-tipos-egreso',
@@ -12,6 +13,17 @@ import { consts } from '../../../../core/utils/consts';
 })
 export class TiposEgresoComponent implements OnInit {
   @ViewChild('modal') modal:any;
+  @ViewChild(MatAccordion) accordion: MatAccordion;
+  matPanel = false;
+  openClose(){
+    if (this.matPanel == false){
+      this.accordion.openAll()
+      this.matPanel = true;
+    } else {
+      this.accordion.closeAll()
+      this.matPanel = false;
+    }    
+  }
   loading:boolean = false;
   selected:any;
   egresss:any[] = [];

@@ -3,6 +3,7 @@ import { FormBuilder, FormGroup } from '@angular/forms';
 import { FondoCesantiasService } from './fondo-cesantias.service';
 import { ValidatorsService } from '../services/reactive-validation/validators.service';
 import Swal from 'sweetalert2';
+import { MatAccordion } from '@angular/material/expansion';
 
 @Component({
   selector: 'app-fondo-cesantias',
@@ -11,6 +12,17 @@ import Swal from 'sweetalert2';
 })
 export class FondoCesantiasComponent implements OnInit {
   @ViewChild('modal') modal:any
+  @ViewChild(MatAccordion) accordion: MatAccordion;
+  matPanel = false;
+  openClose(){
+    if (this.matPanel == false){
+      this.accordion.openAll()
+      this.matPanel = true;
+    } else {
+      this.accordion.closeAll()
+      this.matPanel = false;
+    }    
+  }
   loading:boolean = false;
   selected:any;
   severances:any[] = [];

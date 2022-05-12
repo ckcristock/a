@@ -7,6 +7,7 @@ import { DisciplinariosService } from './disciplinarios.service';
 import { consts } from '../../../../core/utils/consts';
 import Swal from 'sweetalert2';
 import { functionsUtils } from '../../../../core/utils/functionsUtils';
+import { MatAccordion } from '@angular/material';
 type Person = { value: number, text: string };
 @Component({
   selector: 'app-disciplinarios',
@@ -15,6 +16,17 @@ type Person = { value: number, text: string };
 })
 export class DisciplinariosComponent implements OnInit {
   @ViewChild('modal') modal: any;
+  @ViewChild(MatAccordion) accordion: MatAccordion;
+  matPanel = false;
+  openClose(){
+    if (this.matPanel == false){
+      this.accordion.openAll()
+      this.matPanel = true;
+    } else {
+      this.accordion.closeAll()
+      this.matPanel = false;
+    }    
+  }
   form: FormGroup;
   loading = false;
   process: any;

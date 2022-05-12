@@ -6,6 +6,7 @@ import { SwalService } from '../services/swal.service';
 import { environment } from '../../../../../environments/environment';
 import { NgForm } from '@angular/forms';
 import { Location } from '@angular/common';
+import { MatAccordion } from '@angular/material/expansion';
 
 @Component({
   selector: 'app-proveedores',
@@ -14,6 +15,17 @@ import { Location } from '@angular/common';
 })
 export class ProveedoresComponent implements OnInit {
 
+  @ViewChild(MatAccordion) accordion: MatAccordion;
+  matPanel = false;
+  openClose(){
+    if (this.matPanel == false){
+      this.accordion.openAll()
+      this.matPanel = true;
+    } else {
+      this.accordion.closeAll()
+      this.matPanel = false;
+    }    
+  }
   
   public proveedores : any[] = [];
   public Documentos : any[];

@@ -1,4 +1,5 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, ViewChild } from '@angular/core';
+import { MatAccordion } from '@angular/material/expansion';
 
 @Component({
   selector: 'app-empresas',
@@ -6,6 +7,17 @@ import { Component, OnInit } from '@angular/core';
   styleUrls: ['./empresas.component.scss']
 })
 export class EmpresasComponent implements OnInit {
+  @ViewChild(MatAccordion) accordion: MatAccordion;
+  matPanel = false;
+  openClose(){
+    if (this.matPanel == false){
+      this.accordion.openAll()
+      this.matPanel = true;
+    } else {
+      this.accordion.closeAll()
+      this.matPanel = false;
+    }    
+  }
   pagination = {
     pageSize: 20,
     page: 1,

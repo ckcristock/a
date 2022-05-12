@@ -1,14 +1,27 @@
 <div class="card">
     <div class="card-body">
-        <div class="card-title">
-            <button class="btn btn-sm btn-primary" style="float: right;" (click)="openModal()">
-                <i class="fa fa-plus"></i> Agregar Nueva Retención
-            </button>
-            <h5 class="text-primary">Tipos de Retenciones</h5>
-            <p>Todas las Retenciones Registradas.</p>
+        <div class="card-title d-flex justify-content-between">
+            <h4 class="text-primary">Tipos de Retenciones</h4>
+            <div class="btn-group rounded">
+                <button class="btn btn-primary btn-sm" style="float: right;" (click)="openModal()">
+                    <i class="fa fa-plus"></i> Agregar
+                </button>
+                <button class="btn btn-info btn-sm" style="float: right;" (click)="openClose()">
+                    <i class="fas fa-sliders-h"></i> Filtros
+                </button>
+            </div>
         </div>
+        <hr class="line">
+        <mat-accordion multi>
+            <mat-expansion-panel class="mat-elevation-z0">
+                <div class="alert alert-primary text-center" role="alert">
+                    Aún no hay filtros para esta sección
+                </div>
+            </mat-expansion-panel>
+        </mat-accordion>
         <div class="mt-4">
-            <table class="table table-borderless table-striped" *ngIf="!loading && retentionTypes.length > 0; else notData">
+            <table class="table table-borderless table-striped"
+                *ngIf="!loading && retentionTypes.length > 0; else notData">
                 <thead class="bg-light">
                     <tr>
                         <th>Nombre Retención</th>
@@ -19,7 +32,8 @@
                     </tr>
                 </thead>
                 <tbody>
-                    <tr *ngFor="let item of retentionTypes" [ngClass]="{'bg-danger text-white': (item.state == 'Inactivo')}">
+                    <tr *ngFor="let item of retentionTypes"
+                        [ngClass]="{'bg-danger text-white': (item.state == 'Inactivo')}">
                         <td> {{ item.name }} </td>
                         <td> {{ item.percentage }} </td>
                         <td> {{ item.account_plan }} </td>
@@ -27,15 +41,21 @@
                         <td>
                             <div class="text-center">
                                 <div ngbDropdown class="dropdown-primary">
-                                    <button ngbDropdownToggle class="btn btn-primary btn-sm waves-effect waves-light " type="button">
+                                    <button ngbDropdownToggle class="btn btn-primary btn-sm waves-effect waves-light "
+                                        type="button">
                                         <i class="mdi mdi-chevron-down"></i>
                                     </button>
                                     <div ngbDropdownMenu>
-                                        <a (click)="getRetention(item); modal.show()" class="dropdown-item waves-light text-info waves-effect caja-botones">
+                                        <a (click)="getRetention(item); modal.show()"
+                                            class="dropdown-item waves-light text-info waves-effect caja-botones">
                                             <i class="far fa-edit"></i> Editar</a>
-                                        <a *ngIf="item.state == 'Inactivo'" (click)="activateOrInactivate(item, 'Activo')" class="dropdown-item waves-light text-success waves-effect caja-botones">
+                                        <a *ngIf="item.state == 'Inactivo'"
+                                            (click)="activateOrInactivate(item, 'Activo')"
+                                            class="dropdown-item waves-light text-success waves-effect caja-botones">
                                             <i class="fa fa-check"></i> Activar</a>
-                                        <a *ngIf="item.state == 'Activo'" (click)="activateOrInactivate(item, 'Inactivo')" class="dropdown-item waves-light text-danger waves-effect caja-botones">
+                                        <a *ngIf="item.state == 'Activo'"
+                                            (click)="activateOrInactivate(item, 'Inactivo')"
+                                            class="dropdown-item waves-light text-danger waves-effect caja-botones">
                                             <i class="far fa-trash-alt"></i> Anular</a>
                                     </div>
                                 </div>
@@ -44,8 +64,10 @@
                     </tr>
                 </tbody>
             </table>
-            <ngb-pagination class="d-flex justify-content-center pagination-rounded pagination-sm" [collectionSize]="pagination.collectionSize" [pageSize]="pagination.pageSize" [(page)]="pagination.page" (pageChange)="getRetentionTypes($event)" aria-label="Default pagination"
-                maxSize="5" rotate="true" ellipses="false" boundaryLinks="true" rotate="true" ellipses="false" boundaryLinks="true">
+            <ngb-pagination class="d-flex justify-content-center pagination-rounded pagination-sm"
+                [collectionSize]="pagination.collectionSize" [pageSize]="pagination.pageSize" [(page)]="pagination.page"
+                (pageChange)="getRetentionTypes($event)" aria-label="Default pagination" maxSize="5" rotate="true"
+                ellipses="false" boundaryLinks="true" rotate="true" ellipses="false" boundaryLinks="true">
             </ngb-pagination>
         </div>
     </div>
@@ -55,9 +77,9 @@
         <h5 class="modal-title"> {{ title }} </h5>
         <button type="button" class="close basic-close" (click)="closeModal()">
             <span aria-hidden="true">
-              <i class="fas fa-times" (click)="closeModal()"></i>
+                <i class="fas fa-times" (click)="closeModal()"></i>
             </span>
-          </button>
+        </button>
     </div>
     <div class="app-modal-body">
         <form [formGroup]="form">
@@ -70,7 +92,10 @@
                         </div>
                         <div class="form-group col-md-4">
                             <label for="">Tipo Retención</label>
-                            <input type="text" class="form-control form-control-sm" formControlName="account_plan_id" (change)="getTipo()" [ngbTypeahead]="search" [resultFormatter]="resultFormatBandListValue" [inputFormatter]="inputFormatBandListValue" [editable]='false'>
+                            <input type="text" class="form-control form-control-sm" formControlName="account_plan_id"
+                                (change)="getTipo()" [ngbTypeahead]="search"
+                                [resultFormatter]="resultFormatBandListValue"
+                                [inputFormatter]="inputFormatBandListValue" [editable]='false'>
                         </div>
                         <div class="form-group col-md-4">
                             <label for="">Porcentaje</label>
@@ -78,7 +103,8 @@
                         </div>
                         <div class="form-group col-12">
                             <label for="">Descripción</label>
-                            <textarea class="form-control form-control-sm" cols="30" rows="4" formControlName="description"></textarea>
+                            <textarea class="form-control form-control-sm" cols="30" rows="4"
+                                formControlName="description"></textarea>
                         </div>
                     </div>
                 </div>
@@ -88,7 +114,8 @@
     <div class="app-modal-footer">
         <div class="form-group text-right">
             <button (click)="closeModal()" type="button" class="btn btn-danger raised mr-2 btn-sm">Cerrar</button>
-            <button type="submit" class="btn btn-primary btn-sm raised" (click)="save()" [disabled]="!form.valid">Guardar</button>
+            <button type="submit" class="btn btn-primary btn-sm raised" (click)="save()"
+                [disabled]="!form.valid">Guardar</button>
         </div>
     </div>
 </app-modal-basic>

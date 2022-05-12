@@ -1,5 +1,6 @@
 import { Component, OnInit, ViewChild } from '@angular/core';
 import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
+import { MatAccordion } from '@angular/material/expansion';
 import Swal from 'sweetalert2';
 import { Zones } from './zonas';
 import { ZonasService } from './zonas.service';
@@ -11,6 +12,17 @@ import { ZonasService } from './zonas.service';
 })
 export class ZonasComponent implements OnInit {
   @ViewChild('modal') modal: any;
+  @ViewChild(MatAccordion) accordion: MatAccordion;
+  matPanel = false;
+  openClose(){
+    if (this.matPanel == false){
+      this.accordion.openAll()
+      this.matPanel = true;
+    } else {
+      this.accordion.closeAll()
+      this.matPanel = false;
+    }    
+  }
   zones:any = [];
   zone: any ={};
   selected:any;

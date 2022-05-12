@@ -39,6 +39,18 @@ import { DotacionCrearComponent } from './dotacion-crear/dotacion-crear.componen
 import { CompaniesToWorkComponent } from './funcionarios/detalle-funcionario/permissions/companies-to-work/companies-to-work.component';
 import { PuntodispensacionComponent } from './puntodispensacion/puntodispensacion.component';
 import { DispensingPointComponent } from './funcionarios/detalle-funcionario/permissions/dispensing-point/dispensing-point.component';
+import { BoardPermissionsComponent } from './funcionarios/detalle-funcionario/permissions/board-permissions/board-permissions.component';
+import { CKEditorModule } from '@ckeditor/ckeditor5-angular';
+import { MatExpansionModule } from '@angular/material/expansion';
+import { MatFormFieldModule } from '@angular/material/form-field';
+import { MatInputModule } from '@angular/material/input';
+import { MatSelectModule } from '@angular/material/select';
+import { SedesComponent } from './sedes/sedes.component';
+import { MatCheckboxModule } from '@angular/material/checkbox';
+import { MatIconModule } from '@angular/material/icon';
+import { MatDatepickerModule } from '@angular/material/datepicker';
+import { MatNativeDateModule } from '@angular/material/core';
+import { MatAutocompleteModule } from '@angular/material/autocomplete';
 
 
 
@@ -121,7 +133,9 @@ import { DispensingPointComponent } from './funcionarios/detalle-funcionario/per
         DotacionCrearComponent,
         CompaniesToWorkComponent,
         PuntodispensacionComponent,
-        DispensingPointComponent
+        DispensingPointComponent,
+        BoardPermissionsComponent,
+        SedesComponent,
 
     ],
 
@@ -145,7 +159,16 @@ import { DispensingPointComponent } from './funcionarios/detalle-funcionario/per
         myModules.ProfessionalsModule,
         ContractsEpsModule,
         NgbTypeaheadModule,
-
+        CKEditorModule,
+        MatExpansionModule,
+        MatFormFieldModule,
+        MatInputModule,
+        MatSelectModule,
+        MatCheckboxModule,
+        MatIconModule,
+        MatNativeDateModule,
+        MatDatepickerModule,
+        MatAutocompleteModule,
         SweetAlert2Module.forRoot()
 
 

@@ -1,145 +1,145 @@
-<div class="page-body">
-    <div class="row">
-        <div class="col-md-12 filter-bar">
-            <div class="card">
-                <div class="card-header">
-                    <div class="row">
-                        <div class="col-md-7">
-                            <h5>Proveedores</h5>
-                            <span>Todos los proveedores registrados en nuestras bases de datos</span>
-                        </div>
-                        <div class="col-md-5" style="text-align:right;">
-                            <div class="form-group t-10">
-                                <div class="card-header-left">
-                                    <button type="button" class="pull-left btn btn-primary btn-sm mr-2" [routerLink]="['crear']">
-                                        <i class="fa fa-plus"></i>
-                                        Agregar Nuevo Proveedor
-                                    </button> &nbsp;
-                                    <a href="{{environment2.ruta}}php/proveedores/exportar.php?Tipo=Proveedor" target="_blank" class="pull-left btn btn-primary btn-sm">
-                                        <i class="fa fa-download"></i> Exportar
-                                    </a>
+<div class="card">
+    <div class="card-body">
+        <div class="card-title d-flex justify-content-between">
+            <h4 class="text-primary">Proveedores</h4>
+            <div class="btn-group rounded">
+                <button class="btn btn-primary btn-sm" style="float: right;" [routerLink]="['crear']">
+                    <i class="fa fa-plus"></i> Agregar
+                </button>
+                <a href="{{environment2.ruta}}php/proveedores/exportar.php?Tipo=Proveedor" target="_blank"
+                    class="btn btn-primary btn-sm" role="button">
+                    <i class="fa fa-download"></i> Exportar
+                </a>
+                <button class="btn btn-info btn-sm" style="float: right;" (click)="openClose()">
+                    <i class="fas fa-sliders-h"></i> Filtros
+                </button>
+            </div>
+        </div>
+        <hr class="line">
+        <mat-accordion multi>
+            <mat-expansion-panel class="mat-elevation-z0">
+                <mat-form-field class="col-md-2 pl-0" appearance="outline">
+                    <mat-label>Identificación</mat-label>
+                    <input matInput type="text" placeholder="Busca por identificación" [(ngModel)]="filtro_iden"
+                        (input)="filtros()" autocomplete="off">
+                </mat-form-field>
+                <mat-form-field class="col-md-2 pl-0" appearance="outline">
+                    <mat-label>Proveedor</mat-label>
+                    <input matInput type="text" placeholder="Busca por proveedor" [(ngModel)]="filtro_nombre"
+                        (input)="filtros()" autocomplete="off">
+                </mat-form-field>
+                <mat-form-field class="col-md-2 pl-0" appearance="outline">
+                    <mat-label>Dirección</mat-label>
+                    <input matInput type="text" placeholder="Busca por dirección" [(ngModel)]="filtro_dir"
+                        (input)="filtros()" autocomplete="off">
+                </mat-form-field>
+                <mat-form-field class="col-md-2 pl-0" appearance="outline">
+                    <mat-label>Ciudad</mat-label>
+                    <input matInput type="text" placeholder="Busca por ciudad" [(ngModel)]="filtro_ciu"
+                        (input)="filtros()" autocomplete="off">
+                </mat-form-field>
+                <mat-form-field class="col-md-2 pl-0" appearance="outline">
+                    <mat-label>Correo</mat-label>
+                    <input matInput type="text" placeholder="Busca por correo" [(ngModel)]="filtro_correo"
+                        (input)="filtros()" autocomplete="off">
+                </mat-form-field>
+                <mat-form-field class="col-md-2 pl-0" appearance="outline">
+                    <mat-label>Regimen</mat-label>
+                    <mat-select (selectionChange)="filtros()" [(ngModel)]="filtro_reg">
+                        <mat-option value="">Todos</mat-option>
+                        <mat-option value="Comun">Común</mat-option>
+                        <mat-option value="Simplificado">Simplificado</mat-option>
+                    </mat-select>
+                </mat-form-field>
+            </mat-expansion-panel>
+        </mat-accordion>
+        <table class="table table-bordered table-striped table-sm table-responsive-sm" style="font-size: small;"
+            *ngIf="!Cargando && proveedores.length > 0; else notData">
+            <thead>
+                <tr>
+                    <th>Identificación</th>
+                    <th>Proveedor</th>
+                    <th>Dirección</th>
+                    <th>Ciudad</th>
+                    <th>Celular</th>
+                    <th>Correo</th>
+                    <th>Regimen</th>
+                    <th>Creador Por</th>
+                    <th>Acciones</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr *ngFor="let proveedor of proveedores" [ngClass]="{'bg-danger': proveedor.Estado == 'Inactivo'}">
+                    <td>{{ proveedor.Id_Proveedor }}</td>
+                    <td>{{ proveedor.Nombre }}</td>
+                    <td>{{ proveedor.Direccion }}</td>
+                    <td>{{ proveedor.Ciudad }}</td>
+                    <td>{{ proveedor.Celular }}</td>
+                    <td>{{ proveedor.Correo }}</td>
+                    <td>{{ proveedor.Regimen }}</td>
+                    <td>{{ proveedor.Funcionario }}</td>
+                    <td>
+                        <div class="text-center">
+                            <div ngbDropdown class="dropdown-primary">
+                                <button ngbDropdownToggle class="btn btn-secondary btn-mini waves-effect waves-light "
+                                    type="button">Acciones</button>
+                                <div ngbDropdownMenu>
+                                    <a class="dropdown-item waves-light waves-effect caja-botones"
+                                        [routerLink]="['editar', proveedor.Id_Proveedor]"> <i
+                                            class="ti-pencil"></i>Editar</a>
+                                    <a class="dropdown-item waves-light waves-effect caja-botones"
+                                        [routerLink]="['ver', proveedor.Id_Proveedor]"> <i class="fa fa-eye"></i>Ver</a>
+                                    <a class="dropdown-item waves-light waves-effect caja-botones"
+                                        [routerLink]="['/base/proveedorlista', proveedor.Id_Proveedor]"> <i
+                                            class="fa fa-list"></i>Lista</a>
+                                    <a *ngIf="proveedor.Rut != ''"
+                                        class="dropdown-item waves-light waves-effect caja-botones"
+                                        href="{{environment.ruta}}/ARCHIVOS/CONTABILIDAD/RUTS/{{proveedor.Rut}}"
+                                        target="_blank"> <i class="fa fa-book"></i>Ver RUT</a>
+                                    <a *ngIf="miPerfil == '27'"
+                                        class="dropdown-item waves-light waves-effect caja-botones"
+                                        [swal]="{ title : '¿Está Seguro?', text : 'Se dispone a cambiar el estado de este proveedor.' , icon : 'warning', showCancelButton : true , confirmButtonText : 'Si, Cambiar', cancelButtonText : 'No, Dejame Comprobar!' }"
+                                        (confirm)="cambiarEstado(proveedor.Id_Proveedor)"> <i
+                                            class="fa fa-power-off"></i> {{ proveedor.Estado == 'Activo' ?
+                                        'Inactivar' : 'Activar' }}</a>
+
                                 </div>
                             </div>
                         </div>
-                    </div>
-                </div>
-                <div class="card-body">
+                    </td>
+                </tr>
+            </tbody>
+        </table>
 
-                    <div class="row">
-                        <div class="col-md-12">
-                            <table class="table table-striped">
-                                <thead>
-                                    <tr>
-                                        <th>Identificación</th>
-                                        <th>Proveedor</th>
-                                        <th>Dirección</th>
-                                        <th>Ciudad</th>
-                                        <th>Celular</th>
-                                        <th>Correo</th>
-                                        <th>Regimen</th>
-                                        <th>Creador Por</th>
-                                        <th>Acciones</th>
-                                    </tr>
-                                    <tr>
-                                        <th class="tabla-filtro">
-                                            <input type="text" [(ngModel)]="filtro_iden" (change)="filtros()" class="form-control input-sm" placeholder="Filtro Identificación">
-                                        </th>
-                                        <th class="tabla-filtro">
-                                            <input type="text" [(ngModel)]="filtro_nombre" (change)="filtros()" class="form-control input-sm" placeholder="Filtro Proveedor">
-                                        </th>
-                                        <th class="tabla-filtro">
-                                            <input type="text" [(ngModel)]="filtro_dir" (change)="filtros()" class="form-control input-sm" placeholder="Filtro Dirección">
-                                        </th>
-                                        <th class="tabla-filtro">
-                                            <input type="text" [(ngModel)]="filtro_ciu" (change)="filtros()" class="form-control input-sm" placeholder="Filtro Ciudad">
-                                        </th>
-                                        <th class="tabla-filtro">
-                                        </th>
-                                        <th class="tabla-filtro">
-                                            <input type="text" [(ngModel)]="filtro_correo" (change)="filtros()" class="form-control input-sm" placeholder="Filtro Correo">
-                                        </th>
-                                        <th class="tabla-filtro">
-                                            <select class="form-control form-control-sm" (change)="filtros()" [(ngModel)]="filtro_reg" style="border:0px">
-                                                <option value="">Seleccione</option>
-                                                <option value="Comun">Común</option>
-                                                <option value="Simplificado">Simplificado</option>
-                                            </select>
-                                        </th>
-                                        <th class="tabla-filtro">
-                                        </th>
-                                        <th class="tabla-filtro">
-                                        </th>
-                                    </tr>
-                                </thead>
-                                <tbody>
-                                    <tr *ngIf="Cargando">
-                                        <td colspan="9" class="text-center">
-                                            <i class="fa fa-spinner fa-pulse fa-5x fa-fw"></i>
-                                            <span class="sr-only">Cargando...</span>
-                                            <h4>Cargando Proveedores...</h4>
-                                        </td>
-                                    </tr>
-                                    <tr *ngIf="proveedores.length == 0 && !Cargando">
-                                        <td colspan="9" class="text-center">
-                                            <i class="fa fa-exclamation-circle fa-5x"></i>
-                                            <h4>No Existen Proveedores para mostrar</h4>
-                                        </td>
-                                    </tr>
-                                    <tr *ngFor="let proveedor of proveedores" [ngClass]="{'bg-danger': proveedor.Estado == 'Inactivo'}">
-                                        <td>{{ proveedor.Id_Proveedor }}</td>
-                                        <td>{{ proveedor.Nombre }}</td>
-                                        <td>{{ proveedor.Direccion }}</td>
-                                        <td>{{ proveedor.Ciudad }}</td>
-                                        <td>{{ proveedor.Celular }}</td>
-                                        <td>{{ proveedor.Correo }}</td>
-                                        <td>{{ proveedor.Regimen }}</td>
-                                        <td>{{ proveedor.Funcionario }}</td>
-                                        <td>
-                                            <div class="text-center">
-                                                <div ngbDropdown class="dropdown-primary">
-                                                    <button ngbDropdownToggle class="btn btn-secondary btn-mini waves-effect waves-light " type="button">Acciones</button>
-                                                    <div ngbDropdownMenu>
-                                                        <a class="dropdown-item waves-light waves-effect caja-botones" [routerLink]="['editar', proveedor.Id_Proveedor]"> <i class="ti-pencil"></i>Editar</a>
-                                                        <a class="dropdown-item waves-light waves-effect caja-botones" [routerLink]="['ver', proveedor.Id_Proveedor]"> <i class="fa fa-eye"></i>Ver</a>
-                                                        <a class="dropdown-item waves-light waves-effect caja-botones" [routerLink]="['/base/proveedorlista', proveedor.Id_Proveedor]"> <i class="fa fa-list"></i>Lista</a>
-                                                        <a *ngIf="proveedor.Rut != ''" class="dropdown-item waves-light waves-effect caja-botones" href="{{environment.ruta}}/ARCHIVOS/CONTABILIDAD/RUTS/{{proveedor.Rut}}" target="_blank"> <i class="fa fa-book"></i>Ver RUT</a>
-                                                        <a *ngIf="miPerfil == '27'" class="dropdown-item waves-light waves-effect caja-botones" [swal]="{ title : '¿Está Seguro?', text : 'Se dispone a cambiar el estado de este proveedor.' , icon : 'warning', showCancelButton : true , confirmButtonText : 'Si, Cambiar', cancelButtonText : 'No, Dejame Comprobar!' }"
-                                                            (confirm)="cambiarEstado(proveedor.Id_Proveedor)"> <i class="fa fa-power-off"></i> {{ proveedor.Estado == 'Activo' ? 'Inactivar' : 'Activar' }}</a>
+        <ngb-pagination class="d-flex justify-content-center pagination-rounded pagination-sm"
+            [collectionSize]="TotalItems" [(page)]="page" [pageSize]="pageSize" [maxSize]="maxSize" size="sm"
+            (pageChange)="paginacion()" [boundaryLinks]="true">
+        </ngb-pagination>
 
-                                                    </div>
-                                                </div>
-                                            </div>
-                                        </td>
-                                    </tr>
-                                </tbody>
-                            </table>
-                        </div>
-                    </div>
-
-                    <ngb-pagination class="pull-right" [collectionSize]="TotalItems" [(page)]="page" [pageSize]="pageSize" [maxSize]="maxSize" size="sm" (pageChange)="paginacion()" [boundaryLinks]="true"></ngb-pagination>
-
-                    <ng-template #PlantillaBotones let-row="row" let-value="value">
-                        <div class="text-center">
-                            <!-- <div class="btn-group " role="group" data-toggle="tooltip" data-placement="top" title="" data-original-title=".btn-mini">
+        <ng-template #PlantillaBotones let-row="row" let-value="value">
+            <div class="text-center">
+                <!-- <div class="btn-group " role="group" data-toggle="tooltip" data-placement="top" title="" data-original-title=".btn-mini">
                                 <button class="btn btn-primary btn-mini" (click)="EditarProveedor(value)" type="button" style="margin:0;">
                                     <i class="ti-pencil"></i>
                                 </button>
                             </div>-->
-                            <div ngbDropdown class="dropdown-primary">
-                                <button ngbDropdownToggle class="btn btn-secondary btn-mini waves-effect waves-light " type="button">Acciones</button>
-                                <div ngbDropdownMenu>
-                                    <a class="dropdown-item waves-light waves-effect caja-botones" (click)="EditarProveedor(value)"> <i class="ti-pencil"></i>Editar</a>
+                <div ngbDropdown class="dropdown-primary">
+                    <button ngbDropdownToggle class="btn btn-secondary btn-mini waves-effect waves-light "
+                        type="button">Acciones</button>
+                    <div ngbDropdownMenu>
+                        <a class="dropdown-item waves-light waves-effect caja-botones" (click)="EditarProveedor(value)">
+                            <i class="ti-pencil"></i>Editar</a>
 
-                                </div>
-                            </div>
-                        </div>
-                    </ng-template>
+                    </div>
                 </div>
             </div>
-        </div>
+        </ng-template>
     </div>
 </div>
 
+<ng-template #notData>
+    <app-not-data [loading]="Cargando"></app-not-data>
+</ng-template>
 
 
 <swal #deleteSwal title="Proveedor Inactivado" text="Se ha Inactivado Correctamente el Proveedor" type="success">

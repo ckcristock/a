@@ -1,4 +1,4 @@
-import { Component, EventEmitter, OnDestroy, OnInit, ViewChild } from '@angular/core';
+import { AfterViewInit, Component, EventEmitter, OnDestroy, OnInit, ViewChild } from '@angular/core';
 import { NgForm } from '@angular/forms';
 import { OperatorFunction, Observable, of, Subscription } from 'rxjs';
 import { catchError, debounceTime, distinctUntilChanged, switchMap, tap } from 'rxjs/operators';
@@ -8,15 +8,33 @@ import { OpenAgendaService } from '../open-agenda.service';
 import Swal from 'sweetalert2'
 import { errorMessage, showConfirm, showConfirmCancel, showConfirmCancelWhitoutMessage, successMessage } from 'src/app/core/utils/confirmMessage';
 import { Response } from 'src/app/core/response.model';
+import { MatAccordion } from '@angular/material';
 
 @Component({
   selector: 'app-replay-migrate',
   templateUrl: './replay-migrate.component.html',
   styleUrls: ['./replay-migrate.component.scss']
 })
-export class ReplayMigrateComponent implements OnInit {
+export class ReplayMigrateComponent implements OnInit, AfterViewInit {
+  @ViewChild(MatAccordion) accordion: MatAccordion;
+  matPanel = false;
+  openClose() {
+    if (this.matPanel == false) {
+      this.accordion.openAll()
+      this.matPanel = true;
+    } else {
+      this.accordion.closeAll()
+      this.matPanel = false;
+    }
+  }
 
-
+  ngAfterViewInit() {
+    this.openClose()
+  }
+  searchEspecialidad: any
+  searchProfesional: any
+  searchIPS: any
+  searchSede: any
   citas: Array<any> = [];
   public type_appointments: [];
   loading = false;
