@@ -13,7 +13,7 @@
                     <div class="mb-5 text-center">
                         <p class="mb-2  "> <i class="fa fa-user-clock"></i> Cita más antigua</p>
                         <div>
-                            <div class="row align-items-center text-danger" *ngIf="statistics.lastAppointment.date; else notLast">
+                            <div class="row align-items-center text-danger" *ngIf="statistics.lastAppointment; else notLast">
                                 <div class="col-6">{{statistics.lastAppointment.date | date}}</div>
                                 <div class="col-6">{{statistics.lastAppointment.patient_name}}</div>
                                 <!-- <div class="col-4">{{statistics.lastAppointment.speciality}}</div> -->

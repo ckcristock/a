@@ -12,17 +12,31 @@ import { NgOption } from '@ng-select/ng-select';
 import { environment } from 'src/environments/environment';
 import { CentroCostosService } from '../centro-costos/centro-costos.service';
 import { UserService } from 'src/app/core/services/user.service';
-
+import { MatAccordion } from '@angular/material';
+import { DatePipe } from '@angular/common';
+import { DateAdapter } from 'saturn-datepicker';
 @Component({
   selector: 'app-activos-fijos',
   templateUrl: './activos-fijos.component.html',
   styleUrls: ['./activos-fijos.component.scss']
 })
 export class ActivosFijosComponent implements OnInit {
+  datePipe = new DatePipe('es-CO');
+  date: { year: number; month: number };
   @ViewChild('ModalActivoFijo') ModalActivoFijo:any;
   @ViewChild('ModalActivoFijoAdiccion') ModalActivoFijoAdiccion:any;
   @ViewChild('alertSwal') alertSwal:any;
-
+  @ViewChild(MatAccordion) accordion: MatAccordion;
+  matPanel = false;
+  openClose(){
+    if (this.matPanel == false){
+      this.accordion.openAll()
+      this.matPanel = true;
+    } else {
+      this.accordion.closeAll()
+      this.matPanel = false;
+    }    
+  }
   public ActivoFijoModel:ActivoFijoModel = new ActivoFijoModel();
   public Cargando:boolean = false;
 
@@ -113,9 +127,11 @@ export class ActivosFijosComponent implements OnInit {
               private swalService: SwalService,
               private http: HttpClient,
               private _activoFijo: ActivosFijosService,
-              private _user: UserService
+              private _user: UserService,
+              private dateAdapter: DateAdapter<any>
               )
   {
+    this.dateAdapter.setLocale('es');
     this.GetTipoActivos();
     this.ConsultaFiltrada();
     this.GetRetenciones();
@@ -506,9 +522,14 @@ formatter_tercero = (x: { Nombre_Tercero: string }) => x.Nombre_Tercero;
   }
 
   dateRangeChanged2(event){
-    this.ReporteModel.Fechas = event.formatted;
+    this.ReporteModel.Fechas = event.target.value;
   }
-
+  selectedDate(fecha) {
+    this.ReporteModel.Fechas =
+      this.datePipe.transform(fecha.value.begin._d, 'yyyy-MM-dd') +
+      ' - ' +
+      this.datePipe.transform(fecha.value.end._d, 'yyyy-MM-dd');
+  }
   loadListasDatosReporte() {
     this.http.get(environment.ruta+'php/activofijo/datos_reporte.php', {params:{company_id: this._user.user.person.company_worked.id}}).subscribe((data:any) => {
       this.listaTipoActivo = data.Tipos_Activos;

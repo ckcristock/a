@@ -14,7 +14,9 @@ import { IMyDrpOptions } from 'mydaterangepicker';
 import swal, { SweetAlertOptions } from 'sweetalert2';
 import { environment } from 'src/environments/environment';
 import { functionsUtils } from 'src/app/core/utils/functionsUtils';
-
+import { MatAccordion } from '@angular/material';
+import { DatePipe } from '@angular/common';
+import { DateAdapter } from 'saturn-datepicker';
 
 @Component({
   selector: 'app-remisiones',
@@ -22,7 +24,7 @@ import { functionsUtils } from 'src/app/core/utils/functionsUtils';
   styleUrls: ['./remisiones.component.scss']
 })
 export class RemisionesComponent implements OnInit {
-
+  datePipe = new DatePipe('es-CO');
   public Mes = [];
   public Datos: any = [];
   public Remisiones = [];
@@ -39,6 +41,17 @@ export class RemisionesComponent implements OnInit {
   @ViewChild('deleteSwal') deleteSwal: any;
   @ViewChild('confirmaSwal') confirmaSwal: any;
   @ViewChild('anularSwal') anularSwal: any;
+  @ViewChild(MatAccordion) accordion: MatAccordion;
+  matPanel = false;
+  openClose(){
+    if (this.matPanel == false){
+      this.accordion.openAll()
+      this.matPanel = true;
+    } else {
+      this.accordion.closeAll()
+      this.matPanel = false;
+    }    
+  }
   public facturacionChartTag: CanvasRenderingContext2D;
   rowsFilter = [];
   tempFilter = [];
@@ -84,9 +97,10 @@ export class RemisionesComponent implements OnInit {
   public studentChartData: any;
   public alertInputOption: SweetAlertOptions = {};
   public env = environment;
-
-  constructor(private http: HttpClient, private location: Location, private route: ActivatedRoute) {
+  date: { year: number; month: number };
+  constructor(private http: HttpClient, private location: Location, private route: ActivatedRoute, private dateAdapter: DateAdapter<any>) {
     this.ListarRemisiones();
+    this.dateAdapter.setLocale('es');
   }
 
   ngOnInit() {
@@ -191,7 +205,7 @@ export class RemisionesComponent implements OnInit {
       pag: this.page
     };
     if (this.filtro_fecha != "" && this.filtro_fecha != null) {
-      params.fecha = this.filtro_fecha.formatted;
+      params.fecha = this.filtro_fecha;
     }
     if (this.filtro_cod != "") {
       params.cod = this.filtro_cod;
@@ -238,6 +252,12 @@ export class RemisionesComponent implements OnInit {
 
     this.filtros();
   }
+  selectedDate(fecha) {
+    this.filtro_fecha =
+      this.datePipe.transform(fecha.value.begin._d, 'yyyy-MM-dd') +
+      ' - ' +
+      this.datePipe.transform(fecha.value.end._d, 'yyyy-MM-dd');
+  }
   dateRangeChanged2(event, tipo) {
     // console.log(event);
     if (event.formatted != "") {
@@ -263,7 +283,7 @@ export class RemisionesComponent implements OnInit {
       params.pag = this.page;
 
       if (this.filtro_fecha != "" && this.filtro_fecha != null) {
-        params.fecha = this.filtro_fecha.formatted;
+        params.fecha = this.filtro_fecha;
       }
       if (this.filtro_cod != "") {
         params.cod = this.filtro_cod;

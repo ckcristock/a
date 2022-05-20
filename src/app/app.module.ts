@@ -22,6 +22,7 @@ import { CacheInterceptor } from './cache.interceptor';
 import { CKEditorModule } from '@ckeditor/ckeditor5-angular';
 import { AngularEditorModule } from '@kolkov/angular-editor';
 import { AngularFileUploaderModule } from "angular-file-uploader";
+import { ModalService } from './core/services/modal.service';
 export function createTranslateLoader(http: HttpClient): any {
   return new TranslateHttpLoader(http, 'assets/i18n/', '.json');
 }
@@ -56,7 +57,8 @@ export function createTranslateLoader(http: HttpClient): any {
   ],
   providers: [
     { provide: HTTP_INTERCEPTORS, useClass: AuthInterceptor, multi: true },
-    // { provide: HTTP_INTERCEPTORS, useClass: CacheInterceptor, multi: true }
+    // { provide: HTTP_INTERCEPTORS, useClass: CacheInterceptor, multi: true },
+    ModalService
   ],
   bootstrap: [AppComponent]
 })

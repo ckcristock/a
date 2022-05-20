@@ -2,61 +2,50 @@
     <div class="col-md-9 col-sm-12">
         <div class="card">
             <div class="card-body">
-                <div class="card-title">
+                <div class="card-title d-flex justify-content-between">
                     <h4 class="text-primary">
                         Lista de espera
                     </h4>
+                    <button class="btn btn-info btn-sm" style="float: right;" (click)="openClose()">
+                        <i class="fas fa-sliders-h"></i> Filtros
+                    </button>
                 </div>
                 <hr class="line">
-                <div class="row">
-                    <div class="col-md-2 mb-2">
-                        <label for="validationServerUsername">Fecha</label>
-                        <div class="input-group">
-                            <input type="date" [(ngModel)]="filters.date" class="form-control"
-                                id="validationServerUsername" placeholder="Ingrese la fecha"
-                                aria-describedby="inputGroupPrepend3" required />
-                        </div>
-                    </div>
-                    <div class="col-md-4 mb-3">
-                        <label for="validationServerUsername">Institución</label>
-                        <div class="input-group">
-                            <!--  <input style="width: 85%" id="typeahead-http" type="text" class="form-control"
+                <mat-accordion multi>
+                    <mat-expansion-panel class="mat-elevation-z0">
+                        <mat-form-field class="col-md-3 pl-md-0" appearance="outline">
+                            <mat-label>Fecha</mat-label>
+                            <input matInput type="date" [(ngModel)]="filters.date" required>
+                        </mat-form-field>
+                        <mat-form-field class="col-md-3 pl-md-0" appearance="outline">
+                            <mat-label>Institución</mat-label>
+                            <mat-select [(ngModel)]="filters.institution" name="institution_id">
+                                <mat-option *ngFor="let item of companies" [value]="item.value">{{item.text}}</mat-option>
+                            </mat-select>
+                        </mat-form-field> 
+                        <mat-form-field class="col-md-3 pl-md-0" appearance="outline">
+                            <mat-label>Paciente</mat-label>
+                            <input matInput type="text" [(ngModel)]="filters.patient" required placeholder="Nombre / Identificación ">
+                        </mat-form-field>
+                        <mat-form-field class="col-md-3 px-md-0" appearance="outline">
+                            <mat-label>Especialidad</mat-label>
+                            <mat-select [(ngModel)]="filters.speciality" name="speciality_id">
+                                <mat-option *ngFor="let item of specialties" [value]="item.value">{{item.text}}</mat-option>
+                            </mat-select>
+                        </mat-form-field> 
+                        <button class="btn btn-primary btn-block mb-4" (click)="getWaitingList(1)">
+                            Buscar
+                        </button>
+                    </mat-expansion-panel>
+                </mat-accordion>
+                 <!--  <input style="width: 85%" id="typeahead-http" type="text" class="form-control"
                         [class.is-invalid]="searchFailed" [(ngModel)]="filters.institution"
                         [ngbTypeahead]="searchInstitution" placeholder="Diagnosticos" name="diagnosticoId"
                         ngDefaultControl [resultTemplate]="institution" [inputFormatter]="Inputdiagnostic" />
                         -->
-                            <ng-select class="col-12" [items]="companies" placeholder="Seleccione " bindLabel="text"
-                                [(ngModel)]="filters.institution" bindValue="value" placeholder="Seleccione "
-                                name="institution_id" loadingText="loading" ngDefaultControl>
-                                <!--  loadingText="loading " ngDefaultControl (ngModelChange)="getProfesionals() "> -->
-                            </ng-select>
-
-                        </div>
-                    </div>
-                    <div class="col-md-2 mb-3">
-                        <label for="validationServerUsername">Paciente</label>
-                        <div class="input-group">
-                            <input type="text" class="form-control" [(ngModel)]="filters.patient"
-                                id="validationServerUsername" placeholder="Nombre / Identificación "
-                                aria-describedby="inputGroupPrepend3" required />
-                        </div>
-                    </div>
-                    <div class="col-md-4 mb-3">
-                        <label for="validationServerUsername">Especialidad</label>
-                        <div class="input-group">
-                            <ng-select class="col-12" [items]="specialties" placeholder="Seleccione " bindLabel="text"
-                                [(ngModel)]="filters.speciality" bindValue="value" placeholder="Seleccione "
-                                name="speciality_id" loadingText="loading" ngDefaultControl>
-                                <!--  loadingText="loading " ngDefaultControl (ngModelChange)="getProfesionals() "> -->
-                            </ng-select>
-                        </div>
-                    </div>
-                    <div class="col-12">
-                        <button class="btn btn-primary btn-block btn-sm" (click)="getWaitingList(1)">
-                            Buscar
-                        </button>
-                    </div>
-                </div>
+                        <!--  loadingText="loading " ngDefaultControl (ngModelChange)="getProfesionals() "> -->
+                        <!--  loadingText="loading " ngDefaultControl (ngModelChange)="getProfesionals() "> -->
+                
             </div>
             <div class="row" *ngIf="!loading && waitingList.length > 0; else notData">
                 <div class="col-sm-12">

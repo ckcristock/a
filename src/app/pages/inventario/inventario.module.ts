@@ -38,7 +38,38 @@ import { InventarioEstibaComponent } from './inventario-fisico/inventario-estiba
 import { ReconteoEstibaComponent } from './inventario-fisico/reconteo-estiba/reconteo-estiba.component';
 import { ListadoproductosyainventariadosestibaComponent } from './inventario-fisico/listadoproductosyainventariadosestiba/listadoproductosyainventariadosestiba.component';
 import { VerInventarioComponent } from './inventario-fisico/ver-inventario/ver-inventario.component';
+import { MatExpansionModule } from '@angular/material/expansion';
+import { MatFormFieldModule } from '@angular/material/form-field';
+import { MatInputModule } from '@angular/material/input';
+import { MatSelectModule } from '@angular/material/select';
+import { MatDatepickerModule } from '@angular/material/datepicker';
+import { MatNativeDateModule } from '@angular/material/core';
+import { MatButtonModule } from '@angular/material/button';
+import { MatIconModule } from '@angular/material/icon';
+import {MatCheckboxModule} from '@angular/material/checkbox';
+import { SatDatepickerModule, SatNativeDateModule } from 'saturn-datepicker';
+import {
+  DateAdapter,
+  MAT_DATE_FORMATS,
+  MAT_DATE_LOCALE,
+} from 'saturn-datepicker';
+import {
+  MAT_MOMENT_DATE_FORMATS,
+  MomentDateAdapter,
+} from '@angular/material-moment-adapter';
+import { SharedModule } from 'src/app/shared/shared.module';
 
+export const MY_FORMATS = {
+  parse: {
+    dateInput: 'DD/MM/YYYY',
+  },
+  display: {
+    dateInput: 'DD/MM/YYYY',
+    monthYearLabel: 'MMM YYYY',
+    dateA11yLabel: 'LL',
+    monthYearA11yLabel: 'MMMM YYYY',
+  },
+};
 @NgModule({
   declarations: [
     ModalAlert,
@@ -59,8 +90,7 @@ import { VerInventarioComponent } from './inventario-fisico/ver-inventario/ver-i
     AjustarDocumentosComponent,
     ReconteoEstibaComponent,
     ListadoproductosyainventariadosestibaComponent,
-    VerInventarioComponent
-
+    VerInventarioComponent,
   ],
   imports: [
     CommonModule,
@@ -76,9 +106,26 @@ import { VerInventarioComponent } from './inventario-fisico/ver-inventario/ver-i
     NgbDropdownModule,
     PipesModule,
     ArchwizardModule,
+    MatExpansionModule,
+    MatFormFieldModule,
+    MatInputModule,
+    MatSelectModule,
+    MatDatepickerModule,
+    MatNativeDateModule,
+    SatDatepickerModule,
+    SatNativeDateModule,
+    MatIconModule,
+    MatCheckboxModule,
+    MatButtonModule,
     SweetAlert2Module.forRoot(),
-
   ],
-  providers:[]
+  providers: [
+    {
+      provide: DateAdapter,
+      useClass: MomentDateAdapter,
+      deps: [MAT_DATE_LOCALE],
+    },
+    { provide: MAT_DATE_FORMATS, useValue: MY_FORMATS },
+  ],
 })
 export class InventarioModule {}

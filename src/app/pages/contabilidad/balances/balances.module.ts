@@ -9,13 +9,14 @@ import { HttpClientModule } from '@angular/common/http';
 import { MovimientoGlobalizadoComponent } from './movimiento-globalizado/movimiento-globalizado.component';
 import { NgbTypeaheadModule } from '@ng-bootstrap/ng-bootstrap';
 import { ComponentsModule } from '../../../components/components.module';
-
+import { MatDatepickerModule } from '@angular/material/datepicker';
+import { MatFormFieldModule } from '@angular/material/form-field';
+import { MatInputModule } from '@angular/material/input';
+import { MatNativeDateModule } from '@angular/material/core';
+import { MatSelectModule } from '@angular/material/select';
 
 @NgModule({
-  declarations: [
-    BalanceGeneralComponent,
-    MovimientoGlobalizadoComponent
-  ],
+  declarations: [BalanceGeneralComponent, MovimientoGlobalizadoComponent],
   imports: [
     CommonModule,
     BalancesRoutingModule,
@@ -23,7 +24,12 @@ import { ComponentsModule } from '../../../components/components.module';
     FormsModule,
     HttpClientModule,
     NgbTypeaheadModule,
-    ComponentsModule
-  ]
+    ComponentsModule,
+    MatFormFieldModule,
+    MatInputModule,
+    MatSelectModule,
+    MatDatepickerModule,
+    MatNativeDateModule
+  ],
 })
-export class BalancesModule { }
+export class BalancesModule {}

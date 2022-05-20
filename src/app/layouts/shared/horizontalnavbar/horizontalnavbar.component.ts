@@ -19,7 +19,7 @@ export class HorizontalnavbarComponent implements OnInit, AfterViewInit {
   // tslint:disable-next-line: max-line-length
   constructor(private router: Router, private eventService: EventService, private userService: UserService) {
     this.navItems = userService.user.menu;
-    console.log(this.navItems)
+    //console.log(this.navItems)
     router.events.subscribe(event => {
       if (event instanceof NavigationEnd) {
         this.activateMenu();
@@ -41,6 +41,7 @@ export class HorizontalnavbarComponent implements OnInit, AfterViewInit {
    * On menu click
    */
   onMenuClick(event: any) {
+    console.log(event)
     const nextEl = event.target.nextSibling;
     const parent = event.target.parentNode;
     if (nextEl.id !== 'navmenu') {

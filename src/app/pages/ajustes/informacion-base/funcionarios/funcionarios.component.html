@@ -1,6 +1,6 @@
 <div class="row">
   <div class="col-xl-3 col-lg-4">
-    <div class="card">
+    <div class="card pb-3">
       <div class="card-body">
         <div class="card-title">
           <h5 class="mb-0">Filtros</h5>
@@ -23,7 +23,7 @@
               Empresas
             </mat-panel-title>
           </mat-expansion-panel-header>
-          <div class="custom-control custom-checkbox mt-1" *ngFor="let company of companies; let i = index">
+          <div class="custom-control custom-checkbox mt-1 mx-4" *ngFor="let company of companies; let i = index">
             <input type="checkbox" id="company{{ i }}" name="company_id"
               (change)="company.selected = !company.selected ;getPeople()" [checked]="company.selected"
               class="custom-control-input" />
@@ -38,7 +38,7 @@
               Estado
             </mat-panel-title>
           </mat-expansion-panel-header>
-          <div class="custom-control custom-checkbox mt-1" *ngFor="let stat of status; let i = index">
+          <div class="custom-control custom-checkbox mt-1 mx-4" *ngFor="let stat of status; let i = index">
             <input type="checkbox" id="stat{{ i }}" name="status" (change)="stat.selected = !stat.selected ;getPeople()"
               [checked]="stat.selected" class="custom-control-input" />
             <label class="custom-control-label" for="stat{{ i }}">{{stat.name}}</label>
@@ -53,7 +53,7 @@
               Dependencias
             </mat-panel-title>
           </mat-expansion-panel-header>
-          <div class="custom-control custom-checkbox mt-2" *ngFor="let dependency of dependencies; let i = index">
+          <div class="custom-control custom-checkbox mt-2 mx-4" *ngFor="let dependency of dependencies; let i = index">
             <input type="checkbox" id="dependencia{{ i }}"
               (change)="dependency.selected = !dependency.selected ;getPeople()" name="dependecy_id"
               [checked]="dependency.selected" class="custom-control-input" />

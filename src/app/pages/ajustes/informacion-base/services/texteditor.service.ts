@@ -18,7 +18,7 @@ export class TexteditorService {
         );
     }
     configEditor = {
-        /* toolbar: {
+        toolbar: {
           items: [
             '|',
             'heading',
@@ -32,8 +32,9 @@ export class TexteditorService {
             'undo',
             'redo',
           ]
-        }, */
+        },
         language: 'es',
+        placeholder: 'Ingresa la descripción'
       }
 
 }

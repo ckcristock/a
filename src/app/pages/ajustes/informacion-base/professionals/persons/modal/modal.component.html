@@ -1,132 +1,599 @@
-<!-- <card-basic #newModal [dialogClass]="'modal-lg modal-full'"> -->
-
-
-<div class="card p-5">
-    <!-- <div class="card-header"> -->
-    <a>
-        <button type="button" class="btn btn-primary btn-sm btnRegresar" (click)="showFormCreate()">
-            <i class="fas fa-arrow-left"></i>
-        </button>
-    </a>
-    <div class="row my-3">
-        <h4 class=" text text-center justify-content-center modal-title   px-3 mb-3">
-            {{(_person.id) ? '' : 'Nuevo'}} Profesional
-        </h4>
-        <!-- <button type="button" class="close basic-close" (click)="hide()">
-                <span aria-hidden="true">&times;</span>
-            </button> -->
+<div class="card">
+  <div class="card-body">
+    <div class="card-title d-flex justify-content-between">
+      <h4 class="text-primary">{{ _person.id ? "" : "Nuevo" }} Profesional</h4>
+      <button
+        class="btn btn-primary btn-sm btnRegresar"
+        (click)="showFormCreate()"
+      >
+        <i class="fas fa-arrow-left"></i> Volver
+      </button>
     </div>
-    <!-- </div> -->
-    <div class="card-body">
-        <form [formGroup]="forma" (ngSubmit)="guardar()" novalidate>
-            <div class="row">
+    <hr class="line" />
+    <form [formGroup]="forma" (ngSubmit)="guardar()" novalidate>
+      <div class="row">
+        <div class="col-md-3">
+          <div class="form-group text-center">
+            <img
+              *ngIf="!person.image_blob"
+              id="imageOutput"
+              [src]="fileAvatar"
+              alt="Imagen del funcionario"
+              class="d-block m-auto"
+            />
+            <img
+              *ngIf="person.image_blob"
+              id="imageOutput"
+              [src]="person.image_blob"
+              alt="Imagen del funcionario"
+              class="d-block m-auto"
+            />
+            <label for="image_blob" class="ml-3 subir-archivo mt-2">
+              Cargar imagen
+              <i class="simple-icon-doc"></i>
+            </label>
+            <div class="input-group">
+              <input
+                type="file"
+                class="form-control"
+                id="image_blob"
+                (change)="onFileChanged($event, 'image_blob')"
+                accept="image/*"
+                class="file"
+              />
+              <input
+                type="hidden"
+                name="image_blob"
+                [(ngModel)]="person.image_blob"
+                formControlName="image_blob"
+              />
+            </div>
+            <app-show-errors
+              style="position: absolute; left: 80px"
+              class="text-danger"
+              [ctrl]="forma.get('image_blob')"
+            ></app-show-errors>
+          </div>
+          <mat-form-field appearance="outline" class="col-12">
+            <mat-label>Tipo de documento</mat-label>
+            <mat-select
+              [(ngModel)]="person.type_document_id"
+              formControlName="type_document_id"
+            >
+              <mat-option
+                *ngFor="let item of typesDocuments"
+                [value]="item.value"
+                >{{ item.text }}</mat-option
+              >
+            </mat-select>
+            <mat-icon matSuffix>branding_watermark</mat-icon>
+            <mat-error>
+              <app-show-errors
+                class="text-danger"
+                [ctrl]="forma.get('type_document_id')"
+              >
+              </app-show-errors>
+            </mat-error>
+          </mat-form-field>
 
-                <div class="col-md-2">
-                    <div class="row">
-                        <div class="col-md-12 mb-2">
-                            <img id="imageOutput" [src]="fileAvatar" alt="Imagen del funcionario"
-                                class="d-block m-auto" />
-                            <label for="image_blob" class="ml-3 subir-archivo mt-2">
-                                Cargar imagen
-                                <i class="simple-icon-doc"></i>
-                            </label>
-                            <div class="input-group ">
-                                <input type="file" class="form-control" id="image_blob"
-                                    (change)="onFileChanged($event, 'image_blob')" accept="image/*" class="file">
-                                <input type="hidden" name="image_blob" [(ngModel)]="person.image_blob"
-                                    formControlName="image_blob" />
-                            </div>
-                            <app-show-errors class="text-danger" [ctrl]="forma.get('image_blob')"></app-show-errors>
-                        </div>
-
+          <mat-form-field appearance="outline" class="col-12">
+            <mat-label>Documento de identidad</mat-label>
+            <input
+              matInput
+              placeholder="Ingresa documento de identidad"
+              type="text"
+              formControlName="identifier"
+              [(ngModel)]="person.identifier"
+              id="identifier"
+              autocomplete="off"
+            />
+            <mat-icon matSuffix>badge</mat-icon>
+            <mat-error>
+              <app-show-errors
+                class="text-danger"
+                [ctrl]="forma.get('identifier')"
+              ></app-show-errors>
+            </mat-error>
+          </mat-form-field>
+          <div class="col-md-12">
+            <div class="file-input">
+              <input
+                type="file"
+                id="file"
+                class="file"
+                (change)="onFileChanged($event, 'signature_blob', 'firma')"
+                accept="image/*"
+              />
+              <input
+                type="hidden"
+                name="signature_blob"
+                [(ngModel)]="person.signature_blob"
+                formControlName="signature_blob"
+              />
+              <label for="file"> Seleccione imagen firma </label>
+              <small class="text-center" *ngIf="person.signature_blob"
+                >Imagen cargada</small
+              >
+              <p class="file-name">{{ firma }}</p>
+            </div>
+            <app-show-errors
+              style="position: absolute"
+              class="text-danger"
+              [ctrl]="forma.get('signature_blob')"
+            ></app-show-errors>
+          </div>
+        </div>
+        <div class="col-md-9">
+          <div class="row">
+            <div class="col-md-4">
+              <mat-form-field appearance="outline" class="col-12">
+                <mat-label>Registro médico</mat-label>
+                <input
+                  matInput
+                  placeholder="Ingresa registro médico"
+                  type="text"
+                  [(ngModel)]="person.medical_record"
+                  formControlName="medical_record"
+                  id="medical_record"
+                  autocomplete="off"
+                />
+                <mat-icon matSuffix>medical_information</mat-icon>
+                <mat-error>
+                  <app-show-errors
+                    class="text-danger"
+                    [ctrl]="forma.get('medical_record')"
+                  ></app-show-errors>
+                </mat-error>
+              </mat-form-field>
+              <mat-form-field appearance="outline" class="col-12">
+                <mat-label>Fecha de nacimiento</mat-label>
+                <input
+                  matInput
+                  type="date"
+                  placeholder="Selecciona la fecha de nacimiento"
+                  [(ngModel)]="person.birth_date"
+                  formControlName="birth_date"
+                  id="birth_date"
+                />
+                <mat-error>
+                  <app-show-errors
+                    class="text-danger"
+                    [ctrl]="forma.get('birth_date')"
+                  ></app-show-errors>
+                </mat-error>
+              </mat-form-field>
+              <mat-form-field appearance="outline" class="col-12">
+                <mat-label>Primer nombre</mat-label>
+                <input
+                  matInput
+                  placeholder="Ingresa el primer nombre"
+                  type="text"
+                  [(ngModel)]="person.first_name"
+                  formControlName="first_name"
+                  id="first-name"
+                  autocomplete="off"
+                />
+                <mat-icon matSuffix>looks_one</mat-icon>
+                <mat-error>
+                  <app-show-errors
+                    class="text-danger"
+                    [ctrl]="forma.get('first_name')"
+                  ></app-show-errors>
+                </mat-error>
+              </mat-form-field>
+              <mat-form-field appearance="outline" class="col-12">
+                <mat-label>Segundo nombre</mat-label>
+                <input
+                  matInput
+                  placeholder="Ingresa el segundo nombre"
+                  type="text"
+                  [(ngModel)]="person.second_name"
+                  formControlName="second_name"
+                  id="second_name"
+                  autocomplete="off"
+                />
+                <mat-icon matSuffix>looks_two</mat-icon>
+              </mat-form-field>
+            </div>
+            <div class="col-md-4">
+              <mat-form-field appearance="outline" class="col-12">
+                <mat-label>Primer apellido</mat-label>
+                <input
+                  matInput
+                  placeholder="Ingresa el primer apellido"
+                  type="text"
+                  [(ngModel)]="person.first_surname"
+                  formControlName="first_surname"
+                  id="first_surname"
+                  autocomplete="off"
+                />
+                <mat-icon matSuffix>looks_one</mat-icon>
+                <mat-error>
+                  <app-show-errors
+                    class="text-danger"
+                    [ctrl]="forma.get('first_surname')"
+                  ></app-show-errors>
+                </mat-error>
+              </mat-form-field>
+              <mat-form-field appearance="outline" class="col-12">
+                <mat-label>Segundo apellido</mat-label>
+                <input
+                  matInput
+                  placeholder="Ingresa el segundo apellido"
+                  type="text"
+                  [(ngModel)]="person.second_surname"
+                  formControlName="second_surname"
+                  id="second_surname"
+                  autocomplete="off"
+                />
+                <mat-icon matSuffix>looks_two</mat-icon>
+              </mat-form-field>
+              <mat-form-field appearance="outline" class="col-12">
+                <mat-label>Estado civil</mat-label>
+                <mat-select
+                  [(ngModel)]="person.marital_status"
+                  formControlName="marital_status"
+                >
+                  <mat-option
+                    *ngFor="let estado of civilStates.sort()"
+                    [value]="estado.value"
+                  >
+                    {{ estado.name }}
+                  </mat-option>
+                </mat-select>
+                <mat-icon matSuffix>favorite</mat-icon>
+                <mat-error>
+                  <app-show-errors
+                    class="text-danger"
+                    [ctrl]="forma.get('marital_status')"
+                  ></app-show-errors>
+                </mat-error>
+              </mat-form-field>
+              <mat-form-field appearance="outline" class="col-12">
+                <mat-label>Teléfono fijo</mat-label>
+                <input
+                  matInput
+                  placeholder="Ingresa el telefono fijo"
+                  type="text"
+                  [(ngModel)]="person.phone"
+                  formControlName="phone"
+                  id="phone"
+                  autocomplete="off"
+                />
+                <mat-icon matSuffix>phone</mat-icon>
+                <mat-error>
+                  <app-show-errors
+                    class="text-danger"
+                    [ctrl]="forma.get('phone')"
+                  ></app-show-errors>
+                </mat-error>
+              </mat-form-field>
+            </div>
+            <div class="col-md-4">
+              <mat-form-field appearance="outline" class="col-12">
+                <mat-label>Teléfono celular</mat-label>
+                <input
+                  matInput
+                  placeholder="Ingresa el telefono celular"
+                  type="text"
+                  [(ngModel)]="person.cell_phone"
+                  formControlName="cell_phone"
+                  id="cell_phone"
+                  autocomplete="off"
+                />
+                <mat-icon matSuffix>phone_iphone</mat-icon>
+                <mat-error>
+                  <app-show-errors
+                    class="text-danger"
+                    [ctrl]="forma.get('cell_phone')"
+                  ></app-show-errors>
+                </mat-error>
+              </mat-form-field>
+              <mat-form-field appearance="outline" class="col-12">
+                <mat-label>Correo electrónico</mat-label>
+                <input
+                  matInput
+                  placeholder="Ej: genetic@example.com"
+                  type="email"
+                  [(ngModel)]="person.email"
+                  formControlName="email"
+                  id="email"
+                  autocomplete="off"
+                />
+                <mat-icon matSuffix>email</mat-icon>
+                <mat-error>
+                  <app-show-errors
+                    class="text-danger"
+                    [ctrl]="forma.get('email')"
+                  ></app-show-errors>
+                </mat-error>
+              </mat-form-field>
+              <mat-form-field appearance="outline" class="col-12">
+                <mat-label>Departamento</mat-label>
+                <mat-select
+                  [(ngModel)]="person.department_id"
+                  formControlName="department_id"
+                  (selectionChange)="getCities()"
+                >
+                  <div class="input-group">
+                    <input
+                      matInput
+                      type="text"
+                      placeholder="Busca departamento"
+                      [(ngModel)]="searchDepartamento"
+                      [ngModelOptions]="{ standalone: true }"
+                      class="form-control mx-2"
+                    />
+                    <div class="input-group-append" *ngIf="searchDepartamento">
+                      <button
+                        class="btn btn-outline-secondary border-left-0 border"
+                        (click)="searchDepartamento = ''"
+                      >
+                        <i class="fa fa-times"></i>
+                      </button>
                     </div>
-                </div>
-
-                <div class="col-md-10">
-                    <div class="row">
-
-                        <div class="col-3 mb-2">
-                            <label for="validationServerUsername">Tipo Ident.</label>
-                            <div class="input-group">
-                                <ng-select class="col-12 m-0 p-0" [items]="typesDocuments" bindLabel="text"
-                                    bindValue="value" [(ngModel)]="person.type_document_id"
-                                    formControlName="type_document_id" loadingText="loading">
-                                </ng-select>
-
-                                <app-show-errors class="text-danger" [ctrl]="forma.get('type_document_id')">
-                                </app-show-errors>
-                            </div>
-
-                        </div>
-
-                        <div class="col-3 mb-2">
-                            <label for="identifier">Identificación</label>
-                            <div class="input-group">
-                                <input type="text" [(ngModel)]="person.identifier" formControlName="identifier"
-                                    class="form-control" id="identifier">
-                            </div>
-                            <app-show-errors class="text-danger" [ctrl]="forma.get('identifier')"></app-show-errors>
-                        </div>
-
-                        <div class="col-md-3 mb-2">
-                            <label for="medical_record">Reg. Médico</label>
-                            <div class="input-group">
-                                <input type="text" class="form-control" [(ngModel)]="person.medical_record"
-                                    formControlName="medical_record" id="medical_record">
-                            </div>
-                            <app-show-errors class="text-danger" [ctrl]="forma.get('medical_record')"></app-show-errors>
-                        </div>
-
-                        <div class="col-md-3 mb-2">
-                            <label for="birth_date">Fecha Nac.</label>
-                            <div class="input-group">
-                                <input type="date" [(ngModel)]="person.birth_date" formControlName="birth_date"
-                                    class="form-control" id="birth_date">
-                            </div>
-                            <app-show-errors class="text-danger" [ctrl]="forma.get('birth_date')"></app-show-errors>
-                        </div>
-
+                  </div>
+                  <mat-option
+                    *ngFor="
+                      let item of departments | search: searchDepartamento
+                    "
+                    [value]="item.value"
+                    >{{ item.text }}</mat-option
+                  >
+                </mat-select>
+                <mat-icon matSuffix>explore</mat-icon>
+                <mat-error>
+                  <app-show-errors
+                    class="text-danger"
+                    [ctrl]="forma.get('department_id')"
+                  ></app-show-errors>
+                </mat-error>
+              </mat-form-field>
+              <mat-form-field appearance="outline" class="col-12">
+                <mat-label>Municipio</mat-label>
+                <mat-select
+                  [(ngModel)]="person.municipality_id"
+                  formControlName="municipality_id"
+                  id="municipality_id"
+                >
+                  <div class="input-group">
+                    <input
+                      matInput
+                      type="text"
+                      placeholder="Busca municipio"
+                      [(ngModel)]="searchMunicipio"
+                      [ngModelOptions]="{ standalone: true }"
+                      class="form-control mx-2"
+                    />
+                    <div class="input-group-append" *ngIf="searchMunicipio">
+                      <button
+                        class="btn btn-outline-secondary border-left-0 border"
+                        (click)="searchMunicipio = ''"
+                      >
+                        <i class="fa fa-times"></i>
+                      </button>
                     </div>
+                  </div>
+                  <mat-option
+                    *ngFor="let item of cities | search: searchMunicipio"
+                    [value]="item.value"
+                    >{{ item.text }}</mat-option
+                  >
+                </mat-select>
+                <mat-icon matSuffix>push_pin</mat-icon>
+                <mat-error>
+                  <app-show-errors
+                    class="text-danger"
+                    [ctrl]="forma.get('municipality_id')"
+                  ></app-show-errors>
+                </mat-error>
+              </mat-form-field>
+            </div>
+            <div class="col-md-12">
+              <ng-select
+                id="specialties"
+                [items]="specialities"
+                bindLabel="text"
+                placeholder="Especialidades"
+                [closeOnSelect]="false"
+                appearance="outline"
+                bindValue="value"
+                multiple="true"
+                required
+                [hideSelected]="true"
+                dropdownPosition="top"
+                [(ngModel)]="person.specialities"
+                formControlName="specialities"
+              >
+              </ng-select>
 
-                    <div class="row">
-                        <div class="col-3 mb-2">
-                            <label for="first_name">Primer Nombre</label>
-                            <div class="input-group">
-                                <input [(ngModel)]="person.first_name" formControlName="first_name" type="text"
-                                    class="form-control" id="first_name">
-                            </div>
-                            <app-show-errors class="text-danger" [ctrl]="forma.get('first_name')"></app-show-errors>
-                        </div>
-
-                        <div class="col-3 mb-2">
-                            <label for="second_name">Segundo Nombre</label>
-                            <div class="input-group">
-                                <input type="text" [(ngModel)]="person.second_name" formControlName="second_name"
-                                    class="form-control" id="second_name">
-                            </div>
-                        </div>
-
-                        <div class="col-3 mb-2">
-                            <label for="first_surname">Primer Apellido</label>
-                            <div class="input-group">
-                                <input type="text" [(ngModel)]="person.first_surname" formControlName="first_surname"
-                                    class="form-control" id="first_surname">
-                            </div>
-                            <app-show-errors class="text-danger" [ctrl]="forma.get('first_surname')"></app-show-errors>
-                        </div>
-
-                        <div class="col-md-3 mb-2">
-                            <label for="second_surname">Segundo Apellido</label>
-                            <div class="input-group">
-                                <input type="text" [(ngModel)]="person.second_surname" formControlName="second_surname"
-                                    class="form-control" id="second_surname">
-                            </div>
-                        </div>
-
+              <app-show-errors
+                class="text-danger"
+                style="position: absolute; top: 50px; left: 2.5em"
+                [ctrl]="forma.get('specialities')"
+              ></app-show-errors>
+            </div>
+            <div class="col-md-12">
+              <div class="d-flex justify-content-end col-md-12">
+                <button
+                  type="button"
+                  class="btn btn-primary btn-sm"
+                  placement="bottom"
+                  ngbTooltip="Agregar"
+                  (click)="newContract()"
+                >
+                  <i class="fas fa-plus"></i> Agregar contrato
+                </button>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <ng-container *ngIf="contractList.controls.length">
+        <h4 class="text-center text-primary">Contratos</h4>
+        <ng-container *ngFor="let item of contractList.controls; let c = index">
+          <div formArrayName="contract">
+            <div [formGroupName]="c">
+              <mat-form-field appearance="outline" class="col-md-4">
+                <mat-label>Mi empresa</mat-label>
+                <mat-select name="company_id" formControlName="company_id">
+                  <div class="input-group">
+                    <input
+                      matInput
+                      type="text"
+                      placeholder="Busca empresa"
+                      [(ngModel)]="searchMiempresa"
+                      [ngModelOptions]="{ standalone: true }"
+                      class="form-control mx-2"
+                    />
+                    <div class="input-group-append" *ngIf="searchMiempresa">
+                      <button
+                        class="btn btn-outline-secondary border-left-0 border"
+                        (click)="searchMiempresa = ''"
+                      >
+                        <i class="fa fa-times"></i>
+                      </button>
                     </div>
-                </div>
+                  </div>
+                  <mat-option
+                    *ngFor="let item of companies | search: searchMiempresa"
+                    [value]="item.value"
+                    >{{ item.text }}</mat-option
+                  >
+                </mat-select>
+                <mat-icon matSuffix>work</mat-icon>
+                <mat-error>
+                  <app-show-errors
+                    class="text-danger"
+                    [ctrl]="item.get('company_id')"
+                  >
+                  </app-show-errors>
+                </mat-error>
+              </mat-form-field>
+              <mat-form-field appearance="outline" class="col-md-4">
+                <mat-label>Agenda</mat-label>
+                <mat-select
+                  required
+                  multiple="true"
+                  name="type_agenda_id"
+                  formControlName="type_agenda_id"
+                >
+                  <mat-option
+                    *ngFor="let item of type_appointments"
+                    [value]="item.value"
+                    >{{ item.text }}</mat-option
+                  >
+                </mat-select>
+                <mat-icon matSuffix>perm_contact_calendar</mat-icon>
+                <mat-error>
+                  <app-show-errors
+                    class="text-danger"
+                    [ctrl]="item.get('type_agenda_id')"
+                  >
+                  </app-show-errors>
+                </mat-error>
+              </mat-form-field>
+              <mat-form-field appearance="outline" class="col-md-4">
+                <mat-label>Regimen</mat-label>
+                <mat-select
+                  required
+                  multiple="true"
+                  name="regimen_id"
+                  formControlName="regimen_id"
+                >
+                  <mat-option
+                    *ngFor="let item of regimes"
+                    [value]="item.value"
+                    >{{ item.text }}</mat-option
+                  >
+                </mat-select>
+                <mat-icon matSuffix>monetization_on</mat-icon>
+                <mat-error>
+                  <app-show-errors
+                    class="text-danger"
+                    [ctrl]="item.get('regimen_id')"
+                  >
+                  </app-show-errors>
+                </mat-error>
+              </mat-form-field>
+              <ng-select
+                ngSelectMat
+                [items]="allcompanies"
+                [multiple]="true"
+                placeholder="Otras empresas"
+                appearance="outline"
+                bindLabel="text"
+                [hideSelected]="true"
+                [virtualScroll]="true"
+                groupBy="tipo"
+                [selectableGroup]="true"
+                [selectableGroupAsModel]="false"
+                [closeOnSelect]="false"
+                bindValue="value"
+                name="companies_id"
+                loadingText="loading"
+                formControlName="companies_id"
+                dropdownPosition="top"
+                required="true"
+              >
+              </ng-select>
+              <mat-error>
+                <app-show-errors
+                  style="position: relative; left: 1.5em; top: -20px"
+                  class="text-danger"
+                  [ctrl]="item.get('companies_id')"
+                >
+                </app-show-errors>
+              </mat-error>
 
-                <!-- <div class="col-md-4 mb-2">
+              <ng-select
+                [items]="contracts"
+                [multiple]="true"
+                [hideSelected]="true"
+                required
+                class="is-invalid"
+                appearance="outline"
+                bindLabel="text"
+                bindValue="value"
+                placeholder="Contrato"
+                [closeOnSelect]="false"
+                name="contract_id"
+                formControlName="contract_id"
+              >
+              </ng-select>
+              <app-show-errors
+                class="text-danger"
+                style="position: relative; left: 1.5em; top: -20px"
+                [ctrl]="item.get('contract_id')"
+              >
+              </app-show-errors>
+            </div>
+            <div class="d-flex justify-content-end col-md-12">
+              <button
+                type="button"
+                class="btn btn-danger btn-sm"
+                placement="bottom"
+                ngbTooltip="Borrar"
+                (click)="deleteContract()"
+              >
+                <i class="fas fa-trash-alt"></i> Borrar contrato
+              </button>
+            </div>
+          </div>
+        </ng-container>
+      </ng-container>
+    </form>
+    <button
+      type="submit"
+      (click)="guardar()"
+      class="btn btn-primary btn-block mt-4"
+    >
+      Guardar Profesional
+    </button>
+  </div>
+</div>
+
+<!-- <div class="col-md-4 mb-2">
                     <label for="validationServerUsername">IPS Principal</label>
 
                     <div class="input-group">
@@ -137,7 +604,7 @@
                     <app-show-errors class="text-danger" [ctrl]="forma.get('company_id')"></app-show-errors>
                 </div> -->
 
-                <!-- <div class="col-md-8 mb-2">
+<!-- <div class="col-md-8 mb-2">
                     <label for="validationServerUsername">Instuciones Hab.</label>
                     <div class="input-group">
                         <ng-select class="col-12 m-0 p-0" multiple="true" [items]="companies" bindLabel="text"
@@ -147,83 +614,7 @@
                         <app-show-errors class="text-danger" [ctrl]="forma.get('companies')"></app-show-errors>
                     </div>
                 </div> -->
-
-                <div class="col-3 mb-2">
-                    <label for="validationServerUsername">Est. Civil</label>
-                    <div class="input-group">
-                        <select class="custom-select " [(ngModel)]="person.marital_status"
-                            formControlName="marital_status">
-                            <option [value]="type.value" *ngFor="let type of civilStates.sort()">{{type.name}}
-                            </option>
-                        </select>
-                    </div>
-                    <app-show-errors class="text-danger" [ctrl]="forma.get('marital_status')"></app-show-errors>
-                </div>
-
-                <div class="col-md-3 mb-2">
-                    <label for="phone">Telefono</label>
-                    <div class="input-group">
-                        <input type="text" [(ngModel)]="person.phone" formControlName="phone" class="form-control"
-                            id="phone">
-                    </div>
-                    <app-show-errors class="text-danger" [ctrl]="forma.get('phone')"></app-show-errors>
-                </div>
-
-                <div class="col-md-3 mb-2">
-                    <label for="cell_phone">Celular</label>
-                    <div class="input-group">
-                        <input type="text" [(ngModel)]="person.cell_phone" formControlName="cell_phone"
-                            class="form-control" id="cell_phone">
-                    </div>
-                    <app-show-errors class="text-danger" [ctrl]="forma.get('cell_phone')"></app-show-errors>
-                </div>
-
-                <div class="col-md-3 mb-2">
-                    <label for="email">Correo</label>
-                    <div class="input-group">
-                        <input type="text" [(ngModel)]="person.email" formControlName="email" class="form-control"
-                            id="email">
-                    </div>
-                    <app-show-errors class="text-danger" [ctrl]="forma.get('email')"></app-show-errors>
-                </div>
-
-                <div class="col-md-4 mb-2">
-                    <label for="validationServerUsername">Departamento</label>
-                    <div class="input-group">
-                        <ng-select class="col-12 m-0 p-0" [items]="departments" (change)="getCities()" bindLabel="text"
-                            bindValue="value" [(ngModel)]="person.department_id" formControlName="department_id"
-                            loadingText="loading">
-                        </ng-select>
-
-
-                        <app-show-errors class="text-danger" [ctrl]="forma.get('department_id')"></app-show-errors>
-                    </div>
-
-                </div>
-                <div class="col-md-3 mb-2">
-                    <label for="municipality_id">Municipio</label>
-                    <div class="input-group">
-                        <ng-select class="col-12 m-0 p-0" id="municipality_id" [items]="cities" bindLabel="text"
-                            bindValue="value" [(ngModel)]="person.municipality_id" formControlName="municipality_id"
-                            loadingText="loading">
-                        </ng-select>
-                    </div>
-
-
-                    <app-show-errors class="text-danger" [ctrl]="forma.get('municipality_id')"></app-show-errors>
-                </div>
-                <div class="col-5 mb-2">
-                    <label for="specialities">Especialidades</label>
-                    <div class="input-group">
-                        <ng-select class="col-12 m-0 p-0" id="specialties" [items]="specialities" bindLabel="text"
-                            bindValue="value" multiple="true" [(ngModel)]="person.specialities"
-                            formControlName="specialities" loadingText="loading">
-                        </ng-select>
-                    </div>
-                    <app-show-errors class="text-danger" [ctrl]="forma.get('specialities')"></app-show-errors>
-                </div>
-
-                <!-- <div class="col-md-3 mb-2">
+<!-- <div class="col-md-3 mb-2">
                     <label for="validationServerUsername">Tipo Profesional</label>
                     <div class="input-group">
                         <ng-select class="col-12 m-0 p-0" [items]="peopleTypes" bindLabel="text" bindValue="value"
@@ -232,12 +623,7 @@
                     </div>
                     <app-show-errors class="text-danger" [ctrl]="forma.get('people_type_id')"></app-show-errors>
                 </div> -->
-
-
-                <div class="w-100"></div>
-                <div class="row mt-3">
-
-                    <!-- <div class="row mt-3   justify-content-center">
+<!-- <div class="row mt-3   justify-content-center">
                     <div class="col-md-4 mb-2">
                         <img id="imageOutput" [src]="fileSgnature" alt="Imagen del funcionario"
                             class="d-block m-auto" />
@@ -254,24 +640,7 @@
                         <app-show-errors class="text-danger" [ctrl]="forma.get('signature_blob')"></app-show-errors>
                     </div>
                 </div> -->
-
-                    <div class="col-md-3">
-                        <div class="file-input">
-                            <input type="file" id="file" class="file"
-                                (change)="onFileChanged($event, 'signature_blob', 'firma')" accept="image/*">
-                            <input type="hidden" name="signature_blob" [(ngModel)]="person.signature_blob"
-                                formControlName="signature_blob" />
-                            <label for="file">
-                                Seleccione imagen firma
-                            </label>
-                            <p class="file-name" style="width: 20em;">{{firma}}</p>
-                        </div>
-                        <app-show-errors class="text-danger" [ctrl]="forma.get('signature_blob')"></app-show-errors>
-                    </div>
-                </div>
-
-
-                <!-- <div class="col-md-6 mb-3">
+<!-- <div class="col-md-6 mb-3">
                     <label for="validationServerUsername">Contracto.</label>
                     <div class="input-group">
                         <ng-select class="col-12 m-0 p-0" [items]="contracts" bindLabel="text" bindValue="value"
@@ -281,7 +650,7 @@
                     </div>
                 </div> -->
 
-                <!-- <div class="form-group col-md-2 text-center">
+<!-- <div class="form-group col-md-2 text-center">
                     <img id="imageOutput" [src]="fileString" alt="Imagen del funcionario" class="d-block m-auto" />
                     <label for="image" class="subir-archivo mt-2">
                         Cargar imagen
@@ -297,105 +666,3 @@
                     <app-show-errors class="text-danger" [ctrl]="forma.get('image_blob')"></app-show-errors>
 
                 </div> -->
-
-
-                <div class="col-12 ">
-                    <hr>
-                    <div class="text-center my-3">
-                        <h4 class="text text-center text-secondary"> Contratos 😊</h4>
-                    </div>
-                </div>
-
-                <div class="col-12 d-flex justify-content-end" style="display: block;">
-                    <div class="btn-group" style="float: right;">
-                        <button type="button" class="btn btn-danger btn-sm  rounded-pill" placement="bottom"
-                            ngbTooltip="Borrar" (click)="deleteContract()">
-                            <i class="fas fa-trash-alt"></i>
-                        </button>
-                        <button type="button" class="btn btn-info btn-sm  rounded-pill" placement="bottom"
-                            ngbTooltip="Agregar" (click)="newContract()"><i class="fas fa-plus"></i>
-                        </button>
-                    </div>
-                </div>
-
-                <ng-container *ngIf="contractList.controls.length">
-                    <ng-container *ngFor="let item of contractList.controls; let c = index">
-                        <div class="card-body border my-2 " style="padding-bottom: 0px" formArrayName="contract">
-                            <div class="row" style="margin-bottom: 0; padding-bottom: 0px;" [formGroupName]="c">
-
-                                <div class="col-md-3">
-                                    <div class="form-group">
-                                        <label>Mi Empresa</label>
-                                        <ng-select [items]="companies" bindLabel="text" bindValue="value"
-                                            placeholder="Seleccione" name="company_id" loadingText="loading"
-                                            formControlName="company_id">
-                                        </ng-select>
-
-                                    </div>
-                                    <app-show-errors class="text-danger" [ctrl]="item.get('company_id')">
-                                    </app-show-errors>
-                                </div>
-
-                                <div class="col-md-2">
-                                    <label>Agenda</label>
-                                    <ng-select [items]="type_appointments" multiple="true" required bindLabel="text"
-                                        bindValue="value" placeholder="Seleccione " name="type_agenda_id"
-                                        loadingText="loading" formControlName="type_agenda_id">
-                                    </ng-select>
-                                    <app-show-errors class="text-danger" [ctrl]="item.get('type_agenda_id')">
-                                    </app-show-errors>
-                                </div>
-
-                                <div class="col-md-2">
-                                    <div class="form-group">
-                                        <label>Regimen</label>
-                                        <ng-select [items]="regimes" multiple="true" required bindLabel="text"
-                                            bindValue="value" placeholder="Seleccione " name="regimen_id"
-                                            loadingText="loading" formControlName="regimen_id">
-                                        </ng-select>
-                                    </div>
-                                    <app-show-errors class="text-danger" [ctrl]="item.get('regimen_id')">
-                                    </app-show-errors>
-                                </div>
-
-                                <div class="col-md-5">
-                                    <div class="form-group">
-                                        <label>Otras Empresas</label>
-                                        <ng-select [items]="allcompanies" [multiple]="true" bindLabel="text"
-                                            [hideSelected]="true" [loading]="false" appearance="underline"
-                                            [virtualScroll]="true" groupBy="tipo" [selectableGroup]="true"
-                                            [selectableGroupAsModel]="false" dropdownPosition="bottom"
-                                            [closeOnSelect]="false" bindValue="value" placeholder="Seleccione"
-                                            name="companies_id" loadingText="loading" formControlName="companies_id">
-                                        </ng-select>
-                                    </div>
-                                    <app-show-errors class="text-danger" [ctrl]="item.get('companies_id')">
-                                    </app-show-errors>
-                                </div>
-
-                                <div class="col-md-12">
-                                    <label>Contracto</label>
-                                    <ng-select [items]="item.get('contracts').value" [multiple]="true" required
-                                        bindLabel="text" bindValue="value" placeholder="Seleccione " name="contract_id"
-                                        loadingText="loading" formControlName="contract_id">
-                                    </ng-select>
-                                    <app-show-errors class="text-danger" [ctrl]="item.get('company_id')">
-                                    </app-show-errors>
-                                </div>
-
-
-                            </div>
-                        </div>
-                    </ng-container>
-                </ng-container>
-
-            </div>
-        </form>
-
-    </div>
-
-    <div class="text-right  px-3">
-        <button type="submit" (click)="guardar()" class="btn btn-success btn-sm"
-            class="btn btn-primary btn-block btn-sm">Guardar Profesional</button>
-    </div>
-</div>

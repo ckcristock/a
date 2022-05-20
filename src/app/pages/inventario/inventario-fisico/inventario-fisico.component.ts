@@ -11,7 +11,9 @@ import { ModaldataInitComponent } from './modaldata-init/modaldata-init.componen
 import { environment } from 'src/environments/environment';
 import { ModalformComponent } from './modalform/modalform.component';
 import { UserService } from 'src/app/core/services/user.service';
-
+import { MatAccordion } from '@angular/material';
+import { DatePipe } from '@angular/common';
+import { DateAdapter } from 'saturn-datepicker';
 
 @Component({
   selector: 'app-inventario-fisico',
@@ -20,6 +22,18 @@ import { UserService } from 'src/app/core/services/user.service';
 })
 export class InventarioFisicoComponent implements OnInit {
   @ViewChild('actualizaSwal') private actualizaSwal: SwalComponent;
+  @ViewChild(MatAccordion) accordion: MatAccordion;
+  matPanel = false;
+  openClose(){
+    if (this.matPanel == false){
+      this.accordion.openAll()
+      this.matPanel = true;
+    } else {
+      this.accordion.closeAll()
+      this.matPanel = false;
+    }    
+  }
+  datePipe = new DatePipe('es-CO');
   public FiltrosTabla: any = {
     Fechas: '',
     Bodega: '',
@@ -67,10 +81,11 @@ export class InventarioFisicoComponent implements OnInit {
     private inventariofisico: InventariofisicoService,
     private modalService: NgbModal,
     private _bodega: BodeganuevoService,
-    private _grupoEstiba: GrupoestibaService
+    private _grupoEstiba: GrupoestibaService,
+    private dateAdapter: DateAdapter<any>
   ) {
     this.company_id = this._user.user.person.company_worked.id;
-
+    this.dateAdapter.setLocale('es');
   }
 
   ngOnInit() {
@@ -176,6 +191,15 @@ export class InventarioFisicoComponent implements OnInit {
     }
     this.ConsultaFiltrada();
   }
+
+  selectedDate(fecha) {
+    this.FiltrosTabla.Fechas =
+      this.datePipe.transform(fecha.value.begin._d, 'yyyy-MM-dd') +
+      ' - ' +
+      this.datePipe.transform(fecha.value.end._d, 'yyyy-MM-dd');
+      this.ConsultaFiltrada();
+  }
+  date: { year: number; month: number };
 
   iniciar_inventario_fisico() {
     const modalRef = this.modalService.open(ModalformComponent);

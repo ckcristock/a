@@ -1,4 +1,10 @@
-import { Component, EventEmitter, OnInit, Output, ViewChild } from '@angular/core';
+import {
+  Component,
+  EventEmitter,
+  OnInit,
+  Output,
+  ViewChild,
+} from '@angular/core';
 import { FormArray, FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
 import { NgSelectConfig } from '@ng-select/ng-select';
@@ -14,22 +20,29 @@ import { PersonService } from '../person.service';
 @Component({
   selector: 'app-modal',
   templateUrl: './modal.component.html',
-  styleUrls: ['./modal.component.scss']
+  styleUrls: ['./modal.component.scss'],
 })
 export class ModalComponent implements OnInit {
-
-  fileAvatar: string | ArrayBuffer = 'https://ui-avatars.com/api/?background=0D8ABC&color=fff&size=100';
-  fileSgnature: string | ArrayBuffer = 'https://ui-avatars.com/api/?background=0D8ABC&color=fff&size=100&name=S';
+  searchEspecialidades:any
+  searchDepartamento:any
+  searchMunicipio:any
+  searchMiempresa:any
+  searchOtras:any
+  searchContrato:any
+  fileAvatar: string | ArrayBuffer =
+    'https://ui-avatars.com/api/?background=0D8ABC&color=fff&size=100';
+  fileSgnature: string | ArrayBuffer =
+    'https://ui-avatars.com/api/?background=0D8ABC&color=fff&size=100&name=S';
 
   file: any = '';
   forma: FormGroup;
   public regimes: Array<object> = [];
   public tempContracts: Array<object> = [];
   public tempContracts2: Array<object> = [];
-  public type_appointments = []
+  public type_appointments = [];
   public contracts: Array<object> = [];
-  public appointmentId: Number
-  public firma: string
+  public appointmentId: Number;
+  public firma: string;
 
   constructor(
     private _dataDinamic: DataDinamicService,
@@ -41,18 +54,15 @@ export class ModalComponent implements OnInit {
     private _openAgendaService: OpenAgendaService,
     private router: Router,
     private config: NgSelectConfig
-
   ) {
-
     this.config.notFoundText = 'Custom not found';
     this.config.appendTo = 'body';
-    this.config.loadingText = 'Loading...'
+    this.config.loadingText = 'Loading...';
     this.config.bindValue = 'value';
-
   }
 
   ngOnInit(): void {
-    this.person = new Person;
+    this.person = new Person();
     this.getData();
     this.buildForm();
     if (this._person.id) {
@@ -60,12 +70,12 @@ export class ModalComponent implements OnInit {
     }
   }
 
-  @ViewChild('newModal') newModal
+  @ViewChild('newModal') newModal;
 
   public person: Person;
-  companies: any = []
-  allcompanies: any = []
-  specialities: any = []
+  companies: any = [];
+  allcompanies: any = [];
+  specialities: any = [];
   peopleTypes: any = [];
   specialties: any = [];
   cities: any = [];
@@ -73,7 +83,7 @@ export class ModalComponent implements OnInit {
   municipalities: any = [];
   locations: any = [];
 
-  typesDocuments: Array<any> = []
+  typesDocuments: Array<any> = [];
 
   civilStates: Array<any> = [
     { name: 'Seleccione', value: '' },
@@ -82,11 +92,10 @@ export class ModalComponent implements OnInit {
     { name: 'Viudo(a)', value: 'Viudo(a)' },
     { name: 'Divorciado(a)', value: 'Divorciado(a)' },
     { name: 'Union Libre', value: 'Union Libre' },
-  ]
+  ];
 
   @Output()
   dataChange: EventEmitter<any> = new EventEmitter<any>();
-
 
   buildForm(): void {
     this.forma = this.fb.group({
@@ -110,7 +119,7 @@ export class ModalComponent implements OnInit {
       image_blob: ['', this._valReactive.required],
       signature_blob: ['', this._valReactive.required],
       contract: this.fb.array([], Validators.required),
-      id: []
+      id: [],
     });
   }
 
@@ -118,20 +127,22 @@ export class ModalComponent implements OnInit {
     if (!this._person.id) {
       console.log('No existe id');
     } else {
-      await this._person.getProfessional(this._person.id).toPromise().then((req: any) => {
-        this.person = Object.assign({}, req.data)
-        this.getCities()
-        this.person.specialities = this.transformData(req.data.specialities)
-        this.person.companies = this.transformData(req.data.companies)
-        let restrictions = req.data.restriction;
-        restrictions.forEach(element => {
-          this.newContractUpdate(element)
+      await this._person
+        .getProfessional(this._person.id)
+        .toPromise()
+        .then((req: any) => {
+          this.person = Object.assign({}, req.data);
+          this.getCities();
+          this.person.specialities = this.transformData(req.data.specialities);
+          this.person.companies = this.transformData(req.data.companies);
+          let restrictions = req.data.restriction;
+          restrictions.forEach((element) => {
+            this.newContractUpdate(element);
+          });
+          this.forma.patchValue({ id: this._person.id });
         });
-        this.forma.patchValue({ id: this._person.id })
-
-      })
     }
-  }
+  };
 
   getData = () => {
     this.getDepartments();
@@ -144,13 +155,12 @@ export class ModalComponent implements OnInit {
     this.getRegimes();
     this.getTypeAppointment();
     this.getEpsContracts();
-  }
+  };
 
   getRegimes() {
     this._dataDinamic.getRegimens().subscribe((req: any) => {
-      this.regimes = req.data
-      this.regimes.unshift({ text: 'Seleccione', value: '' })
-    })
+      this.regimes = req.data;
+    });
   }
 
   getTypeAppointment() {
@@ -168,29 +178,28 @@ export class ModalComponent implements OnInit {
   toSave = () => {
     const datas = new FormData();
     this._person.storePeople(this.forma.value).subscribe((res: any) => {
-      this.dataChange.emit('')
+      this.dataChange.emit('');
       this.successfull(res.code);
-      this.router.navigate(['/ajustes/informacion-base/professionals'])
-
+      this.router.navigate(['/ajustes/informacion-base/professionals']);
     });
-  }
+  };
 
   toEdit = () => {
     const datas = new FormData();
     this._person.storePeople(this.forma.value).subscribe((res: any) => {
-      this.dataChange.emit('')
+      this.dataChange.emit('');
       this.successfull(res.code);
-      this.router.navigate(['/ajustes/informacion-base/professionals'])
+      this.router.navigate(['/ajustes/informacion-base/professionals']);
     });
-  }
+  };
 
   showFormCreate() {
-    this.router.navigate(['/ajustes/informacion-base/professionals'])
+    this.router.navigate(['/ajustes/informacion-base/professionals']);
   }
 
   successfull(code) {
     if (code == 200) {
-      this.hide()
+      this.hide();
       this._swal.show({
         title: 'Operación exitosa',
         text: 'Guardado Correctamente',
@@ -201,13 +210,12 @@ export class ModalComponent implements OnInit {
   }
 
   hide = () => {
-    this.person = new Person;
-    this.forma.reset()
+    this.person = new Person();
+    this.forma.reset();
     // this.newModal.hide()
-  }
+  };
 
   guardar = () => {
-
     console.log(this.forma.value);
     this.forma.markAllAsTouched();
     if (this.forma.invalid) return false;
@@ -226,68 +234,72 @@ export class ModalComponent implements OnInit {
           }
         }
       });
-  }
+  };
 
   getContracts = async () => {
-
-    await this._dataDinamic.getContracts().toPromise().then((req: any) => {
-      this.contracts = this.tempContracts = req.data;
-      this.contracts.unshift({ text: 'Seleccione', value: '' })
-    })
-
-  }
+    await this._dataDinamic
+      .getContracts()
+      .toPromise()
+      .then((req: any) => {
+        this.contracts = this.tempContracts = req.data;
+        this.contracts.unshift({ text: 'Seleccione', value: '' });
+      });
+  };
 
   getCities = () => {
     if (this.person.department_id) {
-      this._dataDinamic.getCities({ department_id: this.person.department_id }).subscribe((req: any) => {
-        this.cities = req.data
-        this.cities.unshift({ text: 'Seleccione', value: '' })
-      })
+      this._dataDinamic
+        .getCities({ department_id: this.person.department_id })
+        .subscribe((req: any) => {
+          this.cities = req.data;
+          this.cities.unshift({ text: 'Seleccione', value: '' });
+        });
     }
-  }
+  };
 
   getDepartments = async () => {
-    await this._dataDinamic.getDepartments().toPromise().then((req: any) => {
-      this.departments = req.data
-      this.departments.unshift({ text: 'Seleccione', value: '' })
-    })
-  }
+    await this._dataDinamic
+      .getDepartments()
+      .toPromise()
+      .then((req: any) => {
+        this.departments = req.data;
+        this.departments.unshift({ text: 'Seleccione', value: '' });
+      });
+  };
 
   getPeopleTypes = () => {
     this._dataDinamic.getPeopleTypes().subscribe((req: any) => {
-      this.peopleTypes = req.data
-      this.peopleTypes.unshift({ text: 'Seleccione', value: '' })
-    })
-  }
+      this.peopleTypes = req.data;
+      this.peopleTypes.unshift({ text: 'Seleccione', value: '' });
+    });
+  };
 
   getCompanies = () => {
     this._dataDinamic.getCompanies(1).subscribe((req: any) => {
-      this.companies = req.data
-    })
-  }
+      this.companies = req.data;
+    });
+  };
 
   getAllCompanies = () => {
     this._dataDinamic.getCompanies(3).subscribe((req: any) => {
-      this.allcompanies = req.data
-    })
-  }
-
+      this.allcompanies = req.data;
+    });
+  };
   getSpecialties = () => {
     this._dataDinamic.getSpecialties('', '').subscribe((resp: any) => {
       this.specialities = resp.data;
     });
-  }
+  };
 
   getTypeDocuments = () => {
     this._dataDinamic.getTypeDocuments().subscribe((resp: any) => {
       this.typesDocuments = resp.data;
-      this.typesDocuments.unshift({ text: 'Seleccione', value: '' })
+      this.typesDocuments.unshift({ text: 'Seleccione', value: '' });
     });
-  }
+  };
 
   onFileChanged(event, field, $model = '') {
-
-    this.setNameFile(event, $model)
+    this.setNameFile(event, $model);
 
     if (event.target.files[0]) {
       let file = event.target.files[0];
@@ -298,20 +310,20 @@ export class ModalComponent implements OnInit {
           case 'signature_blob':
             this.fileSgnature = (<FileReader>event.target).result;
             this.forma.patchValue({
-              signature_blob: (<FileReader>event.target).result
+              signature_blob: (<FileReader>event.target).result,
             });
             break;
 
           case 'image_blob':
             this.fileAvatar = (<FileReader>event.target).result;
             this.forma.patchValue({
-              image_blob: (<FileReader>event.target).result
+              image_blob: (<FileReader>event.target).result,
             });
             break;
         }
       };
       functionsUtils.fileToBase64(file).subscribe((base64) => {
-        this.file = base64
+        this.file = base64;
       });
     }
   }
@@ -341,107 +353,120 @@ export class ModalComponent implements OnInit {
   }
 
   createContractGroup(fb: FormBuilder) {
-    let group = fb.group(
-      {
-        regimen_id: ['', Validators.required],
-        company_id: ['', Validators.required],
-        companies_id: ['', Validators.required],
-        type_agenda_id: [, Validators.required],
-        contract_id: [, Validators.required],
-        contracts: [[]],
-      });
+    let group = fb.group({
+      regimen_id: ['', Validators.required],
+      company_id: ['', Validators.required],
+      companies_id: ['', Validators.required],
+      type_agenda_id: [, Validators.required],
+      contract_id: [, Validators.required],
+      contracts: [[]],
+    });
 
     group.get('company_id').valueChanges.subscribe((value) => {
       let tem = this.tempContracts.filter((element: any) => {
-
         if (group.get('companies_id').value && group.get('regimen_id').value) {
-          return ((value == element.company_id) || (group.get('companies_id').value.includes(element.company_id))) && (group.get('regimen_id').value.includes(element.regimen_id))
+          return (
+            (value == element.company_id ||
+              group.get('companies_id').value.includes(element.company_id)) &&
+            group.get('regimen_id').value.includes(element.regimen_id)
+          );
         }
-
-      })
-      group.get('contracts').setValue(tem)
-    })
+      });
+      group.get('contracts').setValue(tem);
+    });
 
     group.get('regimen_id').valueChanges.subscribe((value) => {
-
       let tem = this.tempContracts.filter((element: any) => {
         if (group.get('companies_id').value && group.get('regimen_id').value) {
-          return ((group.get('company_id').value == element.company_id) || (group.get('companies_id').value.includes(element.company_id))) && (value.includes(element.regimen_id))
+          return (
+            (group.get('company_id').value == element.company_id ||
+              group.get('companies_id').value.includes(element.company_id)) &&
+            value.includes(element.regimen_id)
+          );
         }
-      })
-      group.get('contracts').setValue(tem)
-
-    })
+      });
+      group.get('contracts').setValue(tem);
+    });
 
     group.get('companies_id').valueChanges.subscribe((value) => {
-
       let tem = this.tempContracts.filter((element: any) => {
         if (group.get('companies_id').value && group.get('regimen_id').value) {
-          return ((group.get('companies_id').value == element.company_id) || (value.includes(element.company_id))) && (group.get('regimen_id').value.includes(element.regimen_id))
+          return (
+            (group.get('companies_id').value == element.company_id ||
+              value.includes(element.company_id)) &&
+            group.get('regimen_id').value.includes(element.regimen_id)
+          );
         }
-      })
-      group.get('contracts').setValue(tem)
-
-    })
-
+      });
+      group.get('contracts').setValue(tem);
+    });
 
     return group;
   }
 
   createContractGroupUpdate(fb: FormBuilder, data) {
-
-    let group = fb.group(
-      {
-        company_id: [null, Validators.required],
-        regimen_id: [null, Validators.required],
-        companies_id: [null, Validators.required],
-        type_agenda_id: [null, Validators.required],
-        contract_id: [null, Validators.required],
-        contracts: [[]],
-      });
+    let group = fb.group({
+      company_id: [null, Validators.required],
+      regimen_id: [null, Validators.required],
+      companies_id: [null, Validators.required],
+      type_agenda_id: [null, Validators.required],
+      contract_id: [null, Validators.required],
+      contracts: [[]],
+    });
 
     // TODO: refactor this
 
+    group.get('company_id').valueChanges.subscribe((value) => {
+      let tem = this.tempContracts.filter((element: any) => {
+        if (group.get('companies_id').value && group.get('regimen_id').value) {
+          return (
+            (value == element.company_id ||
+              group.get('companies_id').value.includes(element.company_id)) &&
+            group.get('regimen_id').value.includes(element.regimen_id)
+          );
+        }
+      });
+      group.get('contracts').setValue(tem);
+    });
 
     group.get('company_id').valueChanges.subscribe((value) => {
       let tem = this.tempContracts.filter((element: any) => {
         if (group.get('companies_id').value && group.get('regimen_id').value) {
-          return ((value == element.company_id) || (group.get('companies_id').value.includes(element.company_id))) && (group.get('regimen_id').value.includes(element.regimen_id))
+          return (
+            (value == element.company_id ||
+              group.get('companies_id').value.includes(element.company_id)) &&
+            group.get('regimen_id').value.includes(element.regimen_id)
+          );
         }
-      })
-      group.get('contracts').setValue(tem)
-    })
-
-    group.get('company_id').valueChanges.subscribe((value) => {
-      let tem = this.tempContracts.filter((element: any) => {
-        if (group.get('companies_id').value && group.get('regimen_id').value) {
-          return ((value == element.company_id) || (group.get('companies_id').value.includes(element.company_id))) && (group.get('regimen_id').value.includes(element.regimen_id))
-        }
-
-      })
-      group.get('contracts').setValue(tem)
-    })
+      });
+      group.get('contracts').setValue(tem);
+    });
 
     group.get('regimen_id').valueChanges.subscribe((value) => {
       let tem = this.tempContracts.filter((element: any) => {
         if (group.get('companies_id').value && group.get('regimen_id').value) {
-          return ((group.get('company_id').value == element.company_id) || (group.get('companies_id').value.includes(element.company_id))) && (value.includes(element.regimen_id))
+          return (
+            (group.get('company_id').value == element.company_id ||
+              group.get('companies_id').value.includes(element.company_id)) &&
+            value.includes(element.regimen_id)
+          );
         }
-      })
-      group.get('contracts').setValue(tem)
-
-    })
+      });
+      group.get('contracts').setValue(tem);
+    });
 
     group.get('companies_id').valueChanges.subscribe((value) => {
       let tem = this.tempContracts.filter((element: any) => {
         if (group.get('companies_id').value && group.get('regimen_id').value) {
-          return ((group.get('companies_id').value == element.company_id) || (value.includes(element.company_id))) && (group.get('regimen_id').value.includes(element.regimen_id))
+          return (
+            (group.get('companies_id').value == element.company_id ||
+              value.includes(element.company_id)) &&
+            group.get('regimen_id').value.includes(element.regimen_id)
+          );
         }
-      })
-      group.get('contracts').setValue(tem)
-
-    })
-
+      });
+      group.get('contracts').setValue(tem);
+    });
 
     group.patchValue({
       company_id: data.company.id,
@@ -449,7 +474,7 @@ export class ModalComponent implements OnInit {
       companies_id: this.transformData(data.companies),
       type_agenda_id: this.transformData(data.typeappointments),
       contract_id: this.transformData(data.contracts),
-    })
+    });
     return group;
   }
 
@@ -457,11 +482,11 @@ export class ModalComponent implements OnInit {
     return this.forma.get('contract') as FormArray;
   }
 
-  transformData = (array: Array<object>): any => array.map(({ ...obj }) => obj['id'])
+  transformData = (array: Array<object>): any =>
+    array.map(({ ...obj }) => obj['id']);
 
   setNameFile(event, $model) {
-    const { name: name, size } = event.target.files[0]
-    this[$model] = name
+    const { name: name, size } = event.target.files[0];
+    this[$model] = name;
   }
-
 }

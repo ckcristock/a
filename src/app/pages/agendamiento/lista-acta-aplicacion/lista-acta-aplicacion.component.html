@@ -1,155 +1,140 @@
-<div class="row">
-  <div class="col-12">
-    <div class="card">
-      <div class="card-body">
-        <div class="row p-0">
-          <div class="col-md-3 my-2">
-            <label>Paciente</label>
-            <input
-              type="text"
-              class="form-control form-control-sm"
-              [(ngModel)]="filters.patient"
-              placeholder="Cedula Paciente "
-              name="patient"
-            />
-          </div>
-          <div class="col-md-3 my-2">
-            <label>Fecha</label>
-            <input
-              type="date"
-              class="form-control form-control-sm date"
-              [(ngModel)]="filters.date"
-              [placeholder]=""
-              name="date"
-            />
-          </div>
-
-          <div class="col-md-3 mt-2">
-            <div class="form-group">
-              <label class="custom-label">Estado</label>
-
-              <select
-                style="height: 30px"
-                name="state"
-                id="state"
-                class="form-control form-control-sm"
-                [(ngModel)]="filters.state"
-                required
-              >
-                <option value="" disabled selected>Seleccionar</option>
-                <option value="">Todos</option>
-                <option value="Activas">Activas</option>
-                <option value="Anulada">Anuladas</option>
-              </select>
-            </div>
-          </div>
-
-          <div class="col-md-12">
-            <button
-              class="btn btn-primary btn-sm btn-block"
-              (click)="filtersCertificates()"
-            >
-              <i class="fa fa-search"></i>Buscar
-            </button>
-          </div>
-        </div>
+<div class="card">
+  <div class="card-body">
+    <div class="card-title d-flex justify-content-between">
+      <h4 class="text-primary">Lista de Actas</h4>
+      <div class="btn-group rounded">
+        <button
+          class="btn btn-primary btn-sm"
+          routerLink="/agendamiento/actaaplicacion"
+        >
+          <i class="fa fa-plus"></i> Agregar
+        </button>
+        <button
+          class="btn btn-info btn-sm"
+          style="float: right"
+          (click)="openClose()"
+        >
+          <i class="fas fa-sliders-h"></i> Filtros
+        </button>
       </div>
     </div>
-  </div>
-</div>
+    <hr class="line" />
+    <mat-accordion multi>
+      <mat-expansion-panel class="mat-elevation-z0">
+        <mat-form-field class="col-md-3 pl-0" appearance="outline">
+          <mat-label>Documento</mat-label>
+          <input
+            matInput
+            type="text"
+            placeholder="Busca por documento"
+            [(ngModel)]="filters.patient"
+            name="patient"
+            autocomplete="off"
+          />
+        </mat-form-field>
+        <mat-form-field class="col-md-3 pl-0" appearance="outline">
+          <mat-label>Fecha</mat-label>
+          <input
+            matInput
+            type="date"
+            placeholder="Busca por documento"
+            [(ngModel)]="filters.date"
+            name="date"
+            autocomplete="off"
+          />
+        </mat-form-field>
+        <mat-form-field class="col-md-3 pl-0" appearance="outline">
+          <mat-label>Estado</mat-label>
+          <mat-select
+            [(ngModel)]="filters.state"
+            required
+            name="state"
+            id="state"
+          >
+            <mat-option value="">Todos</mat-option>
+            <mat-option value="Activas">Activas</mat-option>
+            <mat-option value="Anuladas">Anuladas</mat-option>
+          </mat-select>
+        </mat-form-field>
+        <button
+          class="btn btn-primary btn-block mb-4"
+          (click)="filtersCertificates()"
+        >
+          <i class="fa fa-search"></i>Buscar
+        </button>
+      </mat-expansion-panel>
+    </mat-accordion>
+    <table
+      class="table table-bordered table-striped table-sm table-responsive-sm"
+      style="font-size: small"
+      *ngIf="listaActas.length && !loading; else notData"
+    >
+      <thead>
+        <tr class="text-center text-uppercase">
+          <th>Fecha</th>
+          <th>Paciente</th>
+          <th>Funcionario</th>
+          <th>Cups</th>
+          <th>Diagnostico</th>
+          <th>Observacion</th>
+          <th>Estado</th>
+          <th>Acciones</th>
+        </tr>
+      </thead>
+      <tbody>
+        <ng-container>
+          <tr class="text-center" *ngFor="let item of listaActas">
+            <td>{{ item.date | date: "dd/MM/yyyy" }}</td>
+            <td>{{ item.Paciente }}</td>
+            <td>{{ item.Funcionario }}</td>
+            <td>{{ item.Cup }}</td>
+            <td>{{ item.diagnostic }}</td>
+            <td>{{ item.observation }}</td>
+            <td>{{ item.state }}</td>
+            <td class="text-center">
+              <div class="btn-group" role="group" ngbDropdown>
+                <button
+                  id="btnGroupVerticalDrop1 "
+                  type="button"
+                  class="btn btn-primary btn-sm dropdown-toggle"
+                  ngbDropdownToggle
+                >
+                  <i class="mdi mdi-chevron-down"></i>
+                </button>
+                <div
+                  style="cursor: pointer"
+                  class="dropdown-menu font-weight-bolder"
+                  aria-labelledby="btnGroupVerticalDrop1 "
+                  ngbDropdownMenu
+                >
+                  <a class="dropdown-item" (click)="detailCertificates()">
+                    <i class="fa fa-check mr-2"></i> Detalles
+                  </a>
 
-<div class="row">
-  <div class="col-md-12 col-sm-12">
-    <div class="row">
-      <div class="col-sm-12">
-        <div class="card">
-          <div class="card-body p-0">
-            <!--
-            <div class="row" *ngIf="!loading && listaActas.length > 0; else notData">
-           -->
-            <div class="row">
-              <div class="col-sm-12">
-                <table class="table table-hover table-bordered small">
-                  <thead class="thead-dark">
-                    <tr class="text-center text-uppercase">
-                      <th>Fecha</th>
-                      <th>Paciente</th>
-                      <th>Funcionario</th>
-                      <th>Cups</th>
-                      <th>Diagnostico</th>
-                      <th>Observacion</th>
-                      <th>Estado</th>
-                      <th></th>
-                    </tr>
-                  </thead>
-                  <tbody>
-                    <ng-container
-                      *ngIf="listaActas.length && !loading; else notData"
-                    >
-                      <tr class="text-center" *ngFor="let item of listaActas">
-                        <td>{{ item.date | date: "dd/MM/yyyy" }}</td>
-                        <td>{{ item.Paciente }}</td>
-                        <td>{{ item.Funcionario }}</td>
-                        <td>{{ item.Cup }}</td>
-                        <td>{{ item.diagnostic }}</td>
-                        <td>{{ item.observation }}</td>
-                        <td>{{ item.state }}</td>
-                        <td class="text-center">
-                          <div class="btn-group" role="group" ngbDropdown>
-                            <button
-                              id="btnGroupVerticalDrop1 "
-                              type="button"
-                              class="btn btn-primary btn-sm dropdown-toggle"
-                              ngbDropdownToggle
-                            >
-                              <i class="mdi mdi-chevron-down"></i>
-                            </button>
-                            <div
-                              style="cursor: pointer"
-                              class="dropdown-menu font-weight-bolder"
-                              aria-labelledby="btnGroupVerticalDrop1 "
-                              ngbDropdownMenu
-                            >
-                              <a
-                                class="dropdown-item"
-                                (click)="detailCertificates()"
-                              >
-                                <i class="fa fa-check mr-2"></i> Detalles
-                              </a>
-
-                              <a
-                                *ngIf="item.state != 'Anulada'"
-                                class="dropdown-item"
-                                (click)="cancelCertificates(item.id)"
-                              >
-                                <i class="fa fa-ban mr-2"></i> Anular
-                              </a>
-                            </div>
-                          </div>
-                        </td>
-                      </tr>
-                    </ng-container>
-                  </tbody>
-                </table>
-              </div>
-              <div class="col-sm-12">
-                <div class="text-md-center pagination-rounded">
-                  <ngb-pagination
-                    maxSize="5"
-                    [collectionSize]="pagination.collectionSize"
-                    (pageChange)="getCetificates($event)"
-                    [pageSize]="pagination.pageSize"
-                    [(page)]="pagination.page"
-                    aria-label="Default pagination "
+                  <a
+                    *ngIf="item.state != 'Anulada'"
+                    class="dropdown-item"
+                    (click)="cancelCertificates(item.id)"
                   >
-                  </ngb-pagination>
+                    <i class="fa fa-ban mr-2"></i> Anular
+                  </a>
                 </div>
               </div>
-            </div>
-          </div>
-        </div>
-      </div>
-    </div>
+            </td>
+          </tr>
+        </ng-container>
+      </tbody>
+    </table>
+    <ngb-pagination
+      class="d-flex justify-content-center pagination-rounded pagination-sm"
+      maxSize="5"
+      [collectionSize]="pagination.collectionSize"
+      (pageChange)="getCetificates($event)"
+      [pageSize]="pagination.pageSize"
+      [(page)]="pagination.page"
+      aria-label="Default pagination "
+    >
+    </ngb-pagination>
   </div>
 </div>
 
@@ -214,9 +199,5 @@
 </app-modal-basic>
 
 <ng-template #notData>
-  <tr>
-    <td colspan="100%">
-      <app-not-data [loading]="loading"></app-not-data>
-    </td>
-  </tr>
+  <app-not-data [loading]="loading"></app-not-data>
 </ng-template>

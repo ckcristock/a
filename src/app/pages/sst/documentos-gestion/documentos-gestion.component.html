@@ -1,4 +1,31 @@
 <!-- <ejs-filemanager id='file-manager' [ajaxSettings]='ajaxSettings' [view]='view'>
 </ejs-filemanager> -->
+<!-- <ul ngbNav #nav="ngbNav" [(activeId)]="active" class="nav nav-pills nav-justified border border-primary rounded">
+    <li [ngbNavItem]="1">
+      <a ngbNavLink>Archivos</a>
+      <ng-template ngbNavContent>
+        <iframe [src]="url | safe" style="width:100%;border:0;" height="400" scrolling="no"></iframe>
+      </ng-template>
+    </li>
+    <li [ngbNavItem]="2">
+      <a ngbNavLink>Archivos 2</a>
+      <ng-template ngbNavContent>
+        <ejs-filemanager id='file-manager' [ajaxSettings]='ajaxSettings' [view]='view'>
+        </ejs-filemanager>
+      </ng-template>
+    </li>
+    <li [ngbNavItem]="3">
+      <a ngbNavLink>Archivos 3</a>
+      <ng-template ngbNavContent>
+        <iframe [src]="ruta3 | safe: 'resourceUrl'" style="width:100%;border:0" height="1000" allow="fullscreen"></iframe>
+      </ng-template>
+    </li>
+</ul>
+<div [ngbNavOutlet]="nav"></div> -->
 
-<iframe [src]="url | safe" style="width:100%;border:0;" height="400" scrolling="no"></iframe>
+
+<iframe
+    [src]="ruta3 | safe"
+    style="width: 100%; height: 100vh; border: 0"
+    scrolling="yes"
+  ></iframe>

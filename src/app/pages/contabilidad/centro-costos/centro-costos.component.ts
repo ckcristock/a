@@ -8,6 +8,7 @@ import { ActivatedRoute } from '@angular/router';
 import { environment } from '../../../../environments/environment';
 import Swal from 'sweetalert2';
 import { UserService } from 'src/app/core/services/user.service';
+import { MatAccordion } from '@angular/material';
 
 @Component({
   selector: 'app-centro-costos',
@@ -18,6 +19,20 @@ export class CentroCostosComponent implements OnInit {
   @ViewChild('modalCentroCosto') modalCentroCosto: any;
   @ViewChild('modalVerCentroCosto') modalVerCentroCosto: any;
   @ViewChild('alertSwal') alertSwal: any;
+  @ViewChild(MatAccordion) accordion: MatAccordion;
+  matPanel = false;
+  openClose(){
+    if (this.matPanel == false){
+      this.accordion.openAll()
+      this.matPanel = true;
+    } else {
+      this.accordion.closeAll()
+      this.matPanel = false;
+    }    
+  }
+  openInNewTab() {
+    window.open(this.enviromen.ruta + 'php/centroscostos/exportar.php', '_blank').focus();
+  }
   enviromen:any;
   public Cargando: boolean=false;
   public Costos:any = [];
