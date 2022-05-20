@@ -71,7 +71,7 @@ import { MatSelectModule } from '@angular/material/select';
         MatInputModule,
         MatSelectModule,
         SweetAlert2Module.forRoot()
-    ]
+    ],
 })
 
 export class TiposModule { }

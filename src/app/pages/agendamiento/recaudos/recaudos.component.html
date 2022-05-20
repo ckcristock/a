@@ -1,111 +1,150 @@
 <div class="row">
-    <div class="col-6">
-        <div class="card">
-            <div class="card-body">
-                <div class="row p-0">
-                    <div class="col-md-5 my-2">
-                        <label>Paciente</label>
-                        <input type="text" class="form-control form-control-sm" [(ngModel)]="filters.patient"
-                            placeholder="Cedula Paciente " name="patient" />
-                    </div>
-                    <div class="col-md-5 my-2">
-                        <label>Fecha</label>
-                        <input type="date" class="form-control form-control-sm date" [(ngModel)]="filters.date"
-                            [placeholder]="" name="date">
-                    </div>
-
-                    <div class="col-md-2 my-2">
-                        <label>&nbsp;</label>
-                        <button class="btn btn-primary btn-sm btn-block" (click)="searchPatient()"><i
-                                class="fa fa-search"></i></button>
-                    </div>
-
-                </div>
+  <div class="col-6">
+    <div class="card">
+      <div class="card-body">
+        <div class="row">
+            <mat-form-field class="col-md-5" appearance="outline">
+              <mat-label>Número de documento</mat-label>
+              <input
+                matInput
+                type="text"
+                placeholder="Busca por documento"
+                [(ngModel)]="filters.patient"
+                name="patient"
+                autocomplete="off"
+              />
+            </mat-form-field>
+            <mat-form-field class="col-md-5" appearance="outline">
+              <mat-label>Fecha</mat-label>
+              <input
+                matInput
+                type="date"
+                [(ngModel)]="filters.date"
+                name="date"
+                autocomplete="off"
+              />
+            </mat-form-field>
+            <div class="col-1 py-2">
+                <button mat-icon-button color="primary" (click)="searchPatient()">
+                  <mat-icon aria-label="Example icon-button with a heart icon"
+                    >search</mat-icon
+                  >
+                </button>
             </div>
-        </div>
+        </div>        
+      </div>
     </div>
-    <div class="col-2">
-        <app-stats [title]="'Pacientes Confirmados'" [value]="appointmentConfirm" [icon]="'fas fa-user-friends'">
-        </app-stats>
-    </div>
-    <div class="col-2">
-        <app-stats [title]="'Pacientes Recaudados'" [value]="appointmentCollection" [icon]="'fas fa-user-check'">
-        </app-stats>
-    </div>
-    <div class="col-2">
-        <app-stats [title]="'Valor Recaudado'" [value]="appointmentCollectionAll" [icon]="'fas fa-money-bill-wave'">
-        </app-stats>
-    </div>
+  </div>
+  <div class="col-2">
+    <app-stats
+      [title]="'Pacientes Confirmados'"
+      [value]="appointmentConfirm"
+      [icon]="'fas fa-user-friends'"
+    >
+    </app-stats>
+  </div>
+  <div class="col-2">
+    <app-stats
+      [title]="'Pacientes Recaudados'"
+      [value]="appointmentCollection"
+      [icon]="'fas fa-user-check'"
+    >
+    </app-stats>
+  </div>
+  <div class="col-2">
+    <app-stats
+      [title]="'Valor Recaudado'"
+      [value]="appointmentCollectionAll"
+      [icon]="'fas fa-money-bill-wave'"
+    >
+    </app-stats>
+  </div>
 </div>
 <div class="row">
-    <div class="col-12">
-        <div class="card">
-            <div class="card-body p-0">
-                <div class="row" *ngIf="!loading && citas.length > 0; else notData">
-                    <div class="col-12">
-                        <table class="table table-hover table-bordered small">
-                            <thead class="thead-dark">
-                                <tr class="text-center text-uppercase">
-                                    <th style="width: 20px;"></th>
-                                    <th style="width: 85px;">Fecha</th>
-                                    <th style="width: 200px;">Profesional</th>
-                                    <th style="width: 200px;">Paciente</th>
-                                    <th style="width: 160px;">EPS</th>
-                                    <th style="width: 160px;">Copago</th>
-                                    <th>Descripción</th>
-                                    <th style="width: 75px;">Estado</th>
-                                    <th style="width: 50px;"></th>
-                                </tr>
-                            </thead>
-                            <tbody>
-                                <tr *ngFor="let item of citas"
-                                    [ngClass]="{' alert alert-info text-black': !item.payed }" class="text-center">
-                                    <td>
-                                        <i [ngClass]="{'fa-user' : item.face_to_face,  'fa-video' : !item.face_to_face }"
-                                            class="fa"></i>
-                                    </td>
-                                    <td>{{item.date | date:'dd/MM/yyyy hh:mm a' }}</td>
-                                    <td>{{item.professional}}</td>
-                                    <td>{{item.patient}}</td>
-                                    <td>{{item.eps}}</td>
-                                    <td>{{item.copago | number}}</td>
-                                    <td>{{item.description}}</td>
-                                    <td>{{item.state}}</td>
-                                    <td *ngIf="item.payed">
-                                        <a href="javascript: void(0);" (click)="recaudoCuota(item)"
-                                            class="mr-2 accion btn btn-primary btn-sm" title="Recaudo de Cuota">
-                                            <i class="fas fa-hand-holding-usd"></i>
-                                        </a>
-                                    </td>
+  <div class="col-12">
+    <div class="card">
+      <div class="card-body p-0">
+        <div class="row" *ngIf="!loading && citas.length > 0; else notData">
+          <div class="col-12">
+            <table class="table table-hover table-bordered small">
+              <thead class="thead-dark">
+                <tr class="text-center text-uppercase">
+                  <th style="width: 20px"></th>
+                  <th style="width: 85px">Fecha</th>
+                  <th style="width: 200px">Profesional</th>
+                  <th style="width: 200px">Paciente</th>
+                  <th style="width: 160px">EPS</th>
+                  <th style="width: 160px">Copago</th>
+                  <th>Descripción</th>
+                  <th style="width: 75px">Estado</th>
+                  <th style="width: 50px"></th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr
+                  *ngFor="let item of citas"
+                  [ngClass]="{ ' alert alert-info text-black': !item.payed }"
+                  class="text-center"
+                >
+                  <td>
+                    <i
+                      [ngClass]="{
+                        'fa-user': item.face_to_face,
+                        'fa-video': !item.face_to_face
+                      }"
+                      class="fa"
+                    ></i>
+                  </td>
+                  <td>{{ item.date | date: "dd/MM/yyyy hh:mm a" }}</td>
+                  <td>{{ item.professional }}</td>
+                  <td>{{ item.patient }}</td>
+                  <td>{{ item.eps }}</td>
+                  <td>{{ item.copago | number }}</td>
+                  <td>{{ item.description }}</td>
+                  <td>{{ item.state }}</td>
+                  <td *ngIf="item.payed">
+                    <a
+                      href="javascript: void(0);"
+                      (click)="recaudoCuota(item)"
+                      class="mr-2 accion btn btn-primary btn-sm"
+                      title="Recaudo de Cuota"
+                    >
+                      <i class="fas fa-hand-holding-usd"></i>
+                    </a>
+                  </td>
 
-                                    <td *ngIf="!item.payed">
-                                        <i class="fa fa-thumbs-up"></i>
-                                    </td>
-
-                                </tr>
-                            </tbody>
-                        </table>
-                    </div>
-                    <div class="col-sm-12">
-
-                        <div class="text-md-right float-md-right pagination-rounded">
-                            <ngb-pagination maxSize="7" [collectionSize]="pagination.collectionSize"
-                                (pageChange)="searchPatient($event)" [pageSize]="pagination.pageSize"
-                                [(page)]="pagination.page" [rotate]="true" aria-label="Default pagination ">
-                            </ngb-pagination>
-
-                        </div>
-                    </div>
-                </div>
+                  <td *ngIf="!item.payed">
+                    <i class="fa fa-thumbs-up"></i>
+                  </td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+          <div class="col-sm-12">
+            <div class="text-md-right float-md-right pagination-rounded">
+              <ngb-pagination
+                maxSize="7"
+                [collectionSize]="pagination.collectionSize"
+                (pageChange)="searchPatient($event)"
+                [pageSize]="pagination.pageSize"
+                [(page)]="pagination.page"
+                [rotate]="true"
+                aria-label="Default pagination "
+              >
+              </ngb-pagination>
             </div>
+          </div>
         </div>
+      </div>
     </div>
+  </div>
 </div>
 
-
-<app-modal-payment [modalData]="openModalRecaudo" (reloadData)="activeObservable()"></app-modal-payment>
-
+<app-modal-payment
+  [modalData]="openModalRecaudo"
+  (reloadData)="activeObservable()"
+></app-modal-payment>
 
 <ng-template #notData>
-    <app-not-data [loading]="loading"></app-not-data>
+  <app-not-data [loading]="loading"></app-not-data>
 </ng-template>

@@ -1,62 +1,48 @@
 <div class="card">
   <div class="card-body">
-    <form [formGroup]="form" class="p-3">
+    <div class="card-title d-flex justify-content-between">
+      <h4 class="text-primary">Nueva acta de aplicación</h4>
+    </div>
+    <hr class="line" />
+    <form [formGroup]="form">
+      <mat-form-field class="col-md-4 pl-lg-0" appearance="outline">
+        <mat-label>Paciente</mat-label>
+        <mat-select formControlName="patient_id">
+          <mat-option *ngFor="let item of people" [value]="item.value">{{
+            item.text
+          }}</mat-option>
+        </mat-select>
+      </mat-form-field>
+      <mat-form-field class="col-md-4" appearance="outline">
+        <mat-label>Fecha</mat-label>
+        <input matInput type="date" formControlName="date" name="date" />
+      </mat-form-field>
+      <mat-form-field class="col-md-4 pr-lg-0" appearance="outline">
+        <mat-label>CUPs</mat-label>
+        <mat-select formControlName="cups_id">
+          <mat-option *ngFor="let item of cups" [value]="item.value">{{
+            item.text
+          }}</mat-option>
+        </mat-select>
+      </mat-form-field>
       <div class="row">
-        <div class="form-group col-md-4">
-          <label for="">Paciente</label>
-          <ng-select
-            formControlName="patient_id"
-            [items]="people"
-            bindLabel="text"
-            bindValue="value"
-            loadingText="loading "
-            ngDefaultControl
-          >
-          </ng-select>
+        <div class="col-md-6">
+          <mat-form-field class="col-md-12 pl-lg-0" appearance="outline">
+            <mat-label>Diagnóstico principal</mat-label>
+            <mat-select formControlName="diagnostic">
+              <mat-option
+                *ngFor="let item of diagnostics"
+                [value]="item.value"
+                >{{ item.text }}</mat-option
+              >
+            </mat-select>
+          </mat-form-field>
         </div>
-
-        <div class="col-md-3">
-          <label>Fecha</label>
-          <input
-            formControlName="date"
-            type="date"
-            class="form-control form-control-sm date"
-            [placeholder]=""
-            name="date"
-          />
-        </div>
-
-        <div class="form-group col-md-5">
-          <label for="">CUPs</label>
+        <div class="col-md-6 px-md-0">
           <ng-select
-            formControlName="cups_id"
-            [items]="cups"
-            bindLabel="text"
-            bindValue="value"
-            loadingText="loading "
-            ngDefaultControl
-          >
-          </ng-select>
-        </div>
-      </div>
-
-      <div class="row">
-        <div class="form-group col-md-6">
-          <label for="">Diagnostico Principal</label>
-          <ng-select
-            formControlName="diagnostic"
-            [items]="diagnostics"
-            bindLabel="text"
-            bindValue="value"
-            loadingText="loading "
-            ngDefaultControl
-          >
-          </ng-select>
-        </div>
-
-        <div class="form-group col-md-6">
-          <label for="">Diagnostico Secundario</label>
-          <ng-select
+            class="col-md-12 pl-0"
+            placeholder="Diagnóstico secundario"
+            appearance="outline"
             formControlName="diagnosticS"
             [items]="diagnostics"
             multiple="true"
@@ -68,28 +54,32 @@
           </ng-select>
         </div>
       </div>
-
-      <div class="row">
-        <div class="form-group col-md-12">
-          <label for="">Nota Enfermeria</label>
-
-          <textarea
-            class="form-control form-control-sm"
-            cols="100%"
-            formControlName="observation"
-            rows="6"
-          ></textarea>
+      <mat-form-field class="col-md-12 px-lg-0" appearance="outline">
+        <mat-label>Notas de enfermería</mat-label>
+        <textarea
+          matInput
+          formControlName="observation"
+          class="mb-3"
+        ></textarea>
+      </mat-form-field>
+      <div class="row mb-2">
+        <div class="col-md-3">
+          <input
+            class="d-none"
+            type="file"
+            id="importFile"
+            (change)="fileActa($event)"
+          />
+          <label for="importFile" role="button" class="btn btn-primary btn-block"
+            >Subir acta de aplicación</label
+          >
+          <div class="card bg-light" *ngIf="nombreFile">
+            <div class="card-body">
+              <h5 class="card-title">{{nombreFile}}</h5>
+            </div>
+          </div>
         </div>
-      </div>
-
-      <div class="row mt-3 mb-3">
-        <div class="col-md-5">
-          <label class="mr-1" for="importFile">Acta Aplicacion</label>
-          <input type="file" id="importFile" (change)="fileActa($event)" />
-
-        </div>
-        <div class="col-md-7">
-
+        <div class="col-md-9">
           <button
             style="float: right"
             type="button"
@@ -100,11 +90,10 @@
             Agregar Producto
           </button>
         </div>
-
       </div>
 
       <!-- <table class="table table-borderless table-striped" *ngIf="!loading && thirdParties.length > 0; else notData">-->
-      <table class="table table-borderless table-striped">
+      <table class="table table-borderless table-striped" *ngIf="getProductList.controls.length && !loading; else notData">
         <thead class="bg-light">
           <tr>
             <th></th>
@@ -121,7 +110,7 @@
         <tbody>
           <ng-container formArrayName="productSelected">
             <ng-container
-              *ngIf="getProductList.controls.length && !loading; else notData"
+              
             >
               <ng-container
                 *ngFor="let pl of getProductList['controls']; let i = index"
@@ -188,8 +177,7 @@
       </table>
     </form>
     <button
-      type="submit"
-      class="btn btn-success raised ml-3"
+      class="btn btn-primary btn-block"
       (click)="save()"
       [disabled]="!form.valid"
     >
@@ -264,9 +252,5 @@
 </app-modal-basic>
 
 <ng-template #notData>
-  <tr>
-    <td colspan="100%">
-      <app-not-data [loading]="loading"></app-not-data>
-    </td>
-  </tr>
+  <app-not-data [loading]="loading"></app-not-data>
 </ng-template>

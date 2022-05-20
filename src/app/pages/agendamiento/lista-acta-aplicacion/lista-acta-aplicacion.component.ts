@@ -2,6 +2,7 @@ import { Component, OnInit, ViewChild } from '@angular/core';
 import { UserService } from 'src/app/core/services/user.service';
 import { ActaAplicacionService } from '../acta-aplicacion.service';
 import Swal from 'sweetalert2';
+import { MatAccordion } from '@angular/material';
 
 @Component({
   selector: 'app-lista-acta-aplicacion',
@@ -10,6 +11,18 @@ import Swal from 'sweetalert2';
 })
 export class ListaActaAplicacionComponent implements OnInit {
   @ViewChild('modalDetail') modalDetail: any;
+  @ViewChild(MatAccordion) accordion: MatAccordion;
+  matPanel = false;
+  openClose(){
+    if (this.matPanel == false){
+      this.accordion.openAll()
+      this.matPanel = true;
+    } else {
+      this.accordion.closeAll()
+      this.matPanel = false;
+    }    
+  }
+
 
   loading = false;
   listaActas: any = [];

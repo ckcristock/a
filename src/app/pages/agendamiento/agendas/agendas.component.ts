@@ -1,10 +1,11 @@
-import { Component, OnInit, EventEmitter } from '@angular/core';
+import { Component, OnInit, EventEmitter, ViewChild, AfterViewInit } from '@angular/core';
 import { Router } from '@angular/router';
 import { ListaTrabajoService } from './lista-trabajo.service';
 import { OpenAgendaService } from '../open-agenda.service';
 import { PermissionService } from '../../../core/services/permission.service';
 import Swal from 'sweetalert2';
 import { constantes } from 'src/environments/constantes';
+import { MatAccordion } from '@angular/material';
 // import { constantes } from './environments/environment';
 
 @Component({
@@ -13,7 +14,18 @@ import { constantes } from 'src/environments/constantes';
   styleUrls: ['./agendas.component.scss']
 })
 export class AgendasComponent implements OnInit {
-
+  @ViewChild(MatAccordion) accordion: MatAccordion;
+  matPanel = false;
+  openClose(){
+    if (this.matPanel == false){
+      this.accordion.openAll()
+      this.matPanel = true;
+    } else {
+      this.accordion.closeAll()
+      this.matPanel = false;
+    }    
+  }
+  
   public configComponent: any =
     {
       'menu': 'Lista de Agendas',

@@ -1,6 +1,6 @@
 import { NgModule } from "@angular/core";
 import { CommonModule } from '@angular/common';
-
+import { NgbNavModule } from '@ng-bootstrap/ng-bootstrap';
 import { DocumentosGestionComponent } from './documentos-gestion/documentos-gestion.component';
 import { SstRoutingModule } from './sst.routing.module';
 import { ComponentsModule } from '../../components/components.module';
@@ -10,7 +10,7 @@ import { FileManagerModule, NavigationPaneService, ToolbarService, DetailsViewSe
 
 @NgModule({
     declarations:[DocumentosGestionComponent],
-    imports:[CommonModule, SstRoutingModule,ComponentsModule,FileManagerModule],
+    imports:[CommonModule, SstRoutingModule,ComponentsModule,FileManagerModule, NgbNavModule],
     providers: [NavigationPaneService, ToolbarService, DetailsViewService],
     exports:[],
 })

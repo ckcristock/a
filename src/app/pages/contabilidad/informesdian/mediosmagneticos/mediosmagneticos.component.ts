@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, ViewChild } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { SweetAlertOptions } from 'sweetalert2';
 import { SwalService } from '../../../ajustes/informacion-base/services/swal.service';
@@ -7,6 +7,7 @@ import swal from 'sweetalert2';
 import { environment } from 'src/environments/environment';
 import Swal from 'sweetalert2';
 import { UserService } from 'src/app/core/services/user.service';
+import { MatAccordion } from '@angular/material';
 
 @Component({
   selector: 'app-mediosmagneticos',
@@ -14,7 +15,18 @@ import { UserService } from 'src/app/core/services/user.service';
   styleUrls: ['./mediosmagneticos.component.scss']
 })
 export class MediosmagneticosComponent implements OnInit {
-
+  @ViewChild(MatAccordion) accordion: MatAccordion;
+  matPanel = false;
+  openClose(){
+    if (this.matPanel == false){
+      this.accordion.openAll()
+      this.matPanel = true;
+    } else {
+      this.accordion.closeAll()
+      this.matPanel = false;
+    }    
+  }
+  public Cargando: boolean=true;
   public listaMediosMag:any = [];
   public alertOption: SweetAlertOptions;
   public IdMedioMag = '';
@@ -59,6 +71,7 @@ export class MediosmagneticosComponent implements OnInit {
 
     this.http.get(environment.ruta+'php/contabilidad/mediosmagneticos/lista_medios_magneticos.php?company_id='+this._user.user.person.company_worked.id,{params:p}).subscribe((data:any)=> {
       this.listaMediosMag = data;
+      this.Cargando = false
     })
   }
 

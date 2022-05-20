@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, ViewChild } from '@angular/core';
 import { OperatorFunction, Observable, of } from 'rxjs';
 import { debounceTime, distinctUntilChanged, switchMap, tap, catchError } from 'rxjs/operators';
 import { SearchService } from '../../../core/services/search.service';
@@ -7,6 +7,7 @@ import { environment } from 'src/environments/environment';
 import { OpenAgendaService } from '../open-agenda.service';
 import { WaitingListService } from './waiting-list.service';
 import Swal from 'sweetalert2'
+import { MatAccordion } from '@angular/material';
 
 @Component({
   selector: 'app-lista-espera',
@@ -15,6 +16,17 @@ import Swal from 'sweetalert2'
 })
 
 export class ListaEsperaComponent implements OnInit {
+  @ViewChild(MatAccordion) accordion: MatAccordion;
+  matPanel = false;
+  openClose(){
+    if (this.matPanel == false){
+      this.accordion.openAll()
+      this.matPanel = true;
+    } else {
+      this.accordion.closeAll()
+      this.matPanel = false;
+    }    
+  }
   loading = false;
   pagination = {
     pageSize: 15,

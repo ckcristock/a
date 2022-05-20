@@ -166,8 +166,8 @@
       </tbody>
     </table>
 
-    {{ page * maxSize - maxSize + 1 }} al {{ page * maxSize }} de
-    {{ TotalItems }}
+    <!-- {{ page * maxSize - maxSize + 1 }} al {{ page * maxSize }} de
+    {{ TotalItems }} -->
     <ngb-pagination *ngIf="comprasnacionales.length > 0" class="pull-right" [collectionSize]="TotalItems"
       [(page)]="page" [maxSize]="maxSize" [pageSize]="20" size="sm" (pageChange)="paginacion()" [boundaryLinks]="true">
     </ngb-pagination>

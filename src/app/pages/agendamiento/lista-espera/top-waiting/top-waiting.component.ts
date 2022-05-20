@@ -12,7 +12,7 @@ export class TopWaitingComponent implements OnInit {
     topAwait:[],
     lastAppointment:{
       patient_name:'',
-      date:''
+      date:'1'
     }
   }  
   constructor(

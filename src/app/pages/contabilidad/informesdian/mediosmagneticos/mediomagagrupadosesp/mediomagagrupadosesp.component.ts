@@ -14,7 +14,7 @@ import { UserService } from 'src/app/core/services/user.service';
   styleUrls: ['./mediomagagrupadosesp.component.scss']
 })
 export class MediomagagrupadosespComponent implements OnInit {
-
+  public Cargando: boolean=true;
   public listaMediosMag:any = [];
   public alertOption: SweetAlertOptions;
   public IdMedioMag:string = '';
@@ -47,6 +47,7 @@ export class MediomagagrupadosespComponent implements OnInit {
   listaFormatosAgrupados() {
     this.http.get(environment.ruta+'php/contabilidad/mediosmagneticos/lista_medios_magneticos_agrupados.php').subscribe((data:any) => {
       this.listaMediosMag = data;
+      this.Cargando = false
     })
   }
 

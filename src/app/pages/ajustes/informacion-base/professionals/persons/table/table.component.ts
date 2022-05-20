@@ -1,4 +1,5 @@
-import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
+import { Component, EventEmitter, Input, OnInit, Output, ViewChild } from '@angular/core';
+import { MatAccordion } from '@angular/material/expansion';
 import { PersonService } from '../person.service';
 
 @Component({
@@ -7,7 +8,17 @@ import { PersonService } from '../person.service';
   styleUrls: ['./table.component.scss']
 })
 export class TableComponent implements OnInit {
-
+  @ViewChild(MatAccordion) accordion: MatAccordion;
+  matPanel = false;
+  openClose(){
+    if (this.matPanel == false){
+      this.accordion.openAll()
+      this.matPanel = true;
+    } else {
+      this.accordion.closeAll()
+      this.matPanel = false;
+    }    
+  }
   pagination = {
     pageSize: 20,
     page: 1,
@@ -48,7 +59,7 @@ export class TableComponent implements OnInit {
       this.pagination.collectionSize = res.data.total
       this.pagination.pageSize = res.data.per_page
       this.loading = false;
-
+      console.log(this.persons)
     })
   }
 

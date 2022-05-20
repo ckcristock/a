@@ -1,23 +1,32 @@
 import { getLocaleDateFormat } from '@angular/common';
 import { Component, OnInit } from '@angular/core';
 import { NgbDate, NgbDateParserFormatter } from '@ng-bootstrap/ng-bootstrap';
+import { DateAdapter } from 'saturn-datepicker';
 import { Response } from 'src/app/core/response.model';
 import { ChartType } from './apex.model';
 import {
-  linewithDataChart, basicColumChart, columnlabelChart, lineColumAreaChart,
-  basicRadialBarChart, simplePieChart, donutChart, barChart, splineAreaChart, dashedLineChart,
-  statData, regionals
+  linewithDataChart,
+  basicColumChart,
+  columnlabelChart,
+  lineColumAreaChart,
+  basicRadialBarChart,
+  simplePieChart,
+  donutChart,
+  barChart,
+  splineAreaChart,
+  dashedLineChart,
+  statData,
+  regionals,
 } from './data';
 import { GraficalModuleService } from './grafical-module.service';
-
+import { DatePipe } from '@angular/common';
 
 @Component({
   selector: 'app-grafical-module',
   templateUrl: './grafical-module.component.html',
-  styleUrls: ['./grafical-module.component.scss']
+  styleUrls: ['./grafical-module.component.scss'],
 })
 export class GraficalModuleComponent implements OnInit {
-
   // bread crumb items
   breadCrumbItems: Array<{}>;
   linewithDataChart: ChartType;
@@ -32,11 +41,11 @@ export class GraficalModuleComponent implements OnInit {
   dashedLineChart: ChartType;
   statData: any;
   regionals: any;
-
+  datePipe = new DatePipe('es-CO');
   fromNGDate: NgbDate;
   toNGDate: NgbDate;
   hoveredDate: NgbDate;
-  date: { year: number, month: number };
+  date: { year: number; month: number };
   selected: any;
   hidden: boolean = true;
   loading = false;
@@ -50,18 +59,35 @@ export class GraficalModuleComponent implements OnInit {
   show: boolean = false;
   text: string = 'Graficar';
   disabled: boolean;
+  searchEspecialidades:any
+  searchDepartamento:any
 
-  constructor(private _graficalService: GraficalModuleService) { }
+  constructor(
+    private _graficalService: GraficalModuleService,
+    private dateAdapter: DateAdapter<any>
+  ) {
+    this.dateAdapter.setLocale('es');
+  }
 
   ngOnInit() {
-    this.breadCrumbItems = [{ label: 'Charts' }, { label: 'Apex charts', active: true }];
-    this.getData()
+    this.breadCrumbItems = [
+      { label: 'Charts' },
+      { label: 'Apex charts', active: true },
+    ];
+    this.getData();
     /**
      * Fethches the chart data
      */
     this._fetchData();
   }
-
+  selectedDate(fecha) {
+    //console.log(fecha);
+    this.selected =
+      this.datePipe.transform(fecha.value.begin._d, 'dd-MM-yyyy') +
+      '-' +
+      this.datePipe.transform(fecha.value.end._d, 'dd-MM-yyyy');
+   // console.log(this.selected);
+  }
   /**
    * Fetches the chart data
    */
@@ -83,31 +109,42 @@ export class GraficalModuleComponent implements OnInit {
   /* Date */
 
   /**
-  * @param date date obj
-  */
+   * @param date date obj
+   */
   isInside(date: NgbDate) {
     return date.after(this.fromNGDate) && date.before(this.toNGDate);
   }
 
   /**
-  * @param date date obj
-  */
+   * @param date date obj
+   */
   isRange(date: NgbDate) {
-    return date.equals(this.fromNGDate) || date.equals(this.toNGDate) || this.isInside(date) || this.isHovered(date);
+    return (
+      date.equals(this.fromNGDate) ||
+      date.equals(this.toNGDate) ||
+      this.isInside(date) ||
+      this.isHovered(date)
+    );
   }
 
   /**
- * Is hovered over date
- * @param date date obj
- */
+   * Is hovered over date
+   * @param date date obj
+   */
   isHovered(date: NgbDate) {
-    return this.fromNGDate && !this.toNGDate && this.hoveredDate && date.after(this.fromNGDate) && date.before(this.hoveredDate);
+    return (
+      this.fromNGDate &&
+      !this.toNGDate &&
+      this.hoveredDate &&
+      date.after(this.fromNGDate) &&
+      date.before(this.hoveredDate)
+    );
   }
 
   /**
- * on date selected
- * @param date date object
- */
+   * on date selected
+   * @param date date object
+   */
   onDateSelection(date: NgbDate) {
     if (!this.fromDate && !this.toDate) {
       this.fromNGDate = date;
@@ -117,7 +154,10 @@ export class GraficalModuleComponent implements OnInit {
       this.toNGDate = date;
       this.toDate = new Date(date.year, date.month - 1, date.day);
       this.hidden = true;
-      this.selected = this.fromDate.toLocaleDateString() + '-' + this.toDate.toLocaleDateString();
+      this.selected =
+        this.fromDate.toLocaleDateString() +
+        '-' +
+        this.toDate.toLocaleDateString();
 
       //this.dateRangeSelected.emit({ fromDate: this.fromDate, toDate: this.toDate });
 
@@ -125,136 +165,145 @@ export class GraficalModuleComponent implements OnInit {
       this.toDate = null;
       this.fromNGDate = null;
       this.toNGDate = null;
-
     } else {
       this.fromNGDate = date;
       this.fromDate = new Date(date.year, date.month - 1, date.day);
       this.selected = '';
     }
+    console.log(this.selected);
   }
   getData = () => {
-    this._graficalService.getDepartments().subscribe((arg: Response) => this.departments = arg.data);
-    this._graficalService.getSpecialities().subscribe((arg: Response) => this.specialities = arg.data);
-  }
+    this._graficalService
+      .getDepartments()
+      .subscribe((arg: Response) => (this.departments = arg.data));
+    this._graficalService
+      .getSpecialities()
+      .subscribe((arg: Response) => (this.specialities = arg.data));
+  };
 
   graficar = () => {
-    this.text = 'Graficando'
-    this.disabled = true
+    this.text = 'Graficando';
+    this.disabled = true;
     console.log(this.text);
     let params = {
-      'regional': this.regional,
-      'date': this.selected,
-      'speciality': this.speciality,
-      'department': this.department
-    }
-    this._graficalService.getDataByGrafical(params).subscribe((arg: Response) => {
+      regional: this.regional,
+      date: this.selected,
+      speciality: this.speciality,
+      department: this.department,
+    };
+    this._graficalService
+      .getDataByGrafical(params)
+      .subscribe((arg: Response) => {
+        let seriesTT = [
+          arg.data['Cita Primera Vez'],
+          arg.data['Cita Control'],
+          arg.data['Reasignación de Citas'],
+          arg.data['Cancelación de Citas'],
+          arg.data['Consulta Información Citas'],
+          arg.data['Otro'],
+        ];
 
-      let seriesTT = [
-        arg.data['Cita Primera Vez'], arg.data['Cita Control'],
-        arg.data['Reasignación de Citas'], arg.data['Cancelación de Citas'],
-        arg.data['Consulta Información Citas'], arg.data['Otro']
-      ];
+        let labelsTT = [
+          'Cita Primera Vez',
+          'Cita Control',
+          'Reasignación de Citas',
+          'Cancelación de Citas',
+          'Consulta Información Citas',
+          'Otro',
+        ];
 
-      let labelsTT = [
-        'Cita Primera Vez', 'Cita Control',
-        'Reasignación de Citas', 'Cancelación de Citas',
-        'Consulta Información Citas', 'Otro'
-      ];
-
-      this.simplePieChart = {
-        chart: {
-          height: 320,
-          type: 'pie',
-        },
-        series: seriesTT,
-        labels: labelsTT,
-        colors: ['#4aa3ff', '#ff3d60', '#1cbb8c', '#5664d2', '#fcb92c'],
-        legend: {
-          show: true,
-          position: 'bottom',
-          horizontalAlign: 'center',
-          verticalAlign: 'middle',
-          floating: false,
-          fontSize: '14px',
-          offsetX: 0,
-          offsetY: -10
-        },
-        responsive: [{
-          breakpoint: 600,
-          options: {
-            chart: {
-              height: 240
+        this.simplePieChart = {
+          chart: {
+            height: 320,
+            type: 'pie',
+          },
+          series: seriesTT,
+          labels: labelsTT,
+          colors: ['#4aa3ff', '#ff3d60', '#1cbb8c', '#5664d2', '#fcb92c'],
+          legend: {
+            show: true,
+            position: 'bottom',
+            horizontalAlign: 'center',
+            verticalAlign: 'middle',
+            floating: false,
+            fontSize: '14px',
+            offsetX: 0,
+            offsetY: -10,
+          },
+          responsive: [
+            {
+              breakpoint: 600,
+              options: {
+                chart: {
+                  height: 240,
+                },
+                legend: {
+                  show: false,
+                },
+              },
             },
-            legend: {
-              show: false
+          ],
+        };
+
+        this.statData = [
+          {
+            icon: 'ri-stack-line',
+            title: 'Gestión total',
+            value: arg.data.callcenter + arg.data.linea_de_frente,
+          },
+          {
+            icon: 'ri-headphone-fill',
+            title: 'Call center',
+            value: arg.data.callcenter,
+          },
+          {
+            icon: 'ri-map-pin-user-fill',
+            title: 'Linea de frente ',
+            value: arg.data.linea_de_frente,
+          },
+        ];
+
+        let seriesRe = [arg.data['regional_uno'], arg.data['regional_dos']];
+
+        let labelsRe = ['Regional Uno', 'Regional Dos'];
+
+        this.donutChart = {
+          chart: {
+            height: 320,
+            type: 'donut',
+          },
+          series: seriesRe,
+          legend: {
+            show: true,
+            position: 'bottom',
+            horizontalAlign: 'center',
+            verticalAlign: 'middle',
+            floating: false,
+            fontSize: '14px',
+            offsetX: 0,
+            offsetY: -10,
+          },
+          labels: labelsRe,
+          colors: ['#1cbb8c', '#5664d2', '#fcb92c', '#4aa3ff', '#ff3d60'],
+          responsive: [
+            {
+              breakpoint: 600,
+              options: {
+                chart: {
+                  height: 240,
+                },
+                legend: {
+                  show: false,
+                },
+              },
             },
-          }
-        }]
-      };
+          ],
+        };
 
-      this.statData = [
-        {
-          icon: 'ri-stack-line',
-          title: 'Gestión total',
-          value: arg.data.callcenter + arg.data.linea_de_frente
-        }, {
-          icon: 'ri-headphone-fill',
-          title: 'Call center',
-          value: arg.data.callcenter
-        }, {
-          icon: 'ri-map-pin-user-fill',
-          title: 'Linea de frente ',
-          value: arg.data.linea_de_frente
-        }
-      ];
+        this.show = true;
+      });
 
-      let seriesRe = [
-        arg.data['regional_uno'], arg.data['regional_dos'],
-      ];
-
-      let labelsRe = [
-        'Regional Uno', 'Regional Dos',
-      ];
-
-      this.donutChart = {
-        chart: {
-          height: 320,
-          type: 'donut',
-        },
-        series: seriesRe,
-        legend: {
-          show: true,
-          position: 'bottom',
-          horizontalAlign: 'center',
-          verticalAlign: 'middle',
-          floating: false,
-          fontSize: '14px',
-          offsetX: 0,
-          offsetY: -10
-        },
-        labels: labelsRe,
-        colors: ['#1cbb8c', '#5664d2', '#fcb92c', '#4aa3ff', '#ff3d60'],
-        responsive: [{
-          breakpoint: 600,
-          options: {
-            chart: {
-              height: 240
-            },
-            legend: {
-              show: false
-            },
-          }
-        }],
-      };
-
-      this.show = true;
-
-    });
-
-    this.text = 'Graficar'
-    this.disabled = false
-
-  }
+    this.text = 'Graficar';
+    this.disabled = false;
+  };
 }
-
-

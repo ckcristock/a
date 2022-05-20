@@ -17,6 +17,10 @@ import { TaskManagerComponent } from './task-manager/task-manager.component';
 import { FormsModule, NgForm, ReactiveFormsModule } from '@angular/forms';
 import { NgSelectModule } from '@ng-select/ng-select';
 import { CKEditorModule } from '@ckeditor/ckeditor5-angular';
+import { MatExpansionModule } from '@angular/material/expansion';
+import { MatFormFieldModule } from '@angular/material/form-field';
+import { MatInputModule } from '@angular/material/input';
+import { MatSelectModule } from '@angular/material/select';
 
 @NgModule({
   // tslint:disable-next-line: max-line-length
@@ -33,6 +37,10 @@ import { CKEditorModule } from '@ckeditor/ckeditor5-angular';
     FormsModule,
     ReactiveFormsModule,
     CKEditorModule,
+    MatExpansionModule,
+    MatFormFieldModule,
+    MatInputModule,
+    MatSelectModule,
   ],
   exports: [ FooterComponent,  RightsidebarComponent, HorizontaltopbarComponent, HorizontalnavbarComponent, TaskManagerComponent],
   providers: []

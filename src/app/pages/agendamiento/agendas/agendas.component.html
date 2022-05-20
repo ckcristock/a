@@ -1,70 +1,199 @@
 <div class="row">
-    <div class="col-md-9">
-        <div class="card">
-            <div class="card-body">
-                <div class="card-title">
-                    <h4 class="text-primary">
-                        Agendas
-                    </h4>
-                    <hr class="line">
+  <div class="col-md-9">
+    <div class="card">
+      <div class="card-body">
+        <div class="card-title d-flex justify-content-between">
+          <h4 class="text-primary">Agendas</h4>
+          <div class="btn-group rounded">
+            <button
+              class="btn btn-info btn-sm"
+              style="float: right"
+              (click)="openClose()"
+            >
+              <i class="fas fa-sliders-h"></i> Filtros
+            </button>
+          </div>
+        </div>
+        <hr class="line" />
+        <mat-accordion multi>
+          <mat-expansion-panel class="mat-elevation-z0">
+            <mat-form-field class="col-md-6 pl-md-0" appearance="outline">
+              <mat-label>Tipo de agenda</mat-label>
+              <mat-select [(ngModel)]="filters.appointmentId" name="type_agenda_id" (selectionChange)="getSubTypeAppointment()">
+                <mat-option *ngFor="let item of type_appointments" [value]="item.value">{{item.text}}</mat-option>
+              </mat-select>
+            </mat-form-field>
+            <mat-form-field class="col-md-6 pr-md-0" appearance="outline">
+              <mat-label>Tipo de consulta</mat-label>
+              <mat-select [(ngModel)]="filters.subappointmentId" name="type_appointment_id" (selectionChange)="getIps()">
+                <mat-option *ngFor="let item of type_subappointments" [value]="item.value">{{item.text}}</mat-option>
+              </mat-select>
+            </mat-form-field>
+            <mat-form-field class="col-md-6 pl-md-0" appearance="outline">
+              <mat-label>Especialidad</mat-label>
+              <mat-select [(ngModel)]="filters.speciality" name="speciality_id" (selectionChange)="getProfesionals()">
+                <mat-option *ngFor="let item of specialties" [value]="item.value">{{item.text}}</mat-option>
+              </mat-select>
+            </mat-form-field>
+            <mat-form-field class="col-md-6 pr-md-0" appearance="outline">
+              <mat-label>Profesional</mat-label>
+              <mat-select [(ngModel)]="filters.person" name="person_id">
+                <mat-option *ngFor="let item of persons" [value]="item.value">{{item.text}}</mat-option>
+              </mat-select>
+            </mat-form-field>
+            <div *ngIf="appointment.face_to_face">
+                <mat-form-field class="col-md-6 pl-md-0" appearance="outline">
+                  <mat-label>IPS</mat-label>
+                  <mat-select [(ngModel)]="filters.ipsId" name="ips_id" (selectionChange)="getSedes()">
+                    <mat-option *ngFor="let item of ipss" [value]="item.value">{{item.text}}</mat-option>
+                  </mat-select>
+                </mat-form-field>
+                <mat-form-field class="col-md-6 pr-md-0" appearance="outline">
+                  <mat-label>Sede</mat-label>
+                  <mat-select [(ngModel)]="filters.sede" name="sede_id" (selectionChange)="getSpecialties()">
+                    <mat-option *ngFor="let item of sedes" [value]="item.value">{{item.text}}</mat-option>
+                  </mat-select>
+                </mat-form-field>
+            </div>
+            <div class="col-md-12 px-0 mb-4">
+              <button
+                class="btn btn-primary btn-block"
+                (click)="getAgendamientos(1)"
+              >
+                Buscar
+              </button>
+            </div>
+          </mat-expansion-panel>
+        </mat-accordion>
+        <table
+          class="table table-bordered table-striped table-sm table-responsive-sm"
+          style="font-size: small"
+          *ngIf="!loading && agendas.length > 0; else notData"
+        >
+          <thead>
+            <tr class="text-center text-uppercase">
+              <th>Foto</th>
+              <th>Fecha</th>
+              <th class="col-1">Profesional</th>
+              <th class="col-1">Especialidad</th>
+              <th>Rango</th>
+              <th>Estado</th>
+              <th>Espacios</th>
+              <th>Acc.</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr
+              *ngFor="let item of agendas"
+              [ngClass]="{
+                'text-danger': item.state == 'Cancelada'
+              }"
+            >
+              <td>
+                <img
+                  src="{{ item?.usuario?.person?.image | image: 'users' }}"
+                  alt="{{ item?.usuario?.person?.first_name }}"
+                  class="img-thumbnail rounded-circle header-profile-user mx-auto d-block"
+                />
+              </td>
+              <td>
+                <i
+                  [ngClass]="{
+                    'fa-user': item.type_appointment.face_to_face,
+                    'fa-video': !item.type_appointment.face_to_face
+                  }"
+                  class="fa"
+                ></i>
+                {{ item.created_at | date: "dd/MM/yyy" }}
+              </td>
+
+              <td>{{ item.person.full_name }}</td>
+              <td>{{ item.speciality.name }}</td>
+
+              <td>
+                {{ item.date_start | date: "dd/MM/yy" }}
+                <span *ngIf="item.date_start != item.date_end">
+                  - {{ item.date_end | date: "dd/MM/yy" }}</span
+                >
+              </td>
+              <td>{{ item.state }}</td>
+              <td>
+                <i class="ri-calendar-todo-fill"></i>
+                {{ item.spaces.length }} ({{ item.available_spaces.length }})
+              </td>
+              <td class="text-center">
+                <div class="btn-group" role="group " ngbDropdown>
+                  <button
+                    id="btnGroupVerticalDrop1 "
+                    type="button"
+                    class="btn btn-primary btn-sm dropdown-toggle"
+                    ngbDropdownToggle
+                  >
+                    <i class="mdi mdi-chevron-down"></i>
+                  </button>
+                  <div
+                    style="cursor: pointer"
+                    class="dropdown-menu font-weight-bolder"
+                    aria-labelledby="btnGroupVerticalDrop1 "
+                    ngbDropdownMenu
+                  >
+                    <a
+                      class="dropdown-item text-info "
+                      [routerLink]="['/agendamiento/detalle-agenda', item.id]"
+                    >
+                      <i class="fa fa-search mr-2"></i>Ver más</a
+                    >
+                    <a
+                      class="dropdown-item text-danger"
+                      *ngIf="
+                        item.state != 'Cancelada' &&
+                        item.assigned_spaces.length == 0
+                      "
+                      (click)="cancel(item.id)"
+                    >
+                      <i class="fa fa-ban mr-2"></i>Cancelar
+                    </a>
+                  </div>
                 </div>
-                <div class="row p-3">
-                    <div class="col-md-6 my-2">
-                        <label>Especialidad</label>
-                        <ng-select [items]="specialties" bindLabel="text" bindValue="value"
-                            [(ngModel)]="filters.speciality" placeholder="Seleccione " name="speciality_id"
-                            loadingText="loading" ngDefaultControl (ngModelChange)="getProfesionals()">
-                        </ng-select>
-                    </div>
+              </td>
+            </tr>
+          </tbody>
+        </table>
+        <ngb-pagination
+          class="d-flex justify-content-center pagination-rounded pagination-sm"
+          [collectionSize]="pagination.collectionSize"
+          (pageChange)="getAgendamientos($event)"
+          [pageSize]="pagination.pageSize"
+          [(page)]="pagination.page"
+          maxSize="5"
+          rotate="true"
+          ellipses="false"
+          boundaryLinks="true"
+        ></ngb-pagination>
+      </div>
+    </div>
+  </div>
+  <div class="col-md-3 px-0">
+      <div class="position-fixed col-3">
+        <div *ngFor="let stat of statData" style="cursor: pointer" class="col-11">
+          <app-stats
+            (click)="searchDetailStat(stat)"
+            [title]="stat.title"
+            [value]="stat.value"
+            [icon]="stat.icon"
+          >
+          </app-stats>
+        </div>
+      </div>
+  </div>
+</div>
 
+<app-detail-stats [showDeitalStat]="showDeitalStat"></app-detail-stats>
 
-                    <div class="col-md-6 my-2">
-                        <label>Profesional</label>
-                        <ng-select [items]="persons" bindLabel="text" bindValue="value" [(ngModel)]="filters.person"
-                            [placeholder]="" name="person_id" loadingText="loading" ngDefaultControl>
-                        </ng-select>
-                    </div>
-                    <div class="col-md-6 my-2">
-
-                        <label>Tipo de Agenda</label>
-                        <ng-select [items]="type_appointments" bindLabel="text" bindValue="value"
-                            [(ngModel)]="filters.appointmentId" placeholder="Seleccione " name="type_agenda_id"
-                            loadingText="loading" ngDefaultControl (ngModelChange)="getSubTypeAppointment()">
-                        </ng-select>
-                    </div>
-
-                    <div class="col-md-6 my-2">
-                        <label>Tipo de Consultas</label>
-                        <ng-select [items]="type_subappointments" bindLabel="text" bindValue="value"
-                            [(ngModel)]="filters.subappointmentId" placeholder="Seleccione " name="type_appointment_id"
-                            loadingText="loading" (ngModelChange)="getIps()" ngDefaultControl>
-                        </ng-select>
-                    </div>
-
-
-
-                    <div class="col-md-6 my-2" *ngIf="appointment.face_to_face">
-                        <label>Ips</label>
-                        <ng-select [items]="ipss" bindLabel="text" bindValue="value" [(ngModel)]="filters.ipsId"
-                            placeholder="Seleccione " name="ips_id" loadingText="loading" (ngModelChange)="getSedes()"
-                            ngDefaultControl>
-                        </ng-select>
-                    </div>
-
-
-                    <div class="col-md-6 my-2" *ngIf="appointment.face_to_face">
-                        <label>Sede</label>
-                        <ng-select [items]="sedes" bindLabel="text" bindValue="value" [(ngModel)]="filters.sede"
-                            placeholder="Seleccione " name="sede_id" loadingText="loading" ngDefaultControl
-                            (ngModelChange)="getSpecialties()">
-                        </ng-select>
-                    </div>
-
-                </div>
-                <div class="col-12">
-                    <button class="btn btn-primary btn-sm btn-block " (click)="getAgendamientos(1)">Buscar</button>
-                </div>
-                <!-- <div class="col-2 mb-2">
+<ng-template #notData>
+  <app-not-data [loading]="loading"></app-not-data>
+</ng-template>
+<!-- <div class="col-2 mb-2">
                             <label for="validationServerUsername">Tipo Ident.</label>
                             <div class="input-group">
                                 <select [(ngModel)]="person.type_identification_id" class="custom-select" name="Id_Tipo_Identificacion">
@@ -72,90 +201,3 @@
                                 </select>
                             </div>
                         </div> -->
-
-                <div class="row mt-4" *ngIf="!loading && agendas.length > 0; else notData">
-                    <div class="col-sm-12">
-                        <table class="table table-hover table-bordered small">
-                            <thead class="thead-dark">
-                                <tr class="text-center text-uppercase">
-                                    <th></th>
-                                    <th>Fecha</th>
-                                    <th>Profesional</th>
-                                    <th>Especialidad</th>
-                                    <th>Rango</th>
-                                    <th>Estado</th>
-                                    <th></th>
-                                    <th></th>
-                                </tr>
-                            </thead>
-                            <tbody>
-                                <tr *ngFor="let item of agendas"
-                                    [ngClass]="{'bg-danger text-white': ( item.state == 'Cancelada') }">
-                                    <td>
-                                        <img src="{{item?.usuario?.person?.image| image:'users' }}"
-                                            alt="{{item?.usuario?.person?.first_name }}"
-                                            class="img-thumbnail rounded-circle header-profile-user mx-auto d-block">
-                                    </td>
-                                    <td><i [ngClass]="{'fa-user' : item.type_appointment.face_to_face,
-                                                        'fa-video' : !item.type_appointment.face_to_face }"
-                                            class="fa"></i>
-                                        {{item.created_at | date : 'dd/MM/yyy'}}
-                                    </td>
-
-                                    <td>{{item.person.full_name}}</td>
-                                    <td>{{item.speciality.name}}</td>
-
-                                    <td> {{item.date_start | date : 'dd/MM/yy'}}
-                                        <span *ngIf="item.date_start != item.date_end ">
-                                            - {{item.date_end | date : 'dd/MM/yy'}}</span>
-                                    </td>
-                                    <td>{{item.state}} </td>
-                                    <td><i class="ri-calendar-todo-fill"></i> {{item.spaces.length}}
-                                        ({{item.available_spaces.length}})</td>
-                                    <td class="text-center ">
-                                        <div class="btn-group " role="group " ngbDropdown>
-                                            <button id="btnGroupVerticalDrop1 " type="button"
-                                                class="btn btn-primary btn-sm dropdown-toggle " ngbDropdownToggle>
-                                                <i class="mdi mdi-chevron-down "></i>
-                                            </button>
-                                            <div style="cursor: pointer; " class="dropdown-menu font-weight-bolder "
-                                                aria-labelledby="btnGroupVerticalDrop1 " ngbDropdownMenu>
-                                                <a class="dropdown-item "
-                                                    [routerLink]="['/agendamiento/detalle-agenda',item.id]"> <i
-                                                        class=" fa fa-search mr-2 "></i>Ver más</a>
-                                                <a class="dropdown-item "
-                                                    *ngIf="(item.state != 'Cancelada' && item.assigned_spaces.length == 0)"
-                                                    (click)="cancel(item.id)"> <i class="fa fa-ban mr-2 "></i>Cancelar
-                                                </a>
-                                            </div>
-                                        </div>
-                                    </td>
-                                </tr>
-
-                            </tbody>
-                        </table>
-                    </div>
-                    
-                </div>
-                <ngb-pagination class="d-flex justify-content-center pagination-rounded pagination-sm"
-                        [collectionSize]="pagination.collectionSize" (pageChange)="getAgendamientos($event) "
-                        [pageSize]="pagination.pageSize" [(page)]="pagination.page" maxSize="5" rotate="true"
-                        ellipses="false" boundaryLinks="true"></ngb-pagination>
-            </div>
-        </div>
-    </div>
-    <div class="col-md-3">
-        <div *ngFor="let stat of statData" style="cursor: pointer;" class="col-12">
-            <app-stats (click)="searchDetailStat(stat)" [title]="stat.title" [value]="stat.value" [icon]="stat.icon">
-            </app-stats>
-        </div>
-    </div>
-</div>
-
-
-<app-detail-stats [showDeitalStat]="showDeitalStat"></app-detail-stats>
-
-
-<ng-template #notData>
-    <app-not-data [loading]="loading"></app-not-data>
-</ng-template>

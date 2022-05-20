@@ -94,9 +94,10 @@ export class ActaAplicacionComponent implements OnInit {
       productSelected: this.fb.array([]),
     });
   }
-
+  nombreFile:any
   fileActa(event) {
     if (event.target.files[0]) {
+      this.nombreFile = event.target.files[0].name
       let file = event.target.files[0];
       var reader = new FileReader();
       reader.readAsDataURL(event.target.files[0]);

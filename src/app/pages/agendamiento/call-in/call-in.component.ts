@@ -1,5 +1,6 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, ViewChild } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { MatAccordion } from '@angular/material';
 import { Response } from 'src/app/core/response.model';
 import { CallInService } from './call-in.service';
 
@@ -10,7 +11,17 @@ import { CallInService } from './call-in.service';
   providers: [CallInService]
 })
 export class CallInComponent implements OnInit {
-
+  @ViewChild(MatAccordion) accordion: MatAccordion;
+  matPanel = false;
+  openClose(){
+    if (this.matPanel == false){
+      this.accordion.openAll()
+      this.matPanel = true;
+    } else {
+      this.accordion.closeAll()
+      this.matPanel = false;
+    }    
+  }
 
   public identifier: number = 0
   public dataForm: FormGroup;
