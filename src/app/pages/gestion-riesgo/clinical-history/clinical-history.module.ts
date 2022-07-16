@@ -10,6 +10,11 @@ import { ComponentsModule } from 'src/app/components/components.module';
 import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
 import { NewClinicalHistoryComponent } from './new-clinical-history/new-clinical-history.component';
 import { VariableHightCostComponent } from '../variable-hight-cost/variable-hight-cost.component';
+import { MatExpansionModule } from '@angular/material/expansion';
+import { MatFormFieldModule } from '@angular/material/form-field';
+import { MatInputModule } from '@angular/material/input';
+import { MatSelectModule } from '@angular/material/select';
+import { MatButtonModule } from '@angular/material/button';
 
 @NgModule({
   imports: [
@@ -20,13 +25,18 @@ import { VariableHightCostComponent } from '../variable-hight-cost/variable-high
     ComponentsModule,
     CommonModule,
     NgbModule,
+    MatExpansionModule,
+    MatFormFieldModule,
+    MatInputModule,
+    MatSelectModule,
+    MatButtonModule,
   ],
   declarations: [
     ClinicalHistoryComponent,
     DetailClinicalHistoryComponent,
     DeepDetailComponent,
     NewClinicalHistoryComponent,
-    VariableHightCostComponent
-  ]
+    VariableHightCostComponent,
+  ],
 })
-export class ClinicalHistoryModule { }
+export class ClinicalHistoryModule {}

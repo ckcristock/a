@@ -1,4 +1,4 @@
-.display-table-cell{
+/* .display-table-cell{
     display: table-cell;
 }
 
@@ -25,4 +25,17 @@
     font-size: 20px;
     line-height: 20px;
     text-align: center;
+} */
+
+::ng-deep .mat-form-field-appearance-outline .mat-form-field-outline {
+  background-color: white;
+  border-radius: 5px;
+}
+
+input[type="date"]::-webkit-inner-spin-button,
+input[type="date"]::-webkit-calendar-picker-indicator {
+  position: absolute;
+  right: 0;
+  height: 15px;
+  width: 15px;
 }

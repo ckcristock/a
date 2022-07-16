@@ -42,11 +42,16 @@ export class CierresContablesComponent implements OnInit {
     let pos = parseInt(mes) - 1;
     return this.cierresContableService.getMes(pos);
   }
-
+  loading: boolean = false
+  loading2: boolean = false
   listaCierres() {
+    this.loading = true
+    this.loading2 = true
     this.http.get(environment.ruta + 'php/contabilidad/cierres/lista_cierre.php', { params: { company_id: this._user.user.person.company_worked.id }}).subscribe((data:any) => {
       this.Cierres.Mes = data.Mes;
       this.Cierres.Anio = data.Anio;
+      this.loading = false
+    this.loading2 = false
     });
   }
 

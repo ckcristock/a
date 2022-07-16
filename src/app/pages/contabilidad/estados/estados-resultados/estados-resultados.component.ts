@@ -1,6 +1,8 @@
 import { Component, OnInit } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { environment } from 'src/environments/environment';
+import { User } from 'src/app/core/models/users.model';
+import { UserService } from 'src/app/core/services/user.service';
 
 @Component({
   selector: 'app-estados-resultados',
@@ -8,6 +10,7 @@ import { environment } from 'src/environments/environment';
   styleUrls: ['./estados-resultados.component.scss']
 })
 export class EstadosResultadosComponent implements OnInit {
+  public userF : User;
   envirom:any;
   public datosCabecera:any = {
     Titulo: 'Estados Resultados',
@@ -39,9 +42,10 @@ export class EstadosResultadosComponent implements OnInit {
   Cuenta_Final:any = '';
   Discriminado:any = '';
 
-  constructor(private http: HttpClient) { }
+  constructor(private http: HttpClient, private _user: UserService) { }
 
   ngOnInit() {
+    this.userF = this._user.user;
     this.ListarCentroCostos();
     this.envirom = environment;
   }

@@ -25,7 +25,7 @@ export class CitaComponent implements OnInit {
   public specialties: [];
   public infowailist: any
   public persons: any[];
-  public ipss: [];
+  public ipss = [];
   public sedes: [];
   public type_subappointments: [
     {
@@ -126,9 +126,20 @@ export class CitaComponent implements OnInit {
   }
 
   getIps() {
+    this.ipss = [];
     this.dataCitaToAssign.subappointment = this.searchItem(this.type_subappointments, this.dataCitaToAssign.subappointmentId);
     this._openAgendaService.getIps('3').subscribe((resp: any) => {
-      this.ipss = resp.data;
+      for (let i in resp.data) {
+        if (
+          resp.data[i].tipo == 'Compañias propias' &&
+          resp.data[i].estado == 'Activo' &&
+          resp.data[i].categoria == 'IPS'
+        ) {
+          this.ipss.push(resp.data[i]);
+        }
+      }
+      //this.ipss = resp.data;
+      console.log(this.ipss)
     });
   }
 

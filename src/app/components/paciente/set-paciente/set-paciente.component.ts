@@ -98,7 +98,17 @@ export class SetPacienteComponent implements OnInit {
 
   async getCompanies(event: string = '0') {
     await this._openAgenda.getIpsBasedOnCity(event).toPromise().then((req: any) => {
+      /* for (let i in req.data) {
+        if (
+          req.data[i].tipo == 'Compañias propias' &&
+          req.data[i].estado == 'Activo' &&
+          req.data[i].categoria == 'IPS'
+        ) {
+          this.companies.push(req.data[i]);
+        }
+      } */
       this.companies = req.data
+      console.log(this.companies)
       this.companies.unshift({ text: 'Seleccione', value: '' })
       this.getLocations(this.paciente.company_id)
     })

@@ -14,6 +14,7 @@ import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatInputModule } from '@angular/material/input';
 import { MatNativeDateModule } from '@angular/material/core';
 import { MatSelectModule } from '@angular/material/select';
+import { PipesModule } from '../../../core/pipes/pipes.module';
 
 @NgModule({
   declarations: [BalanceGeneralComponent, MovimientoGlobalizadoComponent],
@@ -22,6 +23,7 @@ import { MatSelectModule } from '@angular/material/select';
     BalancesRoutingModule,
     NgSelectModule,
     FormsModule,
+    PipesModule,
     HttpClientModule,
     NgbTypeaheadModule,
     ComponentsModule,

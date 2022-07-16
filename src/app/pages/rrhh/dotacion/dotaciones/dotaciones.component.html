@@ -1,31 +1,23 @@
-<div class="page-body">
-  <div class="">
-    <div class="row">
-      <div class="col-12">
-        <div class="">
-          <div class="row">
-            <ul ngbNav #nav="ngbNav" [(activeId)]="active" class="nav-tabs">
-              <li [ngbNavItem]="1">
-                <a ngbNavLink>Inventario Dotación</a>
-                <ng-template ngbNavContent>
-                  <app-category-stock></app-category-stock>
-                </ng-template>
-              </li>
-
-              <li [ngbNavItem]="2">
-                <a ngbNavLink>Entrega Dotación</a>
-                <ng-template ngbNavContent>
-                  <app-table-inventary></app-table-inventary>
-                </ng-template>
-              </li>
-            </ul>
-          </div>
-        </div>
-      </div>
-    </div>
+<div class="card">
+  <div class="card-body">
+    <ul ngbNav #nav="ngbNav" [(activeId)]="active" class="nav-tabs">
+      <li [ngbNavItem]="1">
+        <a ngbNavLink>Inventario dotación</a>
+        <ng-template ngbNavContent>
+          <app-category-stock></app-category-stock>
+        </ng-template>
+      </li>
+    
+      <li [ngbNavItem]="2">
+        <a ngbNavLink>Entrega dotación</a>
+        <ng-template ngbNavContent>
+          <app-table-inventary></app-table-inventary>
+        </ng-template>
+      </li>
+    </ul>
+    
+    <div [ngbNavOutlet]="nav"></div>
   </div>
-
-  <div [ngbNavOutlet]="nav" class="mt-0"></div>
 </div>
 
 <app-modal-basic #modalDevolver [dialogClass]="'modal-lg'">

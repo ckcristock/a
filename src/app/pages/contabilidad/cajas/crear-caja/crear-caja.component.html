@@ -1,17 +1,19 @@
-<app-modal-basic #modal [dialogClass]="'modal-md'">
-  <div class="app-modal-header">
-    <h5 class="modal-title">Nueva Caja</h5>
-    <button type="button" class="close basic-close" (click)="modal.hide()">
-      <span aria-hidden="true">
-        <i class="fas fa-times" (click)="modal.hide()"></i>
-      </span>
-    </button>
+<ng-template #modal let-modal>
+  <div class="modal-content">
+    <div class="modal-header">
+      <h4 class="text-primary modal-title">Nueva caja</h4>
+      <button
+        type="button"
+        class="btn btn-sm btn-flash-border-primary ri-close-fill"
+        aria-label="Close"
+        (click)="modal.dismiss('Cross click')"
+      ></button>
+    </div>
   </div>
-  <div class="app-modal-body">
+  <div class="modal-body">
     <form [formGroup]="forma">
       <div class="form-row">
-
-       <div class="form-group col-8">
+        <div class="form-group col-8">
           <label for="" class="form-label">Plan de cuenta</label>
           <input
             id="typeahead-format"
@@ -46,34 +48,33 @@
             [editable]="false"
           />
         </div>
-<div class="form-group col-12">
-	  <label for="" class="form-label mt-3">Nombre</label>
+        <div class="form-group col-12">
+          <label for="" class="form-label mt-3">Nombre</label>
           <input
             formControlName="description"
             class="form-control form-control-sm col-sm-12 mr-4 mt-1"
             placeholder="Nombre de la nueva caja..."
-          >
+          />
         </div>
-              </div>
+      </div>
     </form>
   </div>
-  <div class="app-modal-footer">
-    <div class="form-group text-right">
-      <button
-        (click)="modal.hide()"
-        type="button"
-        class="btn btn-danger raised mr-2 btn-sm"
-      >
-        Cerrar
-      </button>
-      <button
-        type="submit"
-        class="btn btn-primary btn-sm raised"
-        (click)="save()"
-        [disabled]="!forma.valid"
-      >
-        Guardar
-      </button>
-    </div>
+  <div class="modal-footer">
+    <button
+      type="button"
+      class="btn btn-default"
+      (click)="modal.dismiss('Cross click')"
+    >
+      Cancelar
+    </button>
+    <button
+      type="submit"
+      class="btn btn-primary"
+      (click)="save()"
+      [disabled]="!forma.valid"
+    >
+      Guardar
+    </button>
   </div>
-</app-modal-basic>
+</ng-template>
+

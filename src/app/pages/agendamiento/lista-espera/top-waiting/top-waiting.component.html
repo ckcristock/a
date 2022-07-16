@@ -1,58 +1,50 @@
-<div class="row">
-    <div class="col-12">
-        <div class="card">
-            <div class="card-body">
-                <div>
-                    <div class="text-center mb-5">
-                        <p class="mb-2">
-                            <i class="fa fa-clock"></i> Tiempo promedio de espera
-                        </p>
-                        <h5>{{statistics.averageTime}}</h5>
-                    </div>
-
-                    <div class="mb-5 text-center">
-                        <p class="mb-2  "> <i class="fa fa-user-clock"></i> Cita más antigua</p>
-                        <div>
-                            <div class="row align-items-center text-danger" *ngIf="statistics.lastAppointment; else notLast">
-                                <div class="col-6">{{statistics.lastAppointment.date | date}}</div>
-                                <div class="col-6">{{statistics.lastAppointment.patient_name}}</div>
-                                <!-- <div class="col-4">{{statistics.lastAppointment.speciality}}</div> -->
-                            </div>
-                            <ng-template #notLast>
-                                <span class="text-success">
-                                    No hay cita pendiente
-                                </span>
-                            </ng-template>
-                        </div>
-                    </div>
-
-                    <div class="text-center">
-                        <p class="mb-2"> <i class="fa fa-sort-amount-up-alt"></i> Top Especialidades en espera</p>
-                    </div>
-                    <div class="mt-4 text-left">
-
-                        <table *ngIf="statistics.topAwait.length > 0; else notTop" class="table table-hover mb-0 table-centered">
-                            <tbody>
-                                <tr *ngFor="let top of statistics.topAwait">
-                                    <td class="text-truncate font-size-14" style="max-width: 220px;width:220px !important;">
-                                        {{top.speciality}}
-                                    </td>
-                                    <td>{{top.total}}</td>
-                                </tr>
-
-                            </tbody>
-                        </table>
-                    </div>
-
-                    <ng-template #notTop>
-                        <span class="text-success ">
-                            No hay especialidades pendientes
-                        </span>
-                    </ng-template>
-
-                </div>
-            </div>
+<div class="card">
+  <div class="card-body">
+    <div class="text-center mb-2">
+      <p class="mb-2"><i class="fa fa-clock"></i> Tiempo promedio de espera</p>
+      <h5>{{ statistics.averageTime }}</h5>
+    </div>
+    <hr />
+    <div class="mb-2 text-center">
+      <p class="mb-2"><i class="fa fa-user-clock"></i> Cita más antigua</p>
+      <div>
+        <div
+          class="row align-items-center text-danger"
+          *ngIf="statistics.lastAppointment; else notLast"
+        >
+          <div class="col-6">{{ statistics.lastAppointment.date | date }}</div>
+          <div class="col-6">{{ statistics.lastAppointment.patient_name }}</div>
+          <!-- <div class="col-4">{{statistics.lastAppointment.speciality}}</div> -->
         </div>
+        <ng-template #notLast>
+          <span class="text-success"> No hay cita pendiente </span>
+        </ng-template>
+      </div>
+    </div>
+    <hr />
+    <div class="text-center">
+      <p class="mb-2">
+        <i class="fa fa-sort-amount-up-alt"></i> Top Especialidades en espera
+      </p>
+    </div>
+    <div class="mt-4">
+      <table
+        *ngIf="statistics.topAwait.length > 0; else notTop"
+        class="table table-hover"
+      >
+        <tbody>
+          <tr *ngFor="let top of statistics.topAwait">
+            <td class="col-md-8">
+              {{ top.speciality }}
+            </td>
+            <td class="text-right">{{ top.total }}</td>
+          </tr>
+        </tbody>
+      </table>
     </div>
 
+    <ng-template #notTop>
+      <span class="text-success"> No hay especialidades pendientes </span>
+    </ng-template>
+  </div>
 </div>

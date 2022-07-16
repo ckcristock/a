@@ -189,17 +189,16 @@
     </ng-container>
   </div>
 
-  <div class="card-footer bg-white">
-    <ngb-pagination
-      maxSize="5"
-      [collectionSize]="pagination.collectionSize"
-      (pageChange)="getData($event)"
-      [pageSize]="pagination.pageSize"
-      [(page)]="pagination.page"
-      aria-label="Default pagination "
-    >
-    </ngb-pagination>
-  </div>
+  <ngb-pagination
+    class="d-flex justify-content-center pagination-rounded pagination-sm"
+    maxSize="5"
+    [collectionSize]="pagination.collectionSize"
+    (pageChange)="getData($event)"
+    [pageSize]="pagination.pageSize"
+    [(page)]="pagination.page"
+    aria-label="Default pagination "
+  >
+  </ngb-pagination>
 </form>
 
 <app-dotacion-entradas [open]="openModal"></app-dotacion-entradas>

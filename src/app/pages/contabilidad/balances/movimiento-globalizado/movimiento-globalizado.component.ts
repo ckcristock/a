@@ -6,6 +6,7 @@ import { Observable } from 'rxjs';
 import { debounceTime, distinctUntilChanged, switchMap, map } from 'rxjs/operators';
 import { environment } from 'src/environments/environment';
 import { UserService } from '../../../../core/services/user.service';
+import { User } from 'src/app/core/models/users.model';
 
 @Component({
   selector: 'app-movimiento-globalizado',
@@ -13,7 +14,7 @@ import { UserService } from '../../../../core/services/user.service';
   styleUrls: ['./movimiento-globalizado.component.scss']
 })
 export class MovimientoGlobalizadoComponent implements OnInit {
-
+  public userF : User;
   public datosCabecera:any = {
     Titulo: 'Movimientos Globalizados',
     Fecha: new Date()
@@ -29,6 +30,7 @@ export class MovimientoGlobalizadoComponent implements OnInit {
   constructor(private http: HttpClient, private _terceroService: TerceroService, private _user: UserService ) { }
 
   ngOnInit() {
+    this.userF = this._user.user;
     this.tiposDocumentos('Normal');
     this.FiltrarTerceros().subscribe((data:any) => {
       this.terceros = data;

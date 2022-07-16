@@ -9,6 +9,8 @@ import { Observable } from 'rxjs';
 import { debounceTime, map } from 'rxjs/operators';
 import { NgForm } from '@angular/forms';
 import { UserService } from 'src/app/core/services/user.service';
+import { ModalDismissReasons, NgbModal } from '@ng-bootstrap/ng-bootstrap';
+import { User } from 'src/app/core/models/users.model';
 
 @Component({
   selector: 'app-crear-compra-nacional',
@@ -16,6 +18,24 @@ import { UserService } from 'src/app/core/services/user.service';
   styleUrls: ['./crear-compra-nacional.component.scss'],
 })
 export class CrearCompraNacionalComponent implements OnInit {
+  public userF : User;
+  closeResult = '';
+  public openConfirm(confirm){
+    this.modalService.open(confirm, { ariaLabelledBy: 'modal-basic-title', size: 'xl' }).result.then((result) => {
+      this.closeResult = `Closed with: ${result}`;
+    }, (reason) => {
+      this.closeResult = `Dismissed ${this.getDismissReason(reason)}`;
+    });
+  }
+  private getDismissReason(reason: any): string {
+    if (reason === ModalDismissReasons.ESC) {
+      return 'by pressing ESC';
+    } else if (reason === ModalDismissReasons.BACKDROP_CLICK) {
+      return 'by clicking on a backdrop';
+    } else {
+      return `with: ${reason}`;
+    }
+  }
   tipoMaterial = ['Activo_Fijo', 'Medicamento', 'Material', 'Dotacion_EPP'];
   public reducer = (accumulator, currentValue) =>
     accumulator + parseFloat(currentValue.Cantidad);
@@ -92,12 +112,13 @@ export class CrearCompraNacionalComponent implements OnInit {
   public user = '';
   posicion: any = '';
   puntos: any = [];
-
+  
   constructor(
     private route: ActivatedRoute,
     private http: HttpClient,
     private router: Router,
-    private _user: UserService
+    private _user: UserService,
+    private modalService: NgbModal,
   ) {
     this.alertOption = {
       title: '¿Está Seguro?',
@@ -116,15 +137,18 @@ export class CrearCompraNacionalComponent implements OnInit {
       allowOutsideClick: () => !swal.isLoading(),
     };
 
+
     this.http
-      .get(environment.ruta + 'php/comprasnacionales/proveedor_buscar.php', {params:{
-        company_id:this._user.user.person.company_worked.id
-      }})
+      .get(environment.ruta + 'php/comprasnacionales/proveedor_buscar.php', {
+        params: {
+
+          company_id: this._user.user.person.company_worked.id
+        }
+      })
       .subscribe((data: any) => {
         this.Proveedores = data;
       });
-  }
-
+  }  
   //INICIA BUCAR LOS PRODUCTO
   search1 = (text$: Observable<string>) =>
     text$.pipe(
@@ -133,8 +157,8 @@ export class CrearCompraNacionalComponent implements OnInit {
         term.length < 4
           ? []
           : this.ListaProducto.filter(
-              (v) => v.Nombre.toLowerCase().indexOf(term.toLowerCase()) > -1
-            ).slice(0, 10)
+            (v) => v.Nombre.toLowerCase().indexOf(term.toLowerCase()) > -1
+          ).slice(0, 10)
       )
     );
   formatter1 = (x: { Nombre: string }) => x.Nombre;
@@ -148,15 +172,18 @@ export class CrearCompraNacionalComponent implements OnInit {
         term.length < 4
           ? []
           : this.Proveedores.filter(
-              (v) =>
-                v.NombreProveedor.toLowerCase().indexOf(term.toLowerCase()) > -1
-            ).slice(0, 10)
+            (v) =>
+              v.NombreProveedor.toLowerCase().indexOf(term.toLowerCase()) > -1
+          ).slice(0, 10)
       )
     );
   formatter2 = (x: { NombreProveedor: string }) => x.NombreProveedor;
   //FIN BUCAR LOS PROVEEDORES
 
   ngOnInit() {
+    this.Tipo = 'Recurrente';
+    this.userF = this._user.user;
+    console.log(this.userF)
     let params = this.route.snapshot.queryParams;
     this.user = this._user.user.person.id;
     console.log(this.user)
@@ -187,9 +214,11 @@ export class CrearCompraNacionalComponent implements OnInit {
     }
 
     this.http
-      .get(environment.ruta + 'php/bodega_nuevo/get_bodegas.php',{params:{
-        company_id:this._user.user.person.company_worked.id
-      }})
+      .get(environment.ruta + 'php/bodega_nuevo/get_bodegas.php', {
+        params: {
+          company_id: this._user.user.person.company_worked.id
+        }
+      })
       .subscribe((data: any) => {
         this.Bodegas = data.Bodegas;
         this.Impuestos = data.impuestoli;
@@ -254,7 +283,7 @@ export class CrearCompraNacionalComponent implements OnInit {
     this.http
       .get(
         environment.ruta +
-          'php/inventario_fisico_puntos/lista_punto_funcionario.php',
+        'php/inventario_fisico_puntos/lista_punto_funcionario.php',
         { params: { id: '1' } }
       )
       .subscribe((data: any) => {
@@ -297,8 +326,8 @@ export class CrearCompraNacionalComponent implements OnInit {
       this.http
         .get(
           environment.ruta +
-            'php/comprasnacionales/lista_productos.php?' +
-            queryString, {params:{company_id:this._user.user.person.company_worked.id}}
+          'php/comprasnacionales/lista_productos.php?' +
+          queryString, { params: { company_id: this._user.user.person.company_worked.id } }
         )
         .subscribe((data: any) => {
           this.Cargando = false;
@@ -314,7 +343,7 @@ export class CrearCompraNacionalComponent implements OnInit {
 
       this.http
         .get(environment.ruta + 'php/comprasnacionales/lista_productos.php', {
-          params: { nom: this.filtro_nombre , company_id:this._user.user.person.company_worked.id},
+          params: { nom: this.filtro_nombre, company_id: this._user.user.person.company_worked.id },
         })
         .subscribe((data: any) => {
           this.Cargando = false;
@@ -322,6 +351,7 @@ export class CrearCompraNacionalComponent implements OnInit {
         });
     }
   }
+  
 
   searchProduct(pos, editar) {
     this.ListaProducto = [];
@@ -341,9 +371,9 @@ export class CrearCompraNacionalComponent implements OnInit {
 
     if (producto != '') {
       this.http
-      
+
         .get(environment.ruta + 'php/comprasnacionales/lista_productos.php', {
-          params: { nom: producto , company_id:this._user.user.person.company_worked.id},
+          params: { nom: producto, company_id: this._user.user.person.company_worked.id },
         })
         .subscribe((data: any) => {
           this.Cargando = false;
@@ -379,7 +409,7 @@ export class CrearCompraNacionalComponent implements OnInit {
           environment.ruta + '/php/rotativoscompras/actualizar_estado.php',
           datos
         )
-        .subscribe((data: any) => {});
+        .subscribe((data: any) => { });
     }
 
     if (this.Lista_Productos.length > 1) {
@@ -399,7 +429,7 @@ export class CrearCompraNacionalComponent implements OnInit {
       return await this.http
         .post(
           environment.ruta +
-            'php/comprasnacionales/guardar_compra_nacional.php',
+          'php/comprasnacionales/guardar_compra_nacional.php',
           datos
         )
         .toPromise()
@@ -553,7 +583,7 @@ export class CrearCompraNacionalComponent implements OnInit {
       });
     }
 
-    this.modalProductos.hide();
+    this.modalService.dismissAll(); 
     this.Productos = [];
   }
 

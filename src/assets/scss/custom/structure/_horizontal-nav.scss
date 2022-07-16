@@ -20,14 +20,14 @@
     .navbar-nav {
 
         .nav-link {
-            font-size: small;
+            font-size: smaller;
             position: relative;
             padding: 0.7rem 1.3rem;
             color: $menu-item-color;
             font-family: $font-family-secondary;
 
             i {
-                font-size: 13px;
+                font-size: small;
                 vertical-align: middle;
                 display: inline-block;
             }
@@ -205,7 +205,7 @@
 }
 
 @include media-breakpoint-down(md) {
-    hr{
+    hr .hr-custom{
         display: none;
     }
     .navbar-brand-box {

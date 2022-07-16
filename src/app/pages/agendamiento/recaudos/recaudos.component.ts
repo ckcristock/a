@@ -1,7 +1,7 @@
 import { Component, EventEmitter, OnInit } from '@angular/core';
 import { ModalPaymentComponent } from 'src/app/components/modal-payment/modal-payment.component';
 import { AppointmentService } from 'src/app/core/services/appointment.service';
-
+import {formatDate } from '@angular/common';
 @Component({
   selector: 'app-recaudos',
   templateUrl: './recaudos.component.html',
@@ -9,7 +9,7 @@ import { AppointmentService } from 'src/app/core/services/appointment.service';
   providers: [ModalPaymentComponent]
 })
 export class RecaudosComponent implements OnInit {
-
+  today= new Date();
   openModalRecaudo = new EventEmitter<any>();
   loading = false;
   citas: Array<any> = [
@@ -58,9 +58,10 @@ export class RecaudosComponent implements OnInit {
     //   state: 'Confirmado'
     // }
   ];
+  startDate = new Date().toISOString().slice(0, 10)
   filters: any = {
     patient: null,
-    date: null,
+    date: this.startDate,
   }
   pagination = {
     pageSize: 25,
@@ -71,8 +72,11 @@ export class RecaudosComponent implements OnInit {
   public appointmentConfirm = 0
   public appointmentCollection = 0
   public appointmentCollectionAll = 0
-
-  constructor(private _appointment: AppointmentService, private _modalPayment: ModalPaymentComponent) { }
+  jstoday = '';
+  
+  constructor(private _appointment: AppointmentService, private _modalPayment: ModalPaymentComponent) {
+    
+   }
 
   ngOnInit(): void {
     this.searchPatient()

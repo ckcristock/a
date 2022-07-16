@@ -24,7 +24,7 @@
                 type="text"
                 placeholder="Busca por nombre"
                 [(ngModel)]="filtro_Codigo1"
-                (change)="filtrosFase1()"
+                (input)="filtrosFase1()"
                 autocomplete="off"
               />
             </mat-form-field>
@@ -35,7 +35,7 @@
                 type="text"
                 placeholder="Busca por origen"
                 [(ngModel)]="filtro_Origen1"
-                (change)="filtrosFase1()"
+                (input)="filtrosFase1()"
                 autocomplete="off"
               />
             </mat-form-field>
@@ -46,7 +46,7 @@
                 type="text"
                 placeholder="Busca por destino"
                 [(ngModel)]="filtro_Destino1"
-                (change)="filtrosFase1()"
+                (input)="filtrosFase1()"
                 autocomplete="off"
               />
             </mat-form-field>
@@ -57,57 +57,59 @@
           style="font-size: small"
           *ngIf="!ValidaFase1 && FaseI.length > 0; else notData1"
         >
-          <tr *ngFor="let item of FaseI; let i = index" id="fila{{ i }}">
-            <td style="width: 50px">
-              <div class="feed-user-img">
+          <!--  -->
+          <tbody>
+            <tr *ngFor="let item of FaseI; let i = index" id="fila{{ i }}">
+              <td class="text-center align-middle">
                 <img
+                  class="img-thumbnail rounded-circle header-profile-user img-fluid"
                   [src]="item.Imagen | image: 'users'"
-                  style="width: 50px"
-                  class="rounded-circle avatar-sm"
+                  onerror="this.src='../../../../assets/images/noprofile.png'"
                   alt=""
                 />
-              </div>
-            </td>
-            <td style="padding: 8px !important">
-              <h6>{{ item.Tipo }} {{ item.Codigo }}</h6>
-              <p class="text-muted">
-                <strong>Origen: </strong> {{ item.Nombre_Origen }}
-              </p>
-              <p class="destino">
-                <strong>Destino: </strong> {{ item.Nombre_Destino }}
-              </p>
-            </td>
-            <td style="width: 30px; text-align: center">
-              <i
-                *ngIf="item.Tipo_Bodega == 'MEDICAMENTOS'"
-                class="fa fa-medkit fa-2x"
-                style="color: green"
-              ></i>
-              <i
-                *ngIf="item.Tipo_Bodega == 'MATERIALES'"
-                class="fa fa-th-large fa-2x"
-                style="color: rgb(87, 87, 67)"
-              ></i>
-              <i
-                *ngIf="item.Tipo_Bodega == 'REFRIGERADOS'"
-                class="fas fa-snowflake fa-2x"
-                style="color: #2569e8"
-              ></i>
-            </td>
-            <td style="width: 90px">
-              <p class="text-muted">Prioridad {{ item.Prioridad }}</p>
-            </td>
-            <td style="width: 75px">
-              <button
-                class="btn btn-warning btn-sm"
-                (click)="
-                  Bandera_Fase1(item.Id_Remision, item.Tipo, item.Id_Contrato)
-                "
-              >
-                Iniciar Fase I
-              </button>
-            </td>
-          </tr>
+              </td>
+              <td class="align-middle text-center">
+                <h6>{{ item.Tipo }} {{ item.Codigo }}</h6>
+                <span class="text-muted">
+                  <strong>Origen: </strong> {{ item.Nombre_Origen }}
+                </span>
+                <br />
+                <span class="destino">
+                  <strong>Destino: </strong> {{ item.Nombre_Destino }}
+                </span>
+              </td>
+              <td *ngIf="item.Tipo_Bodega" class="text-center align-middle">
+                <i
+                  *ngIf="item.Tipo_Bodega == 'MEDICAMENTOS'"
+                  class="fa fa-medkit fa-2x"
+                  style="color: green"
+                ></i>
+                <i
+                  *ngIf="item.Tipo_Bodega == 'MATERIALES'"
+                  class="fa fa-th-large fa-2x"
+                  style="color: rgb(87, 87, 67)"
+                ></i>
+                <i
+                  *ngIf="item.Tipo_Bodega == 'REFRIGERADOS'"
+                  class="fas fa-snowflake fa-2x"
+                  style="color: #2569e8"
+                ></i>
+              </td>
+              <td class="text-center align-middle">
+                <span class="text-muted">Prioridad {{ item.Prioridad }}</span>
+              </td>
+              <td class="text-center align-middle">
+                <button
+                  class="btn btn-warning btn-sm"
+                  (click)="
+                    Bandera_Fase1(item.Id_Remision, item.Tipo, item.Id_Contrato)
+                  "
+                >
+                  Iniciar
+                </button>
+              </td>
+            </tr>
+          </tbody>
         </table>
       </div>
     </div>
@@ -133,7 +135,7 @@
                 type="text"
                 placeholder="Busca por nombre"
                 [(ngModel)]="filtro_Codigo2"
-                (change)="filtrosFase2()"
+                (input)="filtrosFase2()"
                 autocomplete="off"
               />
             </mat-form-field>
@@ -144,7 +146,7 @@
                 type="text"
                 placeholder="Busca por origen"
                 [(ngModel)]="filtro_Origen2"
-                (change)="filtrosFase2()"
+                (input)="filtrosFase2()"
                 autocomplete="off"
               />
             </mat-form-field>
@@ -155,7 +157,7 @@
                 type="text"
                 placeholder="Busca por destino"
                 [(ngModel)]="filtro_Destino2"
-                (change)="filtrosFase2()"
+                (input)="filtrosFase2()"
                 autocomplete="off"
               />
             </mat-form-field>
@@ -166,28 +168,27 @@
           style="font-size: small"
           *ngIf="!ValidaFase2 && FaseII.length > 0; else notData2"
         >
+          <!--  -->
           <tr *ngFor="let item of FaseII; let i = index" id="fila{{ i }}">
-            <td style="width: 50px">
-              <div class="feed-user-img">
-                <img
-                  [src]="item.Imagen | image: 'users'"
-                  style="width: 50px"
-                  class="rounded-circle avatar-sm"
-                  alt=""
-                />
-              </div>
+            <td class="text-center align-middle">
+              <img
+                class="img-thumbnail rounded-circle header-profile-user img-fluid"
+                [src]="item.Imagen | image: 'users'"
+                onerror="this.src='../../../../assets/images/noprofile.png'"
+                alt=""
+              />
             </td>
-            <td style="padding: 8px !important">
+            <td class="align-middle text-center">
               <h6>{{ item.Tipo }} {{ item.Codigo }}</h6>
-              <p class="text-muted">
+              <span class="text-muted">
                 <strong>Origen: </strong> {{ item.Nombre_Origen }}
-              </p>
-              <p class="text-muted">
+              </span>
+              <br />
+              <span class="destino">
                 <strong>Destino: </strong> {{ item.Nombre_Destino }}
-              </p>
+              </span>
             </td>
-
-            <td style="width: 30px; text-align: center">
+            <td *ngIf="item.Tipo_Bodega" class="text-center align-middle">
               <i
                 *ngIf="item.Tipo_Bodega == 'MEDICAMENTOS'"
                 class="fa fa-medkit fa-2x"
@@ -204,17 +205,17 @@
                 style="color: #2569e8"
               ></i>
             </td>
-            <td style="width: 90px">
-              <p class="text-muted">Prioridad {{ item.Prioridad }}</p>
+            <td class="text-center align-middle">
+              <span class="text-muted">Prioridad {{ item.Prioridad }}</span>
             </td>
-            <td style="width: 75px">
+            <td class="text-center align-middle">
               <button
                 class="btn btn-success btn-sm"
                 (click)="
                   Bandera_Fase2(item.Id_Remision, item.Tipo, item.Id_Contrato)
                 "
               >
-                Iniciar Fase II
+                Iniciar
               </button>
             </td>
           </tr>
@@ -321,8 +322,8 @@
       style="font-size: small"
       *ngIf="!loading && Alistamientos.length > 0; else notData3"
     >
-      <thead>
-        <tr>
+      <thead class="bg-light">
+        <tr class="text-center text-uppercase">
           <th>Fecha</th>
           <th>Codigo</th>
           <th>Tipo</th>
@@ -335,26 +336,25 @@
         </tr>
       </thead>
       <tbody>
-        <tr *ngFor="let alistamiento of Alistamientos; let i = index">
-          <td class="text-center">
+        <tr
+          *ngFor="let alistamiento of Alistamientos; let i = index"
+          class="text-center"
+        >
+          <td class="align-middle">
             {{ alistamiento.Fecha | date: "dd/MM/yyyy" }}
           </td>
-          <td class="text-center">{{ alistamiento.Codigo }}</td>
-          <td>
-            <div class="text-center">
-              <span
-                class="label {{
-                  alistamiento.Tipo == 'Cliente'
-                    ? 'label-success'
-                    : 'label-warning'
-                }} {{
-                  alistamiento.Tipo == 'Devolucion' ? 'label-danger' : ''
-                }}"
-                >{{ alistamiento.Tipo }}
-              </span>
-            </div>
+          <td class="align-middle">{{ alistamiento.Codigo }}</td>
+          <td class="align-middle">
+            <span
+              class="badge {{
+                alistamiento.Tipo == 'Cliente'
+                  ? 'badge-success'
+                  : 'badge-warning'
+              }} {{ alistamiento.Tipo == 'Devolucion' ? 'badge-danger' : '' }}"
+              >{{ alistamiento.Tipo }}
+            </span>
           </td>
-          <td class="text-center">
+          <td class="align-middle">
             {{ alistamiento.NombreOrigen }}
             <i
               *ngIf="alistamiento.Tipo_Bodega == 'MEDICAMENTOS'"
@@ -369,57 +369,53 @@
               class="fa fa-asterisk"
             ></i>
           </td>
-          <td>{{ alistamiento.NombreDestino }}</td>
-          <td>
+          <td class="align-middle">{{ alistamiento.NombreDestino }}</td>
+          <td class="align-middle">
             <div *ngIf="alistamiento.Guia != ''">
               <i class="fa fa-barcode"></i> {{ alistamiento.Guia }}<br />
               <i class="fa fa-truck"></i>
               {{ alistamiento.Empresa_Envio }}
             </div>
           </td>
-          <td class="text-center">{{ alistamiento.Items }}</td>
-          <td>
-            <div class="text-center">
-              <span
-                *ngIf="alistamiento.Estado != 'Facturada'"
-                class="label {{ alistamiento.Estado == 'Anulada' ? '' : '' }} {{
-                  alistamiento.Estado == 'Alistada' ? 'label-inverse' : ''
-                }} {{ alistamiento.Estado == 'Enviada' ? 'label-info' : '' }} {{
-                  alistamiento.Estado == 'Pendiente' && alistamiento.Fase == 1
-                    ? 'label-danger'
-                    : ''
-                }} {{
-                  alistamiento.Estado == 'Pendiente' && alistamiento.Fase == 2
-                    ? 'label-danger'
-                    : ''
-                }}
+          <td class="align-middle">{{ alistamiento.Items }}</td>
+          <td class="align-middle">
+            <span
+              *ngIf="alistamiento.Estado != 'Facturada'"
+              class="badge {{ alistamiento.Estado == 'Anulada' ? '' : '' }} {{
+                alistamiento.Estado == 'Alistada' ? 'badge-dark' : ''
+              }} {{ alistamiento.Estado == 'Enviada' ? 'badge-info' : '' }} {{
+                alistamiento.Estado == 'Pendiente' && alistamiento.Fase == 1
+                  ? 'label-danger'
+                  : ''
+              }} {{
+                alistamiento.Estado == 'Pendiente' && alistamiento.Fase == 2
+                  ? 'badge-danger'
+                  : ''
+              }}
                       {{
-                  alistamiento.Estado == 'Recibida' ? 'label-success' : ''
-                }}      {{
-                  alistamiento.Estado == 'Anulada' ? 'label-danger' : ''
-                }}  {{
-                  alistamiento.Estado == 'Activa' ? 'label-warning' : ''
-                }}"
-                >{{ alistamiento.Estado }}
-              </span>
+                alistamiento.Estado == 'Recibida' ? 'badge-success' : ''
+              }}      {{
+                alistamiento.Estado == 'Anulada' ? 'badge-danger' : ''
+              }}  {{ alistamiento.Estado == 'Activa' ? 'badge-warning' : '' }}"
+              >{{ alistamiento.Estado }}
+            </span>
 
-              <a
-                *ngIf="alistamiento.Estado == 'Facturada'"
-                class="label label-success"
-                [routerLink]="['/facturasventasver', alistamiento.Id_Factura]"
-                >Facturada</a
-              >
-            </div>
+            <a
+              *ngIf="alistamiento.Estado == 'Facturada'"
+              class="badge badge-success"
+              [routerLink]="['/facturasventasver', alistamiento.Id_Factura]"
+              >Facturada</a
+            >
           </td>
-          <td>
+          <td class="align-middle">
             <div class="text-center">
               <div ngbDropdown class="dropdown-primary">
                 <button
                   ngbDropdownToggle
-                  class="btn btn-secondary btn-mini waves-effect waves-light"
+                  class="btn btn-primary btn-sm waves-effect waves-light"
                   type="button"
                 >
-                  Acciones
+                  <i class="mdi mdi-chevron-down"></i>
                 </button>
                 <div ngbDropdownMenu>
                   <a
@@ -431,7 +427,7 @@
                       alistamiento.Id_Remision
                     ]"
                   >
-                    <i class="fa fa-eye"></i>Ver!</a
+                    <i class="fa fa-eye"></i> Ver</a
                   >
                   <a
                     class="dropdown-item waves-light waves-effect caja-botones"
@@ -442,7 +438,7 @@
                       alistamiento.Id_Remision
                     ]"
                   >
-                    <i class="fa fa-eye"></i>Ver.</a
+                    <i class="fa fa-eye"></i> Ver</a
                   >
                   <a
                     class="dropdown-item waves-light waves-effect caja-botones"
@@ -471,9 +467,9 @@
                     "
                     class="dropdown-item waves-light waves-effect caja-botones"
                     (click)="
-                      CapturarId(alistamiento.Id_Remision, alistamiento.Tipo)
+                      CapturarId(alistamiento.Id_Remision, alistamiento.Tipo, add)
                     "
-                    ><i class="fa fa-plus"></i>Agregar Guía</a
+                    ><i class="fa fa-plus"></i> Agregar Guía</a
                   >
                   <a
                     *ngIf="
@@ -483,9 +479,9 @@
                     "
                     class="dropdown-item waves-light waves-effect caja-botones"
                     (click)="
-                      EditarGuia(alistamiento.Id_Remision, i, alistamiento.Tipo)
+                      EditarGuia(alistamiento.Id_Remision, i, alistamiento.Tipo, add)
                     "
-                    ><i class="fa fa-truck"></i>Editar Guía</a
+                    ><i class="fa fa-truck"></i> Editar Guía</a
                   >
                 </div>
               </div>
@@ -506,6 +502,69 @@
     ></ngb-pagination>
   </div>
 </div>
+
+<ng-template #add let-modal>
+  <div class="modal-content">
+    <div class="modal-header">
+      <h4 class="text-primary modal-title">Editar remisión</h4>
+      <button
+        type="button"
+        class="btn btn-sm btn-flash-border-primary ri-close-fill"
+        aria-label="Close"
+        (click)="close()"
+      ></button>
+    </div>
+  </div>
+  <div class="modal-body">
+    <form #FormGuiaRemision="ngForm">
+      <div class="row">
+        <div class="col-md-5">
+          <div class="form-group">
+            <label>Número de Guía</label>
+            <input
+              name="Numero_Guia"
+              type="text"
+              placeholder="Número de Guía"
+              class="form-control form-control-sm"
+              [(ngModel)]="Editar.Numero_Guia"
+              required
+            />
+          </div>
+        </div>
+        <div class="col-md-7">
+          <div class="form-group">
+            <label>Empresa de Envio</label>
+            <input
+              name="Empresa_Envio"
+              type="text"
+              placeholder="Empresa de Envio"
+              class="form-control form-control-sm"
+              [(ngModel)]="Editar.Empresa_Envio"
+              required
+            />
+          </div>
+        </div>
+      </div>
+    </form>
+  </div>
+  <div class="modal-footer">
+    <button
+      type="button"
+      class="btn btn-default"
+      (click)="close()"
+    >
+      Cancelar
+    </button>
+    <button
+      type="button"
+      class="btn btn-primary"
+      [disabled]="!FormGuiaRemision.valid"
+      (click)="showAlert($event)"
+    >
+      Guardar
+    </button>
+  </div>
+</ng-template>
 
 <app-modal-basic #modalGuiaRemisionEditar [dialogClass]="'modal-lg'">
   <div class="app-modal-header">
@@ -563,6 +622,7 @@
     </div>
   </div>
 </app-modal-basic>
+
 <swal #confirmacionSwal title="" text="" icon=""></swal>
 <swal
   #confirmacionSalir
@@ -583,5 +643,5 @@
   <app-not-data [loading]="ValidaFase2"></app-not-data>
 </ng-template>
 <ng-template #notData3>
-  <app-not-data [loading]="Cargando_Tabla"></app-not-data>
+  <app-not-data [loading]="loading"></app-not-data>
 </ng-template>

@@ -13,6 +13,7 @@ import { PersonService } from 'src/app/pages/ajustes/informacion-base/persons/pe
 import { PayrollFactorService } from '../payroll-factor.service';
 import * as moment from 'moment';
 import Swal from 'sweetalert2';
+import { ModalService } from 'src/app/core/services/modal.service';
 
 @Component({
   selector: 'app-crear-novedad',
@@ -31,7 +32,8 @@ export class CrearNovedadComponent implements OnInit {
     private fb: FormBuilder,
     private _disabilityLeaves: DisabilityLeavesService,
     private _people: PersonService,
-    private _payrollFactor: PayrollFactorService
+    private _payrollFactor: PayrollFactorService,
+    private _modal: ModalService
   ) {}
 
   ngOnInit(): void {
@@ -55,7 +57,8 @@ export class CrearNovedadComponent implements OnInit {
       } else {
         this.createForm();
       }
-      this.modal.show();
+      //this.modal.show();
+      this._modal.openLg(this.modal)
     });
   }
 
@@ -120,7 +123,8 @@ export class CrearNovedadComponent implements OnInit {
           });
           this.createForm();
           this.saving.next();
-          this.modal.hide();
+          //this.modal.hide();
+          this._modal.close()
         } else {
           Swal.fire({
             title: 'Operación denegada',

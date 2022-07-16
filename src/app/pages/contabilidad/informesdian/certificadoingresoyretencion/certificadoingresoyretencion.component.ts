@@ -7,6 +7,7 @@ import { CertificadoRetencionModel } from '../certificadoretencion/CertificadoRe
 import { TerceroService } from '../../../../core/services/tercero.service';
 import { environment } from 'src/environments/environment';
 import { UserService } from '../../../../core/services/user.service';
+import { User } from 'src/app/core/models/users.model';
 
 @Component({
   selector: 'app-certificadoingresoyretencion',
@@ -14,7 +15,7 @@ import { UserService } from '../../../../core/services/user.service';
   styleUrls: ['./certificadoingresoyretencion.component.scss']
 })
 export class CertificadoingresoyretencionComponent implements OnInit {
-
+  public userF : User;
   public datosCabecera:any = {
     Titulo: 'Certificados de Ingreso y Retención',
     Fecha: new Date()
@@ -29,6 +30,7 @@ export class CertificadoingresoyretencionComponent implements OnInit {
   constructor(private globales: Globales, private http: HttpClient, private _terceroService: TerceroService, private _user: UserService) { }
 
   ngOnInit() {
+    this.userF = this._user.user;
     this.FiltrarTerceros().subscribe((data:any) => {
       this.terceros = data;
     })

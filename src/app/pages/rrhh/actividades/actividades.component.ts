@@ -40,6 +40,7 @@ import Swal from 'sweetalert2';
 import * as moment from 'moment';
 import { SwalService } from '../../ajustes/informacion-base/services/swal.service';
 import { consts } from 'src/app/core/utils/consts';
+import { ModalService } from 'src/app/core/services/modal.service';
 
 @Component({
   selector: 'app-actividades',
@@ -123,7 +124,8 @@ export class ActividadesComponent {
     private _group: GroupService,
     private _company: CompanyService,
     private _person: PersonService,
-    private _swal: SwalService
+    private _swal: SwalService,
+    private _modal: ModalService
   ) {
     this.GetTiposActividad();
   }
@@ -134,6 +136,14 @@ export class ActividadesComponent {
      }); */
     this.GetActividadesMes();
     //alert(`i'm here`);
+  }
+  openModal(content, y){
+    if (y == 1){
+      this._modal.openLg(content)
+    } else if (y ==2){
+      this._modal.open(content)
+    }
+    
   }
   GetActividadesMes() {
     this._actividad.getActivities().subscribe((r: any) => {
@@ -253,7 +263,8 @@ export class ActividadesComponent {
   }
   CerrarModal() {
     this.LimpiarModelo();
-    this.ModalActividad.hide();
+    this._modal.close()
+    //this.ModalActividad.hide();
     this.cliente_seleccionado = '';
   }
   search_funcionario: any = [];

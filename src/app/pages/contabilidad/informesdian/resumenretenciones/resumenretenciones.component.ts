@@ -3,6 +3,7 @@ import { Globales } from '../../globales';
 import { HttpClient } from '@angular/common/http';
 import { environment } from 'src/environments/environment';
 import { UserService } from '../../../../core/services/user.service';
+import { User } from 'src/app/core/models/users.model';
 
 @Component({
   selector: 'app-resumenretenciones',
@@ -10,7 +11,7 @@ import { UserService } from '../../../../core/services/user.service';
   styleUrls: ['./resumenretenciones.component.scss']
 })
 export class ResumenretencionesComponent implements OnInit {
-
+  public userF : User;
   public datosCabecera:any = {
     Titulo: 'Resumen de Retenciones',
     Fecha: new Date()
@@ -27,6 +28,7 @@ export class ResumenretencionesComponent implements OnInit {
   constructor(private globales: Globales, private http: HttpClient, private _user: UserService) { }
 
   ngOnInit() {
+    this.userF = this._user.user;
     this.company_id = this._user.user.person.company_worked.id;
   }
 

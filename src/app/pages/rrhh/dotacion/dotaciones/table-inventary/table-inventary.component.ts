@@ -6,6 +6,7 @@ import { ChartDataSets, ChartOptions, ChartType } from 'chart.js';
 import { Label } from 'ng2-charts';
 import * as moment from 'moment';
 import Swal from 'sweetalert2';
+import { MatAccordion } from '@angular/material';
 
 
 @Component({
@@ -18,7 +19,17 @@ export class TableInventaryComponent implements OnInit {
 
   @ViewChild('tablestock') private tablestock;
   @ViewChild('modalEntrega') modalEntrega: any;
-
+  @ViewChild(MatAccordion) accordion: MatAccordion;
+  matPanel = false;
+  openClose(){
+    if (this.matPanel == false){
+      this.accordion.openAll()
+      this.matPanel = true;
+    } else {
+      this.accordion.closeAll()
+      this.matPanel = false;
+    }    
+  }
   public flagDotacionApp:  string = '';
   selectedMes: string;
   nombre:string = '';

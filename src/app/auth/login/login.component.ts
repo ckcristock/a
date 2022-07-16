@@ -35,13 +35,14 @@ export class LoginComponent implements OnInit {
 
   }
 
-
+  log_in: boolean = false
   onSubmit() {
+    
     this.submitted = true;
 
     this._user.login(this.loginForm.value)
        .subscribe(resp => { 
-
+        this.log_in = false
         if (this.loginForm.get('remember').value) {
           localStorage.setItem('user', this.loginForm.get('user').value);
         } else {
@@ -50,9 +51,10 @@ export class LoginComponent implements OnInit {
 
         // Navegar al Dashboard
         this.router.navigateByUrl('/');
+        this.log_in = true
        }, (err) => { 
         // Si sucede un error
-        
+        this.log_in = false
          Swal.fire('Error', 'Credenciales incorrectas', 'error'); 
        }); 
 

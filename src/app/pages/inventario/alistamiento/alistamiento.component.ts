@@ -20,6 +20,7 @@ import { environment } from 'src/environments/environment';
 import { MatAccordion } from '@angular/material';
 import { DatePipe } from '@angular/common';
 import { DateAdapter } from 'saturn-datepicker';
+import { ModalService } from 'src/app/core/services/modal.service';
 @Component({
   selector: 'app-alistamiento',
   templateUrl: './alistamiento.component.html',
@@ -113,8 +114,9 @@ export class AlistamientoComponent implements OnInit {
   public Alistadas: any;
   date: { year: number; month: number };
 
-  public ValidaFase1 = false;
-  public ValidaFase2 = false;
+  public ValidaFase1: boolean;
+  public ValidaFase2: boolean;
+  loading: boolean;
   alive: any;
   envi: any = { ruta: '' };
 
@@ -123,7 +125,8 @@ export class AlistamientoComponent implements OnInit {
     private location: Location,
     private route: ActivatedRoute,
     private router: Router,
-    private dateAdapter: DateAdapter<any>
+    private dateAdapter: DateAdapter<any>,
+    private _modal: ModalService
   ) {
     this.dateAdapter.setLocale('es');
     this.alertOption = {
@@ -144,20 +147,22 @@ export class AlistamientoComponent implements OnInit {
     };
     this.ListarAlistamientos();
   }
-  loading = true
+  
   ngOnInit() {
     this.envi = environment;
     /* TODO auth user */
     this.user = {
       Identificacion_Funcionario: '1',
     };
+    this.ValidaFase1 = true;
+    this.ValidaFase2 = true;
     this.http
       .get(environment.ruta + 'php/alistamiento_nuevo/detalle_fase1.php', {
         params: { funcionario: this.user.Identificacion_Funcionario },
       })
       .subscribe((data: any) => {
         this.FaseI = data;
-        this.ValidaFase1 = true;
+        this.ValidaFase1 = false;
       });
     this.http
       .get(environment.ruta + 'php/alistamiento_nuevo/detalle_fase2.php', {
@@ -165,7 +170,7 @@ export class AlistamientoComponent implements OnInit {
       })
       .subscribe((data: any) => {
         this.FaseII = data;
-        this.ValidaFase2 = true;
+        this.ValidaFase2 = false;
       });
     let params = this.route.snapshot.queryParams;
     if (Object.keys(params).length > 0) {
@@ -276,7 +281,7 @@ export class AlistamientoComponent implements OnInit {
         let queryString = Object.keys(params)
           .map((key) => key + '=' + params[key])
           .join('&');
-
+        this.loading = true
         this.http
           .get(
             environment.ruta +
@@ -531,7 +536,7 @@ export class AlistamientoComponent implements OnInit {
         this.filtro_Codigo1;
 
       this.location.replaceState('/alistamientosnuevo', queryString);
-
+      this.ValidaFase1 = true
       this.http
         .get(
           environment.ruta +
@@ -542,6 +547,7 @@ export class AlistamientoComponent implements OnInit {
         )
         .subscribe((data: any) => {
           this.FaseI = data;
+          this.ValidaFase1 = false
         });
     } else {
       this.location.replaceState('/alistamientosnuevo', '');
@@ -558,10 +564,12 @@ export class AlistamientoComponent implements OnInit {
         )
         .subscribe((data: any) => {
           this.FaseI = data;
+          this.ValidaFase1 = false
         });
     }
   }
   filtrosFase2() {
+    this.ValidaFase2 = false
     let params: any = {};
 
     if (
@@ -597,6 +605,7 @@ export class AlistamientoComponent implements OnInit {
             queryString
         )
         .subscribe((data: any) => {
+          this.ValidaFase2 = false
           this.FaseII = data;
         });
     } else {
@@ -614,6 +623,7 @@ export class AlistamientoComponent implements OnInit {
         )
         .subscribe((data: any) => {
           this.FaseII = data;
+          this.ValidaFase2 = false
         });
     }
   }
@@ -679,7 +689,8 @@ export class AlistamientoComponent implements OnInit {
         datos
       )
       .subscribe((data: any) => {
-        this.modalGuiaRemisionEditar.hide();
+        //this.modalGuiaRemisionEditar.hide();
+        this._modal.close()
         this.confirmacionSwal.title = 'Operación Exitosa';
         this.confirmacionSwal.text =
           'Se han Guardado los datos de la guia de la remisión exitosamente';
@@ -697,19 +708,24 @@ export class AlistamientoComponent implements OnInit {
         this.ListarAlistamientos();
       });
   }
-  CapturarId(id, tipo) {
+  CapturarId(id, tipo, modal) {
     this.Editar.Id_Remision = id;
     this.Editar.Tipo_Rem = tipo;
-    this.modalGuiaRemisionEditar.show();
+    //this.modalGuiaRemisionEditar.show();
+    this._modal.open(modal)
     this.Editar.Empresa_Envio = '';
     this.Editar.Numero_Guia = '';
   }
-  EditarGuia(id, pos, tipo) {
+  EditarGuia(id, pos, tipo, modal) {
     this.Editar.Id_Remision = id;
     this.Editar.Empresa_Envio = this.Alistamientos[pos].Empresa_Envio;
     this.Editar.Numero_Guia = this.Alistamientos[pos].Guia;
     this.Editar.Tipo = 'Edicion';
     this.Editar.Tipo_Rem = tipo;
-    this.modalGuiaRemisionEditar.show();
+    //this.modalGuiaRemisionEditar.show();
+    this._modal.open(modal)
+  }
+  close(){
+    this._modal.close()
   }
 }

@@ -7,6 +7,7 @@ import { Observable } from 'rxjs';
 import { debounceTime, distinctUntilChanged, switchMap, map } from 'rxjs/operators';
 import { environment } from 'src/environments/environment';
 import { UserService } from '../../../../core/services/user.service';
+import { User } from 'src/app/core/models/users.model';
 
 @Component({
   selector: 'app-certificadoretencion',
@@ -14,7 +15,7 @@ import { UserService } from '../../../../core/services/user.service';
   styleUrls: ['./certificadoretencion.component.scss']
 })
 export class CertificadoretencionComponent implements OnInit {
-
+  public userF : User;
   public datosCabecera:any = {
     Titulo: 'Certificados de Retención',
     Fecha: new Date()
@@ -33,6 +34,7 @@ export class CertificadoretencionComponent implements OnInit {
   constructor(private globales: Globales, private http: HttpClient, private _terceroService: TerceroService, private _user: UserService ) { }
 
   ngOnInit() {
+    this.userF = this._user.user;
     this.ListarCuentas();
     this.enviromen = environment;
     this.company_id = this._user.user.person.company_worked.id;
@@ -73,6 +75,7 @@ search1 = (text$: Observable<string>) =>
   ListarCuentas() {
     this.http.get(environment.ruta+'php/contabilidad/certificadoretencion/lista_cuentas.php', {params: { company_id: this._user.user.person.company_worked.id }}).subscribe((data:any)=>{
       this.Cuentas = data;
+      console.log(this.Cuentas)
     });
     /* this.http.get(this.globales.ruta+'php/contabilidad/balanceprueba/lista_cuentas.php').subscribe((data:any)=>{
       this.Cuentas = data.Activo;

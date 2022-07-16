@@ -2,6 +2,7 @@ import { Component, Input, OnInit, ViewChild } from '@angular/core';
 import { ChartDataSets, ChartOptions, ChartType } from 'chart.js';
 import { DotacionService } from '../../dotacion.service';
 import { Label } from 'ng2-charts';
+import { MatAccordion } from '@angular/material';
 
 
 
@@ -15,7 +16,17 @@ export class CategoryStockComponent implements OnInit {
   constructor(private _dotation: DotacionService) { }
 
   @ViewChild('tablestock') private tablestock;
-
+  @ViewChild(MatAccordion) accordion: MatAccordion;
+  matPanel = false;
+  openClose(){
+    if (this.matPanel == false){
+      this.accordion.openAll()
+      this.matPanel = true;
+    } else {
+      this.accordion.closeAll()
+      this.matPanel = false;
+    }    
+  }
   @Input('loading') loading;
 
   nombre:string = '';

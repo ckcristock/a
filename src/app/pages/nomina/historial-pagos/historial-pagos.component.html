@@ -1,46 +1,60 @@
-<div *ngIf="renderizar">
-  <div class="card">
-    <div class="card-body">
-      <div class="card-title d-flex justify-content-between">
-        <h4 class="text-primary">Historial de Pagos</h4>
-        <div class="btn-group rounded">          
-          <button class="btn btn-info btn-sm" style="float: right;" (click)="openClose()">
-            <i class="fas fa-sliders-h"></i> Filtros
-          </button>
-        </div>
+<div class="card">
+  <div class="card-body">
+    <div class="card-title d-flex justify-content-between">
+      <h4 class="text-primary">Historial de Pagos</h4>
+      <div class="btn-group rounded">
+        <button
+          class="btn btn-info btn-sm"
+          style="float: right"
+          (click)="openClose()"
+        >
+          <i class="fas fa-sliders-h"></i> Filtros
+        </button>
       </div>
-      <hr class="line">
-      <mat-accordion multi>
-        <mat-expansion-panel class="mat-elevation-z0">
-          <form #forma="ngForm" (ngSubmit)="getHistorialPagos(forma)">
-            <div class="form-group row align-items-end">
-              <div class="col-3">
-                <label for="dependency_id" class="col-form-label text-left">Fecha Inicio</label>
-
-                <input class="form-control form-control-sm" ngModel name="start_period" type="date">
-
-              </div>
-              <div class="col-3">
-                <label for="dependency_id" class="col-form-label text-left">Fecha Fin</label>
-                <input class="form-control form-control-sm" ngModel name="end_period" type="date">
-
-              </div>
-              <div class="col-2">
-                <button class="btn btn-primary"><i class="fa fa-search"></i></button>
-              </div>
+    </div>
+    <hr class="line" />
+    <mat-accordion multi>
+      <mat-expansion-panel class="mat-elevation-z0">
+        <form #forma="ngForm" (ngSubmit)="getHistorialPagos(forma)">
+          <div class="row">
+            <mat-form-field class="col-md-3" appearance="outline">
+              <mat-label>Fecha de inicio</mat-label>
+              <input
+                matInput
+                type="date"
+                ngModel
+                name="start_period"
+                autocomplete="off"
+              />
+            </mat-form-field>
+            <mat-form-field class="col-md-3 pl-0" appearance="outline">
+              <mat-label>Fecha de fin</mat-label>
+              <input
+                matInput
+                type="date"
+                ngModel
+                name="end_period"
+                autocomplete="off"
+              />
+            </mat-form-field>
+            <div class="col-1 py-2">
+              <button mat-icon-button color="primary">
+                <mat-icon aria-label="Example icon-button with a heart icon"
+                  >search</mat-icon
+                >
+              </button>
             </div>
-
-          </form>
-        </mat-expansion-panel>
-      </mat-accordion>
-      <div class="row" *ngIf="!historialPagos.length; else data">
-        <div class="col-12">
-          <div class="alert alert-secondary">
-            <p class="font-weight-bold">
-              Aún no se ha realizado el primer pago de nómina, una vez hecho el
-              pago podrá visualizar y filtrar el historial de pagos por periodo.
-            </p>
           </div>
+        </form>
+      </mat-expansion-panel>
+    </mat-accordion>
+    <div class="row" *ngIf="!historialPagos.length; else data">
+      <div class="col-12">
+        <div class="alert alert-secondary">
+          <p class="font-weight-bold">
+            Aún no se ha realizado el primer pago de nómina, una vez hecho el
+            pago podrá visualizar y filtrar el historial de pagos por periodo.
+          </p>
         </div>
       </div>
     </div>
@@ -87,11 +101,16 @@
           </td>
           <td class="custom-label">{{ pago.total_cost | currency: "":"" }}</td>
           <td>
-            <a [routerLink]="['/nomina/nomina']" [queryParams]="{
+            <a
+              [routerLink]="['/nomina/nomina']"
+              [queryParams]="{
                 inicio: pago.start_period,
                 fin: pago.end_period,
                 company_id: pago.company_id
-              }" class="btn btn-link p-0" (click)="redirectToNomina(pago)">
+              }"
+              class="btn btn-link p-0"
+              (click)="redirectToNomina(pago)"
+            >
               <i class="fa fa-eye"></i>
             </a>
           </td>

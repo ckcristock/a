@@ -44,7 +44,7 @@
                             <mat-option *ngFor="let item of specialties | search: searchEspecialidad" [value]="item.value">{{item.text}}</mat-option>
                         </mat-select>
                     </mat-form-field>
-                    <mat-form-field class="col-md-4" appearance="outline">
+                    <!-- <mat-form-field class="col-md-4" appearance="outline">
                         <mat-label>Profesional</mat-label>
                         <mat-select required [(ngModel)]="dataCitaToAssign.person" name="person_id"
                             (selectionChange)="dispatchPerson(agenda);">
@@ -60,8 +60,11 @@
                             </div>
                             <mat-option *ngFor="let item of persons | search: searchProfesional" [value]="item.value">{{item.text}}</mat-option>
                         </mat-select>
-                    </mat-form-field>
-
+                    </mat-form-field> -->
+                    <ng-select [items]="persons" bindLabel="text" bindValue="value" appearance="outline" class="px-0 col-md-4" 
+                            [(ngModel)]="dataCitaToAssign.person" placeholder="Profesional" name="person_id"
+                            loadingText="loading" ngDefaultControl (change)="dispatchPerson(agenda);">
+                        </ng-select>
                     <mat-form-field class="col-md-6" appearance="outline" *ngIf="dataCitaToAssign.appointment.face_to_face">
                         <mat-label>IPS</mat-label>
                         <mat-select required [(ngModel)]="dataCitaToAssign.ipsId" name="company_id"
