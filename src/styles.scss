@@ -42,3 +42,9 @@ hr.line {
   display: flex;
   flex: 1 1 auto;
 }
+@media (max-width: 800px) {
+  .w-sm-100 {
+     display: inline-flex;
+     width: 100%;
+  }
+}

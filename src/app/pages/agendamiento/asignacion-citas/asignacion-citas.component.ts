@@ -71,7 +71,9 @@ export class AsignacionCitasComponent implements OnInit {
 
   public dataCitaToAssign = new dataCitaToAssign();
 
-  constructor(private http: HttpClient, private _queryPatient: QueryPatient,
+  constructor(
+    private http: HttpClient, 
+    private _queryPatient: QueryPatient,
     private _tipification: TipificationService,
     private route: ActivatedRoute,
     private _permisson: PermissionService,

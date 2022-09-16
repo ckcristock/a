@@ -1,0 +1,397 @@
+<div class="card">
+  <div class="card-body">
+    <div class="card-title d-flex justify-content-between">
+      <div class="col-md-6 px-0">
+        <h4 class="text-primary">Laboratorio</h4>
+      </div>
+      <div class="col-md-6 px-0 text-right">
+        <div class="btn-group rounded w-sm-100">
+          <!-- (click)="openConfirm(add, 'xl'); createForm()" -->
+          <button class="btn btn-primary btn-sm" (click)="openClose2()">
+            <i class="fa fa-plus"></i> Agregar
+          </button>
+          <button class="btn btn-info btn-sm" (click)="openClose()">
+            <i class="fas fa-sliders-h"></i> Filtros
+          </button>
+        </div>
+      </div>
+    </div>
+    <hr class="line" />
+    <mat-accordion multi #firstAccordion="matAccordion">
+      <!-- <mat-expansion-panel class="mat-elevation-z0">
+        <div class="row">
+          <mat-form-field class="col" appearance="outline">
+            <mat-label>Paciente</mat-label>
+            <mat-select>
+              <mat-option value=""> </mat-option>
+            </mat-select>
+          </mat-form-field>
+          <mat-form-field appearance="outline" class="col">
+            <mat-label>Rango de fechas</mat-label>
+            <input
+              matInput
+              [satDatepicker]="picker"
+              [value]="date"
+              (dateChange)="selectedDate($event)"
+              (dateInput)="selectedDate($event)"
+              name="daterange"
+              formControlName="date"
+              autocomplete="off"
+              required
+            />
+            <sat-datepicker #picker [rangeMode]="true"></sat-datepicker>
+            <sat-datepicker-toggle
+              matSuffix
+              [for]="picker"
+            ></sat-datepicker-toggle>
+          </mat-form-field>
+        </div>
+      </mat-expansion-panel> -->
+    </mat-accordion>
+    <mat-accordion multi #secondAccordion="matAccordion">
+      <mat-expansion-panel class="mat-elevation-z0">
+        <form #formD="ngForm">
+          <div class="row">
+            <mat-form-field class="col-12" appearance="outline">
+              <mat-label>Identificación del paciente</mat-label>
+              <input
+                matInput
+                type="number"
+                placeholder="Ingresa el documento"
+                required
+                ngModel
+                pattern="\d+"
+                (keydown.enter)="buttongestion.click()"
+                step="1"
+                autocomplete="off"
+                name="Identificacion_Paciente"
+              />
+            </mat-form-field>
+          </div>
+          <button
+            #buttongestion
+            class="btn btn-primary btn-block mb-4"
+            type="button"
+            [disabled]="formD.invalid"
+            (click)="newCall(formD)"
+            [routerLink]="['nuevo-laboratorio']"
+          >
+            Iniciar gestión
+          </button>
+        </form>
+      </mat-expansion-panel>
+    </mat-accordion>
+    <div
+      class="rounded-top table-responsive"
+      *ngIf="!loading && laboratorios.length > 0; else notData"
+    >
+      <table class="table table-bordered table-striped table-sm">
+        <thead class="bg-light">
+          <tr class="text-center text-uppercase">
+            <th>Fecha</th>
+            <th>Paciente</th>
+            <th>EPS</th>
+            <th>Ciudad</th>
+            <th>Estado</th>
+            <th>Acciones</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr class="text-center" *ngFor="let item of laboratorios">
+            <td class="align-middle">{{ item.date | date: "longDate" }}</td>
+            <td class="align-middle">{{ item.name_patient }}</td>
+            <td class="align-middle">{{ item.name_eps }}</td>
+            <td class="align-middle">{{ item.name_city }}</td>
+            <td class="align-middle">
+              <span
+                class="badge"
+                [ngClass]="
+                  item.status == 'Tomado'
+                    ? 'badge-warning'
+                    : item.status == 'Ingresado'
+                    ? 'badge-success'
+                    : 'badge-danger'
+                "
+              >
+                {{ item.status }}
+              </span>
+            </td>
+            <td class="align-middle">
+              <div ngbDropdown container="body" class="dropdown-primary">
+                <button
+                  ngbDropdownToggle
+                  class="btn btn-primary btn-sm waves-light"
+                  type="button"
+                >
+                  <i class="mdi mdi-chevron-down"></i>
+                </button>
+                <div ngbDropdownMenu>
+                  <a
+                    class="dropdown-item text-info waves-light caja-botones"
+                    href="javascript:void(0)"
+                  >
+                    <i class="fas fa-search"></i> Ver</a
+                  >
+
+                  <ng-container *ngIf="item.status == 'Tomado'">
+                    <a
+                      href="javascript:void(0)"
+                      (click)="
+                        openConfirm(cargarDocumentos, 'md');
+                        getCupsId(item.id);
+                        createFormCargar()
+                      "
+                      class="dropdown-item text-success waves-light caja-botones"
+                    >
+                      <i class="fas fa-file"></i> Cargar documentos</a
+                    >
+                    <a
+                      href="javascript:void(0)"
+                      (click)="download(item.id)"
+                      class="dropdown-item text-danger waves-light caja-botones"
+                    >
+                      <i class="fas fa-file-pdf"></i> Generar etiqueta</a
+                    >
+                  </ng-container>
+                  <ng-container *ngIf="item.status == 'Ingresado'">
+                    <a
+                      class="dropdown-item text-warning waves-light caja-botones"
+                      href="javascript:void(0)"
+                      (click)="
+                        openConfirm(tomarExamen, 'sm');
+                        createFormTomarExamen(item.id)
+                      "
+                    >
+                      <i class="fas fa-plus"></i> Tomar exámenes</a
+                    >
+                    <a
+                      href="javascript:void(0)"
+                      (click)="
+                        openConfirm(anular, 'md'); createFormAnular(item.id)
+                      "
+                      class="dropdown-item waves-light text-danger caja-botones"
+                    >
+                      <i class="fas fa-trash"></i> Anular</a
+                    >
+                  </ng-container>
+                </div>
+              </div>
+            </td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+    <ngb-pagination
+      class="d-flex justify-content-center pagination-rounded pagination-sm"
+      [collectionSize]="pagination.collectionSize"
+      [pageSize]="pagination.pageSize"
+      [(page)]="pagination.page"
+      (pageChange)="getLaboratories($event)"
+      aria-label="Default pagination"
+      maxSize="5"
+      rotate="true"
+      ellipses="false"
+      boundaryLinks="true"
+      rotate="true"
+      ellipses="false"
+      boundaryLinks="true"
+    >
+    </ngb-pagination>
+  </div>
+</div>
+
+<ng-template #tomarExamen let-modal>
+  <div class="modal-header">
+    <h4 class="text-primary modal-title">Tomar examen</h4>
+    <button
+      type="button"
+      class="close"
+      data-dismiss="modal"
+      aria-label="Close"
+      (click)="modal.dismiss('Cross click')"
+    >
+      <span aria-hidden="true">&times;</span>
+    </button>
+  </div>
+
+  <div class="modal-body">
+    <form [formGroup]="formTomarExamen">
+      <div class="row">
+        <mat-form-field class="col" appearance="outline">
+          <mat-label>Hora</mat-label>
+          <input
+            matInput
+            type="time"
+            formControlName="hour"
+            required
+            autocomplete="off"
+          />
+        </mat-form-field>
+      </div>
+    </form>
+  </div>
+  <div class="modal-footer">
+    <button type="button" class="btn btn-danger" (click)="modal.dismiss()">
+      Cancelar
+    </button>
+    <button
+      type="button"
+      (click)="tomar()"
+      [disabled]="!formTomarExamen.valid"
+      class="btn btn-primary"
+    >
+      Tomar
+    </button>
+  </div>
+</ng-template>
+
+<ng-template #anular let-modal>
+  <div class="modal-header">
+    <h4 class="text-primary modal-title">Anular laboratorio</h4>
+    <button
+      type="button"
+      class="close"
+      data-dismiss="modal"
+      aria-label="Close"
+      (click)="modal.dismiss('Cross click')"
+    >
+      <span aria-hidden="true">&times;</span>
+    </button>
+  </div>
+
+  <div class="modal-body">
+    <form [formGroup]="formAnular">
+      <div class="row">
+        <mat-form-field class="col" appearance="outline">
+          <mat-label>Motivo</mat-label>
+          <mat-select formControlName="motivo_id">
+            <mat-option *ngFor="let item of motivos" [value]="item.value">{{
+              item.text
+            }}</mat-option>
+          </mat-select>
+        </mat-form-field>
+        <mat-form-field
+          class="col-12 mat-form-field-no-padding textarea"
+          appearance="outline"
+        >
+          <mat-label>Observaciones</mat-label>
+          <textarea
+            matInput
+            placeholder="Ingresa las observaciones"
+            rows="5"
+            formControlName="observations"
+            required
+            [cdkTextareaAutosize]="true"
+          ></textarea>
+        </mat-form-field>
+      </div>
+    </form>
+  </div>
+  <div class="modal-footer">
+    <button type="button" class="btn btn-danger" (click)="modal.dismiss()">
+      Cancelar
+    </button>
+    <button
+      type="button"
+      (click)="cambiarEstado()"
+      [disabled]="!formAnular.valid"
+      class="btn btn-primary"
+    >
+      Anular
+    </button>
+  </div>
+</ng-template>
+
+<ng-template #cargarDocumentos let-modal>
+  <div class="modal-header">
+    <h4 class="text-primary modal-title">Cargar documentos</h4>
+    <button
+      type="button"
+      class="close"
+      data-dismiss="modal"
+      aria-label="Close"
+      (click)="modal.dismiss('Cross click')"
+    >
+      <span aria-hidden="true">&times;</span>
+    </button>
+  </div>
+
+  <div class="modal-body">
+    <div *ngIf="!loadingCforL && cupsId.length > 0; else notDataCforL">
+      <ul class="list-group list-group-flush">
+        <li
+          class="list-group-item d-flex justify-content-between align-items-center"
+          *ngFor="let item of cupsId"
+        >
+          {{ item.name_cup }}
+          <span
+            class="badge badge-pill"
+            [ngClass]="
+              item.state == 'Pendiente' ? 'badge-warning' : 'badge-success'
+            "
+            >{{ item.state }}</span
+          >
+        </li>
+      </ul>
+      <form [formGroup]="formCargar">
+        <div class="row">
+          <mat-form-field class="col" appearance="outline">
+            <mat-label>Examenes</mat-label>
+            <mat-select [multiple]="true" formControlName="ids">
+              <ng-container *ngFor="let item of cupsId">
+                <mat-option
+                  *ngIf="item.state == 'Pendiente'"
+                  [value]="item.id"
+                  >{{ item.name_cup }}</mat-option
+                >
+              </ng-container>
+            </mat-select>
+            <mat-hint>Selecciona los exámenes para cargar documento</mat-hint>
+          </mat-form-field>
+          <div class="col-12">
+            <div class="form-group text-center">
+              <div class="custom-input-file col-md-12">
+                <input
+                  type="file"
+                  #fileInput
+                  id="importFile"
+                  class="input-file"
+                  formControlName="fileupload"
+                  (change)="onFileChanged($event)"
+                  accept=".pdf"
+                />
+                Cargar documento
+              </div>
+              <div class="col-md-12 text-center">
+                <small *ngIf="file" class="text-success"
+                  >Documento cargado</small
+                >
+              </div>
+            </div>
+          </div>
+        </div>
+      </form>
+    </div>
+  </div>
+  <div class="modal-footer">
+    <button type="button" class="btn btn-danger" (click)="modal.dismiss()">
+      Cancelar
+    </button>
+    <button
+      type="button"
+      (click)="cargarDocumento()"
+      [disabled]="!formCargar.valid"
+      class="btn btn-primary"
+    >
+      Cargar
+    </button>
+  </div>
+</ng-template>
+
+<ng-template #notData>
+  <app-not-data [loading]="loading"></app-not-data>
+</ng-template>
+
+<ng-template #notDataCforL>
+  <app-not-data [loading]="loadingCforL"></app-not-data>
+</ng-template>

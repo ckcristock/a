@@ -70,8 +70,6 @@ import { ActaAplicacionComponent } from './acta-aplicacion/acta-aplicacion.compo
 import { HttpClientModule } from '@angular/common/http';
 import { ListaActaAplicacionComponent } from './lista-acta-aplicacion/lista-acta-aplicacion.component';
 import {MatButtonModule} from '@angular/material/button';
-import { NgxMatFileInputModule } from '@angular-material-components/file-input';
-
 @NgModule({
   declarations: [
     AbrirAgendasComponent,
@@ -122,7 +120,6 @@ import { NgxMatFileInputModule } from '@angular-material-components/file-input';
     SharedModule,
     MatIconModule,
     MatButtonModule,
-    NgxMatFileInputModule
   ],
 
   bootstrap: [],
