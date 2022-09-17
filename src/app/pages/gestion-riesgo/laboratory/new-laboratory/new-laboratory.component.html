@@ -105,7 +105,7 @@
                 [ngbTypeahead]="searchCups"
                 [inputFormatter]="formatterCups"
                 [resultFormatter]="formatterCups"
-                [resultTemplate]="rt"
+                (selectItem)="addCup($event.item, $event, inputProcedimiento)"
                 placeholder="Busca procedimiento"
                 required
                 autocomplete="off"
@@ -115,13 +115,6 @@
                 >No hemos encontrado resultados</mat-hint
               >
             </mat-form-field>
-            <ng-container>
-              <ng-template #rt let-r="result" let-t="term">
-                <div role="button" (click)="addCup(r, $event, inputProcedimiento)">
-                  <ngb-highlight [result]="r.text" [term]="t"></ngb-highlight>
-                </div>
-              </ng-template>
-            </ng-container>
           </div>
           <div
             class="rounded-top table-responsive"
@@ -141,14 +134,14 @@
                   class="text-center"
                   *ngFor="let item of cups; let i = index"
                 >
-                  <td class="align-middle">{{ i + 1 }}</td>
+                  <th class="align-middle">{{ i + 1 }}</th>
                   <td class="align-middle">{{ item.code }}</td>
                   <td class="align-middle">{{ item.description }}</td>
                   <td class="align-middle">1</td>
                 </tr>
                 <tr>
-                  <td class="text-right" colspan="3">TOTAL</td>
-                  <td class="text-center">{{ cups.length }}</td>
+                  <th class="text-right" colspan="3">TOTAL</th>
+                  <th class="text-center">{{ cups.length }}</th>
                 </tr>
               </tbody>
             </table>

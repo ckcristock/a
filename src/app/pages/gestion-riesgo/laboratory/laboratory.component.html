@@ -98,8 +98,8 @@
         </thead>
         <tbody>
           <tr class="text-center" *ngFor="let item of laboratorios">
-            <td class="align-middle">{{ item.date | date: "longDate" }}</td>
-            <td class="align-middle">{{ item.name_patient }}</td>
+            <td class="align-middle">{{ item.date | date }}</td>
+            <td class="align-middle text-left pl-3">{{ item.name_patient }}</td>
             <td class="align-middle">{{ item.name_eps }}</td>
             <td class="align-middle">{{ item.name_city }}</td>
             <td class="align-middle">
@@ -107,9 +107,9 @@
                 class="badge"
                 [ngClass]="
                   item.status == 'Tomado'
-                    ? 'badge-warning'
-                    : item.status == 'Ingresado'
                     ? 'badge-success'
+                    : item.status == 'Ingresado'
+                    ? 'badge-warning'
                     : 'badge-danger'
                 "
               >
@@ -137,13 +137,13 @@
                     <a
                       href="javascript:void(0)"
                       (click)="
-                        openConfirm(cargarDocumentos, 'md');
+                        openConfirm(cargarDocumentos, 'lg');
                         getCupsId(item.id);
                         createFormCargar()
                       "
                       class="dropdown-item text-success waves-light caja-botones"
                     >
-                      <i class="fas fa-file"></i> Cargar documentos</a
+                      <i class="fas fa-file"></i> Documentos</a
                     >
                     <a
                       href="javascript:void(0)"
@@ -223,6 +223,7 @@
             matInput
             type="time"
             formControlName="hour"
+            (change)="validarHora($event)"
             required
             autocomplete="off"
           />
@@ -320,17 +321,33 @@
     <div *ngIf="!loadingCforL && cupsId.length > 0; else notDataCforL">
       <ul class="list-group list-group-flush">
         <li
-          class="list-group-item d-flex justify-content-between align-items-center"
+          class="list-group-item flex-column align-items-start"
           *ngFor="let item of cupsId"
         >
-          {{ item.name_cup }}
-          <span
-            class="badge badge-pill"
-            [ngClass]="
-              item.state == 'Pendiente' ? 'badge-warning' : 'badge-success'
-            "
-            >{{ item.state }}</span
-          >
+          <div>
+            <div class="d-flex w-100 justify-content-between">
+              <p class="mb-1">{{ item.code }} - {{ item.name_cup }}</p>
+              <div>
+                <span
+                  class="badge badge-pill"
+                  [ngClass]="
+                    item.state == 'Pendiente' ? 'badge-warning' : 'badge-success'
+                  "
+                  >{{ item.state }}</span
+                >
+              </div>
+            </div>
+            <small>
+              <a
+                role="button"
+                target="_blank"
+                [href]="item.file"
+                *ngIf="item.state == 'Subido'"
+              >
+                Descargar
+              </a>
+            </small>
+          </div>
         </li>
       </ul>
       <form [formGroup]="formCargar">

@@ -190,9 +190,9 @@ export class NewLaboratoryComponent implements OnInit {
       this.faltanDatos = false;
       this.loadingCups = false
       this.cups.push(res.data)
-      $event.preventDefault();
-      input.value = '';
       //console.log(this.cups)
     })
+    $event.preventDefault();
+    input.value = '';
   }
 }
