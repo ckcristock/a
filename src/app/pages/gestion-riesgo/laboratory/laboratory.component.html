@@ -99,9 +99,14 @@
         <tbody>
           <tr class="text-center" *ngFor="let item of laboratorios">
             <td class="align-middle">{{ item.date | date }}</td>
-            <td class="align-middle text-left pl-3">{{ item.name_patient }}</td>
-            <td class="align-middle">{{ item.name_eps }}</td>
-            <td class="align-middle">{{ item.name_city }}</td>
+            <td class="align-middle text-left pl-3">
+              <span *ngIf="item.patient.firstname">{{ item.patient.firstname}} </span>
+              <span *ngIf="item.patient.middlename">{{ item.patient.middlename}} </span>
+              <span *ngIf="item.patient.surname">{{ item.patient.surname}} </span>
+              <span *ngIf="item.patient.secondsurname">{{ item.patient.secondsurname}} </span>
+            </td>
+            <td class="align-middle">{{ item.patient.eps.name }}</td>
+            <td class="align-middle">{{ item.patient.municipality.name }}</td>
             <td class="align-middle">
               <span
                 class="badge"
@@ -174,6 +179,14 @@
                       <i class="fas fa-trash"></i> Anular</a
                     >
                   </ng-container>
+                  <a
+                    *ngIf="item.files == 'Completo'"
+                    href="javascript:void(0)"
+                    (click)="enviarCorreo(item.patient.email); openConfirm(sendMail, 'sm')"
+                    class="dropdown-item waves-light text-primary caja-botones"
+                  >
+                    <i class="fas fa-envelope"></i> Enviar correo</a
+                  >
                 </div>
               </div>
             </td>
@@ -303,6 +316,50 @@
   </div>
 </ng-template>
 
+<ng-template #sendMail let-modal>
+  <div class="modal-header">
+    <h4 class="text-primary modal-title">Enviar correo</h4>
+    <button
+      type="button"
+      class="close"
+      data-dismiss="modal"
+      aria-label="Close"
+      (click)="modal.dismiss('Cross click')"
+    >
+      <span aria-hidden="true">&times;</span>
+    </button>
+  </div>
+
+  <div class="modal-body">
+    <form>
+      <div class="row">
+        <mat-form-field class="col" appearance="outline">
+          <mat-label>Correo electrónico</mat-label>
+          <input
+            matInput
+            type="email"
+            name="mail"
+            [value]="mail"
+            required
+            autocomplete="off"
+          />
+        </mat-form-field>
+      </div>
+    </form>
+  </div>
+  <div class="modal-footer">
+    <button type="button" class="btn btn-danger" (click)="modal.dismiss()">
+      Cancelar
+    </button>
+    <button
+      type="button"
+      class="btn btn-primary"
+    >
+      Enviar
+    </button>
+  </div>
+</ng-template>
+
 <ng-template #cargarDocumentos let-modal>
   <div class="modal-header">
     <h4 class="text-primary modal-title">Cargar documentos</h4>
@@ -331,7 +388,9 @@
                 <span
                   class="badge badge-pill"
                   [ngClass]="
-                    item.state == 'Pendiente' ? 'badge-warning' : 'badge-success'
+                    item.state == 'Pendiente'
+                      ? 'badge-warning'
+                      : 'badge-success'
                   "
                   >{{ item.state }}</span
                 >

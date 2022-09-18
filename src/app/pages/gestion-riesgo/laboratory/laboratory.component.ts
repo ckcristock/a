@@ -92,7 +92,10 @@ export class LaboratoryComponent implements OnInit {
     let h2: any = this.today.split(':');
     let date = new Date(0, 0, 0, h1[0], h1[1], 0);
     let date2 = new Date(0, 0, 0, h2[0], h2[1], 0);
-    if (date.getTime() > date2.getTime() || (date.getTime() - date2.getTime()) < -3600000) {
+    if (
+      date.getTime() > date2.getTime() ||
+      date.getTime() - date2.getTime() < -3600000
+    ) {
       this._swal.show({
         icon: 'error',
         title: 'Error en la hora',
@@ -100,7 +103,7 @@ export class LaboratoryComponent implements OnInit {
         text: 'Puedes seleccionar máximo una hora antes y no puedes elegir una hora futura',
       });
       this.today = new Date().toTimeString().slice(0, 5);
-      this.formTomarExamen.controls['hour'].setValue(this.today)
+      this.formTomarExamen.controls['hour'].setValue(this.today);
     }
   }
 
@@ -219,7 +222,6 @@ export class LaboratoryComponent implements OnInit {
       this.cupsId = res.data;
       this.loadingCforL = false;
     });
-    
   }
 
   createFormCargar() {
@@ -268,6 +270,11 @@ export class LaboratoryComponent implements OnInit {
       this.datePipe.transform(fecha.value.end._d, 'yyyy-MM-dd');
     this.getLaboratories();
   }
+  mail: any = 'a@a.com';
+  enviarCorreo(mail) {
+    this.mail = mail;
+
+  }
 
   getLaboratories(page = 1) {
     this.pagination.page = page;
@@ -278,6 +285,16 @@ export class LaboratoryComponent implements OnInit {
     this.loading = true;
     this._laboratory.getLaboratories(params).subscribe((res: any) => {
       this.laboratorios = res.data.data;
+      this.laboratorios.map((laboratory: any[]) => {
+        laboratory['files'] = 'Completo';
+        laboratory['cup'].map((cup: any) => {
+          if (cup['state'] == 'Pendiente') {
+            laboratory['files'] = 'Incompleto';
+          }
+        });
+        console.log(laboratory);
+      });
+
       this.loading = false;
       this.pagination.collectionSize = res.data.total;
     });
@@ -317,28 +334,4 @@ export class LaboratoryComponent implements OnInit {
       );
     });
   }
-
-  /* inputFormatListValue(value: any) {
-    if (value.code)
-      return value.code
-    return value;
-  }
-
-  resultFormatListValue(value: any) {
-    return value.code;
-  }
-
-  search: OperatorFunction<string, readonly { code }[]> = (
-    text$: Observable<string>
-  ) =>
-    text$.pipe(
-      debounceTime(200),
-      distinctUntilChanged(),
-      filter((term) => term.length >= 3),
-      map((term) =>
-        this.pacientes
-          .filter((state) => new RegExp(term, 'mi').test(state.code))
-          .slice(0, 10)
-      )
-    ); */
 }
