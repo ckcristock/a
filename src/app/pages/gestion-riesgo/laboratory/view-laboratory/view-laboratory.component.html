@@ -1,0 +1,50 @@
+<div class="card">
+  <div class="card-body">
+    <div class="card-title d-flex justify-content-between">
+      <h4 class="text-primary">Ver laboratorio</h4>
+    </div>
+    <hr class="line" />
+    <div *ngIf="!loading && laboratory; else notData">
+      Estado 
+      <p>{{ laboratory.status }}</p>
+      <div *ngIf="laboratory.status == 'Tomado'">
+        Hora de toma
+        <p>{{ laboratory.hour }}</p>
+      </div>
+      <div *ngIf="laboratory.status == 'Anulado'">
+        Motivo de anulación
+        <p>{{ laboratory.motivo.Nombre }}</p>
+        Observaciones de la anulación
+        <p>{{ laboratory.observations }}</p>
+      </div>
+      Paciente
+      <p>
+        {{ laboratory.patient.firstname }}
+        {{ laboratory.patient.middlename }}
+        {{ laboratory.patient.surname }}
+        {{ laboratory.patient.secondsurname }}
+      </p>
+      <p>{{ laboratory.patient.identifier }}</p>
+      <p>{{ laboratory.patient.email }}</p>
+      <p>{{ laboratory.patient.municipality.name }}</p>
+      <p>{{ laboratory.patient.eps.name }}</p>
+      <p>{{ laboratory.patient.phone }}</p>
+      Fecha
+      <p>{{ laboratory.date | date: 'longDate' }}</p>
+      Diagnóstico
+      <p>{{ laboratory.cie10.code }} - {{ laboratory.cie10.description }}</p>
+      Contrato 
+      <p>{{ laboratory.contract.name }}</p>
+      Laboratorio
+      <p>{{ laboratory.place.name }} - {{ laboratory.place.city }}</p>
+      Profesional
+      <p>{{ laboratory.professional.full_name }}</p>
+      <div *ngFor="let item of laboratory.cup">
+        <p>{{item.state}}</p>
+      </div>
+    </div>
+  </div>
+</div>
+<ng-template #notData>
+  <app-not-data [loading]="loading"></app-not-data>
+</ng-template>

@@ -55,6 +55,7 @@ export class LaboratoryComponent implements OnInit {
   formTomarExamen: FormGroup;
   formAnular: FormGroup;
   formCargar: FormGroup;
+  formSearch: FormGroup;
   laboratorios: any[] = [];
   pagination: any = {
     page: 1,
@@ -63,6 +64,10 @@ export class LaboratoryComponent implements OnInit {
   };
   filtros: any = {
     fecha: '',
+    paciente: '',
+    eps: '',
+    ciudad: '',
+    estado: ''
   };
   loading: boolean;
   fileString: any = '';
@@ -81,7 +86,7 @@ export class LaboratoryComponent implements OnInit {
     private _swal: SwalService,
     private _validatorsService: ValidatorsService,
     private _queryPatient: QueryPatient
-  ) {}
+  ) { }
   ngOnInit() {
     this.getLaboratories();
     this.getMotivos();
@@ -264,10 +269,12 @@ export class LaboratoryComponent implements OnInit {
   }
 
   selectedDate(fecha) {
+
     this.filtros.fecha =
       this.datePipe.transform(fecha.value.begin._d, 'yyyy-MM-dd') +
-      ' - ' +
+      'a' +
       this.datePipe.transform(fecha.value.end._d, 'yyyy-MM-dd');
+    console.log(this.filtros.fecha)
     this.getLaboratories();
   }
   mail: any = 'a@a.com';
@@ -292,7 +299,7 @@ export class LaboratoryComponent implements OnInit {
             laboratory['files'] = 'Incompleto';
           }
         });
-        console.log(laboratory);
+        //console.log(laboratory);
       });
 
       this.loading = false;
@@ -329,8 +336,8 @@ export class LaboratoryComponent implements OnInit {
       let pdfWindow = window.open('');
       pdfWindow.document.write(
         "<iframe width='100%' height='100%' src='data:application/pdf;base64, " +
-          encodeURI(res.code) +
-          "'></iframe>"
+        encodeURI(res.code) +
+        "'></iframe>"
       );
     });
   }

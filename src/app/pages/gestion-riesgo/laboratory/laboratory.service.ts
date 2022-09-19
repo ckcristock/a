@@ -52,6 +52,10 @@ export class LaboratoryService {
     return this.clientHttp.get(`${environment.base_url}/paginate-laboratories`, { params });
   }
 
+  getLaboratory(id) {
+    return this.clientHttp.get(`${environment.base_url}/laboratories/${id}`);
+  }
+
   createLaboratory(data: any) {
     return this.clientHttp.post(`${environment.base_url}/laboratories`, data);
   }

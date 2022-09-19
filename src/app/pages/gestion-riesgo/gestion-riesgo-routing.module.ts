@@ -5,6 +5,7 @@ import { CaracterizacionComponent } from './caracterizacion/caracterizacion.comp
 import { KardexPatologiaComponent } from './kardex-patologia/kardex-patologia.component';
 import { LaboratoryComponent } from "./laboratory/laboratory.component";
 import { NewLaboratoryComponent } from "./laboratory/new-laboratory/new-laboratory.component";
+import { ViewLaboratoryComponent } from "./laboratory/view-laboratory/view-laboratory.component";
 import { VariableHightCostComponent } from "./variable-hight-cost/variable-hight-cost.component";
 
 
@@ -13,6 +14,7 @@ const routes: Routes = [
     { path: 'kardex-patologia', component: KardexPatologiaComponent },
     { path: 'laboratorio', component: LaboratoryComponent },
     { path: 'laboratorio/nuevo-laboratorio', component: NewLaboratoryComponent },
+    { path: 'laboratorio/ver-laboratorio/:id', component: ViewLaboratoryComponent },
     { path: 'historia-clinica', loadChildren: () => import('./clinical-history/clinical-history.module').then(m => m.ClinicalHistoryModule) },
     { path: 'administracion-historia-clinica', loadChildren: () => import('./managment-clinical-history/managment-clinical-history.module').then(m => m.ManagmentClinicalHistoryModule) },
     { path: 'variables-hight-cost', component: VariableHightCostComponent },

@@ -22,10 +22,10 @@ import {
         MAT_MOMENT_DATE_FORMATS,
         MomentDateAdapter,
 } from '@angular/material-moment-adapter';
-import { Globales } from "../contabilidad/globales";
 import { NgbDropdownModule, NgbPaginationModule, NgbTypeaheadModule } from "@ng-bootstrap/ng-bootstrap";
 import { FormsModule, ReactiveFormsModule } from "@angular/forms";
 import { NewLaboratoryComponent } from "./laboratory/new-laboratory/new-laboratory.component";
+import { ViewLaboratoryComponent } from "./laboratory/view-laboratory/view-laboratory.component";
 export const MY_FORMATS = {
         parse: {
                 dateInput: 'DD/MM/YYYY'
@@ -40,7 +40,8 @@ export const MY_FORMATS = {
 @NgModule({
         declarations: [
                 LaboratoryComponent, 
-                NewLaboratoryComponent
+                NewLaboratoryComponent,
+                ViewLaboratoryComponent
         ],
         imports: [
                 CommonModule,
@@ -63,7 +64,6 @@ export const MY_FORMATS = {
                 NgbTypeaheadModule,
         ],
         providers: [
-                Globales,
                 {
                         provide: DateAdapter,
                         useClass: MomentDateAdapter,
