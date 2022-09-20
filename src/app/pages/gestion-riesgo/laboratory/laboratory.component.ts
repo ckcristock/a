@@ -200,6 +200,21 @@ export class LaboratoryComponent implements OnInit {
       }
     }
   }
+  donwloading: boolean
+  getReport() {
+    this.donwloading = true;
+    this._laboratory.getReport()
+      .subscribe((response: BlobPart) => {
+        let blob = new Blob([response], { type: 'application/excel' });
+        let link = document.createElement("a");
+        const filename = 'reporte-dia';
+        link.href = window.URL.createObjectURL(blob);
+        link.download = `${filename}.xlsx`;
+        link.click();
+      }),
+      error => { console.log('Error downloading the file'); this.loading = false },
+      () => { console.info('File downloaded successfully'); this.loading = false };
+  }
 
   cambiarEstado() {
     let date = new Date().toISOString();
@@ -220,8 +235,9 @@ export class LaboratoryComponent implements OnInit {
 
   cupsId: any[] = [];
   loadingCforL: boolean = false;
-
+  idCup: any
   getCupsId(id) {
+    this.idCup = id
     this.loadingCforL = true;
     this._laboratory.getCupsId(id).subscribe((res: any) => {
       this.cupsId = res.data;
@@ -340,5 +356,12 @@ export class LaboratoryComponent implements OnInit {
         "'></iframe>"
       );
     });
+  }
+
+  deleteDocument(id) {
+    this._laboratory.deleteDocument(id).subscribe((res:any) => {
+      this.getCupsId(this.idCup)
+      this.getLaboratories()
+    })
   }
 }

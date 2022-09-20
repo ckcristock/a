@@ -79,4 +79,12 @@ export class LaboratoryService {
   download(id) {
     return this.clientHttp.get(`${environment.base_url}/download-laboratory/${id}`);
   }
+
+  getReport() {
+    const headers = new HttpHeaders().set('Content-Type', 'application/json')
+    return this.clientHttp.get(`${environment.base_url}/laboratory-report`, {headers, responseType: 'blob' as 'json' })
+  }
+  deleteDocument(id) {
+    return this.clientHttp.get(`${environment.base_url}/delete-document-laboratory/${id}`);
+  }
 }
