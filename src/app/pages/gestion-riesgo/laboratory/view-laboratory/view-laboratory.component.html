@@ -1,47 +1,131 @@
 <div class="card">
-  <div class="card-body">
-    <div class="card-title d-flex justify-content-between">
-      <h4 class="text-primary">Ver laboratorio</h4>
+  <div class="card-body" *ngIf="!loading && laboratory; else notData">
+    <div class="row card-title d-flex justify-content-between">
+      <div class="col-md-5 px-0">
+        <h4 class="text-primary">Ver laboratorio</h4>
+      </div>
+      <div class="col-md-7 h4 px-0 text-md-right text-center">
+        <span class="badge badge-info mx-1">
+          {{ laboratory.date | date: "longDate" }}
+        </span>
+        <span
+          class="badge badge-info mx-1"
+          *ngIf="laboratory.status == 'Tomado'"
+        >
+          {{ laboratory.hour }}
+        </span>
+        <span
+          class="badge mx-1"
+          [ngClass]="
+            laboratory.status == 'Tomado'
+              ? 'badge-success'
+              : laboratory.status == 'Ingresado'
+              ? 'badge-warning'
+              : 'badge-danger'
+          "
+        >
+          {{ laboratory.status }}
+        </span>
+      </div>
     </div>
     <hr class="line" />
-    <div *ngIf="!loading && laboratory; else notData">
-      Estado 
-      <p>{{ laboratory.status }}</p>
-      <div *ngIf="laboratory.status == 'Tomado'">
-        Hora de toma
-        <p>{{ laboratory.hour }}</p>
-      </div>
-      <div *ngIf="laboratory.status == 'Anulado'">
-        Motivo de anulación
-        <p>{{ laboratory.motivo.Nombre }}</p>
-        Observaciones de la anulación
-        <p>{{ laboratory.observations }}</p>
-      </div>
-      Paciente
-      <p>
-        {{ laboratory.patient.firstname }}
-        {{ laboratory.patient.middlename }}
-        {{ laboratory.patient.surname }}
-        {{ laboratory.patient.secondsurname }}
-      </p>
-      <p>{{ laboratory.patient.identifier }}</p>
-      <p>{{ laboratory.patient.email }}</p>
-      <p>{{ laboratory.patient.municipality.name }}</p>
-      <p>{{ laboratory.patient.eps.name }}</p>
-      <p>{{ laboratory.patient.phone }}</p>
-      Fecha
-      <p>{{ laboratory.date | date: 'longDate' }}</p>
-      Diagnóstico
-      <p>{{ laboratory.cie10.code }} - {{ laboratory.cie10.description }}</p>
-      Contrato 
-      <p>{{ laboratory.contract.name }}</p>
-      Laboratorio
-      <p>{{ laboratory.place.name }} - {{ laboratory.place.city }}</p>
-      Profesional
-      <p>{{ laboratory.professional.full_name }}</p>
-      <div *ngFor="let item of laboratory.cup">
-        <p>{{item.state}}</p>
-      </div>
+    <div class="table-responsive text-center">
+      <table class="table table-borderless table-sm">
+        <thead>
+          <tr class="text-uppercase border-top border-bottom">
+            <th scope="col">Nombre</th>
+            <th scope="col">Documento</th>
+            <th scope="col">EPS</th>
+            <th scope="col">Ciudad</th>
+            <th scope="col">Correo</th>
+            <th scope="col">Teléfono</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td>
+              {{ laboratory.patient.firstname }}
+              {{ laboratory.patient.middlename }}
+              {{ laboratory.patient.surname }}
+              {{ laboratory.patient.secondsurname }}
+            </td>
+            <td>{{ laboratory.patient.identifier }}</td>
+            <td>{{ laboratory.patient.eps.name }}</td>
+            <td>{{ laboratory.patient.municipality.name }}</td>
+            <td>{{ laboratory.patient.email }}</td>
+            <td>{{ laboratory.patient.phone }}</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+    <div class="table-responsive text-center" *ngIf="laboratory.status == 'Anulado'">
+      <hr />
+      <table class="table table-borderless table-sm">
+        <thead>
+          <tr class="text-uppercase border-top border-bottom">
+            <th scope="col">Motivo anulación</th>
+            <th scope="col">Observaciones</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td>{{ laboratory.motivo.Nombre }}</td>
+            <td>{{ laboratory.observations }}</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+    <hr />
+    <div class="table-responsive text-center">
+      <table class="table table-borderless table-sm">
+        <thead>
+          <tr class="text-uppercase border-top border-bottom">
+            <th>Diagnóstico</th>
+            <th>Contrato</th>
+            <th>Laboratorio</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td>
+              {{ laboratory.cie10.code }} -
+              {{ laboratory.cie10.description }}
+            </td>
+            <td>{{ laboratory.contract.name }}</td>
+            <td>{{ laboratory.place.name }} - {{ laboratory.place.city }}</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+    <hr />
+    <h5 class="text-center">Procedimientos</h5>
+    <div class="table-responsive text-center">
+      <table class="table table-bordered table-striped table-sm">
+        <thead class="bg-light">
+          <tr class="text-uppercase">
+            <th>Código</th>
+            <th>Nombre</th>
+            <th>Estado</th>
+            <!-- <th>Acciones</th> -->
+          </tr>
+        </thead>
+        <tbody>
+          <tr *ngFor="let item of laboratory.cup">
+            <td>{{ item.cup.code }}</td>
+            <td>{{ item.cup.description }}</td>
+            <td>
+              <span
+                class="badge badge-pill"
+                [ngClass]="
+                  item.state == 'Pendiente' ? 'badge-warning' : 'badge-success'
+                "
+                >{{ item.state }}</span
+              >
+            </td>
+            <!-- <td></td> -->
+          </tr>
+        </tbody>
+      </table>
     </div>
   </div>
 </div>
