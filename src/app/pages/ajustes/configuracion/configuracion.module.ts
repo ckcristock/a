@@ -26,6 +26,10 @@ import { SubcategoriaContabilidadComponent } from './contabilidad/components/sub
 import { SweetAlert2Module } from '@sweetalert2/ngx-sweetalert2';
 import { CatalogoContabilidadComponent } from './contabilidad/components/catalogo-contabilidad/catalogo-contabilidad.component';
 import { TableCatalogoComponent } from './contabilidad/components/table-catalogo/table-catalogo.component';
+import { MatExpansionModule } from '@angular/material/expansion';
+import { MatFormFieldModule } from '@angular/material/form-field';
+import { MatInputModule } from '@angular/material/input';
+import { MatSelectModule } from '@angular/material/select';
 
 @NgModule({
   declarations: [
@@ -59,7 +63,11 @@ import { TableCatalogoComponent } from './contabilidad/components/table-catalogo
     PipesModule,
     NgbNavModule,
     SweetAlert2Module.forRoot(),
-    NgbPaginationModule
+    NgbPaginationModule,
+    MatExpansionModule,
+    MatFormFieldModule,
+    MatInputModule,
+    MatSelectModule,
   ]
 })
 export class ConfiguracionModule { }

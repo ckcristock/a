@@ -1,10 +1,11 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, ViewChild } from '@angular/core';
 
 import { IMyDrpOptions } from 'mydaterangepicker';
 import { JobService } from './job.service';
 import Swal from 'sweetalert2';
 import { MinicipalityService } from '../../../core/services/municipality.service';
 import { DepartmentService } from '../../../core/services/department.service';
+import { MatAccordion } from '@angular/material';
 
 @Component({
   selector: 'app-vacantes',
@@ -15,7 +16,17 @@ import { DepartmentService } from '../../../core/services/department.service';
 
 
 export class VacantesComponent implements OnInit {
-
+  @ViewChild(MatAccordion) accordion: MatAccordion;
+  matPanel = false;
+  openClose(){
+    if (this.matPanel == false){
+      this.accordion.openAll()
+      this.matPanel = true;
+    } else {
+      this.accordion.closeAll()
+      this.matPanel = false;
+    }    
+  }
   pagination = {
     page: 1,
     pageSize: 15,

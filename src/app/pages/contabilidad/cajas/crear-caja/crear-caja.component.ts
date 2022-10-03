@@ -19,6 +19,7 @@ import { PersonService } from 'src/app/pages/ajustes/informacion-base/persons/pe
 import { AccountPlanService } from 'src/app/core/services/account-plan.service';
 import { PrettyCashService } from 'src/app/core/services/pretty-cash.service';
 import { SwalService } from 'src/app/pages/ajustes/informacion-base/services/swal.service';
+import { ModalService } from 'src/app/core/services/modal.service';
 type Person = { value: number; text: string };
 @Component({
   selector: 'app-crear-caja',
@@ -37,7 +38,8 @@ export class CrearCajaComponent implements OnInit {
     private _people: PersonService,
     private _prettyCash: PrettyCashService,
     private _account: AccountPlanService,
-    private _swal: SwalService
+    private _swal: SwalService,
+    private _modal: ModalService
   ) {}
 
   ngOnInit(): void {
@@ -45,12 +47,14 @@ export class CrearCajaComponent implements OnInit {
     this.createForm();
     this.openModal.subscribe((r) => {
       this.getAccounts();
-      this.modal.show();
+      //this.modal.show();
+      this._modal.open(this.modal)
     });
   }
 
   getAccounts() {
     this._account.getAllWithBalance().subscribe((r: any) => {
+      console.log(r)
       this.accounts = r.data;
     });
   }
@@ -58,28 +62,28 @@ export class CrearCajaComponent implements OnInit {
     this._swal
       .show({
         text: 'Se dispone a crear una nueva caja',
-        title: '¿Está seguro?',
+        title: '¿Está seguro(a)?',
         icon: 'warning',
       })
       .then((r) => {
         if (r.isConfirmed) {
           let values: any = {};
-          values.person_id = this.forma.get('person').value.value;
-          values.account_plan_id = this.forma.get('account_plan').value.id;
+          values.person_id = this.forma.get('person').value;
+          values.account_plan_id = this.forma.get('account_plan').value;
           values.initial_balance = this.forma.get('initial_balance').value;
           values.description = this.forma.get('description').value;
 
           this._prettyCash.save(values).subscribe(
             (r: any) => {
               this._swal.show({
-                title: 'Operación Exitosa',
+                title: 'Operación exitosa',
                 text: 'Se ha creado una caja',
                 icon: 'success',
 		showCancel:false
 		
               });
               this.saved.emit(true);
-              this.modal.hide();
+              this._modal.close();
             },
             (er) => {
               this._swal.show({

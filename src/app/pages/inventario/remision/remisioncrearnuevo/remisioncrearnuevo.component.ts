@@ -5,6 +5,8 @@ import { Observable, Subject } from "rxjs";
 import { HttpClient } from "@angular/common/http";
 import { RemisionModelNuevo } from "../RemisonModelNuevo";
 import { environment } from "src/environments/environment";
+import { UserService } from "src/app/core/services/user.service";
+import { User } from "src/app/core/models/users.model";
 
 @Component({
   selector: "app-remisioncrearnuevo",
@@ -12,7 +14,7 @@ import { environment } from "src/environments/environment";
   styleUrls: ["./remisioncrearnuevo.component.scss"],
 })
 export class RemisioncrearnuevoComponent implements OnInit {
-
+  public userF : User;
   public RutaPrincipal: string = environment.ruta;
   public Datos: any = {
     Titulo: "Nueva Remisión",
@@ -41,9 +43,10 @@ export class RemisioncrearnuevoComponent implements OnInit {
   private EnviarPendientes: Subject<any> = new Subject();
 
   public Bodegas_Nuevo: any = [];
-  constructor(private http: HttpClient) { }
+  constructor(private http: HttpClient, private _user:UserService) { }
 
   ngOnInit() {
+    this.userF = this._user.user;
     this.GetDatosIniciales();
     for (let i = -1; i <= 18; i++) {
       this.Meses.push({
@@ -134,7 +137,7 @@ export class RemisioncrearnuevoComponent implements OnInit {
       this.Datos.Origen = "C-" + this.ModeloRemision.Id_Origen;
       this.Destino = this.Datos_Iniciales.Clientes;
       this.Origen = this.Datos_Iniciales.Bodega;
-
+      
     }
   }
   setGrupo() {
@@ -181,6 +184,7 @@ export class RemisioncrearnuevoComponent implements OnInit {
         this.ModeloRemision.Tipo_Destino = "Bodega";
         break;
     }
+    console.log(this.Origen)
     if (cambiarlista) {
       setTimeout(() => {
         this.EnviarModelo();

@@ -1,19 +1,17 @@
-<app-modal-basic #modalPrestamoylibranza [dialogClass]="'modal-lg'">
-  <div class="app-modal-header">
-    <h4 class="modal-title">Nuevo Prestamo o Libranza</h4>
-    <button
-      type="button"
-      class="close basic-close"
-      (click)="modalPrestamoylibranza.hide(); limpiarCampos()"
-    >
-      <span aria-hidden="true">&times;</span>
-    </button>
+<ng-template #modalPrestamoylibranza let-modal>
+  <div class="modal-content">
+    <div class="modal-header">
+      <h4 class="text-primary modal-title">Nuevo prestamo o libranza</h4>
+      <button
+        type="button"
+        class="btn btn-sm btn-flash-border-primary ri-close-fill"
+        aria-label="Close"
+        (click)="modal.dismiss('Cross click'); limpiarCampos()"
+      ></button>
+    </div>
   </div>
-  <div
-    style="overflow-x: unset !important; overflow-y: unset !important"
-    class="app-modal-body"
-  >
-    <form #FormPrestamo="ngForm" (ngSubmit)="save()">
+  <form #FormPrestamo="ngForm" (ngSubmit)="save()">
+    <div class="modal-body">
       <div class="row">
         <div class="col-md-3">
           <div class="form-group">
@@ -170,20 +168,20 @@
 
       <div class="row">
         <div class="col-md-6">
-            <div class="form-group">
-              <label for="">Tipo Descuento</label>
-              <select
-                name="Tipo_Descuento"
-                id="Tipo_Descuento"
-                [(ngModel)]="modelo.payment_type"
-                class="form-control form-control-sm"
-                required
-              >
-                <option value="Quincenal">Quincenal</option>
-                <option value="Mensual">Mensual</option>
-              </select>
-            </div>
+          <div class="form-group">
+            <label for="">Tipo Descuento</label>
+            <select
+              name="Tipo_Descuento"
+              id="Tipo_Descuento"
+              [(ngModel)]="modelo.payment_type"
+              class="form-control form-control-sm"
+              required
+            >
+              <option value="Quincenal">Quincenal</option>
+              <option value="Mensual">Mensual</option>
+            </select>
           </div>
+        </div>
         <div class="col-md-6">
           <div class="form-group">
             <label for="">Quincena Primer Descuento</label>
@@ -201,7 +199,6 @@
             </select>
           </div>
         </div>
-      
       </div>
 
       <div class="row">
@@ -211,26 +208,49 @@
             <textarea
               name="observation"
               id="observation"
-              rows="10"
+              rows="3"
               class="form-control"
               [(ngModel)]="modelo.observation"
             ></textarea>
           </div>
-          <div class="form-group">
-            <button
-              class="btn btn-primary btn-sm btn-block"
-              [disabled]="!FormPrestamo.valid"
-            >
-              <i class="fa fa-save"></i>
-              GUARDAR PRESTAMO
-            </button>
-          </div>
+          <div class="form-group"></div>
         </div>
       </div>
-    </form>
+    </div>
+    <div class="modal-footer">
+      <button
+        type="button"
+        class="btn btn-default"
+        (click)="modal.dismiss('Cross click'); limpiarCampos()"
+      >
+        Cancelar
+      </button>
+      <button
+        class="btn btn-primary"
+        type="submit"
+        [disabled]="!FormPrestamo.valid"
+      >
+        Guardar
+      </button>
+    </div>
+  </form>
+</ng-template>
+
+<app-modal-basic [dialogClass]="'modal-lg'">
+  <div class="app-modal-header">
+    <h4 class="modal-title">Nuevo Prestamo o Libranza</h4>
+    <button
+      type="button"
+      class="close basic-close"
+      (click)="modalPrestamoylibranza.hide(); limpiarCampos()"
+    >
+      <span aria-hidden="true">&times;</span>
+    </button>
   </div>
-
-
+  <div
+    style="overflow-x: unset !important; overflow-y: unset !important"
+    class="app-modal-body"
+  ></div>
 </app-modal-basic>
 <ng-template #rt3 let-r="result" let-t="term">
   <span class="f-9">{{ r.identifier }} - {{ r.text }}</span>

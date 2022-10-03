@@ -37,6 +37,8 @@
                         ],
                         "scripts": [
                             "node_modules/jquery/dist/jquery.min.js",
+                            "node_modules/popper.js/dist/umd/popper.min.js",
+                            "node_modules/bootstrap/dist/js/bootstrap.min.js",
                             "node_modules/@ckeditor/ckeditor5-build-classic/build/translations/de.js"
                         ]
                     },
@@ -55,8 +57,8 @@
                             "buildOptimizer": true,
                             "budgets": [{
                                     "type": "initial",
-                                    "maximumWarning": "2mb",
-                                    "maximumError": "5mb"
+                                    "maximumWarning": "6mb",
+                                    "maximumError": "6mb"
                                 },
                                 {
                                     "type": "anyComponentStyle",

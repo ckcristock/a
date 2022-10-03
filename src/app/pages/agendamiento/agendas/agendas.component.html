@@ -83,7 +83,7 @@
             </tr>
           </thead>
           <tbody>
-            <tr
+            <tr class="text-center"
               *ngFor="let item of agendas"
               [ngClass]="{
                 'text-danger': item.state == 'Cancelada'
@@ -91,12 +91,13 @@
             >
               <td>
                 <img
-                  src="{{ item?.usuario?.person?.image | image: 'users' }}"
+                  [src]=" item?.usuario?.person?.image | image: 'users' "
                   alt="{{ item?.usuario?.person?.first_name }}"
+                  onerror="this.src='../../../../assets/images/noprofile.png'"
                   class="img-thumbnail rounded-circle header-profile-user mx-auto d-block"
                 />
               </td>
-              <td>
+              <td class="align-middle">
                 <i
                   [ngClass]="{
                     'fa-user': item.type_appointment.face_to_face,
@@ -107,21 +108,21 @@
                 {{ item.created_at | date: "dd/MM/yyy" }}
               </td>
 
-              <td>{{ item.person.full_name }}</td>
-              <td>{{ item.speciality.name }}</td>
+              <td class="align-middle">{{ item.person.full_name }}</td>
+              <td class="align-middle">{{ item.speciality.name }}</td>
 
-              <td>
+              <td class="align-middle">
                 {{ item.date_start | date: "dd/MM/yy" }}
                 <span *ngIf="item.date_start != item.date_end">
                   - {{ item.date_end | date: "dd/MM/yy" }}</span
                 >
               </td>
-              <td>{{ item.state }}</td>
-              <td>
-                <i class="ri-calendar-todo-fill"></i>
+              <td class="align-middle">{{ item.state }}</td>
+              <td class="align-middle">
+                <i class="fas fa-calendar"></i>
                 {{ item.spaces.length }} ({{ item.available_spaces.length }})
               </td>
-              <td class="text-center">
+              <td class="align-middle">
                 <div class="btn-group" role="group " ngbDropdown>
                   <button
                     id="btnGroupVerticalDrop1 "

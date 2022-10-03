@@ -18,7 +18,7 @@
         <ul class="navbar-nav">
           <ng-container *ngFor="let item of navItems">
             <div *ngIf="item.name != 'Tablero'">
-              <hr />
+              <hr class="hr-custom"/>
             </div>
             <li class="nav-item dropdown">
               <a
@@ -29,8 +29,8 @@
                 role="button"
                 (click)="onMenuClick($event)"
               >
-                <i class="{{ item.icon }} mr-2"></i>{{ item.name }}
-                <div *ngIf="item.child.length > 0" class="arrow-down"></div>
+                <i class="{{ item.icon }} mr-1"></i>{{item.name}}
+                <i *ngIf="item.child.length > 0" class="fas fa-angle-down"></i>
               </a>
 
               <div 

@@ -13,7 +13,10 @@ import { PipesModule } from 'src/app/core/pipes/pipes.module';
 
 import { ViaticosComponent } from './viaticos/viaticos.component';
 import { CrearViaticosComponent } from './viaticos/crear-viaticos/crear-viaticos.component';
-import { NgbPaginationModule, NgbTooltipModule } from '@ng-bootstrap/ng-bootstrap';
+import {
+  NgbPaginationModule,
+  NgbTooltipModule,
+} from '@ng-bootstrap/ng-bootstrap';
 import { HttpClientModule } from '@angular/common/http';
 import { NgSelectModule } from '@ng-select/ng-select';
 import { VerViaticosComponent } from './viaticos/ver-viaticos/ver-viaticos.component';
@@ -32,7 +35,8 @@ import { MatExpansionModule } from '@angular/material/expansion';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatInputModule } from '@angular/material/input';
 import { MatSelectModule } from '@angular/material/select';
-
+import { MatButtonModule } from '@angular/material/button';
+import { MatIconModule } from '@angular/material/icon';
 @NgModule({
   imports: [
     NominaRoutingModule,
@@ -52,6 +56,8 @@ import { MatSelectModule } from '@angular/material/select';
     MatFormFieldModule,
     MatInputModule,
     MatSelectModule,
+    MatButtonModule,
+    MatIconModule
   ],
   declarations: [
     PrestamosLibranzasComponent,
@@ -69,7 +75,7 @@ import { MatSelectModule } from '@angular/material/select';
     VacacionesComponent,
     PrimasComponent,
     PrimaFuncionarioComponent,
-    HistorialPagosComponent
+    HistorialPagosComponent,
   ],
 })
 export class NominaModule {}

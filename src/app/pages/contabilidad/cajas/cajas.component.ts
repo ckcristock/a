@@ -32,6 +32,7 @@ export class CajasComponent implements OnInit {
     this.loading = true;
     this._prettyCash.getAll().subscribe( (r:any)=>{
       this.prettyCashList = r.data
+      console.log(this.prettyCashList)
       this.loading = false;
     } )
   }

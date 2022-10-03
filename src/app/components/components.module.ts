@@ -1,7 +1,12 @@
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
-import { NgbAccordionModule, NgbAlertModule, NgbModule, NgbToastModule } from '@ng-bootstrap/ng-bootstrap';
+import {
+  NgbAccordionModule,
+  NgbAlertModule,
+  NgbModule,
+  NgbToastModule,
+} from '@ng-bootstrap/ng-bootstrap';
 import { ModalBasicComponent } from './modal-basic/modal-basic.component';
 import { SetPacienteComponent } from './paciente/set-paciente/set-paciente.component';
 import { DetalleCitaComponent } from './citas/detalle-cita/detalle-cita.component';
@@ -25,6 +30,7 @@ import { MatExpansionModule } from '@angular/material/expansion';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatInputModule } from '@angular/material/input';
 import { MatSelectModule } from '@angular/material/select';
+import { AutosizeModule } from 'ngx-autosize';
 
 @NgModule({
   declarations: [
@@ -42,7 +48,7 @@ import { MatSelectModule } from '@angular/material/select';
     ShowErrorsComponent,
     CabeceraComponent,
     ApplicantComponent,
-    BuilderFormComponent
+    BuilderFormComponent,
   ],
 
   exports: [
@@ -59,7 +65,7 @@ import { MatSelectModule } from '@angular/material/select';
     ShowErrorsComponent,
     CabeceraComponent,
     ApplicantComponent,
-    BuilderFormComponent
+    BuilderFormComponent,
   ],
 
   imports: [
@@ -77,6 +83,7 @@ import { MatSelectModule } from '@angular/material/select';
     MatFormFieldModule,
     MatInputModule,
     MatSelectModule,
-  ]
+    AutosizeModule,
+  ],
 })
-export class ComponentsModule { }
+export class ComponentsModule {}

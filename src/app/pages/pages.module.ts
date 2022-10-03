@@ -17,29 +17,34 @@ import { registerLocaleData } from '@angular/common';
 import { TaskViewComponent } from './tasks/task-view/task-view.component';
 import { NgSelectModule } from '@ng-select/ng-select';
 import { CKEditorModule } from '@ckeditor/ckeditor5-angular';
-import { AngularFileUploaderModule } from "angular-file-uploader";
+import { AngularFileUploaderModule } from 'angular-file-uploader';
+import { MatButtonModule } from '@angular/material/button';
+import { NgxFloatButtonModule } from 'ngx-float-button';
+import { AutosizeModule } from 'ngx-autosize';
 registerLocaleData(localeEs, 'es');
 
-
 @NgModule({
-    declarations: [DashboardComponent, TasksComponent, TaskViewComponent],
-    imports: [
-        FullCalendarModule,
-        ReactiveFormsModule,
-        CommonModule,
-        FormsModule,
-        PagesRoutingModule,
-        ComponentsModule,
-        GraficalModuleModule,
-        DragDropModule,
-        NgbModule,
-        NgSelectModule,
-        CKEditorModule,
-        AngularFileUploaderModule,
-    ],
-    exports: [],
-    providers: [{ provide: LOCALE_ID, useValue: 'es' } // Añades esta línea en los providers
-    ],
+  declarations: [DashboardComponent, TasksComponent, TaskViewComponent],
+  imports: [
+    FullCalendarModule,
+    ReactiveFormsModule,
+    CommonModule,
+    FormsModule,
+    PagesRoutingModule,
+    ComponentsModule,
+    GraficalModuleModule,
+    DragDropModule,
+    NgbModule,
+    NgSelectModule,
+    CKEditorModule,
+    AngularFileUploaderModule,
+    MatButtonModule,
+    NgxFloatButtonModule,
+    AutosizeModule,
+  ],
+  exports: [],
+  providers: [
+    { provide: LOCALE_ID, useValue: 'es' }, // Añades esta línea en los providers
+  ],
 })
-
-export class PagesModule { }
+export class PagesModule {}

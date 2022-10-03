@@ -1,9 +1,10 @@
 <div class="row">
   <div class="col-md-4">
     <div class="card">
-      <div class="card-header text-center bg-dark text-white">
+      <span class="badge badge-pill badge-danger position-absolute float-right" style="top: -5px; left: -5px;">{{ ListaNacional.length }}</span>
+      <!-- <div class="card-header text-center bg-white">
         {{ ListaNacional.length }} compras
-      </div>
+      </div> -->
       <div class="card-body">
         <div class="card-title d-flex justify-content-between">
           <h5 class="text-primary">Compras Pendientes</h5>
@@ -49,12 +50,12 @@
         >
           <thead>
             <tr>
-              <th></th>
-              <th>Cod. Compra</th>
+              <!-- <th></th> -->
+              <th>Código</th>
               <th>Fecha</th>
               <th>Proveedor</th>
               <th>Items</th>
-              <th></th>
+              <th>Acc.</th>
             </tr>
           </thead>
           <tbody>
@@ -62,10 +63,10 @@
               *ngFor="let item of ListaNacional; let i = index"
               id="fila{{ i }}"
             >
-              <td>
-                <!-- TODO IMAGEN FUNC -->
+              <!-- <td>
+              
                 <img class="img-radius imagen" />
-              </td>
+              </td> -->
               <td>
                 <strong>{{ item.Codigo }}</strong>
               </td>
@@ -80,24 +81,24 @@
                       class="btn btn-info btn-sm waves-effect waves-light"
                       type="button"
                     >
-                      <i class="fa fa-bars"></i>
+                      <i class="mdi mdi-chevron-down"></i>
                     </button>
                     <div ngbDropdownMenu>
                       <a
-                        class="dropdown-item waves-light waves-effect caja-botones"
+                        class="dropdown-item waves-light text-success waves-effect caja-botones"
                         href=""
                         [routerLink]="['crear', item.Codigo, 'Nacional']"
                       >
-                        <i class="fa fa-server"></i>Realizar</a
+                        <i class="fa fa-server"></i> Realizar</a
                       >
                       <a
-                        class="dropdown-item waves-light waves-effect caja-botones"
+                        class="dropdown-item waves-light text-info waves-effect caja-botones"
                         [routerLink]="[
                           '/compras/ver-nacional',
                           item.Id_Orden_Compra_Nacional
                         ]"
                       >
-                        <i class="ti-eye"></i>Ver Ord.</a
+                        <i class="fas fa-eye"></i> Ver Orden</a
                       >
                     </div>
                   </div>
@@ -160,9 +161,8 @@
   </div>
   <div class="col-md-4">
     <div class="card">
-      <div class="card-header text-center bg-dark text-white">
-        {{ actas_pendientes.length }} actas
-      </div>
+      <span class="badge badge-pill badge-danger position-absolute float-right" style="top: -5px; left: -5px;">{{ actas_pendientes.length }}</span>
+      
       <div class="card-body">
         <div class="card-title d-flex justify-content-between">
           <h5 class="text-primary">Actas Pendientes</h5>
@@ -265,9 +265,8 @@
   </div>
   <div class="col-md-4">
     <div class="card">
-      <div class="card-header text-center bg-dark text-white">
-        {{ ActasAnuladas.length }} actas
-      </div>
+      <span class="badge badge-pill badge-danger position-absolute float-right" style="top: -5px; left: -5px;">{{ ActasAnuladas.length }}</span>
+      
       <div class="card-body">
         <div class="card-title d-flex justify-content-between">
           <h5 class="text-primary">Actas Anuladas</h5>

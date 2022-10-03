@@ -5,6 +5,7 @@ import { Subscription } from 'rxjs';
 import { DetalleService } from './detalle.service';
 import { DatosBasicosService } from './ver-funcionario/datos-basicos/datos-basicos.service';
 import { SwalService } from '../../services/swal.service';
+import { environment } from 'src/environments/environment';
 
 @Component({
   selector: 'app-detalle-funcionario',
@@ -30,7 +31,8 @@ export class DetalleFuncionarioComponent implements OnInit {
 
   public ajaxSettings: object;
   public view: string;
-  public ruta = 'https://backend.ateneoerp.com/';
+  //public ruta = 'https://backend.ateneoerp.com/';
+  public ruta = environment.url_assets
   public url = ''
 
   constructor(
@@ -44,8 +46,7 @@ export class DetalleFuncionarioComponent implements OnInit {
 
 
   ngOnInit(): void {
-    this.id = this.activateRoute.snapshot.params.id;
-    this.url = this.ruta + 'filemanager/dialog.php?lang=es&car=' + this.id
+    this.id = this.activateRoute.snapshot.params.id;    
     this.getBasicData();
     this.subscriptions.add(this.basicDataService.datos$.subscribe(data => { this.getBasicData(); }));
 
@@ -90,6 +91,7 @@ export class DetalleFuncionarioComponent implements OnInit {
       .subscribe((res: any) => {
         console.log(res);
         this.funcionario = res.data;
+        this.url = this.ruta + '/filemanager4/filemanager/dialog.php?type=0&car=rrhh%2Ffuncionarios%2F' + this.funcionario.identifier 
       });
   }
 

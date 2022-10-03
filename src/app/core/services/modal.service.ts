@@ -20,6 +20,6 @@ export class ModalService {
     this.modalService.open(content, { size: 'xl' });
   }
   openScrollableContent(content) {
-    this.modalService.open(content, { scrollable: true });
+    this.modalService.open(content, { scrollable: true, size: 'lg' });
   }
 }

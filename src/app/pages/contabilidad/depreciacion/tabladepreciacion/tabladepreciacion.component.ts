@@ -34,12 +34,13 @@ export class TabladepreciacionComponent implements OnInit {
 
   constructor(private http:HttpClient) {
     this.alertOption = {
-      title: "¿Está Seguro?",
-      text: "Se dispone a generar la depreciacion",
+      title: "¿Estás seguro(a)?",
+      text: "Te dispones a generar la depreciación",
       showCancelButton: true,
-      cancelButtonText: "No, Dejame Comprobar!",
-      confirmButtonText: 'Si, Guardar',
+      cancelButtonText: "Cancelar",
+      confirmButtonText: 'Guardar',
       showLoaderOnConfirm: true,
+      reverseButtons: true,
       focusCancel: true,
       icon: 'info',
       preConfirm: () => {

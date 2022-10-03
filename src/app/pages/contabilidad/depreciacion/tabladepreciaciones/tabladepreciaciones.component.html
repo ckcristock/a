@@ -60,42 +60,42 @@
       style="font-size: small"
       *ngIf="!Cargando && Depreciaciones.length > 0; else notData"
     >
-      <thead>
-        <tr class="thead-default">
+      <thead class="bg-light">
+        <tr class="text-center text-uppercase">
           <th>Fecha Creación</th>
           <th>Codigo</th>
           <th>Funcionario</th>
           <th>Año</th>
           <th>Mes</th>
-          <th class="text-center col-1">Estado</th>
-          <th class="text-center col-1">Acciones</th>
+          <th class="col-md-1">Estado</th>
+          <th class="col-md-1">Acciones</th>
         </tr>
       </thead>
       <tbody>
-        <tr *ngFor="let ai of Depreciaciones; let i = index" id="fila{{ i }}">
-          <td>
+        <tr *ngFor="let ai of Depreciaciones; let i = index" id="fila{{ i }}" class="text-center">
+          <td class="align-middle">
             {{ ai.Fecha_Registro | date: "longDate" }}
           </td>
-          <td>
+          <td class="align-middle">
             <strong>{{ ai.Codigo }}</strong>
           </td>
-          <td>{{ ai.Funcionario }}</td>
-          <td>
+          <td class="align-middle">{{ ai.Funcionario }}</td>
+          <td class="align-middle">
             <strong>{{ ai.Anio }}</strong>
           </td>
-          <td>{{ ai.Nombre_Mes }}</td>
-          <td class="text-center">
+          <td class="align-middle">{{ ai.Nombre_Mes }}</td>
+          <td class="align-middle">
             <span
               [ngClass]="
                 ai.Estado != 'Anulada'
-                  ? 'badge badge-primary'
+                  ? 'badge badge-success'
                   : 'badge badge-danger'
               "
             >
               {{ ai.Estado }}</span
             >
           </td>
-          <td>
+          <td class="align-middle">
             <div class="text-center">
               <div ngbDropdown class="dropdown-primary">
                 <button

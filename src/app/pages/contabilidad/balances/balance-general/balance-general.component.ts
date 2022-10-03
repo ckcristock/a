@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { environment } from 'src/environments/environment';
 import { UserService } from '../../../../core/services/user.service';
+import { User } from 'src/app/core/models/users.model';
 
 @Component({
   selector: 'app-balance-general',
@@ -9,7 +10,7 @@ import { UserService } from '../../../../core/services/user.service';
   styleUrls: ['./balance-general.component.scss']
 })
 export class BalanceGeneralComponent implements OnInit {
-
+  public userF : User;
   public datosCabecera:any = {
     Titulo: 'Balance General',
     Fecha: new Date()
@@ -43,6 +44,7 @@ export class BalanceGeneralComponent implements OnInit {
   constructor( private http: HttpClient, private _user: UserService ) { }
 
   ngOnInit() {
+    this.userF = this._user.user;
     this.ListarCentroCostos();
     this.envirom = environment;
     this.company_id = this._user.user.person.company_worked.id;

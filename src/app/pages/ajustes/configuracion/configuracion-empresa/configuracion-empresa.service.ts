@@ -18,10 +18,14 @@ export class ConfiguracionEmpresaService {
     return this.http.get(`${environment.base_url}/arl`);
 
   }
+  getCompanies() {
+    return this.http.get(`${environment.base_url}/get-all-companies`);
 
-  getCompanyData(id = null) {
-    let params = { id: id }
-    return this.http.get(`${environment.base_url}/companyData`, { params });
+  }
+
+  getCompanyData(id) {
+    /* let params = { id: id } */
+    return this.http.get(`${environment.base_url}/companyData/${id}`);
   }
 
   getCompaniesOwner(params = {}) {

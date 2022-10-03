@@ -43,6 +43,7 @@ export class HistorialPagosComponent implements OnInit {
 
     this._payrollPayments.getPayrollHistory(params).subscribe((r: any) => {
       this.historialPagos = r.data;
+      console.log(this.historialPagos)
       this.renderizar = true;
     });
   }

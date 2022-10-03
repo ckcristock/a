@@ -9,6 +9,7 @@ import { functionsUtils } from 'src/app/core/utils/functionsUtils';
 import swal from 'sweetalert2';
 import { environment } from 'src/environments/environment';
 import { UserService } from 'src/app/core/services/user.service';
+import { User } from 'src/app/core/models/users.model';
 
 @Component({
   selector: 'app-crear-acta-recepcion',
@@ -16,6 +17,7 @@ import { UserService } from 'src/app/core/services/user.service';
   styleUrls: ['./crear-acta-recepcion.component.scss'],
 })
 export class CrearActaRecepcionComponent implements OnInit {
+  public userF : User;
   Lista_Productos: any[] = [];
   public Lista_Eliminados: any = [];
   NoConformes = [];
@@ -146,6 +148,7 @@ export class CrearActaRecepcionComponent implements OnInit {
   }
 
   ngOnInit() {
+    this.userF = this._user.user;
     let params = this.route.snapshot.queryParams;
 
     let ruta = 'php/bodega_nuevo/acta_recepcion_comprad_test.php';
@@ -187,6 +190,7 @@ export class CrearActaRecepcionComponent implements OnInit {
         this.AsignarRetencionesDefault();
         this.OperacionParaValoresMinimosRetenciones();
         this.encabezado = data.encabezado;
+        console.log(this.encabezado)
         this.cargarSubcategorias(data.encabezado.Id_Bodega);
         this.Total_Items = data.Items;
         this.Productos = data.Productos;
@@ -398,19 +402,20 @@ export class CrearActaRecepcionComponent implements OnInit {
   addFactura(pos, event) {
     let pos2 = pos + 1;
 
-    let factura = (document.getElementById('Factura' + pos) as HTMLInputElement)
+    /* let factura = (document.getElementById('Factura' + pos) as HTMLInputElement)
       .value;
     let fecha_factura = (
       document.getElementById('Fecha_Factura' + pos) as HTMLInputElement
-    ).value;
+    ).value; */
     let archivo_factura = (
       document.getElementById('Archivo_Factura' + pos) as HTMLInputElement
     ).files.length;
 
-    if (factura != '' && fecha_factura != '') {
+    if (this.Facturas.Factura != '' && this.Facturas.Fecha_Factura != '') {
       if (archivo_factura > 0) {
         if (this.Archivo_Facturas[pos] != undefined) {
           this.Archivo_Facturas[pos] = event.target.files[0];
+          console.log(this.Archivo_Facturas)
         } else {
           this.Archivo_Facturas.push(event.target.files[0]);
           if (this.Facturas[pos2] == undefined) {
@@ -436,6 +441,7 @@ export class CrearActaRecepcionComponent implements OnInit {
       'Lista_Producto',
       JSON.stringify(this.Lista_Productos)
     );
+    
   }
 
   habilitarCampos(i) {

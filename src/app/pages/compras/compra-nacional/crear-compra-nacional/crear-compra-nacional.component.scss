@@ -1,4 +1,4 @@
-.btn-sm {
+/* .btn-sm {
     padding: 5px 10px 5px 10px!important;
     line-height: 14px !important;
     font-size: 10px !important;
@@ -146,4 +146,9 @@ td {
     i {
         margin: 0;
     }
+} */
+
+.card-horizontal {
+    display: flex;
+    flex: 1 1 auto;
 }

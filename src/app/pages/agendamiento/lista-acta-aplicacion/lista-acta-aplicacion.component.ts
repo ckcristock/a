@@ -3,6 +3,7 @@ import { UserService } from 'src/app/core/services/user.service';
 import { ActaAplicacionService } from '../acta-aplicacion.service';
 import Swal from 'sweetalert2';
 import { MatAccordion } from '@angular/material';
+import { ModalService } from 'src/app/core/services/modal.service';
 
 @Component({
   selector: 'app-lista-acta-aplicacion',
@@ -41,7 +42,8 @@ export class ListaActaAplicacionComponent implements OnInit {
 
   constructor(
     private _user: UserService,
-    private _acta: ActaAplicacionService
+    private _acta: ActaAplicacionService,
+    private modalBD: ModalService
   ) {}
 
   ngOnInit(): void {
@@ -107,9 +109,12 @@ export class ListaActaAplicacionComponent implements OnInit {
     });
   }
 
-  detailCertificates(){
-    this.modalDetail.show()
+  detailCertificates(modal){
+    /* this.modalDetail.show() */
+    this.modalBD.openLg(modal)
   }
 
-  close(){}
+  close(){
+    this.modalBD.close()
+  }
 }

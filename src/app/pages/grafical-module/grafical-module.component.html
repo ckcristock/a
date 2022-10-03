@@ -99,7 +99,7 @@
             </mat-select>
           </mat-form-field>
 
-          <div class="col-md-12 mx-auto text-center">
+          <div class="col-md-12 mx-auto text-center mb-4">
             <button
               class="btn btn-primary btn-block"
               (click)="graficar()"
@@ -110,7 +110,7 @@
           </div>
         </div>
 
-        <div>
+        <div *ngIf="!loading; else notData">
           <div class="row" *ngIf="show">
             <div *ngFor="let stat of statData" class="col-md-4">
               <app-stat
@@ -122,10 +122,10 @@
           </div>
 
           <div class="row" *ngIf="show">
-            <div class="col-lg-4">
-              <div class="card">
+            <div class="col-md-4">
+              <div class="card border">
                 <div class="card-body">
-                  <h4 class="card-title mb-4">Tipos de tramite</h4>
+                  <h4 class="card-title">Tipos de tramite</h4>
                   <apx-chart
                     class="apex-charts"
                     dir="ltr"
@@ -141,10 +141,10 @@
               </div>
             </div>
 
-            <div class="col-lg-4">
-              <div class="card">
+            <div class="col-md-4">
+              <div class="card border">
                 <div class="card-body">
-                  <h4 class="card-title mb-4">Regionales</h4>
+                  <h4 class="card-title">Regionales</h4>
                   <apx-chart
                     class="apex-charts"
                     dir="ltr"
@@ -160,10 +160,10 @@
               </div>
             </div>
 
-            <div class="col-lg-4">
-              <div class="card">
+            <div class="col-md-4">
+              <div class="card border">
                 <div class="card-body">
-                  <h4 class="card-title mb-4">Departamentos</h4>
+                  <h4 class="card-title">Departamentos</h4>
                   <apx-chart
                     class="apex-charts"
                     dir="ltr"
@@ -235,3 +235,6 @@
     </div>
   </div>
 </div>
+<ng-template #notData>
+  <app-not-data [loading]="loading"></app-not-data>
+</ng-template>

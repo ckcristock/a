@@ -1,20 +1,26 @@
 //@import "~@ng-select/ng-select/themes/default.theme.css";
-@import '../node_modules/@syncfusion/ej2-base/styles/material.css';
-@import '../node_modules/@syncfusion/ej2-inputs/styles/material.css';
-@import '../node_modules/@syncfusion/ej2-popups/styles/material.css';
-@import '../node_modules/@syncfusion/ej2-buttons/styles/material.css';
-@import '../node_modules/@syncfusion/ej2-splitbuttons/styles/material.css';
-@import '../node_modules/@syncfusion/ej2-navigations/styles/material.css';
-@import '../node_modules/@syncfusion/ej2-layouts/styles/material.css';
-@import '../node_modules/@syncfusion/ej2-grids/styles/material.css';
-@import '../node_modules/@syncfusion/ej2-angular-filemanager/styles/material.css';
-@import '~saturn-datepicker/bundle.css';
+@import "../node_modules/@syncfusion/ej2-base/styles/material.css";
+@import "../node_modules/@syncfusion/ej2-inputs/styles/material.css";
+@import "../node_modules/@syncfusion/ej2-popups/styles/material.css";
+@import "../node_modules/@syncfusion/ej2-buttons/styles/material.css";
+@import "../node_modules/@syncfusion/ej2-splitbuttons/styles/material.css";
+@import "../node_modules/@syncfusion/ej2-navigations/styles/material.css";
+@import "../node_modules/@syncfusion/ej2-layouts/styles/material.css";
+@import "../node_modules/@syncfusion/ej2-grids/styles/material.css";
+@import "../node_modules/@syncfusion/ej2-angular-filemanager/styles/material.css";
+@import "~saturn-datepicker/bundle.css";
 //@include sat-datepicker-theme($theme);
 //@import "~@ng-select/ng-select/themes/material.theme.css";
 hr.line {
-    border: 0;
-    height: 1px;
-    background-image: linear-gradient(to right, #f0f0f0, #3848CA, #3848CA, #f0f0f0);
+  border: 0;
+  height: 1px;
+  background-image: linear-gradient(
+    to right,
+    #f0f0f0,
+    #3848ca,
+    #3848ca,
+    #f0f0f0
+  );
 }
 
 @import "~@angular/material/prebuilt-themes/indigo-pink.css";
@@ -22,13 +28,23 @@ hr.line {
 
 .cdk-global-overlay-wrapper,
 .cdk-overlay-container {
-    z-index: 99999 !important;
+  z-index: 99999 !important;
 }
 
 .cdk-overlay-connected-position-bounding-box {
-    z-index: 99999 !important;
+  z-index: 99999 !important;
 }
 
-.card{
-    border-radius: 0.7rem !important;
+.card {
+  border-radius: 0.7rem !important;
+}
+.card-horizontal {
+  display: flex;
+  flex: 1 1 auto;
+}
+@media (max-width: 800px) {
+  .w-sm-100 {
+     display: inline-flex;
+     width: 100%;
+  }
 }

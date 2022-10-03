@@ -1,4 +1,5 @@
 import { Component, EventEmitter, Input, OnInit, ViewChild } from '@angular/core';
+import { ModalService } from 'src/app/core/services/modal.service';
 import { AppointmentService } from '../../../core/services/appointment.service';
 
 @Component({
@@ -9,6 +10,7 @@ import { AppointmentService } from '../../../core/services/appointment.service';
 export class DetalleCitaComponent implements OnInit {
   @Input('modalData') modalData: EventEmitter<any>;
   @ViewChild('detalleCitaModal') detalleCitaModal: any; 
+  @ViewChild('add') add: any; 
   appointment_id:string;
   findCita: any = {
     created_at: '',
@@ -37,14 +39,14 @@ export class DetalleCitaComponent implements OnInit {
       },
     }
   }
-  constructor(private _appointment: AppointmentService) {
+  constructor(private _appointment: AppointmentService, private modalBD: ModalService) {
 
   }
 
   ngOnInit(): void {
     this.modalData.subscribe(d => {
       this.appointment_id = d.Id_Cita_Detalle
-      d.Show ? this.detalleCitaModal.show() : this.detalleCitaModal.hide()
+      d.Show ? this.modalBD.openLg(this.add) : this.modalBD.close()
       this.getCita()
     })
   }

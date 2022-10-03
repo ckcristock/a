@@ -9,6 +9,7 @@ import { environment } from '../../../../environments/environment';
 import Swal from 'sweetalert2';
 import { UserService } from 'src/app/core/services/user.service';
 import { MatAccordion } from '@angular/material';
+import { ModalService } from 'src/app/core/services/modal.service';
 
 @Component({
   selector: 'app-centro-costos',
@@ -113,7 +114,8 @@ export class CentroCostosComponent implements OnInit {
               private location: Location,
               private route: ActivatedRoute,
               private _centroCosto: CentroCostosService,
-              private _user: UserService
+              private _user: UserService,
+              private _modal: ModalService
               ) { }
 
   ngOnInit() {
@@ -123,6 +125,11 @@ export class CentroCostosComponent implements OnInit {
     this.enviromen = environment;
     this.company_id = this._user.user.person.company_worked.id;
   }
+
+  openModal(content){
+    this._modal.openLg(content)
+  }
+
   ListarCostos(){
     /* this.http.get(environment.ruta + 'php/centroscostos/centro_costos_listar.php').subscribe((data: any) => {
       this.items = data;
@@ -235,7 +242,8 @@ export class CentroCostosComponent implements OnInit {
       datos.append("Datos", data);
       datos.append("accion", funcion);
       this.PeticionGuardarCentro(datos);
-      modalCentroCosto.hide();
+      //modalCentroCosto.hide();
+      this._modal.close()
       this.LimpiarModelo();
 
       setTimeout(()=>{
@@ -251,7 +259,8 @@ export class CentroCostosComponent implements OnInit {
       datos.append("accion", funcion);
       console.log(datos);
       this.PeticionGuardarCentro(datos);
-      modalCentroCosto.hide();
+      //modalCentroCosto.hide();
+      this._modal.close()
       this.LimpiarModelo();
 
       setTimeout(()=>{
@@ -270,7 +279,7 @@ export class CentroCostosComponent implements OnInit {
   }
 
   ValorTipoCentro(value:string){
-
+    console.log(value)
     switch(value){
       case '1':
         this.CentroCostoModel.ValorTipo = 'Tercero';
@@ -358,7 +367,7 @@ export class CentroCostosComponent implements OnInit {
     });
   }
 
-  EditarCentroCosto(idCentroCosto, modal:any){
+  EditarCentroCosto(idCentroCosto, content){
 
     this.http.get(environment.ruta + 'php/centroscostos/consultar_centro_costo.php', { params: {id_centro:idCentroCosto.toString(), opcion:'editar'} }).subscribe((data: any) => {
       console.log(data);
@@ -370,7 +379,7 @@ export class CentroCostosComponent implements OnInit {
         this.EditarCentroCostoModel = data;
       }, 300);
 
-      modal.show();
+      this.openModal(content)
     });
   }
 
@@ -401,7 +410,7 @@ export class CentroCostosComponent implements OnInit {
       if (data.codigo == 'success') {
         Swal.fire({
           icon: 'success',
-          title: 'Registro Exitoso',
+          title: 'Registro exitoso',
           text: data.mensaje
         })
         // this.ShowSwal('success', 'Registro Exitoso', data.mensaje);

@@ -23,6 +23,7 @@
           formControlName="identifier"
           class="form-control custom-control col-md-7"
           [class.is-invalid]="identifier_valid"
+          (change)="validarCedula($event)"
           placeholder="Documento de identidad"
         />
 

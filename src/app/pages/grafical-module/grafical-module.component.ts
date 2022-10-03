@@ -181,8 +181,8 @@ export class GraficalModuleComponent implements OnInit {
       .subscribe((arg: Response) => (this.specialities = arg.data));
   };
 
-  graficar = () => {
-    this.text = 'Graficando';
+  graficar() {
+    this.loading = true
     this.disabled = true;
     console.log(this.text);
     let params = {
@@ -194,6 +194,8 @@ export class GraficalModuleComponent implements OnInit {
     this._graficalService
       .getDataByGrafical(params)
       .subscribe((arg: Response) => {
+        this.loading = false
+        this.text = 'Graficando';
         let seriesTT = [
           arg.data['Cita Primera Vez'],
           arg.data['Cita Control'],

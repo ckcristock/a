@@ -1,66 +1,96 @@
 <div class="card">
-    <div class="card-body">
-        <div class="card-title d-flex justify-content-between">
-            <h4 class="text-primary">Empresas</h4>
-            <div class="btn-group rounded">
-                <button class="btn btn-info btn-sm" style="float: right;" (click)="openClose()">
-                    <i class="fas fa-sliders-h"></i> Filtros
-                </button>
-            </div>
-        </div>
-        <hr class="line">
-        <mat-accordion multi>
-            <mat-expansion-panel class="mat-elevation-z0">
-                <mat-form-field class="col-md-3 pl-0" appearance="outline">
-                    <mat-label>Nombre</mat-label>
-                    <input matInput type="text" placeholder="Busca por nombre" name="name" autocomplete="off">
-                </mat-form-field>
-            </mat-expansion-panel>
-        </mat-accordion>
-        <table class="table table-hover mb-0 table-centered table-nowrap ">
-            <thead class="thead-dark ">
-                <tr>
-                    <th>Nombre</th>
-                    <th>Sigla</th>
-                    <th>Nit</th>
-                    <th class="text-right "> </th>
-
-                </tr>
-            </thead>
-            <tbody>
-                <tr *ngFor="let item of enterprises ">
-                    <td>
-                        <p class="font-size-14 mb-0 ">{{item.name}}</p>
-                    </td>
-                    <td>
-                        <p class="font-size-14 mb-0 ">{{item.initials}}</p>
-                    </td>
-                    <td>
-                        <p class="font-size-14 mb-0 ">{{item.nit}}</p>
-                    </td>
-
-                    <td class="text-right ">
-
-                        <div class="btn-group " role="group " ngbDropdown>
-                            <button id="btnGroupVerticalDrop1 " type="button " class="btn btn-primary dropdown-toggle "
-                                ngbDropdownToggle>
-                                Acciones <i class="mdi mdi-chevron-down "></i>
-                            </button>
-                            <div style="cursor: pointer; " class="dropdown-menu font-weight-bolder "
-                                aria-labelledby="btnGroupVerticalDrop1 " ngbDropdownMenu>
-                                <a class="dropdown-item "> <i class="fa fa-search mr-2 "></i>Ver más</a>
-                                <a class="dropdown-item "> <i class="fa fa-edit mr-2 "></i>Editar </a>
-                                <a class="dropdown-item "> <i class="fa fa-ban mr-2 "></i>Suspender </a>
-                            </div>
-                        </div>
-                    </td>
-                </tr>
-
-            </tbody>
-        </table>
-        <ngb-pagination class="d-flex justify-content-center pagination-rounded pagination-sm"
-            [collectionSize]="pagination.collectionSize " [pageSize]="pagination.pageSize " [(page)]="pagination.page "
-            aria-label="Default pagination "></ngb-pagination>
-
+  <div class="card-body">
+    <div class="card-title d-flex justify-content-between">
+      <h4 class="text-primary">Empresas</h4>
+      <div class="btn-group rounded">
+        <button
+          class="btn btn-info btn-sm"
+          style="float: right"
+          (click)="openClose()"
+        >
+          <i class="fas fa-sliders-h"></i> Filtros
+        </button>
+      </div>
     </div>
+    <hr class="line" />
+    <mat-accordion multi>
+      <mat-expansion-panel class="mat-elevation-z0">
+        <mat-form-field class="col-md-3 pl-0" appearance="outline">
+          <mat-label>Nombre</mat-label>
+          <input
+            matInput
+            type="text"
+            placeholder="Busca por nombre"
+            name="name"
+            autocomplete="off"
+          />
+        </mat-form-field>
+      </mat-expansion-panel>
+    </mat-accordion>
+    <table
+      class="table table-bordered table-striped table-sm table-responsive-sm"
+      style="font-size: small"
+      *ngIf="!loading && enterprises.length > 0; else notData"
+    >
+      <thead>
+        <tr>
+          <th>Logo</th>
+          <th>Nombre</th>
+          <th>Categoría</th>
+          <th>NIT</th>
+          <th>Estado</th>
+          <th class="text-center col-md-1">Acciones</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr *ngFor="let item of enterprises">
+          <td class="col-md-1">
+            <img [src]="item.logo" alt="" class="img-fluid"/>
+          </td>
+          <td>
+            <p class="font-size-14 mb-0">{{ item.name }}</p>
+          </td>
+          <td>
+            <p class="font-size-14 mb-0">{{ item.category }}</p>
+          </td>
+          <td>
+            <p class="font-size-14 mb-0">{{ item.tin }}</p>
+          </td>
+          <td *ngIf="item.state == 1">Activa</td>
+          <td *ngIf="item.state == 0">Inactiva</td>
+          <td class="col-md-1">
+            <div class="text-center">
+              <div ngbDropdown class="dropdown-primary">
+                <button
+                  ngbDropdownToggle
+                  class="btn btn-primary btn-sm waves-effect waves-light"
+                  type="button"
+                >
+                  <i class="mdi mdi-chevron-down"></i>
+                </button>
+                <div ngbDropdownMenu>
+                  <a
+                    class="dropdown-item text-info waves-light waves-effect caja-botones"
+                    [routerLink]="['/ajustes/configuracion/configuracion-empresa', item.id]"
+                  >
+                    <i class="fas fa-search-plus text-info"></i> Ver y editar</a
+                  >
+                </div>
+              </div>
+            </div>
+          </td>
+        </tr>
+      </tbody>
+    </table>
+    <!-- <ngb-pagination
+      class="d-flex justify-content-center pagination-rounded pagination-sm"
+      [collectionSize]="pagination.collectionSize"
+      [pageSize]="pagination.pageSize"
+      [(page)]="pagination.page"
+      aria-label="Default pagination "
+    ></ngb-pagination> -->
+  </div>
 </div>
+<ng-template #notData>
+  <app-not-data [loading]="loading"></app-not-data>
+</ng-template>

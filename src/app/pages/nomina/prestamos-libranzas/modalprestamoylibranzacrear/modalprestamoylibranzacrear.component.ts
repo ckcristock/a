@@ -14,6 +14,7 @@ import { PersonService } from '../../../ajustes/informacion-base/persons/person.
 import { LoanService } from '../loan.service';
 import { SwalService } from '../../../ajustes/informacion-base/services/swal.service';
 import {error} from '@angular/compiler/src/util';
+import { ModalService } from 'src/app/core/services/modal.service';
 
 @Component({
   selector: 'app-modalprestamoylibranzacrear',
@@ -40,12 +41,14 @@ export class ModalprestamoylibranzacrearComponent implements OnInit, OnDestroy {
   constructor(
     private _person: PersonService,
     private _loan: LoanService,
-    private _swal: SwalService
+    private _swal: SwalService,
+    private _modal: ModalService
   ) {}
 
   ngOnInit() {
     this._suscription = this.abrirModal.subscribe((data: any) =>
-      this.modalPrestamoylibranza.show()
+      //this.modalPrestamoylibranza.show()
+      this._modal.openLg(this.modalPrestamoylibranza)
     );
     this.getPlains();
     this.getEmpleados();
@@ -167,7 +170,8 @@ export class ModalprestamoylibranzacrearComponent implements OnInit, OnDestroy {
 	  {title:'Operación exitosa',
 	    text:'Prestamo/Libranza Creado con éxito',
 	    icon:'success',showCancel:false})
-	    this.modalPrestamoylibranza.hide();
+      this._modal.close()
+	    //this.modalPrestamoylibranza.hide();
     },err=>{
 	this._swal.show(
 	  {title:'Ha ocurrido un error',
