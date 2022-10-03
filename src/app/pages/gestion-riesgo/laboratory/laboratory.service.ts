@@ -87,4 +87,9 @@ export class LaboratoryService {
   deleteDocument(id) {
     return this.clientHttp.get(`${environment.base_url}/delete-document-laboratory/${id}`);
   }
+
+  downloadFiles(id) {
+    const headers = new HttpHeaders().set('Content-Type', 'application/json')
+    return this.clientHttp.get(`${environment.base_url}/download-files-laboratory/${id}`);
+  }
 }

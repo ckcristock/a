@@ -120,7 +120,7 @@
             type="button"
             [disabled]="formD.invalid"
             (click)="newCall(formD)"
-            [routerLink]="['nuevo-laboratorio']"
+            
           >
             Iniciar gestión
           </button>
@@ -162,7 +162,10 @@
             </td>
             <td class="align-middle">{{ item.patient.eps.name }}</td>
             <td class="align-middle">{{ item.patient.municipality.name }}</td>
-            <td class="align-middle" *ngIf="item.status == 'Tomado' && item.files">
+            <td
+              class="align-middle"
+              *ngIf="item.status == 'Tomado' && item.files"
+            >
               <span
                 class="badge"
                 [ngClass]="
@@ -176,7 +179,9 @@
                 {{ item.files }}
               </span>
             </td>
-            <td class="align-middle" *ngIf="item.status != 'Tomado'">No aplica</td>
+            <td class="align-middle" *ngIf="item.status != 'Tomado'">
+              No aplica
+            </td>
             <td class="align-middle">
               <span
                 class="badge"
@@ -234,8 +239,9 @@
                       class="dropdown-item text-warning waves-light caja-botones"
                       href="javascript:void(0)"
                       (click)="
-                        openConfirm(tomarExamen, 'sm');
-                        createFormTomarExamen(item.id)
+                        openConfirm(tomarExamen, 'lg');
+                        createFormTomarExamen(item.id);
+                        getCupsId(item.id)
                       "
                     >
                       <i class="fas fa-plus"></i> Tomar exámenes</a
@@ -304,7 +310,7 @@
   <div class="modal-body">
     <form [formGroup]="formTomarExamen">
       <div class="row">
-        <mat-form-field class="col" appearance="outline">
+        <mat-form-field class="col-md-6 offset-md-3" appearance="outline">
           <mat-label>Hora</mat-label>
           <input
             matInput
@@ -317,6 +323,33 @@
         </mat-form-field>
       </div>
     </form>
+    <div *ngIf="!loadingCforL && cupsId.length > 0; else notDataCforL">
+      <ul class="list-group list-group-flush">
+        <li
+          class="list-group-item d-flex justify-content-between align-items-center"
+          *ngFor="let item of cupsId"
+        >
+          <div>
+            <span
+              class="position-absolute top-0 start-100 translate-middle mx-2 p-2 bg-danger border border-light rounded-circle"
+            >
+            </span>
+            <div class="ml-5">{{ item.code }} - {{ item.name_cup }}</div>
+          </div>
+          <mat-form-field class="col-md-2 pb-0" appearance="outline">
+            <mat-label>Cantidad</mat-label>
+            <input
+              matInput
+              type="number"
+              min="0"
+              value="1"
+              required
+              autocomplete="off"
+            />
+          </mat-form-field>
+        </li>
+      </ul>
+    </div>
   </div>
   <div class="modal-footer">
     <button type="button" class="btn btn-danger" (click)="modal.dismiss()">
@@ -466,13 +499,9 @@
               </div>
             </div>
             <small *ngIf="item.state == 'Subido'">
-              <a
-                role="button"
-                target="_blank"
-                [href]="item.file"
-              >
+              <!-- <a role="button" target="_blank" [href]="item.file">
                 Descargar
-              </a>
+              </a> -->
               <a
                 role="button"
                 target="_blank"
@@ -485,6 +514,16 @@
           </div>
         </li>
       </ul>
+      <div class="btn-group btn-block mb-4" role="group" aria-label="Button group">
+        <a
+          *ngFor="let item of fileForDownload; let i = index"
+          type="button"
+          [href]="item"
+          class="btn btn-success"
+        >
+          <i class="fas fa-download"></i> Descarga {{ i+1 }}
+        </a>
+      </div>
       <form [formGroup]="formCargar">
         <div class="row">
           <mat-form-field class="col" appearance="outline">

@@ -7,7 +7,7 @@ import { LaboratoryService } from '../laboratory.service';
 import { Observable, of, OperatorFunction } from 'rxjs';
 import { catchError, debounceTime, distinctUntilChanged, filter, map, switchMap, tap } from 'rxjs/operators';
 import { SwalService } from 'src/app/pages/ajustes/informacion-base/services/swal.service';
-import { Router } from '@angular/router';
+import { ActivatedRoute, Params, Router } from '@angular/router';
 
 @Component({
   selector: 'undefined-new-laboratory',
@@ -15,6 +15,7 @@ import { Router } from '@angular/router';
   styleUrls: ['./new-laboratory.component.css']
 })
 export class NewLaboratoryComponent implements OnInit {
+
   form: FormGroup;
   today = new Date().toISOString().slice(0, 10);
   date: { year: number; month: number };
@@ -34,7 +35,7 @@ export class NewLaboratoryComponent implements OnInit {
   searchFailedPatient = false;
   searchingCie10 = false;
   searchFailedCie10 = false;
-
+  ide: string;
 
   constructor(
     private _validatorsService: ValidatorsService,
@@ -44,12 +45,15 @@ export class NewLaboratoryComponent implements OnInit {
     private _swal: SwalService,
     private datePipe: DatePipe,
     private router: Router,
+    private route: ActivatedRoute
   ) {
     this.ips = this._user.user.person.company_worked.id
+    this.route.params.subscribe((params: Params) => this.ide = params['id']);
   }
 
   ngOnInit() {
-    console.log(this.today)
+    
+    //console.log(this.today)
     this.getContract();
     this.createForm();
     this.getLaboratoriesPlace();
@@ -122,7 +126,7 @@ export class NewLaboratoryComponent implements OnInit {
 
   createForm() {
     this.form = this.fb.group({
-      patient: [this.fb.array([]), this._validatorsService.required],
+      patient: ['', this._validatorsService.required],
       date: [this.today, this._validatorsService.required],
       cie10_id: ['', this._validatorsService.required],
       professional_id: ['', this._validatorsService.required],

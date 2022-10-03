@@ -19,6 +19,7 @@ import { ValidatorsService } from '../../ajustes/informacion-base/services/react
 import { SwalService } from '../../ajustes/informacion-base/services/swal.service';
 import { LaboratoryService } from './laboratory.service';
 import { Patient } from 'src/app/core/models/patient.model';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'undefined-laboratory',
@@ -85,7 +86,8 @@ export class LaboratoryComponent implements OnInit {
     private _laboratory: LaboratoryService,
     private _swal: SwalService,
     private _validatorsService: ValidatorsService,
-    private _queryPatient: QueryPatient
+    private _queryPatient: QueryPatient,
+    private _router: Router
   ) { }
   ngOnInit() {
     this.getLaboratories();
@@ -113,9 +115,14 @@ export class LaboratoryComponent implements OnInit {
   }
 
   newCall(form) {
+    //console.log(form)
+    let id:number = form.form.value.Identificacion_Paciente
+    this._router.navigate(['gestion-riesgo/laboratorio/nuevo-laboratorio', id]);
     this._laboratory.newCall(form).subscribe((req: any) => {
       if (req.code == 200) {
-        let data = req.data;
+        let data = req.data;        
+        //console.log(data.paciente)
+        
         if (req.data.isNew) {
           data = this.newPatient(data, req);
         }
@@ -130,6 +137,7 @@ export class LaboratoryComponent implements OnInit {
   newPatient(data, req) {
     data.paciente = new Patient();
     data.paciente.identifier = req.data.llamada.Identificacion_Paciente;
+    
     data.paciente.isNew = true;
     return data;
   }
@@ -233,6 +241,26 @@ export class LaboratoryComponent implements OnInit {
       });
   }
 
+  fileForDownload: any;
+  downloadFiles() {
+    this._laboratory.downloadFiles(this.idCup)
+      .subscribe((res: any) => {
+        this.fileForDownload = Object.values(res.data)
+      })
+
+    /* .subscribe((response: BlobPart) => {
+      let blob = new Blob([response], { type: "application/pdf" });
+      let link = document.createElement("a");
+      const filename = 'files-laboratory-ver';
+      link.href = window.URL.createObjectURL(blob);
+      link.download = `${filename}.pdf`;
+      link.click();
+      this.loading = false
+    }),
+    error => { console.log('Error downloading the file'); this.loading = false },
+    () => { console.info('File downloaded successfully'); this.loading = false }; */
+  }
+
   cupsId: any[] = [];
   loadingCforL: boolean = false;
   idCup: any
@@ -242,6 +270,7 @@ export class LaboratoryComponent implements OnInit {
     this._laboratory.getCupsId(id).subscribe((res: any) => {
       this.cupsId = res.data;
       this.loadingCforL = false;
+      this.downloadFiles()
     });
   }
 
@@ -290,7 +319,7 @@ export class LaboratoryComponent implements OnInit {
       this.datePipe.transform(fecha.value.begin._d, 'yyyy-MM-dd') +
       'a' +
       this.datePipe.transform(fecha.value.end._d, 'yyyy-MM-dd');
-    console.log(this.filtros.fecha)
+    //console.log(this.filtros.fecha)
     this.getLaboratories();
   }
   mail: any = 'a@a.com';
@@ -359,7 +388,7 @@ export class LaboratoryComponent implements OnInit {
   }
 
   deleteDocument(id) {
-    this._laboratory.deleteDocument(id).subscribe((res:any) => {
+    this._laboratory.deleteDocument(id).subscribe((res: any) => {
       this.getCupsId(this.idCup)
       this.getLaboratories()
     })

@@ -13,7 +13,7 @@ const routes: Routes = [
     { path: 'caracterizacion', component: CaracterizacionComponent },
     { path: 'kardex-patologia', component: KardexPatologiaComponent },
     { path: 'laboratorio', component: LaboratoryComponent },
-    { path: 'laboratorio/nuevo-laboratorio', component: NewLaboratoryComponent },
+    { path: 'laboratorio/nuevo-laboratorio/:id', component: NewLaboratoryComponent },
     { path: 'laboratorio/ver-laboratorio/:id', component: ViewLaboratoryComponent },
     { path: 'historia-clinica', loadChildren: () => import('./clinical-history/clinical-history.module').then(m => m.ClinicalHistoryModule) },
     { path: 'administracion-historia-clinica', loadChildren: () => import('./managment-clinical-history/managment-clinical-history.module').then(m => m.ManagmentClinicalHistoryModule) },
