@@ -1,5 +1,6 @@
 import { Component, OnInit, ViewChild } from '@angular/core';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
+import { MatAccordion } from '@angular/material';
 import Swal from 'sweetalert2';
 import { CupService } from './cup.service';
 import { ModalCupComponent } from './modal-cup/modal-cup.component';
@@ -11,14 +12,24 @@ import { ModalCupComponent } from './modal-cup/modal-cup.component';
 })
 
 export class CupsComponent implements OnInit {
-
   @ViewChild(ModalCupComponent) modal: ModalCupComponent;
-
+  @ViewChild(MatAccordion) accordion: MatAccordion;
+  matPanel = false;
+  openClose(){
+    if (this.matPanel == false){
+      this.accordion.openAll()
+      this.matPanel = true;
+    } else {
+      this.accordion.closeAll()
+      this.matPanel = false;
+    }    
+  }
   cups: any = [];
   cup: any = {};
   filtros: any = {
     description: '',
-    code: ''
+    code: '',
+    cup_type_id: ''
   }
 
   pagination = {
@@ -33,6 +44,7 @@ export class CupsComponent implements OnInit {
 
   ngOnInit(): void {
     this.getAllCups();
+    this.getTypes();
   }
 
   openModal = () => {
@@ -90,7 +102,12 @@ export class CupsComponent implements OnInit {
       }
     })
   }
-
+  cups_type: any[]=[]
+  getTypes() {
+    this.cupService.getTypes().subscribe((resp: any) => {
+      this.cups_type = resp.data;
+    });
+  }
 
   registerNull(cup) {
     this.cup = cup;

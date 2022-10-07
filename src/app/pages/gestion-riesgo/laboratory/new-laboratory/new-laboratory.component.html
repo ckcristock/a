@@ -91,7 +91,46 @@
               </mat-select>
             </mat-form-field>
           </div>
-
+          <div class="row">
+            <div class="col-md-6">
+              <div class="form-group text-center">
+                <div class="custom-input-file col-md-12">
+                  <input
+                    type="file"
+                    #ordenFile
+                    class="input-file"
+                    (change)="onFileChanged($event, 'orden')"
+                    accept=".pdf"
+                  />
+                  Cargar orden médica
+                </div>
+                <div class="col-md-12 text-center">
+                  <small *ngIf="file" class="text-success"
+                    >Orden médica cargada</small
+                  >
+                </div>
+              </div>
+            </div>
+            <div class="col-md-6">
+              <div class="form-group text-center">
+                <div class="custom-input-file col-md-12">
+                  <input
+                    type="file"
+                    #documentFile
+                    class="input-file"
+                    (change)="onFileChanged2($event, 'documento')"
+                    accept=".pdf"
+                  />
+                  Cargar documento
+                </div>
+                <div class="col-md-12 text-center">
+                  <small *ngIf="fileDocument" class="text-success"
+                    >Documento cargado</small
+                  >
+                </div>
+              </div>
+            </div>
+          </div>
           <h4 class="text-center">Lista de procedimientos</h4>
           <div class="row">
             <mat-form-field class="col-12" appearance="outline">
@@ -127,6 +166,7 @@
                   <th>CUPS</th>
                   <th class="col-8">Descripción</th>
                   <th>Cantidad</th>
+                  <th><i class="fas fa-trash-alt"></i></th>
                 </tr>
               </thead>
               <tbody>
@@ -138,16 +178,25 @@
                   <td class="align-middle">{{ item.code }}</td>
                   <td class="align-middle">{{ item.description }}</td>
                   <td class="align-middle">1</td>
+                  <td class="align-middle">
+                    <button type="button" (click)="deleteCup(i)" class="btn btn-danger btn-sm">
+                      <i class="fas fa-trash-alt"></i>
+                    </button>
+                  </td>
                 </tr>
                 <tr>
-                  <th class="text-right" colspan="3">TOTAL</th>
+                  <th class="text-right" colspan="4">TOTAL</th>
                   <th class="text-center">{{ cups.length }}</th>
                 </tr>
               </tbody>
             </table>
           </div>
         </form>
-        <div *ngIf="faltanDatos" class="alert alert-warning text-center" role="alert">
+        <div
+          *ngIf="faltanDatos"
+          class="alert alert-warning text-center"
+          role="alert"
+        >
           Agrega procedimientos
         </div>
         <button
@@ -167,7 +216,7 @@
         <h5 class="card-title text-center">Información del paciente</h5>
         <app-set-paciente></app-set-paciente>
       </div>
-    </div>    
+    </div>
   </div>
 </div>
 <ng-template #notDataCups>

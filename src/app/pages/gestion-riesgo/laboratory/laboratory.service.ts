@@ -80,6 +80,10 @@ export class LaboratoryService {
     return this.clientHttp.get(`${environment.base_url}/download-laboratory/${id}`);
   }
 
+  getTubeId(id) {
+    return this.clientHttp.get(`${environment.base_url}/tube-id/${id}`);
+  }
+
   getReport() {
     const headers = new HttpHeaders().set('Content-Type', 'application/json')
     return this.clientHttp.get(`${environment.base_url}/laboratory-report`, {headers, responseType: 'blob' as 'json' })
