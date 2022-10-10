@@ -26,6 +26,7 @@ import { NgbDropdownModule, NgbPaginationModule, NgbTypeaheadModule } from "@ng-
 import { FormsModule, ReactiveFormsModule } from "@angular/forms";
 import { NewLaboratoryComponent } from "./laboratory/new-laboratory/new-laboratory.component";
 import { ViewLaboratoryComponent } from "./laboratory/view-laboratory/view-laboratory.component";
+import { MatIconModule } from "@angular/material/icon";
 export const MY_FORMATS = {
         parse: {
                 dateInput: 'DD/MM/YYYY'
@@ -62,6 +63,7 @@ export const MY_FORMATS = {
                 SatNativeDateModule,
                 NgbPaginationModule,
                 NgbTypeaheadModule,
+                MatIconModule
         ],
         providers: [
                 {

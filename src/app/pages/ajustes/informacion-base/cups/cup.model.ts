@@ -3,4 +3,6 @@ export class Cup {
     description: '';
     code: '';
     specialities: [];
+    cup_type_id: [];
+    color_id: [];
 }
