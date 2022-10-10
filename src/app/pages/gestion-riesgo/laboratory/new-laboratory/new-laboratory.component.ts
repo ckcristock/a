@@ -8,6 +8,7 @@ import { Observable, of, OperatorFunction } from 'rxjs';
 import { catchError, debounceTime, distinctUntilChanged, filter, map, switchMap, tap } from 'rxjs/operators';
 import { SwalService } from 'src/app/pages/ajustes/informacion-base/services/swal.service';
 import { ActivatedRoute, Params, Router } from '@angular/router';
+import { functionsUtils } from 'src/app/core/utils/functionsUtils';
 
 @Component({
   selector: 'undefined-new-laboratory',
@@ -37,6 +38,17 @@ export class NewLaboratoryComponent implements OnInit {
   searchFailedCie10 = false;
   ide: string;
 
+  fileString: any = '';
+  file: any = '';
+  filename: any = '';
+  type: any = '';
+
+  fileStringDocument: any = '';
+  fileDocument: any = '';
+  filenameDocument: any = '';
+  typeDocument: any = '';
+  faltanDatos: boolean = false
+
   constructor(
     private _validatorsService: ValidatorsService,
     private fb: FormBuilder,
@@ -52,8 +64,6 @@ export class NewLaboratoryComponent implements OnInit {
   }
 
   ngOnInit() {
-    
-    //console.log(this.today)
     this.getContract();
     this.createForm();
     this.getLaboratoriesPlace();
@@ -90,7 +100,7 @@ export class NewLaboratoryComponent implements OnInit {
       distinctUntilChanged(),
       tap(() => (this.searchingCups = true)),
       switchMap((term) =>
-        this._laboratory.getCups({ search: term }).pipe(
+        this._laboratory.getCups({ search: term, type: 1 }).pipe(
           tap(() => (this.searchFailedCups = false)),
           catchError(() => {
             this.searchFailedCups = true;
@@ -134,7 +144,70 @@ export class NewLaboratoryComponent implements OnInit {
       cups: [this.cups, this._validatorsService.required],
       laboratory_id: ['', this._validatorsService.required],
       ips_id: [this.ips],
+      medical_order: ['', this._validatorsService.required],
+      patient_document: ['', this._validatorsService.required],
     })
+  }
+
+  deleteCup(id) {
+    this.cups.splice(id, 1)
+  }
+
+  onFileChanged(event, type) {
+    if (event.target.files[0]) {
+      let file1 = event.target.files[0];
+      const types = ['application/pdf']
+      if (!types.includes(file1.type)) {
+        this._swal.show({
+          icon: 'error',
+          title: 'Error de archivo',
+          showCancel: false,
+          text: 'El tipo de archivo no es válido'
+        });
+        return null
+      }
+      this.form.get('medical_order').setValue(file1.name);
+      this.filename = file1.name;
+      var reader = new FileReader();
+      reader.readAsDataURL(event.target.files[0]);
+      reader.onload = (event) => {
+        this.fileString = (<FileReader>event.target).result;
+        const type = { ext: this.fileString };
+        this.type = type.ext.match(/[^:/]\w+(?=;|,)/)[0];
+      };
+      functionsUtils.fileToBase64(file1).subscribe((base64) => {
+        this.file = base64;
+      });
+
+    }
+  }
+  onFileChanged2(event, type) {
+    if (event.target.files[0]) {
+      let file = event.target.files[0];
+      const types = ['application/pdf']
+      if (!types.includes(file.type)) {
+        this._swal.show({
+          icon: 'error',
+          title: 'Error de archivo',
+          showCancel: false,
+          text: 'El tipo de archivo no es válido'
+        });
+        return null
+      }
+      this.form.get('patient_document').setValue(file.name);
+      this.filenameDocument = file.name;
+      var reader = new FileReader();
+      reader.readAsDataURL(event.target.files[0]);
+      reader.onload = (event) => {
+        this.fileStringDocument = (<FileReader>event.target).result;
+        const type = { ext: this.fileStringDocument };
+        this.typeDocument = type.ext.match(/[^:/]\w+(?=;|,)/)[0];
+      };
+      functionsUtils.fileToBase64(file).subscribe((base64) => {
+        this.fileDocument = base64;
+      });
+
+    }
   }
 
   getContract() {
@@ -168,11 +241,15 @@ export class NewLaboratoryComponent implements OnInit {
         console.log(this.diagnosticos)
       })
   }
-  faltanDatos: boolean = false
+
+
   createNewLaboratory() {
     console.log(this.form.get('patient').value['id'])
     if (this.form.valid && this.cups.length > 0) {
-      this._laboratory.createLaboratory(this.form.value)
+      let params = {
+        ...this.form.value, file_order: this.file, file_document: this.fileDocument
+      }
+      this._laboratory.createLaboratory(params)
         .subscribe((res: any) => {
           this.router.navigateByUrl('/gestion-riesgo/laboratorio')
           this._swal.show({
