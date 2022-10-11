@@ -54,6 +54,7 @@ export class LaboratoryComponent implements OnInit {
   today = new Date().toTimeString().slice(0, 5);
   date: { year: number; month: number };
   formTomarExamen: FormGroup;
+  formAsignarTubos: FormGroup;
   formAnular: FormGroup;
   formCargar: FormGroup;
   formSearch: FormGroup;
@@ -97,7 +98,7 @@ export class LaboratoryComponent implements OnInit {
     this.getMotivos();
   }
 
-  validarHora(e) {
+  /* validarHora(e) {
     let h1 = e.target.value.split(':');
     let h2: any = this.today.split(':');
     let date = new Date(0, 0, 0, h1[0], h1[1], 0);
@@ -115,22 +116,26 @@ export class LaboratoryComponent implements OnInit {
       this.today = new Date().toTimeString().slice(0, 5);
       this.formTomarExamen.controls['hour'].setValue(this.today);
     }
-  }
+  } */
   createFormTomarExamen(id) {
-    this.today = new Date().toTimeString().slice(0, 5);
+    /* this.today = new Date().toTimeString().slice(0, 5); */
     this.formTomarExamen = this.fb.group({
       id: [id],
-      hour: [this.today, this._validatorsService.required],
-      status: [],
+      hours: []
+    });
+  }
+  createFormAsignarTubos(id) {
+    this.formAsignarTubos = this.fb.group({
+      id: [id],
       tube: []
     });
   }
 
-  changeAnountTubes(id, event){
+  changeAnountTubes(id, event) {
     let num = this.tubesArray.find(x => x.color_id == id)
     let index = this.tubesArray.indexOf(num)
     this.tubesArray[index].amount = event.target.value
-    
+
   }
 
   tubesArray: any[] = []
@@ -140,10 +145,10 @@ export class LaboratoryComponent implements OnInit {
     this._laboratory.getTubeId(id).subscribe((res: any) => {
       this.tubes = Object.values(res.data);
       this.loadingTubes = false;
-      for (let i in this.tubes) {        
+      for (let i in this.tubes) {
         this.tubesArray.push({
-          id_laboratory: id, 
-          color_id: this.tubes[i].id, 
+          id_laboratory: id,
+          color_id: this.tubes[i].id,
           amount: 1
         })
       }
@@ -186,7 +191,7 @@ export class LaboratoryComponent implements OnInit {
     });
   }
 
-  
+
 
   createFormAnular(id) {
     this.formAnular = this.fb.group({
@@ -198,17 +203,58 @@ export class LaboratoryComponent implements OnInit {
   }
 
   tomar() {
-    this.formTomarExamen.patchValue({tube: this.tubesArray})
-    this.formTomarExamen.get('status').setValue('Tomado');
+    //this.formTomarExamen.get('status').setValue('Tomado');
     this._laboratory
-      .tomarOAnular(this.formTomarExamen.value)
+      .asignarHoras(this.hours)
+      .subscribe((res: any) => {
+        this.modalService.dismissAll();
+        this.getLaboratories();
+        this._swal.show({
+          icon: 'success',
+          title: 'Tomado con éxito',
+          showCancel: false,
+          text: '',
+        });
+      });
+  }
+
+  allTubes: any[] = [];
+  loadingTubesHour: boolean;
+  hours: any[] = []
+  getAllTubes(id) {
+    this.loadingTubesHour = true
+    this._laboratory.getAllTubes(id).subscribe((res: any) => {
+      this.allTubes = res.data;
+      for (let i in this.allTubes) {
+        if (this.allTubes[i].hour) {
+          this.hours.push({
+            id_lab: id,
+            id: this.allTubes[i].id, 
+            hour:this.allTubes[i].hour.slice(0, 5)
+          })
+        } else {
+          this.hours.push({
+            id_lab: id,
+            id: this.allTubes[i].id, 
+            hour:this.allTubes[i].hour})
+        }
+      }
+      console.log(this.hours)
+      this.loadingTubesHour = false
+    })
+  }
+
+  asignarTubosLab() {
+    this.formAsignarTubos.patchValue({ tube: this.tubesArray });
+    this._laboratory
+      .asignarTubos(this.formAsignarTubos.value)
       .subscribe((res: any) => {
         this.modalService.dismissAll();
         this.tubesArray = []
         this.getLaboratories();
         this._swal.show({
           icon: 'success',
-          title: 'Tomado con éxito',
+          title: 'Tubos asignados con éxito',
           showCancel: false,
           text: '',
         });
@@ -344,6 +390,7 @@ export class LaboratoryComponent implements OnInit {
       this.file = '';
     }
     this.cupsId = [];
+    this.hours = [];
   }
 
   selectedDate(fecha) {

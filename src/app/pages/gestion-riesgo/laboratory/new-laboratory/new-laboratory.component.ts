@@ -49,6 +49,11 @@ export class NewLaboratoryComponent implements OnInit {
   typeDocument: any = '';
   faltanDatos: boolean = false
 
+  fileStringConsentimiento: any = '';
+  fileConsentimiento: any = '';
+  filenameConsentimiento: any = '';
+  typeConsentimiento: any = '';
+
   constructor(
     private _validatorsService: ValidatorsService,
     private fb: FormBuilder,
@@ -209,6 +214,33 @@ export class NewLaboratoryComponent implements OnInit {
 
     }
   }
+  onFileChanged3(event, type) {
+    if (event.target.files[0]) {
+      let file = event.target.files[0];
+      const types = ['application/pdf']
+      if (!types.includes(file.type)) {
+        this._swal.show({
+          icon: 'error',
+          title: 'Error de archivo',
+          showCancel: false,
+          text: 'El tipo de archivo no es válido'
+        });
+        return null
+      }
+      this.filenameConsentimiento = file.name;
+      var reader = new FileReader();
+      reader.readAsDataURL(event.target.files[0]);
+      reader.onload = (event) => {
+        this.fileStringConsentimiento = (<FileReader>event.target).result;
+        const type = { ext: this.fileStringConsentimiento };
+        this.typeConsentimiento = type.ext.match(/[^:/]\w+(?=;|,)/)[0];
+      };
+      functionsUtils.fileToBase64(file).subscribe((base64) => {
+        this.fileConsentimiento = base64;
+      });
+
+    }
+  }
 
   getContract() {
     this._laboratory.getContracts()
@@ -247,7 +279,10 @@ export class NewLaboratoryComponent implements OnInit {
     console.log(this.form.get('patient').value['id'])
     if (this.form.valid && this.cups.length > 0) {
       let params = {
-        ...this.form.value, file_order: this.file, file_document: this.fileDocument
+        ...this.form.value, 
+        file_order: this.file, 
+        file_document: this.fileDocument, 
+        file_cosentimiento: this.fileConsentimiento
       }
       this._laboratory.createLaboratory(params)
         .subscribe((res: any) => {

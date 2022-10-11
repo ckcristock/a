@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 
 @Component({
-  selector: 'undefined-radicacion',
+  selector: 'app-radicacion',
   templateUrl: './radicacion.component.html',
   styleUrls: ['./radicacion.component.css']
 })

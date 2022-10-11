@@ -68,6 +68,19 @@ export class LaboratoryService {
     return this.clientHttp.post(`${environment.base_url}/tomar-anular-laboratorio`, data);
   }
 
+  asignarHoras(data: any) {
+    return this.clientHttp.post(`${environment.base_url}/asignar-horas-laboratorio`, data);
+  }
+
+  asignarTubos(data: any) {
+    console.log(data)
+    return this.clientHttp.post(`${environment.base_url}/asignar-tubos`, data);
+  } 
+
+  getAllTubes(id) {
+    return this.clientHttp.get(`${environment.base_url}/get-all-tubes/${id}`);
+  }
+
   getMotivos() {
     return this.clientHttp.get(`${environment.base_url}/causal-anulation`);
   }
