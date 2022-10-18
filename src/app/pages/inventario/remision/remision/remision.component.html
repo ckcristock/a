@@ -1,0 +1,247 @@
+<div class="row">
+  <div class="col-md-4">
+    <div class="card">
+      <div class="card-body">
+        <div class="card-title">
+          <h5 class="text-primary">Seguimiento</h5>
+        </div>
+        <hr class="line" />
+        <ul class="list-group list-group-flush">
+          <li
+            *ngFor="let Actividad of Actividades"
+            class="list-group-item px-0"
+          >
+            <div class="card-title d-flex justify-content-between">
+              <div>
+                <span
+                  class="badge {{
+                    Actividad.Estado == 'Creacion' ? 'badge-info' : ''
+                  }} {{
+                    Actividad.Estado == 'Edicion' ? 'badge-warning' : ''
+                  }}{{ Actividad.Estado == 'Anulada' ? 'badge-danger' : '' }}{{
+                    Actividad.Estado == 'Alistamiento' ||
+                    Actividad.Estado == 'Fase 1' ||
+                    Actividad.Estado == 'Fase 2'
+                      ? 'badge-dark'
+                      : ''
+                  }}{{
+                    Actividad.Estado == 'Enviada' ? 'badge-success ' : ''
+                  }} {{
+                    Actividad.Estado == 'Recibida' ? 'badge-light ' : ''
+                  }}{{
+                    Actividad.Estado == 'Facturada' ? 'badge-secondary ' : ''
+                  }}"
+                  >{{ Actividad.Estado }}</span
+                >
+              </div>
+              <img
+                class="img-thumbnail rounded-circle header-profile-user img-fluid"
+                [src]="Actividad.Imagen | image: 'users'"
+                onerror="this.src='../../../../assets/images/noprofile.png'"
+                alt=""
+              />
+            </div>
+            <p>
+              {{ Actividad.Detalles }} <br />
+              <small class="text-muted"> {{ Actividad.Fecha }}</small>
+            </p>
+          </li>
+        </ul>
+        <button
+          *ngIf="remision.Id_Factura != ''"
+          [routerLink]="['/facturasventasver', remision.Id_Factura]"
+          class="btn btn-block btn-info"
+        >
+          <i class="fa fa-file"></i> Ver Factura
+        </button>
+      </div>
+    </div>
+  </div>
+  <div class="col-md-8">
+    <div class="card">
+      <div class="card-body">
+        <div class="card-title d-flex justify-content-between">
+          <div class="card m-0 p-0 border-0 shadow-none">
+            <div class="card-horizontal">
+              <div class="img-square-wrapper">
+                <img
+                  [src]="userF.person.company_worked.logo | image: 'companies'"
+                  alt=""
+                  height="45"
+                />
+              </div>
+              <div class="card-body p-0 m-0">
+                <p class="card-text" style="font-size: x-small">
+                  {{ userF.person.company_worked.name }} <br />
+                  NIT {{ userF.person.company_worked.tin }} <br />
+                  {{ userF.person.company_worked.address }} <br />
+                  {{ userF.person.company_worked.phone }}
+                </p>
+              </div>
+            </div>
+          </div>
+          <div class="text-right">
+            <h4>
+              <span class="badge badge-primary">{{ remision.Codigo }}</span>
+            </h4>
+            <h5>{{ remision.Tipo }}</h5>
+            <h6>{{ remision.Fecha | date: "longDate" }}</h6>
+            <div class="col-sm-5" style="padding-left: 0">
+              <!-- <img *ngIf="remision.Codigo_Qr!=''" src="{{env.ruta}}IMAGENES/QR/{{remision.Codigo_Qr}}" class="img-fluid" style="margin-top: -20px;"> -->
+              <img
+                *ngIf="remision.Codigo_Qr == ''"
+                src="assets/images/sinqr.png"
+                class="img-fluid"
+                style="margin-top: -20px"
+              />
+            </div>
+          </div>
+        </div>
+        <table
+          class="table table-bordered table-responsive-sm table-sm"
+          style="font-size: small"
+        >
+          <thead class="bg-light">
+            <tr class="text-center text-uppercase">
+              <th colspan="2">Origen</th>
+              <th colspan="2">Destino</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td class="align-middle">
+                <strong *ngIf="origen; else noData">{{ origen.Nombre }}</strong>
+              </td>
+              <td class="align-middle">
+                <span *ngIf="origen; else noData">
+                  <strong> Dirección: </strong> {{ origen.Direccion }}
+                </span>
+              </td>
+              <td class="align-middle">
+                <strong *ngIf="destino; else noData">
+                  {{ destino.Nombre }}</strong
+                >
+              </td>
+              <td class="align-middle">
+                <span *ngIf="destino; else noData">
+                  <strong> Dirección: </strong>{{ destino.Direccion }}
+                </span>
+              </td>
+            </tr>
+            <tr>
+              <td class="align-middle">
+                <span *ngIf="origen; else noData">
+                  <strong>Teléfono: </strong> {{ origen.Telefono }}
+                </span>
+              </td>
+              <td class="align-middle">
+                <span *ngIf="origen; else noData">
+                  <strong> Correo: </strong> {{ origen.Correo }}
+                </span>
+              </td>
+              <td class="align-middle">
+                <span *ngIf="destino; else noData">
+                  <strong> Teléfono: </strong>{{ destino.Celular }}
+                </span>
+              </td>
+              <td class="align-middle">
+                <span *ngIf="destino; else noData">
+                  <strong> Correo: </strong>{{ destino.Correo }}
+                </span>
+              </td>
+            </tr>
+          </tbody>
+        </table>
+        <hr />
+        <div class="card bg-light">
+          <div class="card-body">
+            <h5 class="card-title">Observaciones</h5>
+            <p>{{ remision.Observaciones }}</p>
+          </div>
+        </div>
+
+        <table
+          class="table table-bordered table-responsive-sm table-sm"
+          style="font-size: small"
+        >
+          <thead class="bg-light">
+            <tr class="text-center text-uppercase">
+              <th class="align-middle">Producto</th>
+             <!--  <th class="align-middle">Cat</th> -->
+              <th class="align-middle">Lote</th>
+              <th class="align-middle">Fecha Vencimiento</th>
+              <th class="align-middle">Cantidad</th>
+              <th *ngIf="remision.Tipo == 'Cliente'" class="align-middle">Precio</th>
+              <th *ngIf="remision.Tipo == 'Cliente'" class="align-middle">Descuento</th>
+              <th *ngIf="remision.Tipo == 'Cliente'" class="align-middle">IVA</th>
+              <th *ngIf="remision.Tipo == 'Cliente'" class="align-middle">Total</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr *ngFor="let item of productos; let i = index" id="fila{{ i }}" class="text-center">
+              <td class="align-middle">{{ item.Nombre_Producto }}</td>
+              <!-- <td class="align-middle">
+                <i *ngIf="item.Id_Categoria == 9; else noData" class="fa fa-registered"></i>
+              </td> -->
+              <td class="align-middle">{{ item.Lote }}</td>
+              <td class="align-middle">{{ item.Fecha_Vencimiento }}</td>
+              <td class="align-middle">{{ item.Cantidad }}</td>
+              <td class="align-middle" *ngIf="remision.Tipo == 'Cliente'">
+                {{ item.Precio }}
+              </td>
+              <td class="align-middle" *ngIf="remision.Tipo == 'Cliente'">
+                {{ item.Descuento }}
+              </td>
+              <td class="align-middle" *ngIf="remision.Tipo == 'Cliente'">
+                {{ item.Impuesto }}
+              </td>
+              <td class="align-middle" *ngIf="remision.Tipo == 'Cliente'">
+                {{ item.Subtotal }}
+              </td>
+            </tr>
+          </tbody>
+        </table>
+
+        <!--<div *ngIf="remision.Tipo==Cliente" class="row">
+              <div class="col-sm-12">
+                <table class="table table-responsive invoice-table invoice-total">
+                  <tbody>
+                    <tr>
+                      <th>Productos Solicitados :</th>
+                      <td></td>
+                    </tr>
+                    <tr>
+                      <th>Productos Entregados :</th>
+                      <td></td>
+                    </tr>
+                    <tr>
+                      <th>Diferencia :</th>
+                      <td></td>
+                    </tr>
+                  </tbody>
+                </table>
+              </div>
+            </div>-->
+        <div class="text-right">
+          <div class="btn-group" role="group" aria-label="Button group">
+            <button
+              type="button"
+              class="btn btn-success"
+              (click)="action('imprimir')"
+            >
+              <i class="fa fa-print"></i> Imprimir</button
+            >
+            <button
+              type="button"
+              class="btn btn-info"
+              (click)="action('imprimirconprecio')"
+            >
+              <i class="fa fa-print"></i> Imprimir con Precio</button
+            >
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+<ng-template #noData> No existen datos </ng-template>

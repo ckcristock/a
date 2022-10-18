@@ -13,6 +13,8 @@ import bootstrapPlugin from '@fullcalendar/bootstrap';
 import { EventInput } from '@fullcalendar/core';
 import { QueryPatient } from '../../../query-patient.service';
 import { QueryAvailabilitySpacesService } from '../../../query-availability-spaces.service';
+import { dataCitaToAssignService } from '../../../dataCitaToAssignService.service';
+import { AssingService } from 'src/app/services/assign.service';
 
 @Component({
   selector: 'app-asignar-calendario',
@@ -23,11 +25,9 @@ export class AsignarCalendarioComponent implements OnInit {
 
   breadCrumbItems: Array<{}>;
   @Output('siguiente') siguiente = new EventEmitter();
-  // @Input() specialidad: Number;
-  // @Input() profesional: Number;
 
   public speciality: Number;
-  public professional: Number;
+  public person: Number;
 
   // event form
   formData: FormGroup;
@@ -43,12 +43,27 @@ export class AsignarCalendarioComponent implements OnInit {
   // calendar plugin
   calendarPlugins = [dayGridPlugin, bootstrapPlugin, timeGrigPlugin, interactionPlugin, listPlugin];
 
-  constructor(private modalService: NgbModal, private formBuilder: FormBuilder, private _openAgendaService: OpenAgendaService, private _queryPatien: QueryPatient, private _queryAvailabilitySpacesService: QueryAvailabilitySpacesService) { }
+  public departmentIdFromService = null
+  public regimeIdFromService = null
+
+  constructor(
+    private modalService: NgbModal,
+    private formBuilder: FormBuilder,
+    private _openAgendaService: OpenAgendaService,
+    private _queryPatien: QueryPatient,
+    private _queryAvailabilitySpacesService: QueryAvailabilitySpacesService,
+    private dataCitaToAssignService: dataCitaToAssignService,
+    private _assingService: AssingService
+
+  ) { }
 
 
   ngOnInit() {
 
     this.breadCrumbItems = [{ label: 'Forms' }, { label: 'Form Wizard', active: true }];
+    this._assingService.dataChange.subscribe((data) => {
+      this.departmentIdFromService = data;
+    })
 
     /**
  * Event Model validation
@@ -68,36 +83,54 @@ export class AsignarCalendarioComponent implements OnInit {
 
     this._queryAvailabilitySpacesService.getspeciality.subscribe(r => {
       this.speciality = r
-      this._fetchData();
+      // this._fetchData();
     });
-    this._queryAvailabilitySpacesService.getProfessional.subscribe(r => {
-      this.professional = r
-      this._fetchData();
+    this._queryAvailabilitySpacesService.getPerson.subscribe((r: any) => {
+      this.person = r?.person
+      if (r?.params) {
+        this._fetchData(r?.params);
+      } else {
+        this.calendarEvents = [];
+      }
     });
   }
 
   save(event: any) {
-    this._queryPatien.space.next(event.event.id);
-    this.siguiente.emit('');
+    const space = this.calendarEvents[this.calendarEvents.findIndex(x => x.id + '' === event.event.id + '')]
+    let address = (space.address != 'null') ? ' En la dirección ' + space.address : ''
+    let message = "Se dispone a asignar una cita para " + space.start + address
+    const swalWithBootstrapButtons = Swal.mixin({
+      customClass: {
+        confirmButton: 'btn btn-success mx-2',
+        cancelButton: 'btn btn-danger'
+      },
+      buttonsStyling: false
+    })
+    swalWithBootstrapButtons.fire({
+      title: '¿está seguro?',
+      text: message,
+      icon: 'warning',
+      showCancelButton: true,
+      confirmButtonText: 'Si, ¡Hazlo !',
+      cancelButtonText: 'No, ¡dejeme comprobar!',
+      reverseButtons: true
+    }).then((result) => {
+      if (result.isConfirmed) {
+        this._queryPatien.space.next(event.event.id);
+        this.siguiente.emit('');
+      }
+    })
+
   }
 
-  openEditModal() {
-    // console.log('save');
-    // this.siguiente.emit('');
-  }
+  private _fetchData(params) {
 
-  private _fetchData() {
+    params.departemIdPatient = (this.departmentIdFromService) ? this.departmentIdFromService : this.dataCitaToAssignService.dateCall['paciente']['department_id'];
 
-    this._openAgendaService.getOpenedSpace(this.speciality, this.professional).subscribe((resp: any) => {
+    this._openAgendaService.getOpenedSpaceCustom(params).subscribe((resp: any) => {
+
       this.calendarEvents = resp.data.map((element, index) => {
-        if (element.status) {
-          resp.data[index]['className'] = "bg-success text-white"
-          resp.data[index]['title'] = "Disponible"
-          resp.data[index]['allDay '] = false
-          return element
-        }
         resp.data[index]['allDay '] = false
-        resp.data[index]['title'] = "No Disponible"
         return element
       });
     });

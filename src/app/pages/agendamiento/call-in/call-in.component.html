@@ -1,0 +1,96 @@
+<div class="card">
+  <div class="card-body">
+    <div class="card-title d-flex justify-content-between">
+      <h4 class="text-primary">Llamadas por Paciente</h4>
+      <button
+        class="btn btn-info btn-sm"
+        style="float: right"
+        (click)="openClose()"
+      >
+        <i class="fas fa-sliders-h"></i> Filtros
+      </button>
+    </div>
+    <hr class="line" />
+    <mat-accordion multi>
+      <mat-expansion-panel class="mat-elevation-z0">
+        <form [formGroup]="dataForm" (ngSubmit)="searchIdentifier()">
+          <mat-form-field class="col-md-3 pl-0" appearance="outline">
+            <mat-label>Documento</mat-label>
+            <input
+              matInput
+              type="number"
+              placeholder="Busca por documento"
+              formControlName="identifier"
+              autocomplete="off"
+            />
+          </mat-form-field>
+          <button
+            type="submit"
+            class="btn btn-primary btn-block"
+            *ngIf="
+              dataForm.get('identifier').value != 0 &&
+              dataForm.get('identifier').value != null
+            "
+          >
+            Buscar
+          </button>
+        </form>
+      </mat-expansion-panel>
+    </mat-accordion>
+
+    <div class="row mt-4" *ngIf="!loading && calls.length > 0; else notData">
+      <div class="col-sm-12">
+        <table class="table table-hover table-bordered small">
+          <thead class="thead-dark">
+            <tr class="text-center text-uppercase">
+              <th>Fecha Inicio</th>
+              <th>Fecha Fin</th>
+              <th>ID Llamda</th>
+              <th>Agente</th>
+              <th>Tramite</th>
+              <th>Ambito</th>
+              <th>Servicio</th>
+              <th>Observación</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr *ngFor="let item of calls">
+              <td>{{ item.created_at | date: "dd/MM/yyyy hh:mm a" }}</td>
+              <td>{{ item.finalized_at | date: "dd/MM/yyyy hh:mm a" }}</td>
+              <td>{{ item.Id_Llamada }}</td>
+              <td>
+                {{ item["usuario"]["person"]["first_name"] }}
+                {{ item["usuario"]["person"]["first_surname"] }}
+              </td>
+              <td>{{ item?.formality?.name }}</td>
+              <td>{{ item?.ambito?.name }}</td>
+              <td>{{ item?.servicio?.name }}</td>
+              <td>{{ item.observation }}</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+      <div class="col-sm-12 align-items-right mt-2">
+        <div class="text-md-right float-md-right pagination-rounded">
+          <ngb-pagination
+            class="pagination-rounded d-flex justify-content-center"
+            [collectionSize]="pagination.collectionSize"
+            (pageChange)="searchIdentifier($event)"
+            [pageSize]="pagination.pageSize"
+            [(page)]="pagination.page"
+            maxSize="5"
+            rotate="true"
+            ellipses="false"
+            boundaryLinks="true"
+          ></ngb-pagination>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- <app-detail-stats [showDeitalStat]="showDeitalStat"></app-detail-stats> -->
+
+<ng-template #notData>
+  <app-not-data [loading]="loading"></app-not-data>
+</ng-template>

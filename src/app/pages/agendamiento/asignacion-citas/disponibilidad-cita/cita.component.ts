@@ -1,7 +1,12 @@
-import { Component, EventEmitter, OnInit, Output } from '@angular/core';
+import { Component, EventEmitter, OnInit, Output, ViewChild } from '@angular/core';
 import { NgForm } from '@angular/forms';
+import { dataCitaToAssign } from 'src/app/core/interfaces/dataCitaToAssign.model';
+import { AssingService } from 'src/app/services/assign.service';
+import { dataCitaToAssignService } from '../../dataCitaToAssignService.service';
 import { OpenAgendaService } from '../../open-agenda.service';
 import { QueryAvailabilitySpacesService } from '../../query-availability-spaces.service';
+import { QueryPatient } from '../../query-patient.service';
+import { AsignarCalendarioComponent } from '../agendar-citas-panel/asignar-calendario/asignar-calendario.component';
 
 @Component({
   selector: 'app-cita',
@@ -9,155 +14,158 @@ import { QueryAvailabilitySpacesService } from '../../query-availability-spaces.
   styleUrls: ['./cita.component.scss']
 })
 export class CitaComponent implements OnInit {
+  searchEspecialidad:any
+  searchProfesional:any
+  searchIPS:any
+  searchSede:any
+  public dataCitaToAssign = new dataCitaToAssign();
+  public type_appointments: [];
+  public regimeIdFromService: any;
+  public contratcIdFromService: any;
+  public specialties: [];
+  public infowailist: any
+  public persons: any[];
+  public ipss = [];
+  public sedes: [];
+  public type_subappointments: [
+    {
+      value: any
+    }
+  ];
 
-
-  public appointment = {
-    value: "",
-    text: "",
-    brand: "",
-    face_to_face: ""
-  }
-  public subappointment = {
-    value: "",
-    text: "",
-    company_owner: "",
-    procedure: ""
-  }
-  public ips = {
-    value: "",
-    text: ""
-  }
-
-  public sede
-  public speciality
-  public profesional: any = {}
-
-  public timeDuration = ""
-  public type_appointments = []
-  public appointmentId: Number
-  public type_subappointments = []
-  public subappointmentId: Number
-  public ipss = []
-  public ipsId: Number
-  public sedes = []
-  public specialties = []
-  public profesionals = []
-  public optionesTime = [{ value: 5, text: "5 Minutos" }]
   @Output('siguiente') sigx = new EventEmitter();
+  // @ViewChild(AsignarCalendarioComponent) calendar: AsignarCalendarioComponent;
 
-  constructor(private _openAgendaService: OpenAgendaService, public _queryAvailabilitySpacesService: QueryAvailabilitySpacesService) { }
+  constructor
+    (private _openAgendaService: OpenAgendaService,
+      public _queryAvailabilitySpacesService: QueryAvailabilitySpacesService,
+      private dataCitaToAssignService: dataCitaToAssignService,
+      private _queryPatient: QueryPatient,
+      private _assingService: AssingService
+    ) { }
 
   ngOnInit(): void {
+
     this.getTypeAppointment();
-  }
 
-  // getTypeAppointment() {
-  //   this._openAgendaService.getTypeAppointment(this.appointment.text).subscribe((resp: any) => {
-  //     this.type_appointments = resp.data;
-  //   });
-  // }
+    this._queryPatient.infowailist.subscribe(res => {
 
-  // getSubTypeAppointment() {
-  //   this.reset();
-  //   this.appointment = this.searchItem(this.type_appointments, this.appointmentId);
-  //   this._openAgendaService.getSubTypeAppointment(this.appointment.value).subscribe((resp: any) => {
-  //     this.type_subappointments = resp.data;
-  //   });
+      if (res.anotherData) {
+        this.infowailist = res.anotherData
+        this.dataCitaToAssign.speciality = this.infowailist.speciality_id
+        this.dataCitaToAssign.person = this.infowailist.profesional_id
+        this.dataCitaToAssign.appointmentId = this.infowailist.type_appointment_id
+        this.dataCitaToAssign.subappointmentId = this.infowailist.sub_type_appointment_id
+        this.dataCitaToAssign.currentAppointment = this.infowailist.appointment_id
+        this.getSubTypeAppointmentWailist();
+      } else {
+        this.reset();
+      }
 
-  // }
+    })
 
-  // getIps() {
+    this._assingService.dataChangeRegime.subscribe((data) => {
+      this.regimeIdFromService = data;
+    })
 
-  //   this.subappointment = this.searchItem(this.type_subappointments, this.subappointmentId);
-  //   this._openAgendaService.getIps(this.subappointment.company_owner).subscribe((resp: any) => {
-  //     this.ipss = resp.data;
-  //   });
-  // }
-
-  // getSedes() {
-  //   this.ips = this.searchItem(this.ipss, this.ipsId);
-  //   this._openAgendaService.getSedes(this.ips.value, this.subappointment.procedure).subscribe((resp: any) => {
-  //     this.sedes = resp.data;
-  //   });
-  // }
-
-  // getSpecialties() {
-  //   this._openAgendaService.getSpecialties(String(this.sede), this.subappointment.procedure).subscribe((resp: any) => {
-  //     this.specialties = resp.data;
-  //   });
-  // }
-
-  // getProfesionals() {
-  //   this._openAgendaService.getProfesionals(this.ips.value, String(this.speciality)).subscribe((resp: any) => {
-  //     this.profesionals = resp.data;
-  //   });
-  // }
-
-  // searchItem(data, value) {
-  //   return data.find((item) => item.value === value);
-  // }
-
-  // saveAgenda(formulario: NgForm) {
-  //   this._openAgendaService.saveAgendamiento(JSON.stringify(formulario.value)).subscribe((resp: any) => {
-  //     console.log('agenda saved');
-  //     // this.profesionals = resp.data;
-  //   });
-  // }
-
-  dispatchProfessional() {
-    this._queryAvailabilitySpacesService.getProfessional.next(this.profesional);
-  }
-
-  dispatchSpeciality(speciality) {
-    this.profesional = { value: '' }
-    this._queryAvailabilitySpacesService.getspeciality.next(speciality);
-    this._queryAvailabilitySpacesService.getProfessional.next(0);
+    this._assingService.dataChangeContract.subscribe((data) => {
+      this.contratcIdFromService = data;
+    })
 
   }
 
+
+  dispatchPerson(form: NgForm) {
+    if (form.valid) {
+      this._queryAvailabilitySpacesService.getPerson.next({ person: this.dataCitaToAssign.person, params: form.value });
+
+    } else {
+      this._queryAvailabilitySpacesService.getPerson.next({ person: 0, params: 0 })
+    }
+  }
+
+  dispatchSpeciality(s) {
+    this.dataCitaToAssign.person = ''
+    /* this._queryAvailabilitySpacesService.getspeciality.next(speciality); */
+    /*  this._queryAvailabilitySpacesService.getPerson.next({person:0,params:0}); */
+  }
 
   getTypeAppointment() {
-    this._openAgendaService.getTypeAppointment(this.appointment.text).subscribe((resp: any) => {
+    this._openAgendaService.getTypeAppointment(this.dataCitaToAssign.appointment.text).subscribe((resp: any) => {
       this.type_appointments = resp.data;
     });
   }
 
-  getSubTypeAppointment() {
-    this.appointment = this.searchAppointment(this.type_appointments, this.appointmentId);
-    this._openAgendaService.getSubTypeAppointment(this.appointment.value).subscribe((resp: any) => {
+  getSubTypeAppointment(form: NgForm) {
+    this.dataCitaToAssign.appointment = this.searchAppointment(this.type_appointments, this.dataCitaToAssign.appointmentId);
+    this._openAgendaService.getSubTypeAppointment(this.dataCitaToAssign.appointment.value).subscribe((resp: any) => {
       this.type_subappointments = resp.data;
-      this.subappointmentId = this.type_subappointments[0].value
-      if (this.appointment.face_to_face) {
+      this.dataCitaToAssign.subappointmentId = this.type_subappointments[0].value
+      if (this.dataCitaToAssign.appointment.face_to_face) {
         this.getIps()
       }
       this.getSpecialties()
+      this.dispatchPerson(form)
+    });
+
+  }
+
+  getSubTypeAppointmentWailist() {
+    this._openAgendaService.getSubTypeAppointment(this.dataCitaToAssign.appointmentId).subscribe((resp: any) => {
+      this.type_subappointments = resp.data;
+      this.dataCitaToAssign.subappointmentId = this.type_subappointments[0].value
+      if (this.dataCitaToAssign.appointment.face_to_face) {
+        this.getIps()
+      }
+      this.getSpecialties()
+      this.getProfesionals()
+      //TODO:Implementar dispacth
+      // this.dispatchPerson(form)
     });
 
   }
 
   getIps() {
-    this.subappointment = this.searchItem(this.type_subappointments, this.subappointmentId);
-    this._openAgendaService.getIps(this.subappointment.company_owner).subscribe((resp: any) => {
-      this.ipss = resp.data;
+    this.ipss = [];
+    this.dataCitaToAssign.subappointment = this.searchItem(this.type_subappointments, this.dataCitaToAssign.subappointmentId);
+    this._openAgendaService.getIps('3').subscribe((resp: any) => {
+      for (let i in resp.data) {
+        if (
+          resp.data[i].tipo == 'Compañias propias' &&
+          resp.data[i].estado == 'Activo' &&
+          resp.data[i].categoria == 'IPS'
+        ) {
+          this.ipss.push(resp.data[i]);
+        }
+      }
+      //this.ipss = resp.data;
+      console.log(this.ipss)
     });
   }
 
   getSedes() {
-    this.ips = this.searchItem(this.ipss, this.ipsId);
-    this._openAgendaService.getSedes(this.ips.value, this.subappointment.procedure).subscribe((resp: any) => {
+    this.dataCitaToAssign.ips = this.searchItem(this.ipss, this.dataCitaToAssign.ipsId);
+    this._openAgendaService.getSedes(this.dataCitaToAssign.ips.value, this.dataCitaToAssign.subappointment.procedure).subscribe((resp: any) => {
       this.sedes = resp.data;
     });
   }
 
   getSpecialties() {
-    this._openAgendaService.getSpecialties(String(this.sede), this.subappointment.procedure).subscribe((resp: any) => {
+    this._openAgendaService.getSpecialties(String(this.dataCitaToAssign.sede), this.dataCitaToAssign.subappointment.procedure).subscribe((resp: any) => {
       this.specialties = resp.data;
     });
   }
 
   getProfesionals() {
-    this._openAgendaService.getProfesionals(this.ips.value, String(this.speciality)).subscribe((resp: any) => {
-      this.profesionals = resp.data;
+
+    let params = {
+      'regimen_id': this.regimeIdFromService,
+      'contract_id': this.contratcIdFromService
+    }
+
+    this._openAgendaService.getProfesionals(this.dataCitaToAssign.ips.value, String(this.dataCitaToAssign.speciality), params).subscribe((resp: any) => {
+      this.persons = resp.data;
+      this.persons.unshift({ value: '', text: 'Todos' })
     });
   }
 
@@ -172,25 +180,11 @@ export class CitaComponent implements OnInit {
 
 
   reset() {
-
-    this.type_subappointments = []
-    this.ipss = []
-    this.sedes = []
-    this.specialties = []
-
-    this.ips = null;
-    this.sede = null;
-    this.speciality = null;
-    this.profesional = null
-    this.subappointment = {
-      value: "",
-      text: "",
-      company_owner: "",
-      procedure: ""
-    };
+    this.dataCitaToAssign = new dataCitaToAssign;
   }
 
   siguiente() {
+    this.dataCitaToAssignService.dataCitaToAssign.next(this.dataCitaToAssign);
     this.sigx.emit('');
   }
 

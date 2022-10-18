@@ -1,0 +1,25 @@
+::ng-deep .mat-form-field-infix {
+  height: 50px !important;
+  font-size: 14px !important;
+}
+::ng-deep .mat-form-field-infix textarea {
+  height: 90px !important;
+  font-size: 14px !important;
+  .mat-input-element {
+    padding: 2px 0;
+    margin: 5px 0;
+  }
+}
+::ng-deep .mat-expansion-panel-body {
+  padding: 0px !important;
+}
+::ng-deep .ck-editor__editable {
+  min-height: 50px !important;
+}
+
+::ng-deep .mat-form-field.textarea .mat-form-field-wrapper .mat-form-field-flex .mat-form-field-infix{
+  height: auto;
+}
+::ng-deep .mat-form-field.pb-0 .mat-form-field-wrapper {
+  padding-bottom: 0;
+}

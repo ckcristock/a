@@ -68,7 +68,11 @@
     overflow-y: initial !important
 }
 
+full-heigth {
+    height: 80vh!important;
+    overflow-y: auto;
+}
+
 .modal-body {
-    /*   height: 80vh; */
     overflow-y: auto;
 }

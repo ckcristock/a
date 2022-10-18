@@ -1,142 +1,237 @@
-<div>
-    <div class="row">
-        <div class="col-12">
-            <div class="card">
-                <div class="card-body"></div>
+<div class="card">
+    <div class="card-body">
+        <div class="card-title d-flex justify-content-between">
+            <h4 class="text-primary">Abrir Agenda</h4>
+            <div class="btn-group rounded">
+                <button class="btn btn-info btn-sm" style="float: right;" (click)="openClose()">
+                    <i class="fas fa-sliders-h"></i> Filtros
+                </button>
+            </div>
+        </div>
+        <hr class="line">
+        <mat-accordion multi>
+            <mat-expansion-panel class="mat-elevation-z0">
                 <form #agenda="ngForm">
-                    <div class="panel-body">
-                        <div class="row p-3">
-                            <div class="col-md-2 my-2">
-
-                                <label>Tipo de Agenda</label>
-                                <ng-select [items]="type_appointments" bindLabel="text" bindValue="value"
-                                    [(ngModel)]="appointmentId" placeholder="Seleccione " name="type_agenda_id"
-                                    loadingText="loading" ngDefaultControl (ngModelChange)="getSubTypeAppointment()">
-                                </ng-select>
+                    <mat-form-field class="col-md-2 pl-0" appearance="outline">
+                        <mat-label>Tipo de agenda</mat-label>
+                        <mat-select [(ngModel)]="appointmentId" required
+                            (selectionChange)="getSubTypeAppointment() ; getTypeLocations()" name="type_agenda_id">
+                            <mat-option *ngFor="let item of type_appointments" [value]="item.value">{{item.text}}
+                            </mat-option>
+                        </mat-select>
+                    </mat-form-field>
+                    <mat-form-field class="col-md-2 pl-0" appearance="outline">
+                        <mat-label>Tipo de consulta</mat-label>
+                        <mat-select [(ngModel)]="subappointmentId" required (selectionChange)="getIps()"
+                            name="type_appointment_id">
+                            <mat-option *ngFor="let item of type_subappointments" [value]="item.value">{{item.text}}
+                            </mat-option>
+                        </mat-select>
+                    </mat-form-field>
+                    <mat-form-field class="col-md-4 pl-0" appearance="outline">
+                        <mat-label>Especialidad</mat-label>
+                        <mat-select [(ngModel)]="speciality" required (selectionChange)="getProfesionals()"
+                            name="speciality_id">
+                            <div class="input-group">
+                                <input matInput type="text" placeholder="Busca especialidad"
+                                    [(ngModel)]="searchEspecialidad" name="searchEspecialidad"
+                                    class="form-control mx-2">
+                                <div class="input-group-append" *ngIf="searchEspecialidad">
+                                    <button class="btn btn-outline-secondary border-left-0 border"
+                                        (click)="searchEspecialidad=''">
+                                        <i class="fa fa-times"></i>
+                                    </button>
+                                </div>
                             </div>
-
-                            <div class="col-md-2 my-2">
-                                <label>Tipo de Consulta</label>
-                                <ng-select [items]="type_subappointments" bindLabel="text" bindValue="value"
-                                    [(ngModel)]="subappointmentId" placeholder="Seleccione " name="type_appointment_id"
-                                    loadingText="loading" (ngModelChange)="getIps()" ngDefaultControl>
-                                </ng-select>
+                            <mat-option *ngFor="let item of specialties | search: searchEspecialidad"
+                                [value]="item.value">{{item.text}}
+                            </mat-option>
+                        </mat-select>
+                    </mat-form-field>
+                    <mat-form-field class="col-md-4 pl-0" appearance="outline">
+                        <mat-label>Profesional</mat-label>
+                        <mat-select [(ngModel)]="profesional" required (selectionChange)="dispatchPerson()"
+                            name="person_id">
+                            <div class="input-group">
+                                <input matInput type="text" placeholder="Busca profesional"
+                                    [(ngModel)]="searchProfesional" name="searchEspecialidad" class="form-control mx-2">
+                                <div class="input-group-append" *ngIf="searchProfesional">
+                                    <button class="btn btn-outline-secondary border-left-0 border"
+                                        (click)="searchProfesional=''">
+                                        <i class="fa fa-times"></i>
+                                    </button>
+                                </div>
                             </div>
-
-                            <div class="col-md-4 my-2">
-                                <label>Especialidad</label>
-                                <ng-select [items]="specialties" bindLabel="text" bindValue="value"
-                                    [(ngModel)]="speciality" placeholder="Seleccione " name="speciality_id"
-                                    loadingText="loading" ngDefaultControl (ngModelChange)="getProfesionals()">
-                                </ng-select>
+                            <mat-option *ngFor="let item of profesionals | search: searchProfesional"
+                                [value]="item.value">{{item.text}}
+                            </mat-option>
+                        </mat-select>
+                    </mat-form-field>
+                    <mat-form-field class="col-md-12 pl-0" appearance="outline" *ngIf="isProcedure">
+                        <mat-label>Procedimiento</mat-label>
+                        <mat-select [(ngModel)]="procedureId" required multiple appendTo="body" name="procedureId">
+                            <div class="input-group">
+                                <input matInput type="text" placeholder="Busca procedimiento"
+                                    [(ngModel)]="searchProcedimiento" name="searchEspecialidad"
+                                    class="form-control mx-2">
+                                <div class="input-group-append" *ngIf="searchProcedimiento">
+                                    <button class="btn btn-outline-secondary border-left-0 border"
+                                        (click)="searchProcedimiento=''">
+                                        <i class="fa fa-times"></i>
+                                    </button>
+                                </div>
                             </div>
-
-
-                            <div class="col-md-4 my-2">
-                                <label>Profesional</label>
-                                <ng-select [items]="profesionals" bindLabel="text" bindValue="value"
-                                    [(ngModel)]="profesional" [placeholder]="(profesional == 0) ? 'Seleccione' : 'Select' " name="professional_id"
-                                    loadingText="loading" ngDefaultControl  (ngModelChange)="dispatchProfessional()">
-                                </ng-select>
+                            <mat-option *ngFor="let item of cups | search: searchProcedimiento" [value]="item.value">
+                                {{item.text}}
+                            </mat-option>
+                        </mat-select>
+                    </mat-form-field>
+                    <div *ngIf="appointment.face_to_face">
+                        <mat-form-field class="col-md-2 pl-0" appearance="outline">
+                            <mat-label>Tipo de sede</mat-label>
+                            <mat-select [(ngModel)]="type_location_id" (selectionChange)="getIps()" required
+                                name="type_location_id">
+                                <mat-option *ngFor="let item of type_locations" [value]="item.value">{{item.text}}
+                                </mat-option>
+                            </mat-select>
+                        </mat-form-field>
+                        <mat-form-field class="col-md-5 pl-0" appearance="outline">
+                            <mat-label>IPS</mat-label>
+                            <mat-select [(ngModel)]="ipsId" (selectionChange)="getSedes()" required name="ips_id">
+                                <div class="input-group">
+                                    <input matInput type="text" placeholder="Busca IPS" [(ngModel)]="searchIPS"
+                                        name="searchEspecialidad" class="form-control mx-2">
+                                    <div class="input-group-append" *ngIf="searchIPS">
+                                        <button class="btn btn-outline-secondary border-left-0 border"
+                                            (click)="searchIPS=''">
+                                            <i class="fa fa-times"></i>
+                                        </button>
+                                    </div>
+                                </div>
+                                <mat-option *ngFor="let item of ipss | search: searchIPS" [value]="item.value">
+                                    {{item.text}}
+                                </mat-option>
+                            </mat-select>
+                        </mat-form-field>
+                        <mat-form-field class="col-md-5 pl-0" appearance="outline">
+                            <mat-label>Sede</mat-label>
+                            <mat-select [(ngModel)]="location_id" (selectionChange)="getSpecialties()" required
+                                name="location_id">
+                                <div class="input-group">
+                                    <input matInput type="text" placeholder="Busca sede" [(ngModel)]="searchSede"
+                                        name="searchEspecialidad" class="form-control mx-2">
+                                    <div class="input-group-append" *ngIf="searchSede">
+                                        <button class="btn btn-outline-secondary border-left-0 border"
+                                            (click)="searchSede=''">
+                                            <i class="fa fa-times"></i>
+                                        </button>
+                                    </div>
+                                </div>
+                                <mat-option *ngFor="let item of sedes | search: searchSede" [value]="item.value">
+                                    {{item.text}}
+                                </mat-option>
+                            </mat-select>
+                        </mat-form-field>
+                    </div>
+                    <div *ngIf="profesional">
+                        <mat-form-field class="col-md-2 pl-0" appearance="outline">
+                            <mat-label>Fecha de inicio</mat-label>
+                            <input matInput type="date" [(ngModel)]="fechaInicio" name="date_start" required
+                                #date_start="ngModel" value="2018-01-01">
+                        </mat-form-field>
+                        <mat-form-field class="col-md-2 pl-0" appearance="outline">
+                            <mat-label>Fecha de fin</mat-label>
+                            <input matInput type="date" [(ngModel)]="fechaFin" name="date_end" required>
+                        </mat-form-field>
+                        <mat-form-field class="col-md-2 pl-0" appearance="outline">
+                            <mat-label>Hora de inicio</mat-label>
+                            <input matInput type="time" [(ngModel)]="hour_start" name="hour_start" required step="300"
+                                value="08:00" ngModel>
+                        </mat-form-field>
+                        <mat-form-field class="col-md-2 pl-0" appearance="outline">
+                            <mat-label>Hora de fin</mat-label>
+                            <input matInput type="time" [(ngModel)]="hour_end" name="hour_end" required value="18:00"
+                                ngModel>
+                        </mat-form-field>
+                        <mat-form-field class="col-md-2 pl-0" appearance="outline">
+                            <mat-label>Duración</mat-label>
+                            <mat-select [(ngModel)]="long" name="long" ngModel>
+                                <mat-option *ngFor="let item of optionesTime" [value]="item.value">{{item.text}}
+                                </mat-option>
+                            </mat-select>
+                        </mat-form-field>
+                        <mat-form-field class="col-md-2 pl-0" appearance="outline">
+                            <mat-label>Días</mat-label>
+                            <mat-select [(ngModel)]="days" name="days" ngModel required multiple>
+                                <mat-option *ngFor="let item of diasSemana" [value]="item.value">{{item.text}}
+                                </mat-option>
+                            </mat-select>
+                        </mat-form-field>
+                    </div>
+                    <div *ngIf="procedureId && procedureId.length > 0 ">
+                        <mat-form-field class="col-md-3 pl-0" appearance="outline">
+                            <mat-label>Cupos por espacio</mat-label>
+                            <mat-select [(ngModel)]="share" name="share" ngModel required>
+                                <mat-option *ngFor="let item of optionesShare" [value]="item.value">{{item.text}}
+                                </mat-option>
+                            </mat-select>
+                        </mat-form-field>
+                    </div>
+                    <ng-container *ngIf="profesional && !appointment.face_to_face">
+                        <div class="d-flex justify-content-center">
+                            <div class="col-md-4 form-group">
+                                <div class="d-flex justify-content-between">
+                                    <label for="">Regional</label>
+                                    <label for="">Nacional</label>
+                                </div>
+                                <input class="form-control-range" type="range" min="0" name="regionalPercent" max="100"
+                                    [(ngModel)]="regionalPercent" step="5" (change)="showRange(regionalPercent)"
+                                    value="{{regionalPercent}}">
+                                <label for="">Porcentaje para citas regionales <span class="h6 text text-danger">
+                                        {{regionalPercent}}%
+                                    </span></label>
                             </div>
-
-                            <div class="col-md-6 my-2" *ngIf="appointment.face_to_face">
-                                <label>Ips</label>
-                                <ng-select [items]="ipss" bindLabel="text" bindValue="value" [(ngModel)]="ipsId"
-                                    placeholder="Seleccione " name="ips_id" loadingText="loading"
-                                    (ngModelChange)="getSedes()" ngDefaultControl>
-                                </ng-select>
-                            </div>
-
-
-                            <div class="col-md-6 my-2" *ngIf="appointment.face_to_face">
-                                <label>Sede</label>
-                                <ng-select [items]="sedes" bindLabel="text" bindValue="value" [(ngModel)]="sede"
-                                    placeholder="Seleccione " name="sede_id" loadingText="loading" ngDefaultControl
-                                    (ngModelChange)="getSpecialties()">
-                                </ng-select>
-                            </div>
-
                         </div>
-                        <div class="row p-3">
-                            <div class="col-md-2 my-2" *ngIf="profesional">
-                                <label>Inicio de Agendamiento</label>
-                                <input class="form-control" type="date" name="date_start" value="2018-01-01"
-                                    min="2017-01-01" [(ngModel)]="fechaInicio" />
-                            </div>
-
-                            <div class="col-md-2 my-2" *ngIf="profesional">
-                                <label>Fin de Agendamiento</label>
-                                <input class="form-control" type="date" name="date_end" value="2018-01-01"
-                                    min="2017-01-01" [(ngModel)]="fechaFin" />
-                            </div>
-
-                            <div class="col-md-2 my-2" *ngIf="profesional">
-                                <label>Hora Inicio</label>
-                                <input class="form-control" [(ngModel)]="horaInicio" type="time" name="hour_start"
-                                    value="08:00" />
-                            </div>
-
-                            <div class="col-md-2 my-2" *ngIf="profesional">
-                                <label>Hora Fin</label>
-                                <input class="form-control" [(ngModel)]="horaFin" type="time" name="hour_end"
-                                    value="18:00" />
-                            </div>
-
-                            <div class="col-md-1 my-2" *ngIf="profesional">
-                                <label>Duración</label>
-                                <ng-select [items]="optionesTime" bindLabel="text" bindValue="value"
-                                    [(ngModel)]="timeDuration" placeholder="Seleccione " name="long"
-                                    loadingText="loading" ngDefaultControl>
-                                </ng-select>
-                            </div>
-
-                            <div class="col-md-3 my-2" *ngIf="profesional">
-                                <label>Dias</label>
-                                <ng-select [items]="diasSemana" multiple="true" bindLabel="text" bindValue="value"
-                                    [(ngModel)]="day" placeholder="Seleccione " name="days" loadingText="loading"
-                                    ngDefaultControl>
-                                </ng-select>
-                            </div>
-
-                            <div class="col-md-12 my-2" *ngIf="profesional">
-                                <button type="button" class="btn btn-info btn-sm btn-block"
-                                    (click)="saveAgenda(agenda)">Aperturar Agenda</button>
-                            </div>
+                    </ng-container>
+                    <div class="d-flex justify-content-end">
+                        <mat-slide-toggle *ngIf="profesional" ngModel name="holiday" [(ngModel)]="holiday"
+                            style="font-weight: 100;">
+                            Agendar días festivos
+                        </mat-slide-toggle>
+                    </div>
+                    <div class="row">
+                        <div class="col-md-12 my-2" *ngIf="profesional ">
+                            <button type="button" [disabled]="agenda.invalid" required
+                                class="btn btn-primary btn-block" (click)="saveAgenda(agenda)">Aperturar
+                                Agenda</button>
                         </div>
                     </div>
+
                 </form>
+            </mat-expansion-panel>
+        </mat-accordion>
+
+
+        <div class="mt-4">
+            <div class="app-calendar" *ngIf="profesional; else elseTemplate">
+                <app-callendar [person]='profesional'></app-callendar>
             </div>
         </div>
     </div>
-
-    <div class="row" *ngIf="profesional; else elseTemplate">
-        <div class="col-12">
-            <div class="card">
-                <div class="card-body">
-                    <div class="app-calendar">
-                        <app-callendar [professional] = 'profesional'></app-callendar>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </div>
-
-    <ng-template #elseTemplate>
-        <div class="row ">
-            <div class="col-12">
-                <div class="card">
-                    <div class="card-body">
-                        <div class="row justify-content-center">
-                            <div class="col-8 text-center">
-                                <h4>Por favor seleccione los parámetros de búsqueda</h4>
-                                <img src="/assets/images/abrir-agenda.jpg" class="img-fluid" alt="" srcset="">
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </ng-template>
-
 </div>
+
+<ng-template #elseTemplate>
+    <div class="row justify-content-center">
+        <div class="col-8 text-center">
+            <h4>Por favor seleccione los parámetros de búsqueda</h4>
+            <img src="/assets/images/abrir-agenda.jpg" class="img-fluid" alt="" srcset="">
+        </div>
+    </div>
+</ng-template>
+
+<ng-template #procedure let-r="result" let-t="term">
+    <span class="f-9">
+        {{r.value}}
+        <strong>{{r.text}}</strong>
+    </span>
+</ng-template>

@@ -1,7 +1,13 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, ViewChild } from '@angular/core';
 import { OperatorFunction, Observable, of } from 'rxjs';
 import { debounceTime, distinctUntilChanged, switchMap, tap, catchError } from 'rxjs/operators';
 import { SearchService } from '../../../core/services/search.service';
+import { HttpClient } from '@angular/common/http';
+import { environment } from 'src/environments/environment';
+import { OpenAgendaService } from '../open-agenda.service';
+import { WaitingListService } from './waiting-list.service';
+import Swal from 'sweetalert2'
+import { MatAccordion } from '@angular/material';
 
 @Component({
   selector: 'app-lista-espera',
@@ -10,12 +16,23 @@ import { SearchService } from '../../../core/services/search.service';
 })
 
 export class ListaEsperaComponent implements OnInit {
-
+  @ViewChild(MatAccordion) accordion: MatAccordion;
+  matPanel = false;
+  openClose(){
+    if (this.matPanel == false){
+      this.accordion.openAll()
+      this.matPanel = true;
+    } else {
+      this.accordion.closeAll()
+      this.matPanel = false;
+    }    
+  }
+  loading = false;
   pagination = {
-    pageSize: 4,
+    pageSize: 15,
     page: 1,
-    collectionSize: 100,
-    
+    collectionSize: 0,
+
   }
   filters: any = {
     date: '',
@@ -26,85 +43,99 @@ export class ListaEsperaComponent implements OnInit {
   }
   searching = false;
   searchFailed = false;
+  specialties: any = []
+  waitingList = []
+  companies = []
+  reasons: Object = {};
 
-  waitingList = [{
-    date:'2020-01-05 10:50',
-    identification:'123456',
-    name:'Joe Doe',
-    contact:['315502222', '5657887'],
-    speciality:'Cardiologia'
-  },{
-    date:'2020-01-05 10:50',
-    identification:'123456',
-    name:'Joe Doe',
-    contact:['315502222', '5657887'],
-    speciality:'Cardiologia'
-  },{
-    date:'2020-01-05 10:50',
-    identification:'123456',
-    name:'Joe Doe',
-    contact:['315502222', '5657887'],
-    speciality:'Cardiologia'
-  },{
-    date:'2020-01-05 10:50',
-    identification:'123456',
-    name:'Joe Doe',
-    contact:['315502222', '5657887'],
-    speciality:'Cardiologia'
-  }]
-  constructor(public _search: SearchService) { }
+  constructor(public _search: SearchService,
+    private _openAgendaService: OpenAgendaService,
+    private http: HttpClient,
+    private _openS: OpenAgendaService,
+    private _waiting: WaitingListService
+  ) { }
   ngOnInit(): void {
-    this.getWaitingList()
+    this.getWaitingList(1)
+    this.getSpecialties();
+    this.getCompanies();
+    this.getReasons();
   }
 
+  public getReasons() {
+    this.reasons = {
+      1: 'Paciente Fallecido',
+      2: 'Cita Asignada por otra modalidad',
+      3: 'Lista de Espera Erronea',
+      4: 'Otra Causa'
+    }
+  }
 
+  getCompanies() {
+    this._openS.getIps("1").subscribe((r: any) => {
+      this.companies = r.data
+    })
+  }
 
-  searchInstitution: OperatorFunction<string, readonly string[]> = (text$: Observable<string>) =>
-    text$.pipe(
-      debounceTime(300),
-      distinctUntilChanged(),
-      tap(() => this.searching = true),
-      switchMap(term => term.length < 3 ? [] :
-        this._search.institutions(term).pipe(
-          tap(() => this.searchFailed = false),
-          catchError(() => {
-            this.searchFailed = true;
-            return of([]);
-          }))
-      ),
-      tap(() => this.searching = false)
-    )
+  getSpecialties() {
+    this._openAgendaService.getSpecialties('0', '0').subscribe((resp: any) => {
+      this.specialties = resp.data;
+    });
+  }
 
-
-  searchSpeciality: OperatorFunction<string, readonly string[]> = (text$: Observable<string>) =>
-    text$.pipe(
-      debounceTime(300),
-      distinctUntilChanged(),
-      tap(() => this.searching = true),
-      switchMap(term => term.length < 3 ? [] :
-        this._search.speciality(term).pipe(
-          tap(() => this.searchFailed = false),
-          catchError(() => {
-            this.searchFailed = true;
-            return of([]);
-          }))
-      ),
-      tap(() => this.searching = false)
-    )
-
+  /*  */
   Inputdiagnostic = (x: { text: string }) => x.text;
 
-  getWaitingList(){
-    //get http
-  
-    this.pagination.collectionSize = 8 ; //NUMERO DE TODOS LOS ITEMS (SIN PAGINAR)
-    //this.pagination.collectionSize = 1 ; //NUMERO DE TODOS LOS ITEMS (SIN PAGINAR)
-    
-  }
-  changes() {
-    console.log(this.filters);
+  getWaitingList(page) {
+    this.pagination.page = page;
+    this.loading = true;
+    let params: any = Object.assign({}, this.pagination, this.filters);;
+    this._waiting.getWaitingList(params)
+      .subscribe((r: any) => {
+        this.loading = false;
+        this.pagination.collectionSize = r.data.total;
+        this.waitingList = r.data.data
+      })
 
   }
+  AnularEspera(IdCita) {
+    const SwalMsje = Swal.mixin({
+      customClass: {
+        confirmButton: 'btn btn-success mx-2',
+        cancelButton: 'btn btn-danger'
+      },
+      buttonsStyling: false
+    })
+    SwalMsje.fire({
+      title: '¿está seguro?',
+      text: "Se dispone a anular una Lista de Espera, escoja una razón para realizar esta acción",
+      icon: 'warning',
+      input: 'select',
+      inputOptions: this.reasons,
+      inputPlaceholder: 'Seleccione una',
+      showCancelButton: true,
+      confirmButtonText: 'Si, ¡Anular!',
+      cancelButtonText: 'No, ¡déjeme comprobar!',
+      reverseButtons: true
+    }).then((result) => {
+      if (result.isConfirmed) {
+        this._waiting.cancellApointment(result.value, IdCita)
+          .subscribe((r: any) => {
 
-
+            if (!r.data) {
+              console.log('No se pudo completa la opracion');
+              return false;
+            }
+            SwalMsje.fire(
+              'Lista de Espera Anulada Correctamente',
+              'La lista de espera fué Anulada!',
+              'warning'
+            )
+            this.getWaitingList(1)
+          })
+      }
+    })
+  }
+  changed(e) {
+    console.log(e);
+  }
 }

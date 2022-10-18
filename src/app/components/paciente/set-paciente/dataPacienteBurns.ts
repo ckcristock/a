@@ -78,16 +78,39 @@ const levels = [
 
 const genders = [
     {
-        value: 1,
-        text: 'Hombre'
+        value: '',
+        text: 'Seleccione'
     },
     {
-        value: 2,
-        text: 'Mujer'
+        value: 'M',
+        text: 'Masculino'
     },
     {
-        value: 3,
-        text: 'Otro'
+        value: 'F',
+        text: 'Femenino'
+    }
+]
+
+const types = [
+    {
+        value: '',
+        text: 'Seleccione'
+    },
+    {
+        value: 'Cabeza Flia Subsidiado',
+        text: 'Cabeza Flia Subsidiado'
+    },
+    {
+        value: 'COTIZANTE',
+        text: 'COTIZANTE'
+    },
+    {
+        value: 'Benef. Subsidiado',
+        text: 'Benef. Subsidiado'
+    },
+    {
+        value: 'BENEFICIARIO',
+        text: 'BENEFICIARIO'
     }
 ]
 
@@ -102,4 +125,4 @@ const epss = [
     },
 ]
 
-export { genders, levels, typeRegimens, typeDocuments, epss };
+export { genders, levels, typeRegimens, typeDocuments, epss , types};

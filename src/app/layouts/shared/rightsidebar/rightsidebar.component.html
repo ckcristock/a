@@ -1,5 +1,5 @@
 <!-- Right Sidebar -->
-<div class="right-bar" (clickOutside)="hide()" [exclude]="'.right-bar-toggle'">
+<!-- <div class="right-bar" (clickOutside)="hide()" [exclude]="'.right-bar-toggle'">
     <div data-simplebar class="h-100">
         <div class="rightbar-title px-3 py-4">
             <a href="javascript:void(0);" class="right-bar-toggle float-right" (click)="hide()">
@@ -14,4 +14,296 @@
 
 </div>
 
-<div class="rightbar-overlay"></div>
+<div class="rightbar-overlay"></div> -->
+
+<div class="right-bar" (clickOutside)="hide()" [exclude]="'.right-bar-toggle'">
+  <div data-simplebar class="h-100">
+    <div class="rightbar-title px-2 py-2">
+      <a
+        href="javascript:void(0);"
+        class="right-bar-toggle float-right"
+        (click)="hide()"
+      >
+        <i class="mdi mdi-close noti-icon"></i>
+      </a>
+      <div class="row d-flex container">
+        <button
+          (click)="hide()"
+          (click)="_task.open(content)"
+          type="button"
+          class="btn btn-primary btn-lg btn-block mx-3"
+        >
+          Agregar nueva tarea
+        </button>
+      </div>
+    </div>
+
+    <div class="row d-flex container">
+      <div class="card-header">
+        <h2 class="card-title">
+          <i class="fa fa-tasks"></i>&nbsp;Tareas pendientes
+        </h2>
+      </div>
+      <div class="col-md-12 float-right">
+        <a
+          (click)="hide()"
+          class="btn btn-sm btn-flash-border-primary"
+          routerLink="task"
+          >Ver todas</a
+        >
+      </div>
+
+      <div class="col-md-12">
+        <div class="col-lg-12">
+          <div
+            role="button"
+            class="card"
+            *ngFor="let item of pendientes"
+            [routerLink]="['/task', item.id]"
+            (click)="hide()"
+          >
+            <div class="p-3">
+              <div class="d-flex justify-content-start align-items-center">
+                <marquee behavior="" direction="">
+                  <i class="mdi mdi-account-alert"></i>
+                  <span class="quote2 pl-2"
+                    >Asignada por: {{ item["first_name"] }}
+                    {{ item["second_name"] }} {{ item["first_surname"] }}
+                  </span>
+                </marquee>
+              </div>
+            </div>
+            <div class="px-3">
+              <h4 class="name">{{ item["titulo"] }}</h4>
+              <div class="truncate-module">
+                <p class="quote2" [innerHTML]="item.descripcion"></p>
+              </div>
+            </div>
+            <div class="d-flex justify-content-start px-3 align-items-center">
+              <i class="mdi mdi-view-comfy task"></i>
+              <span class="quote2 pl-2">Categoría: {{ item["tipo"] }}</span>
+            </div>
+            <div
+              class="d-flex justify-content-between px-3 align-items-center pb-3"
+            >
+              <div class="d-flex justify-content-start align-items-center">
+                <i class="mdi mdi-calendar-clock date"></i>
+                <span class="quote2 pl-2"
+                  >Fecha:
+                  {{ item["fecha"] | date }}
+                </span>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<ng-template #content let-modal>
+  <form [formGroup]="_task.myGroup" class="needs-validation" novalidate>
+    <div class="modal-header">
+      <h4 class="modal-title text-primary" id="modal-basic-title">
+        AGREGAR NUEVA TAREA
+      </h4>
+      <button
+        type="button"
+        class="btn btn-sm btn-flash-border-primary ri-close-fill"
+        aria-label="Close"
+        (click)="modal.dismiss('Cross click')"
+      ></button>
+    </div>
+
+    <div class="modal-body">
+      <div class="row">
+        <div class="col-md-6">
+          <mat-form-field class="col-md-6" appearance="outline">
+            <mat-label>Nombre</mat-label>
+            <input
+              matInput
+              type="text"
+              placeholder="Ingresa el nombre de la tarea"
+              required
+              name="nombre"
+              formControlName="nombre"
+              autocomplete="off"
+            />
+          </mat-form-field>
+          <mat-form-field class="col-md-6" appearance="outline">
+            <mat-label>Tipo</mat-label>
+            <mat-select formControlName="tipo" name="tipo" required>
+              <mat-option *ngFor="let item of _task.tipo" [value]="item.name">{{
+                item.name
+              }}</mat-option>
+            </mat-select>
+          </mat-form-field>
+          <mat-form-field class="col-md-6" appearance="outline">
+            <mat-label>Fecha</mat-label>
+            <input
+              matInput
+              type="date"
+              placeholder="Ingresa la fecha"
+              required
+              name="fecha"
+              id="validationServerUsername"
+              formControlName="fecha"
+              autocomplete="off"
+            />
+          </mat-form-field>
+          <mat-form-field class="col-md-6" appearance="outline">
+            <mat-label>Hora</mat-label>
+            <input
+              matInput
+              type="time"
+              placeholder="HH:mm:ss"
+              required
+              name="hora"
+              id="exampleInput"
+              formControlName="hora"
+              autocomplete="off"
+            />
+          </mat-form-field>
+          <div class="col-md-12">
+            <input
+              multiple
+              class="d-none"
+              type="file"
+              id="customFileLang"
+              (change)="_task.onChange($event)"
+            />
+            <label
+              for="customFileLang"
+              role="button"
+              class="btn btn-primary btn-block"
+              >Adjuntar archivos</label
+            >
+          </div>
+          <div class="col-md-12">
+            <ul class="list-group" *ngFor="let item of _task.file">
+              <li class="list-group-item">
+                <div class="d-flex justify-content-between">
+                  <p>{{ item.name }}</p>
+                  <div (click)="_task.eliminarAdjunto(item.id)">
+                    <button
+                      class="btn btn-outline-danger btn-sm rounded-2"
+                      type="button"
+                      data-toggle="tooltip"
+                      data-placement="top"
+                      title="Delete"
+                    >
+                      <i class="fa fa-trash"></i>
+                    </button>
+                  </div>
+                </div>
+              </li>
+            </ul>
+          </div>
+        </div>
+        <div class="col-md-6">
+          <mat-form-field class="col-md-12" appearance="outline">
+            <mat-label>Asignar a</mat-label>
+            <mat-select
+              formControlName="tipo"
+              name="id_asignador"
+              required
+              formControlName="id_asignador"
+            >
+              <mat-option *ngFor="let item of _task.person" [value]="item.id">{{
+                item.name
+              }}</mat-option>
+            </mat-select>
+          </mat-form-field>
+          <div class="container">
+              <ckeditor
+                  [editor]="_texteditor.Editor"
+                  (ready)="_texteditor.onReady($event)"
+                  [config]="_texteditor.configEditor"
+                  name="descripcion"
+                  aria-placeholder="Ingrese la descripción"
+                  formControlName="descripcion"
+                ></ckeditor>
+          </div>
+        </div>
+      </div>
+
+
+      <!-- <div class="card bg-light" *ngIf="nombreFile">
+        <div class="card-body">
+          <h5 class="card-title">{{ nombreFile }}</h5>
+        </div>
+      </div> -->
+      <div class="row p-1">
+        
+        
+      </div>
+    </div>
+
+    <div class="modal-footer">
+      <div class="alert alert-danger" role="alert" *ngIf="_task.errorSubida">
+        Faltan datos
+      </div>
+      <div class="row p-1">
+        <div class="col-md-12">
+          <input
+            class="form-check-input"
+            type="checkbox"
+            value=""
+            id="flexCheckDefault"
+            name="link"
+            formControlName="link"
+          />
+          <label class="form-check-label" for="flexCheckDefault">
+            ¿Adjuntar link actual?
+          </label>
+        </div>
+      </div>
+      <button
+        type="button"
+        class="btn btn-primary"
+        [disabled]="
+          _task.myGroup.value.nombre === '' || _task.myGroup.value.fecha === ''
+        "
+        (click)="_task.saveTask(); _task.openConfirm(confirm)"
+      >
+        Guardar
+      </button>
+    </div>
+  </form>
+</ng-template>
+<ng-template #confirm let-modal>
+  <div *ngIf="_task.taskRedirect != null">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title">Tarea agregada con éxito</h5>
+        <button
+          type="button"
+          class="btn btn-sm btn-flash-border-primary ri-close-fill"
+          aria-label="Close"
+          (click)="modal.dismiss('Cross click')"
+        ></button>
+      </div>
+      <div class="modal-body">
+        <p>¿Desea ser redirigido a la tarea que acaba de crear?</p>
+      </div>
+      <div class="modal-footer">
+        <button
+          type="button"
+          [routerLink]="['/task', _task.taskRedirect]"
+          class="btn btn-primary"
+          (click)="modal.dismiss('Cross click')"
+        >
+          ¡Sí, redirigir!
+        </button>
+        <button
+          type="button"
+          class="btn btn-secondary"
+          data-dismiss="modal"
+          (click)="modal.dismiss('Cross click')"
+        >
+          No
+        </button>
+      </div>
+    </div>
+  </div>
+</ng-template>

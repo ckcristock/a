@@ -1,0 +1,130 @@
+<div class="row">
+    <div class="col-md-2">
+        <div class="form-group">
+            <label for="">Nombre Activo</label>
+            <p>{{Activo_Fijo.Nombre | uppercase}} </p>
+        </div>
+    </div>
+    <div class="col-md-2">
+        <div class="form-group">
+            <label>Empresa</label>
+            <p> {{ Activo_Fijo.Empresa | uppercase }} </p>
+        </div>
+    </div>
+    <div class="col-md-2">
+        <div class="form-group">
+            <label for="">Tipo Activo</label>
+            <p>{{Activo_Fijo.Tipo_Activo | uppercase}} </p>
+        </div>
+    </div>
+    <div class="col-md-2">
+        <div class="form-group">
+            <label for="">Proveedor</label>
+            <p>{{Activo_Fijo.Proveedor | uppercase}} </p>
+        </div>
+    </div>
+    <div class="col-md-2">
+        <div class="form-group">
+            <label for="">Centro Costo</label>
+            <p>{{Activo_Fijo.Centro_Costo | uppercase}} </p>
+        </div>
+
+    </div>
+    <div class="col-md-2">
+        <div class="form-group">
+            <label for="">Cuenta Contrapartida</label>
+            <p>{{Activo_Fijo.Contrapartida | uppercase}} </p>
+        </div>
+
+    </div>
+
+    <div class="col-md-2">
+        <div class="form-group">
+            <label for="">Documento</label>
+            <p>{{Activo_Fijo.Documento | uppercase}} </p>
+        </div>
+
+    </div>
+    <div class="col-md-2">
+        <div class="form-group">
+            <label for="">Concepto</label>
+            <p>{{Activo_Fijo.Concepto | uppercase }} </p>
+        </div>
+    </div>
+
+    <div class="col-md-2">
+        <div class="form-group">
+            <label for="">Referencia</label>
+            <p>{{Activo_Fijo.Referencia}} </p>
+        </div>
+
+    </div>
+    <div class="col-md-2">
+        <div class="form-group">
+            <label for="">Base</label>
+            <p>{{Activo_Fijo.Base_Niif | currency}} </p>
+        </div>
+
+    </div>
+    <div class="col-md-2">
+        <div class="form-group">
+            <label for="">Iva</label>
+            <p>{{Activo_Fijo.Iva_Niif | currency}} </p>
+        </div>
+
+    </div>
+   <!--  <div class="col-md-2">
+        <div class="form-group">
+            <label for="">Costo PCGA</label>
+            <p>{{Activo_Fijo.Costo_PCGA | currency}} </p>
+        </div>
+    </div> -->
+    <div class="col-md-2">
+        <div class="form-group">
+            <label for="">Costo NIIF</label>
+            <p>{{Activo_Fijo.Costo_NIIF | currency}} </p>
+        </div>
+    </div>
+    <div class="col-md-2">
+        <div class="form-group">
+            <label for="">Cuenta  Rete Iva</label>
+            <p>{{Activo_Fijo.Cuenta_Rete_Iva | uppercase}} </p>
+        </div>
+
+    </div>
+    <div class="col-md-2">
+        <div class="form-group">
+            <label for="">Cuenta  Rete Ica</label>
+            <p>{{Activo_Fijo.Cuenta_Rete_Ica | uppercase}} </p>
+        </div>
+
+    </div>
+    <div class="col-md-2">
+        <div class="form-group">
+            <label for="">Costo Rete Iva</label>
+            <p>{{Activo_Fijo.Costo_Rete_Iva=='' ? 0: Activo_Fijo.Costo_Rete_Iva }} </p>
+        </div>
+    </div>
+    <div class="col-md-2">
+        <div class="form-group">
+            <label for="">Costo Rete Ica</label>
+            <p>{{Activo_Fijo.Costo_Rete_Ica_NIIF=='' ? 0: Activo_Fijo.Costo_Rete_Ica_NIIF }} </p>
+        </div>
+
+    </div>
+    <div class="col-md-2">
+        <div class="form-group">
+            <label for="">Funcionario Creacion</label>
+            <p>{{Activo_Fijo.Funcionario | uppercase}} </p>
+        </div>
+    </div>
+    <div class="col-md-2">
+        <div class="form-group">
+            <label for="">Fecha Creacion</label>
+            <p>{{Activo_Fijo.Fecha | date:'dd/MM/yyyy'}} </p>
+        </div>
+    </div>
+
+</div>
+
+<swal #alertSwal title="" text="" type=""></swal>

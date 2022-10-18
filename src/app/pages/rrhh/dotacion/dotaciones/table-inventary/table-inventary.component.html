@@ -1,0 +1,284 @@
+<ng-container *ngIf="!loading; else notData">
+  <div class="card-title d-flex justify-content-between mt-4">
+    <h4 class="text-primary">Listado de Entregas de Dotación y EPP</h4>
+    <div class="btn-group rounded">
+      <button class="btn btn-info btn-sm" (click)="configEntrega('Dotacion')">
+        <i class="fa fa-plus"></i> Entrega Dotación
+      </button>
+      <button class="btn btn-info btn-sm" (click)="configEntrega('EPP')">
+        <i class="fa fa-plus"></i> Entrega Epp
+      </button>
+      <button class="btn btn-sm btn-primary" (click)="downloadDeliveries()">
+        <i class="fas fa-file-download"></i>
+
+        <span *ngIf="!donwloading; else status"> Descargar</span>
+        <ng-template #status>
+          <span
+            class="spinner-border spinner-border-sm"
+            role="status"
+            aria-hidden="true"
+          ></span>
+          Generando...
+        </ng-template>
+      </button>
+      <button class="btn btn-info btn-sm" (click)="openClose()">
+        <i class="fas fa-sliders-h"></i> Filtros
+      </button>
+    </div>
+  </div>
+  <hr class="line" />
+  <mat-accordion multi>
+    <mat-expansion-panel class="mat-elevation-z0">
+      <mat-form-field class="col-md-3 pl-0" appearance="outline">
+        <mat-label>Funcionario que entrega</mat-label>
+        <mat-select [(ngModel)]="people_id" name="Person" id="person">
+          <mat-option *ngFor="let item of people" [value]="item.value">{{
+            item.text
+          }}</mat-option>
+        </mat-select>
+      </mat-form-field>
+      <mat-form-field class="col-md-3 pl-0" appearance="outline">
+        <mat-label>Funcionario que recibe</mat-label>
+        <mat-select [(ngModel)]="people_id_two" name="PersonTwo" id="persontwo">
+          <mat-option *ngFor="let item of people" [value]="item.value">{{
+            item.text
+          }}</mat-option>
+        </mat-select>
+      </mat-form-field>
+      <mat-form-field class="col-md-3 pl-0" appearance="outline">
+        <mat-label>Código</mat-label>
+        <input
+          matInput
+          type="text"
+          placeholder="Busca por código"
+          [(ngModel)]="cod"
+          autocomplete="off"
+        />
+      </mat-form-field>
+      <mat-form-field class="col-md-3 pl-0" appearance="outline">
+        <mat-label>Tipo</mat-label>
+        <mat-select [(ngModel)]="type" name="Tipo" id="tipo" required>
+          <mat-option value="">Todos</mat-option>
+          <mat-option value="Dotacion">Dotación</mat-option>
+          <mat-option value="EPP">EPP</mat-option>
+        </mat-select>
+      </mat-form-field>
+      <mat-form-field class="col-md-3 pl-0" appearance="outline">
+        <mat-label>Fecha de inicio</mat-label>
+        <input
+          matInput
+          type="date"
+          [(ngModel)]="firstDay"
+          id="Fecha_Inicio"
+          autocomplete="off"
+        />
+      </mat-form-field>
+      <mat-form-field class="col-md-3 pl-0" appearance="outline">
+        <mat-label>Fecha de fin</mat-label>
+        <input
+          matInput
+          type="date"
+          [(ngModel)]="lastDay"
+          id="Fecha_Fin"
+          autocomplete="off"
+        />
+      </mat-form-field>
+      <mat-form-field class="col-md-3 pl-0" appearance="outline">
+        <mat-label>Estado</mat-label>
+        <mat-select [(ngModel)]="delivery" name="Estado" id="estado" required>
+          <mat-option value="">Todos</mat-option>
+          <mat-option value="Pendiente">Pendiente</mat-option>
+          <mat-option value="Anulado">Anulado</mat-option>
+          <mat-option value="Aprobado">Aprobado</mat-option>
+          <mat-option value="Entregado">Entregado</mat-option>
+        </mat-select>
+      </mat-form-field>
+      <!-- <div class="col-md-2">
+        <div class="form-group">
+          <label class="custom-label">Articulo</label>
+          <input
+            style="height: 36px"
+            type="text"
+            name="Art"
+            id="art"
+            [(ngModel)]="art"
+            class="form-control form-control-sm"
+            placeholder="Filtro Art."
+          />
+        </div>
+      </div> -->
+
+      <button
+        class="btn btn-primary btn-block mb-3"
+        (click)="ListarDotaciones(); listarTotales(); Graficar()"
+      >
+        <i class="fas fa-search"></i>
+        Buscar
+      </button>
+    </mat-expansion-panel>
+  </mat-accordion>
+  <table
+    class="table table-bordered table-striped table-sm table-responsive-sm"
+    style="font-size: small"
+    *ngIf="!loading && Lista_Dotaciones.length > 0; else notDataTable"
+  >
+    <thead class="bg-light">
+      <tr class="text-center text-uppercase">
+        <th>Código</th>
+        <th>Tipo</th>
+        <th>Fecha</th>
+        <th>Funcionario Entrega</th>
+        <th>Funcionario Recibe</th>
+        <th>Detalles</th>
+        <th>Artículos</th>
+        <th>Valor</th>
+        <th>Estado</th>
+        <th>Estado Entrega</th>
+        <th><i class="mdi mdi-chevron-down"></i></th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr
+        class="text-center"
+        *ngFor="let item of Lista_Dotaciones"
+        [ngClass]="{
+          'text-danger': item.state == 'Anulada'
+        }"
+      >
+        <td>{{ item.delivery_code }}</td>
+        <td>{{ item.type }}</td>
+        <td>{{ item.created_at | date: "dd/MM/yyyy" }}</td>
+        <td>{{ item.entrega }}</td>
+        <td>{{ item.recibe }}</td>
+        <td>{{ item.description }}</td>
+        <td>
+          <div class="articulos-table">
+            {{ item.product_name }}
+          </div>
+        </td>
+        <td>$ {{ item.total | number | puntos }}</td>
+        <td>
+          <span>{{ item.state }}</span>
+        </td>
+        <td>
+          <span>{{ item.delivery_state }}</span>
+        </td>
+        <td>
+          <div ngbDropdown class="dropdown-primary">
+            <button
+              ngbDropdownToggle
+              class="btn btn-primary btn-sm waves-effect waves-light"
+              type="button"
+            >
+              <i class="mdi mdi-chevron-down"></i>
+            </button>
+            <div ngbDropdownMenu>
+              <a
+                *ngIf="item.state != 'Anulada'"
+                class="dropdown-item waves-light waves-effect caja-botones"
+                (click)="anularDotacion(item.id)"
+              >
+                <i class="fa fa-times"></i> Anular
+              </a>
+              <a
+                *ngIf="item.delivery_state == 'Pendiente'"
+                class="dropdown-item waves-light waves-effect caja-botones"
+                (click)="aprobarDotacion(item.id)"
+              >
+                <i class="far fa-thumbs-up"></i> Aprobar
+              </a>
+            </div>
+          </div>
+        </td>
+      </tr>
+    </tbody>
+  </table>
+  <ngb-pagination
+    class="d-flex justify-content-center pagination-rounded pagination-sm"
+    maxSize="5"
+    [collectionSize]="pagination.collectionSize"
+    (pageChange)="ListarDotaciones($event)"
+    [pageSize]="pagination.pageSize"
+    [(page)]="pagination.page"
+    aria-label="Default pagination "
+  >
+  </ngb-pagination>
+  <div class="row">
+    <div class="col-md-6">
+      <div class="card-title text-center">
+        <h4 class="text-primary">Montos Totales</h4>
+      </div>
+      <div class="row text-center">
+        <div class="col-md-6 costo">
+          <i class="fas fa-dollar-sign"></i>
+          <p class="card-text mb-0">Costos Total</p>
+          <h5 class="mb-1">$ {{ Totales | number | puntos }}</h5>
+        </div>
+
+        <div class="col-md-6 costo">
+          <i class="fas fa-hand-holding-heart"></i>
+          <p class="card-text mb-0"># Entregas Realizadas</p>
+          <h5>{{ CantidadTotal | number | puntos }}</h5>
+        </div>
+      </div>
+
+      <div class="row text-center mt-4">
+        <div class="col-md-6 costo">
+          <i class="fas fa-street-view"></i>
+          <p class="card-text mb-0"># Dotaciones Total</p>
+          <h5 class="mb-1">{{ TotalesDotaciones | number | puntos }}</h5>
+        </div>
+
+        <div class="col-md-6 costo">
+          <i class="fas fa-user-shield"></i>
+          <p class="card-text mb-0"># Epp Total</p>
+          <h5>{{ totalEpp | number | puntos }}</h5>
+        </div>
+      </div>
+    </div>
+
+    <div class="col-md-6">
+      <div class="card-title text-center">
+        <h4 class="text-primary">Dotación y Epp's x Categorías</h4>
+      </div>
+      <div #dotacion_chart>
+        <canvas
+          baseChart
+          [datasets]="barChartData"
+          [labels]="barChartLabels"
+          [options]="barChartOptions"
+          [legend]="barChartLegend"
+          [chartType]="barChartType"
+        >
+        </canvas>
+      </div>
+    </div>
+  </div>
+</ng-container>
+
+<ng-template #notDataTable>
+  <app-not-data [loading]="loading"></app-not-data>
+</ng-template>
+
+<app-modal-basic #modalEntrega [dialogClass]="'modal-lg'">
+  <div class="app-modal-body">
+    <div class="row">
+      <div class="col-md-12">
+        <div class="col-md-12 text-center">
+          <app-table-stock
+            #tablestock
+            [name]="nombre"
+            [type]="flagDotacionApp"
+            [entrega]="true"
+            [find]="false"
+            (closeModal)="closeModal()"
+          ></app-table-stock>
+        </div>
+      </div>
+    </div>
+  </div>
+</app-modal-basic>
+
+<ng-template #notData>
+  <app-not-data [loading]="loading"></app-not-data>
+</ng-template>

@@ -1,91 +1,360 @@
-<div class="row">
-    <div class="col-12">
-        <div class="card">
-            <div class="card-body">
-                <div class="row">
-                    <div class="col-12">
-                        <div class="row">
-                            <div class="col-md-4 mb-3">
-                                <label for="validationServerUsername">Institución</label>
-                                <div class="input-group">
-                                    <input style="width: 85%;" id="typeahead-http" type="text" class="form-control " [class.is-invalid]="searchFailed" [ngbTypeahead]="searchInstitution" placeholder="Diagnosticos" name="diagnosticoId" ngDefaultControl [resultTemplate]="institution" [inputFormatter]="Inputdiagnostic"
-                                    />
-                                </div>
-                            </div>
-                            <div class="col-md-4 mb-3">
-                                <label for="validationServerUsername">Sede</label>
-                                <div class="input-group">
-                                    <input style="width: 85%;" id="typeahead-http" type="text" class="form-control " [class.is-invalid]="searchFailed" [ngbTypeahead]="searchInstitution" placeholder="Diagnosticos" name="diagnosticoId" ngDefaultControl [resultTemplate]="institution" [inputFormatter]="Inputdiagnostic"
-                                    />
-                                </div>
-                            </div>
-                            <div class="col-md-4 mb-3">
-                                <label for="validationServerUsername">Especialidad</label>
-                                <div class="input-group">
-                                    <input style="width: 85%;" id="typeahead-http" type="text" class="form-control " [class.is-invalid]="searchFailed" [ngbTypeahead]="searchSpeciality" placeholder="Diagnosticos" name="diagnosticoId" ngDefaultControl [resultTemplate]="institution" [inputFormatter]="Inputdiagnostic"
-                                    />
-                                </div>
-                            </div>
-                            <div class="col-md-4 mb-3">
-                                <label for="validationServerUsername">Doctor</label>
-                                <div class="input-group">
-                                    <input style="width: 85%;" id="typeahead-http" type="text" class="form-control " [class.is-invalid]="searchFailed" [ngbTypeahead]="searchInstitution" placeholder="Diagnosticos" name="diagnosticoId" ngDefaultControl [resultTemplate]="institution" [inputFormatter]="Inputdiagnostic"
-                                    />
-                                </div>
-                            </div>
-
-                            <div class="col-md-2 mb-2">
-                                <label for="validationServerUsername">Fecha</label>
-                                <div class="input-group">
-                                    <input type="date" class="form-control" id="validationServerUsername" placeholder="Ingrese la fecha" aria-describedby="inputGroupPrepend3" required>
-                                </div>
-                            </div>
-
-                            <div class="col-md-2 mb-3">
-                                <label for="validationServerUsername">Paciente</label>
-                                <div class="input-group">
-                                    <input type="text" class="form-control" id="validationServerUsername" placeholder="Nombre / Identificación " aria-describedby="inputGroupPrepend3" required>
-                                </div>
-                            </div>
-                            <div class="col-md-2 mb-3">
-                                <label for="validationServerUsername">Tipo de Cita</label>
-                                <div class="input-group">
-                                    <input type="text" class="form-control" id="validationServerUsername" placeholder="Nombre / Identificación " aria-describedby="inputGroupPrepend3" required>
-                                </div>
-                            </div>
-                            <div class="col-md-2 mb-3">
-                                <label for="validationServerUsername">Tipo de Modalidad</label>
-                                <div class="input-group">
-                                    <input type="text" class="form-control" id="validationServerUsername" placeholder="Nombre / Identificación " aria-describedby="inputGroupPrepend3" required>
-                                </div>
-                            </div>
-
-                            <div class="col-md-2 mb-3">
-                                <label for="validationServerUsername">Estado</label>
-                                <div class="input-group">
-                                    <input type="text" class="form-control" id="validationServerUsername" placeholder="Nombre / Identificación " aria-describedby="inputGroupPrepend3" required>
-                                </div>
-                            </div>
-
-
-
-                            <div class="col-12">
-                                <button class="btn btn-primary btn-block btn-sm" (click)="getCitas()">Buscar</button>
-                            </div>
-                        </div>
-                    </div>
+<div class="card">
+  <div class="card-body">
+    <div class="card-title d-flex justify-content-between">
+      <h4 class="text-primary">Lista de Trabajo</h4>
+      <div class="btn-group rounded">
+        <button
+          class="btn btn-info btn-sm"
+          style="float: right"
+          (click)="openClose()"
+        >
+          <i class="fas fa-sliders-h"></i> Filtros
+        </button>
+      </div>
+    </div>
+    <hr class="line" />
+    <mat-accordion multi>
+      <mat-expansion-panel class="mat-elevation-z0">
+        <form #formD="ngForm">
+          <mat-form-field class="col-md-2 pl-0" appearance="outline">
+            <mat-label>Tipo de agenda</mat-label>
+            <mat-select
+              [(ngModel)]="filters.type_appointment_id"
+              required
+              (selectionChange)="getSubTypeAppointment()"
+              name="type_appointment_id"
+            >
+              <mat-option
+                *ngFor="let item of type_appointments"
+                [value]="item.value"
+                >{{ item.text }}
+              </mat-option>
+            </mat-select>
+          </mat-form-field>
+          <mat-form-field class="col-md-2 pl-0" appearance="outline">
+            <mat-label>Tipo de consulta</mat-label>
+            <mat-select
+              [(ngModel)]="filters.sub_type_appointment_id"
+              required
+              (selectionChange)="getIps()"
+              name="sub_type_appointment_id"
+            >
+              <mat-option
+                *ngFor="let item of type_subappointments"
+                [value]="item.value"
+                >{{ item.text }}
+              </mat-option>
+            </mat-select>
+          </mat-form-field>
+          <mat-form-field class="col-md-4 pl-0" appearance="outline">
+            <mat-label>Especialidad</mat-label>
+            <mat-select
+              [(ngModel)]="filters.speciality"
+              required
+              (selectionChange)="getProfesionals()"
+              name="speciality_id"
+            >
+              <div class="input-group">
+                <input
+                  matInput
+                  type="text"
+                  placeholder="Busca especialidad"
+                  [(ngModel)]="searchEspecialidad"
+                  name="searchEspecialidad"
+                  class="form-control mx-2"
+                />
+                <div class="input-group-append" *ngIf="searchEspecialidad">
+                  <button
+                    class="btn btn-outline-secondary border-left-0 border"
+                    (click)="searchEspecialidad = ''"
+                  >
+                    <i class="fa fa-times"></i>
+                  </button>
                 </div>
+              </div>
+              <mat-option
+                *ngFor="let item of specialties | search: searchEspecialidad"
+                [value]="item.value"
+                >{{ item.text }}
+              </mat-option>
+            </mat-select>
+          </mat-form-field>
+          <mat-form-field class="col-md-4 pl-0" appearance="outline">
+            <mat-label>Profesional</mat-label>
+            <mat-select [(ngModel)]="filters.person" required name="person_id">
+              <div class="input-group">
+                <input
+                  matInput
+                  type="text"
+                  placeholder="Busca profesional"
+                  [(ngModel)]="searchProfesional"
+                  name="searchEspecialidad"
+                  class="form-control mx-2"
+                />
+                <div class="input-group-append" *ngIf="searchProfesional">
+                  <button
+                    class="btn btn-outline-secondary border-left-0 border"
+                    (click)="searchProfesional = ''"
+                  >
+                    <i class="fa fa-times"></i>
+                  </button>
+                </div>
+              </div>
+              <mat-option
+                *ngFor="let item of persons | search: searchProfesional"
+                [value]="item.value"
+              >
+                {{ item.text }}
+              </mat-option>
+            </mat-select>
+          </mat-form-field>
+          <div *ngIf="appointment.face_to_face">
+            <mat-form-field class="col-md-6 pl-0" appearance="outline">
+              <mat-label>IPS</mat-label>
+              <mat-select
+                [(ngModel)]="filters.company_id"
+                (selectionChange)="getSedes()"
+                required
+                name="company_id"
+              >
+                <div class="input-group">
+                  <input
+                    matInput
+                    type="text"
+                    placeholder="Busca IPS"
+                    [(ngModel)]="searchIPS"
+                    name="searchEspecialidad"
+                    class="form-control mx-2"
+                  />
+                  <div class="input-group-append" *ngIf="searchIPS">
+                    <button
+                      class="btn btn-outline-secondary border-left-0 border"
+                      (click)="searchIPS = ''"
+                    >
+                      <i class="fa fa-times"></i>
+                    </button>
+                  </div>
+                </div>
+                <mat-option
+                  *ngFor="let item of ipss | search: searchIPS"
+                  [value]="item.value"
+                >
+                  {{ item.text }}
+                </mat-option>
+              </mat-select>
+            </mat-form-field>
+            <mat-form-field class="col-md-6 pl-0" appearance="outline">
+              <mat-label>Sede</mat-label>
+              <mat-select
+                [(ngModel)]="filters.location_id"
+                (selectionChange)="getSpecialties()"
+                required
+                name="location_id"
+              >
+                <div class="input-group">
+                  <input
+                    matInput
+                    type="text"
+                    placeholder="Busca sede"
+                    [(ngModel)]="searchSede"
+                    name="searchEspecialidad"
+                    class="form-control mx-2"
+                  />
+                  <div class="input-group-append" *ngIf="searchSede">
+                    <button
+                      class="btn btn-outline-secondary border-left-0 border"
+                      (click)="searchSede = ''"
+                    >
+                      <i class="fa fa-times"></i>
+                    </button>
+                  </div>
+                </div>
+                <mat-option
+                  *ngFor="let item of sedes | search: searchSede"
+                  [value]="item.value"
+                >
+                  {{ item.text }}
+                </mat-option>
+              </mat-select>
+            </mat-form-field>
+          </div>
+          <mat-form-field class="col-md-4 pl-0" appearance="outline">
+            <mat-label>Fecha</mat-label>
+            <input matInput type="date" ngModel name="space_date" required />
+          </mat-form-field>
+          <mat-form-field class="col-md-4 pl-0" appearance="outline">
+            <mat-label>Nombre o identificación del paciente</mat-label>
+            <input
+              matInput
+              type="text"
+              name="identifier"
+              required
+              [ngModel]="filters.patient"
+              placeholder="Nombre / Identificación "
+            />
+          </mat-form-field>
+          <mat-form-field class="col-md-2 pl-0" appearance="outline">
+            <mat-label>EPS</mat-label>
+            <mat-select [(ngModel)]="filters.eps" name="eps">
+              <mat-option *ngFor="let item of epss" [value]="item.value">
+                {{ item.text }}
+              </mat-option>
+            </mat-select>
+          </mat-form-field>
+          <mat-form-field class="col-md-2 pl-0" appearance="outline">
+            <mat-label>Estado</mat-label>
+            <mat-select [(ngModel)]="filters.state" name="state">
+              <mat-option *ngFor="let item of states" [value]="item.value">
+                {{ item.name }}
+              </mat-option>
+            </mat-select>
+          </mat-form-field>
+          <button
+            class="btn btn-primary btn-block mb-4"
+            (click)="setPage(1); getCitas(formD)"
+          >
+            Buscar
+          </button>
+        </form>
+      </mat-expansion-panel>
+    </mat-accordion>
+    <table
+      class="table table-bordered table-striped table-sm table-responsive-sm"
+      style="font-size: small"
+      *ngIf="!loading && citas.length > 0; else notData"
+    >
+      <thead>
+        <tr class="text-center text-uppercase">
+          <th><i class="fas fa-phone-alt"></i></th>
+          <th>Fecha</th>
+          <th>Profesional</th>
+          <th>Paciente</th>
+          <th>Teléfono</th>
+          <th>Especialidad</th>
+          <th>Eps</th>
+          <th>Descripción</th>
+          <th>Estado</th>
+          <th class="col-md-1 text-center">Acciones</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr
+          class="text-center"
+          *ngFor="let cita of citas"
+          [ngClass]="{
+            'text-danger': cita.state == 'Cancelado',
+            'text-success': cita.state == 'Confirmado'
+          }"
+        >
+          <td class="align-middle">
+            <a role="button" (click)="llamadaPaciente(cita)"
+              ><i class="fas fa-phone-alt fa-2x"></i
+            ></a>
+          </td>
+          <td class="align-middle">
+            {{ cita.hour_start | date: "dd/MM/yyyy hh:mm a" }}
+          </td>
+          <td class="align-middle">{{ cita.profesional_name }}</td>
+          <td class="align-middle">{{ cita.patient_name }}</td>
+          <td class="align-middle">{{ cita.phone }}</td>
+          <td class="align-middle">{{ cita.speciality }}</td>
+          <td class="align-middle">{{ cita.eps }}</td>
+          <td class="align-middle col-md-3">
+            <details>
+              <summary>Ver descripción</summary>
+              <p>{{ cita.observation }}</p>
+            </details>
+          </td>
+          <td class="align-middle">
+            <span
+              data-toggle="tooltip"
+              title="{{
+                cita.state == 'Cancelado'
+                  ? cita.reason_cancellation
+                  : cita.state == 'Confirmado'
+                  ? cita.message_confirm
+                  : cita.state
+              }}"
+              >{{ cita.state }}
+            </span>
+          </td>
+          <td class="text-center align-middle">
+            <div class="btn-group" role="group" ngbDropdown>
+              <button
+                id="btnGroupVerticalDrop1 "
+                type="button"
+                class="btn btn-primary btn-sm dropdown-toggle"
+                ngbDropdownToggle
+              >
+                <i class="mdi mdi-chevron-down"></i>
+              </button>
+              <div
+                style="cursor: pointer"
+                class="dropdown-menu font-weight-bolder"
+                aria-labelledby="btnGroupVerticalDrop1 "
+                ngbDropdownMenu
+              >
+                <a class="dropdown-item text-info" (click)="detalleCita(cita)">
+                  <i class="fas fa-search mr-2"></i> Ver Detalles</a
+                >
+
+                <a
+                  class="dropdown-item"
+                  (click)="confirmarCita(cita)"
+                  *ngIf="
+                    cita.state != 'Confirmado' && cita.state != 'Cancelado'
+                  "
+                >
+                  <span class="text-success"
+                    ><i class="fas fa-calendar-check mr-2"></i> Confirmar
+                    Cita</span
+                  ></a
+                >
+
+                <a
+                  class="dropdown-item"
+                  (click)="Cancel(cita)"
+                  *ngIf="
+                    cita.state != 'Confirmado' && cita.state != 'Cancelado'
+                  "
+                >
+                  <span class="text-danger"
+                    ><i class="fas fa-ban mr-2"></i> Cancelar Cita</span
+                  ></a
+                >
+              </div>
             </div>
-        </div>
-    </div>
-    <div class="col-12">
-        <app-lista-citas [canOverride]="'false'" [citas]="citas"></app-lista-citas>
-    </div>
+          </td>
+        </tr>
+      </tbody>
+    </table>
+
+    <ngb-pagination
+      class="d-flex justify-content-center pagination-rounded pagination-sm"
+      maxSize="5"
+      [collectionSize]="pagination.collectionSize"
+      (pageChange)="setPage($event); getCitas(formD)"
+      [pageSize]="pagination.pageSize"
+      [(page)]="pagination.page"
+      rotate="true"
+      ellipses="false"
+      boundaryLinks="true"
+      aria-label="Default pagination "
+    >
+    </ngb-pagination>
+  </div>
 </div>
+<!--  <app-lista-citas [canOverride]="'false'" [citas]="citas"></app-lista-citas> -->
 
 <ng-template #institution let-r="result" let-t="term">
-    <span class="f-9">
-        {{r.id}}
-        <strong>{{r.text}}</strong>
-    </span>
+  <span class="f-9">
+    {{ r.id }}
+    <strong>{{ r.text }}</strong>
+  </span>
 </ng-template>
+
+<ng-template #notData>
+  <app-not-data [loading]="loading"></app-not-data>
+</ng-template>
+
+<app-detalle-cita [modalData]="openModalDetalle"></app-detalle-cita>

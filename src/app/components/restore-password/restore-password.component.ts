@@ -29,8 +29,6 @@ export class RestorePasswordComponent implements OnInit {
   }
 
   changePassword(){
-     console.log(this.newPassword);
-  
      let parm = {id:this._user.user.id,
                  newPassword:this.newPassword}
 

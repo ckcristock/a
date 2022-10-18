@@ -1,0 +1,41 @@
+/* .display-table-cell{
+    display: table-cell;
+}
+
+.no-display{
+    display: none;
+}
+
+.display-totals{
+    display: block;
+}
+
+.nota{
+    background: #e8e8e8;
+    border-radius: 5px;
+    margin: 0px!important;
+}
+
+.tooltip-text2{
+    font-size: 12px !important;
+}
+.input-barras{
+    width: 30%;
+    margin-left: 35%;
+    font-size: 20px;
+    line-height: 20px;
+    text-align: center;
+} */
+
+::ng-deep .mat-form-field-appearance-outline .mat-form-field-outline {
+  background-color: white;
+  border-radius: 5px;
+}
+
+input[type="date"]::-webkit-inner-spin-button,
+input[type="date"]::-webkit-calendar-picker-indicator {
+  position: absolute;
+  right: 0;
+  height: 15px;
+  width: 15px;
+}

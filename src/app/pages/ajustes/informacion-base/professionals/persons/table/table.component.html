@@ -1,0 +1,130 @@
+<mat-accordion multi>
+  <mat-expansion-panel class="mat-elevation-z0">
+    <mat-form-field class="col-md-3 pl-0" appearance="outline">
+      <mat-label>Identificación</mat-label>
+      <input
+        matInput
+        type="text"
+        placeholder="Busca por identificación"
+        (input)="getProfessionals()"
+        [(ngModel)]="filtros.identifier"
+        autocomplete="off"
+      />
+    </mat-form-field>
+    <mat-form-field class="col-md-3 pl-0" appearance="outline">
+      <mat-label>Nombre</mat-label>
+      <input
+        matInput
+        type="text"
+        placeholder="Busca por nombre"
+        (input)="getProfessionals()"
+        [(ngModel)]="filtros.name"
+        autocomplete="off"
+      />
+    </mat-form-field>
+    <mat-form-field class="col-md-3 pl-0" appearance="outline">
+      <mat-label>Empresa</mat-label>
+      <input
+        matInput
+        type="text"
+        placeholder="Busca por empresa"
+        (input)="getProfessionals()"
+        [(ngModel)]="filtros.company"
+        autocomplete="off"
+      />
+    </mat-form-field>
+    <mat-form-field class="col-md-2 pl-0" appearance="outline">
+      <mat-label>Estado</mat-label>
+      <mat-select
+        (selectionChange)="getProfessionals()"
+        [(ngModel)]="filtros.status"
+      >
+        <mat-option value="">Todos</mat-option>
+        <mat-option value="Activo">Activo</mat-option>
+        <mat-option value="Inactivo">Inactivo</mat-option>
+      </mat-select>
+    </mat-form-field>
+  </mat-expansion-panel>
+</mat-accordion>
+<table
+  class="table table-bordered table-striped table-sm table-responsive-sm"
+  style="font-size: small"
+  *ngIf="!loading && persons.length > 0; else notData"
+>
+  <thead class="text-center" style="font-size: medium;">
+    <tr>
+      <th class="col-1">Imagen</th>
+      <th>Identificación</th>
+      <th>Nombres</th>
+      <th>Empresa</th>
+      <th>Estado</th>
+      <th class="col-1">Acciones</th>
+    </tr>
+  </thead>
+  <tbody class="text-center align-middle">
+    <tr *ngFor="let item of persons">
+      <td>
+        <img
+          src="{{ item?.image | image: 'professionals' }}"
+          alt="{{ item?.full_name }}"
+          class="img-thumbnail rounded-circle header-profile-user mx-auto d-block"
+        />
+      </td>
+      <td>
+        <p>{{ item.identifier }}</p>
+      </td>
+      <td>
+        <p>{{ item.full_name }}</p>
+      </td>
+      <td>
+        <p>{{ item.company }}</p>
+      </td>
+      <td>
+        <span [ngClass]="item.status == 'Inactivo' ? 'badge badge-danger': 'badge badge-success'">
+            {{ item.status }}
+        </span>
+      </td>
+      <td class="text-center">
+        <div class="btn-group" role="group" ngbDropdown>
+          <button
+            id="btnGroupVerticalDrop1 "
+            type="button "
+            class="btn btn-primary btn-sm dropdown-toggle"
+            ngbDropdownToggle
+          >
+            <i class="mdi mdi-chevron-down"></i>
+          </button>
+          <div
+            style="cursor: pointer"
+            class="dropdown-menu font-weight-bolder"
+            aria-labelledby="btnGroupVerticalDrop1 "
+            ngbDropdownMenu
+          >
+            <!-- <button class="dropdown-item " (click)="expression"> <i class="fa fa-search mr-2 "></i>Ver más</button> -->
+            <button class="dropdown-item text-primary" (click)="update(item.id)">
+              <i class="fa fa-edit mr-2"></i>Editar
+            </button>
+            <button *ngIf="item.status == 'Activo'" class="dropdown-item text-danger" (click)="suspend()">
+              <i class="fa fa-ban mr-2"></i>Suspender
+            </button>
+          </div>
+        </div>
+      </td>
+    </tr>
+  </tbody>
+</table>
+
+<ngb-pagination
+  class="d-flex justify-content-center pagination-rounded pagination-sm"
+  [collectionSize]="pagination.collectionSize"
+  (pageChange)="getProfessionals($event)"
+  [pageSize]="pagination.pageSize"
+  [(page)]="pagination.page"
+  maxSize="5"
+  rotate="true"
+  ellipses="false"
+  boundaryLinks="true"
+></ngb-pagination>
+<ng-template #notData>
+  <app-not-data [loading]="loading"></app-not-data>
+</ng-template>

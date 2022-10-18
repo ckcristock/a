@@ -1,4 +1,4 @@
-import { Component, ElementRef, OnInit, ViewChild } from '@angular/core';
+import { Component, ElementRef, Input, OnInit, ViewChild } from '@angular/core';
 import { EventInput } from '@fullcalendar/core';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { OpenAgendaService } from '../../open-agenda.service';
@@ -9,6 +9,10 @@ import timeGrigPlugin from '@fullcalendar/timegrid';
 import interactionPlugin from '@fullcalendar/interaction';
 import bootstrapPlugin from '@fullcalendar/bootstrap';
 import { FormBuilder, Validators, FormGroup } from '@angular/forms';
+import { QueryPatient } from '../../query-patient.service';
+import { AssingService } from 'src/app/services/assign.service';
+import { CitaComponent } from '../disponibilidad-cita/cita.component';
+import { QueryAvailabilitySpacesService } from '../../query-availability-spaces.service';
 
 /* import { NextStepDirective } from 'angular-archwizard'; */
 @Component({
@@ -20,6 +24,19 @@ import { FormBuilder, Validators, FormGroup } from '@angular/forms';
 export class AgendarCitasComponent implements OnInit {
   /* @ViewChild('next') next; */
   @ViewChild('next') next: ElementRef;
+  @ViewChild(CitaComponent) disponibilidad: CitaComponent;
+  @ViewChild('customStep') customStep: ElementRef;
+
+  public dataCita: any = {
+    appointment: '',
+    patient: '',
+    person: '',
+    day: '',
+    hour: '',
+    location: '',
+    direction: '',
+    cuota: ''
+  }
 
   // bread crumb items
   breadCrumbItems: Array<{}>;
@@ -49,11 +66,25 @@ export class AgendarCitasComponent implements OnInit {
 
   // calendar plugin
   calendarPlugins = [dayGridPlugin, bootstrapPlugin, timeGrigPlugin, interactionPlugin, listPlugin];
+  step: any;
 
   // slotDuration = '02:00' // 2 hours
 
-  constructor(private modalService: NgbModal, private formBuilder: FormBuilder, private _openAgendaService: OpenAgendaService) { }
+  constructor(
+    private modalService: NgbModal,
+    private formBuilder: FormBuilder,
+    private _openAgendaService: OpenAgendaService,
+    private _assingService: AssingService,
+    // private _queryAvailabilitySpacesService: QueryAvailabilitySpacesService
+  ) { }
+
   ngOnInit(): void {
+
+    this._assingService.returnStep.subscribe((data) => {
+      this.step = data;
+      this.fnCustomStep(this.step);
+    });
+
 
     /**
      * Event Model validation
@@ -198,13 +229,10 @@ export class AgendarCitasComponent implements OnInit {
 
       this.calendarEvents = resp.data.map((element, index) => {
         if (element.status) {
-          resp.data[index]['className'] = "bg-success text-white"
-          resp.data[index]['title'] = "Disponible"
           resp.data[index]['allDay '] = false
           return element
         }
         resp.data[index]['allDay '] = false
-        resp.data[index]['title'] = "No Disponible"
         return element
       });
     });
@@ -223,7 +251,13 @@ export class AgendarCitasComponent implements OnInit {
     this.modalService.dismissAll();
   }
 
-  siguiente() {
+  siguiente(dataCita: any = {}) {
     this.next.nativeElement.click();
   }
+
+  fnCustomStep(step: number) {
+    this.disponibilidad.reset();
+    this.customStep.nativeElement.click();
+  }
+
 }

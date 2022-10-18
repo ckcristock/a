@@ -1,0 +1,32 @@
+
+// input[type=range] {
+//   /*Damos unos estilos básicos*/
+//   width: 100%;
+//   /*Eliminamos la apariencia por defecto: -webkit-appearance: slider-horizontal;*/
+//   -webkit-appearance: none; 
+//   /*Eliminamos el borde que seguramente heredaría de los input*/
+//   border: none; 
+//   /*Eliminamos el outline que por defecto suele aparecer al activarse*/
+//   outline: none; 
+
+//   /*Aquí añadiremos todos los pseudo-selectores*/
+//   &::pseudo-selector {@include mixin-name}
+// }
+
+
+input[type="date"]::-webkit-inner-spin-button,
+input[type="date"]::-webkit-calendar-picker-indicator {
+    position: absolute;
+    right: 0;
+    top: 8px;
+    height: 15px;
+    width: 15px;
+}
+input[type="time"]::-webkit-inner-spin-button,
+input[type="time"]::-webkit-calendar-picker-indicator {
+    position: absolute;
+    right: 0;
+    top: 8px;
+    height: 15px;
+    width: 15px;
+}

@@ -8,13 +8,13 @@ import { LayoutComponent } from './layout/layout.component';
 import { ComponentsModule } from '../components/components.module';
 
 @NgModule({
-  declarations: [  LayoutComponent, ],
+  declarations: [  LayoutComponent ],
   imports: [
     CommonModule,
     SharedModule,
     RouterModule,
     ComponentsModule
   ],
-  exports: [ ]
+  exports: []
 })
 export class LayoutsModule { }

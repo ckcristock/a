@@ -1,15 +1,23 @@
 import { Injectable } from '@angular/core';
+import { map } from 'rxjs/operators';
+
 import {
   HttpRequest,
   HttpHandler,
   HttpEvent,
-  HttpInterceptor
+  HttpInterceptor,
+  HttpErrorResponse,
+  HttpResponse,
+  HttpHeaders
+
+
 } from '@angular/common/http';
 import { Observable } from 'rxjs';
-import { AuthService } from './auth-service.service';
 import { UserService } from './core/services/user.service';
 
 @Injectable()
+
+
 export class AuthInterceptor implements HttpInterceptor {
 
   constructor(private _user: UserService) { }
@@ -20,14 +28,32 @@ export class AuthInterceptor implements HttpInterceptor {
       'Content-Type': 'application/json',
       'Accept': 'application/json'
     };
-    
+
     let token = this._user.token;
     headersConfig['Authorization'] = `Bearer ${token}`
 
-    request = request.clone({
-      setHeaders: headersConfig
+    const newRequest = request.clone({
+      headers: new HttpHeaders({
+        'Authorization': `Bearer ${token}`,
+        'Content-Type': 'application/json',
+        'Accept': 'application/json'
+      })
     });
-    return next.handle(request);
+
+    return next.handle(newRequest).pipe(map((event: HttpEvent<any>) => {
+      if (event instanceof HttpResponse) {
+        event = event.clone({ body: this.modifyBody(event.body) });
+      }
+      return event;
+    }));
+
   }
 
+  private modifyBody(body: any) {
+    if (body?.respuesta) {
+      if (body.respuesta == 'no autenticado') {
+        window.location.reload();
+      }
+    }
+  }
 }

@@ -1,0 +1,218 @@
+<div class="card-body">
+    <div class="card-title d-flex justify-content-between">
+        <h4 class="text-primary">Tipos de Activos Fijos</h4>
+        <div class="btn-group rounded">
+            <button class="btn btn-primary btn-sm" style="float: right;" (click)="ModalTipoActivo.show();">
+                <i class="fa fa-plus"></i> Agregar
+            </button>
+            <button class="btn btn-info btn-sm" style="float: right;" (click)="openClose()">
+                <i class="fas fa-sliders-h"></i> Filtros
+            </button>
+        </div>
+    </div>
+    <hr class="line">
+    <mat-accordion multi>
+        <mat-expansion-panel class="mat-elevation-z0">
+            <mat-form-field class="col-md-3 pl-0" appearance="outline">
+                <mat-label>Nombre</mat-label>
+                <input matInput type="text" placeholder="Busca por nombre" [(ngModel)]="Filtros.nombre"
+                    (change)="ConsultaFiltrada()" name="name" autocomplete="off">
+            </mat-form-field>
+            <mat-form-field class="col-md-3 pl-0" appearance="outline">
+                <mat-label>Categoría</mat-label>
+                <input matInput type="text" placeholder="Busca por categoría" [(ngModel)]="Filtros.categoria"
+                    (change)="ConsultaFiltrada()" name="name" autocomplete="off">
+            </mat-form-field>
+            <mat-form-field class="col-md-3 pl-0" appearance="outline">
+                <mat-label>Vida útil</mat-label>
+                <input matInput type="text" placeholder="Busca por vida útil" [(ngModel)]="Filtros.vida_util"
+                    (change)="ConsultaFiltrada()" name="name" autocomplete="off">
+            </mat-form-field>
+            <mat-form-field class="col-md-3 pl-0" appearance="outline">
+                <mat-label>Depreciación</mat-label>
+                <input matInput type="text" placeholder="Busca por depreciación" [(ngModel)]="Filtros.depreciacion"
+                    (change)="ConsultaFiltrada()" name="name" autocomplete="off">
+            </mat-form-field>
+        </mat-expansion-panel>
+    </mat-accordion>
+    <table class="table table-bordered table-hover" *ngIf="!Cargando && TiposActivosFijos.length > 0; else notData">
+        <thead>
+            <tr>
+                <th class="text-center">Tipo Activo</th>
+                <th class="text-center">Categoría</th>
+                <th class="text-center">Vida Util</th>
+                <th class="text-center">% Depreciación</th>
+                <th class="text-center">Cuenta Depreciación NIIF</th>
+                <th class="text-center">Cuenta Depreciación PCGA</th>
+                <th class="text-center">Cuenta NIIF</th>
+                <th class="text-center">Cuenta PCGA</th>
+                <th class="text-center">Cuenta Credito PCGA</th>
+                <th class="text-center">Cuenta Credito NIIF</th>
+                <th class="text-center">Acciones</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr *ngFor="let taf of TiposActivosFijos">
+                <td>{{taf.Nombre_Tipo_Activo}}</td>
+                <td>{{taf.Categoria}}</td>
+                <td class="text-right">{{taf.Vida_Util}} mes(es)</td>
+                <td class="text-right">{{taf.Porcentaje_Depreciacion_Anual}} %</td>
+                <td>{{taf.Cuenta_Depreciacion_NIIF}}</td>
+                <td>{{taf.Cuenta_Depreciacion_PCGA}}</td>
+                <td>{{taf.Cuenta_Niif}}</td>
+                <td>{{taf.Cuenta_Pcga}}</td>
+                <td>{{taf.Cuenta_Credito_Pcga}}</td>
+                <td>{{taf.Cuenta_Credito_Niif}}</td>
+                <td>
+                    <div class="text-center">
+                        <div ngbDropdown class="dropdown-primary">
+                            <button ngbDropdownToggle
+                                class="btn btn-secondary btn-mini waves-effect waves-light "
+                                type="button">Acciones</button>
+                            <div ngbDropdownMenu>
+                                <a class="dropdown-item waves-light waves-effect caja-botones"
+                                    (click)="EditarTipoActivo(taf.Id_Tipo_Activo_Fijo)">
+                                    <i class="ti-pencil"></i> Editar</a>
+                                <a class="dropdown-item waves-light waves-effect caja-botones" [swal]="{ title : '¿Está Seguro?',
+              text : 'Se dispone inactivar este tipo de activo fijo'
+               , type: 'warning', showCancelButton : true , confirmButtonText : 'Si, Eliminar', cancelButtonText : 'No, Dejame Comprobar!' }                                         
+                 " (confirm)="EliminarTipoActivoFijo(taf)">
+                                    <i class="ti-trash"></i> Eliminar</a>
+                            </div>
+                        </div>
+                    </div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+    <div id="paginacion-container" *ngIf="TiposActivosFijos.length > 0">
+        <div class="row">
+            <div class="col-md-3">
+                <p><b>Mostrando del {{InformacionPaginacion.desde}} al {{InformacionPaginacion.hasta}} de {{
+                        InformacionPaginacion.total }}</b></p>
+            </div>
+            <div class="col-md-9">
+                <ngb-pagination class="pull-right" [collectionSize]="TotalItems" [(page)]="page"
+                    [maxSize]="maxSize" [pageSize]="pageSize" size="sm" (pageChange)="ConsultaFiltrada(true)"
+                    [boundaryLinks]="true"></ngb-pagination>
+            </div>
+        </div>
+    </div>
+</div>
+<ng-template #notData>
+    <app-not-data [loading]="Cargando"></app-not-data>
+</ng-template>
+<app-modal-basic [dialogClass]="'modal-lg'" id="ModalTipoActivo" #ModalTipoActivo>
+    <div class="app-modal-header">
+        <h4>Nuevo Tipo de Activo</h4>
+        <button type="button" class="close basic-close" (click)="CerrarModalTipoActivo()">
+            <span aria-hidden="true">&times;</span>
+        </button>
+    </div>
+    <div style="overflow-x: unset !important;overflow-y: unset !important" class="app-modal-body">
+        <form #FormTipoActivo="ngForm">
+            <div class="form-row mb-2">
+                <div class="col-md-6">
+                    <label>Nombre Tipo Activo</label>
+                    <input type="text" class="form-control form-control-sm" name="Nombre_Tipo_Activo" required
+                        [(ngModel)]="TipoActivoModel.Nombre_Tipo_Activo">
+                </div>
+                <div class="col-md-6">
+                    <label>Categoría</label>
+                    <select name="Categoria" id="Categoria" class="form-control form-control-sm" name="Categoria"
+                        required [(ngModel)]="TipoActivoModel.Categoria">
+                        <option value="Tangible">Tangible</option>
+                        <option value="Intangible">Intangible</option>
+                    </select>
+                </div>
+            </div>
+            <div class="form-row mb-2">
+                <div class="col-md-6">
+                    <label>Vida Util PCGA (Meses)</label>
+                    <input type="number" class="form-control form-control-sm" name="Vida_Util_Pcga" required
+                        [(ngModel)]="TipoActivoModel.Vida_Util_PCGA" (change)="calcularPorcentajeDepreciacion('pcga')">
+                </div>
+
+                <div class="col-md-6">
+                    <label>Vida Util NIIF (Meses)</label>
+                    <input type="number" class="form-control form-control-sm" name="Vida_Util" required
+                        [(ngModel)]="TipoActivoModel.Vida_Util" (change)="calcularPorcentajeDepreciacion('niif')">
+                </div>
+
+                <div class="col-md-6">
+                    <label>Porcentaje de Depreciación PCGA Mensual</label>
+                    <input type="number" class="form-control form-control-sm" name="Porcentaje_Depreciacion_Anual_Pcga"
+                        required [(ngModel)]="TipoActivoModel.Porcentaje_Depreciacion_Anual_PCGA" readonly>
+                </div>
+
+                <div class="col-md-6">
+                    <label>Porcentaje de Depreciación NIIF Mensual</label>
+                    <input type="number" class="form-control form-control-sm" name="Porcentaje_Depreciacion_Anual"
+                        required [(ngModel)]="TipoActivoModel.Porcentaje_Depreciacion_Anual" readonly>
+                </div>
+
+                <div class="col-md-6">
+                    <label>Cuenta Activo PCGA</label>
+                    <input type="text" class="form-control form-control-sm" name="Id_Plan_Cuenta_PCGA" required
+                        [ngbTypeahead]="search_cuenta" [resultTemplate]="rt1" [(ngModel)]="CuentaPcga"
+                        [inputFormatter]="formatter1" (change)="AsignarCuentaPcga(CuentaPcga)">
+                </div>
+
+                <div class="col-md-6">
+                    <label>Cuenta Activo NIIF</label>
+                    <input type="text" class="form-control form-control-sm" name="Id_Plan_Cuenta_NIIF" required
+                        [ngbTypeahead]="search_cuenta_niif" [resultTemplate]="rt2" [(ngModel)]="CuentaNiif"
+                        [inputFormatter]="formatter2" (change)="AsignarCuentaNiif(CuentaNiif)">
+                </div>
+
+                <div class="col-md-6">
+                    <label>Cuenta Debito Depreciacion PCGA</label>
+                    <input type="text" class="form-control form-control-sm" name="Id_Plan_Cuenta_Depreciacion_PCGA"
+                        required [ngbTypeahead]="search_cuenta" [resultTemplate]="rt1"
+                        [(ngModel)]="CuentaDepreciacionPcga" [inputFormatter]="formatter1"
+                        (change)="AsignarCuentaDepreciacion(CuentaDepreciacionPcga,'pcga')">
+                </div>
+
+                <div class="col-md-6">
+                    <label>Cuenta Debito Depreciacion NIIF</label>
+                    <input type="text" class="form-control form-control-sm" name="Id_Plan_Cuenta_Depreciacion_NIIF"
+                        required [ngbTypeahead]="search_cuenta_niif" [resultTemplate]="rt2"
+                        [(ngModel)]="CuentaDepreciacionNiif" [inputFormatter]="formatter2"
+                        (change)="AsignarCuentaDepreciacion(CuentaDepreciacionNiif,'niif')">
+                </div>
+
+                <div class="col-md-6">
+                    <label>Cuenta Credito Depreciacion PCGA</label>
+                    <input type="text" class="form-control form-control-sm"
+                        name="Id_Plan_Cuenta_Credito_Depreciacion_PCGA" required [ngbTypeahead]="search_cuenta"
+                        [resultTemplate]="rt1" [(ngModel)]="CuentaCreditoDepreciacionPcga" [inputFormatter]="formatter1"
+                        (change)="AsignarCuentaCreditoDepreciacion(CuentaCreditoDepreciacionPcga,'pcga')">
+                </div>
+
+                <div class="col-md-6">
+                    <label>Cuenta Credito Depreciacion NIIF</label>
+                    <input type="text" class="form-control form-control-sm"
+                        name="Id_Plan_Cuenta_Credito_Depreciacion_NIIF" required [ngbTypeahead]="search_cuenta_niif"
+                        [resultTemplate]="rt2" [(ngModel)]="CuentaCreditoDepreciacionNiif" [inputFormatter]="formatter2"
+                        (change)="AsignarCuentaCreditoDepreciacion(CuentaCreditoDepreciacionNiif,'niif')">
+                </div>
+
+            </div>
+        </form>
+    </div>
+    <div class="app-modal-footer">
+        <div class="text-right">
+            <button class="btn btn-primary btn-sm" style="display:flex;align-items:center;"
+                [swal]="{title : '¿Está Seguro?', text: 'Se dispone a guardar este tipo contrato' , type : 'warning', showCancelButton : true , confirmButtonText: 'Si, Guardar',cancelButtonText: 'No, Comprobar!'}"
+                (confirm)="GuardarTipoActivo()" [disabled]="!FormTipoActivo.valid"><i
+                    class="ti-save font-size-15 mr-2"></i> Guardar datos</button>
+        </div>
+    </div>
+</app-modal-basic>
+
+<ng-template #rt1 let-r="result" let-t="term">
+    <span class="f-9">{{ r.Nombre }} - {{ r.Codigo }} </span>
+</ng-template>
+<ng-template #rt2 let-r="result" let-t="term">
+    <span class="f-9">{{ r.Nombre_Niif }} - {{ r.Codigo_Niif }} </span>
+</ng-template>

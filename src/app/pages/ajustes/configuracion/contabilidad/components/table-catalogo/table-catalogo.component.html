@@ -1,0 +1,133 @@
+<div class="table-responsive">
+<table class="table-sm table-striped table mt-2">
+    <thead>
+        <tr>
+            <th>Nombre</th>
+            <th>C. Ingreso</th>
+            <th>C. Inventario</th>
+            <th>C. Gasto</th>
+            <th>C. Costo</th>
+            <th>C. Entrada</th>
+            <th>C. IVA Venta</th>
+            <th>C. IVA Compra</th>
+            <th>C. ReteFuente Compra</th>
+            <th>C. ReteICA Compra</th>
+            <th></th>
+        </tr>
+    </thead>
+
+    <tbody>
+        <ng-container *ngIf="products.length && !loading; else notData">
+            <tr *ngFor="let product of products">
+                <td>{{product.name}}</td>
+                <td>{{product.income_account}}</td>
+                <td>{{product.inventary_account}}</td>
+                <td>{{product.expensse_account}}</td>
+                <td>{{product.cost_account}}</td>
+                <td>{{product.entry_account}}</td>
+                <td>{{product.iva_sale_account}}</td>
+                <td>{{product.iva_buy_account}}</td>
+                <td>{{product.rete_fuente_buy_account}}</td>
+                <td>{{product.rete_ica_buy_account}}</td>
+                <td><i (click)="open(product)" class="fa fa-pen"></i></td>
+            </tr>
+        </ng-container>
+
+    </tbody>
+</table>
+</div>
+<ngb-pagination class="d-flex justify-content-center pagination-rounded pagination-sm"
+    [collectionSize]="pagination.collectionSize" (pageChange)="getAccounts($event)" [pageSize]="pagination.pageSize"
+    [(page)]="pagination.page" aria-label="Default pagination" maxSize="5" rotate="true" ellipses="false"
+    boundaryLinks="true">
+</ngb-pagination>
+
+<ng-template #notData>
+    <tr>
+        <td colspan="100%">
+            <app-not-data [loading]="loading"></app-not-data>
+        </td>
+    </tr>
+</ng-template>
+
+
+
+
+<app-modal-basic #modalGenerico [dialogClass]="'modal-xl'">
+    <div class="app-modal-header">
+        <h4 class="modal-title">Cuentas del Producto</h4>
+        <button type="button" class="close basic-close" (click)="closeModal()">
+            <span aria-hidden="true">&times;</span>
+        </button>
+    </div>
+    <div class="app-modal-body">
+        <form [formGroup]="form">
+            <section class="row">
+                <div class="col-3 form-group">
+                    <label>Cuenta Ingreso</label>
+                    <ng-select [items]="accounts" required bindLabel="Nombre" bindValue="Id" placeholder="Seleccione "
+                        loadingText="loading" ngDefaultControl formControlName="income_account_id">
+                    </ng-select>
+                </div>
+                <div class="col-3 form-group">
+                    <label>Cuenta Inventario</label>
+                    <ng-select [items]="accounts" required bindLabel="Nombre" bindValue="Id" placeholder="Seleccione "
+                        loadingText="loading" ngDefaultControl formControlName="inventary_account_id">
+                    </ng-select>
+                </div>
+                <div class="col-3 form-group">
+                    <label>Cuenta Gasto</label>
+                    <ng-select [items]="accounts" required bindLabel="Nombre" bindValue="Id" placeholder="Seleccione "
+                        loadingText="loading" ngDefaultControl formControlName="expensse_account_id">
+                    </ng-select>
+                </div>
+                <div class="col-3 form-group">
+                    <label>Cuenta Costo</label>
+                    <ng-select [items]="accounts" required bindLabel="Nombre" bindValue="Id" placeholder="Seleccione "
+                        loadingText="loading" ngDefaultControl formControlName="cost_account_id">
+                    </ng-select>
+                </div>
+                <div class="col-3 form-group">
+                    <label>Cuenta Entrada</label>
+                    <ng-select [items]="accounts" required bindLabel="Nombre" bindValue="Id" placeholder="Seleccione "
+                        loadingText="loading" ngDefaultControl formControlName="entry_account_id">
+                    </ng-select>
+                </div>
+                <div class="col-3 form-group">
+                    <label>Cuenta IVA Venta</label>
+                    <ng-select [items]="accounts" required bindLabel="Nombre" bindValue="Id" placeholder="Seleccione "
+                        loadingText="loading" ngDefaultControl formControlName="iva_sale_account_id">
+                    </ng-select>
+                </div>
+                <div class="col-3 form-group">
+                    <label>CCuenta IVA Compra</label>
+                    <ng-select [items]="accounts" required bindLabel="Nombre" bindValue="Id" placeholder="Seleccione "
+                        loadingText="loading" ngDefaultControl formControlName="iva_buy_account_id">
+                    </ng-select>
+                </div>
+                <div class="col-3 form-group">
+                    <label>Cuenta ReteFuente Compra</label>
+                    <ng-select [items]="accounts" required bindLabel="Nombre" bindValue="Id" placeholder="Seleccione "
+                        loadingText="loading" ngDefaultControl formControlName="rete_fuente_buy_account_id">
+                    </ng-select>
+                </div>
+                <div class="col-3 form-group">
+                    <label>Cuenta ReteICA Compra</label>
+                    <ng-select [items]="accounts" required bindLabel="Nombre" bindValue="Id" placeholder="Seleccione "
+                        loadingText="loading" ngDefaultControl formControlName="rete_ica_buy_account_id">
+                    </ng-select>
+                </div>
+            </section>
+        </form>
+    </div>
+    <div class="app-modal-footer">
+        <div class="text-right">
+            <button type="button" class="btn btn-default btn-sm" (click)="closeModal()">
+                Cancelar
+            </button>
+            <button type="button" class="btn btn-primary btn-sm" (click)="save()">
+                Guardar
+            </button>
+        </div>
+    </div>
+</app-modal-basic>

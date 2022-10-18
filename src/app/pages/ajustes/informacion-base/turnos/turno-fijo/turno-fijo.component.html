@@ -1,0 +1,109 @@
+<div class="card-title d-flex justify-content-between">
+    <h5 class="text-primary">Lista de turnos fijos</h5>
+    <div class="btn-group rounded">
+        <button class="btn btn-primary btn-sm" [routerLink]="['crear']">
+            <i class="fa fa-plus"></i> Agregar
+        </button>
+        <button class="btn btn-info btn-sm" style="float: right;" (click)="openClose()">
+            <i class="fas fa-sliders-h"></i> Filtros
+        </button>
+    </div>
+</div>
+<mat-accordion multi>
+    <mat-expansion-panel class="mat-elevation-z0">
+        <mat-form-field class="col-md-3 pl-0" appearance="outline">
+            <mat-label>Nombre</mat-label>
+            <input type="text" matInput placeholder="Busca por nombre">
+        </mat-form-field>
+    </mat-expansion-panel>
+</mat-accordion>
+
+<div *ngIf="turnosFijos.length && !loading; else notData">
+    <table class="table table-bordered table-striped table-sm">
+        <thead class="bg-light">
+            <tr>
+                <th>Nombre</th>
+                <th class="text-center">Horario Semana</th>
+                <th class="text-center" style="width: 30px">Acciones</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr *ngFor="let turnoFijo of turnosFijos" [ngClass]="{
+              'bg-danger text-white': turnoFijo.state == 'Inactivo'
+              }">
+                <td class="custom-label">{{ turnoFijo.text }}</td>
+                <td class="text-center">
+                    <button type="button " class="btn btn-link btn-xs" (click)="findHours(turnoFijo.value); hourModal.show()">
+                      <i class="fa fa-eye"></i>
+                    </button>
+                </td>
+                <td class="">
+                    <div ngbDropdown class="dropdown-primary">
+                        <button ngbDropdownToggle class="btn btn-secondary btn-sm waves-effect waves-light" type="button">
+                  <i class="mdi mdi-chevron-down"></i>
+                </button>
+                        <div ngbDropdownMenu>
+                            <a [routerLink]="['crear', turnoFijo.value]" class="dropdown-item waves-light waves-effect caja-botones">
+                                <i class="fa fa-pencil-alt"></i> Editar
+                            </a>
+                            <a class="dropdown-item waves-light waves-effect caja-botones" (click)="changeState(turnoFijo.value)">
+                                <i [ngClass]="{
+                                    'fa fa-times': (turnoFijo.state == 'Activo'),
+                                    'fas fa-check': (turnoFijo.state == 'Inactivo')
+                                }"></i> {{turnoFijo.state == 'Inactivo' ? 'Activar': 'Inactivar' }}
+                            </a>
+                        </div>
+                    </div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+</div>
+
+<!-- <div class="alert alert-secondary text-center " #notData>
+    <p class="font-weight-bold ">No existen turnos fijos actualmente.</p>
+</div> -->
+<ng-template #notData>
+    <app-not-data [loading]="loading"></app-not-data>
+</ng-template>
+
+<ng-template #notDataHours>
+    <app-not-data [loading]="loadingHours"></app-not-data>
+</ng-template>
+
+<app-modal-basic #hourModal [dialogClass]="'modal-lg'" class="">
+    <div class="app-modal-header">
+        <div class="row">
+            <div class="col-12">
+                <h5>Información del Turno</h5>
+            </div>
+        </div>
+    </div>
+    <div class="app-modal-body">
+        <table class="table table-striped">
+            <thead *ngIf="hours.length && !loadingHours; else notDataHours">
+                <tr>
+                    <th>Día</th>
+                    <th>Entrada 1</th>
+                    <th>Salida 1</th>
+                    <th>Entrada 2</th>
+                    <th>Salida 2</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr *ngFor="let horaTurno of hours">
+                    <td>{{ horaTurno.day }}</td>
+                    <td>{{ horaTurno.entry_time_one }}</td>
+                    <td>{{ horaTurno.leave_time_one }}</td>
+                    <td>{{ horaTurno.entry_time_two }}</td>
+                    <td>{{ horaTurno.leave_time_two }}</td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+    <div class="app-modal-body text-right">
+        <button type="button" (click)="hourModal.hide()" class="btn btn-sm btn-danger">
+      Cerrar
+    </button>
+    </div>
+</app-modal-basic>

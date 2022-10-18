@@ -1,84 +1,150 @@
-<div class="row">
-    <div class="col12">
-
-    </div>
-    <div class="col-12">
-        <div class="card">
-            <div class="card-body">
-                <div class="row mb-4">
-                    <div class="col-6 ">
-                        <h4 class="">Lista de Cups</h4>
-                    </div>
-                    <div class="col-6 d-flex justify-content-end">
-                        <form class="form-inline">
-                            <div class="form-group">
-                                <label for="inputPassword6">Buscar:</label>
-                                <input type="password" id="inputPassword6" placeholder="Buscador de cups" class="form-control mx-sm-3" aria-describedby="passwordHelpInline">
-
-                            </div>
-                        </form>
-                    </div>
-                </div>
-
-                <div class="">
-                    <table class="table table-hover mb-0 table-centered table-nowrap ">
-                        <thead class="thead-dark ">
-                            <tr>
-                                <th>Código</th>
-                                <th>Descripción</th>
-                                <th>Especilidad</th>
-                                <th>Tipo</th>
-                                <th class="text-right "> </th>
-
-                            </tr>
-                        </thead>
-                        <tbody>
-                            <tr *ngFor="let item of cups ">
-                                <td>
-                                    <p class="font-size-14 mb-0 ">{{item.code}}</p>
-                                </td>
-                                <td>
-                                    <p class="font-size-14 mb-0 ">{{item.description}}</p>
-                                </td>
-                                <td>
-                                    <p class="font-size-14 mb-0 ">{{item.speciality}}</p>
-                                </td>
-                                <td>
-                                    <p class="font-size-14 mb-0 ">{{item.type}}</p>
-                                </td>
-                                <td class="text-right ">
-                                    <div class="btn-group " role="group " ngbDropdown>
-                                        <button id="btnGroupVerticalDrop1 " type="button " class="btn btn-primary dropdown-toggle " ngbDropdownToggle>
-                                        Acciones <i class="mdi mdi-chevron-down "></i>
-                                      </button>
-                                        <div style="cursor: pointer; " class="dropdown-menu font-weight-bolder " aria-labelledby="btnGroupVerticalDrop1 " ngbDropdownMenu>
-                                            <a class="dropdown-item "> <i class="fa fa-search mr-2 "></i>Ver más</a>
-                                            <a class="dropdown-item "> <i class="fa fa-edit mr-2 "></i>Editar </a>
-                                            <a class="dropdown-item "> <i class="fa fa-ban mr-2 "></i>Suspender </a>
-                                        </div>
-                                    </div>
-                                </td>
-                            </tr>
-
-                        </tbody>
-                    </table>
-                </div>
-                <div class="row align-items-right mt-2 ">
-                    <!--      <div class="col-sm-12 col-md-5 ">
-                        <div class="dataTables_info mb-2 " id="tickets-table_info " role="status " aria-live="polite ">Showing entries
-                        </div>
-                    </div> -->
-                    <div class="col-sm-12 ">
-                        <div class="text-md-right float-md-right pagination-rounded ">
-                            <ngb-pagination [collectionSize]="pagination.collectionSize " [pageSize]="pagination.pageSize " [(page)]="pagination.page " aria-label="Default pagination "></ngb-pagination>
-                        </div>
-                    </div>
-                </div>
-
-
-
-            </div>
+<div class="card">
+  <div class="card-body">
+    <div class="row card-title d-flex justify-content-between">
+      <div class="col-md-6 px-0">
+        <h4 class="text-primary">CUPS</h4>
+      </div>
+      <div class="col-md-6 px-0 text-right">
+        <div class="btn-group rounded w-sm-100">
+          <button class="btn btn-primary btn-sm" (click)="openModal()">
+            <i class="fa fa-plus"></i> Agregar
+          </button>
+          <button class="btn btn-info btn-sm" (click)="openClose()">
+            <i class="fas fa-sliders-h"></i> Filtros
+          </button>
         </div>
+      </div>
     </div>
-
+    <hr class="line" />
+    <mat-accordion multi>
+      <mat-expansion-panel class="mat-elevation-z0">
+        <div class="row">
+          <mat-form-field class="col" appearance="outline">
+            <mat-label>Nombre</mat-label>
+            <input
+              matInput
+              type="text"
+              placeholder="Busca por CUPS"
+              [(ngModel)]="filtros.description"
+              (input)="getAllCups()"
+              name="description"
+              autocomplete="off"
+            />
+          </mat-form-field>
+          <mat-form-field class="col" appearance="outline">
+            <mat-label>Código</mat-label>
+            <input
+              matInput
+              type="text"
+              placeholder="Busca por código"
+              [(ngModel)]="filtros.code"
+              (input)="getAllCups()"
+              name="code"
+              autocomplete="off"
+            />
+          </mat-form-field>
+          <mat-form-field class="col" appearance="outline">
+            <mat-label>Tipo</mat-label>
+            <mat-select
+              [(ngModel)]="filtros.cup_type_id"
+              (selectionChange)="getAllCups()"
+            >
+              <mat-option value="">Todos</mat-option>
+              <mat-option *ngFor="let item of cups_type" [value]="item.value">{{
+                item.text
+              }}</mat-option>
+            </mat-select>
+          </mat-form-field>
+        </div>
+      </mat-expansion-panel>
+    </mat-accordion>
+    <div class="rounded-top table-responsive">
+      <table
+        class="table table-bordered table-striped table-sm"
+        *ngIf="!loading && cups.length > 0; else notData"
+      >
+        <thead class="bg-light">
+          <tr class="text-center text-uppercase">
+            <th scope="col" class="col-6">Nombre</th>
+            <th scope="col" class="col-2">Código</th>
+            <th scope="col">Tipo</th>
+            <th scope="col" class="col-1">Acciones</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr
+            *ngFor="let cup of cups"
+            class="text-center"
+            [ngClass]="{
+              'text-danger font-weight-bold': cup.status === 'Inactivo'
+            }"
+          >
+            <td class="align-middle text-left" scope="row">
+              {{ cup.description }}
+            </td>
+            <td class="align-middle">{{ cup.code }}</td>
+            <td class="align-middle" *ngIf="cup.type_cup; else noType">
+              {{ cup.type_cup.name }}
+            </td>
+            <ng-template #noType>
+              <td class="align-middle">Sin tipo</td>
+            </ng-template>
+            <td class="align-middle">
+              <div ngbDropdown container="body" class="dropdown-primary">
+                <button
+                  ngbDropdownToggle
+                  class="btn btn-primary btn-sm waves-light"
+                  type="button"
+                >
+                  <i class="mdi mdi-chevron-down"></i>
+                </button>
+                <div ngbDropdownMenu>
+                  <a
+                    class="dropdown-item text-info waves-light caja-botones"
+                    href="javascript: void(0);"
+                    (click)="edit(cup.id)"
+                  >
+                    <i class="far fa-edit"></i> Editar</a
+                  >
+                  <a
+                    *ngIf="cup.status === 'Activo'"
+                    class="dropdown-item waves-light waves-effect caja-botones"
+                    (click)="anularOActivar(cup, 'Inactivo')"
+                  >
+                    <i class="fa fa-pencil"></i> Inactivar</a
+                  >
+                  <a
+                    *ngIf="cup.status === 'Inactivo'"
+                    class="dropdown-item waves-light waves-effect caja-botones"
+                    (click)="anularOActivar(cup, 'Activo')"
+                  >
+                    <i class="fa fa-pencil"></i> Activar</a
+                  >
+                </div>
+              </div>
+            </td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+    <ngb-pagination
+      class="d-flex justify-content-center pagination-rounded pagination-sm"
+      [collectionSize]="pagination.collectionSize"
+      (pageChange)="getAllCups($event)"
+      [pageSize]="pagination.pageSize"
+      [(page)]="pagination.page"
+      aria-label="Default pagination"
+      maxSize="5"
+      rotate="true"
+      ellipses="false"
+      boundaryLinks="true"
+    >
+    </ngb-pagination>
+  </div>
 </div>
+
+<app-modal-cup (dataChange)="getAllCups()"></app-modal-cup>
+
+<ng-template #notData>
+  <app-not-data [loading]="loading"></app-not-data>
+</ng-template>

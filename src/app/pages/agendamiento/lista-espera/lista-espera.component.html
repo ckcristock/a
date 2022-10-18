@@ -1,106 +1,153 @@
 <div class="row">
-
-    <!--   <div class="col-12">-->
-    <div class="col-9">
-        <div class="row">
-            <div class="col-12">
-
-                <div class="card">
-                    <div class="card-body">
-                        <div class="row">
-                            <div class="col-12">
-                                <div class="row">
-
-                                    <div class="col-md-2 mb-2">
-                                        <label for="validationServerUsername">Fecha</label>
-                                        <div class="input-group">
-                                            <input type="date" [(ngModel)]="filters.date" class="form-control" id="validationServerUsername" placeholder="Ingrese la fecha" aria-describedby="inputGroupPrepend3" required>
-                                        </div>
-                                    </div>
-                                    <div class="col-md-4 mb-3">
-                                        <label for="validationServerUsername">Institución</label>
-                                        <div class="input-group">
-                                            <input style="width: 85%;" id="typeahead-http" type="text" class="form-control " [class.is-invalid]="searchFailed" [(ngModel)]="filters.institution" [ngbTypeahead]="searchInstitution" placeholder="Diagnosticos" name="diagnosticoId" ngDefaultControl [resultTemplate]="institution"
-                                                [inputFormatter]="Inputdiagnostic" />
-                                        </div>
-                                    </div>
-                                    <div class="col-md-2 mb-3">
-                                        <label for="validationServerUsername">Paciente</label>
-                                        <div class="input-group">
-                                            <input type="text" class="form-control" [(ngModel)]="filters.patient" id="validationServerUsername" placeholder="Nombre / Identificación " aria-describedby="inputGroupPrepend3" required>
-                                        </div>
-                                    </div>
-                                    <div class="col-md-4 mb-3">
-                                        <label for="validationServerUsername">Especialidad</label>
-                                        <div class="input-group">
-                                            <input style="width: 85%;" id="typeahead-http" type="text" class="form-control " [class.is-invalid]="searchFailed" [(ngModel)]="filters.speciality" [ngbTypeahead]="searchSpeciality" placeholder="Diagnosticos" name="diagnosticoId" ngDefaultControl [resultTemplate]="institution"
-                                                [inputFormatter]="Inputdiagnostic" />
-                                        </div>
-                                    </div>
-                                    <div class="col-12">
-                                        <button class="btn btn-primary btn-block btn-sm">Buscar</button>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-
-            <div class="col-12">
-                <div class="card">
-                    <div class="card-body">
-
-                        <table class="table table-hover mb-0 table-centered table-nowrap">
-                            <thead class="thead-dark">
-                                <tr>
-                                    <th>Fecha</th>
-                                    <th>Identificación</th>
-                                    <th>Paciente</th>
-                                    <th>Contacto</th>
-                                    <th>Especialidad</th>
-                                </tr>
-                            </thead>
-                            <tbody>
-                                <tr *ngFor="let item of waitingList">
-                                    <td>
-                                        <p class="font-size-14 mb-0">{{item.date}}</p>
-                                    </td>
-                                    <td>
-                                        <p class="font-size-14 mb-0">{{item.identification}}</p>
-                                    </td>
-                                    <td>
-                                        <p class="font-size-14 mb-0">{{item.name}}</p>
-                                    </td>
-                                    <td>
-                                        <span class="mr-2" *ngFor="let cont of item.contact">
-                                            {{cont}} - 
-                                        </span>
-                                    </td>
-                                    <td>
-                                        <p class="font-size-14 mb-0">{{item.speciality}}</p>
-                                    </td>
-                                </tr>
-
-                            </tbody>
-                        </table>
-                        <ngb-pagination [collectionSize]="pagination.collectionSize" [pageSize]="pagination.pageSize" [(page)]="pagination.page" aria-label="Default pagination"></ngb-pagination>
-
-                    </div>
-                </div>
-            </div>
-
+  <div class="col-md-9 col-sm-12">
+    <div class="card">
+      <div class="card-body">
+        <div class="card-title d-flex justify-content-between">
+          <h4 class="text-primary">Lista de espera</h4>
+          <button
+            class="btn btn-info btn-sm"
+            style="float: right"
+            (click)="openClose()"
+          >
+            <i class="fas fa-sliders-h"></i> Filtros
+          </button>
         </div>
-    </div>
-    <div class="col-3">
-        <app-top-waiting></app-top-waiting>
-    </div>
+        <hr class="line" />
+        <mat-accordion multi>
+          <mat-expansion-panel class="mat-elevation-z0">
+            <mat-form-field class="col-md-3 pl-md-0" appearance="outline">
+              <mat-label>Fecha</mat-label>
+              <input matInput type="date" [(ngModel)]="filters.date" required />
+            </mat-form-field>
+            <mat-form-field class="col-md-3 pl-md-0" appearance="outline">
+              <mat-label>Institución</mat-label>
+              <mat-select
+                [(ngModel)]="filters.institution"
+                name="institution_id"
+              >
+                <mat-option
+                  *ngFor="let item of companies"
+                  [value]="item.value"
+                  >{{ item.text }}</mat-option
+                >
+              </mat-select>
+            </mat-form-field>
+            <mat-form-field class="col-md-3 pl-md-0" appearance="outline">
+              <mat-label>Paciente</mat-label>
+              <input
+                matInput
+                type="text"
+                [(ngModel)]="filters.patient"
+                required
+                placeholder="Nombre / Identificación "
+              />
+            </mat-form-field>
+            <mat-form-field class="col-md-3 px-md-0" appearance="outline">
+              <mat-label>Especialidad</mat-label>
+              <mat-select [(ngModel)]="filters.speciality" name="speciality_id">
+                <mat-option
+                  *ngFor="let item of specialties"
+                  [value]="item.value"
+                  >{{ item.text }}</mat-option
+                >
+              </mat-select>
+            </mat-form-field>
+            <button
+              class="btn btn-primary btn-block mb-4"
+              (click)="getWaitingList(1)"
+            >
+              Buscar
+            </button>
+          </mat-expansion-panel>
+        </mat-accordion>
+        <!--  <input style="width: 85%" id="typeahead-http" type="text" class="form-control"
+                        [class.is-invalid]="searchFailed" [(ngModel)]="filters.institution"
+                        [ngbTypeahead]="searchInstitution" placeholder="Diagnosticos" name="diagnosticoId"
+                        ngDefaultControl [resultTemplate]="institution" [inputFormatter]="Inputdiagnostic" />
+                        -->
+        <!--  loadingText="loading " ngDefaultControl (ngModelChange)="getProfesionals() "> -->
+        <!--  loadingText="loading " ngDefaultControl (ngModelChange)="getProfesionals() "> -->
 
-
+        <table
+          class="table table-bordered table-striped table-sm table-responsive-sm"
+          style="font-size: small"
+          *ngIf="!loading && waitingList.length > 0; else notData"
+        >
+          <thead>
+            <tr class="text-center text-uppercase">
+              <th>Fecha</th>
+              <th>Paciente</th>
+              <th>Contacto</th>
+              <th>Especialidad</th>
+              <th class="col-md-1">Acciones</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr class="text-center" *ngFor="let item of waitingList">
+              <td class="align-middle">{{ item.created_at | date: "dd/MM/yyyy" }}</td>
+              <td class="align-middle">
+                {{ item.patient_name }}<br />{{
+                  item.patient_identifier | number
+                }}
+              </td>
+              <td class="align-middle">{{ item.patient_phone }}</td>
+              <td class="align-middle">{{ item.speciality }}</td>
+              <td class="align-middle">
+                <div class="btn-group" role="group" ngbDropdown>
+                  <button
+                    id="btnGroupVerticalDrop1 "
+                    type="button"
+                    class="btn btn-primary btn-sm dropdown-toggle"
+                    ngbDropdownToggle
+                  >
+                    <i class="mdi mdi-chevron-down"></i>
+                  </button>
+                  <div
+                    style="cursor: pointer"
+                    class="dropdown-menu font-weight-bolder"
+                    aria-labelledby="btnGroupVerticalDrop1 "
+                    ngbDropdownMenu
+                  >
+                    <a
+                      class="dropdown-item text-success"
+                      [routerLink]="['/agendamiento/asignacion-citas', item.id]"
+                    >
+                      <i class="fa fa-check mr-2"></i> Asignar Cita</a
+                    >
+                    <a class="dropdown-item text-danger" (click)="AnularEspera(item.id)">
+                      <i class="fa fa-ban mr-2"></i> Anular lista espera
+                    </a>
+                  </div>
+                </div>
+              </td>
+            </tr>
+          </tbody>
+        </table>
+        <ngb-pagination
+          class="d-flex justify-content-center pagination-rounded pagination-sm"
+          maxSize="5"
+          [collectionSize]="pagination.collectionSize"
+          (pageChange)="getWaitingList($event)"
+          [pageSize]="pagination.pageSize"
+          [(page)]="pagination.page"
+          aria-label="Default pagination "
+        >
+        </ngb-pagination>
+      </div>
+    </div>
+  </div>
+  <div class="col-md-3 col-sm-12">
+    <app-top-waiting></app-top-waiting>
+  </div>
 </div>
-<ng-template #institution let-r="result" let-t="term">
-    <span class="f-9">
-        {{r.id}}
-        <strong>{{r.text}}</strong>
-    </span>
+
+<ng-template #notData>
+  <app-not-data [loading]="loading"></app-not-data>
+</ng-template>
+
+<ng-template #institution let-r="result " let-t="term ">
+  <span class="f-9">
+    {{ r.id }}
+    <strong>{{ r.text }}</strong>
+  </span>
 </ng-template>

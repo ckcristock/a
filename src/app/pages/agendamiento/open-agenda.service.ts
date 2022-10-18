@@ -36,8 +36,15 @@ export class OpenAgendaService {
   /**
    * getIps
    */
-  public getIps(value: string) {
-    return this.clientHttp.get(`${environment.base_url}/get-ips/${value}`)
+  public getIps(value: string, params = {}) {
+    return this.clientHttp.get(`${environment.base_url}/get-companys/${value}`, {params})
+  }
+
+  /**
+   * getIps
+   */
+  public getIpsBasedOnCity(value: string) {
+    return this.clientHttp.get(`${environment.base_url}/get-companys-based-on-city/${value}`)
   }
   /**
    * getSedes
@@ -49,7 +56,7 @@ export class OpenAgendaService {
    * getSpecialties
    */
   public getSpecialties(sede: string, procedure: string) {
-    if (sede == 'undefined') {
+    if (sede == 'undefined' || !sede) {
       sede = '0';
       procedure = '0'
     }
@@ -58,11 +65,15 @@ export class OpenAgendaService {
   /**
    * getProfesionals
    */
-  public getProfesionals(ips: string, speciality: string) {
+  public getProfesionals(ips: string, speciality: string, params = {}) {
     if (ips == '') {
       ips = '0';
     }
-    return this.clientHttp.get(`${environment.base_url}/get-profesionals/${ips}/${speciality}`)
+    return this.clientHttp.get(`${environment.base_url}/get-professionals/${ips}/${speciality}`, { params })
+  }
+
+  public getDurations() {
+    return this.clientHttp.get(`${environment.base_url}/get-durations`)
   }
 
   public getAppointments(idProfessional: Number) {
@@ -71,6 +82,9 @@ export class OpenAgendaService {
 
   public getOpenedSpace(especialidad: Number, profesional: Number) {
     return this.clientHttp.get(`${environment.base_url}/opened-spaces/${especialidad}/${profesional}`)
+  }
+  public getOpenedSpaceCustom(params = {}) {
+    return this.clientHttp.get(`${environment.base_url}/opened-spaces`, { params })
   }
 
   public getDiagnostics() {
@@ -81,8 +95,24 @@ export class OpenAgendaService {
     return this.clientHttp.post(`${environment.base_url}/agendamientos`, formulario)
   }
 
-  public saveCita(formulario: String) {
-    return this.clientHttp.post(`${environment.base_url}/appointments`, formulario)
+  public saveCita(formulario: String, repeat: boolean) {
+
+    return (repeat) ?
+      this.clientHttp.post(`${environment.base_url}/appointment-recursive`, formulario)
+      :
+      this.clientHttp.post(`${environment.base_url}/appointments`, formulario)
+  }
+
+  public getClean(id) {
+    return this.clientHttp.get(`${environment.base_url}/clean-info/${id}`)
+  }
+
+  public getInfoCita(id) {
+    return this.clientHttp.get(`${environment.base_url}/get-data-cita/${id}`)
+  }
+
+  public getTypeLocations() {
+    return this.clientHttp.get(`${environment.base_url}/type-locations`)
   }
 
   search(term: string) {
@@ -95,13 +125,44 @@ export class OpenAgendaService {
       );
   }
 
-  searchProcedure(term: string) {
+  searchProcedure(term: string, speciality: string = '') {
+
     if (term === '') {
       return of([]);
     }
+
     return this.clientHttp
-      .get<[any, string[]]>(PROCEDURE_URL, { params: PARAMS.set('search', term) }).pipe(
+      .get<[any, string[]]>(PROCEDURE_URL, { params: { 'search': term, 'speciality': speciality } }).pipe(
         map((response: any) => response.data)
       );
   }
+
+
+  searchProcedureByYear(term: string, year: number) {
+
+    if (term === '') {
+      return of([]);
+    }
+
+    return this.clientHttp
+      .get<[any, string[]]>(PROCEDURE_URL, { params: { 'search': term, 'year': String(year) } }).pipe(
+        map((response: any) => response.data)
+      );
+  }
+
+  searchCustomProcedure(term: string, speciality: string = '') {
+    return this.clientHttp
+      .get<[any, string[]]>(PROCEDURE_URL, { params: { 'search': term, 'speciality': speciality } }).pipe(
+        map((response: any) => response.data)
+      );
+  }
+
+  searchCustomProcedureByAppointment(term: string, space: string = '') {
+    console.log([term, space]);
+    return this.clientHttp
+      .get<[any, string[]]>(PROCEDURE_URL, { params: { 'search': term, 'space': space } }).pipe(
+        map((response: any) => response.data)
+      );
+  }
+
 }

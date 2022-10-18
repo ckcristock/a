@@ -2,142 +2,132 @@
     <div class="col-6">
         <div class="card">
             <div class="card-body">
-                <div class="row mb-4">
-                    <div class="col-6 ">
-                        <h4 class="">Lista de Regímenes</h4>
-                    </div>
-                    <div class="col-6 d-flex justify-content-end">
-                        <form class="form-inline">
-                            <div class="form-group">
-                                <label for="inputPassword6">Buscar:</label>
-                                <input type="password" id="inputPassword6" placeholder="Buscador de regímenes" class="form-control mx-sm-3" aria-describedby="passwordHelpInline">
-
-                            </div>
-                        </form>
+                <div class="card-title d-flex justify-content-between">
+                    <h4 class="text-primary">Regímenes</h4>
+                    <div class="btn-group rounded">
+                        <button class="btn btn-info btn-sm" style="float: right;" (click)="openClose()">
+                            <i class="fas fa-sliders-h"></i> Filtros
+                        </button>
                     </div>
                 </div>
+                <hr class="line">
+                <mat-accordion multi #firstAccordion="matAccordion">
+                    <mat-expansion-panel class="mat-elevation-z0">
+                        <mat-form-field class="col-md-6 pl-0" appearance="outline">
+                            <mat-label>Nombre</mat-label>
+                            <input matInput type="text" placeholder="Busca por nombre" name="name" autocomplete="off">
+                        </mat-form-field>
+                    </mat-expansion-panel>
+                </mat-accordion>
+                <table class="table table-hover mb-0 table-centered table-nowrap ">
+                    <thead class="thead-dark ">
+                        <tr>
+                            <th>Código</th>
+                            <th>Nombre</th>
 
-                <div class="">
-                    <table class="table table-hover mb-0 table-centered table-nowrap ">
-                        <thead class="thead-dark ">
-                            <tr>
-                                <th>Código</th>
-                                <th>Nombre</th>
+                            <th class="text-right "> </th>
 
-                                <th class="text-right "> </th>
-
-                            </tr>
-                        </thead>
-                        <tbody>
-                            <tr *ngFor="let item of regimes ">
-                                <td>
-                                    <p class="font-size-14 mb-0 ">{{item.code}}</p>
-                                </td>
-                                <td>
-                                    <p class="font-size-14 mb-0 ">{{item.name}}</p>
-                                </td>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr *ngFor="let item of regimes ">
+                            <td>
+                                <p class="font-size-14 mb-0 ">{{item.code}}</p>
+                            </td>
+                            <td>
+                                <p class="font-size-14 mb-0 ">{{item.name}}</p>
+                            </td>
 
 
-                                <td class="text-right ">
+                            <td class="text-right ">
 
-                                    <div class="btn-group " role="group " ngbDropdown>
-                                        <button id="btnGroupVerticalDrop1 " type="button " class="btn btn-primary dropdown-toggle " ngbDropdownToggle>
+                                <div class="btn-group " role="group " ngbDropdown>
+                                    <button id="btnGroupVerticalDrop1 " type="button "
+                                        class="btn btn-primary dropdown-toggle " ngbDropdownToggle>
                                         Acciones <i class="mdi mdi-chevron-down "></i>
-                                      </button>
-                                        <div style="cursor: pointer; " class="dropdown-menu font-weight-bolder " aria-labelledby="btnGroupVerticalDrop1 " ngbDropdownMenu>
-                                            <a class="dropdown-item "> <i class="fa fa-search mr-2 "></i>Ver más</a>
-                                            <a class="dropdown-item "> <i class="fa fa-edit mr-2 "></i>Editar </a>
-                                            <a class="dropdown-item "> <i class="fa fa-ban mr-2 "></i>Suspender </a>
-                                        </div>
+                                    </button>
+                                    <div style="cursor: pointer; " class="dropdown-menu font-weight-bolder "
+                                        aria-labelledby="btnGroupVerticalDrop1 " ngbDropdownMenu>
+                                        <a class="dropdown-item "> <i class="fa fa-search mr-2 "></i>Ver más</a>
+                                        <a class="dropdown-item "> <i class="fa fa-edit mr-2 "></i>Editar </a>
+                                        <a class="dropdown-item "> <i class="fa fa-ban mr-2 "></i>Suspender </a>
                                     </div>
-                                </td>
-                            </tr>
+                                </div>
+                            </td>
+                        </tr>
 
-                        </tbody>
-                    </table>
-                </div>
-                <div class="row align-items-right mt-2 ">
-
-                    <div class="col-sm-12 ">
-                        <div class="text-md-right float-md-right pagination-rounded ">
-                            <ngb-pagination [collectionSize]="pagination.collectionSize " [pageSize]="pagination.pageSize " [(page)]="pagination.page " aria-label="Default pagination "></ngb-pagination>
-                        </div>
-                    </div>
-                </div>
-
-
-
+                    </tbody>
+                </table>
+                <ngb-pagination class="d-flex justify-content-center pagination-rounded pagination-sm"
+                    [collectionSize]="pagination.collectionSize " [pageSize]="pagination.pageSize "
+                    [(page)]="pagination.page " aria-label="Default pagination ">
+                </ngb-pagination>
             </div>
         </div>
     </div>
     <div class="col-6">
         <div class="card">
             <div class="card-body">
-                <div class="row mb-4">
-                    <div class="col-6 ">
-                        <h4 class="">Lista de Niveles</h4>
-                    </div>
-                    <div class="col-6 d-flex justify-content-end">
-                        <form class="form-inline">
-                            <div class="form-group">
-                                <label for="inputPassword6">Buscar:</label>
-                                <input type="password" id="inputPassword6" placeholder="Buscador de niveles" class="form-control mx-sm-3" aria-describedby="passwordHelpInline">
-
-                            </div>
-                        </form>
+                <div class="card-title d-flex justify-content-between">
+                    <h4 class="text-primary">Niveles</h4>
+                    <div class="btn-group rounded">
+                        <button class="btn btn-info btn-sm" style="float: right;" (click)="openClose2()">
+                            <i class="fas fa-sliders-h"></i> Filtros
+                        </button>
                     </div>
                 </div>
+                <hr class="line">
+                <mat-accordion multi #secondAccordion="matAccordion">
+                    <mat-expansion-panel class="mat-elevation-z0">
+                        <mat-form-field class="col-md-6 pl-0" appearance="outline">
+                            <mat-label>Nombre</mat-label>
+                            <input matInput type="text" placeholder="Busca por nombre" name="name" autocomplete="off">
+                        </mat-form-field>
+                    </mat-expansion-panel>
+                </mat-accordion>
+                <table class="table table-hover mb-0 table-centered table-nowrap ">
+                    <thead class="thead-dark ">
+                        <tr>
+                            <th>Código</th>
+                            <th>Nombre</th>
 
-                <div class="">
-                    <table class="table table-hover mb-0 table-centered table-nowrap ">
-                        <thead class="thead-dark ">
-                            <tr>
-                                <th>Código</th>
-                                <th>Nombre</th>
+                            <th class="text-right "> </th>
 
-                                <th class="text-right "> </th>
-
-                            </tr>
-                        </thead>
-                        <tbody>
-                            <tr *ngFor="let item of levels ">
-                                <td>
-                                    <p class="font-size-14 mb-0 ">{{item.code}}</p>
-                                </td>
-                                <td>
-                                    <p class="font-size-14 mb-0 ">{{item.name}}</p>
-                                </td>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr *ngFor="let item of levels ">
+                            <td>
+                                <p class="font-size-14 mb-0 ">{{item.code}}</p>
+                            </td>
+                            <td>
+                                <p class="font-size-14 mb-0 ">{{item.name}}</p>
+                            </td>
 
 
-                                <td class="text-right ">
+                            <td class="text-right ">
 
-                                    <div class="btn-group " role="group " ngbDropdown>
-                                        <button id="btnGroupVerticalDrop1 " type="button " class="btn btn-primary dropdown-toggle " ngbDropdownToggle>
+                                <div class="btn-group " role="group " ngbDropdown>
+                                    <button id="btnGroupVerticalDrop1 " type="button "
+                                        class="btn btn-primary dropdown-toggle " ngbDropdownToggle>
                                         Acciones <i class="mdi mdi-chevron-down "></i>
-                                      </button>
-                                        <div style="cursor: pointer; " class="dropdown-menu font-weight-bolder " aria-labelledby="btnGroupVerticalDrop1 " ngbDropdownMenu>
-                                            <a class="dropdown-item "> <i class="fa fa-search mr-2 "></i>Ver más</a>
-                                            <a class="dropdown-item "> <i class="fa fa-edit mr-2 "></i>Editar </a>
-                                            <a class="dropdown-item "> <i class="fa fa-ban mr-2 "></i>Suspender </a>
-                                        </div>
+                                    </button>
+                                    <div style="cursor: pointer; " class="dropdown-menu font-weight-bolder "
+                                        aria-labelledby="btnGroupVerticalDrop1 " ngbDropdownMenu>
+                                        <a class="dropdown-item "> <i class="fa fa-search mr-2 "></i>Ver más</a>
+                                        <a class="dropdown-item "> <i class="fa fa-edit mr-2 "></i>Editar </a>
+                                        <a class="dropdown-item "> <i class="fa fa-ban mr-2 "></i>Suspender </a>
                                     </div>
-                                </td>
-                            </tr>
+                                </div>
+                            </td>
+                        </tr>
 
-                        </tbody>
-                    </table>
-                </div>
-                <div class="row align-items-right mt-2 ">
-
-                    <div class="col-sm-12 ">
-                        <div class="text-md-right float-md-right pagination-rounded ">
-                            <ngb-pagination [collectionSize]="pagination.collectionSize " [pageSize]="pagination.pageSize " [(page)]="pagination.page " aria-label="Default pagination "></ngb-pagination>
-                        </div>
-                    </div>
-                </div>
-
-
-
+                    </tbody>
+                </table>
+                <ngb-pagination class="d-flex justify-content-center pagination-rounded pagination-sm"
+                    [collectionSize]="pagination.collectionSize " [pageSize]="pagination.pageSize "
+                    [(page)]="pagination.page " aria-label="Default pagination ">
+                </ngb-pagination>
             </div>
         </div>
     </div>

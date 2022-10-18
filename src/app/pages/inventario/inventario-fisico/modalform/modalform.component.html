@@ -1,0 +1,83 @@
+<div class="modal-content">
+  <div class="modal-header">
+    <h4 class="modal-title text-primary">Iniciar inventario físico</h4>
+
+    <button
+      type="button"
+      class="close"
+      aria-label="Close"
+      (click)="activeModal.dismiss('Cross click')"
+    >
+      <span aria-hidden="true">&times;</span>
+    </button>
+  </div>
+  <div class="modal-body">
+    <mat-form-field class="col-md-12 px-0" appearance="outline">
+      <mat-label>Número de indentificación del digitador</mat-label>
+      <input
+        matInput
+        type="number"
+        placeholder="Ingresa número de identificación"
+        [(ngModel)]="Funcionario_Digita"
+        id="Funcionario_Digita"
+        name="Funcionario_Digita"
+        autocomplete="off"
+        required
+      />
+      <mat-error *ngIf="Error_Funcionario_Digita">
+        Campo obligatorio
+      </mat-error>
+    </mat-form-field>
+    <mat-form-field class="col-md-12 px-0" appearance="outline">
+      <mat-label>Número de indentificación del contador</mat-label>
+      <input
+        matInput
+        type="number"
+        placeholder="Ingresa número de identificación"
+        [(ngModel)]="Funcionario_Cuenta"
+        id="Funcionario_Cuenta"
+        name="Funcionario_Cuenta"
+        autocomplete="off"
+        required
+      />
+      <mat-error *ngIf="Funcionario_Cuenta">
+        Campo obligatorio
+      </mat-error>
+    </mat-form-field>
+    <mat-form-field class="col-md-12 px-0" appearance="outline">
+      <mat-label>Código de barras de la estiba</mat-label>
+      <input
+        matInput
+        type="text"
+        placeholder="Ingresa el código de barras de la estiba"
+        #Barra
+        [(ngModel)]="Codigo_Barras"
+        id="Barras"
+        name="Barras"
+        autocomplete="off"
+        required
+      />
+      <mat-icon matSuffix>qr_code_2</mat-icon>
+      <mat-hint align="start"><strong>Escanee el código de barras de la estiba.</strong> </mat-hint>
+      <mat-error *ngIf="Error_Codigo_Barras">
+        Campo obligatorio
+      </mat-error>
+    </mat-form-field>
+  </div>
+  <div class="modal-footer">
+    <button
+      type="button"
+      class="btn btn-default"
+      (click)="activeModal.close('Close click')"
+    >
+      Cancelar
+    </button>
+    <button
+      type="button"
+      class="btn btn-primary"
+      (click)="listarProductosCategoria()"
+    >
+      Iniciar
+    </button>
+  </div>
+</div>

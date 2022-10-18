@@ -1,1 +1,146 @@
-<app-building></app-building>
+<!-- <app-building></app-building> -->
+
+<div class="card">
+  <div class="card-body">
+    <div class="card-title">
+      <h4 class="text-primary">Reportes Generales</h4>
+      <hr class="line" />
+    </div>
+    <form #sendForm="ngForm">
+      <div class="row">
+        <mat-form-field class="col-md-4" appearance="outline">
+          <mat-label>Tipo de reporte</mat-label>
+          <mat-select
+            name="typeReport"
+            required
+            [(ngModel)]="typeReportDefault"
+            (selectionChange)="showInput()"
+          >
+            <mat-option
+              *ngFor="let item of typeReports"
+              [value]="item['text']"
+              >{{ item["text"] }}</mat-option
+            >
+          </mat-select>
+        </mat-form-field>
+        <div class="form-group col-md-4">
+          <!-- <label>Rango de Fechas</label> -->
+
+          <ng-template #t let-date let-focused="focused">
+              <span class="custom-day" [class.focused]="focused" [class.range]="isRange(date)"
+                  [class.faded]="isHovered(date) || isInside(date)" (mouseenter)="hoveredDate = date"
+                  (mouseleave)="hoveredDate = null">
+                  {{ date.day }}
+              </span>
+          </ng-template>
+
+          <input type="text" class="form-control mt-1 date" (click)="hidden=!hidden" name="daterange"
+              autocomplete="off" placeholder="Rango de fechas" required [(ngModel)]="selected" style="height: 81% !important;"/>
+
+          <ngb-datepicker #dp (select)="onDateSelection($event)" [displayMonths]="2" [dayTemplate]="t"
+              outsideDays="hidden" [hidden]="hidden">
+          </ngb-datepicker>
+      </div>
+        <!-- <mat-form-field appearance="outline" class="col-md-4">
+          <mat-label>Rango de fechas</mat-label>
+          <input
+            matInput
+            [satDatepicker]="picker"
+            [value]="date"
+            (dateChange)="selectedDate($event)"
+            (dateInput)="selectedDate($event)"
+            name="daterange"
+            required
+          />
+          <sat-datepicker #picker [rangeMode]="true"></sat-datepicker>
+          <sat-datepicker-toggle
+            matSuffix
+            [for]="picker"
+          ></sat-datepicker-toggle>
+        </mat-form-field> -->
+        <ng-select
+          class="col-md-4"
+          multiple="true"
+          [items]="companies"
+          required
+          appearance="outline"
+          bindLabel="text"
+          [closeOnSelect]="false"
+          bindValue="value"
+          ngModel
+          placeholder="Instituciones"
+          name="company_id"
+          loadingText="loading"
+          ngDefaultControl
+        >
+        </ng-select>
+        <ng-select
+          class="col-md-12"
+          multiple="true"
+          [items]="specialities"
+          required
+          [closeOnSelect]="false"
+          bindLabel="text"
+          bindValue="value"
+          ngModel
+          appearance="outline"
+          placeholder="Especialidades"
+          name="speciality_id"
+          loadingText="loading"
+          ngDefaultControl
+        >
+        </ng-select>
+        <mat-form-field class="col-md-6 mt-2" appearance="outline">
+          <mat-label>EPS</mat-label>
+          <mat-select name="eps_id" ngModel required>
+            <mat-option [value]="type.value" *ngFor="let type of epss">
+              {{ type.text }}
+            </mat-option>
+          </mat-select>
+        </mat-form-field>
+        <mat-form-field class="col-md-6 mt-2" appearance="outline">
+          <mat-label>Regimen</mat-label>
+          <mat-select name="regimen_id" ngModel required>
+            <mat-option [value]="type.value" *ngFor="let type of typeRegimens">
+              {{ type.text }}
+            </mat-option>
+          </mat-select>
+        </mat-form-field>
+        <mat-form-field
+          class="col-md-12"
+          appearance="outline"
+          *ngIf="show_input"
+        >
+          <mat-label
+            >Por favor digite el/los numero(s) de identificación</mat-label
+          >
+          <input
+            matInput
+            type="text"
+            placeholder="Ingresa identificación"
+            name="identifier"
+            [(ngModel)]="identifier"
+            autocomplete="off"
+          />
+        </mat-form-field>
+        <div class="col-md-12">
+            <button
+              class="btn btn-primary btn-block"
+              [disabled]="loading"
+              (click)="download(sendForm)"
+            >
+              <span *ngIf="!loading; else status">Reporte general</span>
+              <ng-template #status>
+                <span
+                  class="spinner-border spinner-border-sm"
+                  role="status"
+                  aria-hidden="true"
+                ></span>
+                Generando reporte...
+              </ng-template>
+            </button>
+        </div>
+      </div>
+    </form>
+  </div>
+</div>

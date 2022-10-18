@@ -1,0 +1,417 @@
+<div class="page-body">
+    <div class="row">
+        <!-- <div class="col-md-1"></div> -->
+        <div class="col-md-12">
+
+            <div class="card">
+
+                <app-cabecera [datosCabecera]="datosCabecera"></app-cabecera>
+
+                <div class="card-body">
+                    <form #FormProveedor="ngForm">
+
+                        <input type="hidden" name="id" [(ngModel)]="Id_Proveedor">
+
+                        <div class="row">
+
+                            <div class="col-md-12 col-sm-12 text-center m-b-10">
+                                <h5>Datos Básicos</h5>
+                            </div>
+
+                            <div class="col-md-2 col-sm-6">
+                                <div class="row">
+                                    <div class="col-md-8">
+                                        <div class="form-group">
+                                            <label for="Nit">Nit</label>
+                                            <input type="text" class="form-control form-control-sm" name="Id_Proveedor" (change)="getDigitoVerificacion($event.target.value)" pattern="[0-9]+" [(ngModel)]="Datos.Id_Proveedor" id="Nit" required>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-4">
+                                        <div class="form-group">
+                                            <label for="Digito">&nbsp;</label>
+                                            <input type="text" class="form-control form-control-sm" [(ngModel)]="Datos.Digito_Verificacion" name="Digito_Verificacion" title="Digito de Verificación" id="Digito" readonly>
+                                        </div>
+                                    </div>
+                                </div>
+
+                            </div>
+
+
+                            <div class="col-md-2 col-sm-6">
+                                <div class="form-group">
+                                    <label for="Tipo">Tipo de Persona</label>
+                                    <select name="Tipo" id="Tipo" required [(ngModel)]="Datos.Tipo" class="form-control form-control-sm" (change)="validarTipoPersona($event.target.value)">
+                      <option value="">Seleccione</option>
+                      <option value="Natural">Natural</option>
+                      <option value="Juridico">Jurídico</option>
+                    </select>
+                                </div>
+                            </div>
+
+                            <div class="col-md-2 col-sm-6">
+                                <div class="form-group">
+                                    <label for="Primer_Nombre">Primer Nombre</label>
+                                    <input type="text" class="form-control form-control-sm Natural" id="Primer_Nombre" name="Primer_Nombre" [(ngModel)]="Datos.Primer_Nombre" [disabled]="Datos.Tipo == '' || Datos.Tipo == 'Juridico'" [required]="Datos.Tipo == 'Natural'">
+                                </div>
+                            </div>
+
+                            <div class="col-md-2 col-sm-6">
+                                <div class="form-group">
+                                    <label for="Segundo_Nombre">Segundo Nombre</label>
+                                    <input type="text" class="form-control form-control-sm Natural" id="Segundo_Nombre" name="Segundo_Nombre" [(ngModel)]="Datos.Segundo_Nombre" [disabled]="Datos.Tipo == '' || Datos.Tipo == 'Juridico'" [required]="Datos.Tipo == 'Natural'">
+                                </div>
+                            </div>
+
+                            <div class="col-md-2 col-sm-6">
+                                <div class="form-group">
+                                    <label for="Primer_Apellido">Primer Apellido</label>
+                                    <input type="text" class="form-control form-control-sm Natural" id="Primer_Apellido" name="Primer_Apellido" [(ngModel)]="Datos.Primer_Apellido" [disabled]="Datos.Tipo == '' || Datos.Tipo == 'Juridico'" [required]="Datos.Tipo == 'Natural'">
+                                </div>
+                            </div>
+
+                            <div class="col-md-2 col-sm-6">
+                                <div class="form-group">
+                                    <label for="Segundo_Apellido">Segundo Apellido</label>
+                                    <input type="text" class="form-control form-control-sm Natural" id="Segundo_Apellido" name="Segundo_Apellido" [(ngModel)]="Datos.Segundo_Apellido" [disabled]="Datos.Tipo == '' || Datos.Tipo == 'Juridico'" [required]="Datos.Tipo == 'Natural'">
+                                </div>
+                            </div>
+
+                            <div class="col-md-2 col-sm-6">
+                                <div class="form-group">
+                                    <label for="Razon_Social">Razón Social</label>
+                                    <input type="text" class="form-control form-control-sm Juridica" id="Razon_Social" name="Razon_Social" [disabled]="Datos.Tipo == 'Natural' || Datos.Tipo == ''" [(ngModel)]="Datos.Razon_Social" [required]="Datos.Tipo == 'Juridico'">
+                                </div>
+                            </div>
+
+                            <div class="col-md-2 col-sm-6">
+                                <div class="form-group">
+                                    <label for="Nom_Comercial">Nombre Comercial</label>
+                                    <input type="text" class="form-control form-control-sm" id="Nom_Comercial" name="Nombre" [(ngModel)]="Datos.Nombre">
+                                </div>
+                            </div>
+
+                            <div class="col-md-5 col-sm-6">
+                                <div class="form-group">
+                                    <label>Dirección</label><br>
+                                    <div class="col-3 fieldDireccion">
+                                        <select name="Dir1" id="Dir1" class="form-control form-control-sm" ngModel [required]="Datos.Direccion == ''" (change)="construirDireccion()">
+                            <option value="">Seleccione</option>
+                            <option *ngFor="let item of DireccionesDian" [value]="item.Codigo">{{ item.Descripcion }}</option>
+                        </select>
+                                    </div>
+                                    <div class="col-1 fieldDireccion">
+                                        <input type="text" class="form-control form-control-sm" name="Dir2" id="Dir2" ngModel [required]="Datos.Direccion == ''" (change)="construirDireccion()">
+                                    </div>
+                                    <span>#</span>
+                                    <div class="col-2 fieldDireccion">
+                                        <input type="text" class="form-control form-control-sm" name="Dir3" id="Dir3" ngModel [required]="Datos.Direccion == ''" (change)="construirDireccion()">
+                                    </div>
+                                    <div class="col-3 fieldDireccion">
+                                        <select name="Dir4" id="Dir4" class="form-control form-control-sm" ngModel [required]="Datos.Direccion == ''" (change)="construirDireccion()">
+                            <option value="">Seleccione</option>
+                            <option *ngFor="let item of DireccionesDian" [value]="item.Codigo">{{ item.Descripcion }}</option>
+                        </select>
+                                    </div>
+                                    <div class="col-2 fieldDireccion">
+                                        <input type="text" class="form-control form-control-sm" name="Dir5" id="Dir5" ngModel [required]="Datos.Direccion == ''" (change)="construirDireccion()">
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="col-md-3 col-sm-6">
+                                <div class="form-group">
+                                    <label for="Direccion_Dian">Dirección Cod. Dian</label>
+                                    <input type="text" class="form-control form-control-sm" name="Direccion" [(ngModel)]="Datos.Direccion" id="Direccion_Dian" readonly>
+                                </div>
+                            </div>
+
+                            <div class="col-md-3 col-sm-6">
+                                <div class="form-group">
+                                    <label for="Tel_Fijo">Tel. Fijo</label>
+                                    <input type="text" class="form-control form-control-sm" name="Telefono" [(ngModel)]="Datos.Telefono" id="Tel_Fijo">
+                                </div>
+                            </div>
+
+                            <div class="col-md-3 col-sm-6">
+                                <div class="form-group">
+                                    <label for="Tel_Celular">Tel. Celular</label>
+                                    <input type="text" class="form-control form-control-sm" name="Celular" [(ngModel)]="Datos.Celular" id="Tel_Celular">
+                                </div>
+                            </div>
+
+                            <div class="col-md-3 col-sm-6">
+                                <div class="form-group">
+                                    <label for="Email">Email</label>
+                                    <input type="email" class="form-control form-control-sm" name="Correo" [(ngModel)]="Datos.Correo" id="Email">
+                                </div>
+                            </div>
+
+                            <div class="col-md-3">
+                                <div class="form-group">
+                                    <label for="Tipo_Tercero">Tipo Tercero</label>
+                                    <select name="Tipo_Tercero" id="Tipo_Tercero" [(ngModel)]="Datos.Tipo_Tercero" class="form-control form-control-sm" required>
+                          <option value="Proveedor" selected>Proveedor</option>
+                          <option value="Acreedor">Acreedor</option>
+                        </select>
+                                </div>
+                            </div>
+
+                            <div class="col-md-2 col-sm-6">
+                                <div class="form-group">
+                                    <label for="Departamento">Departamento</label>
+                                    <ng-select id="Departamento" class="f-10" name="Id_Departamento" required [(ngModel)]="Datos.Id_Departamento" placeholder="Seleccione el departamento" [items]="Departamentos" (ngModelChange)="ListarMunicipios()"></ng-select>
+                                </div>
+                            </div>
+
+                            <div class="col-md-2 col-sm-6">
+                                <div class="form-group">
+                                    <label for="Municipio">Municipio</label>
+                                    <ng-select id="Municipio" class="f-10" placeholder="Seleccione el municipio" required name="Id_Municipio" [(ngModel)]="Datos.Id_Municipio" [items]="Municipios"></ng-select>
+                                </div>
+                            </div>
+
+                            <div class="col-md-3 col-sm-6">
+                                <div class="form-group">
+                                    <label for="Asesor">Asesor Comercial</label>
+                                    <input type="text" class="form-control form-control-sm" id="Asesor" name="Asesor_Comercial" [(ngModel)]="Datos.Asesor_Comercial">
+                                </div>
+                            </div>
+
+                            <div class="col-md-2 col-sm-6">
+                                <div class="form-group">
+                                    <label for="Tlf_Asesor">Telf. Asesor Comercial</label>
+                                    <input type="text" class="form-control form-control-sm" id="Tlf_Asesor" name="Telefono_Asesor" [(ngModel)]="Datos.Telefono_Asesor">
+                                </div>
+                            </div>
+
+                            <div class="col-md-3 col-sm-6">
+                                <div class="form-group">
+                                    <label for="Email_Asesor">Email Asesor Comercial</label>
+                                    <input type="email" class="form-control form-control-sm" id="Email_Asesor" name="Email_Asesor" [(ngModel)]="Datos.Email_Asesor">
+                                </div>
+                            </div>
+
+                            <div class="col-md-12 col-sm-12 text-center m-b-10">
+                                <hr>
+                                <h5>Datos Comerciales</h5>
+                            </div>
+
+                            <div class="col-md-2 col-sm-6">
+                                <div class="form-group">
+                                    <label for="Tipo_Regimen">Tipo Regimen</label>
+                                    <select name="Regimen" id="Tipo_Regimen" required class="form-control form-control-sm" [(ngModel)]="Datos.Regimen">
+                        <option value="">Seleccione</option>
+                        <option value="Comun">Común</option>
+                        <option value="Simplificado">Simplificado</option>
+                      </select>
+                                </div>
+                            </div>
+
+                            <div class="col-md-2 col-sm-6">
+                                <div class="form-group">
+                                    <label for="Tipo_Retencion">Tipo Retención</label>
+                                    <select name="Tipo_Retencion" id="Tipo_Retencion" required class="form-control form-control-sm" [(ngModel)]="Datos.Tipo_Retencion">
+                        <option value="">Seleccione</option>
+                        <option value="Autorretenedor">Autorretenedor</option>
+                        <option value="Supera Base">Supera Base</option>
+                        <option value="Permanente">Permanente</option>
+                        <option value="Entidades del Estado">Entidades del Estado</option>
+                        <option value="Pagos con Tarjeta">Pagos con Tarjeta</option>
+                        <option value="Regimen Simplificado">Regimen Simplificado</option>
+                      </select>
+                                </div>
+                            </div>
+
+                            <div class="col-md-2 col-sm-6">
+                                <div class="form-group">
+                                    <label for="Lucro">Animo Lucro</label>
+                                    <select name="Animo_Lucro" id="Lucro" class="form-control form-control-sm" required [(ngModel)]="Datos.Animo_Lucro" (change)="validarCampoLucro($event.target.value)">
+                        <option value="">Seleccione</option>
+                        <option value="Si">Sí</option>
+                        <option value="No">No</option>
+                      </select>
+                                </div>
+                            </div>
+
+                            <div class="col-md-2 col-sm-6">
+                                <div class="form-group">
+                                    <label for="Ley">Ley 1429/2010</label>
+                                    <select name="Ley_1429_2010" id="Ley" class="form-control form-control-sm" [(ngModel)]="Datos.Ley_1429_2010">
+                        <option value="">Seleccione</option>
+                        <option value="Si">Sí</option>
+                        <option value="No">No</option>
+                      </select>
+                                </div>
+                            </div>
+
+                            <div class="col-md-4 col-sm-6">
+                                <div class="form-group">
+                                    <label for="Act_Economica">Actividad Economica</label>
+                                    <ng-select id="Act_Economica" class="f-10" name="Id_Codigo_Ciiu" [(ngModel)]="Datos.Id_Codigo_Ciiu" placeholder="Seleccione el actividad" required [items]="ActividadesEcon"></ng-select>
+                                </div>
+                            </div>
+
+                            <div class="col-md-2 col-sm-6">
+                                <div class="form-group">
+                                    <label for="Tipo_Reteica">Tipo Reteica</label>
+                                    <select name="Tipo_Reteica" id="Tipo_Reteica" class="form-control form-control-sm" [(required)]="Datos.Tipo_Reteica" [(ngModel)]="Datos.Tipo_Reteica">
+                        <option value="">Seleccione</option>
+                        <option value="N/A" [selected]="Datos.Id_Municipio != 911">N/A</option>
+                        <option *ngIf="Datos.Id_Municipio == 911" value="No">No</option>
+                        <option *ngIf="Datos.Id_Municipio == 911" value="Supera Base">Supera Base</option>
+                        <option *ngIf="Datos.Id_Municipio == 911" value="Permanente">Permanente</option>
+                      </select>
+                                </div>
+                            </div>
+
+                            <div class="col-md-3 col-sm-6">
+                                <div class="row">
+                                    <div class="col-md-8">
+                                        <div class="form-group">
+                                            <label for="Cta_Reteica">Cuenta Reteica</label>
+                                            <input type="text" class="form-control form-control-sm" id="Cta_Reteica" name="Cta_Reteica" [disabled]="Datos.Id_Municipio != 911" [ngbTypeahead]="search1" [resultTemplate]="rt1" [inputFormatter]="formatter1" (blur)="BuscarCuenta(ReteicaModel, 'Reteica')"
+                                                [(ngModel)]="ReteicaModel">
+                                            <input type="hidden" name="Id_Plan_Cuenta_Reteica" [(ngModel)]="Datos.Id_Plan_Cuenta_Reteica">
+                                        </div>
+                                    </div>
+                                    <div class="col-md-4">
+                                        <div class="form-group">
+                                            <label>%</label>
+                                            <input type="text" class="form-control form-control-sm" id="Porcentaje_RetIca" name="Porcentaje_RetIca" title="Porcentaje Reteica" [(ngModel)]="RetePorcentajes.Reteica" readonly>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="col-md-3 col-sm-6">
+                                <div class="row">
+                                    <div class="col-md-8">
+                                        <div class="form-group">
+                                            <label for="Cta_Retefuente">Cuenta Retefuente</label>
+                                            <input type="text" class="form-control form-control-sm" id="Cta_Retefuente" name="Cta_Retefuente" [ngbTypeahead]="search1" [resultTemplate]="rt1" [inputFormatter]="formatter1" (blur)="BuscarCuenta(RetefuenteModel, 'Retefuente')" [(ngModel)]="RetefuenteModel"
+                                                [disabled]="Datos.Animo_Lucro == 'No'">
+                                            <input type="hidden" name="Id_Plan_Cuenta_Retefuente" [(ngModel)]="Datos.Id_Plan_Cuenta_Retefuente">
+                                        </div>
+                                    </div>
+                                    <div class="col-md-4">
+                                        <div class="form-group">
+                                            <label>%</label>
+                                            <input type="text" class="form-control form-control-sm" id="Porcentaje_RetFuente" name="Porcentaje_RetFuente" title="Porcentaje Retefuente" [(ngModel)]="RetePorcentajes.Retefuente" readonly>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="col-md-1 col-sm-6">
+                                <div class="form-group">
+                                    <label for="Gran_Contribuyente">G. Contrib.</label>
+                                    <select name="Contribuyente" id="Gran_Contribuyente" class="form-control form-control-sm" (change)="validarCampoContribuyente($event.target.value)" required [(ngModel)]="Datos.Contribuyente">
+                        <option value="">Seleccione</option>
+                        <option value="Si">Si</option>
+                        <option value="No">No</option>
+                      </select>
+                                </div>
+                            </div>
+
+                            <div class="col-md-3 col-sm-6">
+                                <div class="row">
+                                    <div class="col-md-8">
+                                        <div class="form-group">
+                                            <label for="Cta_Reteiva">Cuenta Reteiva</label>
+                                            <input type="text" class="form-control form-control-sm" id="Cta_Reteiva" name="Cta_Reteiva" [ngbTypeahead]="search1" [resultTemplate]="rt1" [inputFormatter]="formatter1" (blur)="BuscarCuenta(ReteivaModel, 'Reteiva')" [(ngModel)]="ReteivaModel" [disabled]>
+                                            <input type="hidden" name="Id_Plan_Cuenta_Reteiva" [(ngModel)]="Datos.Id_Plan_Cuenta_Reteiva">
+                                        </div>
+                                    </div>
+                                    <div class="col-md-4">
+                                        <div class="form-group">
+                                            <label>%</label>
+                                            <input type="text" class="form-control form-control-sm" id="Porcentaje_RetIva" name="Porcentaje_RetIva" title="Porcentaje Reteiva" [(ngModel)]="RetePorcentajes.Reteiva" readonly>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="col-md-2 col-sm-6">
+                                <div class="form-group">
+                                    <label for="Condicion_Pago">Plazo</label>
+                                    <select name="Condicion_Pago" id="Condicion_Pago" class="form-control form-control-sm" required [(ngModel)]="Datos.Condicion_Pago">
+                        <option value="">Seleccione</option>
+                        <option value="1">Contado</option>
+                        <option value="30">30 Días</option>
+                        <option value="60">60 Días</option>
+                        <option value="90">90 Días</option>
+                        <option value="120">120 Días</option>
+                      </select>
+                                </div>
+                            </div>
+
+                            <div class="col-md-2 col-sm-6">
+                                <div class="form-group">
+                                    <label for="Porcentaje_Dcto">Porcentaje Descuento</label>
+                                    <input type="number" class="form-control form-control-sm" name="Porcentaje_Descuento" id="Porcentaje_Dcto" [(ngModel)]="Datos.Porcentaje_Descuento">
+                                </div>
+                            </div>
+
+                            <div class="col-md-2 col-sm-6">
+                                <div class="form-group">
+                                    <label for="Dcto_Dias">Descuento en días</label>
+                                    <input type="number" class="form-control form-control-sm" name="Dias_Descuento" id="Dcto_Dias" [(ngModel)]="Datos.Dias_Descuento">
+                                </div>
+                            </div>
+
+                            <div class="col-md-2 col-sm-6">
+                                <div class="form-group">
+                                    <label for="Estado">Estado</label>
+                                    <select name="Estado" id="Estado" [(ngModel)]="Datos.Estado" class="form-control form-control-sm">
+                        <option value="Activo">Activo</option>
+                        <option value="Inactivo">Inactivo</option>
+                      </select>
+                                </div>
+                            </div>
+
+                            <div class="col-md-3 col-sm-6">
+                                <div class="form-group">
+                                    <label for="rut">RUT</label>
+                                    <input type="file" name="Rut_Escaneado" ngModel (change)="cargarRut($event)" id="rut" class="form-control form-control-sm">
+                                </div>
+                            </div>
+
+                            <div class="col-md-12 col-sm-12 text-center m-b-10">
+                                <hr>
+                                <h5>Politica Devolución</h5>
+                            </div>
+                            <div class="col-md-5">
+                                <div class="form-group">
+                                    <label>Descripción </label>
+                                    <textarea name="Descripcion" [(ngModel)]="Datos.Descripcion"  rows="4" class="form-control " ngModel required></textarea>
+                                </div>
+                            </div>
+                            <div class="col-md-2">
+                                <div class="form-group">
+                                    <label>Meses Devolución</label>
+                                    <input name="Meses_Devolucion" [(ngModel)]="Datos.Meses_Devolucion"  type="number" class="form-control" ngModel required>
+                                </div>
+                            </div>
+                            <div class="col-md-12 col-sm-12 m-t-20">
+                                <button class="btn btn-success btn-sm btn-block" [swal]="confirmacionGuardar"><i class="fa fa-save"></i> GUARDAR INFORMACIÓN</button>
+                            </div>
+
+                        </div>
+                        <!-- FIN ROW -->
+
+                    </form>
+                </div>
+
+            </div>
+
+        </div>
+        <!-- <div class="col-md-1"></div> -->
+    </div>
+</div>
+
+<ng-template #rt1 let-r="result" let-t="term">
+    <span class="f-9">{{ r.Codigo }} </span>
+</ng-template>
+<swal #confirmacionGuardar [swalOptions]="alertOption"></swal>
+<swal #message title="" text="" icon="">
+</swal>

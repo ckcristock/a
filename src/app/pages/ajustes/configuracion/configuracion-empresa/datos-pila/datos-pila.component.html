@@ -1,0 +1,112 @@
+<div class="card" *ngIf="show">
+    <div class="card-body">
+        <div class="card-title">
+            <div class="row">
+                <div class="col-6">
+                    <h5>Datos de Pila</h5>
+                </div>
+                <div class="col-6">
+                    <button class="btn btn-link pt-0 edit" style="float: right;" (click)="openModal()">
+                        <i class="fas fa-pencil-alt"></i>
+                    </button>
+                </div>
+            </div>
+        </div>
+        <div class="row">
+            <p class="col-6 font-weight-bold text-mute item-subtitle">
+                Operador de Pago
+            </p>
+            <p class="col-6 font-weight-bold">
+                {{ pilas.paid_operator }}
+            </p>
+            <p class="col-6 font-weight-bold text-mute item-subtitle">
+                Companía de ARL
+            </p>
+            <p class="col-6 font-weight-bold">
+                {{ arl }}
+            </p>
+            <p class="col-6 font-weight-bold text-mute item-subtitle">
+                Aplica Ley 1429 de 2010
+            </p>
+            <p class="col-6 font-weight-bold">
+                {{ pilas.law_1429 }}
+            </p>
+            <p class="col-6 font-weight-bold text-mute item-subtitle">
+                Aplica Ley 590 de 2010
+            </p>
+            <p class="col-6 font-weight-bold">
+                {{ pilas.law_590 }}
+            </p>
+            <p class="col-6 font-weight-bold text-mute item-subtitle">
+                Aplica Ley de 1607 de 2012
+            </p>
+            <p class="col-6 font-weight-bold">
+                {{ pilas.law_1607 }}
+            </p>
+        </div>
+    </div>
+</div>
+<app-modal-basic #modal [dialogClass]="'modal-md'">
+    <div class="app-modal-header">
+        <h5 class="modal-title">Datos De Pila</h5>
+        <button type="button" class="close basic-close" (click)="modal.hide()">
+            <span aria-hidden="true">
+                <i class="fas fa-times" (click)="modal.hide()"></i>
+            </span>
+        </button>
+    </div>
+    <div class="app-modal-body">
+        <form [formGroup]="form">
+            <div class="row">
+                <div class="col-12">
+                    <div class="form-row">
+                        <div class="form-group col-12">
+                            <label for="">Operador de Pago Utilizado</label>
+                            <select class="form-control form-control-sm" formControlName="paid_operator">
+                                <option *ngFor="let item of pay_operators" [value]="item.value">
+                                    {{ item.clave }}
+                                </option>
+                            </select>
+                        </div>
+                        <div class="form-group col-12">
+                            <label for="">Compañia ARL Utilizada</label>
+                            <select class="form-control form-control-sm" formControlName="arl_id">
+                                <option *ngFor="let arl of arls" [value]="arl.value">
+                                    {{ arl.text }}
+                                </option>
+
+                            </select>
+                        </div>
+                        <div class="form-check ml-2 mb-2">
+                            <input class="form-check-input" type="checkbox" value="" formControlName="law_1429"
+                                id="ley_1429" checked>
+                            <label class="form-check-label" for="ley_1429">
+                                ¿Aplica Para La Ley 1429 de 2010?
+                            </label>
+                        </div>
+                        <div class="form-check ml-2 mb-2">
+                            <input class="form-check-input" type="checkbox" value="" formControlName="law_590"
+                                id="ley_590" checked>
+                            <label class="form-check-label" for="ley_590">
+                                ¿Aplica Para La Ley 590 de 2010?
+                            </label>
+                        </div>
+                        <div class="form-check ml-2 mb-2">
+                            <input class="form-check-input" type="checkbox" value="" formControlName="law_1607"
+                                id="ley_1607" checked>
+                            <label class="form-check-label" for="ley_1607">
+                                ¿Aplica Para La Ley 1607 de 2012?
+                            </label>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </form>
+    </div>
+    <div class="app-modal-footer">
+        <div class="form-group text-right">
+            <button (click)="modal.hide()" type="button" class="btn btn-danger raised mr-2 btn-sm">Cerrar</button>
+            <button type="submit" class="btn btn-primary btn-sm raised" (click)="savePilaData()">Guardar</button>
+        </div>
+    </div>
+</app-modal-basic>

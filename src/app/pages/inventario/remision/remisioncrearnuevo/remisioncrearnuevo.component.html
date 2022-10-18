@@ -1,0 +1,250 @@
+<!-- <div class="page-body"> -->
+<!-- <div class="row"> -->
+<div class="col md-12 p-3">
+  <div class="card">
+    <form #FormTraslado="ngForm">
+      <div class="card-body">
+        <div class="card-title d-flex justify-content-between">
+          <div class="card m-0 p-0 border-0 shadow-none">
+            <div class="card-horizontal">
+              <div class="img-square-wrapper">
+                <img
+                  [src]="userF.person.company_worked.logo | image: 'companies'"
+                  alt=""
+                  height="45"
+                />
+              </div>
+              <div class="card-body p-0 m-0">
+                <p class="card-text" style="font-size: x-small">
+                  {{ userF.person.company_worked.name }} <br />
+                  NIT {{ userF.person.company_worked.tin }} <br />
+                  {{ userF.person.company_worked.address }} <br />
+                  {{ userF.person.company_worked.phone }}
+                </p>
+              </div>
+            </div>
+          </div>
+          <div class="col-md-4 text-right">
+            <h5 class="text-primary">{{ Datos.Titulo }}</h5>
+            <h6>{{ Datos.Fecha | date: "longDate" }}</h6>
+          </div>
+        </div>
+        <div class="row">
+          <mat-form-field class="col-md-3" appearance="outline">
+            <mat-label>Tipo</mat-label>
+            <mat-select
+              name="Tipo"
+              id="Tipo"
+              [(ngModel)]="ModeloRemision.Tipo"
+              (selectionChange)="Cambiar_Remision()"
+              required
+            >
+              <mat-option value="Cliente">Tipo cliente</mat-option>
+              <mat-option value="Interna">Tipo interna</mat-option>
+              <mat-option value="Contrato">Tipo contrato</mat-option>
+            </mat-select>
+          </mat-form-field>
+          <ng-container *ngIf="ModeloRemision.Tipo != 'Contrato'">
+            <mat-form-field class="col-md-3" appearance="outline">
+              <mat-label>Prioridad</mat-label>
+              <mat-select
+                name="Prioridad"
+                [(ngModel)]="ModeloRemision.Prioridad"
+                id="Prioridad"
+                (selectionChange)="EnviarModelo()"
+                required
+              >
+                <mat-option value="1">Prioridad I</mat-option>
+                <mat-option value="2">Prioridad II</mat-option>
+                <mat-option value="3">Prioridad III</mat-option>
+              </mat-select>
+            </mat-form-field>
+            <mat-form-field
+              class="col-md-3"
+              appearance="outline"
+              *ngIf="ModeloRemision.Tipo == 'Interna'"
+            >
+              <mat-label>Modelo</mat-label>
+              <mat-select
+                name="Modelo"
+                [(ngModel)]="ModeloRemision.Modelo"
+                id="Modelo"
+                (selectionChange)="CambiarPunto()"
+                required
+              >
+                <mat-option value="Punto-Bodega">Punto-Bodega</mat-option>
+                <mat-option value="Punto-Punto">Punto-Punto</mat-option>
+                <mat-option value="Bodega-Punto">Bodega-Punto</mat-option>
+                <mat-option value="Bodega-Bodega">Bodega-Bodega</mat-option>
+              </mat-select>
+            </mat-form-field>
+            <mat-form-field class="col-md-3" appearance="outline">
+              <mat-label>Meses de vencimiento</mat-label>
+              <mat-select
+                name="Meses"
+                [(ngModel)]="ModeloRemision.Meses"
+                id="Meses"
+                (selectionChange)="EnviarModelo()"
+                required
+              >
+                <mat-option
+                  *ngFor="let item of Meses; let i = index"
+                  [value]="item.dia"
+                >
+                  {{ item.dia }}</mat-option
+                >
+              </mat-select>
+            </mat-form-field>
+          </ng-container>
+          <mat-form-field
+            class="col-md-3"
+            appearance="outline"
+            *ngIf="ModeloRemision.Tipo == 'Cliente'"
+          >
+            <mat-label>Tipo de pago</mat-label>
+            <mat-select
+              name="Tipo_Pago"
+              [(ngModel)]="ModeloRemision.Tipo_Pago"
+              id="Tipo_Pago"
+              (selectionChange)="EnviarModelo()"
+              required
+            >
+              <mat-option value="Credito">Crédito</mat-option>
+              <mat-option value="Contado">Contado</mat-option>
+            </mat-select>
+          </mat-form-field>
+        </div>
+        <div class="row">
+          <mat-form-field class="col-md-3" appearance="outline">
+            <mat-label>Origen</mat-label>
+            <mat-select
+              name="Bodegas_Nuevo"
+              [(ngModel)]="Datos.Origen"
+              id="Bodegas_Nuevo"
+              (selectionChange)="AsignarNombre('Origen')"
+              required
+            >
+              <mat-option *ngFor="let item of Origen" [value]="item.value">{{
+                item.label
+              }}</mat-option>
+            </mat-select>
+          </mat-form-field>
+          <mat-form-field
+            class="col-md-3"
+            appearance="outline"
+            *ngIf="Grupos.length > 0 && ModeloRemision.Tipo_Origen == 'Bodega'"
+          >
+            <mat-label>Grupo estiba</mat-label>
+            <mat-select
+              name="Origen_Grupo"
+              [(ngModel)]="Datos.Origen_Grupo"
+              id="Grupos"
+              (selectionChange)="AsignarNombre('Grupo')"
+              required
+            >
+              <mat-option *ngFor="let item of Grupos" [value]="item.value">{{
+                item.label
+              }}</mat-option>
+            </mat-select>
+          </mat-form-field>
+          <mat-form-field
+            class="col-md-3"
+            appearance="outline"
+            *ngIf="ModeloRemision.Tipo != 'Contrato'"
+          >
+            <mat-label>Destino</mat-label>
+            <mat-select
+              name="Destino"
+              [(ngModel)]="Datos.Destino"
+              id="Puntos"
+              (selectionChange)="AsignarNombre('Destino')"
+              required
+            >
+              <mat-option *ngFor="let item of Destino" [value]="item.value">{{
+                item.label
+              }}</mat-option>
+            </mat-select>
+          </mat-form-field>
+          <mat-form-field
+            class="col-md-3"
+            appearance="outline"
+            *ngIf="ModeloRemision.Tipo == 'Contrato'"
+          >
+            <mat-label>Contratos</mat-label>
+            <mat-select
+              name="Contrato"
+              [(ngModel)]="Datos.DestinoContrato"
+              id="Id_Contrato"
+              (selectionChange)="AsignarNombre('Contrato')"
+              required
+            >
+              <mat-option *ngFor="let item of Contratos" [value]="item.value">{{
+                item.label
+              }}</mat-option>
+            </mat-select>
+          </mat-form-field>
+          <mat-form-field
+            class="col-md-3"
+            appearance="outline"
+            *ngIf="ModeloRemision.Tipo == 'Cliente'"
+          >
+            <mat-label>L. Ganancia</mat-label>
+            <input
+              matInput
+              type="text"
+              [(ngModel)]="ModeloRemision.Id_Lista"
+              name="ListaGanancia"
+              id="ListaGanancia"
+              autocomplete="off"
+              readonly
+            />
+          </mat-form-field>
+          <mat-form-field
+            class="col-md-3"
+            appearance="outline"
+            *ngIf="ModeloRemision.Tipo == 'Cliente'"
+          >
+            <mat-label>O. Compra</mat-label>
+            <input
+              matInput
+              type="text"
+              [(ngModel)]="ModeloRemision.Orden_Compra"
+              name="Orden_Compra"
+              id="Orden_Compra"
+              autocomplete="off"
+              (change)="EnviarModelo()"
+              required
+            />
+          </mat-form-field>
+        </div>
+        <div class="form-group">
+          <label>Observaciones</label>
+          <textarea
+            [(ngModel)]="ModeloRemision.Observaciones"
+            id="Observaciones"
+            name="Observaciones"
+            type="text"
+            rows="3"
+            class="form-control"
+            (change)="EnviarModelo(false)"
+            (keypress)="tab($event)"
+            required
+          ></textarea>
+        </div>
+      </div>
+    </form>
+
+    <app-productosremisionnuevo
+      [_remisionModel]="ModeloRemision"
+      [ActualizarModelo]="ActualizarModelProductos.asObservable()"
+      (CargarBorrador)="ActualizarModelo($event)"
+    >
+    </app-productosremisionnuevo>
+
+    <ng-template #rt let-r="result" let-t="term">
+      <span class="f-9">{{ r.Nombre }} </span>
+    </ng-template>
+  </div>
+</div>
+<!-- </div> -->
+<!-- </div> -->

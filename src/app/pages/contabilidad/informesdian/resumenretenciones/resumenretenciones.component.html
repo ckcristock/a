@@ -1,0 +1,76 @@
+<div class="row">
+  <div class="col-md-6 mx-auto">
+    <div class="card">
+      <div class="card-body">
+        <div class="card-title d-flex justify-content-between">
+          <img
+            [src]="userF.person.company_worked.logo | image: 'companies'"
+            alt=""
+            height="45"
+          />
+          <h4 class="text-primary">
+            <app-cabecera [datosCabecera]="datosCabecera"></app-cabecera>
+          </h4>
+        </div>
+        <hr class="line" />
+        <form #FormFiltros="ngForm">
+          <mat-form-field class="col-md-6 pl-0" appearance="outline">
+            <mat-label>Fecha inicial</mat-label>
+            <input
+              matInput
+              type="date"
+              [(ngModel)]="model.Fecha_Inicio"
+              (change)="setQueryParams()"
+              name="Fecha_Inicial"
+              id="Fecha_Inicial"
+              required
+            />
+          </mat-form-field>
+          <mat-form-field class="col-md-6 pr-0" appearance="outline">
+            <mat-label>Fecha de fin</mat-label>
+            <input
+              matInput
+              type="date"
+              [(ngModel)]="model.Fecha_Fin"
+              (change)="setQueryParams()"
+              name="Fecha_Corte"
+              id="Fecha_Corte"
+              required
+            />
+          </mat-form-field>
+          <mat-form-field class="col-md-6 pl-0" appearance="outline">
+            <mat-label>Retención</mat-label>
+            <mat-select
+              name="Tipo_Retencion"
+              id="Tipo_Retencion"
+              (selectionChange)="setQueryParams()"
+              [(ngModel)]="model.Tipo_Retencion"
+            >
+              <mat-option value="Retefuente">Retefuente</mat-option>             
+              <mat-option value="Reteica">Reteica</mat-option>             
+            </mat-select>
+          </mat-form-field>
+          <mat-form-field class="col-md-6 pr-0" appearance="outline">
+            <mat-label>Tipo de reporte</mat-label>
+            <mat-select
+              name="Tipo_Reporte"
+              id="Tipo_Reporte"
+              (selectionChange)="setQueryParams()"
+              [(ngModel)]="model.Tipo_Reporte"
+            >
+              <mat-option value="Pcga">PCGA</mat-option>             
+              <mat-option value="Niif">NIIF</mat-option>             
+            </mat-select>
+          </mat-form-field>
+        </form>
+        <button
+          class="btn btn-primary btn-lg btn-block"
+          [disabled]="!FormFiltros.valid"
+          (click)="generarResumen()"
+        >
+          <i class="fa fa-eye"></i> Generar Resumen
+        </button>
+      </div>
+    </div>
+  </div>
+</div>

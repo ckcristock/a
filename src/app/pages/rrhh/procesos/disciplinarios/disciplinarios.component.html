@@ -1,0 +1,310 @@
+<div class="card">
+  <div class="card-body">
+    <div class="card-title d-flex justify-content-between">
+      <h4 class="text-primary">Descargos</h4>
+      <div class="btn-group rounded">
+        <button
+          class="btn btn-primary btn-sm"
+          style="float: right"
+          (click)="open()"
+        >
+          <i class="fa fa-plus"></i> Agregar
+        </button>
+        <button
+          class="btn btn-info btn-sm"
+          style="float: right"
+          (click)="openClose()"
+        >
+          <i class="fas fa-sliders-h"></i> Filtros
+        </button>
+      </div>
+    </div>
+    <hr class="line" />
+    <mat-accordion multi>
+      <mat-expansion-panel class="mat-elevation-z0">
+        <mat-form-field class="col-md-3 pl-0" appearance="outline">
+          <mat-label>Código</mat-label>
+          <input
+            matInput
+            type="text"
+            placeholder="Busca por código"
+            [(ngModel)]="filtros.code"
+            (input)="getDisciplinaryProcess()"
+            name="codigo"
+            id="codigo"
+            autocomplete="off"
+          />
+        </mat-form-field>
+        <mat-form-field class="col-md-3 pl-0" appearance="outline">
+          <mat-label>Funcionario</mat-label>
+          <input
+            matInput
+            type="text"
+            placeholder="Busca por funcionario"
+            [(ngModel)]="filtros.person"
+            (input)="getDisciplinaryProcess()"
+            name="funcionario"
+            id="funcionario"
+            autocomplete="off"
+          />
+        </mat-form-field>
+        <mat-form-field class="col-md-3 pl-0" appearance="outline">
+          <mat-label>Estado</mat-label>
+          <mat-select
+            [(ngModel)]="filtros.status"
+            (selectionChange)="getDisciplinaryProcess()"
+          >
+            <mat-option *ngFor="let statu of status" [value]="statu.valor">
+              {{ statu.clave }}</mat-option
+            >
+          </mat-select>
+        </mat-form-field>
+      </mat-expansion-panel>
+    </mat-accordion>
+    <table
+      class="table table-bordered table-striped table-sm table-responsive-sm"
+      style="font-size: small"
+      *ngIf="!loading && process.length > 0; else notData"
+    >
+      <thead class="bg-light">
+        <tr class="text-center text-uppercase">
+          <th>Código</th>
+          <th>Funcionario</th>
+          <th>Descripción</th>
+          <th>Fecha Inicial</th>
+          <th>Fecha Final</th>
+          <th class="col-md-1">Acciones</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr *ngFor="let proces of process" class="text-center">
+          <td class="align-middle">{{ proces.id }}</td>
+          <td class="align-middle">
+            {{ proces.first_name }} {{ proces.second_name }}
+            {{ proces.first_surname }} {{ proces.second_surname }}
+          </td>
+          <td class="align-middle">{{ proces.process_description }}</td>
+          <td class="align-middle">{{ proces.date_of_admission }}</td>
+          <td class="align-middle">{{ proces.date_end }}</td>
+          <td class="align-middle">
+            <div class="text-center">
+              <div ngbDropdown class="dropdown-primary">
+                <button
+                  ngbDropdownToggle
+                  class="btn btn-primary btn-sm waves-effect waves-light"
+                  type="button"
+                >
+                  <i class="mdi mdi-chevron-down"></i>
+                </button>
+                <div ngbDropdownMenu>
+                  <a
+                    (click)="downloadVer(proces.id)"
+                    class="dropdown-item text-info waves-light waves-effect caja-botones"
+                  >
+                    <i class="fas fa-print"></i> Ver / imprimir
+                  </a>
+                  <a
+                    *ngIf="proces.file != null"
+                    class="dropdown-item text-warning waves-light waves-effect caja-botones"
+                    (click)="download(proces.file)"
+                  >
+                    <i class="fas fa-image"></i> Ver Evidencia
+                  </a>
+                </div>
+              </div>
+            </div>
+          </td>
+        </tr>
+      </tbody>
+    </table>
+    <ngb-pagination
+      class="d-flex justify-content-center pagination-rounded pagination-sm"
+      [collectionSize]="pagination.collectionSize"
+      [pageSize]="pagination.pageSize"
+      [(page)]="pagination.page"
+      (pageChange)="getDisciplinaryProcess($event)"
+      aria-label="Default pagination"
+      maxSize="5"
+      rotate="true"
+      ellipses="false"
+      boundaryLinks="true"
+      rotate="true"
+      ellipses="false"
+      boundaryLinks="true"
+    >
+    </ngb-pagination>
+  </div>
+</div>
+<app-modal-basic #modal [dialogClass]="'modal-lg'">
+  <div class="app-modal-header">
+    <h5 class="modal-title">Descargo</h5>
+    <button
+      type="button"
+      class="close basic-close"
+      (click)="modal.hide(); form.reset()"
+    >
+      <span aria-hidden="true">
+        <i class="fas fa-times" (click)="modal.hide(); form.reset()"></i>
+      </span>
+    </button>
+  </div>
+  <div class="app-modal-body">
+    <form [formGroup]="form">
+      <div class="form-row">
+        <div class="col-6">
+          <div class="form-group">
+            <div class="col-12">
+              <label class="custom-label" for="funcionario_id"
+                >Funcionario</label
+              >
+              <input
+                id="typeahead-format"
+                type="text"
+                class="form-control form-control-sm"
+                placeholder="Funcionario..."
+                formControlName="person_id"
+                (change)="getHistory(); getProcess()"
+                [ngbTypeahead]="search"
+                [inputFormatter]="inputFormatBandListValue"
+                [resultFormatter]="resultFormatBandListValue"
+                [editable]="false"
+              />
+              <ng-container *ngIf="person_id_valid">
+                <small
+                  *ngFor="
+                    let item of form.get('person_id').errors | ObjToArrayPipe
+                  "
+                  class="text-danger"
+                >
+                  {{ item?.msj }}
+                </small>
+              </ng-container>
+            </div>
+          </div>
+          <div class="row ml-0 mr-0">
+            <div class="form-group col-md-6">
+              <label for="codigo">Fecha inicio</label>
+              <input
+                type="date"
+                id="fecha_inicio"
+                [class.is-invalid]="date_of_admission_valid"
+                formControlName="date_of_admission"
+                class="form-control"
+                name="fecha_inicio"
+                autocomplete="off"
+              />
+            </div>
+            <div class="form-group col-md-6">
+              <label for="codigo">Fecha Fin</label>
+              <input
+                type="date"
+                id="fecha_fin"
+                [class.is-invalid]="date_end_valid"
+                formControlName="date_end"
+                class="form-control"
+                name="fecha_fin"
+                autocomplete="off"
+              />
+            </div>
+          </div>
+          <div class="col-12">
+            <div class="input-group mb-3">
+              <label for="importFile">Evidencia</label>
+              <input
+                type="file"
+                id="importFile"
+                (change)="onFileChanged($event)"
+              />
+            </div>
+          </div>
+          <div class="form-group mt-3">
+            <div class="col-12">
+              <label for="">Descripción</label>
+              <textarea
+                class="form-control form-control-sm"
+                [class.is-invalid]="process_description_valid"
+                formControlName="process_description"
+                id="descripcion"
+                name="notas"
+                rows="3"
+                placeholder="Descripción Proceso Disciplinario"
+              >
+              </textarea>
+            </div>
+          </div>
+        </div>
+        <div class="col-md-6 panel">
+          <div class="panel-body">
+            <div class="ml-4">
+              <div
+                class="mt-5 text-center"
+                *ngIf="!form.get('person_id').value"
+              >
+                <i class="fa fa-exclamation-circle fa-3x"></i>
+                <h4>Seleccione Un Usuario</h4>
+              </div>
+              <div class="mt-4" style="margin-left: 30px; margin-right: 50px">
+                <div *ngFor="let historyInf of historyInfo">
+                  <div>
+                    <b lass="fs-3">
+                      Memorando |
+                      <i styles="color:gray;">
+                        {{
+                          historyInf.created_at_memorandum | date: "MM-dd-yy"
+                        }}
+                      </i> </b
+                    ><br />
+                    <strong>Categoria:</strong>
+                    <b>
+                      {{
+                        historyInf.activity != ""
+                          ? historyInf.memorandumType
+                          : "Sin Categoria"
+                      }}
+                    </b>
+                  </div>
+                  <label>Detalle: {{ historyInf.details }} </label> <br />
+                  <hr />
+                </div>
+                <div *ngFor="let process of processs">
+                  <b lass="fs-3">
+                    Proceso Disciplinario |
+                    <i styles="color:gray;">
+                      {{ process.created_at_process | date: "MM-dd-yy" }}
+                    </i> </b
+                  ><br />
+                  <strong>Categoria:</strong> <b> Sin Categoria </b>
+                  <label>Descripción: {{ process.process_description }} </label>
+                  <br />
+                  <hr />
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </form>
+  </div>
+  <div class="app-modal-footer">
+    <div class="form-group text-right">
+      <button
+        (click)="modal.hide(); form.reset()"
+        type="button"
+        class="btn btn-danger raised mr-2 btn-sm"
+      >
+        Cerrar
+      </button>
+      <button
+        type="submit"
+        class="btn btn-primary btn-sm raised"
+        [disabled]="!form.valid"
+        (click)="createNewProcess()"
+      >
+        Guardar
+      </button>
+    </div>
+  </div>
+</app-modal-basic>
+<ng-template #notData>
+  <app-not-data [loading]="loading"></app-not-data>
+</ng-template>

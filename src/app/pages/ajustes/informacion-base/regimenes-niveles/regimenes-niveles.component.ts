@@ -1,4 +1,5 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, ViewChild } from '@angular/core';
+import { MatAccordion } from '@angular/material/expansion';
 
 @Component({
   selector: 'app-regimenes-niveles',
@@ -6,7 +7,28 @@ import { Component, OnInit } from '@angular/core';
   styleUrls: ['./regimenes-niveles.component.scss']
 })
 export class RegimenesNivelesComponent implements OnInit {
-
+  @ViewChild('firstAccordion') firstAccordion: MatAccordion;
+  @ViewChild('secondAccordion') secondAccordion: MatAccordion;
+  matPanel = false;
+  openClose(){
+    if (this.matPanel == false){
+      this.firstAccordion.openAll();
+      this.matPanel = true;
+    } else {
+      this.firstAccordion.closeAll();
+      this.matPanel = false;
+    }    
+  }
+  matPanel2 = false;
+  openClose2(){
+    if (this.matPanel2 == false){
+      this.secondAccordion.openAll();
+      this.matPanel2 = true;
+    } else {
+      this.secondAccordion.closeAll();
+      this.matPanel2 = false;
+    }    
+  }
   pagination = {
     pageSize: 20,
     page: 1,

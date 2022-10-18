@@ -1,0 +1,120 @@
+<div class="page-body">
+    <div class="row">
+        <div class="col-md-12 filter-bar">
+            <div class="card">
+                <div class="card-header">
+                    <div class="row">
+                        <div class="col-md-10">
+                            <h5>Bodegas</h5>
+                            <span>Listado de Bodegas registrados en nuestras bases de datos, las bodegas no representan un punto de dispensación, estas representan una bodega principal</span>
+                        </div>
+                        <div class="col-md-2" style="text-align:right;">
+                            <div class="form-group t-10">
+                                <div class="card-header-left">
+                                    <button type="button" class="pull-left btn btn-primary btn-sm" (click)="abrirCrear.next({Producto:'',Tipo:'Crear'})">
+                                <i class="fa fa-plus"></i>
+                                Agregar Nuevo Bodega
+                                </button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="card-body">
+                    <div class="row">
+                        <div class="col-md-12">
+                            <table class="table table-striped">
+                                <thead>
+                                    <tr>
+                                        <th>Bodega</th>
+                                        <th>Dirección</th>
+                                        <th>Teléfono</th>
+                                        <th>Compra_Internacional</th>
+                                        <th>Tipo</th>
+                                        <th>-</th>
+                                    </tr>
+                                    <tr>
+                                        <th class="tabla-filtro">
+                                            <input type="text" [(ngModel)]="filtros.Nombre" name="" id="" (change)="getBodegas()" class="form-control input-sm">
+                                        </th>
+
+                                        <th class="tabla-filtro">
+                                            <input type="text" [(ngModel)]="filtros.Direccion" name="" id="" (change)="getBodegas()" class="form-control input-sm">
+                                        </th>
+
+                                        <th class="tabla-filtro">
+                                            <input type="number" [(ngModel)]="filtros.Telefono" (change)="getBodegas()" class="form-control input-sm" placeholder="Direccion">
+                                        </th>
+
+                                        <th class="tabla-filtro">
+                                            <select name="" (change)="getBodegas()" class="form-control input-sm" [(ngModel)]="filtros.Compra_Internacional" id="">
+                                              <option value="Si">Si</option>
+                                              <option value="No">No</option>
+                                          </select>
+                                        </th>
+
+                                        <th class="tabla-filtro">
+                                            <select name="" (change)="getBodegas()" class="form-control input-sm" [(ngModel)]="filtros.Tipo" id="">
+                                              <option value="">Todos</option>
+                                              <option value="Principal">Principal</option>
+                                              <option value="Despacho">Despacho</option>
+                                          </select>
+                                        </th>
+
+                                        <th class="tabla-filtro"></th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <tr *ngIf="loading">
+                                        <td colspan="5" class="d-fex fex-column text-center ">
+                                            <i class="fa fa-spinner fa-spin fa-3x"></i>
+                                            <p>
+                                                Cargando Bodegas...
+                                            </p>
+                                        </td>
+                                    </tr>
+                                    <tr *ngFor="let bodega of bodegas" [ngClass]="{'bg-danger': bodega.Estado == 'Inactivo'}">
+                                        <td>{{ bodega.Nombre }}</td>
+                                        <td>{{ bodega.Direccion }}</td>
+                                        <td>{{ bodega.Telefono }}</td>
+                                        <td>{{ bodega.Compra_Internacional }}</td>
+                                        <td>{{ bodega.Tipo }}</td>
+                                        <td>
+                                            <div class="text-center">
+                                                <div class="btn-group " role="group" data-toggle="tooltip" data-placement="top" title="" data-original-title=".btn-mini">
+                                                    <div ngbDropdown class="dropdown-primary">
+                                                        <button ngbDropdownToggle class="btn btn-secondary btn-sm waves-effect waves-light " type="button">Acciones</button>
+                                                        <div ngbDropdownMenu>
+                                                            <a class="dropdown-item waves-light waves-effect caja-botones" (click)="abrirCrear.next({Bodega:bodega,Tipo:'Editar'})"> <i class="ti-pencil"></i>Editar</a>
+                                                            <a class="dropdown-item waves-light waves-effect caja-botones" [routerLink]="['/ajustes/informacion-base/estibas',bodega.Id_Bodega_Nuevo]"> <i class="fa fa-cubes"></i>Grupos - Estibas</a>
+
+
+                                                            <a class="dropdown-item waves-light waves-effect caja-botones text-danger" [swal]="{ title : '¿Está Seguro?', text : 'Se dispone a ' + (bodega.Estado == 'Activo' ? 'Inactivar' : 'Activar') + ' una bodega' , type : 'warning',
+                                                             showCancelButton : true , confirmButtonText : 'Si, Confirmar', cancelButtonText : 'No, Dejame Comprobar!' }" (confirm)="eliminarBodega(bodega.Id_Bodega_Nuevo)">
+                                                                <i [ngClass]="{'ti-trash': (bodega.Estado == 'Activo') , 'fa fa-reply': (bodega.Estado == 'Inactivo') }"></i>{{ bodega.Estado == 'Activo' ? 'Inactivar' : 'Activar' }}</a>
+
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+
+                    <ngb-pagination class="pull-right" [collectionSize]="totalItems" [(page)]="current_page" [pageSize]="limit" size="sm" (pageChange)="getBodegas(true)" [boundaryLinks]="true"></ngb-pagination>
+
+
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+<app-crearbodega [abrirCrear]="abrirCrear" (CargarBodegas)="getBodegas()"></app-crearbodega>
+
+<swal #deleteSwal title="" text="" type="">
+</swal>

@@ -1,0 +1,75 @@
+<div class="card-body">
+    <div class="card-title">
+        <div class="row">
+            <div class="col-6">
+                <h5>Datos Básicos</h5>
+            </div>
+            <div class="col-6">
+                <button class="btn btn-link pt-0 edit" style="float: right;" (click)="modal.openModal(id)">
+                    <i class="fas fa-pencil-alt"></i>
+                </button>
+            </div>
+        </div>
+    </div>
+    <div class="row">
+        <p class="col-6 text-right font-weight-bold text-mute item-subtitle">
+            Nombre completo
+        </p>
+        <p class="col-6 text font-weight-bold">
+            {{ funcionario.first_name }} {{ funcionario.second_name }} {{ funcionario.first_surname }} {{ funcionario.second_surname }}
+        </p>
+        <p class="col-6 font-weight-bold text-mute item-subtitle">
+            Documento de identidad
+        </p>
+        <p class="col-6 font-weight-bold">
+            {{ funcionario.identifier }}
+        </p>
+        <p class="col-6 font-weight-bold text-mute item-subtitle">
+            Correo electrónico
+        </p>
+        <p class="col-6 font-weight-bold">
+            {{ funcionario.email }}
+        </p>
+
+        <p class="col-6 font-weight-bold text-mute item-subtitle">
+            Título de estudio
+        </p>
+        <p class="col-6 font-weight-bold">
+            {{ funcionario.degree }}
+        </p>
+
+        <p class="col-6 font-weight-bold text-mute item-subtitle">
+            Fecha de nacimiento
+        </p>
+        <p class="col-6 font-weight-bold">
+            {{ funcionario.birth_date }}
+        </p>
+        <p class="col-6 font-weight-bold text-mute item-subtitle">
+            Género
+        </p>
+        <p class="col-6 font-weight-bold">
+            {{ funcionario.sex }}
+        </p>
+
+        <p class="col-6 font-weight-bold text-mute item-subtitle">
+            Estado civil
+        </p>
+        <p class="col-6 font-weight-bold">
+            {{ funcionario.marital_status }}
+        </p>
+        <p class="col-6 font-weight-bold text-mute item-subtitle">
+            Dirección de residencia
+        </p>
+        <p class="col-6 font-weight-bold">
+            {{ funcionario.address }}
+        </p>
+        <p class="col-6 font-weight-bold text-mute item-subtitle">
+            Celular
+        </p>
+        <p class="col-6 font-weight-bold">
+            {{ funcionario.cell_phone }}
+        </p>
+    </div>
+</div>
+
+<app-modal-datos-basicos></app-modal-datos-basicos>

@@ -1,5 +1,6 @@
-import { Component, OnInit, AfterViewInit } from '@angular/core';
+import { Component, OnInit, AfterViewInit, Input } from '@angular/core';
 import { Router, NavigationEnd } from '@angular/router';
+import { UserService } from 'src/app/core/services/user.service';
 
 import { EventService } from '../../../core/services/event.service';
 import { MENU } from './menu';
@@ -11,12 +12,14 @@ import { MenuItem } from './menu.model';
   styleUrls: ['./horizontalnavbar.component.scss']
 })
 export class HorizontalnavbarComponent implements OnInit, AfterViewInit {
-
   configData;
   menuItems = [];
+  navItems = []
 
   // tslint:disable-next-line: max-line-length
-  constructor(private router: Router, private eventService: EventService) {
+  constructor(private router: Router, private eventService: EventService, private userService: UserService) {
+    this.navItems = userService.user.menu;
+    //console.log(this.navItems)
     router.events.subscribe(event => {
       if (event instanceof NavigationEnd) {
         this.activateMenu();
@@ -38,6 +41,7 @@ export class HorizontalnavbarComponent implements OnInit, AfterViewInit {
    * On menu click
    */
   onMenuClick(event: any) {
+    console.log(event)
     const nextEl = event.target.nextSibling;
     const parent = event.target.parentNode;
     if (nextEl.id !== 'navmenu') {
@@ -181,8 +185,8 @@ export class HorizontalnavbarComponent implements OnInit, AfterViewInit {
    * Returns true or false if given menu item has child or not
    * @param item menuItem
    */
-  hasItems(item: MenuItem) {
-    return item.subItems !== undefined ? item.subItems.length > 0 : false;
+  hasItems(item) {
+    return item.child !== undefined ? item.child.length > 0 : false;
   }
 
 }
