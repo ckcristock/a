@@ -16,6 +16,7 @@ const routes: Routes = [
         loadChildren: () => import('./agendamiento/agendamiento.module').then(m => m.AgendamientoModule)
     },
     { path: 'gestion-riesgo', loadChildren: () => import('./gestion-riesgo/gestion-riesgo.module').then(m => m.GestionRiesgoModule) },
+    { path: 'cuentas-medicas', loadChildren: () => import('./cuentas-medicas/cuentas-medicas.module').then(m => m.CuentasMedicasModule) },
     { path: 'sst', loadChildren: () => import('./sst/sst.module').then(m => m.SstModule) },
     { path: 'ajustes', loadChildren: () => import('./ajustes/ajustes.module').then(m => m.AjustesModule) },
     { path: 'compras', loadChildren: () => import('./compras/compras.module').then(m => m.ComprasModule) },

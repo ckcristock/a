@@ -25,4 +25,12 @@ export class CupService {
     return this.http.get(`${environment.base_url}/cups/`.concat(data));
   }
 
+  getTypes() {
+    return this.http.get(`${environment.base_url}/cup-types`);
+  }
+
+  getColors() {
+    return this.http.get(`${environment.base_url}/get-cups-colors`);
+  }
+
 }

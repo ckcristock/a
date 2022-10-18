@@ -1,6 +1,6 @@
 import { DatePipe } from '@angular/common';
 import { Component, ElementRef, OnInit, ViewChild } from '@angular/core';
-import { FormArray, FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { FormArray, FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
 import { MatAccordion } from '@angular/material';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { Observable, of, OperatorFunction } from 'rxjs';
@@ -71,11 +71,14 @@ export class LaboratoryComponent implements OnInit {
     estado: ''
   };
   loading: boolean;
+  loadingTubes: boolean;
+
   fileString: any = '';
   type: any = '';
   file: any = '';
   closeResult = '';
   motivos: any[] = [];
+  tubes: any[] = [];
   public existPtientForShow: boolean = false;
   public patient;
   public getDate;
@@ -113,16 +116,51 @@ export class LaboratoryComponent implements OnInit {
       this.formTomarExamen.controls['hour'].setValue(this.today);
     }
   }
+  createFormTomarExamen(id) {
+    this.today = new Date().toTimeString().slice(0, 5);
+    this.formTomarExamen = this.fb.group({
+      id: [id],
+      hour: [this.today, this._validatorsService.required],
+      status: [],
+      tube: []
+    });
+  }
+
+  changeAnountTubes(id, event){
+    let num = this.tubesArray.find(x => x.color_id == id)
+    let index = this.tubesArray.indexOf(num)
+    this.tubesArray[index].amount = event.target.value
+    
+  }
+
+  tubesArray: any[] = []
+
+  getTubeId(id) {
+    this.loadingTubes = true;
+    this._laboratory.getTubeId(id).subscribe((res: any) => {
+      this.tubes = Object.values(res.data);
+      this.loadingTubes = false;
+      for (let i in this.tubes) {        
+        this.tubesArray.push({
+          id_laboratory: id, 
+          color_id: this.tubes[i].id, 
+          amount: 1
+        })
+      }
+      console.log(this.tubesArray)
+    })
+
+  }
 
   newCall(form) {
     //console.log(form)
-    let id:number = form.form.value.Identificacion_Paciente
+    let id: number = form.form.value.Identificacion_Paciente
     this._router.navigate(['gestion-riesgo/laboratorio/nuevo-laboratorio', id]);
     this._laboratory.newCall(form).subscribe((req: any) => {
       if (req.code == 200) {
-        let data = req.data;        
+        let data = req.data;
         //console.log(data.paciente)
-        
+
         if (req.data.isNew) {
           data = this.newPatient(data, req);
         }
@@ -137,7 +175,7 @@ export class LaboratoryComponent implements OnInit {
   newPatient(data, req) {
     data.paciente = new Patient();
     data.paciente.identifier = req.data.llamada.Identificacion_Paciente;
-    
+
     data.paciente.isNew = true;
     return data;
   }
@@ -148,14 +186,7 @@ export class LaboratoryComponent implements OnInit {
     });
   }
 
-  createFormTomarExamen(id) {
-    this.today = new Date().toTimeString().slice(0, 5);
-    this.formTomarExamen = this.fb.group({
-      id: [id],
-      hour: [this.today, this._validatorsService.required],
-      status: [],
-    });
-  }
+  
 
   createFormAnular(id) {
     this.formAnular = this.fb.group({
@@ -167,11 +198,13 @@ export class LaboratoryComponent implements OnInit {
   }
 
   tomar() {
+    this.formTomarExamen.patchValue({tube: this.tubesArray})
     this.formTomarExamen.get('status').setValue('Tomado');
     this._laboratory
       .tomarOAnular(this.formTomarExamen.value)
       .subscribe((res: any) => {
         this.modalService.dismissAll();
+        this.tubesArray = []
         this.getLaboratories();
         this._swal.show({
           icon: 'success',

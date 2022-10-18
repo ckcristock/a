@@ -120,7 +120,6 @@
             type="button"
             [disabled]="formD.invalid"
             (click)="newCall(formD)"
-            
           >
             Iniciar gestión
           </button>
@@ -239,9 +238,10 @@
                       class="dropdown-item text-warning waves-light caja-botones"
                       href="javascript:void(0)"
                       (click)="
-                        openConfirm(tomarExamen, 'lg');
+                        openConfirm(tomarExamen, 'md');
                         createFormTomarExamen(item.id);
-                        getCupsId(item.id)
+                        getCupsId(item.id);
+                        getTubeId(item.id)
                       "
                     >
                       <i class="fas fa-plus"></i> Tomar exámenes</a
@@ -310,7 +310,7 @@
   <div class="modal-body">
     <form [formGroup]="formTomarExamen">
       <div class="row">
-        <mat-form-field class="col-md-6 offset-md-3" appearance="outline">
+        <mat-form-field class="col-12" appearance="outline">
           <mat-label>Hora</mat-label>
           <input
             matInput
@@ -323,32 +323,28 @@
         </mat-form-field>
       </div>
     </form>
-    <div *ngIf="!loadingCforL && cupsId.length > 0; else notDataCforL">
-      <ul class="list-group list-group-flush">
-        <li
-          class="list-group-item d-flex justify-content-between align-items-center"
-          *ngFor="let item of cupsId"
+    <div *ngIf="!loadingTubes && tubes.length > 0; else noTubes">
+      <div class="row">
+        <mat-form-field
+          *ngFor="let item of tubes"
+          class="col"
+          appearance="outline"
         >
-          <div>
-            <span
-              class="position-absolute top-0 start-100 translate-middle mx-2 p-2 bg-danger border border-light rounded-circle"
-            >
-            </span>
-            <div class="ml-5">{{ item.code }} - {{ item.name_cup }}</div>
-          </div>
-          <mat-form-field class="col-md-2 pb-0" appearance="outline">
-            <mat-label>Cantidad</mat-label>
-            <input
-              matInput
-              type="number"
-              min="0"
-              value="1"
-              required
-              autocomplete="off"
-            />
-          </mat-form-field>
-        </li>
-      </ul>
+          <mat-label>
+            Tubo {{ item.name | lowercase }}
+            <i [ngStyle]="{ color: item.hex }" class="fas fa-circle"></i>
+          </mat-label>
+          <input
+            matInput
+            type="number"
+            min="1"
+            value="1"
+            (change)="changeAnountTubes(item.id, $event)"
+            required
+            autocomplete="off"
+          />
+        </mat-form-field>
+      </div>
     </div>
   </div>
   <div class="modal-footer">
@@ -514,14 +510,18 @@
           </div>
         </li>
       </ul>
-      <div class="btn-group btn-block mb-4" role="group" aria-label="Button group">
+      <div
+        class="btn-group btn-block mb-4"
+        role="group"
+        aria-label="Button group"
+      >
         <a
           *ngFor="let item of fileForDownload; let i = index"
           type="button"
           [href]="item"
           class="btn btn-success"
         >
-          <i class="fas fa-download"></i> Descarga {{ i+1 }}
+          <i class="fas fa-download"></i> Descarga {{ i + 1 }}
         </a>
       </div>
       <form [formGroup]="formCargar">
@@ -585,4 +585,8 @@
 
 <ng-template #notDataCforL>
   <app-not-data [loading]="loadingCforL"></app-not-data>
+</ng-template>
+
+<ng-template #noTubes>
+  <app-not-data [loading]="loadingTubes"></app-not-data>
 </ng-template>
