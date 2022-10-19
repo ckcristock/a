@@ -51,9 +51,10 @@ export class SwalService {
       allowEscapeKey: false,
       showCancelButton: showCancel,
       confirmButtonColor: '#3085d6',
-      confirmButtonText: showCancel ? '¡Si, Confirmar!' : 'Ok',
+      confirmButtonText: showCancel ? '¡Sí, confirmar!' : 'OK',
       cancelButtonColor: '#d33',
       cancelButtonText: 'Cancelar',
+      reverseButtons: true
 
     };
     if (preConfirm) {

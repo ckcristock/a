@@ -33,8 +33,8 @@ export class EpssService {
     return this.http.post(`${environment.base_url}/contracts`, data);
   }
 
-  getAllPaginateEpsContact(data: any) {
-    return this.http.get(`${environment.base_url}/contracts`, data);
+  getAllPaginateEpsContact(params = {}) {
+    return this.http.get(`${environment.base_url}/contracts`, {params});
   }
 
   getEpsContracts(data: any) {

@@ -22,3 +22,9 @@ button,a {
 .btn-outline-light{
   color: $gray-900;
 }
+
+.btn-sm {
+  padding: 0.3rem;
+  font-size: 0.7rem;
+  line-height: 1;
+}

@@ -1,81 +1,130 @@
-<div class="card">
-    <div class="card-body">
-        <div class="card-title d-flex justify-content-between">
-            <h4 class="text-primary">Especialidad</h4>
-            <div class="btn-group rounded">
-                <button class="btn btn-primary btn-sm" style="float: right;" (click)="openModal()">
-                    <i class="fa fa-plus"></i> Agregar
-                </button>
-                <button class="btn btn-info btn-sm" style="float: right;" (click)="openClose()">
-                    <i class="fas fa-sliders-h"></i> Filtros
-                </button>
-            </div>
+<div class="card col-lg-8 mx-auto">
+  <div class="card-body">
+    <div class="row card-title d-flex justify-content-between">
+      <div class="col-md-6 px-0">
+        <h4 class="text-primary">Especialidades</h4>
+      </div>
+      <div class="col-md-6 px-0 text-right">
+        <div class="btn-group rounded w-sm-100">
+          <button class="btn btn-primary btn-sm" (click)="openModal()">
+            <i class="fa fa-plus"></i> Agregar
+          </button>
+          <button class="btn btn-info btn-sm" (click)="openClose()">
+            <i class="fas fa-sliders-h"></i> Filtros
+          </button>
         </div>
-        <hr class="line">
-        <mat-accordion multi>
-            <mat-expansion-panel class="mat-elevation-z0">
-                <mat-form-field class="col-md-3 pl-0" appearance="outline">
-                    <mat-label>Nombre</mat-label>
-                    <input matInput type="text" placeholder="Busca por nombre" [(ngModel)]="filtros.name"
-                        (input)="getSpecialties()" name="name" autocomplete="off">
-                </mat-form-field>
-                <mat-form-field class="col-md-3 pl-0" appearance="outline">
-                    <mat-label>Código</mat-label>
-                    <input matInput type="text" placeholder="Busca por código" [(ngModel)]="filtros.code"
-                        (input)="getSpecialties()" name="code" autocomplete="off">
-                </mat-form-field>
-            </mat-expansion-panel>
-        </mat-accordion>
-        <table class="table table-bordered table-striped mt-4"
-            *ngIf="!loading && specialities.length > 0; else notData">
-            <thead class="bg-light">
-                <tr>
-                    <th scope="col">Nombre</th>
-                    <th scope="col">Código Especialidad</th>
-                    <th scope="col" style="width: 50px;">Acciones</th>
-                </tr>
-            </thead>
-            <tbody>
-                <tr *ngFor="let speciality of specialities"
-                    [ngClass]="{'bg-danger text-white': (speciality.status === 'Inactivo' )}">
-                    <td scope="row"> {{ speciality.name }} </td>
-                    <td> {{ speciality.code }} </td>
-                    <td>
-                        <div class="text-center">
-                            <div ngbDropdown class="dropdown-primary ">
-                                <button ngbDropdownToggle class="btn btn-primary btn-sm waves-effect waves-light "
-                                    type="button">
-                                    <i class="mdi mdi-chevron-down"></i>
-                                </button>
-                                <div ngbDropdownMenu>
-                                    <a class="dropdown-item waves-light waves-effect caja-botones" target="_blank"
-                                        (click)="edit(speciality.id)">
-                                        <i class="fa fa-file-pdf-o"></i>Editar</a>
-                                    <a *ngIf="speciality.status === 'Activo'"
-                                        class="dropdown-item waves-light waves-effect caja-botones"
-                                        (click)="inactive(speciality.id, 'Inactivo')">
-                                        <i class="fa fa-pencil"></i>Inactivar</a>
-                                    <a *ngIf="speciality.status === 'Inactivo'"
-                                        class="dropdown-item waves-light waves-effect caja-botones"
-                                        (click)="inactive(speciality.id, 'Activo')">
-                                        <i class="fa fa-pencil"></i>Activar</a>
-                                </div>
-                            </div>
-                        </div>
-                    </td>
-                </tr>
-            </tbody>
-        </table>
-        <ngb-pagination class="d-flex justify-content-center pagination-rounded pagination-sm"
-            [collectionSize]="pagination.collectionSize" (pageChange)="getSpecialties($event)"
-            [pageSize]="pagination.pageSize" [(page)]="pagination.page" aria-label="Default pagination" maxSize="5"
-            rotate="true" ellipses="false" boundaryLinks="true">
-        </ngb-pagination>
+      </div>
     </div>
+    <hr class="line" />
+    <mat-accordion multi>
+      <mat-expansion-panel class="mat-elevation-z0">
+        <div class="row">
+          <mat-form-field class="col" appearance="outline">
+            <mat-label>Nombre</mat-label>
+            <input
+              matInput
+              type="text"
+              placeholder="Busca por nombre"
+              [(ngModel)]="filtros.name"
+              (input)="getSpecialties()"
+              name="name"
+              autocomplete="off"
+            />
+          </mat-form-field>
+          <mat-form-field class="col" appearance="outline">
+            <mat-label>Código</mat-label>
+            <input
+              matInput
+              type="text"
+              placeholder="Busca por código"
+              [(ngModel)]="filtros.code"
+              (input)="getSpecialties()"
+              name="code"
+              autocomplete="off"
+            />
+          </mat-form-field>
+        </div>
+      </mat-expansion-panel>
+    </mat-accordion>
+    <div class="rounded-top table-responsive">
+      <table
+        class="table table-bordered table-striped table-sm"
+        *ngIf="!loading && specialities.length > 0; else notData"
+      >
+        <thead class="bg-light">
+          <tr class="text-center text-uppercase">
+            <th scope="col">Nombre</th>
+            <th scope="col">Código Especialidad</th>
+            <th scope="col"><i class="mdi mdi-chevron-down"></i></th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr
+            *ngFor="let speciality of specialities"
+            [ngClass]="{
+              'bg-danger text-white': speciality.status === 'Inactivo'
+            }"
+          >
+            <td scope="row">{{ speciality.name }}</td>
+            <td class="text-center">{{ speciality.code }}</td>
+            <td>
+              <div class="text-center">
+                <div ngbDropdown container="body" class="dropdown-primary">
+                  <button
+                    ngbDropdownToggle
+                    class="btn btn-primary btn-sm waves-light"
+                    type="button"
+                  >
+                    <i class="mdi mdi-chevron-down"></i>
+                  </button>
+                  <div ngbDropdownMenu>
+                    <a
+                      class="dropdown-item text-info waves-light caja-botones"
+                      href="javascript:void(0)"
+                      (click)="edit(speciality.id)"
+                    >
+                      <i class="far fa-edit"></i> Editar</a
+                    >
+                    <a
+                      *ngIf="speciality.status === 'Activo'"
+                      class="dropdown-item waves-light caja-botones"
+                      (click)="inactive(speciality.id, 'Inactivo')"
+                    >
+                      <i class="fa fa-pencil"></i>Inactivar</a
+                    >
+                    <a
+                      *ngIf="speciality.status === 'Inactivo'"
+                      class="dropdown-item waves-light caja-botones"
+                      (click)="inactive(speciality.id, 'Activo')"
+                    >
+                      <i class="fa fa-pencil"></i>Activar</a
+                    >
+                  </div>
+                </div>
+              </div>
+            </td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+    <ngb-pagination
+      class="d-flex justify-content-center pagination-rounded pagination-sm"
+      [collectionSize]="pagination.collectionSize"
+      (pageChange)="getSpecialties($event)"
+      [pageSize]="pagination.pageSize"
+      [(page)]="pagination.page"
+      aria-label="Default pagination"
+      maxSize="5"
+      rotate="true"
+      ellipses="false"
+      boundaryLinks="true"
+    >
+    </ngb-pagination>
+  </div>
 </div>
 
 <app-speciality-modal (dataChange)="getSpecialties()"></app-speciality-modal>
 
 <ng-template #notData>
-    <app-not-data [loading]="loading"></app-not-data>
+  <app-not-data [loading]="loading"></app-not-data>
 </ng-template>

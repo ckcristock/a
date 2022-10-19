@@ -61,7 +61,7 @@
                             <mat-option *ngFor="let item of persons | search: searchProfesional" [value]="item.value">{{item.text}}</mat-option>
                         </mat-select>
                     </mat-form-field> -->
-                    <ng-select [items]="persons" bindLabel="text" bindValue="value" appearance="outline" class="px-0 col-md-4" 
+                    <ng-select [items]="persons" bindLabel="text" bindValue="value" appearance="outline" class="col-md-4" 
                             [(ngModel)]="dataCitaToAssign.person" placeholder="Profesional" name="person_id"
                             loadingText="loading" ngDefaultControl (change)="dispatchPerson(agenda);">
                         </ng-select>

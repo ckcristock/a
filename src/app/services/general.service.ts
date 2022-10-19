@@ -12,6 +12,7 @@ import { environment } from 'src/environments/environment';
 
 export class GeneralService {
   public Mes: number = 0;
+  public FuncionarioData:any = 1;
 
 
   constructor(
