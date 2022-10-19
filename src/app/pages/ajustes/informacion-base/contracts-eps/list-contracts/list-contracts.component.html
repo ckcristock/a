@@ -1,79 +1,131 @@
 <div class="card">
   <div class="card-body">
-    <div class="card-title d-flex justify-content-between">
-      <h4 class="text-primary">Contractos</h4>
-      <div class="btn-group rounded">
-        <button class="btn btn-primary btn-sm" style="float: right;"
-          routerLink="/ajustes/informacion-base/create-contract">
-          <i class="fa fa-plus"></i> Agregar
-        </button>
-        <button class="btn btn-info btn-sm" style="float: right;" (click)="openClose()">
-          <i class="fas fa-sliders-h"></i> Filtros
-        </button>
+    <div class="row card-title d-flex justify-content-between">
+      <div class="col-md-6 px-0">
+        <h4 class="text-primary">Contratos</h4>
+      </div>
+      <div class="col-md-6 px-0 text-right">
+        <div class="btn-group rounded w-sm-100">
+          <button
+            class="btn btn-primary btn-sm"
+            [routerLink]="['create-contract']"
+          >
+            <i class="fa fa-plus"></i> Agregar
+          </button>
+          <button class="btn btn-info btn-sm" (click)="openClose()">
+            <i class="fas fa-sliders-h"></i> Filtros
+          </button>
+        </div>
       </div>
     </div>
-    <hr class="line">
+    <hr class="line" />
     <mat-accordion multi>
       <mat-expansion-panel class="mat-elevation-z0">
-        <div class="alert alert-primary text-center" role="alert">
-          Aún no hay filtros para esta sección
+        <div class="row">
+          <mat-form-field class="col" appearance="outline">
+            <mat-label>Nombre</mat-label>
+            <input
+              matInput
+              type="text"
+              placeholder="Busca por nombre"
+              (input)="getAllContratos()"
+              [(ngModel)]="filtros.name"
+              autocomplete="off"
+            />
+          </mat-form-field>
+          <mat-form-field class="col" appearance="outline">
+            <mat-label>Código</mat-label>
+            <input
+              matInput
+              type="text"
+              placeholder="Busca por código"
+              (input)="getAllContratos()"
+              [(ngModel)]="filtros.code"
+              autocomplete="off"
+            />
+          </mat-form-field>
         </div>
-        <!-- <div class="col d-flex">
-              <input type="text" placeholder="Buscar por Contractos" class="form-control form-control-sm col-sm-2 mr-4"
-                  (change)="getAllContractos()" [(ngModel)]="filtros.description" name="description" autocomplete="off">
-              <input type="text" placeholder="Buscar código Contractos" class="form-control form-control-sm col-sm-2"
-                  (change)="getAllContractos()" [(ngModel)]="filtros.code" name="code" autocomplete="off">
-          </div> -->
       </mat-expansion-panel>
     </mat-accordion>
-    <table class="table table-bordered table-striped mt-4" *ngIf="!loading && contracts.length > 0; else notData">
-      <thead class="bg-light">
-        <tr>
-          <th scope="col">Nombre</th>
-          <th scope="col">Código</th>
-          <th scope="col">Ips </th>
-          <th scope="col">Aseguradora </th>
-          <th scope="col">Vigencia desde</th>
-          <th scope="col">Vigencia hasta</th>
-          <th scope="col" style="width: 50px;">Acciones</th>
-        </tr>
-      </thead>
-      <tbody>
-        <tr *ngFor="let contract of contracts" [ngClass]="{'bg-danger text-white': (!contract.status)}">
-          <td scope="row"> {{ contract.name }} </td>
-          <td> {{ contract.code }} </td>
-          <td> {{ contract?.company?.name }} </td>
-          <td> {{ contract?.administrator?.name }} </td>
-          <td> {{ contract.start_date }} </td>
-          <td> {{ contract.end_date }} </td>
-          <td>
-            <div class="text-center">
-              <div ngbDropdown class="dropdown-primary ">
-                <button ngbDropdownToggle class="btn btn-primary btn-sm waves-effect waves-light " type="button">
+    <div
+      class="rounded-top table-responsive"
+      *ngIf="!loading && contracts.length > 0; else notData"
+    >
+      <table class="table table-bordered table-striped table-sm">
+        <thead class="bg-light">
+          <tr class="text-center text-uppercase">
+            <th scope="col">Nombre</th>
+            <th scope="col">Código</th>
+            <th scope="col">Ips</th>
+            <th scope="col">Aseguradora</th>
+            <th scope="col">Vigencia</th>
+            <th scope="col" class="col-1">Acciones</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr
+            *ngFor="let contract of contracts"
+            class="text-center"
+            [ngClass]="{ 'text-danger font-weight': !contract.status }"
+          >
+            <td scope="row">{{ contract.name }}</td>
+            <td>{{ contract.code }}</td>
+            <td>{{ contract?.company?.name }}</td>
+            <td>{{ contract?.administrator?.name }}</td>
+            <td>{{ contract.start_date }} - {{ contract.end_date }}</td>
+            <td>
+              <div ngbDropdown container="body" class="dropdown-primary">
+                <button
+                  ngbDropdownToggle
+                  class="btn btn-primary btn-sm waves-light"
+                  type="button"
+                >
                   <i class="mdi mdi-chevron-down"></i>
                 </button>
                 <div ngbDropdownMenu>
-                  <a class="dropdown-item waves-light waves-effect caja-botones" target="_blank"
-                    (click)="edit(contract.id)">
-                    <i class="fa fa-file-pdf-o"></i>Editar</a>
-                  <a *ngIf="contract.status" class="dropdown-item waves-light waves-effect caja-botones"
-                    (click)="anularOActivar(contract, 0)">
-                    <i class="fa fa-pencil"></i>Inactivar</a>
-                  <a *ngIf="!contract.status" class="dropdown-item waves-light waves-effect caja-botones"
-                    (click)="anularOActivar(contract, 1)">
-                    <i class="fa fa-pencil"></i>Activar</a>
+                  <a
+                    class="dropdown-item text-info waves-light caja-botones"
+                    href="javascript:void(0)"
+                    [routerLink]="['edit-contract', contract.id]"
+                  >
+                    <i class="far fa-edit"></i> Editar</a
+                  >
+                  <a
+                    *ngIf="contract.status"
+                    href="javascript:void(0)"
+                    class="dropdown-item text-danger waves-light caja-botones"
+                    (click)="anularOActivar(contract, 0, 'Inactivo')"
+                  >
+                    <i class="fas fa-trash-alt"></i> Anular</a
+                  >
+                  <a
+                    *ngIf="!contract.status"
+                    href="javascript:void(0)"
+                    class="dropdown-item text-success waves-light caja-botones"
+                    (click)="anularOActivar(contract, 1, 'Activo')"
+                  >
+                    <i class="fas fa-check"></i> Activar</a
+                  >
                 </div>
               </div>
-            </div>
-          </td>
-        </tr>
-      </tbody>
-    </table>
-    <!-- <ngb-pagination class="d-flex justify-content-center pagination-rounded pagination-sm"
-          [collectionSize]="pagination.collectionSize" (pageChange)="getAllContractos($event)"
-          [pageSize]="pagination.pageSize" [(page)]="pagination.page" aria-label="Default pagination" maxSize="5"
-          rotate="true" ellipses="false" boundaryLinks="true">
-      </ngb-pagination> -->
+            </td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+    <ngb-pagination
+      class="d-flex justify-content-center pagination-rounded pagination-sm"
+      [collectionSize]="pagination.collectionSize"
+      [pageSize]="pagination.pageSize"
+      [(page)]="pagination.page"
+      (pageChange)="getAllContratos($event)"
+      aria-label="Default pagination"
+      maxSize="5"
+      rotate="true"
+      ellipses="false"
+      boundaryLinks="true"
+    >
+    </ngb-pagination>
   </div>
 </div>
 

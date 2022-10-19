@@ -5,7 +5,7 @@ import { CrearContratosComponent } from "./crear-contratos.component";
 
 const routes: Routes = [
     { path: '', component: ListContractsComponent },
-    { path: 'create-contract/:id', component: CrearContratosComponent },
+    { path: 'edit-contract/:id', component: CrearContratosComponent },
     { path: 'create-contract', component: CrearContratosComponent },
 ]
 

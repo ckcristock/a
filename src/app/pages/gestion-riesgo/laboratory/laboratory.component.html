@@ -10,11 +10,11 @@
           <button class="btn btn-primary btn-sm" (click)="openClose2()">
             <i class="fa fa-plus"></i> Agregar
           </button>
+          <button class="btn btn-success btn-sm" (click)="getReport()">
+            <i class="fas fa-file-pdf"></i> Reporte
+          </button>
           <button class="btn btn-info btn-sm" (click)="openClose()">
             <i class="fas fa-sliders-h"></i> Filtros
-          </button>
-          <button class="btn btn-success btn-sm" (click)="getReport()">
-            <i class="fas fa-file-pdf"></i> Reporte del día
           </button>
         </div>
       </div>
@@ -298,9 +298,6 @@
       rotate="true"
       ellipses="false"
       boundaryLinks="true"
-      rotate="true"
-      ellipses="false"
-      boundaryLinks="true"
     >
     </ngb-pagination>
   </div>
@@ -330,9 +327,8 @@
         class="col-6"
         appearance="outline"
       >
-        <mat-label
-          >Hora tubo
-          <b style="font-weight: 600; color: black">{{ item.count }}</b> color
+        <mat-label>
+          <b style="font-weight: 600; color: black">{{ item.count }}°</b> Hora
           {{ item.color | lowercase }}
           <i class="fas fa-circle" [ngStyle]="{ color: item.hex }"></i
         ></mat-label>
@@ -382,7 +378,7 @@
           appearance="outline"
         >
           <mat-label>
-            Tubo {{ item.name | lowercase }}
+            {{ item.name }}
             <i [ngStyle]="{ color: item.hex }" class="fas fa-circle"></i>
           </mat-label>
           <input

@@ -1,7 +1,5 @@
 import { NgModule } from "@angular/core";
 import { Routes, RouterModule } from '@angular/router';
-import { TiposAgendaComponent } from './tipos-agenda/tipos-agenda.component';
-import { TiposConsultaComponent } from './tipos-consulta/tipos-consulta.component';
 import { TiposContratoComponent } from './tipos-contrato/tipos-contrato.component';
 import { TiposSalarioComponent } from './tipos-salario/tipos-salario.component';
 import { TiposDocumentoComponent } from './tipos-documento/tipos-documento.component';
@@ -14,12 +12,12 @@ import { ProfesionesComponent } from './profesiones/profesiones.component';
 import { TiposRetencionesComponent } from './tipos-retenciones/tipos-retenciones.component';
 import { TiposVisaComponent } from './tipos-visa/tipos-visa.component';
 import { TipoactivofijoComponent } from './tipoactivofijo/tipoactivofijo.component';
+import { ContratoComponent } from "./contrato/contrato.component";
 
 
 const routes : Routes = [
-    { path: 'tipos-agenda' , component: TiposAgendaComponent },
-    { path: 'tipos-consulta' , component: TiposConsultaComponent },
     { path: 'tipos-contrato' , component: TiposContratoComponent },
+    { path: 'contrato' , component: ContratoComponent },
     { path: 'tipos-salario' , component: TiposSalarioComponent },
     { path: 'tipos-documento' , component: TiposDocumentoComponent },
     { path: 'tipos-riesgo' , component: TiposRiesgoComponent },

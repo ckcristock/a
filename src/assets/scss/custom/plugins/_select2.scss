@@ -1,7 +1,3 @@
-//
-// Select 2
-//
-
 @import "~@ng-select/ng-select/themes/material.theme.css";
 
 .ng-select.ng-select-single .ng-select-container {
@@ -12,10 +8,21 @@
   padding: 0 0.5em;
   min-height: 50px;
 }
+
+.ng-select.ng-select-single .ng-select-container.ng-appearance-outline .ng-arrow-wrapper {
+  bottom: 9px;
+}
+
+.ng-select.ng-select-single .ng-select-container.ng-appearance-outline .ng-clear-wrapper {
+  bottom: 7px;
+}
+
 .ng-select {
-  padding-bottom: 1.3em !important;
+  /* padding-bottom: 1.3em !important;
   padding-left: 0.9em !important;
-  padding-right: 0.9em !important;
+  padding-right: 0.9em !important; */
+  display: inline !important;
+  font-family: inherit;
 }
 /* .ng-select .ng-select-container {
   border: $input-border-width solid $input-border-color !important;
@@ -52,6 +59,28 @@
   color: $white;
 }
 
+.ng-select {
+  .ng-select-container {
+      background-color: $input-bg  !important;
+      color: $input-color  !important;
+
+      input {
+          color: $input-color  !important;
+      }
+  }
+
+  .ng-dropdown-panel {
+      .ng-option {
+          background-color: $input-bg  !important;
+          color: $input-color  !important;
+
+          &.ng-option-marked {
+              background-color: $primary  !important;
+              color: $white  !important;
+          }
+      }
+  }
+}
 
 
 .select2-container {

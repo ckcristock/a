@@ -5,10 +5,12 @@ import { ValidatorsService } from 'src/app/pages/ajustes/informacion-base/servic
 import { UserService } from 'src/app/core/services/user.service';
 import { LaboratoryService } from '../laboratory.service';
 import { Observable, of, OperatorFunction } from 'rxjs';
-import { catchError, debounceTime, distinctUntilChanged, filter, map, switchMap, tap } from 'rxjs/operators';
+import { catchError, debounceTime, delay, distinctUntilChanged, filter, first, map, skip, switchMap, tap } from 'rxjs/operators';
 import { SwalService } from 'src/app/pages/ajustes/informacion-base/services/swal.service';
 import { ActivatedRoute, Params, Router } from '@angular/router';
 import { functionsUtils } from 'src/app/core/utils/functionsUtils';
+import { QueryPatient } from 'src/app/pages/agendamiento/query-patient.service';
+import { SetPacienteComponent } from 'src/app/components/paciente/set-paciente/set-paciente.component';
 
 @Component({
   selector: 'undefined-new-laboratory',
@@ -16,7 +18,6 @@ import { functionsUtils } from 'src/app/core/utils/functionsUtils';
   styleUrls: ['./new-laboratory.component.css']
 })
 export class NewLaboratoryComponent implements OnInit {
-
   form: FormGroup;
   today = new Date().toISOString().slice(0, 10);
   date: { year: number; month: number };
@@ -36,7 +37,6 @@ export class NewLaboratoryComponent implements OnInit {
   searchFailedPatient = false;
   searchingCie10 = false;
   searchFailedCie10 = false;
-  ide: string;
 
   fileString: any = '';
   file: any = '';
@@ -53,7 +53,8 @@ export class NewLaboratoryComponent implements OnInit {
   fileConsentimiento: any = '';
   filenameConsentimiento: any = '';
   typeConsentimiento: any = '';
-
+  returnBack: boolean
+  paciente: any
   constructor(
     private _validatorsService: ValidatorsService,
     private fb: FormBuilder,
@@ -62,15 +63,22 @@ export class NewLaboratoryComponent implements OnInit {
     private _swal: SwalService,
     private datePipe: DatePipe,
     private router: Router,
-    private route: ActivatedRoute
+    private route: ActivatedRoute,
+    private _queryPatient: QueryPatient,
   ) {
     this.ips = this._user.user.person.company_worked.id
-    this.route.params.subscribe((params: Params) => this.ide = params['id']);
   }
 
   ngOnInit() {
-    this.getContract();
     this.createForm();
+    this._queryPatient.patient.subscribe(async r => {
+      if (!r.paciente.identifier || r.isNew) {
+        this.form.patchValue({ patient: '' })
+      } else if (!r.isNew) {
+        this.form.patchValue({ patient: r.paciente })
+      }
+    })
+    this.getContract();
     this.getLaboratoriesPlace();
     this.getProfessional();
     //this.getPatients();
@@ -279,9 +287,9 @@ export class NewLaboratoryComponent implements OnInit {
     console.log(this.form.get('patient').value['id'])
     if (this.form.valid && this.cups.length > 0) {
       let params = {
-        ...this.form.value, 
-        file_order: this.file, 
-        file_document: this.fileDocument, 
+        ...this.form.value,
+        file_order: this.file,
+        file_document: this.fileDocument,
         file_cosentimiento: this.fileConsentimiento
       }
       this._laboratory.createLaboratory(params)
@@ -312,3 +320,7 @@ export class NewLaboratoryComponent implements OnInit {
     input.value = '';
   }
 }
+function ViewChield(PopoverComponent: any, arg1: { static: boolean; }) {
+  throw new Error('Function not implemented.');
+}
+

@@ -97,9 +97,9 @@ export class LaboratoryService {
     return this.clientHttp.get(`${environment.base_url}/tube-id/${id}`);
   }
 
-  getReport() {
+  getReport(params = {}) {
     const headers = new HttpHeaders().set('Content-Type', 'application/json')
-    return this.clientHttp.get(`${environment.base_url}/laboratory-report`, {headers, responseType: 'blob' as 'json' })
+    return this.clientHttp.get(`${environment.base_url}/laboratory-report`, {headers, responseType: 'blob' as 'json', params })
   }
   deleteDocument(id) {
     return this.clientHttp.get(`${environment.base_url}/delete-document-laboratory/${id}`);

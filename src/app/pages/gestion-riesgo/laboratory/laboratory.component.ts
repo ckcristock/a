@@ -52,7 +52,7 @@ export class LaboratoryComponent implements OnInit {
   @ViewChild('fileInput') fileInput: ElementRef;
   datePipe = new DatePipe('es-CO');
   today = new Date().toTimeString().slice(0, 5);
-  date: { year: number; month: number };
+  date: any;
   formTomarExamen: FormGroup;
   formAsignarTubos: FormGroup;
   formAnular: FormGroup;
@@ -94,10 +94,31 @@ export class LaboratoryComponent implements OnInit {
     private _router: Router
   ) { }
   ngOnInit() {
-    this.getLaboratories();
     this.getMotivos();
+    this.getRange()
   }
 
+  getRange() {
+    let savedRangeStr = new Date();
+    this.date = { begin: Date, end: Date };
+    this.date.begin = savedRangeStr;
+    this.date.end = savedRangeStr;
+    this.filtros.fecha =
+      this.datePipe.transform(this.date.begin, 'yyyy-MM-dd') +
+      'a' +
+      this.datePipe.transform(this.date.end, 'yyyy-MM-dd');
+    this.getLaboratories();
+  }
+
+  selectedDate(fecha) {
+
+    this.filtros.fecha =
+      this.datePipe.transform(fecha.value.begin._d, 'yyyy-MM-dd') +
+      'a' +
+      this.datePipe.transform(fecha.value.end._d, 'yyyy-MM-dd');
+    console.log(this.filtros.fecha)
+    this.getLaboratories();
+  }
   /* validarHora(e) {
     let h1 = e.target.value.split(':');
     let h2: any = this.today.split(':');
@@ -160,7 +181,7 @@ export class LaboratoryComponent implements OnInit {
   newCall(form) {
     //console.log(form)
     let id: number = form.form.value.Identificacion_Paciente
-    this._router.navigate(['gestion-riesgo/laboratorio/nuevo-laboratorio', id]);
+    this._router.navigate(['gestion-riesgo/laboratorio/nuevo-laboratorio']);
     this._laboratory.newCall(form).subscribe((req: any) => {
       if (req.code == 200) {
         let data = req.data;
@@ -229,14 +250,15 @@ export class LaboratoryComponent implements OnInit {
         if (this.allTubes[i].hour) {
           this.hours.push({
             id_lab: id,
-            id: this.allTubes[i].id, 
-            hour:this.allTubes[i].hour.slice(0, 5)
+            id: this.allTubes[i].id,
+            hour: this.allTubes[i].hour.slice(0, 5)
           })
         } else {
           this.hours.push({
             id_lab: id,
-            id: this.allTubes[i].id, 
-            hour:this.allTubes[i].hour})
+            id: this.allTubes[i].id,
+            hour: this.allTubes[i].hour
+          })
         }
       }
       console.log(this.hours)
@@ -290,7 +312,7 @@ export class LaboratoryComponent implements OnInit {
   donwloading: boolean
   getReport() {
     this.donwloading = true;
-    this._laboratory.getReport()
+    this._laboratory.getReport(this.filtros)
       .subscribe((response: BlobPart) => {
         let blob = new Blob([response], { type: 'application/excel' });
         let link = document.createElement("a");
@@ -393,15 +415,8 @@ export class LaboratoryComponent implements OnInit {
     this.hours = [];
   }
 
-  selectedDate(fecha) {
 
-    this.filtros.fecha =
-      this.datePipe.transform(fecha.value.begin._d, 'yyyy-MM-dd') +
-      'a' +
-      this.datePipe.transform(fecha.value.end._d, 'yyyy-MM-dd');
-    //console.log(this.filtros.fecha)
-    this.getLaboratories();
-  }
+
   mail: any = 'a@a.com';
   enviarCorreo(mail) {
     this.mail = mail;
