@@ -8,8 +8,6 @@ import { FacturaCapitaComponent } from './factura-capita/factura-capita.componen
 import { FacturaLaboratorioComponent } from './factura-laboratorio/factura-laboratorio.component';
 import { FacturaMedicamentosComponent } from './factura-medicamentos/factura-medicamentos.component';
 import { FacturaPgpComponent } from './factura-pgp/factura-pgp.component';
-import { ComponentsModule } from 'src/app/components/components.module';
-import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { TablaFacturacionComponent } from './factura-medicamentos/tabla-facturacion/tabla-facturacion.component';
 import { NuevaFacturaCapitaComponent } from './factura-capita/nueva-factura-capita/nueva-factura-capita.component';
 
@@ -98,6 +96,6 @@ export const MY_FORMATS = {
 
     MatIconModule
   ],
- 
+
 })
 export class CuentasMedicasModule { }
