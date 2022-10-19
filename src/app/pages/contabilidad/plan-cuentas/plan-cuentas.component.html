@@ -116,7 +116,7 @@
                     <i class="far fa-eye"></i> Ver</a
                   >
                   <a
-                    *ngIf="item.Estado != 'Anulada'"
+                  *ngIf="item.Estado!='INACTIVO'"
                     class="dropdown-item text-info waves-light waves-effect caja-botones"
                     (click)="
                       EditarPlanCuenta(item.Id_Plan_Cuentas, editarCuenta)
@@ -124,9 +124,14 @@
                   >
                     <i class="far fa-edit"></i> Editar</a
                   >
-                  <a *ngIf="item.Estado!='Anulada'" class="dropdown-item waves-light waves-effect caja-botones" [swal]="{ title : '¿Está Seguro?', text : 'Se Dispone a cambiar el estado de esta Cuenta Contable' , icon : 'warning', showCancelButton : true , confirmButtonText : 'Si, Cambiar', cancelButtonText : 'No, Dejame Comprobar!' }"
-                                              (confirm)="CambiarEstadoPlan(item.Id_Plan_Cuentas)">
-                                              <i class="far fa-trash-alt"></i> Desactivar</a>
+                  <a *ngIf="item.Estado!='INACTIVO'" class="text-dager dropdown-item waves-light waves-effect caja-botones" [swal]="{ title : '¿Está Seguro?', text : 'Se Dispone a cambiar el estado de esta Cuenta Contable' , icon : 'warning', showCancelButton : true , confirmButtonText : 'Si, Cambiar', cancelButtonText : 'No, Dejame Comprobar!' }"
+                      (confirm)="CambiarEstadoPlan(item.Id_Plan_Cuentas)">
+                      <i class="far fa-trash-alt"></i> Desactivar</a>
+
+                   <a *ngIf="item.Estado=='INACTIVO'" class="text-warning dropdown-item waves-light waves-effect caja-botones" [swal]="{ title : '¿Está Seguro?', text : 'Se Dispone a cambiar el estado de esta Cuenta Contable' , icon : 'warning', showCancelButton : true , confirmButtonText : 'Si, Cambiar', cancelButtonText : 'No, Dejame Comprobar!' }"
+                      (confirm)="CambiarEstadoPlan(item.Id_Plan_Cuentas)">
+                      <i class="fa fa-arrow-circle-left"></i> Reactivar</a>
+
                 </div>
               </div>
             </div>

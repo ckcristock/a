@@ -309,7 +309,6 @@ export class PlanCuentasComponent implements OnInit {
       let info = JSON.stringify(this.PlanCuentaModel);
       datos.append('Datos', info);
     }
-    console.log(Formulario.value);
     this.http
       .post(
         environment.ruta + 'php/contabilidad/plancuentas/guardar_puc.php',
@@ -358,38 +357,18 @@ export class PlanCuentasComponent implements OnInit {
   }
 
   CambiarEstadoPlan(idPlanCuenta) {
+    let datos = new FormData();
+    datos.append('id_cuenta',idPlanCuenta);
     this.http
-      .post(
-        environment.ruta +
-          'php/contabilidad/plancuentas/cambiar_estado_cuenta.php',
-        { params: { id_cuenta: idPlanCuenta } }
-      )
+      .post( environment.ruta + 'php/contabilidad/plancuentas/cambiar_estado.php', datos )
       .subscribe((data: any) => {
-        if (data.codigo == 'OK') {
-          Swal.fire({
-            icon: 'success',
-            title: 'Cambio Exitoso',
-            text: data.msg,
-          });
-          // this.ShowSwal('success', 'Cambio Exitoso', data.msg);
-        } else if (data.codigo == 'ERR') {
-          Swal.fire({
-            icon: 'error',
-            title: 'Error Inesperado',
-            text: data.msg,
-          });
-          // this.ShowSwal('error', 'Error Inesperado', data.msg);
-        } else if (data.codigo == 'WARNING') {
-          Swal.fire({
-            icon: 'warning',
-            title: 'Alerta',
-            text: data.msg,
-          });
-          // this.ShowSwal('warning', 'Alerta', data.msg);
-        }
-
+        Swal.fire({
+          icon: data.icon,
+          title: data.title,
+          text: data.msg,
+        });
         setTimeout(() => {
-          this.ListaPlanCuentas();
+          this.filtros();
         }, 1000);
       });
   }
