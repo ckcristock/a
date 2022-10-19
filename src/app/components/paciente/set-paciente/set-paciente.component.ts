@@ -108,7 +108,7 @@ export class SetPacienteComponent implements OnInit {
         }
       } */
       this.companies = req.data
-      console.log(this.companies)
+      //console.log(this.companies)
       this.companies.unshift({ text: 'Seleccione', value: '' })
       this.getLocations(this.paciente.company_id)
     })

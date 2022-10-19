@@ -1,9 +1,5 @@
 import { NgModule } from "@angular/core";
 import { ParametrosRoutingModule } from "./parametros-routing.module";
-import { PerfilesComponent } from './perfiles/perfiles.component';
-import { RgpComponent } from './rgp/rgp.component';
-import { NotasTecnicasComponent } from './notas-tecnicas/notas-tecnicas.component';
-import { ZonasComponent } from './zonas/zonas.component';
 import { ComponentsModule } from "src/app/components/components.module";
 import { HttpClientModule } from "@angular/common/http";
 import { NgbDropdownModule, NgbPagination, NgbPaginationModule } from "@ng-bootstrap/ng-bootstrap";
@@ -22,19 +18,30 @@ import { MatExpansionModule } from '@angular/material/expansion';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatInputModule } from '@angular/material/input';
 import { MatSelectModule } from '@angular/material/select';
+import { AgendamientoComponent } from './agendamiento/agendamiento.component';
+import { TiposModule } from "../tipos/tipos.module";
+import { NominaComponent } from './nomina/nomina.component';
+import { InformacionBaseModule } from "../informacion-base/informacion-base.module";
 
 @NgModule({
     declarations: [
-        NotasTecnicasComponent,
-        PerfilesComponent,
-        ZonasComponent,
-        RgpComponent, EpsComponent, DepartamentosComponent, MunicipiosComponent, BancosComponent, CuentasBancariasComponent, CategoriasComponent, SubcategoriasComponent
+        EpsComponent, 
+        DepartamentosComponent, 
+        MunicipiosComponent, 
+        BancosComponent, 
+        CuentasBancariasComponent, 
+        CategoriasComponent, 
+        SubcategoriasComponent,
+        AgendamientoComponent,
+        NominaComponent,
     ],
     imports: [
         ParametrosRoutingModule,
         ReactiveFormsModule,
         ComponentsModule,
         HttpClientModule,
+        TiposModule,
+        InformacionBaseModule,
         NgbDropdownModule,
         NgbPaginationModule,
         FormsModule,
