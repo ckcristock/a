@@ -8,6 +8,10 @@ import { environment } from 'src/environments/environment';
 export class DepartamentosService {
 
   constructor( private http:HttpClient ) { }
+  
+  getDepartments(params = {}){
+    return this.http.get(`${environment.base_url}/departments`, {params});
+  }
 
   getDepartmentPaginate( params = {} ){
     return this.http.get(`${environment.base_url}/paginateDepartment`, {params} );
