@@ -31,6 +31,7 @@ import { MatExpansionModule } from '@angular/material/expansion';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatInputModule } from '@angular/material/input';
 import { MatSelectModule } from '@angular/material/select';
+import { ContratoComponent } from './contrato/contrato.component';
 
 @NgModule({
     declarations: [
@@ -52,7 +53,8 @@ import { MatSelectModule } from '@angular/material/select';
         ProfesionesComponent,
         TiposVisaComponent,
         TipoactivofijoComponent,
-        TablatipoactivofijoComponent
+        TablatipoactivofijoComponent,
+        ContratoComponent
     ],
     imports: [
         TiposRoutingModule,
@@ -72,6 +74,10 @@ import { MatSelectModule } from '@angular/material/select';
         MatSelectModule,
         SweetAlert2Module.forRoot()
     ],
+    exports: [
+        TiposAgendaComponent,
+        TiposConsultaComponent
+    ]
 })
 
 export class TiposModule { }

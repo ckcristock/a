@@ -23,6 +23,7 @@ export class TiposContratoComponent implements OnInit {
   @ViewChild('modal') modal: any;
   @ViewChild(MatAccordion) accordion: MatAccordion;
   matPanel = false;
+  isOpen: boolean = false;
   openClose() {
     if (this.matPanel == false) {
       this.accordion.openAll();
@@ -62,11 +63,11 @@ export class TiposContratoComponent implements OnInit {
   openModal() {
     this.modal.show();
     this.form.reset();
-    this.selected = 'Nuevo Tipo de Contrato';
+    this.selected = 'Nuevo tipo de Contrato';
   }
   openModalNg(content) {
     this.form.reset();
-    this.selected = 'Nuevo Tipo de Contrato';
+    this.selected = 'Nuevo tipo de contrato';
     this.modalBD.open(content);
   }
 
@@ -77,7 +78,7 @@ export class TiposContratoComponent implements OnInit {
 
   getData(data,content) {
     this.contrato = { ...data };
-    this.selected = 'Actualizar Tipo de Contrato';
+    this.selected = 'Actualizar tipo de contrato';
     this.modalBD.open(content);
     this.form.patchValue({
       id: this.contrato.id,

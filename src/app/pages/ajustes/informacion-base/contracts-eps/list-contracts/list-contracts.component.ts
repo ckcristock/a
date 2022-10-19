@@ -2,6 +2,7 @@ import { Component, OnInit, ViewChild } from '@angular/core';
 import { MatAccordion } from '@angular/material/expansion';
 import { Router } from '@angular/router';
 import { EpssService } from '../../services/epss.service';
+import { SwalService } from '../../services/swal.service';
 
 @Component({
   selector: 'app-list-contracts',
@@ -11,50 +12,41 @@ import { EpssService } from '../../services/epss.service';
 export class ListContractsComponent implements OnInit {
   @ViewChild(MatAccordion) accordion: MatAccordion;
   matPanel = false;
-  openClose(){
-    if (this.matPanel == false){
-      this.accordion.openAll()
-      this.matPanel = true;
-    } else {
-      this.accordion.closeAll()
-      this.matPanel = false;
-    }    
-  }
-  contracts: any = [];
-  contract: any = {};
+  contracts: any[] = [];
+  loading: boolean = false;
   filtros: any = {
     name: '',
     code: ''
   }
 
-  pagination = {
-    pageSize: 25,
+  pagination: any = {
     page: 1,
+    pageSize: 10,
     collectionSize: 0
   }
 
-  loading: boolean = false;
+
   constructor(
-
     private epsContractService: EpssService,
-    private router: Router
-
+    private router: Router,
+    private _swal: SwalService,
   ) { }
 
   ngOnInit(): void {
-    this.getAllCups();
+    this.getAllContratos();
   }
 
-  // openModal = () => {
-  //   this.modal.openModal();
-  // }
-
-  edit = (id) => {
-    this.router.navigateByUrl(`/ajustes/informacion-base/create-contract/${id}`);
+  openClose() {
+    if (this.matPanel == false) {
+      this.accordion.openAll()
+      this.matPanel = true;
+    } else {
+      this.accordion.closeAll()
+      this.matPanel = false;
+    }
   }
 
-  getAllCups(page = 1) {
-
+  getAllContratos(page = 1) {
     this.pagination.page = page;
     let params = {
       ...this.pagination, ...this.filtros
@@ -64,52 +56,42 @@ export class ListContractsComponent implements OnInit {
     this.epsContractService.getAllPaginateEpsContact(params)
       .subscribe((res: any) => {
         this.loading = false;
-        this.contracts = res.data;
+        this.contracts = res.data.data;
         this.pagination.collectionSize = res.data.total;
       });
   }
 
-  anularOActivar(zone, status) {
+  anularOActivar(zone, status, state) {
 
     let data: any = {
       id: zone.id,
-      status
+      status,
+      state
     }
+    this._swal.show({
+      icon: 'question',
+      title: '¿Estás seguro(a)?',
+      showCancel: true,
+      text: (status === 0 ? '¡El contrato se anulará!' : '¡El contrato se activará!'),
+    }).then((result) => {
+      if (result.isConfirmed) {
+        this.epsContractService.createNewEpsContact(data)
+          .subscribe(res => {
+            this.getAllContratos();
+            this._swal.show({
+              title: (status === 0 ? '¡Contrato anulado!' : '¡Contrato activado!'),
+              text: 'Operación completada con éxito.',
+              icon: 'success',
+              showCancel: false,
+              timer: 1000
+            })
+          })
+      }
+    })
 
-
-    // Swal.fire({
-    //   title: '¿Estas seguro?',
-    //   text: (status === 'Inactivo' ? 'La Cup se Inactivará!' : 'La Cup se activará'),
-    //   icon: 'warning',
-    //   showCancelButton: true,
-    //   confirmButtonColor: '#3085d6',
-    //   cancelButtonColor: '#d33',
-    //   cancelButtonText: 'Cancelar',
-    //   confirmButtonText: (status === 'Inactivo' ? 'Si, Inhabilitar' : 'Si, activar')
-    // }).then((result) => {
-    //   if (result.isConfirmed) {
-    //     this.epsContractService.createNewCup(data)
-    //       .subscribe(res => {
-    //         this.getAllCups();
-    //         Swal.fire({
-    //           title: (status === 'Inactivo' ? 'Cup Inhabilitada!' : 'Cup activada'),
-    //           text: (status === 'Inactivo' ? 'La Cup ha sido Inhabilitada con éxito.' : 'La Cup ha sido activada con éxito.'),
-    //           icon: 'success'
-    //         })
-    //       })
+    //
+    //     
     //   }
     // })
   }
-
-
-  registerNull(cup) {
-    // this.cup = cup;
-
-  }
-
-  getCups(cup) {
-    // this.cup = { ...cup };
-  }
-
-
 }

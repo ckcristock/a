@@ -6,25 +6,10 @@ margin-bottom: 5px;
 padding:3px;
 }
 
-
-.ng-select {
-    height: calc(1.5em + 0.5rem + 2px) !important;
-    font-size: 0.7875rem;
-    line-height: 1.5;
+input[type="date"]::-webkit-inner-spin-button,
+input[type="date"]::-webkit-calendar-picker-indicator {
+    position: absolute;
+    right: 0;
+    height: 15px;
+    width: 15px;
 }
-
-.ng-select-container {
-    height: calc(1.5em + 0.5rem + 1px) !important;
-    min-height: auto !important;
-}
-
-
-// .ng-select .ng-select-container {
-//     color: #333;
-//     background-color: #fff;
-//     border-radius: 4px;
-//     border: 1px solid #ccc;
-//     height: 29px !important;
-//     min-height: 29px !important;
-//     align-items: center;
-// }

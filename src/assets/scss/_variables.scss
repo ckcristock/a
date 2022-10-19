@@ -29,7 +29,7 @@ $header-bg: #ffffff;
 $header-item-color: #636e75;
 
 // Topbar - Dark
-$header-dark-bg: #252b3b;
+$header-dark-bg: #fafafa;
 $header-dark-item-color: #e9ecef;
 
 // Topbar Search
@@ -53,7 +53,7 @@ $rightbar-width: 350px;
 $display-none: none;
 $display-block: block;
 
-// Brand 
+// Brand
 $navbar-brand-box-width: 240px;
 
 // Boxed layout width
@@ -344,7 +344,7 @@ $embed-responsive-aspect-ratios: join(
 // Font, line-height, and color for body text, headings, and more.
 
 // stylelint-disable value-keyword-case
-$font-family-sans-serif:      'Nunito', sans-serif;
+$font-family-sans-serif:      'to', sans-serif;
 $font-family-monospace:       SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono", "Courier New", monospace;
 $font-family-base:            $font-family-sans-serif;
 // stylelint-enable value-keyword-case

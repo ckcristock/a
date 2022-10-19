@@ -8,12 +8,12 @@
         <span class="badge badge-info mx-1">
           {{ laboratory.date | date: "longDate" }}
         </span>
-        <span
+        <!-- <span
           class="badge badge-info mx-1"
           *ngIf="laboratory.status == 'Tomado'"
         >
           {{ laboratory.hour }}
-        </span>
+        </span> -->
         <span
           class="badge mx-1"
           [ngClass]="

@@ -8,7 +8,7 @@
         <hr class="line" />
         <form [formGroup]="form">
           <div class="row">
-            <mat-form-field class="col-lg-6" appearance="outline">
+            <!-- <mat-form-field class="col-lg-6" appearance="outline">
               <mat-label>Paciente</mat-label>
               <input
                 matInput
@@ -26,7 +26,7 @@
               <mat-hint *ngIf="searchFailedPatient"
                 >No hemos encontrado resultados</mat-hint
               >
-            </mat-form-field>
+            </mat-form-field> -->
             <mat-form-field class="col-lg-6" appearance="outline">
               <mat-label>Diagnóstico</mat-label>
               <input
@@ -44,7 +44,7 @@
                 >No hemos encontrado resultados</mat-hint
               >
             </mat-form-field>
-            <mat-form-field class="col-4" appearance="outline">
+            <mat-form-field class="col-lg-6" appearance="outline">
               <mat-label>Profesional</mat-label>
               <mat-select formControlName="professional_id" required>
                 <mat-option
@@ -92,7 +92,7 @@
             </mat-form-field>
           </div>
           <div class="row">
-            <div class="col-md-6">
+            <div class="col-md-4">
               <div class="form-group text-center">
                 <div class="custom-input-file col-md-12">
                   <input
@@ -111,7 +111,7 @@
                 </div>
               </div>
             </div>
-            <div class="col-md-6">
+            <div class="col-md-4">
               <div class="form-group text-center">
                 <div class="custom-input-file col-md-12">
                   <input
@@ -126,6 +126,25 @@
                 <div class="col-md-12 text-center">
                   <small *ngIf="fileDocument" class="text-success"
                     >Documento cargado</small
+                  >
+                </div>
+              </div>
+            </div>
+            <div class="col-md-4">
+              <div class="form-group text-center">
+                <div class="custom-input-file col-md-12">
+                  <input
+                    type="file"
+                    #consentimientoFile
+                    class="input-file"
+                    (change)="onFileChanged3($event, 'consentimiento')"
+                    accept=".pdf"
+                  />
+                  Cargar consentimiento
+                </div>
+                <div class="col-md-12 text-center">
+                  <small *ngIf="fileConsentimiento" class="text-success"
+                    >Consentimiento cargado</small
                   >
                 </div>
               </div>

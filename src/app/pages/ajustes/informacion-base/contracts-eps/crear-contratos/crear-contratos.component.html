@@ -1,486 +1,644 @@
-<div class="page-body">
-    <div class="row">
-        <div class="col-lg-12 col-md-12 col-md-offset-4">
-            <div class="card p-3">
-
-
-                <a routerLink="/ajustes/informacion-base/contracts">
-                    <button type="button" class="btn btn-primary btn-sm btnRegresar">
-                        <i class="fas fa-arrow-left"></i>
-                    </button>
-                </a>
-
-                <form #FormContrato="ngForm" ng-submit="" style="padding-bottom: 0px" [formGroup]="dataForm" novalidate>
-                    <div class="row" style="align-items:flex-start !important;">
-
-                        <div class="col-md-12 text-center ">
-                            <h4 class="text-secondary"> Contrato</h4>
-                            <!-- <h4 class="text-secondary">Crear Contrato</h4> -->
-                        </div>
-                    </div>
-
-                    <!-- <pre>
-                        {{
-                            dataForm.get('id').value
-                        }}
-                    </pre> -->
-
-                    <input type="hidden" id="id" name="id" formControlName="id" />
-
-                    <div class="row" style="align-items:flex-start !important;">
-                        <div class="card-body" style="padding-bottom: 0px">
-                            <div class="row invoive-info" style="margin-bottom: 0; padding-bottom: 0px;">
-
-                                <div class="col-md-6">
-                                    <div class="form-group">
-                                        <label>Nombre</label>
-                                        <input type="text" id="name" name="name" formControlName="name"
-                                            class="form-control form-control-sm f-9 " />
-                                    </div>
-                                    <app-show-errors class="text-danger" [ctrl]="dataForm.get('name')">
-                                    </app-show-errors>
-                                </div>
-
-                                <div class="col-md-2">
-                                    <div class="form-group">
-                                        <label>Codigo</label>
-                                        <input type="text" name="code" id="code"
-                                            class="form-control form-control-sm f-9 " formControlName="code" />
-                                    </div>
-                                    <app-show-errors class="text-danger" [ctrl]="dataForm.get('code')">
-                                    </app-show-errors>
-                                </div>
-
-                                <div class="col-md-2">
-                                    <div class="form-group">
-                                        <label>Numero #</label>
-                                        <input type="text" name="number" id="number"
-                                            class="form-control form-control-sm f-9 " formControlName="number" />
-                                    </div>
-                                    <app-show-errors class="text-danger" [ctrl]="dataForm.get('number')">
-                                    </app-show-errors>
-                                </div>
-
-                                <div class="col-md-2">
-                                    <div class="form-group">
-                                        <label>Modalidad de pago</label>
-                                        <select type="text" name="payment_modality" id="payment_modality"
-                                            class="form-control form-control-sm f-9 "
-                                            formControlName="payment_modality">
-                                            <option value="" selected>Seleccione Modalidad de pago</option>
-                                            <option value="Capita">Capita</option>
-                                            <option value="Evento">Evento</option>
-                                            <option value="Particular">Particular</option>
-                                        </select>
-                                        <app-show-errors class="text-danger" [ctrl]="dataForm.get('payment_modality')">
-                                        </app-show-errors>
-                                    </div>
-                                </div>
-
-                                <div class="col-md-3 ">
-                                    <label for="administrator_id">Aseguradora</label>
-
-                                    <ng-select [items]="administrators" required bindLabel="text" bindValue="value"
-                                        placeholder="Seleccione " name="administrator_id" loadingText="loading"
-                                        formControlName="administrator_id">
-                                    </ng-select>
-
-                                    <app-show-errors class="text-danger" [ctrl]="dataForm.get('administrator_id')">
-                                    </app-show-errors>
-                                </div>
-
-                                <div class="col-md-3">
-                                    <div class="form-group">
-                                        <label>Regimen</label>
-                                        <ng-select [items]="regimes" multiple="true" required bindLabel="text"
-                                            bindValue="value" placeholder="Seleccione " name="regimen_id"
-                                            loadingText="loading" formControlName="regimen_id">
-                                        </ng-select>
-                                    </div>
-                                    <app-show-errors class="text-danger" [ctrl]="dataForm.get('regimen_id')">
-                                    </app-show-errors>
-                                </div>
-
-                                <div class="col-md-2">
-                                    <div class="form-group">
-                                        <label>Precio global del contraco</label>
-                                        <input type="text" name="price" id="price"
-                                            class="form-control form-control-sm f-9 " formControlName="price" />
-                                    </div>
-
-                                    <app-show-errors class="text-danger" [ctrl]="dataForm.get('price')">
-                                    </app-show-errors>
-                                </div>
-
-
-                                <div class="col-md-2">
-                                    <div class="form-group">
-                                        <label>Vigencia contrato desde</label>
-                                        <input type="date" name="start_date" id="start_date"
-                                            class="form-control form-control-sm f-9" formControlName="start_date" />
-                                    </div>
-                                    <app-show-errors class="text-danger" [ctrl]="dataForm.get('start_date')">
-                                    </app-show-errors>
-                                </div>
-
-                                <div class="col-md-2">
-                                    <div class="form-group">
-                                        <label>Vigencia contrato hasta</label>
-                                        <input type="date" name="end_date" id="end_date"
-                                            class="form-control form-control-sm f-9" formControlName="end_date" />
-                                    </div>
-
-                                    <app-show-errors class="text-danger" [ctrl]="dataForm.get('end_date')">
-                                    </app-show-errors>
-                                </div>
-
-                                <div class="col-md-3 " style="display: block;">
-                                    <div class="form-group">
-                                        <label>Departamento</label>
-                                        <ng-select [items]="departments" multiple="true" required bindLabel="text"
-                                            bindValue="value" placeholder="Seleccione " name="department_id"
-                                            loadingText="loading" formControlName="department_id">
-                                        </ng-select>
-                                    </div>
-                                    <app-show-errors class="text-danger" [ctrl]="dataForm.get('department_id')">
-                                    </app-show-errors>
-                                </div>
-
-
-                                <div class="col-md-3">
-                                    <div class="form-group">
-                                        <label>Municipio</label>
-                                        <ng-select [items]="municipalities" multiple="true" required bindLabel="text"
-                                            bindValue="value" placeholder="Seleccione " name="municipality_id"
-                                            loadingText="loading" formControlName="municipality_id">
-                                        </ng-select>
-                                    </div>
-                                    <app-show-errors class="text-danger" [ctrl]="dataForm.get('municipality_id')">
-                                    </app-show-errors>
-                                </div>
-
-                                <div class="col-md-3">
-                                    <div class="form-group">
-                                        <label>Empresa</label>
-                                        <ng-select [items]="companys" [multiple]="true" required bindLabel="text"
-                                            bindValue="value" placeholder="Seleccione" name="company_id"
-                                            loadingText="loading" formControlName="company_id">
-                                        </ng-select>
-
-                                    </div>
-                                    <app-show-errors class="text-danger" [ctrl]="dataForm.get('company_id')">
-                                    </app-show-errors>
-                                </div>
-
-                                <div class="col-md-3">
-                                    <div class="form-group">
-                                        <label>Sede</label>
-                                        <ng-select [items]="locations" multiple="true" required bindLabel="text"
-                                            bindValue="value" placeholder="Seleccione " name="location_id"
-                                            loadingText="loading" formControlName="location_id">
-                                        </ng-select>
-
-                                    </div>
-                                    <app-show-errors class="text-danger" [ctrl]="dataForm.get('location_id')">
-                                    </app-show-errors>
-                                </div>
-
-
-                            </div>
-                        </div>
-
-                        <div class="col-12 ">
-                            <hr>
-                            <div class="text-center my-3">
-                                <h4 class="text text-center text-secondary"> Polizas </h4>
-                            </div>
-                        </div>
-
-                        <div class="col-12 d-flex justify-content-end" style="display: block;">
-                            <div class="btn-group" style="float: right;">
-                                <button class="btn btn-danger btn-sm  rounded-pill" placement="bottom"
-                                    ngbTooltip="Borrar" (click)="deletePoliza($event.target.value)">
-                                    <i class="fas fa-trash-alt"></i>
-                                </button>
-                                <button class="btn btn-info btn-sm  rounded-pill" placement="bottom"
-                                    ngbTooltip="Agregar" (click)="newPoliza()"><i class="fas fa-plus"></i>
-                                </button>
-                            </div>
-                        </div>
-
-                        <ng-container *ngIf="polizaList.controls.length">
-                            <ng-container *ngFor="let poliz of polizaList.controls; let c = index">
-                                <div class="card-body border my-2 " style="padding-bottom: 0px" formArrayName="poliza">
-                                    <div class="row" style="margin-bottom: 0; padding-bottom: 0px;" [formGroupName]="c">
-
-                                        <div class="col-md-2">
-                                            <div class="form-group">
-                                                <label>Codigo poliza</label>
-                                                <input type="text" id="codigopoliza" formControlName="codigopoliza"
-                                                    class="form-control form-control-sm f-9 " />
-                                                <app-show-errors class="text-danger" [ctrl]="poliz.get('codigopoliza')">
-                                                </app-show-errors>
-                                            </div>
-                                        </div>
-
-                                        <div class="col-md-4">
-                                            <div class="form-group">
-                                                <label>Nombre</label>
-                                                <input type="text" id="nombrepoliza" formControlName="nombrepoliza"
-                                                    class="form-control form-control-sm f-9 " />
-                                                <app-show-errors class="text-danger" [ctrl]="poliz.get('nombrepoliza')">
-                                                </app-show-errors>
-                                            </div>
-                                        </div>
-
-                                        <div class="col-md-2">
-                                            <div class="form-group">
-                                                <label>Cobertura</label>
-                                                <input type="text" id="coberturapoliza"
-                                                    formControlName="coberturapoliza"
-                                                    class="form-control form-control-sm f-9 " />
-                                                <app-show-errors class="text-danger"
-                                                    [ctrl]="poliz.get('coberturapoliza')">
-                                                </app-show-errors>
-                                            </div>
-                                        </div>
-
-                                        <div class="col-md-2">
-                                            <div class="form-group">
-                                                <label>Fecha inicio Póliza</label>
-                                                <input type="date" id="iniciopoliza" formControlName="iniciopoliza"
-                                                    class="form-control form-control-sm f-9 " />
-                                                <app-show-errors class="text-danger" [ctrl]="poliz.get('iniciopoliza')">
-                                                </app-show-errors>
-                                            </div>
-                                        </div>
-
-                                        <div class="col-md-2">
-                                            <div class="form-group">
-                                                <label>Fecha final póliza</label>
-                                                <input type="date" id="finpoliza" formControlName="finpoliza"
-                                                    class="form-control form-control-sm f-9 " />
-                                                <app-show-errors class="text-danger" [ctrl]="poliz.get('finpoliza')">
-                                                </app-show-errors>
-                                            </div>
-                                        </div>
-
-                                    </div>
-                                </div>
-                            </ng-container>
-                        </ng-container>
-
-                    </div>
-
-                    <hr>
-
-                    <div class="col-12">
-                        <div class="text-center">
-                            <h4 class="text text-center text-secondary"> Notas tecnicas </h4>
-                        </div>
-                    </div>
-
-                    <div class="col-12 d-flex justify-content-around" style="display: block;">
-                        <div class="btn-group" style="float: right;">
-                            <button class="btn btn-danger btn-sm  rounded-pill" placement="bottom" ngbTooltip="Borrar"
-                                (click)="deleteTaxi($event.target.value)">
-                                <i class="fas fa-trash-alt"></i>
-                            </button>
-
-                            <button class="btn btn-success btn-sm  rounded-pill" placement="bottom" ngbTooltip="Agregar"
-                                (click)="newtechnicalNote()"><i class="fas fa-plus"></i>
-                            </button>
-                        </div>
-                    </div>
-
-                    <div class="clearfix w-100 my-2" style="display: block;"></div>
-
-                    <ng-container *ngIf="technicalNoteList.controls.length">
-                        <ng-container *ngFor="let item of technicalNoteList.controls; let i = index">
-
-                            <!-- /**********************************************************************************************/ -->
-
-                            <div class="card-body border py-3" style="padding-bottom: 0px"
-                                formArrayName="technicalNote">
-
-                                <div class="row" style="margin-bottom: 0; padding-bottom: 0px;" [formGroupName]="i">
-
-                                    <div class="col-md-12 col-12">
-                                        <div class="form-group">
-                                            <label class="text text-primary"> ¿ Nota tecnica activa ? </label>
-                                            <input class="mx-3" type="checkbox" formControlName="is_default">
-                                        </div>
-                                    </div>
-
-                                    <div class="col-md-5">
-                                        <div class="form-group">
-                                            <label>Fecha inicio nota tecnica</label>
-                                            <input type="date" id="techn_note_date_init" name="techn_note_date_init"
-                                                formControlName="techn_note_date_init"
-                                                class="form-control form-control-sm f-9 " />
-                                            <app-show-errors class="text-danger"
-                                                [ctrl]="item.get('techn_note_date_init')">
-                                            </app-show-errors>
-                                        </div>
-
-                                    </div>
-
-                                    <div class="col-md-5">
-                                        <div class="form-group">
-                                            <label>Fecha fin nota tecnica</label>
-                                            <input type="date" name="techn_note_date_end" id="techn_note_date_end"
-                                                class="form-control form-control-sm f-9 "
-                                                formControlName="techn_note_date_end" />
-                                            <app-show-errors class="text-danger"
-                                                [ctrl]="item.get('techn_note_date_end')">
-                                            </app-show-errors>
-                                        </div>
-                                    </div>
-
-                                    <div class="col-md-2">
-                                        <div class="form-group">
-                                            <label>Año versión cups</label>
-                                            <ng-select [items]="years" required bindLabel="text" bindValue="value"
-                                                placeholder="Seleccione " name="techn_note_year_cups"
-                                                loadingText="loading" formControlName="techn_note_year_cups">
-                                            </ng-select>
-                                            <app-show-errors class="text-danger"
-                                                [ctrl]="item.get('techn_note_year_cups')">
-                                            </app-show-errors>
-                                        </div>
-                                    </div>
-
-                                    <div class="row mt-3">
-                                        <div class="col-12">
-                                            <h6 class="text text-center text-dark font-italic">
-                                                <u>
-                                                    Servicios asociados
-                                                </u>
-                                            </h6>
-                                        </div>
-                                    </div>
-
-                                    <div class="col-12 d-flex justify-content-start" style="display: block;">
-                                        <div class="btn-group" style="float: right;">
-                                            <button class="btn btn-danger btn-sm  rounded-pill" placement="bottom"
-                                                ngbTooltip="Borrar" (click)="deleteCups(item, $event.target.value)">
-                                                <i class="fas fa-trash-alt"></i>
-                                            </button>
-                                            <button class="btn btn-info btn-sm  rounded-pill" placement="bottom"
-                                                ngbTooltip="Agregar" (click)="newCups(item)"><i class="fas fa-plus"></i>
-                                            </button>
-                                        </div>
-                                    </div>
-
-                                    <ng-container *ngIf="item.controls['cups'].controls.length">
-                                        <ng-container *ngFor="let cup of item.controls['cups'].controls; let c = index">
-                                            <div class="card-body" style="padding-bottom: 0px" formArrayName="cups">
-                                                <div class="row" style="margin-bottom: 0; padding-bottom: 0px;"
-                                                    [formGroupName]="c">
-
-                                                    <div class="col-4 mt-12">
-                                                        <label>Servicio</label>
-                                                        <div class="input-group mb-3">
-                                                            <div class="input-group-prepend">
-                                                                <span class="input-group-text"
-                                                                    id="inputGroup-sizing-default">
-                                                                    <i class="fas fa-search"></i>
-                                                                </span>
-                                                            </div>
-
-                                                            <input type="text" required class="form-control"
-                                                                [class.is-invalid]="searchFailedProcedure"
-                                                                [ngbTypeahead]="search" formControlName="namec"
-                                                                placeholder="Código CUPS Asignado" name="namec"
-                                                                [resultTemplate]="namecup"
-                                                                [inputFormatter]="InputProcedure" />
-
-                                                            <app-show-errors class="text-danger"
-                                                                [ctrl]="item.get('codec')">
-                                                            </app-show-errors>
-
-                                                        </div>
-                                                    </div>
-
-
-                                                    <div class="col-md-2">
-                                                        <div class="form-group">
-                                                            <label>Especialidad</label>
-                                                            <ng-select [items]="cup.get('specialityList').value"
-                                                                multiple="true" bindLabel="text" bindValue="value"
-                                                                placeholder="Seleccione " name="speciality"
-                                                                loadingText="loading" formControlName="speciality">
-                                                            </ng-select>
-
-                                                            <!-- <app-show-errors class="text-danger"
-                                                                [ctrl]="item.get('speciality')">
-                                                            </app-show-errors> -->
-
-                                                        </div>
-                                                    </div>
-
-                                                    <div class="col-md-2">
-                                                        <div class="form-group">
-                                                            <label>Centro de costo </label>
-                                                            <ng-select [items]="centrosDeCosto" required
-                                                                bindLabel="text" bindValue="value"
-                                                                placeholder="Seleccione " name="centro_costo_id"
-                                                                loadingText="loading" formControlName="centro_costo_id">
-                                                            </ng-select>
-                                                            <app-show-errors class="text-danger"
-                                                                [ctrl]="item.get('centro_costo_id')">
-                                                            </app-show-errors>
-                                                        </div>
-                                                    </div>
-
-                                                    <div class="col-md-2">
-                                                        <div class="form-group">
-                                                            <label>Frecuencia</label>
-                                                            <input type="text" id="code" formControlName="frequency"
-                                                                class="form-control form-control-sm f-9 " />
-                                                            <app-show-errors class="text-danger"
-                                                                [ctrl]="item.get('frequency')">
-                                                            </app-show-errors>
-                                                        </div>
-                                                    </div>
-
-                                                    <div class="col-md-2">
-                                                        <div class="form-group">
-                                                            <label>Costo</label>
-                                                            <input type="text" id="code" formControlName="valor"
-                                                                class="form-control form-control-sm f-9 " />
-                                                            <app-show-errors class="text-danger"
-                                                                [ctrl]="item.get('valor')">
-                                                            </app-show-errors>
-                                                        </div>
-                                                    </div>
-
-                                                </div>
-                                            </div>
-                                        </ng-container>
-                                    </ng-container>
-
-                                </div>
-                            </div>
-                            <!-- /**********************************************************************************************/ -->
-                        </ng-container>
-                    </ng-container>
-
-                    <div class="" style="padding-top: 5px">
-                        <div class="text-right mt-5">
-                            <button type="submit" class="btn btn-primary btn-sm  rounded-pill btn-block"
-                                [disabled]="dataForm.pristine || dataForm.invalid"
-                                (click)="GuardarContrato(FormContrato) ">Guardar Contrato</button>
-                        </div>
-                    </div>
-                </form>
-            </div>
+<div class="card">
+  <form
+    #FormContrato="ngForm"
+    ng-submit=""
+    style="padding-bottom: 0px"
+    [formGroup]="dataForm"
+    novalidate
+  >
+    <div class="card-body">
+      <div class="row card-title d-flex justify-content-between">
+        <div class="col-md-12 px-0">
+          <h4 class="text-primary">Agregar o editar contrato</h4>
         </div>
+      </div>
+      <hr class="line" />
+      <input type="hidden" id="id" name="id" formControlName="id" />
+      <div class="row">
+        <mat-form-field class="col-md-6" appearance="outline">
+          <mat-label>Nombre</mat-label>
+          <input
+            matInput
+            type="text"
+            placeholder="Ingresa el nombre"
+            formControlName="name"
+            id="name"
+            name="name"
+            required
+            autocomplete="off"
+          />
+          <mat-error>
+            <app-show-errors [ctrl]="dataForm.get('name')"> </app-show-errors>
+          </mat-error>
+        </mat-form-field>
+        <mat-form-field class="col" appearance="outline">
+          <mat-label>Código</mat-label>
+          <input
+            matInput
+            type="text"
+            placeholder="Ingresa el código"
+            formControlName="code"
+            name="code"
+            id="code"
+            required
+            autocomplete="off"
+          />
+          <mat-error>
+            <app-show-errors [ctrl]="dataForm.get('code')"> </app-show-errors>
+          </mat-error>
+        </mat-form-field>
+        <mat-form-field class="col" appearance="outline">
+          <mat-label>Número</mat-label>
+          <input
+            matInput
+            type="text"
+            placeholder="Ingresa el número"
+            formControlName="number"
+            name="number"
+            id="number"
+            required
+            autocomplete="off"
+          />
+          <mat-error>
+            <app-show-errors [ctrl]="dataForm.get('number')"> </app-show-errors>
+          </mat-error>
+        </mat-form-field>
+        <mat-form-field class="col" appearance="outline">
+          <mat-label>Modalidad de pago</mat-label>
+          <mat-select
+            name="payment_modality"
+            id="payment_modality"
+            formControlName="payment_modality"
+          >
+            <mat-option value="Capita">Capita</mat-option>
+            <mat-option value="Evento">Evento</mat-option>
+            <mat-option value="Particular">Particular</mat-option>
+          </mat-select>
+          <mat-error>
+            <app-show-errors [ctrl]="dataForm.get('payment_modality')">
+            </app-show-errors>
+          </mat-error>
+        </mat-form-field>
+        <mat-form-field class="col" appearance="outline">
+          <mat-label>Aseguradora</mat-label>
+          <mat-select
+            name="administrator_id"
+            id="administrator_id"
+            formControlName="administrator_id"
+          >
+            <mat-option
+              *ngFor="let item of administrators"
+              [value]="item.value"
+              >{{ item.text }}</mat-option
+            >
+          </mat-select>
+          <mat-error>
+            <app-show-errors [ctrl]="dataForm.get('administrator_id')">
+            </app-show-errors>
+          </mat-error>
+        </mat-form-field>
+        <mat-form-field class="col" appearance="outline">
+          <mat-label>Regimen</mat-label>
+          <mat-select
+            name="regimen_id"
+            id="regimen_id"
+            multiple="true"
+            formControlName="regimen_id"
+          >
+            <mat-option *ngFor="let item of regimes" [value]="item.value">{{
+              item.text
+            }}</mat-option>
+          </mat-select>
+          <mat-error>
+            <app-show-errors [ctrl]="dataForm.get('regimen_id')">
+            </app-show-errors>
+          </mat-error>
+        </mat-form-field>
+        <mat-form-field class="col" appearance="outline">
+          <mat-label>Precio global</mat-label>
+          <input
+            matInput
+            type="number"
+            placeholder="Ingresa el precio global"
+            formControlName="price"
+            name="price"
+            id="price"
+            required
+            autocomplete="off"
+          />
+          <mat-error>
+            <app-show-errors [ctrl]="dataForm.get('price')"> </app-show-errors>
+          </mat-error>
+        </mat-form-field>
+        <mat-form-field class="col" appearance="outline">
+          <mat-label>Fecha inicial</mat-label>
+          <input
+            matInput
+            type="date"
+            formControlName="start_date"
+            name="start_date"
+            id="start_date"
+            required
+            autocomplete="off"
+          />
+          <mat-error>
+            <app-show-errors [ctrl]="dataForm.get('start_date')">
+            </app-show-errors>
+          </mat-error>
+        </mat-form-field>
+        <mat-form-field class="col" appearance="outline">
+          <mat-label>Fecha final</mat-label>
+          <input
+            matInput
+            type="date"
+            formControlName="end_date"
+            name="end_date"
+            id="end_date"
+            required
+            autocomplete="off"
+          />
+          <mat-error>
+            <app-show-errors [ctrl]="dataForm.get('end_date')">
+            </app-show-errors>
+          </mat-error>
+        </mat-form-field>
+      </div>
+      <div class="row">
+        <div
+          class="col-md-6"
+          [ngClass]="dataForm.get('department_id').valid ? 'mb-0' : 'mb-4'"
+        >
+          <ng-select
+            [items]="departments"
+            multiple="true"
+            required
+            bindLabel="text"
+            bindValue="value"
+            appearance="outline"
+            [appendTo]="'body'"
+            placeholder="Departamentos"
+            name="department_id"
+            loadingText="loading"
+            formControlName="department_id"
+            [closeOnSelect]="false"
+          >
+          </ng-select>
+          <small>
+            <app-show-errors
+              class="text-danger"
+              [ctrl]="dataForm.get('department_id')"
+            >
+            </app-show-errors>
+          </small>
+        </div>
+        <div
+          class="col-md-6"
+          [ngClass]="dataForm.get('municipality_id').valid ? 'mb-0' : 'mb-4'"
+        >
+          <ng-select
+            [items]="municipalities"
+            multiple="true"
+            required
+            bindLabel="text"
+            bindValue="value"
+            appearance="outline"
+            [appendTo]="'body'"
+            placeholder="Municipios"
+            name="municipality_id"
+            loadingText="loading"
+            formControlName="municipality_id"
+            [closeOnSelect]="false"
+          >
+          </ng-select>
+          <small>
+            <app-show-errors
+              class="text-danger"
+              [ctrl]="dataForm.get('municipality_id')"
+            >
+            </app-show-errors>
+          </small>
+        </div>
+        <div
+          class="col-md-6"
+          [ngClass]="dataForm.get('company_id').valid ? 'mb-0' : 'mb-4'"
+        >
+          <ng-select
+            [items]="companys"
+            [multiple]="true"
+            required
+            bindLabel="text"
+            bindValue="value"
+            appearance="outline"
+            [appendTo]="'body'"
+            placeholder="Empresas"
+            name="company_id"
+            loadingText="loading"
+            formControlName="company_id"
+            [closeOnSelect]="false"
+          >
+          </ng-select>
+          <small>
+            <app-show-errors
+              class="text-danger"
+              [ctrl]="dataForm.get('company_id')"
+            >
+            </app-show-errors>
+          </small>
+        </div>
+        <div
+          class="col-md-6"
+          [ngClass]="dataForm.get('location_id').valid ? 'mb-0' : 'mb-4'"
+        >
+          <ng-select
+            [items]="locations"
+            multiple="true"
+            required
+            bindLabel="text"
+            bindValue="value"
+            appearance="outline"
+            [appendTo]="'body'"
+            placeholder="Sedes"
+            name="location_id"
+            loadingText="loading"
+            formControlName="location_id"
+            [closeOnSelect]="false"
+          >
+          </ng-select>
+          <small>
+            <app-show-errors
+              class="text-danger"
+              [ctrl]="dataForm.get('location_id')"
+            >
+            </app-show-errors>
+          </small>
+        </div>
+      </div>
+      <hr />
+      <div class="row card-title d-flex justify-content-between">
+        <div class="col-md-6 px-0">
+          <h4>Polizas</h4>
+        </div>
+        <div class="col-md-6 px-0 text-right">
+          <div class="btn-group rounded w-sm-100">
+            <button class="btn btn-info btn-sm" (click)="newPoliza()">
+              <i class="fas fa-plus"></i> Agregar
+            </button>
+          </div>
+        </div>
+      </div>
+
+      <ng-container *ngIf="polizaList.controls.length; else notData">
+        <ng-container *ngFor="let poliz of polizaList.controls; let c = index">
+          <h6>Póliza {{ c + 1 }}</h6>
+          <div formArrayName="poliza">
+            <div class="row" [formGroupName]="c">
+              <mat-form-field class="col-md-6" appearance="outline">
+                <mat-label>Nombre</mat-label>
+                <input
+                  matInput
+                  type="text"
+                  placeholder="Ingresa el nombre de la póliza"
+                  formControlName="nombrepoliza"
+                  required
+                  autocomplete="off"
+                />
+                <mat-error>
+                  <app-show-errors [ctrl]="poliz.get('nombrepoliza')">
+                  </app-show-errors>
+                </mat-error>
+              </mat-form-field>
+              <mat-form-field class="col" appearance="outline">
+                <mat-label>Código</mat-label>
+                <input
+                  matInput
+                  type="text"
+                  placeholder="Ingresa el código de la póliza"
+                  formControlName="codigopoliza"
+                  required
+                  autocomplete="off"
+                />
+                <mat-error>
+                  <app-show-errors [ctrl]="poliz.get('codigopoliza')">
+                  </app-show-errors>
+                </mat-error>
+              </mat-form-field>
+
+              <mat-form-field class="col" appearance="outline">
+                <mat-label>Cobertura</mat-label>
+                <input
+                  matInput
+                  type="text"
+                  placeholder="Ingresa la cobertura"
+                  formControlName="coberturapoliza"
+                  required
+                  autocomplete="off"
+                />
+                <mat-error>
+                  <app-show-errors [ctrl]="poliz.get('coberturapoliza')">
+                  </app-show-errors>
+                </mat-error>
+              </mat-form-field>
+              <mat-form-field class="col" appearance="outline">
+                <mat-label>Fecha inicio</mat-label>
+                <input
+                  matInput
+                  type="date"
+                  formControlName="iniciopoliza"
+                  required
+                  autocomplete="off"
+                />
+                <mat-error>
+                  <app-show-errors [ctrl]="poliz.get('iniciopoliza')">
+                  </app-show-errors>
+                </mat-error>
+              </mat-form-field>
+              <mat-form-field class="col" appearance="outline">
+                <mat-label>Fecha fin</mat-label>
+                <input
+                  matInput
+                  type="date"
+                  formControlName="finpoliza"
+                  required
+                  autocomplete="off"
+                />
+                <mat-error>
+                  <app-show-errors [ctrl]="poliz.get('finpoliza')">
+                  </app-show-errors>
+                </mat-error>
+              </mat-form-field>
+            </div>
+            <div class="d-flex justify-content-end mb-4">
+              <button
+                class="btn btn-danger btn-sm"
+                (click)="deletePoliza($event.target.value)"
+              >
+                <i class="fas fa-trash-alt"></i>
+              </button>
+            </div>
+          </div>
+        </ng-container>
+      </ng-container>
+
+      <hr />
+
+      <div class="row card-title d-flex justify-content-between">
+        <div class="col-md-6 px-0">
+          <h4>Notas técnicas</h4>
+        </div>
+        <div class="col-md-6 px-0 text-right">
+          <div class="btn-group rounded w-sm-100">
+            <button class="btn btn-success btn-sm" (click)="newtechnicalNote()">
+              <i class="fas fa-plus"></i> Agregar
+            </button>
+          </div>
+        </div>
+      </div>
+      <ng-container *ngIf="technicalNoteList.controls.length; else notData">
+        <ng-container
+          *ngFor="let item of technicalNoteList.controls; let i = index"
+        >
+          <hr />
+          <h6>Nota técnica {{ i + 1 }}</h6>
+          <div formArrayName="technicalNote">
+            <div class="row" [formGroupName]="i">
+              <mat-form-field class="col" appearance="outline">
+                <mat-label>Fecha inicio</mat-label>
+                <input
+                  matInput
+                  type="date"
+                  id="techn_note_date_init"
+                  name="techn_note_date_init"
+                  formControlName="techn_note_date_init"
+                  required
+                  autocomplete="off"
+                />
+                <mat-error>
+                  <app-show-errors [ctrl]="item.get('techn_note_date_init')">
+                  </app-show-errors>
+                </mat-error>
+              </mat-form-field>
+              <mat-form-field class="col" appearance="outline">
+                <mat-label>Fecha fin</mat-label>
+                <input
+                  matInput
+                  type="date"
+                  id="techn_note_date_end"
+                  name="techn_note_date_end"
+                  formControlName="techn_note_date_end"
+                  required
+                  autocomplete="off"
+                />
+                <mat-error>
+                  <app-show-errors [ctrl]="item.get('techn_note_date_end')">
+                  </app-show-errors>
+                </mat-error>
+              </mat-form-field>
+              <div class="col">
+                <ng-select
+                  [items]="years"
+                  required
+                  bindLabel="text"
+                  bindValue="value"
+                  appearance="outline"
+                  [appendTo]="'body'"
+                  placeholder="Año versión"
+                  name="techn_note_year_cups"
+                  loadingText="loading"
+                  formControlName="techn_note_year_cups"
+                >
+                </ng-select>
+                <small>
+                  <app-show-errors
+                    class="text-danger"
+                    [ctrl]="item.get('techn_note_year_cups')"
+                  >
+                  </app-show-errors>
+                </small>
+              </div>
+              <div class="col-md-12 col-12">
+                <div class="form-group">
+                  <label>¿Nota tecnica activa?</label>
+                  <input
+                    class="mx-3"
+                    type="checkbox"
+                    formControlName="is_default"
+                  />
+                </div>
+              </div>
+              <div class="col-12 d-flex-justify-content-end">
+                <button
+                  class="btn btn-danger btn-sm btn-block"
+                  (click)="deleteTaxi($event.target.value)"
+                >
+                  <i class="fas fa-trash-alt"></i> Eliminar nota técnica
+                </button>
+              </div>
+              <div class="col-12 mt-4">
+                <div class="row card-title d-flex justify-content-between">
+                  <div class="col-md-6 px-0">
+                    <h5 class="font-italic"><u>Servicios asociados</u></h5>
+                  </div>
+                  <div class="col-md-6 px-0 text-right">
+                    <div class="btn-group rounded w-sm-100">
+                      <button
+                        class="btn btn-info btn-sm"
+                        (click)="newCups(item)"
+                      >
+                        <i class="fas fa-plus"></i>
+                      </button>
+                    </div>
+                  </div>
+                </div>
+              </div>
+              <div class="col-12">
+                <ng-container
+                  *ngIf="item.controls['cups'].controls.length; else notData"
+                >
+                  <ng-container
+                    *ngFor="
+                      let cup of item.controls['cups'].controls;
+                      let c = index
+                    "
+                  >
+                    <h6>Servicio asociado {{ c + 1 }}</h6>
+                    <div formArrayName="cups">
+                      <div class="row" [formGroupName]="c">
+                        <mat-form-field class="col" appearance="outline">
+                          <mat-label>Servicio</mat-label>
+                          <input
+                            matInput
+                            type="text"
+                            placeholder="Busca código CUPS asignado"
+                            required
+                            [ngbTypeahead]="search"
+                            formControlName="namec"
+                            name="namec"
+                            [resultTemplate]="namecup"
+                            [inputFormatter]="InputProcedure"
+                            autocomplete="off"
+                          />
+                          <mat-error>
+                            <app-show-errors
+                              class="text-danger"
+                              [ctrl]="item.get('codec')"
+                            >
+                            </app-show-errors>
+                          </mat-error>
+                        </mat-form-field>
+                        <div class="col">
+                          <ng-select
+                            [items]="cup.get('specialityList').value"
+                            multiple="true"
+                            bindLabel="text"
+                            bindValue="value"
+                            name="speciality"
+                            loadingText="loading"
+                            appearance="outline"
+                            [appendTo]="'body'"
+                            placeholder="Especialidad"
+                            formControlName="speciality"
+                          >
+                          </ng-select>
+                          <small>
+                            <app-show-errors
+                              class="text-danger"
+                              [ctrl]="item.get('speciality')"
+                            >
+                            </app-show-errors>
+                          </small>
+                        </div>
+                        <div class="col">
+                          <ng-select
+                            [items]="centrosDeCosto"
+                            required
+                            bindLabel="text"
+                            bindValue="value"
+                            placeholder="Seleccione "
+                            name="centro_costo_id"
+                            appearance="outline"
+                            [appendTo]="'body'"
+                            placeholder="Centro de costo"
+                            loadingText="loading"
+                            formControlName="centro_costo_id"
+                          >
+                          </ng-select>
+                          <small>
+                            <app-show-errors
+                              class="text-danger"
+                              [ctrl]="item.get('centro_costo_id')"
+                            >
+                            </app-show-errors>
+                          </small>
+                        </div>
+                        <mat-form-field class="col" appearance="outline">
+                          <mat-label>Frecuencia</mat-label>
+                          <input
+                            matInput
+                            type="text"
+                            placeholder="Ingresa la frecuencia"
+                            id="code"
+                            formControlName="frequency"
+                            required
+                            autocomplete="off"
+                          />
+                          <mat-error>
+                            <app-show-errors [ctrl]="item.get('frequency')">
+                            </app-show-errors>
+                          </mat-error>
+                        </mat-form-field>
+                        <mat-form-field class="col" appearance="outline">
+                          <mat-label>Costo</mat-label>
+                          <input
+                            matInput
+                            type="text"
+                            placeholder="Ingresa el costo"
+                            id="code"
+                            formControlName="valor"
+                            required
+                            autocomplete="off"
+                          />
+                          <mat-error>
+                            <app-show-errors [ctrl]="item.get('valor')">
+                            </app-show-errors>
+                          </mat-error>
+                        </mat-form-field>
+                      </div>
+                    </div>
+                    <div class="d-flex justify-content-end">
+                      <button
+                        class="btn btn-danger btn-sm"
+                        (click)="deleteCups(item, $event.target.value)"
+                      >
+                        <i class="fas fa-trash-alt"></i>
+                      </button>
+                    </div>
+                  </ng-container>
+                </ng-container>
+              </div>
+            </div>
+          </div>
+        </ng-container>
+      </ng-container>
+      <button
+        type="submit"
+        class="btn btn-primary btn-block mt-4"
+        [disabled]="dataForm.pristine || dataForm.invalid"
+        (click)="GuardarContrato(FormContrato)"
+      >
+        Guardar
+      </button>
     </div>
+  </form>
 </div>
 
+<ng-template #notData>
+  <div class="alert alert-warning text-center" role="alert">
+    No hay datos aquí.
+  </div>
+</ng-template>
+
 <ng-template #namecup let-r="result" let-t="term">
-    <span class="f-9">
-        <strong>{{ r.text }}</strong>
-    </span>
+  <span class="f-9">
+    <strong>{{ r.text }}</strong>
+  </span>
 </ng-template>

@@ -20,8 +20,7 @@ import { ActivatedRoute, Router } from '@angular/router';
   styleUrls: ['./crear-contratos.component.scss']
 })
 export class CrearContratosComponent implements OnInit {
-
-
+  @ViewChild('confirmacionSwal') confirmacionSwal: any;
   dataForm: FormGroup;
   numberRegEx = /^(0|\-?[1-9][0-9]*)$/;
   regexp = /^\d+\.\d{0,2}$/;
@@ -39,7 +38,7 @@ export class CrearContratosComponent implements OnInit {
   public specialities: Array<object> = [];
   public municipalities: Array<object> = [];
   public technicalNotes: Array<object> = [];
-  public years: Array<number> = [2018, 2019, 2020, 2021, 2022, 2023, 2024, 2025, 2026, 2027, 2028, 2029, 2030];
+  public years: Array<any> = ['', 2018, 2019, 2020, 2021, 2022, 2023, 2024, 2025, 2026, 2027, 2028, 2029, 2030];
   public year: number = 2019;
   public Policies: Array<object> = [{}];
   public id: any = null;
@@ -54,10 +53,6 @@ export class CrearContratosComponent implements OnInit {
 
   public model: any;
   private subscription = new Subscription();
-
-
-  @ViewChild('confirmacionSwal') confirmacionSwal: any;
-
   public searchingProcedure: boolean;
   public searchFailedProcedure: boolean;
   public namecupmodel: any;
@@ -73,6 +68,7 @@ export class CrearContratosComponent implements OnInit {
   ) { }
 
   ngOnInit() {
+    this.id = this.route.snapshot.paramMap.get('id');
     this.getAllData();
     this.createForm();
     this.locations.unshift({ text: 'Seleccione', value: '' })
@@ -82,44 +78,48 @@ export class CrearContratosComponent implements OnInit {
     this.dataForm.get('department_id').valueChanges.subscribe(change => {
       this.getMunicipalities(change);
     });
-
-
-    this.id = this.route.snapshot.paramMap.get('id');
-
     if (this.id) {
-      this._epsService.getInfoEpsContract(this.id).subscribe((data: Response) => {
-
-        this.Policies = data.data.policies;
-        this.dataForm.patchValue(
-          {
-            id: this.id,
-            name: data.data.name,
-            code: data.data.code,
-            number: data.data.number,
-            //Revisar
-            payment_modality: data.data.code,
-            /************************ */
-            administrator_id: data.data.administrator_id,
-            regimen_id: this.transformData(data.data.regimentypes),
-            price: data.data.price,
-            start_date: data.data.start_date,
-            end_date: data.data.end_date,
-            department_id: this.transformData(data.data.departments),
-            municipality_id: this.transformData(data.data.municipalities),
-            company_id:this.transformData(data.data.companies),
-            // company_id: data.data.company_id,
-            location_id: this.transformData(data.data.locations),
-            poliza: this.fillPolicies(data.data.policies),
-            technicalNote: this.fillTechnicalNotes(data.data.technic_notes)
-          }
-        );
-
-        console.log([this.dataForm.value, this.transformData(data.data.companies)]);
-      })
+      this.getData();
     }
   }
 
-  transformData = (array: Array<object>): any => array.map(({ ...obj }) => obj['id'])
+  getData() {
+    this._epsService.getInfoEpsContract(this.id).subscribe((data: Response) => {
+      console.log(data)
+      this.Policies = data.data.policies;
+      this.dataForm.patchValue(
+        {
+          id: this.id,
+          name: data.data.name,
+          code: data.data.code,
+          number: data.data.number,
+          //Revisar
+          payment_modality: data.data.code,
+          /************************ */
+          administrator_id: data.data.administrator_id,
+          price: data.data.price,
+          start_date: data.data.start_date,
+          end_date: data.data.end_date,
+          department_id: this.transformData(data.data.departments),
+          municipality_id: this.transformData2(data.data.municipalities),
+          regimen_id: this.transformData2(data.data.regimentypes),
+          location_id: this.transformData2(data.data.locations),
+          company_id: data.data.company_id,
+          /*
+          company_id: this.transformData(data.data.companies),
+          // 
+          
+          poliza: this.fillPolicies(data.data.policies),
+          technicalNote: this.fillTechnicalNotes(data.data.technic_notes) */
+        }
+      );
+      console.log(this.dataForm.value)
+      /* console.log([this.dataForm.value, this.transformData(data.data.companies)]); */
+    })
+  }
+
+  transformData = (array: Array<object>): any => array.map(({ ...obj }) => obj['department_id'])
+  transformData2 = (array: Array<object>): any => array.map(({ ...obj }) => obj['id'])
 
   getAllData = async () => {
     await this.getDepartments();
@@ -135,14 +135,12 @@ export class CrearContratosComponent implements OnInit {
   getAdministrators = () => {
     this._epsService.getAllEps().subscribe((resp: Response) => {
       this.administrators = resp.data
-      this.departments.unshift({ text: 'Seleccione', value: '' })
     })
   }
 
   getDepartments = async () => {
     await this._dataDinamicService.getDepartments().toPromise().then((req: any) => {
       this.departments = req.data
-      this.departments.unshift({ text: 'Seleccione', value: '' })
       this.departments.unshift({ text: 'Todos', value: 'todos' })
     })
   }
@@ -152,7 +150,6 @@ export class CrearContratosComponent implements OnInit {
     let parm = { department_id: [change] }
     await this._dataDinamicService.getCities(parm).toPromise().then((req: any) => {
       this.municipalities = req.data
-      this.municipalities.unshift({ text: 'Seleccione', value: '' })
       this.municipalities.push({ text: 'Todos', value: 'todos' })
     })
   }
@@ -184,7 +181,6 @@ export class CrearContratosComponent implements OnInit {
   getRegimes() {
     this._dataDinamicService.getRegimens().subscribe((req: any) => {
       this.regimes = req.data
-      this.regimes.unshift({ text: 'Seleccione', value: '' })
     })
   }
   getCompanies = async () => {
@@ -453,7 +449,7 @@ export class CrearContratosComponent implements OnInit {
       price: ['', [Validators.required]],
       // price_list_id: ['', [Validators.required]],
       // variation: ['', [Validators.required, Validators.pattern(this.regexp)]],
-      company_id:  ['', [Validators.required]],
+      company_id: ['', [Validators.required]],
       department_id: ['', [Validators.required]],
       municipality_id: ['', [Validators.required]],
       regimen_id: ['', [Validators.required]],

@@ -15,9 +15,8 @@
   <div class="modal-body">
     <form [formGroup]="form">
       <div class="row">
-        <div class="w-100">
+        <div class="col-12" [ngClass]="form.get('specialities').valid ? 'mb-4': 'mb-1'">
           <ng-select
-            class="px-0"
             id="specialties"
             [items]="specialities"
             bindLabel="text"

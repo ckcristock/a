@@ -156,7 +156,7 @@ import { MatAutocompleteModule } from '@angular/material/autocomplete';
         PipesModule,
         ArchwizardModule,
         myModules.InformacionBaseRoutingModule,
-        myModules.ProfessionalsModule,
+        myModules.ProfessionalsModule, 
         ContractsEpsModule,
         NgbTypeaheadModule,
         CKEditorModule,
@@ -169,9 +169,13 @@ import { MatAutocompleteModule } from '@angular/material/autocomplete';
         MatNativeDateModule,
         MatDatepickerModule,
         MatAutocompleteModule,
-        SweetAlert2Module.forRoot()
-
-
+        SweetAlert2Module.forRoot() 
     ],
+    exports: [
+        myModules.FondoPensionComponent,
+        myModules.FondoCesantiasComponent,
+        myModules.CajaCompensacionComponent,
+        myModules.ArlComponent,
+    ]
 })
 export class InformacionBaseModule { }

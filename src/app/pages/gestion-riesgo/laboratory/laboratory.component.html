@@ -1,6 +1,6 @@
 <div class="card">
   <div class="card-body">
-    <div class="card-title d-flex justify-content-between">
+    <div class="row card-title d-flex justify-content-between">
       <div class="col-md-6 px-0">
         <h4 class="text-primary">Laboratorio</h4>
       </div>
@@ -10,11 +10,11 @@
           <button class="btn btn-primary btn-sm" (click)="openClose2()">
             <i class="fa fa-plus"></i> Agregar
           </button>
+          <button class="btn btn-success btn-sm" (click)="getReport()">
+            <i class="fas fa-file-pdf"></i> Reporte
+          </button>
           <button class="btn btn-info btn-sm" (click)="openClose()">
             <i class="fas fa-sliders-h"></i> Filtros
-          </button>
-          <button class="btn btn-success btn-sm" (click)="getReport()">
-            <i class="fas fa-file-pdf"></i> Reporte del día
           </button>
         </div>
       </div>
@@ -212,7 +212,14 @@
                   >
                     <i class="fas fa-search"></i> Ver</a
                   >
-
+                  <a
+                    href="javascript:void(0)"
+                    *ngIf="item.status_tube == 'true'"
+                    (click)="download(item.id)"
+                    class="dropdown-item text-danger waves-light caja-botones"
+                  >
+                    <i class="fas fa-file-pdf"></i> Generar etiqueta</a
+                  >
                   <ng-container *ngIf="item.status == 'Tomado'">
                     <a
                       href="javascript:void(0)"
@@ -225,29 +232,35 @@
                     >
                       <i class="fas fa-file"></i> Documentos</a
                     >
-                    <a
-                      href="javascript:void(0)"
-                      (click)="download(item.id)"
-                      class="dropdown-item text-danger waves-light caja-botones"
-                    >
-                      <i class="fas fa-file-pdf"></i> Generar etiqueta</a
-                    >
                   </ng-container>
                   <ng-container *ngIf="item.status == 'Ingresado'">
                     <a
                       class="dropdown-item text-warning waves-light caja-botones"
+                      *ngIf="item.status_tube == 'true'"
                       href="javascript:void(0)"
                       (click)="
-                        openConfirm(tomarExamen, 'md');
+                        openConfirm(tomarExamen, 'lg');
                         createFormTomarExamen(item.id);
-                        getCupsId(item.id);
-                        getTubeId(item.id)
+                        getAllTubes(item.id)
                       "
                     >
                       <i class="fas fa-plus"></i> Tomar exámenes</a
                     >
                     <a
+                      class="dropdown-item text-warning waves-light caja-botones"
+                      *ngIf="item.status_tube == 'false'"
                       href="javascript:void(0)"
+                      (click)="
+                        openConfirm(asignarTubos, 'md');
+                        createFormAsignarTubos(item.id);
+                        getTubeId(item.id)
+                      "
+                    >
+                      <i class="fas fa-plus"></i> Asignar tubos</a
+                    >
+                    <a
+                      href="javascript:void(0)"
+                      *ngIf="item.status_tube == 'false'"
                       (click)="
                         openConfirm(anular, 'md'); createFormAnular(item.id)
                       "
@@ -285,9 +298,6 @@
       rotate="true"
       ellipses="false"
       boundaryLinks="true"
-      rotate="true"
-      ellipses="false"
-      boundaryLinks="true"
     >
     </ngb-pagination>
   </div>
@@ -295,7 +305,7 @@
 
 <ng-template #tomarExamen let-modal>
   <div class="modal-header">
-    <h4 class="text-primary modal-title">Tomar examen</h4>
+    <h4 class="text-primary modal-title">Asignar horas</h4>
     <button
       type="button"
       class="close"
@@ -308,21 +318,58 @@
   </div>
 
   <div class="modal-body">
-    <form [formGroup]="formTomarExamen">
-      <div class="row">
-        <mat-form-field class="col-12" appearance="outline">
-          <mat-label>Hora</mat-label>
-          <input
-            matInput
-            type="time"
-            formControlName="hour"
-            (change)="validarHora($event)"
-            required
-            autocomplete="off"
-          />
-        </mat-form-field>
-      </div>
-    </form>
+    <div
+      class="row"
+      *ngIf="!loadingTubesHour && allTubes.length > 0; else notTubesHour"
+    >
+      <mat-form-field
+        *ngFor="let item of allTubes; let i = index"
+        class="col-6"
+        appearance="outline"
+      >
+        <mat-label>
+          <b style="font-weight: 600; color: black">{{ item.count }}°</b> Hora
+          {{ item.color | lowercase }}
+          <i class="fas fa-circle" [ngStyle]="{ color: item.hex }"></i
+        ></mat-label>
+        <input
+          matInput
+          type="time"
+          [(ngModel)]="hours[i].hour"
+          [name]="hours[i].hour"
+          [disabled]="allTubes[i].hour"
+          required
+          autocomplete="off"
+        />
+        <span matSuffix>{{ item.hour ? "Tomado" : "Pendiente" }}</span>
+      </mat-form-field>
+    </div>
+  </div>
+  <div class="modal-footer">
+    <button type="button" class="btn btn-danger" (click)="modal.dismiss()">
+      Cancelar
+    </button>
+    <button type="button" (click)="tomar()" class="btn btn-primary">
+      Asignar
+    </button>
+  </div>
+</ng-template>
+
+<ng-template #asignarTubos let-modal>
+  <div class="modal-header">
+    <h4 class="text-primary modal-title">Asignar tubos</h4>
+    <button
+      type="button"
+      class="close"
+      data-dismiss="modal"
+      aria-label="Close"
+      (click)="modal.dismiss('Cross click')"
+    >
+      <span aria-hidden="true">&times;</span>
+    </button>
+  </div>
+
+  <div class="modal-body">
     <div *ngIf="!loadingTubes && tubes.length > 0; else noTubes">
       <div class="row">
         <mat-form-field
@@ -331,7 +378,7 @@
           appearance="outline"
         >
           <mat-label>
-            Tubo {{ item.name | lowercase }}
+            {{ item.name }}
             <i [ngStyle]="{ color: item.hex }" class="fas fa-circle"></i>
           </mat-label>
           <input
@@ -353,11 +400,11 @@
     </button>
     <button
       type="button"
-      (click)="tomar()"
-      [disabled]="!formTomarExamen.valid"
+      (click)="asignarTubosLab()"
+      [disabled]="!formAsignarTubos.valid"
       class="btn btn-primary"
     >
-      Tomar
+      Asignar
     </button>
   </div>
 </ng-template>
@@ -510,20 +557,18 @@
           </div>
         </li>
       </ul>
-      <div
-        class="btn-group btn-block mb-4"
-        role="group"
-        aria-label="Button group"
-      >
+      <hr />
+      <div class="btn-group" role="group" aria-label="Button group">
         <a
           *ngFor="let item of fileForDownload; let i = index"
           type="button"
           [href]="item"
-          class="btn btn-success"
+          class="btn btn-success btn-sm"
         >
-          <i class="fas fa-download"></i> Descarga {{ i + 1 }}
+          <i class="fas fa-download"></i> {{ i + 1 }}
         </a>
       </div>
+      <hr />
       <form [formGroup]="formCargar">
         <div class="row">
           <mat-form-field class="col" appearance="outline">
@@ -589,4 +634,8 @@
 
 <ng-template #noTubes>
   <app-not-data [loading]="loadingTubes"></app-not-data>
+</ng-template>
+
+<ng-template #notTubesHour>
+  <app-not-data [loading]="loadingTubesHour"></app-not-data>
 </ng-template>
