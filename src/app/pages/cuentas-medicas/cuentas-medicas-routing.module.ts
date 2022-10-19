@@ -16,7 +16,6 @@ const routes: Routes = [
   { path: 'facturas-capita', component: FacturaCapitaComponent },
   { path: 'facturas-capita/nueva', component: NuevaFacturaCapitaComponent },
   { path: 'facturas-pgp', component: FacturaPgpComponent }
-  {  },
 ];
 
 @NgModule({
