@@ -8,6 +8,7 @@ import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { NgSelectModule } from '@ng-select/ng-select';
 import { PipesModule } from 'src/app/core/pipes/pipes.module';
 import { StructureCompanyRoutingModule } from './structure-company.routing';
+import { MatExpansionModule, MatFormFieldModule, MatInputModule, MatSelectModule } from '@angular/material';
 
 @NgModule({
   imports: [
@@ -24,8 +25,11 @@ import { StructureCompanyRoutingModule } from './structure-company.routing';
     PipesModule,
     NgbNavModule,
     ReactiveFormsModule,
-    PipesModule,
-    StructureCompanyRoutingModule
+    StructureCompanyRoutingModule,
+    MatExpansionModule,
+    MatFormFieldModule,
+    MatInputModule,
+    MatSelectModule
   ],
   declarations: [EstructuraEmpresaComponent]
 })
