@@ -16,6 +16,8 @@ export class DetalleFuncionarioComponent implements OnInit {
   habilitado = true;
   components = 'informacion';
   id: any;
+  loading: boolean;
+  active = 1;
   private subscriptions = new Subscription();
   funcionario: any = {
     salary: '',
@@ -46,12 +48,21 @@ export class DetalleFuncionarioComponent implements OnInit {
 
 
   ngOnInit(): void {
+    this.loading = true
     this.id = this.activateRoute.snapshot.params.id;    
     this.getBasicData();
     this.subscriptions.add(this.basicDataService.datos$.subscribe(data => { this.getBasicData(); }));
 
   }
 
+  bloquear(state) {
+    this._swal.show({
+      icon: 'warning',
+      title: 'Estamos trabajando en esto',
+      showCancel: false,
+      text: ''
+    })
+  }
 
   liquidar(status){
     let data = {
@@ -87,9 +98,10 @@ export class DetalleFuncionarioComponent implements OnInit {
   }
 
   getBasicData() {
+    this.loading = true;
     this.detalleService.getBasicDataCustom(this.id)
       .subscribe((res: any) => {
-        console.log(res);
+        this.loading = false;
         this.funcionario = res.data;
         this.url = this.ruta + '/filemanager4/filemanager/dialog.php?type=0&car=rrhh%2Ffuncionarios%2F' + this.funcionario.identifier 
       });

@@ -1,162 +1,218 @@
-<div class="card-body">
-    <div class="card-title">
-        <div class="row">
-            <div class="col-6">
-                <h5>Datos de empresa</h5>
-            </div>
-            <div class="col-6">
-                <button class="btn btn-link pt-0 edit" style="float: right;" (click)="openModal()">
-                    <i class="fas fa-pencil-alt"></i>
-                </button>
-            </div>
-        </div>
-    </div>
-
-    <div class="row">
-        <p class="col-6 font-weight-bold text-mute item-subtitle">
-            Empresa
-        </p>
-        <p class="col-6 font-weight-bold">
-            {{ empresa?.company_name }}
-        </p>
-        <p class="col-6 font-weight-bold text-mute item-subtitle">
-            Grupo
-        </p>
-        <p class="col-6 font-weight-bold">
-            {{ empresa?.group_name }}
-        </p>
-        <p class="col-6 font-weight-bold text-mute item-subtitle">
-            Dependencia
-        </p>
-        <p class="col-6 font-weight-bold">
-            {{ empresa?.dependency_name }}
-        </p>
-        <p class="col-6 font-weight-bold text-mute item-subtitle">
-            Cargo
-        </p>
-        <p class="col-6 font-weight-bold">
-            {{ empresa?.position_name }}
-        </p>
-        <p class="col-6 font-weight-bold text-mute item-subtitle">
-            Tipo de turno
-        </p>
-        <p class="col-6 font-weight-bold">
-            {{ empresa?.turn_type }}
-        </p>
-        <p class="col-6 font-weight-bold text-mute item-subtitle">
-            Turno asignado
-        </p>
-        <p class="col-6 font-weight-bold">
-            {{ empresa?.fixed_turn_name }}
-        </p>
-    </div>
-
+<div class="card-title d-flex justify-content-between">
+  <h6>Datos de empresa</h6>
+  <button class="btn btn-link" (click)="openModal()">
+    <i class="fas fa-pencil-alt"></i>
+  </button>
 </div>
 
+<div class="row">
+  <div class="col-lg-6 text-lg-right text-center text-primary">Empresa</div>
+  <div class="col-lg-6 text-lg-left text-center">
+    {{ empresa?.company_name }}
+  </div>
+  <div class="col-lg-6 text-lg-right text-center text-primary">Grupo</div>
+  <div class="col-lg-6 text-lg-left text-center">
+    {{ empresa?.group_name }}
+  </div>
+  <div class="col-lg-6 text-lg-right text-center text-primary">Dependencia</div>
+  <div class="col-lg-6 text-lg-left text-center">
+    {{ empresa?.dependency_name }}
+  </div>
+  <div class="col-lg-6 text-lg-right text-center text-primary">Cargo</div>
+  <div class="col-lg-6 text-lg-left text-center">
+    {{ empresa?.position_name }}
+  </div>
+  <div class="col-lg-6 text-lg-right text-center text-primary">
+    Tipo de turno
+  </div>
+  <div class="col-lg-6 text-lg-left text-center">
+    {{ empresa?.turn_type }}
+  </div>
+  <div class="col-lg-6 text-lg-right text-center text-primary">
+    Turno asignado
+  </div>
+  <div class="col-lg-6 text-lg-left text-center">
+    {{ empresa?.fixed_turn_name }}
+  </div>
+</div>
+
+<ng-template #notData>
+  <app-not-data [loading]="loading"></app-not-data>
+</ng-template>
+
 <app-modal-basic #modal [dialogClass]="'modal-lg'">
-    <div class="app-modal-header">
-        <h5 class="modal-title"> Edición datos empresa </h5>
-        <button type="button" class="close basic-close" (click)="modal.hide()">
-            <span aria-hidden="true">
-                <i class="fas fa-times" (click)="modal.hide()"></i>
-            </span>
-        </button>
-    </div>
-    <div class="app-modal-body">
-        <div class="row mt-3">
-            <div class="col-12">
-                <form [formGroup]="form">
-                    <div class="form-row mt-3">
-                        <div class="col-md-6">
-                            <div class="form-group row">
-                                <label class="col-md-4 custom-label col-form-label text-right"
-                                    for="dependencia">Empresa</label>
-                                <ng-select class="col-md-7 p-0" formControlName="company_id" [items]="companies"
-                                    bindLabel="text" bindValue="value" loadingText="loading" ngDefaultControl>
-                                </ng-select>
-                                <div class="col-md-7 offset-4">
-                                    <small class="invalid text-danger" *ngIf="dependency_valid"> Es necesario el tipo de
-                                        empresa
-                                    </small>
-                                </div>
-                            </div>
-                            <div class="form-group row">
-                                <label class="col-md-4 custom-label col-form-label text-right"
-                                    for="dependencia">Grupo</label>
-                                <ng-select class="col-md-7 p-0" formControlName="group_id"
-                                    (change)="getDependencies($event.value)" [items]="groups" bindLabel="text"
-                                    bindValue="value" loadingText="loading" ngDefaultControl>
-                                </ng-select>
-                                <div class="col-md-7 offset-4">
-                                    <small class="invalid text-danger" *ngIf="dependency_valid"> Es necesario el tipo de
-                                        grupo
-                                    </small>
-                                </div>
-                            </div>
-                            <div class="form-group row">
-                                <label class="col-md-4 custom-label col-form-label text-right" for="cargo">Cargo</label>
-                                <ng-select class="col-md-7 p-0" formControlName="position_id" [items]="positions"
-                                    bindLabel="text" bindValue="value" loadingText="loading" ngDefaultControl>
-                                </ng-select>
-                                <div class="col-md-7 offset-4">
-                                    <small class="invalid text-danger" *ngIf="position_valid"> Es necesario el tipo
-                                        cargo
-                                    </small>
-                                </div>
-                            </div>
-                            <div class="form-group row" *ngIf="turnSelected == 'Fijo'">
-                                <label class="col-md-4 col-form-label text-right" for="turno_asignado">
-                                    Turno
-                                    asignado
-                                </label>
-                                <ng-select class="col-md-7 p-0" formControlName="fixed_turn_id" [items]="fixed_turns"
-                                    bindLabel="text" bindValue="value" loadingText="loading" ngDefaultControl>
-                                </ng-select>
-                                <div class="col-md-7 offset-4">
-                                    <small class="invalid text-danger" *ngIf="fixed_turn_valid"> Es necesario el tipo
-                                        turno asignado
-                                    </small>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="col-md-6">
-                            <div class="form-group row">
-                                <label class="col-md-4 custom-label col-form-label text-right"
-                                    for="dependencia">Dependencia</label>
-                                <ng-select class="col-md-7 p-0" formControlName="dependency_id"
-                                    (change)="getPositions($event.value)" [items]="dependencies" bindLabel="text"
-                                    bindValue="value" loadingText="loading" ngDefaultControl>
-                                </ng-select>
-                                <div class="col-md-7 offset-4">
-                                    <small class="invalid text-danger" *ngIf="dependency_valid"> Es necesario el tipo de
-                                        dependencia
-                                    </small>
-                                </div>
-                            </div>
-                            <div class="form-group row">
-                                <label class="col-md-4 custom-label col-form-label text-right" for="turno">Turno</label>
-                                <select formControlName="turn_type" class="form-control custom-control col-md-7"
-                                    (change)="turnChanged($event.target.value)">
-                                    <option [value]="turn.value" *ngFor="let turn of turnos">
-                                        {{ turn.text }}
-                                    </option>
-                                </select>
-                                <div class="col-md-7 offset-4">
-                                    <small class="invalid text-danger" *ngIf="turn_valid"> Es necesario el tipo cargo
-                                    </small>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </form>
+  <div class="app-modal-header">
+    <h5 class="modal-title">Edición datos empresa</h5>
+    <button type="button" class="close basic-close" (click)="modal.hide()">
+      <span aria-hidden="true">
+        <i class="fas fa-times" (click)="modal.hide()"></i>
+      </span>
+    </button>
+  </div>
+  <div class="app-modal-body">
+    <div class="row mt-3">
+      <div class="col-12">
+        <form [formGroup]="form">
+          <div class="form-row mt-3">
+            <div class="col-md-6">
+              <div class="form-group row">
+                <label
+                  class="col-md-4 custom-label col-form-label text-right"
+                  for="dependencia"
+                  >Empresa</label
+                >
+                <ng-select
+                  class="col-md-7 p-0"
+                  formControlName="company_id"
+                  [items]="companies"
+                  bindLabel="text"
+                  bindValue="value"
+                  loadingText="loading"
+                  ngDefaultControl
+                >
+                </ng-select>
+                <div class="col-md-7 offset-4">
+                  <small class="invalid text-danger" *ngIf="dependency_valid">
+                    Es necesario el tipo de empresa
+                  </small>
+                </div>
+              </div>
+              <div class="form-group row">
+                <label
+                  class="col-md-4 custom-label col-form-label text-right"
+                  for="dependencia"
+                  >Grupo</label
+                >
+                <ng-select
+                  class="col-md-7 p-0"
+                  formControlName="group_id"
+                  (change)="getDependencies($event.value)"
+                  [items]="groups"
+                  bindLabel="text"
+                  bindValue="value"
+                  loadingText="loading"
+                  ngDefaultControl
+                >
+                </ng-select>
+                <div class="col-md-7 offset-4">
+                  <small class="invalid text-danger" *ngIf="dependency_valid">
+                    Es necesario el tipo de grupo
+                  </small>
+                </div>
+              </div>
+              <div class="form-group row">
+                <label
+                  class="col-md-4 custom-label col-form-label text-right"
+                  for="cargo"
+                  >Cargo</label
+                >
+                <ng-select
+                  class="col-md-7 p-0"
+                  formControlName="position_id"
+                  [items]="positions"
+                  bindLabel="text"
+                  bindValue="value"
+                  loadingText="loading"
+                  ngDefaultControl
+                >
+                </ng-select>
+                <div class="col-md-7 offset-4">
+                  <small class="invalid text-danger" *ngIf="position_valid">
+                    Es necesario el tipo cargo
+                  </small>
+                </div>
+              </div>
+              <div class="form-group row" *ngIf="turnSelected == 'Fijo'">
+                <label
+                  class="col-md-4 col-form-label text-right"
+                  for="turno_asignado"
+                >
+                  Turno asignado
+                </label>
+                <ng-select
+                  class="col-md-7 p-0"
+                  formControlName="fixed_turn_id"
+                  [items]="fixed_turns"
+                  bindLabel="text"
+                  bindValue="value"
+                  loadingText="loading"
+                  ngDefaultControl
+                >
+                </ng-select>
+                <div class="col-md-7 offset-4">
+                  <small class="invalid text-danger" *ngIf="fixed_turn_valid">
+                    Es necesario el tipo turno asignado
+                  </small>
+                </div>
+              </div>
             </div>
-        </div>
+            <div class="col-md-6">
+              <div class="form-group row">
+                <label
+                  class="col-md-4 custom-label col-form-label text-right"
+                  for="dependencia"
+                  >Dependencia</label
+                >
+                <ng-select
+                  class="col-md-7 p-0"
+                  formControlName="dependency_id"
+                  (change)="getPositions($event.value)"
+                  [items]="dependencies"
+                  bindLabel="text"
+                  bindValue="value"
+                  loadingText="loading"
+                  ngDefaultControl
+                >
+                </ng-select>
+                <div class="col-md-7 offset-4">
+                  <small class="invalid text-danger" *ngIf="dependency_valid">
+                    Es necesario el tipo de dependencia
+                  </small>
+                </div>
+              </div>
+              <div class="form-group row">
+                <label
+                  class="col-md-4 custom-label col-form-label text-right"
+                  for="turno"
+                  >Turno</label
+                >
+                <select
+                  formControlName="turn_type"
+                  class="form-control custom-control col-md-7"
+                  (change)="turnChanged($event.target.value)"
+                >
+                  <option [value]="turn.value" *ngFor="let turn of turnos">
+                    {{ turn.text }}
+                  </option>
+                </select>
+                <div class="col-md-7 offset-4">
+                  <small class="invalid text-danger" *ngIf="turn_valid">
+                    Es necesario el tipo cargo
+                  </small>
+                </div>
+              </div>
+            </div>
+          </div>
+        </form>
+      </div>
     </div>
-    <div class="app-modal-footer">
-        <div class="form-group text-right">
-            <button (click)="modal.hide()" type="button" class="btn btn-danger raised mr-2 btn-sm">Cerrar</button>
-            <button type="submit" class="btn btn-primary btn-sm raised"
-                (click)="updateEnterpriseData()">Actualizar</button>
-        </div>
+  </div>
+  <div class="app-modal-footer">
+    <div class="form-group text-right">
+      <button
+        (click)="modal.hide()"
+        type="button"
+        class="btn btn-danger raised mr-2 btn-sm"
+      >
+        Cerrar
+      </button>
+      <button
+        type="submit"
+        class="btn btn-primary btn-sm raised"
+        (click)="updateEnterpriseData()"
+      >
+        Actualizar
+      </button>
     </div>
+  </div>
 </app-modal-basic>

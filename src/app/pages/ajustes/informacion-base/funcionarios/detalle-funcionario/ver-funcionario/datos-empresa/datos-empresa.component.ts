@@ -23,6 +23,7 @@ export class DatosEmpresaComponent implements OnInit {
   groups: any[];
   dependencies: any[];
   fixed_turns: any[];
+  loading: boolean;
   positions: any[];
   companies: any[];
   empresa: any = {
@@ -56,9 +57,10 @@ export class DatosEmpresaComponent implements OnInit {
   }
 
   getEnterpriseData() {
+    this.loading = false;
     this.enterpriseDataService.getEnterpriseData(this.id)
       .subscribe((res: any) => {
-        console.log(res.data);
+        this.loading = true
         this.empresa = res.data;
         this.getDependencies(this.empresa.group_id);
         this.getPositions(this.empresa.dependency_id)

@@ -60,9 +60,11 @@
               [checked]="stat.selected"
               class="custom-control-input"
             />
-            <label class="custom-control-label {{stat.color}}" for="stat{{ i }}">{{
-              stat.name
-            }}</label>
+            <label
+              class="custom-control-label {{ stat.color }}"
+              for="stat{{ i }}"
+              >{{ stat.name }}</label
+            >
           </div>
         </mat-expansion-panel>
       </mat-accordion>
@@ -110,7 +112,7 @@
         <hr class="line" />
         <div *ngIf="!loading && people.length > 0; else notData" class="row">
           <div
-            class="col-md-3 d-flex align-items-stretch"
+            class="col-md-3 col-xxl-2 col-xxxl-1 d-flex align-items-stretch"
             *ngFor="let person of people"
           >
             <div
@@ -143,11 +145,12 @@
                     : 'bg-secondary'
                 "
               ></div>
-              <div class="card-body text-center">
-                <p class="my-0">
-                    {{ person.first_name }} {{ person.first_surname }}
-                </p>
-                <p class="text-muted mb-0 card-text">{{ person.position }}</p>
+              <div class="card-body p-2 text-center">
+                {{ person.first_name }} <br />
+                {{ person.first_surname }}
+              </div>
+              <div class="card-footer p-1 text-center font-weight-bold">
+                {{ person.position }}
               </div>
             </div>
           </div>

@@ -1,116 +1,168 @@
-<div class="card-body">
-    <div class="card-title">
-        <div class="row">
-            <div class="col-6">
-                <h5>Salario</h5>
-            </div>
-            <div class="col-6">
-                <button class="btn btn-link pt-0 edit" style="float: right;" (click)="openModal()">
-                    <i class="fas fa-pencil-alt"></i>
-                </button>
-            </div>
-        </div>
-    </div>
-    <p id="employee-salary">
-        $ {{ salary_info.salary }}
-    </p>
-
-    <p class="text-mute font-weight-bold item-subtitle2">
-        Tipo de Contrato
-    </p>
-
-    <p class="font-weight-bold">
-        {{ salary_info.contract_type }}
-    </p>
-
-    <p class="text-mute font-weight-bold item-subtitle2">
-        Fecha de ingreso
-    </p>
-
-    <p class="font-weight-bold">
-        {{ salary_info.date_of_admission }}
-    </p>
-    <span *ngIf="salary_info.work_contract_type_id == 2">
-        <p class="text-mute font-weight-bold item-subtitle2">
-            Fecha de retiro
-        </p>
-        <p class="font-weight-bold" >
-            {{ salary_info.date_end }}
-        </p>
-    </span>
-    <hr>
-    <app-bono *ngIf="salary_info.id" [id]="salary_info.id"></app-bono>
+<div class="card-title d-flex justify-content-between">
+  <h6>Salario</h6>
+  <button class="btn btn-link" (click)="openModal()">
+    <i class="fas fa-pencil-alt"></i>
+  </button>
 </div>
 
+<h5 class="text-center text-success">${{ salary_info.salary | number }}</h5>
+
+<div class="row">
+  <div class="col-lg-6 text-lg-right text-center text-primary">
+    Tipo de contrato
+  </div>
+
+  <div class="col-lg-6 text-lg-left text-center">
+    {{ salary_info.contract_type }}
+  </div>
+
+  <div class="col-lg-6 text-lg-right text-center text-primary">
+    Fecha de ingreso
+  </div>
+
+  <div class="col-lg-6 text-lg-left text-center">
+    {{ salary_info.date_of_admission }}
+  </div>
+  <ng-component *ngIf="salary_info.work_contract_type_id == 2">
+    <div class="col-lg-6 text-lg-right text-center text-primary">
+      Fecha de retiro
+    </div>
+    <div class="col-lg-6 text-lg-left text-center">
+      {{ salary_info.date_end }}
+    </div>
+  </ng-component>
+</div>
+<hr />
+<app-bono *ngIf="salary_info.id" [id]="salary_info.id"></app-bono>
+
 <app-modal-basic #modal [dialogClass]="'modal-md'">
-    <div class="app-modal-header">
-        <h5 class="modal-title"> Edición Salario </h5>
-        <button type="button" class="close basic-close" (click)="modal.hide()">
-          <span aria-hidden="true">
-            <i class="fas fa-times" (click)="modal.hide()"></i>
-          </span>
-        </button>
-    </div>
-    <div class="app-modal-body">
-        <form [formGroup]="form">
-            <div class="form-row">
-                <div class="form-group col-md-12">
-                    <label class="custom-label" for="type_contract">Tipo de contrato</label>
-                    <select [class.is-invalid]="type_contract_valid" [(ngModel)]="salary_info.work_contract_type_id" formControlName="type_contract" class="form-select form-control custom-control col-md-12" id="type_contract">
-                        <option *ngFor="let contract_type of contract_types" [value]="contract_type.valor">
-                            {{ contract_type.clave }}
-                        </option>
-                    </select>
-                    <div class="col-md-7 offset-4">
-                        <small class="invalid text-danger" *ngIf="type_contract_valid"> Es necesario el Tipo de contrato
-                        </small>
-                    </div>
-                </div>
-            </div>
-            <div class="form-row">
-                <div class="form-group col-md-12">
-                    <label class="custom-label" for="funcionario_id">Salario</label>
-                    <input type="number" [class.is-invalid]="salary_valid" [(ngModel)]="salary_info.salary" formControlName="salary" class="form-control form-control-sm" id="funcionario_id" required>
-                    <div class="col-md-7 offset-4">
-                        <small class="invalid text-danger" *ngIf="salary_valid"> Es necesario el salario
-                        </small>
-                    </div>
-                </div>
-            </div>
-            <div class="form-row">
-                <div class="form-group col-md-12">
-                    <label class="custom-label" for="fecha_ingreso">Fecha de ingreso</label>
-                    <input type="date" [class.is-invalid]="date_of_admission_valid" [(ngModel)]="salary_info.date_of_admission" formControlName="date_of_admission" class="form-control form-control-sm" id="fecha_ingreso" required>
-                    <div class="col-md-7 offset-4">
-                        <small class="invalid text-danger" *ngIf="date_of_admission_valid"> Es necesario la fecha de ingreso
-                        </small>
-                    </div>
-                </div>
-            </div>
-            <div class="form-row" *ngIf="salary_info.work_contract_type_id == 2">
-                <div class="form-group col-md-12">
-                    <label class="custom-label" for="fecha_retiro">Fecha de retiro</label>
-                    <input type="date" [class.is-invalid]="retirement_date_valid" [(ngModel)]="salary_info.date_end" formControlName="retirement_date" class="form-control form-control-sm" id="fecha_retiro" required>
-                    <div class="col-md-7 offset-4">
-                        <small class="invalid text-danger" *ngIf="retirement_date_valid"> Es necesario la fecha de retiro
-                        </small>
-                    </div>
-                </div>
-            </div>
-            <div class="form-row">
-                <div class="form-group form-check" style="margin-left: 5px;">
-                    <input class="form-check-input" type="checkbox" value="" id="flexCheckDefault">
-                    <label class="form-check-label" for="flexCheckDefault">
-                      ¿Pagar auxilio?
-                    </label>
-                </div>
-            </div>
-        </form>
-    </div>
-    <div class="app-modal-footer">
-        <div class="form-group text-right">
-            <button (click)="modal.hide()" type="button" class="btn btn-danger raised mr-2 btn-sm">Cerrar</button>
-            <button type="submit" class="btn btn-primary btn-sm raised" (click)="updateSalaryInfo()" [disabled]="form.untouched">Actualizar</button>
+  <div class="app-modal-header">
+    <h5 class="modal-title">Edición Salario</h5>
+    <button type="button" class="close basic-close" (click)="modal.hide()">
+      <span aria-hidden="true">
+        <i class="fas fa-times" (click)="modal.hide()"></i>
+      </span>
+    </button>
+  </div>
+  <div class="app-modal-body">
+    <form [formGroup]="form">
+      <div class="form-row">
+        <div class="form-group col-md-12">
+          <label class="custom-label" for="type_contract"
+            >Tipo de contrato</label
+          >
+          <select
+            [class.is-invalid]="type_contract_valid"
+            [(ngModel)]="salary_info.work_contract_type_id"
+            formControlName="type_contract"
+            class="form-select form-control custom-control col-md-12"
+            id="type_contract"
+          >
+            <option
+              *ngFor="let contract_type of contract_types"
+              [value]="contract_type.valor"
+            >
+              {{ contract_type.clave }}
+            </option>
+          </select>
+          <div class="col-md-7 offset-4">
+            <small class="invalid text-danger" *ngIf="type_contract_valid">
+              Es necesario el Tipo de contrato
+            </small>
+          </div>
         </div>
+      </div>
+      <div class="form-row">
+        <div class="form-group col-md-12">
+          <label class="custom-label" for="funcionario_id">Salario</label>
+          <input
+            type="number"
+            [class.is-invalid]="salary_valid"
+            [(ngModel)]="salary_info.salary"
+            formControlName="salary"
+            class="form-control form-control-sm"
+            id="funcionario_id"
+            required
+          />
+          <div class="col-md-7 offset-4">
+            <small class="invalid text-danger" *ngIf="salary_valid">
+              Es necesario el salario
+            </small>
+          </div>
+        </div>
+      </div>
+      <div class="form-row">
+        <div class="form-group col-md-12">
+          <label class="custom-label" for="fecha_ingreso"
+            >Fecha de ingreso</label
+          >
+          <input
+            type="date"
+            [class.is-invalid]="date_of_admission_valid"
+            [(ngModel)]="salary_info.date_of_admission"
+            formControlName="date_of_admission"
+            class="form-control form-control-sm"
+            id="fecha_ingreso"
+            required
+          />
+          <div class="col-md-7 offset-4">
+            <small class="invalid text-danger" *ngIf="date_of_admission_valid">
+              Es necesario la fecha de ingreso
+            </small>
+          </div>
+        </div>
+      </div>
+      <div class="form-row" *ngIf="salary_info.work_contract_type_id == 2">
+        <div class="form-group col-md-12">
+          <label class="custom-label" for="fecha_retiro">Fecha de retiro</label>
+          <input
+            type="date"
+            [class.is-invalid]="retirement_date_valid"
+            [(ngModel)]="salary_info.date_end"
+            formControlName="retirement_date"
+            class="form-control form-control-sm"
+            id="fecha_retiro"
+            required
+          />
+          <div class="col-md-7 offset-4">
+            <small class="invalid text-danger" *ngIf="retirement_date_valid">
+              Es necesario la fecha de retiro
+            </small>
+          </div>
+        </div>
+      </div>
+      <div class="form-row">
+        <div class="form-group form-check" style="margin-left: 5px">
+          <input
+            class="form-check-input"
+            type="checkbox"
+            value=""
+            id="flexCheckDefault"
+          />
+          <label class="form-check-label" for="flexCheckDefault">
+            ¿Pagar auxilio?
+          </label>
+        </div>
+      </div>
+    </form>
+  </div>
+  <div class="app-modal-footer">
+    <div class="form-group text-right">
+      <button
+        (click)="modal.hide()"
+        type="button"
+        class="btn btn-danger raised mr-2 btn-sm"
+      >
+        Cerrar
+      </button>
+      <button
+        type="submit"
+        class="btn btn-primary btn-sm raised"
+        (click)="updateSalaryInfo()"
+        [disabled]="form.untouched"
+      >
+        Actualizar
+      </button>
     </div>
+  </div>
 </app-modal-basic>
