@@ -1,6 +1,4 @@
 import { Component, OnInit, ViewChild } from '@angular/core';
-
-import { personsList } from './data';
 import { PersonService } from '../professionals/profesionales.service';
 import { Person } from 'src/app/core/models/person.model';
 import { DependenciesService } from '../services/dependencies.service';

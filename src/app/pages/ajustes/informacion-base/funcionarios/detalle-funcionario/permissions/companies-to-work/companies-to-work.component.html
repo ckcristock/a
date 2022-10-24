@@ -1,22 +1,24 @@
 <div class="row">
-  <div class="col-6">
-    <label for="dependency_id" class="col-form-label text-left"
-      >Empresas permitidas</label
-    >
+  <div class="col-12">
     <ng-select
       class="p-0"
       [items]="companies"
       multiple="true"
       bindLabel="text"
+      appearance="outline"
+      [appendTo]="'body'"
+      placeholder="Empresas permitidas"
       [(ngModel)]="companiesSelected"
       bindValue="value"
+      [closeOnSelect]="false"
       ngDefaultControl
+      [virtualScroll]="true"
       name="companiesSelected"
     >
     </ng-select>
   </div>
-  <div class="col-6 text-left d-flex align-items-end">
-    <button class="btn btn-primary" (click)="save()">
+  <div class="col-12">
+    <button class="btn btn-primary btn-sm btn-block mt-2" (click)="save()">
       <i
         class="fa"
         [ngClass]="{ 'fa-save': !saving, 'fa-sync fa-spin': saving == true }"

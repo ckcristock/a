@@ -2,11 +2,13 @@ import { Component, OnInit, ViewChild } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { ActivatedRoute } from '@angular/router';
 import { Subject } from 'rxjs';
+import { ModalService } from 'src/app/core/services/modal.service';
 import { consts } from 'src/app/core/utils/consts';
 import { CompanyService } from '../../../../services/company.service';
 import { DependenciesService } from '../../../../services/dependencies.service';
 import { GroupService } from '../../../../services/group.service';
 import { PositionService } from '../../../../services/positions.service';
+import { SwalService } from '../../../../services/swal.service';
 import { DatosEmpresaService } from './datos-empresa.service';
 
 @Component({
@@ -16,6 +18,7 @@ import { DatosEmpresaService } from './datos-empresa.service';
 })
 export class DatosEmpresaComponent implements OnInit {
   @ViewChild('modal') modal: any;
+  @ViewChild('add') add: any;
   form: FormGroup;
   id: any;
   turnos = consts.turnTypes;
@@ -26,21 +29,16 @@ export class DatosEmpresaComponent implements OnInit {
   loading: boolean;
   positions: any[];
   companies: any[];
-  empresa: any = {
-    company_name: '',
-    group_name: '',
-    dependency_name: '',
-    position_name: '',
-    turn_type: '',
-    fixed_turn_name: ''
-  };
+  empresa: any;
   constructor(private fb: FormBuilder,
     private enterpriseDataService: DatosEmpresaService,
     private activatedRoute: ActivatedRoute,
     private _positions: PositionService,
     private _dependecies: DependenciesService,
     private _group: GroupService,
-    private _company: CompanyService
+    private _company: CompanyService,
+    private _modal: ModalService,
+    private _swal: SwalService,
   ) { }
 
   ngOnInit(): void {
@@ -52,15 +50,15 @@ export class DatosEmpresaComponent implements OnInit {
   }
 
   openModal() {
-    this.modal.show();
+    this._modal.open(this.add)
     this.getCompanies()
   }
 
   getEnterpriseData() {
-    this.loading = false;
+    this.loading = true;
     this.enterpriseDataService.getEnterpriseData(this.id)
       .subscribe((res: any) => {
-        this.loading = true
+        this.loading = false
         this.empresa = res.data;
         this.getDependencies(this.empresa.group_id);
         this.getPositions(this.empresa.dependency_id)
@@ -73,6 +71,10 @@ export class DatosEmpresaComponent implements OnInit {
           id: this.empresa.id,
           turn_type: this.empresa.turn_type
         });
+        if (this.form.get('turn_type').value == 'Rotativo') {
+          this.form.patchValue({ fixed_turn_id: null });
+          this.form.get('fixed_turn_id').clearValidators();
+        }
       });
   }
 
@@ -114,10 +116,12 @@ export class DatosEmpresaComponent implements OnInit {
   }
 
   turnChanged(turno) {
-    if (turno == 'Rotativo') {
+    if (turno == 'Fijo') {
       this.form.get('fixed_turn_id').enable();
+      this.form.get('fixed_turn_id').setValidators(Validators.required);
     } else {
-      this.form.get('fixed_turn_id').disable();
+      this.form.get('fixed_turn_id').clearValidators();
+      this.form.patchValue({ fixed_turn_id: null });
     }
   }
 
@@ -127,7 +131,14 @@ export class DatosEmpresaComponent implements OnInit {
     this.enterpriseDataService.updateEnterpriseData(this.form.value)
       .subscribe(res => {
         this.getEnterpriseData();
-        this.modal.hide();
+        this._modal.close();
+        this._swal.show({
+          title: 'Actualizado correctamente',
+          text: '',
+          icon: 'success',
+          showCancel: false,
+          timer: 1000
+        })
       });
   }
   createForm() {

@@ -1,4 +1,4 @@
-<app-modal-basic #modal [dialogClass]="'modal-xl'">
+<!-- <app-modal-basic #modal [dialogClass]="'modal-xl'">
   <div class="app-modal-header">
     <h5 class="modal-title"> Actualizar funcionario </h5>
     <button type="button" class="close basic-close" (click)="modal.hide()">
@@ -169,4 +169,208 @@
       <button type="submit" class="btn btn-primary btn-sm raised" (click)="guardar()">Actualizar</button>
     </div>
   </div>
-</app-modal-basic>
+</app-modal-basic> -->
+<ng-template #modal let-modal>
+  <div class="modal-header">
+    <h4 class="text-primary modal-title">Actualizar funcionario</h4>
+    <button
+      type="button"
+      class="close"
+      data-dismiss="modal"
+      aria-label="Close"
+      (click)="modal.dismiss('Cross click')"
+    >
+      <span aria-hidden="true">&times;</span>
+    </button>
+  </div>
+  <div class="modal-body">
+    <form [formGroup]="form">
+      <div class="row">
+        <div class="col-xl-2">
+          <div class="form-group text-center">
+            <img
+              [src]="fileString"
+              id="imageOutput"
+              class="img-rounded d-block m-auto img-rounded d-block img-thumbnail rounded-circle mx-auto img-fluid header-profile-user"
+              onerror="this.src='../../../../../../../assets/images/noprofile.png'"
+            />
+            <div class="custom-input-file col-md-12 mt-3">
+              <input
+                type="file"
+                #fileInput
+                class="input-file"
+                (change)="onFileChanged($event)"
+                accept="image/*"
+              />
+              Cargar imagen
+            </div>
+            <div class="col-md-12 text-center">
+              <small *ngIf="fileString" class="text-success"
+                >Imagen cargada</small
+              >
+            </div>
+            <div class="text-center text-danger" *ngIf="image_valid">
+              <small class="invalid">La imagen es necesaria</small>
+            </div>
+          </div>
+        </div>
+        <div class="col-xl-5">
+          <div class="row">
+            <mat-form-field class="col-md-6" appearance="outline">
+              <mat-label>Primer nombre</mat-label>
+              <input
+                matInput
+                type="text"
+                placeholder="Ingresa el primer nombre"
+                formControlName="first_name"
+                autocomplete="off"
+                required
+              />
+              <mat-error *ngIf="first_name_valid">Campo necesario</mat-error>
+            </mat-form-field>
+            <mat-form-field class="col-md-6" appearance="outline">
+              <mat-label>Segundo nombre</mat-label>
+              <input
+                matInput
+                type="text"
+                placeholder="Ingresa el segundo nombre"
+                formControlName="second_name"
+                autocomplete="off"
+              />
+            </mat-form-field>
+            <mat-form-field class="col-md-6" appearance="outline">
+              <mat-label>Primer apellido</mat-label>
+              <input
+                matInput
+                type="text"
+                placeholder="Ingresa el primer apellido"
+                formControlName="first_surname"
+                autocomplete="off"
+                required
+              />
+              <mat-error *ngIf="first_surname_valid">Campo necesario</mat-error>
+            </mat-form-field>
+            <mat-form-field class="col-md-6" appearance="outline">
+              <mat-label>Segundo apellido</mat-label>
+              <input
+                matInput
+                type="text"
+                placeholder="Ingresa el segundo apellido"
+                formControlName="second_surname"
+                autocomplete="off"
+              />
+            </mat-form-field>
+            <mat-form-field class="col-md-6" appearance="outline">
+              <mat-label>Documento de identidad</mat-label>
+              <input
+                matInput
+                type="text"
+                placeholder="Ingresa el número de documento"
+                formControlName="identifier"
+                autocomplete="off"
+                required
+              />
+              <mat-error *ngIf="identifier_valid">Campo necesario</mat-error>
+            </mat-form-field>
+            <mat-form-field class="col-md-6" appearance="outline">
+              <mat-label>Dirección de residencia</mat-label>
+              <input
+                matInput
+                type="text"
+                placeholder="Ingresa la dirección de residencia"
+                formControlName="address"
+                autocomplete="off"
+                required
+              />
+              <mat-error *ngIf="address_valid">Campo necesario</mat-error>
+            </mat-form-field>
+          </div>
+        </div>
+        <div class="col-xl-5">
+          <div class="row">
+            <mat-form-field class="col-md-6" appearance="outline">
+              <mat-label>Fecha de nacimiento</mat-label>
+              <input
+                matInput
+                type="date"
+                formControlName="birth_date"
+                required
+              />
+              <mat-error *ngIf="date_of_birth_valid">Campo necesario</mat-error>
+            </mat-form-field>
+            <mat-form-field class="col-md-6" appearance="outline">
+              <mat-label>Título de estudio</mat-label>
+              <mat-select formControlName="degree">
+                <mat-option
+                  *ngFor="let degree of degrees"
+                  [value]="degree.valor"
+                >
+                  {{ degree.clave }}</mat-option
+                >
+              </mat-select>
+              <mat-error *ngIf="degree_valid">Campo necesario</mat-error>
+            </mat-form-field>
+            <mat-form-field class="col-md-6" appearance="outline">
+              <mat-label>Correo electrónico</mat-label>
+              <input
+                matInput
+                type="email"
+                placeholder="Ingresa el correo electrónico"
+                formControlName="email"
+                autocomplete="off"
+                required
+              />
+              <mat-error *ngIf="email_valid">Campo necesario</mat-error>
+            </mat-form-field>
+            <mat-form-field class="col-md-6" appearance="outline">
+              <mat-label>Género</mat-label>
+              <mat-select formControlName="sex">
+                <mat-option value="Masculino">Masculino</mat-option>
+                <mat-option value="Femenino">Femenino</mat-option>
+              </mat-select>
+              <mat-error *ngIf="gener_valid">Campo necesario</mat-error>
+            </mat-form-field>
+            <mat-form-field class="col-md-6" appearance="outline">
+              <mat-label>Estado civil</mat-label>
+              <mat-select formControlName="marital_status">
+                <mat-option
+                  *ngFor="let estado of estados"
+                  [value]="estado.valor"
+                >
+                  {{ estado.clave }}</mat-option
+                >
+              </mat-select>
+              <mat-error *ngIf="marital_status_valid"
+                >Campo necesario</mat-error
+              >
+            </mat-form-field>
+            <mat-form-field class="col-md-6" appearance="outline">
+              <mat-label>Teléfono celular</mat-label>
+              <input
+                matInput
+                type="text"
+                placeholder="Ingresa el número de celular"
+                formControlName="cell_phone"
+                autocomplete="off"
+                required
+              />
+              <mat-error *ngIf="cell_phone_valid">Campo necesario</mat-error>
+            </mat-form-field>
+          </div>
+        </div>
+      </div>
+    </form>
+  </div>
+  <div class="modal-footer">
+    <button
+      type="button"
+      class="btn btn-danger"
+      (click)="modal.dismiss('Cross click'); hideModal()"
+    >
+      Cancelar
+    </button>
+    <button type="button" (click)="guardar()" class="btn btn-primary">
+      Actualizar
+    </button>
+  </div>
+</ng-template>

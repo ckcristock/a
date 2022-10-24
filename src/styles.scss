@@ -24,6 +24,10 @@ hr.line {
   );
 }
 
+.img-rounded {
+  object-fit: cover;
+}
+
 @import "~@angular/material/prebuilt-themes/indigo-pink.css";
 @import "assets/scss/material.scss";
 

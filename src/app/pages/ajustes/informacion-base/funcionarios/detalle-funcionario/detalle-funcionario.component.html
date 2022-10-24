@@ -1,6 +1,20 @@
-<ul ngbNav #nav="ngbNav" [(activeId)]="active" class="nav nav-tabs">
-  <li [ngbNavItem]="1">
-    <a ngbNavLink>Información</a>
+<ul
+  ngbNav
+  #nav="ngbNav"
+  [(activeId)]="active"
+  class="nav nav-tabs justify-content-center"
+  role="tablist"
+>
+  <li [ngbNavItem]="1" class="nav-item flex-sm-fill">
+    <a
+      ngbNavLink
+      data-toggle="tab"
+      role="tab"
+      aria-controls="home"
+      aria-selected="true"
+      class="nav-link border-0 text-uppercase font-weight-bold"
+      >Información</a
+    >
     <ng-template ngbNavContent>
       <div class="row">
         <div class="col-lg-6">
@@ -17,7 +31,7 @@
                     ? 'bg-warning'
                     : 'bg-secondary'
                 "
-                [src]="funcionario.image | image"
+                [src]="funcionario.image | image: 'users'"
                 onerror="this.src='../../../../../../../assets/images/noprofile.png'"
               />
               <div class="card-body text-center">
@@ -32,7 +46,13 @@
                 <app-datos-basicos></app-datos-basicos>
               </div>
               <div class="card-footer">
-                <div class="btn-group btn-block rounded w-sm-100">
+                <img
+                  [src]="funcionario.signature"
+                  onerror="this.src='../../../../assets/images/not-available.png'"
+                  class="mt-4 img-fluid signature-image"
+                  one
+                />
+                <div class="btn-group btn-block rounded w-sm-100 mt-4">
                   <button
                     *ngIf="funcionario.status == 'Activo'"
                     type="button"
@@ -59,9 +79,6 @@
                     <i class="fas fa-check"></i> Activar
                   </button>
                 </div>
-                <strong>
-                  {{ funcionario.signature }}
-                </strong>
               </div>
             </ng-container>
           </div>
@@ -94,8 +111,16 @@
       </div>
     </ng-template>
   </li>
-  <li [ngbNavItem]="2">
-    <a ngbNavLink>Privilegios</a>
+  <li [ngbNavItem]="2" class="nav-item flex-sm-fill">
+    <a
+      ngbNavLink
+      data-toggle="tab"
+      role="tab"
+      aria-controls="home"
+      aria-selected="true"
+      class="nav-link border-0 text-uppercase font-weight-bold"
+      >Privilegios</a
+    >
     <ng-template ngbNavContent>
       <div class="card">
         <div class="card-body">
@@ -104,8 +129,16 @@
       </div>
     </ng-template>
   </li>
-  <li [ngbNavItem]="3">
-    <a ngbNavLink>Documentos</a>
+  <li [ngbNavItem]="3" class="nav-item flex-sm-fill">
+    <a
+      ngbNavLink
+      data-toggle="tab"
+      role="tab"
+      aria-controls="home"
+      aria-selected="true"
+      class="nav-link border-0 text-uppercase font-weight-bold"
+      >Documentos</a
+    >
     <ng-template ngbNavContent>
       <iframe
         [src]="url | safe"

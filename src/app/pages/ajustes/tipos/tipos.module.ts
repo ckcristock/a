@@ -32,6 +32,7 @@ import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatInputModule } from '@angular/material/input';
 import { MatSelectModule } from '@angular/material/select';
 import { ContratoComponent } from './contrato/contrato.component';
+import { TiposTerminoComponent } from './tipos-termino/tipos-termino.component';
 
 @NgModule({
     declarations: [
@@ -54,7 +55,8 @@ import { ContratoComponent } from './contrato/contrato.component';
         TiposVisaComponent,
         TipoactivofijoComponent,
         TablatipoactivofijoComponent,
-        ContratoComponent
+        ContratoComponent,
+        TiposTerminoComponent
     ],
     imports: [
         TiposRoutingModule,
