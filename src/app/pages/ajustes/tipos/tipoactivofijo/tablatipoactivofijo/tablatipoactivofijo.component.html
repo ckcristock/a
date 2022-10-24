@@ -96,15 +96,21 @@
         </tr>
       </thead>
       <tbody>
-        <tr *ngFor="let taf of TiposActivosFijos"
+        <tr
+          *ngFor="let taf of TiposActivosFijos"
           class="text-center"
           [ngClass]="{
             'text-danger font-weight-bold': taf.Estado == 'Inactivo'
-          }">
+          }"
+        >
           <td class="align-middle">{{ taf.Nombre_Tipo_Activo }}</td>
           <td class="align-middle">{{ taf.Categoria }}</td>
-          <td class="align-middle">{{ taf.Vida_Util }} mes(es)</td>
-          <td class="align-middle">{{ taf.Porcentaje_Depreciacion_Anual }} %</td>
+          <td class="align-middle">
+            {{ taf.Vida_Util }} mes{{ taf.Vida_Util > 1 ? "es" : "" }}
+          </td>
+          <td class="align-middle">
+            {{ taf.Porcentaje_Depreciacion_Anual }} %
+          </td>
           <td class="align-middle">{{ taf.Cuenta_Depreciacion_NIIF }}</td>
           <!-- <td class="align-middle">{{ taf.Cuenta_Depreciacion_PCGA }}</td> -->
           <td class="align-middle">{{ taf.Cuenta_Niif }}</td>
@@ -123,9 +129,11 @@
               <div ngbDropdownMenu>
                 <a
                   class="dropdown-item waves-light waves-effect text-info caja-botones"
-                  (click)="gettipoActivosFijos(taf);
-                  openConfirm(add, 'Editar tipo de activo fijo')"
-                ><!-- EditarTipoActivo(taf.Id_Tipo_Activo_Fijo); -->
+                  (click)="
+                    gettipoActivosFijos(taf);
+                    openConfirm(add, 'Editar tipo de activo fijo')
+                  "
+                  ><!-- EditarTipoActivo(taf.Id_Tipo_Activo_Fijo); -->
                   <i class="ti-pencil"></i> Editar</a
                 >
                 <a
@@ -163,7 +171,8 @@
       </tbody>
     </table>
   </div>
-  <ngb-pagination  *ngIf="TiposActivosFijos.length > 0"
+  <ngb-pagination
+    *ngIf="TiposActivosFijos.length > 0"
     class="d-flex justify-content-center pagination-rounded pagination-sm"
     [collectionSize]="TotalItems"
     [pageSize]="pageSize"
@@ -228,14 +237,14 @@
             matInput
             type="text"
             placeholder="Ingresa el nombre"
-            formControlName="name"
+            formControlName="Nombre_Tipo_Activo"
             required
             autocomplete="off"
           />
         </mat-form-field>
         <mat-form-field class="col" appearance="outline">
           <mat-label>Categoría</mat-label>
-          <mat-select formControlName="category">
+          <mat-select formControlName="Categoria">
             <mat-option value="Tangible">Tangible</mat-option>
             <mat-option value="Intangible">Intangible</mat-option>
           </mat-select>
@@ -246,7 +255,7 @@
             matInput
             type="number"
             placeholder="Ingresa la vida útil"
-            formControlName="useful_life_pcga"
+            formControlName="Vida_Util_PCGA"
             required
             (change)="calculateDepreciationPercentage('pcga')"
             autocomplete="off"
@@ -258,9 +267,9 @@
             matInput
             type="number"
             placeholder="Ingresa la vida útil"
-            formControlName="useful_life_niif"
+            formControlName="Vida_Util"
             required
-            (change)="calculateDepreciationPercentage('niif')"
+            (input)="calcularPorcentajeDepreciacion()"
             autocomplete="off"
           />
         </mat-form-field>
@@ -269,107 +278,115 @@
           <input
             matInput
             type="text"
-            formControlName="annual_depreciation_percentage_pcga"
+            formControlName="Porcentaje_Depreciacion_Anual_PCGA"
             required
             readonly
             autocomplete="off"
           />
         </mat-form-field> -->
         <mat-form-field class="col" appearance="outline">
-          <mat-label>Porcentaje de depreciación mensual</mat-label>
+          <mat-label>Porcentaje de depreciación anual</mat-label>
           <input
             matInput
             type="text"
-            formControlName="annual_depreciation_percentage_niif"
+            formControlName="Porcentaje_Depreciacion_Anual"
             required
             readonly
             autocomplete="off"
           />
         </mat-form-field>
         <!-- <mat-form-field class="col" appearance="outline">
-          <mat-label>Cuenta activo PCGA</mat-label>
-          <input
-            matInput
-            type="text"
-            formControlName="pcga_account_plan_id"
-            required
-            [ngbTypeahead]="search"
-            [inputFormatter]="inputFormatBandListValue"
-            [resultFormatter]="resultFormatBandListValue"
-            [editable]="false"
-            autocomplete="off"
-          />
-        </mat-form-field> -->
+            <mat-label>Cuenta activo PCGA</mat-label>
+            <input
+              matInput
+              type="text"
+              formControlName="Id_Plan_Cuenta_PCGA"
+              required
+              [ngbTypeahead]="search"
+              [inputFormatter]="inputFormatBandListValue"
+              [resultFormatter]="resultFormatBandListValue"
+              [editable]="false"
+              autocomplete="off"
+            />
+          </mat-form-field> -->
         <mat-form-field class="col" appearance="outline">
-          <mat-label>Cuenta activo NIIF</mat-label>
+          <mat-label>Cuenta activo</mat-label>
           <input
             matInput
             type="text"
-            formControlName="niif_account_plan_id"
             required
-            [ngbTypeahead]="searchNiif"
-            [inputFormatter]="inputFormatListValueNiif"
-            [resultFormatter]="resultFormatListValueNiif"
             [editable]="false"
             autocomplete="off"
+            [ngbTypeahead]="search_cuenta_niif"
+            [resultTemplate]="rt2"
+            [inputFormatter]="formatter2"
+            [resultFormatter]="formatter2"
+            [class.is-invalid]="busquedaCuentaFallida"
+            (selectItem)="AsignarCuentaNiif($event)"
           />
+          <mat-hint *ngIf="buscandoCuenta">Buscando</mat-hint>
+          <mat-hint *ngIf="busquedaCuentaFallida">
+            No hemos encontrado resultados</mat-hint
+          >
         </mat-form-field>
-        <!-- <mat-form-field class="col" appearance="outline">
-          <mat-label>Cuenta débito depreciación PCGA</mat-label>
-          <input
-            matInput
-            type="text"
-            formControlName="pcga_account_plan_debit_depreciation_id"
-            required
-            [ngbTypeahead]="search"
-            [inputFormatter]="inputFormatBandListValue"
-            [resultFormatter]="resultFormatBandListValue"
-            [editable]="false"
-            autocomplete="off"
-          />
-        </mat-form-field> -->
-        <mat-form-field class="col" appearance="outline">
-          <mat-label>Cuenta débito depreciación NIIF</mat-label>
-          <input
-            matInput
-            type="text"
-            formControlName="niif_account_plan_debit_depreciation_id"
-            required
-            [ngbTypeahead]="searchNiif"
-            [inputFormatter]="inputFormatListValueNiif"
-            [resultFormatter]="resultFormatListValueNiif"
-            [editable]="false"
-            autocomplete="off"
-          />
-        </mat-form-field>
-        <!-- <mat-form-field class="col" appearance="outline">
-          <mat-label>Cuenta crédito depreciación PCGA</mat-label>
-          <input
-            matInput
-            type="text"
-            formControlName="pcga_account_plan_credit_depreciation_id"
-            required
-            [ngbTypeahead]="search"
-            [inputFormatter]="inputFormatBandListValue"
-            [resultFormatter]="resultFormatBandListValue"
-            [editable]="false"
-            autocomplete="off"
-          />
-        </mat-form-field> -->
-        <mat-form-field class="col" appearance="outline">
-          <mat-label>Cuenta crédito depreciación NIIF</mat-label>
-          <input
-            matInput
-            type="text"
-            formControlName="niif_account_plan_credit_depreciation_id"
-            required
-            [ngbTypeahead]="searchNiif"
-            [inputFormatter]="inputFormatListValueNiif"
-            [resultFormatter]="resultFormatListValueNiif"
-            [editable]="false"
-            autocomplete="off"
-          />
-        </mat-form-field>
+        <div *ngIf="false">
+          <!-- <mat-form-field class="col" appearance="outline">
+            <mat-label>Cuenta débito depreciación PCGA</mat-label>
+            <input
+              matInput
+              type="text"
+              formControlName="Id_Plan_Cuenta_Debito_Depreciacion_PCGA"
+              required
+              [ngbTypeahead]="search"
+              [inputFormatter]="inputFormatBandListValue"
+              [resultFormatter]="resultFormatBandListValue"
+              [editable]="false"
+              autocomplete="off"
+            />
+          </mat-form-field>
+          <mat-form-field class="col" appearance="outline">
+            <mat-label>Cuenta débito depreciación</mat-label>
+            <input
+              matInput
+              type="text"
+              formControlName="Id_Plan_Cuenta_Debito_Depreciacion_NIIF"
+              required
+              [ngbTypeahead]="searchNiif"
+              [inputFormatter]="inputFormatListValueNiif"
+              [resultFormatter]="resultFormatListValueNiif"
+              [editable]="false"
+              autocomplete="off"
+            />
+          </mat-form-field> -->
+          <!-- <mat-form-field class="col" appearance="outline">
+            <mat-label>Cuenta crédito depreciación PCGA</mat-label>
+            <input
+              matInput
+              type="text"
+              formControlName="Id_Plan_Cuenta_Credito_Depreciacion_PCGA"
+              required
+              [ngbTypeahead]="search"
+              [inputFormatter]="inputFormatBandListValue"
+              [resultFormatter]="resultFormatBandListValue"
+              [editable]="false"
+              autocomplete="off"
+            />
+          </mat-form-field> -->
+          <mat-form-field class="col" appearance="outline">
+            <mat-label>Cuenta crédito depreciación</mat-label>
+            <input
+              matInput
+              type="text"
+              formControlName="Id_Plan_Cuenta_Credito_Depreciacion_NIIF"
+              required
+              [ngbTypeahead]="searchNiif"
+              [inputFormatter]="inputFormatListValueNiif"
+              [resultFormatter]="resultFormatListValueNiif"
+              [editable]="false"
+              autocomplete="off"
+            />
+          </mat-form-field>
+        </div>
       </div>
     </form>
   </div>
@@ -383,7 +400,7 @@
     </button>
     <button
       type="button"
-      (click)="save()"
+      (click)="GuardarTipoActivo()"
       [disabled]="!form.valid"
       class="btn btn-primary"
     >
