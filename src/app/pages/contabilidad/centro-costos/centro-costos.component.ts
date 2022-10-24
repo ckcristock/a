@@ -119,9 +119,9 @@ export class CentroCostosComponent implements OnInit {
               ) { }
 
   ngOnInit() {
-    this.ListarCostos();
+    this.filtrar();
     this.QueryTipoCentros();
-    this.QueryCentrosCostos();
+   // this.QueryCentrosCostos();
     this.enviromen = environment;
     this.company_id = this._user.user.person.company_worked.id;
   }
@@ -136,11 +136,11 @@ export class CentroCostosComponent implements OnInit {
     }); */
 
     let queryString = this.getQueryParams();
-
+/*
     this.http.get(environment.ruta + 'php/centroscostos/lista_centros_costos.php'+queryString, {params: { company_id: this._user.user.person.company_worked.id }}).subscribe((data: any) => {
       this.items = data.Centros;
       this.TotalItems = data.numReg;
-    });
+    });*/
   }
 
   getQueryParams() {
@@ -181,7 +181,7 @@ export class CentroCostosComponent implements OnInit {
 
   filtrar(paginacion?) {
 
-    if (paginacion != undefined && paginacion == 'No') {
+    if ((typeof paginacion === "undefined") || paginacion == 'No') {
       this.page = 1;
     }
 
@@ -414,7 +414,7 @@ export class CentroCostosComponent implements OnInit {
           text: data.mensaje
         })
         // this.ShowSwal('success', 'Registro Exitoso', data.mensaje);
-        this.QueryCentrosCostos();
+        this.filtrar();
       }else {
         Swal.fire({
            icon: 'error',
