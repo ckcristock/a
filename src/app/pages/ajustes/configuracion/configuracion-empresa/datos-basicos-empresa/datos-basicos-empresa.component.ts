@@ -1,5 +1,7 @@
-import { Component, OnInit, ViewChild } from '@angular/core';
+import { Component, DoCheck, IterableDiffers, OnInit, ViewChild } from '@angular/core';
 import { FormBuilder, FormGroup } from '@angular/forms';
+import { Observable } from 'rxjs';
+import { ModalService } from 'src/app/core/services/modal.service';
 import { functionsUtils } from 'src/app/core/utils/functionsUtils';
 import Swal from 'sweetalert2';
 import { ConfiguracionEmpresaService } from '../configuracion-empresa.service';
@@ -10,26 +12,38 @@ import { ConfiguracionEmpresaService } from '../configuracion-empresa.service';
   styleUrls: ['./datos-basicos-empresa.component.scss']
 })
 
-
-export class DatosBasicosEmpresaComponent implements OnInit {
+export class DatosBasicosEmpresaComponent implements OnInit, DoCheck {
   @ViewChild('modal') modal: any;
   public company: any = [];
   form: FormGroup;
   file: string;
+  loading: boolean = true;
+  differ: any;
   fileString: string | ArrayBuffer = "";
-  show: boolean = false;
   constructor(
     private _configuracionEmpresaService: ConfiguracionEmpresaService,
-    private fb: FormBuilder
-  ) { }
+    private fb: FormBuilder,
+    private _modal: ModalService,
+    differs: IterableDiffers
+  ) { 
+    this.differ = differs.find([]).create(null)
+  }
+  ngDoCheck() {
+    let change = this.differ.diff([this.company]);
+    console.log(this.company)
+    if (this.company.id) {
+      this.loading = false
+    }
+  }
 
   ngOnInit(): void {
     this.createForm();
-    this.getBasicData();
+    /* this.getBasicData(); */
   }
 
-  openModal() {
-    this.modal.show();
+
+  openModal(modal) {
+    this._modal.open(modal, 'lg');
   }
 
   createForm() {
@@ -63,7 +77,7 @@ export class DatosBasicosEmpresaComponent implements OnInit {
 
 
   getBasicData() {
-    if (this.company.id) this.show = true;
+
     this.form.patchValue({
       id: this.company.id,
       logo: this.company.logo,
@@ -75,6 +89,7 @@ export class DatosBasicosEmpresaComponent implements OnInit {
       email_contact: this.company.email_contact,
       phone: this.company.phone
     })
+    this.fileString = this.company.logo
   }
 
   saveBasicData() {
@@ -83,7 +98,7 @@ export class DatosBasicosEmpresaComponent implements OnInit {
     this._configuracionEmpresaService.saveCompanyData(body)
       .subscribe((res: any) => {
         console.log(res);
-        this.modal.hide();
+        this._modal.close();
         this.getBasicData();
         Swal.fire({
           icon: 'success',

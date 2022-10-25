@@ -27,6 +27,7 @@ import { StructureCompanyRoutingModule } from './structure-company.routing';
     PipesModule,
     StructureCompanyRoutingModule
   ],
-  declarations: [EstructuraEmpresaComponent]
+  declarations: [EstructuraEmpresaComponent],
+  exports: [EstructuraEmpresaComponent]
 })
 export class StructureCompanyModule { }

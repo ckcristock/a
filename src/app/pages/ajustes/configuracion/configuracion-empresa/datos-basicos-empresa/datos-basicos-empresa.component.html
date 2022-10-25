@@ -1,115 +1,180 @@
-<div class="card border border-light" *ngIf="show">
-    <div class="card-body">
-        <div class="card-title d-flex justify-content-between">
-            <h5 class="text-primary">Datos Básicos</h5>
-            <button class="btn btn-link pt-0 edit" style="float: right;" (click)="openModal()">
-                <i class="fas fa-pencil-alt"></i>
-            </button>
-        </div>
-        <div class="row">
-            <p class="col-6 font-weight-bold text-mute item-subtitle">
-                Logo Empresa
-            </p>
-            <p class="col-6 font-weight-bold">
-                <img *ngIf="company.logo" [src]="company.logo  | image" alt="">
-            </p>
-            <p class="col-6 font-weight-bold text-mute item-subtitle">
-                Razón Social
-            </p>
-            <p class="col-6 font-weight-bold">
-                {{ company.name }}
-            </p>
-            <p class="col-6 font-weight-bold text-mute item-subtitle">
-                NIT
-            </p>
-            <p class="col-6 font-weight-bold">
-                {{ company.tin }}
-            </p>
-            <p class="col-6 font-weight-bold text-mute item-subtitle">
-                Fecha de Constitución
-            </p>
-            <p class="col-6 font-weight-bold">
-                {{ company.creation_date }}
-            </p>
-            <p class="col-6 font-weight-bold text-mute item-subtitle">
-                Email de Contacto
-            </p>
-            <p class="col-6 font-weight-bold">
-                {{ company.email_contact }}
-            </p>
-            <p class="col-6 font-weight-bold text-mute item-subtitle">
-                Teléfono
-            </p>
-            <p class="col-6 font-weight-bold">
-                {{ company.phone }}
-            </p>
-        </div>
+<div class="card">
+  <div class="card-body">
+    <div class="row card-title d-flex justify-content-between">
+      <div class="col-md-10 px-0">
+        <h5 class="text-primary">Datos básicos</h5>
+      </div>
+      <div class="col-md-2 px-0 text-right">
+        <button class="btn btn-link" (click)="openModal(modal)">
+          <i class="fas fa-pencil-alt"></i>
+        </button>
+      </div>
     </div>
+
+    <div class="row" *ngIf="!loading && company; else notData">
+      <div class="col-12 my-3 text-center">
+        <img
+          class="img-fluid company-logo"
+          [src]="company.logo | image: 'companies'"
+          onerror="this.src='../../../../../../../assets/images/not-available.png'"
+        />
+      </div>
+      <div class="col-lg-6 text-lg-right text-center text-primary">
+        Razón social
+      </div>
+      <div class="col-lg-6 text-lg-left text-center">{{ company.name }}</div>
+      <div class="col-lg-6 text-lg-right text-center text-primary">NIT</div>
+      <div class="col-lg-6 text-lg-left text-center">{{ company.tin }}</div>
+      <div class="col-lg-6 text-lg-right text-center text-primary">
+        Fecha de constitución
+      </div>
+      <div class="col-lg-6 text-lg-left text-center">
+        {{ company.creation_date }}
+      </div>
+      <div class="col-lg-6 text-lg-right text-center text-primary">
+        Correo electrónico
+      </div>
+      <div class="col-lg-6 text-lg-left text-center">
+        {{ company.email_contact }}
+      </div>
+      <div class="col-lg-6 text-lg-right text-center text-primary">
+        Teléfono
+      </div>
+      <div class="col-lg-6 text-lg-left text-center">{{ company.phone }}</div>
+    </div>
+  </div>
 </div>
 
-<app-modal-basic #modal [dialogClass]="'modal-md'">
-    <div class="app-modal-header">
-        <h5 class="modal-title">Datos Básicos</h5>
-        <button type="button" class="close basic-close" (click)="modal.hide()">
-            <span aria-hidden="true">
-                <i class="fas fa-times" (click)="modal.hide()"></i>
-            </span>
-        </button>
-    </div>
-    <div class="app-modal-body">
-        <form [formGroup]="form">
-            <div class="row">
-                <div class="col-12">
-                    <div class="form-row">
-                        <div class="form-group col-12">
-                            <img [src]="fileString" class="img-form d-block m-auto" alt="">
-                            <label for="image" class="subir-archivo mt-3">Cargar imagen</label>
-                            <input type="file" name="image" class="form-control-file" id="image"
-                                (change)="onFileChanged($event)" placeholder="Imagen" />
+<ng-template #notData>
+  <app-not-data [loading]="loading"></app-not-data>
+</ng-template>
 
-                            <!-- <input type="file" name="image" class="form-control-file text-center" id="image"
-                                placeholder="Imagen" /> -->
+<ng-template #modal let-modal>
+  <div class="modal-header">
+    <h4 class="text-primary modal-title">Editar datos básicos</h4>
+    <button
+      type="button"
+      class="close"
+      data-dismiss="modal"
+      aria-label="Close"
+      (click)="modal.dismiss('Cross click')"
+    >
+      <span aria-hidden="true">&times;</span>
+    </button>
+  </div>
 
-                        </div>
-                    </div>
-                    <div class="form-row">
-                        <div class="form-group col-12">
-                            <label for="">Razón Social</label>
-                            <input type="text" formControlName="name" class="form-control form-control-sm">
-                        </div>
-                        <div class="form-group col-6">
-                            <label for="">Tipo de Documento</label>
-                            <input type="text" formControlName="document_type" class="form-control form-control-sm">
-                        </div>
-                        <div class="form-group col-6">
-                            <label for="">Número de Documento</label>
-                            <input type="number" formControlName="tin" class="form-control form-control-sm">
-                        </div>
-                        <div class="form-group col-6">
-                            <label for="">Digito de Verificación</label>
-                            <input type="number" formControlName="dv" class="form-control form-control-sm">
-                        </div>
-                        <div class="form-group col-6">
-                            <label for="">Fecha de Constitución</label>
-                            <input type="date" formControlName="creation_date" class="form-control form-control-sm">
-                        </div>
-                        <div class="form-group col-6">
-                            <label for="">Email de Contacto</label>
-                            <input type="email" formControlName="email_contact" class="form-control form-control-sm">
-                        </div>
-                        <div class="form-group col-6">
-                            <label for="">Teléfono de Contacto</label>
-                            <input type="number" formControlName="phone" class="form-control form-control-sm">
-                        </div>
-                    </div>
-                </div>
+  <div class="modal-body">
+    <form [formGroup]="form">
+      <div class="row">
+        <div class="col-md-12">
+          <div class="form-group text-center">
+            <img
+              [src]="fileString | image: 'companies'"
+              id="imageOutput"
+              class="img-fluid company-logo"
+              onerror="this.src='../../../../../../../assets/images/not-available.png'"
+            />
+            <div class="custom-input-file col-md-12 mt-3">
+              <input
+                type="file"
+                #fileInput
+                class="input-file"
+                (change)="onFileChanged($event)"
+                accept="image/*"
+              />
+              Cargar imagen
             </div>
-        </form>
-    </div>
-    <div class="app-modal-footer">
-        <div class="form-group text-right">
-            <button (click)="modal.hide()" type="button" class="btn btn-danger raised mr-2 btn-sm">Cerrar</button>
-            <button type="submit" class="btn btn-primary btn-sm raised" (click)="saveBasicData()">Guardar</button>
+            <div class="col-md-12 text-center">
+              <small *ngIf="fileString" class="text-success"
+                >Imagen cargada</small
+              >
+            </div>
+          </div>
         </div>
-    </div>
-</app-modal-basic>
+        <mat-form-field class="col-md-6" appearance="outline">
+          <mat-label>Razón social</mat-label>
+          <input
+            matInput
+            type="text"
+            placeholder="Ingresa la razón social"
+            formControlName="name"
+            autocomplete="off"
+            required
+          />
+        </mat-form-field>
+        <mat-form-field class="col" appearance="outline">
+          <mat-label>Tipo de documento</mat-label>
+          <input
+            matInput
+            type="text"
+            placeholder="Ingresa el tipo de documento"
+            formControlName="document_type"
+            autocomplete="off"
+          />
+        </mat-form-field>
+        <mat-form-field class="col" appearance="outline">
+          <mat-label>Número de documento</mat-label>
+          <input
+            matInput
+            type="number"
+            placeholder="Ingresa el número de documento"
+            formControlName="tin"
+            autocomplete="off"
+            required
+          />
+        </mat-form-field>
+        <mat-form-field class="col" appearance="outline">
+          <mat-label>Dígito de verificación</mat-label>
+          <input
+            matInput
+            type="number"
+            placeholder="Ingresa el dígito de verificación"
+            formControlName="dv"
+            autocomplete="off"
+            required
+          />
+        </mat-form-field>
+        <mat-form-field class="col" appearance="outline">
+          <mat-label>Fecha de constitución</mat-label>
+          <input
+            matInput
+            type="date"
+            formControlName="creation_date"
+            autocomplete="off"
+            required
+          />
+        </mat-form-field>
+        <mat-form-field class="col" appearance="outline">
+          <mat-label>Correo elctrónico</mat-label>
+          <input
+            matInput
+            placeholder="Ingresa el correo electrónico"
+            type="email"
+            formControlName="email_contact"
+            autocomplete="off"
+            required
+          />
+        </mat-form-field>
+        <mat-form-field class="col" appearance="outline">
+          <mat-label>Teléfono de contacto</mat-label>
+          <input
+            matInput
+            placeholder="Ingresa el teléfono de contacto"
+            type="number"
+            formControlName="phone"
+            autocomplete="off"
+            required
+          />
+        </mat-form-field>
+      </div>
+    </form>
+  </div>
+  <div class="modal-footer">
+    <button type="button" class="btn btn-danger" (click)="modal.dismiss()">
+      Cancelar
+    </button>
+    <button type="button" (click)="saveBasicData()" class="btn btn-primary">
+      Guardar
+    </button>
+  </div>
+</ng-template>

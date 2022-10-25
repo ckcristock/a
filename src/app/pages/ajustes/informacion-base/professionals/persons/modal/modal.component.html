@@ -1,397 +1,353 @@
 <div class="card">
   <div class="card-body">
     <div class="card-title d-flex justify-content-between">
-      <h4 class="text-primary">{{ _person.id ? "" : "Nuevo" }} Profesional</h4>
-      <button
-        class="btn btn-primary btn-sm btnRegresar"
-        (click)="showFormCreate()"
-      >
-        <i class="fas fa-arrow-left"></i> Volver
-      </button>
+      <h4 class="text-primary">
+        {{ _person.id ? "Editar" : "Nuevo" }} profesional
+      </h4>
     </div>
     <hr class="line" />
     <form [formGroup]="forma" (ngSubmit)="guardar()" novalidate>
       <div class="row">
         <div class="col-md-3">
-          <div class="form-group text-center">
-            <img
-              *ngIf="!person.image_blob"
-              id="imageOutput"
-              [src]="fileAvatar"
-              alt="Imagen del funcionario"
-              class="d-block m-auto"
-            />
-            <img
-              *ngIf="person.image_blob"
-              id="imageOutput"
-              [src]="person.image_blob"
-              alt="Imagen del funcionario"
-              class="d-block m-auto"
-            />
-            <label for="image_blob" class="ml-3 subir-archivo mt-2">
-              Cargar imagen
-              <i class="simple-icon-doc"></i>
-            </label>
-            <div class="input-group">
-              <input
-                type="file"
-                class="form-control"
-                id="image_blob"
-                (change)="onFileChanged($event, 'image_blob')"
-                accept="image/*"
-                class="file"
-              />
-              <input
-                type="hidden"
-                name="image_blob"
-                [(ngModel)]="person.image_blob"
-                formControlName="image_blob"
-              />
+          <div class="row">
+            <div class="col-md-12">
+              <div class="form-group text-center">
+                <img
+                  id="imageOutput"
+                  [src]="person.image_blob ? person.image_blob : fileAvatar"
+                  class="d-block img-thumbnail rounded-circle mx-auto img-fluid"
+                  onerror="this.src='../../../../../../../assets/images/noprofile.png'"
+                />
+                <div class="custom-input-file col-md-12 mt-3">
+                  <input
+                    type="file"
+                    id="image"
+                    class="input-file"
+                    (change)="onFileChanged($event, 'image_blob')"
+                    accept="image/*"
+                  />
+                  Cargar imagen
+                </div>
+                <div class="col-md-12 text-center position-absolute">
+                  <small *ngIf="person.image_blob" class="text-success"
+                    >Imagen cargada</small
+                  >
+                </div>
+                <app-show-errors
+                  class="text-danger text-center"
+                  [ctrl]="forma.get('image_blob')"
+                ></app-show-errors>
+              </div>
             </div>
-            <app-show-errors
-              style="position: absolute; left: 80px"
-              class="text-danger"
-              [ctrl]="forma.get('image_blob')"
-            ></app-show-errors>
-          </div>
-          <mat-form-field appearance="outline" class="col-12">
-            <mat-label>Tipo de documento</mat-label>
-            <mat-select
-              [(ngModel)]="person.type_document_id"
-              formControlName="type_document_id"
-            >
-              <mat-option
-                *ngFor="let item of typesDocuments"
-                [value]="item.value"
-                >{{ item.text }}</mat-option
-              >
-            </mat-select>
-            <mat-icon matSuffix>branding_watermark</mat-icon>
-            <mat-error>
-              <app-show-errors
-                class="text-danger"
-                [ctrl]="forma.get('type_document_id')"
-              >
-              </app-show-errors>
-            </mat-error>
-          </mat-form-field>
-
-          <mat-form-field appearance="outline" class="col-12">
-            <mat-label>Documento de identidad</mat-label>
-            <input
-              matInput
-              placeholder="Ingresa documento de identidad"
-              type="text"
-              formControlName="identifier"
-              [(ngModel)]="person.identifier"
-              id="identifier"
-              autocomplete="off"
-            />
-            <mat-icon matSuffix>badge</mat-icon>
-            <mat-error>
-              <app-show-errors
-                class="text-danger"
-                [ctrl]="forma.get('identifier')"
-              ></app-show-errors>
-            </mat-error>
-          </mat-form-field>
-          <div class="col-md-12">
-            <div class="file-input">
-              <input
-                type="file"
-                id="file"
-                class="file"
-                (change)="onFileChanged($event, 'signature_blob', 'firma')"
-                accept="image/*"
-              />
-              <input
-                type="hidden"
-                name="signature_blob"
-                [(ngModel)]="person.signature_blob"
-                formControlName="signature_blob"
-              />
-              <label for="file"> Seleccione imagen firma </label>
-              <small class="text-center" *ngIf="person.signature_blob"
-                >Imagen cargada</small
-              >
-              <p class="file-name">{{ firma }}</p>
+            <div class="col-12">
+              <hr />
             </div>
-            <app-show-errors
-              style="position: absolute"
-              class="text-danger"
-              [ctrl]="forma.get('signature_blob')"
-            ></app-show-errors>
+            <div class="col-md-12">
+              <div class="form-group text-center">
+                <img
+                  [src]="
+                    person.signature_blob ? person.signature_blob : fileSgnature
+                  "
+                  class="img-fluid firma"
+                  onerror="this.src='../../../../../../../assets/images/nofound.png'"
+                />
+                <div class="custom-input-file col-md-12 mt-3">
+                  <input
+                    type="file"
+                    id="file"
+                    class="input-file"
+                    (change)="onFileChanged($event, 'signature_blob', 'firma')"
+                    accept="image/*"
+                  />
+                  Firma
+                </div>
+                <small class="text-center" *ngIf="person.signature_blob"
+                  >Imagen cargada</small
+                >
+                <app-show-errors
+                  class="text-danger text-center"
+                  [ctrl]="forma.get('signature_blob')"
+                ></app-show-errors>
+              </div>
+            </div>
           </div>
         </div>
         <div class="col-md-9">
           <div class="row">
-            <div class="col-md-4">
-              <mat-form-field appearance="outline" class="col-12">
-                <mat-label>Registro médico</mat-label>
-                <input
-                  matInput
-                  placeholder="Ingresa registro médico"
-                  type="text"
-                  [(ngModel)]="person.medical_record"
-                  formControlName="medical_record"
-                  id="medical_record"
-                  autocomplete="off"
-                />
-                <mat-icon matSuffix>medical_information</mat-icon>
-                <mat-error>
-                  <app-show-errors
-                    class="text-danger"
-                    [ctrl]="forma.get('medical_record')"
-                  ></app-show-errors>
-                </mat-error>
-              </mat-form-field>
-              <mat-form-field appearance="outline" class="col-12">
-                <mat-label>Fecha de nacimiento</mat-label>
-                <input
-                  matInput
-                  type="date"
-                  placeholder="Selecciona la fecha de nacimiento"
-                  [(ngModel)]="person.birth_date"
-                  formControlName="birth_date"
-                  id="birth_date"
-                />
-                <mat-error>
-                  <app-show-errors
-                    class="text-danger"
-                    [ctrl]="forma.get('birth_date')"
-                  ></app-show-errors>
-                </mat-error>
-              </mat-form-field>
-              <mat-form-field appearance="outline" class="col-12">
-                <mat-label>Primer nombre</mat-label>
-                <input
-                  matInput
-                  placeholder="Ingresa el primer nombre"
-                  type="text"
-                  [(ngModel)]="person.first_name"
-                  formControlName="first_name"
-                  id="first-name"
-                  autocomplete="off"
-                />
-                <mat-icon matSuffix>looks_one</mat-icon>
-                <mat-error>
-                  <app-show-errors
-                    class="text-danger"
-                    [ctrl]="forma.get('first_name')"
-                  ></app-show-errors>
-                </mat-error>
-              </mat-form-field>
-              <mat-form-field appearance="outline" class="col-12">
-                <mat-label>Segundo nombre</mat-label>
-                <input
-                  matInput
-                  placeholder="Ingresa el segundo nombre"
-                  type="text"
-                  [(ngModel)]="person.second_name"
-                  formControlName="second_name"
-                  id="second_name"
-                  autocomplete="off"
-                />
-                <mat-icon matSuffix>looks_two</mat-icon>
-              </mat-form-field>
-            </div>
-            <div class="col-md-4">
-              <mat-form-field appearance="outline" class="col-12">
-                <mat-label>Primer apellido</mat-label>
-                <input
-                  matInput
-                  placeholder="Ingresa el primer apellido"
-                  type="text"
-                  [(ngModel)]="person.first_surname"
-                  formControlName="first_surname"
-                  id="first_surname"
-                  autocomplete="off"
-                />
-                <mat-icon matSuffix>looks_one</mat-icon>
-                <mat-error>
-                  <app-show-errors
-                    class="text-danger"
-                    [ctrl]="forma.get('first_surname')"
-                  ></app-show-errors>
-                </mat-error>
-              </mat-form-field>
-              <mat-form-field appearance="outline" class="col-12">
-                <mat-label>Segundo apellido</mat-label>
-                <input
-                  matInput
-                  placeholder="Ingresa el segundo apellido"
-                  type="text"
-                  [(ngModel)]="person.second_surname"
-                  formControlName="second_surname"
-                  id="second_surname"
-                  autocomplete="off"
-                />
-                <mat-icon matSuffix>looks_two</mat-icon>
-              </mat-form-field>
-              <mat-form-field appearance="outline" class="col-12">
-                <mat-label>Estado civil</mat-label>
-                <mat-select
-                  [(ngModel)]="person.marital_status"
-                  formControlName="marital_status"
+            <mat-form-field appearance="outline" class="col">
+              <mat-label>Tipo de documento</mat-label>
+              <mat-select
+                formControlName="type_document_id"
+              >
+                <mat-option
+                  *ngFor="let item of typesDocuments"
+                  [value]="item.value"
+                  >{{ item.text }}</mat-option
                 >
-                  <mat-option
-                    *ngFor="let estado of civilStates.sort()"
-                    [value]="estado.value"
-                  >
-                    {{ estado.name }}
-                  </mat-option>
-                </mat-select>
-                <mat-icon matSuffix>favorite</mat-icon>
-                <mat-error>
-                  <app-show-errors
-                    class="text-danger"
-                    [ctrl]="forma.get('marital_status')"
-                  ></app-show-errors>
-                </mat-error>
-              </mat-form-field>
-              <mat-form-field appearance="outline" class="col-12">
-                <mat-label>Teléfono fijo</mat-label>
-                <input
-                  matInput
-                  placeholder="Ingresa el telefono fijo"
-                  type="text"
-                  [(ngModel)]="person.phone"
-                  formControlName="phone"
-                  id="phone"
-                  autocomplete="off"
-                />
-                <mat-icon matSuffix>phone</mat-icon>
-                <mat-error>
-                  <app-show-errors
-                    class="text-danger"
-                    [ctrl]="forma.get('phone')"
-                  ></app-show-errors>
-                </mat-error>
-              </mat-form-field>
-            </div>
-            <div class="col-md-4">
-              <mat-form-field appearance="outline" class="col-12">
-                <mat-label>Teléfono celular</mat-label>
-                <input
-                  matInput
-                  placeholder="Ingresa el telefono celular"
-                  type="text"
-                  [(ngModel)]="person.cell_phone"
-                  formControlName="cell_phone"
-                  id="cell_phone"
-                  autocomplete="off"
-                />
-                <mat-icon matSuffix>phone_iphone</mat-icon>
-                <mat-error>
-                  <app-show-errors
-                    class="text-danger"
-                    [ctrl]="forma.get('cell_phone')"
-                  ></app-show-errors>
-                </mat-error>
-              </mat-form-field>
-              <mat-form-field appearance="outline" class="col-12">
-                <mat-label>Correo electrónico</mat-label>
-                <input
-                  matInput
-                  placeholder="Ej: genetic@example.com"
-                  type="email"
-                  [(ngModel)]="person.email"
-                  formControlName="email"
-                  id="email"
-                  autocomplete="off"
-                />
-                <mat-icon matSuffix>email</mat-icon>
-                <mat-error>
-                  <app-show-errors
-                    class="text-danger"
-                    [ctrl]="forma.get('email')"
-                  ></app-show-errors>
-                </mat-error>
-              </mat-form-field>
-              <mat-form-field appearance="outline" class="col-12">
-                <mat-label>Departamento</mat-label>
-                <mat-select
-                  [(ngModel)]="person.department_id"
-                  formControlName="department_id"
-                  (selectionChange)="getCities()"
+              </mat-select>
+              <mat-icon matSuffix>branding_watermark</mat-icon>
+              <mat-error>
+                <app-show-errors
+                  class="text-danger"
+                  [ctrl]="forma.get('type_document_id')"
                 >
-                  <div class="input-group">
-                    <input
-                      matInput
-                      type="text"
-                      placeholder="Busca departamento"
-                      [(ngModel)]="searchDepartamento"
-                      [ngModelOptions]="{ standalone: true }"
-                      class="form-control mx-2"
-                    />
-                    <div class="input-group-append" *ngIf="searchDepartamento">
-                      <button
-                        class="btn btn-outline-secondary border-left-0 border"
-                        (click)="searchDepartamento = ''"
-                      >
-                        <i class="fa fa-times"></i>
-                      </button>
-                    </div>
+                </app-show-errors>
+              </mat-error>
+            </mat-form-field>
+
+            <mat-form-field appearance="outline" class="col">
+              <mat-label>Documento de identidad</mat-label>
+              <input
+                matInput
+                placeholder="Ingresa documento de identidad"
+                type="text"
+                formControlName="identifier"
+                autocomplete="off"
+              />
+              <mat-icon matSuffix>badge</mat-icon>
+              <mat-error>
+                <app-show-errors
+                  class="text-danger"
+                  [ctrl]="forma.get('identifier')"
+                ></app-show-errors>
+              </mat-error>
+            </mat-form-field>
+            <mat-form-field appearance="outline" class="col">
+              <mat-label>Registro médico</mat-label>
+              <input
+                matInput
+                placeholder="Ingresa registro médico"
+                type="text"
+                formControlName="medical_record"
+                autocomplete="off"
+              />
+              <mat-icon matSuffix>medical_information</mat-icon>
+              <mat-error>
+                <app-show-errors
+                  class="text-danger"
+                  [ctrl]="forma.get('medical_record')"
+                ></app-show-errors>
+              </mat-error>
+            </mat-form-field>
+            <mat-form-field appearance="outline" class="col">
+              <mat-label>Fecha de nacimiento</mat-label>
+              <input
+                matInput
+                type="date"
+                placeholder="Selecciona la fecha de nacimiento"
+                formControlName="birth_date"
+              />
+              <mat-error>
+                <app-show-errors
+                  class="text-danger"
+                  [ctrl]="forma.get('birth_date')"
+                ></app-show-errors>
+              </mat-error>
+            </mat-form-field>
+            <mat-form-field appearance="outline" class="col">
+              <mat-label>Primer nombre</mat-label>
+              <input
+                matInput
+                placeholder="Ingresa el primer nombre"
+                type="text"
+                formControlName="first_name"
+                autocomplete="off"
+              />
+              <mat-icon matSuffix>looks_one</mat-icon>
+              <mat-error>
+                <app-show-errors
+                  class="text-danger"
+                  [ctrl]="forma.get('first_name')"
+                ></app-show-errors>
+              </mat-error>
+            </mat-form-field>
+            <mat-form-field appearance="outline" class="col">
+              <mat-label>Segundo nombre</mat-label>
+              <input
+                matInput
+                placeholder="Ingresa el segundo nombre"
+                type="text"
+                formControlName="second_name"
+                autocomplete="off"
+              />
+              <mat-icon matSuffix>looks_two</mat-icon>
+            </mat-form-field>
+            <mat-form-field appearance="outline" class="col">
+              <mat-label>Primer apellido</mat-label>
+              <input
+                matInput
+                placeholder="Ingresa el primer apellido"
+                type="text"
+                formControlName="first_surname"
+                autocomplete="off"
+              />
+              <mat-icon matSuffix>looks_one</mat-icon>
+              <mat-error>
+                <app-show-errors
+                  class="text-danger"
+                  [ctrl]="forma.get('first_surname')"
+                ></app-show-errors>
+              </mat-error>
+            </mat-form-field>
+            <mat-form-field appearance="outline" class="col">
+              <mat-label>Segundo apellido</mat-label>
+              <input
+                matInput
+                placeholder="Ingresa el segundo apellido"
+                type="text"
+                formControlName="second_surname"
+                autocomplete="off"
+              />
+              <mat-icon matSuffix>looks_two</mat-icon>
+            </mat-form-field>
+            <mat-form-field appearance="outline" class="col">
+              <mat-label>Estado civil</mat-label>
+              <mat-select
+                formControlName="marital_status"
+              >
+                <mat-option
+                  *ngFor="let estado of civilStates.sort()"
+                  [value]="estado.value"
+                >
+                  {{ estado.name }}
+                </mat-option>
+              </mat-select>
+              <mat-icon matSuffix>favorite</mat-icon>
+              <mat-error>
+                <app-show-errors
+                  class="text-danger"
+                  [ctrl]="forma.get('marital_status')"
+                ></app-show-errors>
+              </mat-error>
+            </mat-form-field>
+            <mat-form-field appearance="outline" class="col">
+              <mat-label>Teléfono fijo</mat-label>
+              <input
+                matInput
+                placeholder="Ingresa el telefono fijo"
+                type="text"
+                formControlName="phone"
+                autocomplete="off"
+              />
+              <mat-icon matSuffix>phone</mat-icon>
+              <mat-error>
+                <app-show-errors
+                  class="text-danger"
+                  [ctrl]="forma.get('phone')"
+                ></app-show-errors>
+              </mat-error>
+            </mat-form-field>
+            <mat-form-field appearance="outline" class="col">
+              <mat-label>Teléfono celular</mat-label>
+              <input
+                matInput
+                placeholder="Ingresa el telefono celular"
+                type="text"
+                formControlName="cell_phone"
+                autocomplete="off"
+              />
+              <mat-icon matSuffix>phone_iphone</mat-icon>
+              <mat-error>
+                <app-show-errors
+                  class="text-danger"
+                  [ctrl]="forma.get('cell_phone')"
+                ></app-show-errors>
+              </mat-error>
+            </mat-form-field>
+            <mat-form-field appearance="outline" class="col">
+              <mat-label>Correo electrónico</mat-label>
+              <input
+                matInput
+                placeholder="Ej: ateneo@example.com"
+                type="email"
+                formControlName="email"
+                autocomplete="off"
+              />
+              <mat-icon matSuffix>email</mat-icon>
+              <mat-error>
+                <app-show-errors
+                  class="text-danger"
+                  [ctrl]="forma.get('email')"
+                ></app-show-errors>
+              </mat-error>
+            </mat-form-field>
+            <mat-form-field appearance="outline" class="col">
+              <mat-label>Departamento</mat-label>
+              <mat-select
+                formControlName="department_id"
+                (selectionChange)="getCities()"
+              >
+                <div class="input-group">
+                  <input
+                    matInput
+                    type="text"
+                    placeholder="Busca departamento"
+                    [(ngModel)]="searchDepartamento"
+                    [ngModelOptions]="{ standalone: true }"
+                    class="form-control mx-2"
+                  />
+                  <div class="input-group-append" *ngIf="searchDepartamento">
+                    <button
+                      class="btn btn-outline-secondary border-left-0 border"
+                      (click)="searchDepartamento = ''"
+                    >
+                      <i class="fa fa-times"></i>
+                    </button>
                   </div>
-                  <mat-option
-                    *ngFor="
-                      let item of departments | search: searchDepartamento
-                    "
-                    [value]="item.value"
-                    >{{ item.text }}</mat-option
-                  >
-                </mat-select>
-                <mat-icon matSuffix>explore</mat-icon>
-                <mat-error>
-                  <app-show-errors
-                    class="text-danger"
-                    [ctrl]="forma.get('department_id')"
-                  ></app-show-errors>
-                </mat-error>
-              </mat-form-field>
-              <mat-form-field appearance="outline" class="col-12">
-                <mat-label>Municipio</mat-label>
-                <mat-select
-                  [(ngModel)]="person.municipality_id"
-                  formControlName="municipality_id"
-                  id="municipality_id"
+                </div>
+                <mat-option
+                  *ngFor="let item of departments | search: searchDepartamento"
+                  [value]="item.value"
+                  >{{ item.text }}</mat-option
                 >
-                  <div class="input-group">
-                    <input
-                      matInput
-                      type="text"
-                      placeholder="Busca municipio"
-                      [(ngModel)]="searchMunicipio"
-                      [ngModelOptions]="{ standalone: true }"
-                      class="form-control mx-2"
-                    />
-                    <div class="input-group-append" *ngIf="searchMunicipio">
-                      <button
-                        class="btn btn-outline-secondary border-left-0 border"
-                        (click)="searchMunicipio = ''"
-                      >
-                        <i class="fa fa-times"></i>
-                      </button>
-                    </div>
+              </mat-select>
+              <mat-icon matSuffix>explore</mat-icon>
+              <mat-error>
+                <app-show-errors
+                  class="text-danger"
+                  [ctrl]="forma.get('department_id')"
+                ></app-show-errors>
+              </mat-error>
+            </mat-form-field>
+            <mat-form-field appearance="outline" class="col">
+              <mat-label>Municipio</mat-label>
+              <mat-select
+                formControlName="municipality_id"
+              >
+                <div class="input-group">
+                  <input
+                    matInput
+                    type="text"
+                    placeholder="Busca municipio"
+                    [(ngModel)]="searchMunicipio"
+                    [ngModelOptions]="{ standalone: true }"
+                    class="form-control mx-2"
+                  />
+                  <div class="input-group-append" *ngIf="searchMunicipio">
+                    <button
+                      class="btn btn-outline-secondary border-left-0 border"
+                      (click)="searchMunicipio = ''"
+                    >
+                      <i class="fa fa-times"></i>
+                    </button>
                   </div>
-                  <mat-option
-                    *ngFor="let item of cities | search: searchMunicipio"
-                    [value]="item.value"
-                    >{{ item.text }}</mat-option
-                  >
-                </mat-select>
-                <mat-icon matSuffix>push_pin</mat-icon>
-                <mat-error>
-                  <app-show-errors
-                    class="text-danger"
-                    [ctrl]="forma.get('municipality_id')"
-                  ></app-show-errors>
-                </mat-error>
-              </mat-form-field>
-            </div>
+                </div>
+                <mat-option
+                  *ngFor="let item of cities | search: searchMunicipio"
+                  [value]="item.value"
+                  >{{ item.text }}</mat-option
+                >
+              </mat-select>
+              <mat-icon matSuffix>push_pin</mat-icon>
+              <mat-error>
+                <app-show-errors
+                  class="text-danger"
+                  [ctrl]="forma.get('municipality_id')"
+                ></app-show-errors>
+              </mat-error>
+            </mat-form-field>
             <div class="col-md-12">
               <ng-select
-                id="specialties"
                 [items]="specialities"
                 bindLabel="text"
                 placeholder="Especialidades"
@@ -402,39 +358,45 @@
                 required
                 [hideSelected]="true"
                 dropdownPosition="top"
-                [(ngModel)]="person.specialities"
                 formControlName="specialities"
               >
               </ng-select>
 
-              <app-show-errors
-                class="text-danger"
-                style="position: absolute; top: 50px; left: 2.5em"
-                [ctrl]="forma.get('specialities')"
-              ></app-show-errors>
-            </div>
-            <div class="col-md-12">
-              <div class="d-flex justify-content-end col-md-12">
-                <button
-                  type="button"
-                  class="btn btn-primary btn-sm"
-                  placement="bottom"
-                  ngbTooltip="Agregar"
-                  (click)="newContract()"
-                >
-                  <i class="fas fa-plus"></i> Agregar contrato
-                </button>
-              </div>
+              <small>
+                <app-show-errors
+                  class="text-danger"
+                  style="position: absolute; top: 3rem; left: 1.5rem"
+                  [ctrl]="forma.get('specialities')"
+                ></app-show-errors>
+              </small>
             </div>
           </div>
         </div>
       </div>
-      <ng-container *ngIf="contractList.controls.length">
-        <h4 class="text-center text-primary">Contratos</h4>
+      <div class="row card-title d-flex justify-content-between mt-4">
+        <div class="col-md-6 px-0">
+          <h5 class="text-dark">Contratos</h5>
+        </div>
+        <div class="col-md-6 px-0 text-right">
+          <div class="btn-group rounded w-sm-100">
+            <button
+              type="button"
+              class="btn btn-primary btn-sm"
+              placement="bottom"
+              ngbTooltip="Agregar"
+              (click)="newContract()"
+            >
+              <i class="fas fa-plus"></i> Agregar contrato
+            </button>
+          </div>
+        </div>
+      </div>
+      <hr />
+      <ng-container *ngIf="contractList.controls.length; else notContracts">
         <ng-container *ngFor="let item of contractList.controls; let c = index">
           <div formArrayName="contract">
-            <div [formGroupName]="c">
-              <mat-form-field appearance="outline" class="col-md-4">
+            <div class="row" [formGroupName]="c">
+              <mat-form-field appearance="outline" class="col">
                 <mat-label>Mi empresa</mat-label>
                 <mat-select name="company_id" formControlName="company_id">
                   <div class="input-group">
@@ -470,7 +432,7 @@
                   </app-show-errors>
                 </mat-error>
               </mat-form-field>
-              <mat-form-field appearance="outline" class="col-md-4">
+              <mat-form-field appearance="outline" class="col">
                 <mat-label>Agenda</mat-label>
                 <mat-select
                   required
@@ -493,7 +455,7 @@
                   </app-show-errors>
                 </mat-error>
               </mat-form-field>
-              <mat-form-field appearance="outline" class="col-md-4">
+              <mat-form-field appearance="outline" class="col">
                 <mat-label>Regimen</mat-label>
                 <mat-select
                   required
@@ -516,68 +478,78 @@
                   </app-show-errors>
                 </mat-error>
               </mat-form-field>
-              <ng-select
-                ngSelectMat
-                [items]="allcompanies"
-                [multiple]="true"
-                placeholder="Otras empresas"
-                appearance="outline"
-                bindLabel="text"
-                [hideSelected]="true"
-                [virtualScroll]="true"
-                groupBy="tipo"
-                [selectableGroup]="true"
-                [selectableGroupAsModel]="false"
-                [closeOnSelect]="false"
-                bindValue="value"
-                name="companies_id"
-                loadingText="loading"
-                formControlName="companies_id"
-                dropdownPosition="top"
-                required="true"
-              >
-              </ng-select>
-              <mat-error>
-                <app-show-errors
-                  style="position: relative; left: 1.5em; top: -20px"
-                  class="text-danger"
-                  [ctrl]="item.get('companies_id')"
+              <div class="col-12 mb-4">
+                <ng-select
+                  ngSelectMat
+                  [items]="allcompanies"
+                  [multiple]="true"
+                  placeholder="Otras empresas"
+                  appearance="outline"
+                  bindLabel="text"
+                  [hideSelected]="true"
+                  [virtualScroll]="true"
+                  groupBy="tipo"
+                  [selectableGroup]="true"
+                  [selectableGroupAsModel]="false"
+                  [closeOnSelect]="false"
+                  bindValue="value"
+                  name="companies_id"
+                  loadingText="loading"
+                  formControlName="companies_id"
+                  dropdownPosition="top"
+                  required="true"
                 >
-                </app-show-errors>
-              </mat-error>
+                </ng-select>
+                <small>
+                  <mat-error>
+                    <app-show-errors
+                      style="position: absolute; top: 3rem; left: 1.5rem"
+                      class="text-danger"
+                      [ctrl]="item.get('companies_id')"
+                    >
+                    </app-show-errors>
+                  </mat-error>
+                </small>
+              </div>
 
-              <ng-select
-                [items]="contracts"
-                [multiple]="true"
-                [hideSelected]="true"
-                required
-                class="is-invalid"
-                appearance="outline"
-                bindLabel="text"
-                bindValue="value"
-                placeholder="Contrato"
-                [closeOnSelect]="false"
-                name="contract_id"
-                formControlName="contract_id"
-              >
-              </ng-select>
-              <app-show-errors
-                class="text-danger"
-                style="position: relative; left: 1.5em; top: -20px"
-                [ctrl]="item.get('contract_id')"
-              >
-              </app-show-errors>
-            </div>
-            <div class="d-flex justify-content-end col-md-12">
-              <button
-                type="button"
-                class="btn btn-danger btn-sm"
-                placement="bottom"
-                ngbTooltip="Borrar"
-                (click)="deleteContract()"
-              >
-                <i class="fas fa-trash-alt"></i> Borrar contrato
-              </button>
+              <div class="col-12 mb-4">
+                <ng-select
+                  [items]="contracts"
+                  [multiple]="true"
+                  [hideSelected]="true"
+                  required
+                  class="is-invalid"
+                  appearance="outline"
+                  bindLabel="text"
+                  bindValue="value"
+                  placeholder="Contrato"
+                  [closeOnSelect]="false"
+                  name="contract_id"
+                  formControlName="contract_id"
+                >
+                </ng-select>
+                <small>
+                  <app-show-errors
+                    class="text-danger"
+                    style="position: absolute; top: 3rem; left: 1.5rem"
+                    [ctrl]="item.get('contract_id')"
+                  >
+                  </app-show-errors>
+                </small>
+              </div>
+              <div class="col-12">
+                <div class="d-flex justify-content-end">
+                  <button
+                    type="button"
+                    class="btn btn-danger btn-sm"
+                    placement="bottom"
+                    ngbTooltip="Borrar"
+                    (click)="deleteContract()"
+                  >
+                    <i class="fas fa-trash-alt"></i> Borrar contrato
+                  </button>
+                </div>
+              </div>
             </div>
           </div>
         </ng-container>
@@ -586,13 +558,18 @@
     <button
       type="submit"
       (click)="guardar()"
+      [disabled]="!forma.valid"
       class="btn btn-primary btn-block mt-4"
     >
-      Guardar Profesional
+      Guardar
     </button>
   </div>
 </div>
-
+<ng-template #notContracts>
+  <div class="alert alert-warning text-center font-weight-bold" role="alert">
+    Sin datos
+  </div>
+</ng-template>
 <!-- <div class="col-md-4 mb-2">
                     <label for="validationServerUsername">IPS Principal</label>
 

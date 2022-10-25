@@ -10,6 +10,7 @@ import { DatosNominaComponent } from './datos-nomina/datos-nomina.component';
 import { DatosPagoComponent } from './datos-pago/datos-pago.component';
 import { DatosPilaComponent } from './datos-pila/datos-pila.component';
 import { ActivatedRoute, Params } from '@angular/router';
+import { ModalService } from 'src/app/core/services/modal.service';
 @Component({
   selector: 'app-configuracion-empresa',
   templateUrl: './configuracion-empresa.component.html',
@@ -17,8 +18,7 @@ import { ActivatedRoute, Params } from '@angular/router';
 })
 export class ConfiguracionEmpresaComponent implements OnInit {
   @ViewChild('modal') modal: any;
-  @ViewChild(DatosBasicosEmpresaComponent)
-  datBasic: DatosBasicosEmpresaComponent;
+  @ViewChild(DatosBasicosEmpresaComponent) datBasic: DatosBasicosEmpresaComponent;
   @ViewChild(DatosNominaComponent) datNomina: DatosNominaComponent;
   @ViewChild(DatosPagoComponent) datPago: DatosPagoComponent;
   @ViewChild(DatosPilaComponent) datPila: DatosPilaComponent;
@@ -27,16 +27,16 @@ export class ConfiguracionEmpresaComponent implements OnInit {
   currentCompany: any;
   companies: Array<Object>;
   showBasicData: boolean = false;
+  company_name: string = '';
+  active: number = 1;
   constructor(
     private _configuracionEmpresaService: ConfiguracionEmpresaService,
     private fb: FormBuilder,
-    public rutaActiva: ActivatedRoute
-  ) {
-    
-  }
+    public rutaActiva: ActivatedRoute,
+    private _modal: ModalService
+  ) {}
 
   ngOnInit(): void {
-    console.log(this.currentCompany)
     this.currentCompany = this.rutaActiva.snapshot.params.id;
     this.createForm();
     this.getCompanies();
@@ -51,31 +51,31 @@ export class ConfiguracionEmpresaComponent implements OnInit {
       .getCompanies()
       .subscribe(
         (res: Response) => (
-          (this.companies = res.data)
+          (this.companies = res.data.data)
         )
       );
   }
 
   getDataCompany() {
-    console.log(this.currentCompany);
     this._configuracionEmpresaService
       .getCompanyData(this.currentCompany)
       .subscribe((res: Response) => {
+        this.company_name = res.data.name
         this.datBasic.company = res.data;
         this.datNomina.nomina = res.data;
         this.datPago.payments = res.data;
         this.datPago.bank = res?.data?.bank?.name;
         this.datPila.pilas = res.data;
         this.datPila.arl = res?.data?.arl?.name;
+        this.datBasic.getBasicData();
         this.datPila.getPilaData();
         this.datNomina.getNominaData();
         this.datPago.getPaymentData();
-        this.datBasic.getBasicData();
       });
   }
 
-  openModal() {
-    this.modal.show();
+  openModal(modal) {
+    this._modal.open(modal);
   }
 
   createForm() {

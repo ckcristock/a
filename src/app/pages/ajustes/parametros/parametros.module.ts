@@ -25,12 +25,12 @@ import { InformacionBaseModule } from "../informacion-base/informacion-base.modu
 
 @NgModule({
     declarations: [
-        EpsComponent, 
-        DepartamentosComponent, 
-        MunicipiosComponent, 
-        BancosComponent, 
-        CuentasBancariasComponent, 
-        CategoriasComponent, 
+        EpsComponent,
+        DepartamentosComponent,
+        MunicipiosComponent,
+        BancosComponent,
+        CuentasBancariasComponent,
+        CategoriasComponent,
         SubcategoriasComponent,
         AgendamientoComponent,
         NominaComponent,
@@ -55,7 +55,11 @@ import { InformacionBaseModule } from "../informacion-base/informacion-base.modu
 
 
     ],
-    exports: []
+    exports: [
+        CuentasBancariasComponent,
+        CategoriasComponent, 
+        SubcategoriasComponent
+    ]
 })
 
 export class ParametrosModule { }

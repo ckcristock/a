@@ -116,6 +116,7 @@
           <img
             class="border rounded-pill"
             height="40"
+            onerror="this.src='../../../../assets/images/not-available.png'"
             [src]="user.person.company_worked.logo | image: 'companies'"
             alt="user-pic"
           />
@@ -150,6 +151,8 @@
                   [alt]="company.short_name"
                   [title]="company.short_name"
                   [src]="company.logo | image: 'companies'"
+                  onerror="this.src='../../../../assets/images/not-available.png'"
+
                 />
               </div>
             </a>
