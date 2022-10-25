@@ -130,8 +130,8 @@
                 <a
                   class="dropdown-item waves-light waves-effect text-info caja-botones"
                   (click)="
-                    gettipoActivosFijos(taf);
-                    openConfirm(add, 'Editar tipo de activo fijo')
+                    openConfirm(add, 'Editar tipo de activo fijo');
+                    gettipoActivosFijos(taf)
                   "
                   ><!-- EditarTipoActivo(taf.Id_Tipo_Activo_Fijo); -->
                   <i class="ti-pencil"></i> Editar</a
@@ -315,21 +315,18 @@
             matInput
             type="text"
             required
-            [editable]="false"
             autocomplete="off"
+            [(value)]="CuentaNiif"
             [ngbTypeahead]="search_cuenta_niif"
             [resultTemplate]="rt2"
             [inputFormatter]="formatter2"
             [resultFormatter]="formatter2"
-            [class.is-invalid]="busquedaCuentaFallida"
-            (selectItem)="AsignarCuentaNiif($event)"
+            (focus)="selCampoEnfocado('planCuenta')"
+            (selectItem)="AsignarCuenta($event,'Id_Plan_Cuenta')"
           />
-          <mat-hint *ngIf="buscandoCuenta">Buscando</mat-hint>
-          <mat-hint *ngIf="busquedaCuentaFallida">
-            No hemos encontrado resultados</mat-hint
-          >
+            <!-- value="{{tipoActivosFijos.Cuenta_Niif}}" -->
+          <mat-hint *ngIf="buscandoCuenta.planCuenta">Buscando</mat-hint>
         </mat-form-field>
-        <div *ngIf="false">
           <!-- <mat-form-field class="col" appearance="outline">
             <mat-label>Cuenta débito depreciación PCGA</mat-label>
             <input
@@ -343,21 +340,24 @@
               [editable]="false"
               autocomplete="off"
             />
-          </mat-form-field>
+          </mat-form-field> -->
           <mat-form-field class="col" appearance="outline">
             <mat-label>Cuenta débito depreciación</mat-label>
             <input
               matInput
               type="text"
-              formControlName="Id_Plan_Cuenta_Debito_Depreciacion_NIIF"
               required
-              [ngbTypeahead]="searchNiif"
-              [inputFormatter]="inputFormatListValueNiif"
-              [resultFormatter]="resultFormatListValueNiif"
-              [editable]="false"
               autocomplete="off"
+              [(value)]="CuentaDepreciacionNiif"
+              [ngbTypeahead]="search_cuenta_niif"
+              [resultTemplate]="rt2"
+              [inputFormatter]="formatter2"
+              [resultFormatter]="formatter2"
+              (focus)="selCampoEnfocado('planCuentaDepreciacion')"
+              (selectItem)="AsignarCuenta($event,'Id_Plan_Cuenta_Depreciacion')"
             />
-          </mat-form-field> -->
+            <mat-hint *ngIf="buscandoCuenta.planCuentaDepreciacion">Buscando</mat-hint>
+          </mat-form-field>
           <!-- <mat-form-field class="col" appearance="outline">
             <mat-label>Cuenta crédito depreciación PCGA</mat-label>
             <input
@@ -377,16 +377,18 @@
             <input
               matInput
               type="text"
-              formControlName="Id_Plan_Cuenta_Credito_Depreciacion_NIIF"
               required
-              [ngbTypeahead]="searchNiif"
-              [inputFormatter]="inputFormatListValueNiif"
-              [resultFormatter]="resultFormatListValueNiif"
-              [editable]="false"
               autocomplete="off"
+              [(value)]="CuentaCreditoDepreciacionNiif"
+              [ngbTypeahead]="search_cuenta_niif"
+              [resultTemplate]="rt2"
+              [inputFormatter]="formatter2"
+              [resultFormatter]="formatter2"
+              (focus)="selCampoEnfocado('planCuentaDepreciacionCredito')"
+              (selectItem)="AsignarCuenta($event,'Id_Plan_Cuenta_Credito_Depreciacion')"
             />
+            <mat-hint *ngIf="buscandoCuenta.planCuentaDepreciacionCredito">Buscando</mat-hint>
           </mat-form-field>
-        </div>
       </div>
     </form>
   </div>
@@ -633,8 +635,8 @@
 </app-modal-basic> -->
 
 <ng-template #rt1 let-r="result" let-t="term">
-  <span class="f-9">{{ r.Nombre }} - {{ r.Codigo }} </span>
+  <span class="f-9">{{ r.Codigo }} - {{ r.Nombre }} </span>
 </ng-template>
 <ng-template #rt2 let-r="result" let-t="term">
-  <span class="f-9">{{ r.Nombre_Niif }} - {{ r.Codigo_Niif }} </span>
+  <span class="f-9">{{ r.Codigo_Niif }} - {{ r.Nombre_Niif }}</span>
 </ng-template>
