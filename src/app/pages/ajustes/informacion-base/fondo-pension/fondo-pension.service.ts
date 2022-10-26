@@ -10,7 +10,7 @@ export class FondoPensionService {
   constructor( private http: HttpClient ) { }
 
   getPensionFunds(params = {}) {
-    return this.http.get(`${environment.base_url}/paginatePensionFun`, {params});
+    return this.http.get(`${environment.base_url}/paginatePensionFund`, {params});
   }
 
   createPensionFund( data:any ) {

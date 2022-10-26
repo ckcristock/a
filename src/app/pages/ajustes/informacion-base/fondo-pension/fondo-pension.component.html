@@ -2,11 +2,14 @@
   <div class="card-body">
     <div class="row card-title d-flex justify-content-between">
       <div class="col-md-6 px-0">
-        <h5 class="text-primary">Fondos de pensión</h5>
+        <h4 class="text-primary">Fondo de pensión</h4>
       </div>
       <div class="col-md-6 px-0 text-right">
         <div class="btn-group rounded w-sm-100">
-          <button class="btn btn-primary btn-sm" (click)="openModal()">
+          <button
+            class="btn btn-primary btn-sm"
+            (click)="openConfirm(add, 'Nuevo fondo de pensión', true )"
+          >
             <i class="fa fa-plus"></i> Agregar
           </button>
           <button class="btn btn-info btn-sm" (click)="openClose()">
@@ -22,25 +25,13 @@
           <mat-form-field class="col" appearance="outline">
             <mat-label>Nombre</mat-label>
             <input
-              matInput
               type="text"
-              placeholder="Busca por nombre"
+              matInput
               [(ngModel)]="filtro.name"
               (input)="getPensionFunds()"
               name="name"
               autocomplete="off"
-            />
-          </mat-form-field>
-          <mat-form-field class="col" appearance="outline">
-            <mat-label>Código</mat-label>
-            <input
-              matInput
-              type="text"
-              placeholder="Busca por código"
-              [(ngModel)]="filtro.code"
-              (input)="getPensionFunds()"
-              name="code"
-              autocomplete="off"
+              placeholder="Busca por nombre"
             />
           </mat-form-field>
         </div>
@@ -56,53 +47,55 @@
             <th>Nombre</th>
             <th>Código</th>
             <th>NIT</th>
-            <th><i class="mdi mdi-chevron-down"></i></th>
+            <th ><i class="mdi mdi-chevron-down"></i></th>
           </tr>
         </thead>
         <tbody>
           <tr
             *ngFor="let pension of pensions"
+            class="text-center"
             [ngClass]="{
               'text-danger font-weight-bold': pension.status === 'Inactivo'
             }"
           >
-            <td>{{ pension.name }}</td>
-            <td class="text-center">{{ pension.code }}</td>
-            <td class="text-center">{{ pension.nit }}</td>
-            <td>
-              <div class="text-center">
-                <div ngbDropdown container="body" class="dropdown-primary">
-                  <button
-                    ngbDropdownToggle
-                    class="btn btn-primary btn-sm waves-light"
-                    type="button"
+            <td class="align-middle">{{ pension.name }}</td>
+            <td class="align-middle">{{ pension.code }}</td>
+            <td class="align-middle">{{ pension.nit }}</td>
+            <td class="align-middle">
+              <div ngbDropdown container="body" class="dropdown-primary">
+                <button
+                  ngbDropdownToggle
+                  class="btn btn-primary btn-sm waves-light"
+                  type="button"
+                >
+                  <i class="mdi mdi-chevron-down"></i>
+                </button>
+                <div ngbDropdownMenu>
+                  <a
+                    class="dropdown-item waves-light text-info caja-botones"
+                    href="javascript: void(0);"
+                    (click)="
+                      getData(pension);
+                      openConfirm(add, 'Actualizar fondo de pensión', false)
+                    "
+                    ><i class="far fa-edit"></i> Editar</a
                   >
-                    <i class="mdi mdi-chevron-down"></i>
-                  </button>
-                  <div ngbDropdownMenu>
-                    <a
-                      class="dropdown-item text-info waves-light caja-botones"
-                      href="javascript:void(0)"
-                      (click)="getData(pension); modal.show()"
-                      ><i class="far fa-edit"></i> Editar</a
-                    >
-                    <a
-                      *ngIf="pension.status == 'Activo'"
-                      href="javascript:void(0)"
-                      class="dropdown-item text-danger waves-light caja-botones"
-                      (click)="activateOrInactivate(pension, 'Inactivo')"
-                    >
-                      <i class="far fa-trash-alt"></i> Anular</a
-                    >
-                    <a
-                      *ngIf="pension.status == 'Inactivo'"
-                      href="javascript:void(0)"
-                      class="dropdown-item text-success waves-light caja-botones"
-                      (click)="activateOrInactivate(pension, 'Activo')"
-                    >
-                      <i class="fas fa-check"></i> Activar</a
-                    >
-                  </div>
+                  <a
+                    *ngIf="pension.status == 'Activo'"
+                    href="javascript: void(0);"
+                    class="dropdown-item text-danger waves-light caja-botones"
+                    (click)="activateOrInactivate(pension, 'Inactivo')"
+                  >
+                    <i class="far fa-trash-alt"></i> Anular</a
+                  >
+                  <a
+                    *ngIf="pension.status == 'Inactivo'"
+                    href="javascript: void(0);"
+                    class="dropdown-item text-success waves-light caja-botones"
+                    (click)="activateOrInactivate(pension, 'Activo')"
+                  >
+                    <i class="fas fa-check"></i> Activar</a
+                  >
                 </div>
               </div>
             </td>
@@ -110,91 +103,96 @@
         </tbody>
       </table>
     </div>
-    <ngb-pagination
-      class="d-flex justify-content-center pagination-rounded pagination-sm"
-      [collectionSize]="pagination.collectionSize"
-      [pageSize]="pagination.pageSize"
-      [(page)]="pagination.page"
-      (pageChange)="getPensionFunds($event)"
-      aria-label="Default pagination"
-      maxSize="5"
-      rotate="true"
-      ellipses="false"
-      boundaryLinks="true"
-      rotate="true"
-      ellipses="false"
-      boundaryLinks="true"
-    >
-    </ngb-pagination>
   </div>
+  <ngb-pagination
+    class="d-flex justify-content-center pagination-rounded pagination-sm"
+    [collectionSize]="pagination.collectionSize"
+    [pageSize]="pagination.pageSize"
+    [(page)]="pagination.page"
+    (pageChange)="getPensionFunds($event)"
+    aria-label="Default pagination"
+    maxSize="5"
+    rotate="true"
+    ellipses="false"
+    boundaryLinks="true"
+    rotate="true"
+    ellipses="false"
+    boundaryLinks="true"
+  >
+  </ngb-pagination>
 </div>
 
-<app-modal-basic #modal [dialogClass]="'modal-md'">
-  <div class="app-modal-header">
-    <h5 class="modal-title">{{ selected }}</h5>
-    <button type="button" class="close basic-close" (click)="modal.hide()">
-      <span aria-hidden="true">
-        <i class="fas fa-times" (click)="modal.hide()"></i>
-      </span>
+<ng-template #add let-modal>
+  <div class="modal-header">
+    <h4 class="text-primary modal-title">{{ selected }}</h4>
+    <button
+      type="button"
+      class="close"
+      data-dismiss="modal"
+      aria-label="Close"
+      (click)="modal.dismiss('Cross click')"
+    >
+      <span aria-hidden="true">&times;</span>
     </button>
   </div>
-  <div class="app-modal-body">
+  <div class="modal-body">
     <form [formGroup]="form">
-      <div class="form-row">
-        <div class="form-group col-md-12">
-          <label class="custom-label" for="funcionario_id">Nombre</label>
+      <div class="row">
+        <mat-form-field class="col-md-12" appearance="outline">
+          <mat-label>Nombre</mat-label>
           <input
+            matInput
             type="text"
-            class="form-control form-control-sm"
+            placeholder="Ingresa el nombre"
+            autocomplete="off"
             formControlName="name"
             required
           />
-        </div>
-      </div>
-      <div class="form-row">
-        <div class="form-group col-md-12">
-          <label class="custom-label" for="funcionario_id">Código</label>
+        </mat-form-field>
+        <mat-form-field class="col-md-6" *ngIf="boolNuevoFondo" appearance="outline">
+          <mat-label>Código</mat-label>
           <input
-            type="text"
-            class="form-control form-control-sm"
+            matInput
+            type="number"
+            placeholder="Ingresa el código"
+            autocomplete="off"
             formControlName="code"
             required
           />
-        </div>
-      </div>
-      <div class="form-row">
-        <div class="form-group col-md-12">
-          <label class="custom-label" for="funcionario_id">NIT</label>
+        </mat-form-field>
+        <mat-form-field class="col-md-6" *ngIf="boolNuevoFondo" appearance="outline">
+          <mat-label>NIT</mat-label>
           <input
-            type="text"
-            class="form-control form-control-sm"
+            matInput
+            type="number"
+            placeholder="Ingresa el NIT"
+            autocomplete="off"
             formControlName="nit"
             required
           />
-        </div>
+        </mat-form-field>
       </div>
     </form>
   </div>
-  <div class="app-modal-footer">
-    <div class="form-group text-right">
-      <button
-        (click)="modal.hide()"
-        type="button"
-        class="btn btn-danger raised mr-2 btn-sm"
-      >
-        Cerrar
-      </button>
-      <button
-        type="submit"
-        class="btn btn-primary btn-sm raised"
-        (click)="createPensionFund()"
-        [disabled]="!form.valid"
-      >
-        Guardar
-      </button>
-    </div>
+  <div class="modal-footer">
+    <button
+      type="button"
+      class="btn btn-danger"
+      (click)="modal.dismiss('Cross click')"
+    >
+      Cancelar
+    </button>
+    <button
+      type="button"
+      (click)="createPensionFund()"
+      [disabled]="!form.valid"
+      class="btn btn-primary"
+    >
+      Guardar
+    </button>
   </div>
-</app-modal-basic>
+</ng-template>
+
 <ng-template #notData>
   <app-not-data [loading]="loading"></app-not-data>
 </ng-template>
