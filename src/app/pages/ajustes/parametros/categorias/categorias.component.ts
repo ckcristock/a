@@ -4,6 +4,7 @@ import { NgForm } from '@angular/forms';
 import { environment } from 'src/environments/environment';
 import { Location } from '@angular/common';
 import { UserService } from 'src/app/core/services/user.service';
+import { MatAccordion } from '@angular/material';
 
 // import { DatatableComponent } from '@swimlane/ngx-datatable';
 
@@ -21,7 +22,7 @@ export class CategoriasComponent implements OnInit {
   @ViewChild('FormCategoriaEditar') FormCategoriaEditar: any;
   @ViewChild('modalCategoriaEditar') modalCategoriaEditar: any;
   @ViewChild('deleteSwal') deleteSwal: any;
-
+  @ViewChild(MatAccordion) accordion: MatAccordion;
   //Variables para filtros
   public filtro_categoria: any = '';
   public filtro_departamento: any = '';
@@ -45,7 +46,7 @@ export class CategoriasComponent implements OnInit {
   public rowsFilter = [];
   public page = 1;
   public maxSize = 10;
-
+  matPanel = false;
   constructor(
     private http: HttpClient,
     private location: Location,
@@ -57,7 +58,7 @@ export class CategoriasComponent implements OnInit {
   }
 
   ngOnInit() {
-
+    this.paginacion()
     this.http
       .get(environment.ruta + 'php/genericos/departamentos.php', {
         params: { modulo: 'Departamento' },
@@ -93,6 +94,16 @@ export class CategoriasComponent implements OnInit {
       },
     ];
 
+  }
+
+  openClose() {
+    if (this.matPanel == false) {
+      this.accordion.openAll()
+      this.matPanel = true;
+    } else {
+      this.accordion.closeAll()
+      this.matPanel = false;
+    }
   }
 
   Municipios_Departamento(Departamento) {

@@ -1,9 +1,10 @@
-import { Component, DoCheck, IterableDiffers, OnInit, ViewChild } from '@angular/core';
-import { FormBuilder, FormGroup } from '@angular/forms';
-import { Observable } from 'rxjs';
+import { Component, DoCheck, EventEmitter, OnInit, Output, ViewChild } from '@angular/core';
+import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { ModalService } from 'src/app/core/services/modal.service';
 import { functionsUtils } from 'src/app/core/utils/functionsUtils';
+import { DataDinamicService } from 'src/app/data-dinamic.service';
 import Swal from 'sweetalert2';
+import { SwalService } from '../../../informacion-base/services/swal.service';
 import { ConfiguracionEmpresaService } from '../configuracion-empresa.service';
 
 @Component({
@@ -13,24 +14,23 @@ import { ConfiguracionEmpresaService } from '../configuracion-empresa.service';
 })
 
 export class DatosBasicosEmpresaComponent implements OnInit, DoCheck {
-  @ViewChild('modal') modal: any;
+  @Output() update = new EventEmitter
   public company: any = [];
   form: FormGroup;
   file: string;
   loading: boolean = true;
   differ: any;
   fileString: string | ArrayBuffer = "";
+  documents_types: any = []
   constructor(
     private _configuracionEmpresaService: ConfiguracionEmpresaService,
     private fb: FormBuilder,
     private _modal: ModalService,
-    differs: IterableDiffers
+    private _swal: SwalService,
+    private _data: DataDinamicService
   ) { 
-    this.differ = differs.find([]).create(null)
   }
   ngDoCheck() {
-    let change = this.differ.diff([this.company]);
-    console.log(this.company)
     if (this.company.id) {
       this.loading = false
     }
@@ -38,9 +38,19 @@ export class DatosBasicosEmpresaComponent implements OnInit, DoCheck {
 
   ngOnInit(): void {
     this.createForm();
+    this.getDocumentsTypes()
     /* this.getBasicData(); */
   }
 
+  getDocumentsTypes() {
+    this._data.getTypeDocuments().subscribe((res:any) => {
+      this.documents_types = res.data
+    })
+  }
+
+  updateData() {
+    this.update.emit()
+  }
 
   openModal(modal) {
     this._modal.open(modal, 'lg');
@@ -49,13 +59,13 @@ export class DatosBasicosEmpresaComponent implements OnInit, DoCheck {
   createForm() {
     this.form = this.fb.group({
       id: [this.company.id],
-      name: [''],
-      document_type: [''],
-      tin: [''],
-      dv: [''],
-      creation_date: [''],
-      email_contact: [''],
-      phone: [''],
+      name: ['', Validators.required],
+      document_type: ['', Validators.required],
+      tin: ['', Validators.required],
+      dv: ['', Validators.required],
+      creation_date: ['', Validators.required],
+      email_contact: ['', [Validators.required, Validators.email]],
+      phone: ['', Validators.required],
       logo: ['']
     });
 
@@ -97,13 +107,16 @@ export class DatosBasicosEmpresaComponent implements OnInit, DoCheck {
     body['logo'] = this.file
     this._configuracionEmpresaService.saveCompanyData(body)
       .subscribe((res: any) => {
-        console.log(res);
         this._modal.close();
+        this.updateData();
         this.getBasicData();
-        Swal.fire({
+        this._swal.show({
           icon: 'success',
-          title: 'Actualizado Correctamente'
-        });
+          title: '¡Actualizado!',
+          text: 'Datos actualizados correctamente',
+          timer: 1000,
+          showCancel: false
+        })
       });
   }
 

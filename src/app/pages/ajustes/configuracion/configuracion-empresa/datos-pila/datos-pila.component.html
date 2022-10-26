@@ -1,16 +1,16 @@
-<div class="card" *ngIf="show">
+<div class="card">
   <div class="card-body">
     <div class="row card-title d-flex justify-content-between">
       <div class="col-md-10 px-0">
-        <h5 class="text-primary">Datos de pila</h5>
+        <h6 class="text-dark"><i class="fas fa-gavel"></i> Datos de pila</h6>
       </div>
       <div class="col-md-2 px-0 text-right">
-        <button class="btn btn-link" (click)="openModal()">
+        <button class="btn btn-link" (click)="openModal(modal)">
           <i class="fas fa-pencil-alt"></i>
         </button>
       </div>
     </div>
-    <div class="row">
+    <div class="row" *ngIf="!loading && pilas; else notData">
       <div class="col-lg-6 text-lg-right text-center text-primary">
         Operador de Pago
       </div>
@@ -27,59 +27,62 @@
         Aplica Ley 1429 de 2010
       </div>
       <div class="col-lg-6 text-lg-left text-center">
-        {{ pilas.law_1429 }}
+        {{ pilas.law_1429 ? 'Sí' : 'No' }}
       </div>
       <div class="col-lg-6 text-lg-right text-center text-primary">
         Aplica Ley 590 de 2010
       </div>
       <div class="col-lg-6 text-lg-left text-center">
-        {{ pilas.law_590 }}
+        {{ pilas.law_590 ? 'Sí' : 'No' }}
       </div>
       <div class="col-lg-6 text-lg-right text-center text-primary">
         Aplica Ley de 1607 de 2012
       </div>
       <div class="col-lg-6 text-lg-left text-center">
-        {{ pilas.law_1607 }}
+        {{ pilas.law_1607 ? 'Sí' : 'No' }}
       </div>
     </div>
   </div>
 </div>
-<app-modal-basic #modal [dialogClass]="'modal-md'">
-  <div class="app-modal-header">
-    <h5 class="modal-title">Datos De Pila</h5>
-    <button type="button" class="close basic-close" (click)="modal.hide()">
-      <span aria-hidden="true">
-        <i class="fas fa-times" (click)="modal.hide()"></i>
-      </span>
+
+<ng-template #notData>
+  <app-not-data [loading]="loading"></app-not-data>
+</ng-template>
+
+<ng-template #modal let-modal>
+  <div class="modal-header">
+    <h4 class="text-primary modal-title">Datos de pila</h4>
+    <button
+      type="button"
+      class="close"
+      data-dismiss="modal"
+      aria-label="Close"
+      (click)="modal.dismiss('Cross click')"
+    >
+      <span aria-hidden="true">&times;</span>
     </button>
   </div>
-  <div class="app-modal-body">
+  <div class="modal-body">
     <form [formGroup]="form">
       <div class="row">
+        <mat-form-field class="col" appearance="outline">
+          <mat-label>Operador de pago</mat-label>
+          <mat-select formControlName="paid_operator" required>
+            <mat-option *ngFor="let item of pay_operators" [value]="item.value">
+              {{ item.clave }}</mat-option
+            >
+          </mat-select>
+        </mat-form-field>
+        <mat-form-field class="col" appearance="outline">
+          <mat-label>ARL</mat-label>
+          <mat-select formControlName="arl_id" required>
+            <mat-option *ngFor="let arl of arls" [value]="arl.value">
+              {{ arl.text }}</mat-option
+            >
+          </mat-select>
+        </mat-form-field>
         <div class="col-12">
           <div class="form-row">
-            <div class="form-group col-12">
-              <label for="">Operador de Pago Utilizado</label>
-              <select
-                class="form-control form-control-sm"
-                formControlName="paid_operator"
-              >
-                <option *ngFor="let item of pay_operators" [value]="item.value">
-                  {{ item.clave }}
-                </option>
-              </select>
-            </div>
-            <div class="form-group col-12">
-              <label for="">Compañia ARL Utilizada</label>
-              <select
-                class="form-control form-control-sm"
-                formControlName="arl_id"
-              >
-                <option *ngFor="let arl of arls" [value]="arl.value">
-                  {{ arl.text }}
-                </option>
-              </select>
-            </div>
             <div class="form-check ml-2 mb-2">
               <input
                 class="form-check-input"
@@ -124,22 +127,21 @@
       </div>
     </form>
   </div>
-  <div class="app-modal-footer">
-    <div class="form-group text-right">
-      <button
-        (click)="modal.hide()"
-        type="button"
-        class="btn btn-danger raised mr-2 btn-sm"
-      >
-        Cerrar
-      </button>
-      <button
-        type="submit"
-        class="btn btn-primary btn-sm raised"
-        (click)="savePilaData()"
-      >
-        Guardar
-      </button>
-    </div>
+  <div class="modal-footer">
+    <button
+      type="button"
+      class="btn btn-danger"
+      (click)="modal.dismiss('Cross click')"
+    >
+      Cancelar
+    </button>
+    <button
+      type="button"
+      [disabled]="!form.valid"
+      (click)="savePilaData()"
+      class="btn btn-primary"
+    >
+      Guardar
+    </button>
   </div>
-</app-modal-basic>
+</ng-template>

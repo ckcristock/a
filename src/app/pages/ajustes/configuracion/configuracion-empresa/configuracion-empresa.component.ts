@@ -11,6 +11,8 @@ import { DatosPagoComponent } from './datos-pago/datos-pago.component';
 import { DatosPilaComponent } from './datos-pila/datos-pila.component';
 import { ActivatedRoute, Params } from '@angular/router';
 import { ModalService } from 'src/app/core/services/modal.service';
+import { functionsUtils } from 'src/app/core/utils/functionsUtils';
+import { SwalService } from '../../informacion-base/services/swal.service';
 @Component({
   selector: 'app-configuracion-empresa',
   templateUrl: './configuracion-empresa.component.html',
@@ -27,20 +29,33 @@ export class ConfiguracionEmpresaComponent implements OnInit {
   currentCompany: any;
   companies: Array<Object>;
   showBasicData: boolean = false;
+  file: any;
+  fileString: any;
   company_name: string = '';
   active: number = 1;
   constructor(
     private _configuracionEmpresaService: ConfiguracionEmpresaService,
     private fb: FormBuilder,
     public rutaActiva: ActivatedRoute,
-    private _modal: ModalService
-  ) {}
+    private _modal: ModalService,
+    private _swal: SwalService
+  ) { }
 
   ngOnInit(): void {
+    let value = this.rutaActiva.snapshot.params.value
+    value == 'informacion'
+      ? this.active = 1
+      : value == 'estructura'
+        ? this.active = 2
+        : value == 'cuentas-bancarias'
+          ? this.active = 3
+          : value == 'categorias'
+            ? this.active = 4 : this.active = 1
+
     this.currentCompany = this.rutaActiva.snapshot.params.id;
     this.createForm();
     this.getCompanies();
-    if(this.currentCompany){
+    if (this.currentCompany) {
       this.getDataCompany()
     }
   }
@@ -55,11 +70,12 @@ export class ConfiguracionEmpresaComponent implements OnInit {
         )
       );
   }
-
+  page_heading: boolean;
   getDataCompany() {
     this._configuracionEmpresaService
       .getCompanyData(this.currentCompany)
       .subscribe((res: Response) => {
+        res.data.page_heading ? this.page_heading = true : false
         this.company_name = res.data.name
         this.datBasic.company = res.data;
         this.datNomina.nomina = res.data;
@@ -101,5 +117,32 @@ export class ConfiguracionEmpresaComponent implements OnInit {
           text: 'La Configuración de pago ha sido cambiada con éxito',
         });
       });
+  }
+  string_input = 'Cargar hoja membrete'
+  onFileChanged(event) {
+    if (event.target.files[0]) {
+      let file = event.target.files[0];
+      var reader = new FileReader();
+      reader.readAsDataURL(event.target.files[0]);
+      reader.onload = (event) => {
+        this.fileString = (<FileReader>event.target).result;
+      };
+      functionsUtils.fileToBase64(file).subscribe((base64) => {
+        this.file = base64
+        this._configuracionEmpresaService.saveCompanyData({ 
+          id: this.currentCompany, 
+          page_heading: base64
+        }).subscribe((res:any) => {
+          this._swal.show({
+            icon: 'success',
+            title: 'Hoja cargada con éxito',
+            showCancel: false,
+            text: '',
+            timer: 1000
+          })
+          this.page_heading = true;
+        })
+      });
+    }
   }
 }

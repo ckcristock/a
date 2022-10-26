@@ -2,7 +2,9 @@
   <div class="card-body">
     <div class="row card-title d-flex justify-content-between">
       <div class="col-md-10 px-0">
-        <h5 class="text-primary">Datos básicos</h5>
+        <h6 class="text-dark">
+          <i class="fas fa-business-time"></i> Datos básicos
+        </h6>
       </div>
       <div class="col-md-2 px-0 text-right">
         <button class="btn btn-link" (click)="openModal(modal)">
@@ -69,7 +71,7 @@
         <div class="col-md-12">
           <div class="form-group text-center">
             <img
-              [src]="fileString | image: 'companies'"
+              [src]="fileString"
               id="imageOutput"
               class="img-fluid company-logo"
               onerror="this.src='../../../../../../../assets/images/not-available.png'"
@@ -104,13 +106,13 @@
         </mat-form-field>
         <mat-form-field class="col" appearance="outline">
           <mat-label>Tipo de documento</mat-label>
-          <input
-            matInput
-            type="text"
-            placeholder="Ingresa el tipo de documento"
-            formControlName="document_type"
-            autocomplete="off"
-          />
+          <mat-select formControlName="document_type" required>
+            <mat-option
+              *ngFor="let item of documents_types"
+              [value]="item.value"
+              >{{ item.text }}</mat-option
+            >
+          </mat-select>
         </mat-form-field>
         <mat-form-field class="col" appearance="outline">
           <mat-label>Número de documento</mat-label>
@@ -173,7 +175,12 @@
     <button type="button" class="btn btn-danger" (click)="modal.dismiss()">
       Cancelar
     </button>
-    <button type="button" (click)="saveBasicData()" class="btn btn-primary">
+    <button
+      type="button"
+      [disabled]="!form.valid"
+      (click)="saveBasicData()"
+      class="btn btn-primary"
+    >
       Guardar
     </button>
   </div>

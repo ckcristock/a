@@ -1,16 +1,18 @@
-<div class="card" *ngIf="show">
+<div class="card">
   <div class="card-body">
     <div class="row card-title d-flex justify-content-between">
       <div class="col-md-10 px-0">
-        <h5 class="text-primary">Datos de pago</h5>
+        <h6 class="text-dark">
+          <i class="fas fa-piggy-bank"></i> Datos de pago
+        </h6>
       </div>
       <div class="col-md-2 px-0 text-right">
-        <button class="btn btn-link" (click)="openModal()">
+        <button class="btn btn-link" (click)="openModal(modal)">
           <i class="fas fa-pencil-alt"></i>
         </button>
       </div>
     </div>
-    <div class="row">
+    <div class="row" *ngIf="!loading && payments; else notData">
       <div class="col-lg-6 text-lg-right text-center text-primary">
         Frecuencia de pago
       </div>
@@ -42,102 +44,97 @@
     </div>
   </div>
 </div>
-<app-modal-basic #modal [dialogClass]="'modal-md'">
-  <div class="app-modal-header">
-    <h5 class="modal-title">Datos De Pago</h5>
-    <button type="button" class="close basic-close" (click)="modal.hide()">
-      <span aria-hidden="true">
-        <i class="fas fa-times" (click)="modal.hide()"></i>
-      </span>
+
+<ng-template #notData>
+  <app-not-data [loading]="loading"></app-not-data>
+</ng-template>
+
+<ng-template #modal let-modal>
+  <div class="modal-header">
+    <h4 class="text-primary modal-title">Datos de pago</h4>
+    <button
+      type="button"
+      class="close"
+      data-dismiss="modal"
+      aria-label="Close"
+      (click)="modal.dismiss('Cross click')"
+    >
+      <span aria-hidden="true">&times;</span>
     </button>
   </div>
-  <div class="app-modal-body">
+  <div class="modal-body">
     <form [formGroup]="form">
       <div class="row">
-        <div class="col-12">
-          <div class="form-row">
-            <div class="form-group col-6">
-              <label for="">Frecuencia De Pago</label>
-              <select
-                class="form-control form-control-sm"
-                formControlName="payment_frequency"
-              >
-                <option
-                  *ngFor="let payment_frequency of payment_frequencys"
-                  [value]="payment_frequency.valor"
-                >
-                  {{ payment_frequency.clave }}
-                </option>
-              </select>
-            </div>
-            <div class="form-group col-6">
-              <label for="">Medio de Pago</label>
-              <select
-                class="form-control form-control-sm"
-                formControlName="payment_method"
-              >
-                <option
-                  *ngFor="let payment of payment_method"
-                  [value]="payment.valor"
-                >
-                  {{ payment.clave }}
-                </option>
-              </select>
-            </div>
-            <div class="form-group col-12">
-              <label for="">Banco del cual realizaran los pagos</label>
-              <select
-                class="form-control form-control-sm"
-                formControlName="bank_id"
-              >
-                <option *ngFor="let bank of banks" [value]="bank.value">
-                  {{ bank.text }}
-                </option>
-              </select>
-            </div>
-            <div class="form-group col-6">
-              <label for="">Tipo de Cuenta</label>
-              <select
-                class="form-control form-control-sm"
-                formControlName="account_type"
-              >
-                <option
-                  *ngFor="let account_type of account_types"
-                  [value]="account_type.valor"
-                >
-                  {{ account_type.clave }}
-                </option>
-              </select>
-            </div>
-            <div class="form-group col-6">
-              <label for="">Número de Cuenta</label>
-              <input
-                type="number"
-                class="form-control form-control-sm"
-                formControlName="account_number"
-              />
-            </div>
-          </div>
-        </div>
+        <mat-form-field class="col" appearance="outline">
+          <mat-label>Frecuencia de pago</mat-label>
+          <mat-select formControlName="payment_frequency" required>
+            <mat-option
+              *ngFor="let payment_frequency of payment_frequencys"
+              [value]="payment_frequency.valor"
+            >
+              {{ payment_frequency.clave }}</mat-option
+            >
+          </mat-select>
+        </mat-form-field>
+        <mat-form-field class="col" appearance="outline">
+          <mat-label>Medio de pago</mat-label>
+          <mat-select formControlName="payment_method" required>
+            <mat-option
+              *ngFor="let payment of payment_method"
+              [value]="payment.valor"
+            >
+              {{ payment.clave }}</mat-option
+            >
+          </mat-select>
+        </mat-form-field>
+        <mat-form-field class="col" appearance="outline">
+          <mat-label>Banco para los pagos</mat-label>
+          <mat-select formControlName="bank_id" required>
+            <mat-option *ngFor="let bank of banks" [value]="bank.value">
+              {{ bank.text }}</mat-option
+            >
+          </mat-select>
+        </mat-form-field>
+        <mat-form-field class="col" appearance="outline">
+          <mat-label>Tipo de cuenta</mat-label>
+          <mat-select formControlName="account_type" required>
+            <mat-option
+              *ngFor="let account_type of account_types"
+              [value]="account_type.valor"
+            >
+              {{ account_type.clave }}</mat-option
+            >
+          </mat-select>
+        </mat-form-field>
+        <mat-form-field class="col" appearance="outline">
+          <mat-label>Número de cuenta</mat-label>
+          <input
+            matInput
+            type="number"
+            placeholder="Ingresa el número de cuenta"
+            formControlName="account_number"
+            autocomplete="off"
+            required
+          />
+        </mat-form-field>
       </div>
     </form>
   </div>
-  <div class="app-modal-footer">
-    <div class="form-group text-right">
-      <button
-        (click)="modal.hide()"
-        type="button"
-        class="btn btn-danger raised mr-2 btn-sm"
-      >
-        Cerrar
-      </button>
-      <button
-        type="submit"
-        class="btn btn-primary btn-sm raised"
-        (click)="savePaymentData()"
-      >
-        Guardar
-      </button>
-    </div>
+  <div class="modal-footer">
+    <button
+      type="button"
+      class="btn btn-danger"
+      (click)="modal.dismiss('Cross click')"
+    >
+      Cancelar
+    </button>
+    <button
+      type="button"
+      [disabled]="!form.valid"
+      (click)="savePaymentData()"
+      class="btn btn-primary"
+    >
+      Guardar
+    </button>
   </div>
-</app-modal-basic>
+</ng-template>
