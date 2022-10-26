@@ -5,6 +5,8 @@ import { ValidatorsService } from '../../informacion-base/services/reactive-vali
 import Swal from 'sweetalert2';
 import { consts } from '../../../../core/utils/consts';
 import { MatAccordion } from '@angular/material/expansion';
+import { ModalService } from 'src/app/core/services/modal.service';
+import { SwalService } from '../../informacion-base/services/swal.service';
 
 @Component({
   selector: 'app-cuentas-bancarias',
@@ -12,37 +14,39 @@ import { MatAccordion } from '@angular/material/expansion';
   styleUrls: ['./cuentas-bancarias.component.scss']
 })
 export class CuentasBancariasComponent implements OnInit {
-  @ViewChild('modal') modal:any;
+  @ViewChild('modal') modal: any;
   @ViewChild(MatAccordion) accordion: MatAccordion;
   matPanel = false;
-  openClose(){
-    if (this.matPanel == false){
+  openClose() {
+    if (this.matPanel == false) {
       this.accordion.openAll()
       this.matPanel = true;
     } else {
       this.accordion.closeAll()
       this.matPanel = false;
-    }    
+    }
   }
-  loading:boolean = false;
-  bankAccounts:any[] = [];
-  bankAccount:any = {};
+  loading: boolean = false;
+  bankAccounts: any[] = [];
+  bankAccount: any = {};
   types = consts.bankType;
-  pagination:any = {
+  pagination: any = {
     page: 1,
-    pageSize: 5,
+    pageSize: 10,
     collectionSize: 0
   }
-  filtro:any = {
+  filtro: any = {
     name: ''
   }
   form: FormGroup;
-  selected:any;
-  constructor( 
-                private fb:FormBuilder,
-                private _bankAccountService: CuentasBancariasService,
-                private _validators: ValidatorsService
-   ) { }
+  selected: any;
+  constructor(
+    private fb: FormBuilder,
+    private _bankAccountService: CuentasBancariasService,
+    private _validators: ValidatorsService,
+    private _modal: ModalService,
+    private _swal: SwalService
+  ) { }
 
   ngOnInit(): void {
     this.getBankAccounts();
@@ -50,14 +54,14 @@ export class CuentasBancariasComponent implements OnInit {
   }
 
   openModal() {
-    this.modal.show();
+    this._modal.open(this.modal);
     this.form.reset();
-    this.selected = 'Nueva Cuenta Bancaria'
+    this.selected = 'Nueva cuenta bancaria'
   }
 
-  getBankAccount(bankAccount){
-    this.bankAccount = {...bankAccount};
-    this.selected = 'Actualizar Cuenta Bancaria'
+  getBankAccount(bankAccount) {
+    this.bankAccount = { ...bankAccount };
+    this.selected = 'Actualizar cuenta bancaria'
     this.form.patchValue({
       id: this.bankAccount.id,
       type: this.bankAccount.type,
@@ -67,6 +71,7 @@ export class CuentasBancariasComponent implements OnInit {
       balance: this.bankAccount.balance,
       description: this.bankAccount.description
     })
+    this._modal.open(this.modal)
   }
 
   createForm() {
@@ -81,30 +86,34 @@ export class CuentasBancariasComponent implements OnInit {
     })
   }
 
-  getBankAccounts( page = 1 ) {
+  getBankAccounts(page = 1) {
     this.pagination.page = page;
     let params = {
       ...this.pagination, ...this.filtro
     }
     this.loading = true;
     this._bankAccountService.getBankAccounts(params)
-    .subscribe( (res:any) => {
-      this.bankAccounts = res.data.data;
-      this.pagination.collectionSize = res.data.total;
-      this.loading = false;
-    });
+      .subscribe((res: any) => {
+        this.bankAccounts = res.data.data;
+        this.pagination.collectionSize = res.data.total;
+        this.loading = false;
+      });
+    
   }
 
   createBankAccount() {
     this._bankAccountService.createBankAccounts(this.form.value)
-    .subscribe( (res:any) => {
-      this.modal.hide();
-      this.getBankAccounts();
-      Swal.fire({
-        icon: 'success',
-        title: res.data
+      .subscribe((res: any) => {
+        this._modal.close();
+        this.getBankAccounts();
+        this._swal.show({
+          icon: 'success',
+          title: 'Correcto',
+          text: res.data,
+          timer: 1000,
+          showCancel: false
+        })
       })
-    })
   }
 
   activateOrInactivate(novelty, status) {
@@ -112,26 +121,24 @@ export class CuentasBancariasComponent implements OnInit {
       id: novelty.id,
       status
     }
-    Swal.fire({
-      title: '¿Estas seguro?',
-      text: (status === 'Inactivo'? 'La Cuenta Bancaria se inactivará!' : 'La Cuenta Bancaria se activará'),
-      icon: 'warning',
-      showCancelButton: true,
-      confirmButtonColor: '#3085d6',
-      cancelButtonColor: '#d33',
-      cancelButtonText: 'Cancelar',
-      confirmButtonText: ( status === 'Inactivo' ? 'Si, Inhabilitar' : 'Si, activar' )
+    this._swal.show({
+      icon: 'question',
+      title: '¿Estás seguro(a)?',
+      showCancel: true,
+      text: (status === 'Inactivo' ? '¡La cuenta bancaria se anulará!' : '¡La cuenta bancaria se activará!'),
     }).then((result) => {
       if (result.isConfirmed) {
         this._bankAccountService.createBankAccounts(data)
-        .subscribe( res => {
-          this.getBankAccounts();
-          Swal.fire({
-            title: (status === 'Inactivo' ? 'La Cuenta Bancaria Inhabilitada!' : 'La Cuenta Bancaria activada' ),
-            text: (status === 'Inactivo' ? 'La Cuenta Bancaria ha sido Inhabilitada con éxito.' : 'La Cuenta Bancaria ha sido activada con éxito.'),
-            icon: 'success'
+          .subscribe(res => {
+            this.getBankAccounts();
+            this._swal.show({
+              icon: 'success',
+              title: (status === 'Inactivo' ? '¡Cuenta bancaria anulada!' : '¡Cuenta bancaria activada!'),
+              showCancel: false,
+              text: (status === 'Inactivo' ? 'La cuenta Bancaria ha sido anulada con éxito.' : 'La cuenta bancaria ha sido activada con éxito.'),
+              timer: 1000
+            })
           });
-        });
       }
     });
   }

@@ -12,7 +12,8 @@ const url_assets = environment.url_assets;
   name: 'image',
 })
 export class ImagePipe implements PipeTransform {
-  constructor(private http: HttpClient) {}
+
+  constructor(private http: HttpClient) { }
   transform(
     img: string,
     tipo: 'users' | 'persons' | 'companies' | 'professionals'
@@ -20,9 +21,10 @@ export class ImagePipe implements PipeTransform {
     if (!img) {
       return tipo == 'companies'
         ? `assets/images/not-available.png`
-        : `assets/images/users/nofound.png`;
+        : tipo == 'users' || tipo == 'professionals'
+          ? `assets/images/noprofile.png`
+          : `assets/images/nofound.png`;
     } else if (img.includes('https') || img.includes('http')) {
-      
       return img;
     } else if (img) {
       return `${url_assets}app/public/${img}`;

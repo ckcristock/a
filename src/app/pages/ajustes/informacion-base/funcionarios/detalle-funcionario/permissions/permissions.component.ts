@@ -2,6 +2,7 @@ import { Component, OnInit, Input } from '@angular/core';
 import { PermissionService } from '../../../../../../core/services/permission.service';
 import { ActivatedRoute, Router } from '@angular/router';
 import Swal from 'sweetalert2';
+import { SwalService } from '../../../services/swal.service';
 interface NavItem {
   name: string;
   link: boolean;
@@ -23,7 +24,8 @@ export class PermissionsComponent implements OnInit {
   constructor(
     private _permissions: PermissionService,
     private route: ActivatedRoute,
-    private router: Router
+    private router: Router,
+    private _swal: SwalService,
   ) { }
 
   ngOnInit(): void {
@@ -40,20 +42,11 @@ export class PermissionsComponent implements OnInit {
   }
 
   save() {
-    const swalWithBootstrapButtons = Swal.mixin({
-      customClass: {
-        confirmButton: 'btn btn-success mx-2',
-        cancelButton: 'btn btn-danger'
-      },
-      buttonsStyling: false
-    })
-    swalWithBootstrapButtons.fire({
-      title: '¿Está seguro?',
+    this._swal.show({
+      title: '¿Estás seguro(a)?',
       text: 'Se actualizarán los permisos del usuario',
-      icon: 'warning',
-      showCancelButton: true,
-      confirmButtonText: 'Si, ¡Confirmar!',
-      cancelButtonText: 'No, déjeme comprobar'
+      icon: 'question',
+      showCancel: true
     }).then(result => {
       if (result.value) {
         this.sendData();
@@ -65,15 +58,14 @@ export class PermissionsComponent implements OnInit {
     this.saving = true;
     let filteredMenu = this.filtertData(JSON.parse(JSON.stringify(this.menues)))
     filteredMenu = this.filterGrandpa(filteredMenu);
-
+    console.log(filteredMenu);
     this._permissions.save({ filteredMenu, person_id: this.person_id }).subscribe((r: any) => {
       if (r.code == 200) {
-        Swal.fire({
+        this._swal.show({
           title: 'Actualización exitosa',
-          text: 'Felicidades, los permisos del usuario se han actualizado',
           icon: 'success',
-          allowOutsideClick: false,
-          allowEscapeKey: false,
+          text: 'Los permisos del usuario se han actualizado',
+          showCancel: false
         }).then(result => {
           if (result.value) {
             this.router.navigateByUrl('/ajustes/informacion-base/funcionarios')

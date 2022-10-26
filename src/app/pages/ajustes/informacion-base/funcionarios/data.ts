@@ -1,4 +1,4 @@
-export const personsList: any = [
+/* export const personsList: any = [
     {
         id: 1,
         name: 'AUGUSTO CARRILLO',
@@ -48,3 +48,4 @@ export const personsList: any = [
         image : 'https://i2.wp.com/anuario.misionesonline.net/wp-content/uploads/2018/01/300.png?w=720&ssl=1'
     }
 ];
+ */

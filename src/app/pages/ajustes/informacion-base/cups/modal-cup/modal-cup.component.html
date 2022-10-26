@@ -15,7 +15,7 @@
   <div class="modal-body">
     <form [formGroup]="form">
       <div class="row">
-        <div class="col-12" [ngClass]="form.get('specialities').valid ? 'mb-4': 'mb-1'">
+        <div class="col-12 mb-4">
           <ng-select
             id="specialties"
             [items]="specialities"
@@ -31,7 +31,7 @@
           </ng-select>
           <small>
             <app-show-errors
-              class="text-danger"
+              class="text-danger position-absolute"
               [ctrl]="form.get('specialities')"
             ></app-show-errors>
           </small>

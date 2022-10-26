@@ -7,7 +7,7 @@ button,a {
 }
 
 .btn-light{
-  border: 1px solid darken($light, 2%);
+  border: 1px solid darken($light, 2%);  
 }
 
 // Rounded Buttons
@@ -26,5 +26,5 @@ button,a {
 .btn-sm {
   padding: 0.3rem;
   font-size: 0.7rem;
-  line-height: 1;
+  line-height: 1.2;
 }

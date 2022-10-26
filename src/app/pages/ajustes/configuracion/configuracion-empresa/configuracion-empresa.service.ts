@@ -18,8 +18,8 @@ export class ConfiguracionEmpresaService {
     return this.http.get(`${environment.base_url}/arl`);
 
   }
-  getCompanies() {
-    return this.http.get(`${environment.base_url}/get-all-companies`);
+  getCompanies( params = {} ) {
+    return this.http.get(`${environment.base_url}/get-all-companies`, {params});
 
   }
 

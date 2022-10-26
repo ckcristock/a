@@ -13,6 +13,7 @@
 //@import "~@ng-select/ng-select/themes/material.theme.css";
 hr.line {
   border: 0;
+  margin-top: 0px;
   height: 1px;
   background-image: linear-gradient(
     to right,
@@ -21,6 +22,10 @@ hr.line {
     #3848ca,
     #f0f0f0
   );
+}
+
+.img-rounded {
+  object-fit: cover;
 }
 
 @import "~@angular/material/prebuilt-themes/indigo-pink.css";
@@ -47,4 +52,39 @@ hr.line {
      display: inline-flex;
      width: 100%;
   }
+}
+
+
+.img-rounded {
+    max-height: 11rem;
+    max-width: 11rem;
+    width: 11rem;
+    height: 11rem;
+    object-fit: cover;
+}
+
+.custom-input-file {
+    background-color: #24a0ed;
+    color: #fff;
+    cursor: pointer;
+    margin: 0 auto 0;
+    min-height: 15px;
+    overflow: hidden;
+    padding: 10px;
+    position: relative;
+    text-align: center;
+    border-radius: 10px;
+}
+
+.custom-input-file .input-file {
+   
+    cursor: pointer;
+    font-size: 10000px;
+    margin: 0;
+    opacity: 0;
+    outline: 0 none;
+    padding: 0;
+    position: absolute;
+    right: -1000px;
+    top: -1000px;
 }

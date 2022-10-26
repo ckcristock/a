@@ -1,230 +1,352 @@
 <div class="table-responsive">
-    <table class="table table-striped table-sm">
-        <thead>
-            <tr>
-                <th>Nombre</th>
-                <th>Cuenta Ingreso</th>
-                <th>Cuenta Inventario</th>
-                <th>Cuenta Gasto</th>
-                <th>Cuenta Costo</th>
-                <th>Cuenta Entrada</th>
-                <th>Cuenta Iva Venta</th>
-                <th>Cuenta Iva Compra</th>
-                <th>Cuenta Descuento Venta</th>
-                <th>Cuenta Descuento Compra</th>
-                <th>Cuenta Retefuente Venta</th>
-                <th>Cuenta Retefuente Compra</th>
-                <th>Cuenta ReteICA Venta</th>
-                <th>Cuenta ReteICA Compra</th>
-                <th>Cuenta ReteIVA Venta</th>
-                <th>Cuenta ReteIVA Compra</th>
-                <th></th>
-            </tr>
-        </thead>
-        <tbody>
-            <ng-container *ngIf="subcategories.length && !loading; else notData">
-                <tr *ngFor="let sub of subcategories">
-                    <td>{{sub.Nombre}}</td>
-                    <td>{{sub.Cuenta_Ingreso}}</td>
-                    <td>{{sub.Cuenta_Inventario}}</td>
-                    <td>{{sub.Cuenta_Gasto}}</td>
-                    <td>{{sub.Cuenta_Costo}}</td>
-                    <td>{{sub.Cuenta_Entrada}}</td>
-                    <td>{{sub.Cuenta_Iva_Venta}}</td>
-                    <td>{{sub.Cuenta_Iva_Compra}}</td>
-                    <td>{{sub.Cuenta_Descuento_Venta}}</td>
-                    <td>{{sub.Cuenta_Descuento_Compra}}</td>
-                    <td>{{sub.Cuenta_Retefuente_Venta}}</td>
-                    <td>{{sub.Cuenta_Retefuente_Compra}}</td>
-                    <td>{{sub.Cuenta_Reteica_Venta}}</td>
-                    <td>{{sub.Cuenta_Reteica_Compra}}</td>
-                    <td>{{sub.Cuenta_Reteiva_Venta}}</td>
-                    <td>{{sub.Cuenta_Reteiva_Compra}}</td>
-                    <td><i (click)="open(sub)" class="fa fa-pen"></i></td>
-                </tr>
-            </ng-container>
-
-        </tbody>
-    </table>
+  <table class="table table-striped table-sm">
+    <thead>
+      <tr>
+        <th>Nombre</th>
+        <th>Cuenta Ingreso</th>
+        <th>Cuenta Inventario</th>
+        <th>Cuenta Gasto</th>
+        <th>Cuenta Costo</th>
+        <th>Cuenta Entrada</th>
+        <th>Cuenta Iva Venta</th>
+        <th>Cuenta Iva Compra</th>
+        <th>Cuenta Descuento Venta</th>
+        <th>Cuenta Descuento Compra</th>
+        <th>Cuenta Retefuente Venta</th>
+        <th>Cuenta Retefuente Compra</th>
+        <th>Cuenta ReteICA Venta</th>
+        <th>Cuenta ReteICA Compra</th>
+        <th>Cuenta ReteIVA Venta</th>
+        <th>Cuenta ReteIVA Compra</th>
+        <th></th>
+      </tr>
+    </thead>
+    <tbody>
+      <ng-container *ngIf="subcategories.length && !loading; else notData">
+        <tr *ngFor="let sub of subcategories">
+          <td>{{ sub.Nombre }}</td>
+          <td>{{ sub.Cuenta_Ingreso }}</td>
+          <td>{{ sub.Cuenta_Inventario }}</td>
+          <td>{{ sub.Cuenta_Gasto }}</td>
+          <td>{{ sub.Cuenta_Costo }}</td>
+          <td>{{ sub.Cuenta_Entrada }}</td>
+          <td>{{ sub.Cuenta_Iva_Venta }}</td>
+          <td>{{ sub.Cuenta_Iva_Compra }}</td>
+          <td>{{ sub.Cuenta_Descuento_Venta }}</td>
+          <td>{{ sub.Cuenta_Descuento_Compra }}</td>
+          <td>{{ sub.Cuenta_Retefuente_Venta }}</td>
+          <td>{{ sub.Cuenta_Retefuente_Compra }}</td>
+          <td>{{ sub.Cuenta_Reteica_Venta }}</td>
+          <td>{{ sub.Cuenta_Reteica_Compra }}</td>
+          <td>{{ sub.Cuenta_Reteiva_Venta }}</td>
+          <td>{{ sub.Cuenta_Reteiva_Compra }}</td>
+          <td><i (click)="open(sub)" class="fa fa-pen"></i></td>
+        </tr>
+      </ng-container>
+    </tbody>
+  </table>
 </div>
 
 <ng-template #notData>
-    <tr>
-        <td colspan="100%">
-            <app-not-data [loading]="loading"></app-not-data>
-        </td>
-    </tr>
+  <tr>
+    <td colspan="100%">
+      <app-not-data [loading]="loading"></app-not-data>
+    </td>
+  </tr>
 </ng-template>
 
-
-
 <app-modal-basic #modalGenerico [dialogClass]="'modal-xl'">
-    <div class="app-modal-header">
-        <h4 class="modal-title">Cuenta Subcategoría</h4>
-        <button type="button" class="close basic-close" (click)="closeModal()">
-            <span aria-hidden="true">&times;</span>
-        </button>
-    </div>
-    <div class="app-modal-body">
-        <form [formGroup]="form">
-            <div class="row">
-                <div class="col-3">
-                    <div class="form-group">
-                        <label>Cuenta Ingreso</label>
-                        <ng-select [items]="accounts" required bindLabel="Nombre" bindValue="Id"
-                            placeholder="Seleccione " loadingText="loading" ngDefaultControl formControlName="Cuenta_Ingreso_Id">
-                        </ng-select>
-                        <!--  <input type="text" class="form-control" formControlName="Cuenta_Ingreso" /> -->
-                    </div>
-                </div>
-                <div class="col-3">
-                    <div class="form-group">
-                        <label>Cuenta Inventario</label>
-                        <ng-select [items]="accounts" required bindLabel="Nombre" bindValue="Id"
-                            placeholder="Seleccione " loadingText="loading" ngDefaultControl formControlName="Cuenta_Inventario_Id">
-                        </ng-select>
-                        <!-- <input type="text" class="form-control" formControlName="Cuenta_Inventario" /> -->
-                    </div>
-                </div>
-                <div class="col-3">
-                    <div class="form-group">
-                        <label>Cuenta Gasto</label>
-                        <ng-select [items]="accounts" required bindLabel="Nombre" bindValue="Id"
-                            placeholder="Seleccione " loadingText="loading" ngDefaultControl formControlName="Cuenta_Gasto_Id">
-                        </ng-select>
-                        <!-- <input type="text" class="form-control" formControlName="Cuenta_Gasto" /> -->
-                    </div>
-                </div>
-                <div class="col-3">
-                    <div class="form-group">
-                        <label>Cuenta Costo</label>
-                        <ng-select [items]="accounts" required bindLabel="Nombre" bindValue="Id"
-                            placeholder="Seleccione " loadingText="loading" ngDefaultControl formControlName="Cuenta_Costo_Id">
-                        </ng-select>
-                        <!-- <input type="text" class="form-control" formControlName="Cuenta_Costo" /> -->
-                    </div>
-                </div>
-                <div class="col-3">
-                    <div class="form-group">
-                        <label>Cuenta Entrada</label>
-                        <ng-select [items]="accounts" required bindLabel="Nombre" bindValue="Id"
-                            placeholder="Seleccione " loadingText="loading" ngDefaultControl formControlName="Cuenta_Entrada_Id">
-                        </ng-select>
-                        <!-- <input type="text" class="form-control" formControlName="Cuenta_Entrada" /> -->
-                    </div>
-                </div>
-                <div class="col-3">
-                    <div class="form-group">
-                        <label>Cuenta Iva Venta</label>
-                        <ng-select [items]="accounts" required bindLabel="Nombre" bindValue="Id"
-                            placeholder="Seleccione " loadingText="loading" ngDefaultControl formControlName="Cuenta_Iva_Venta_Id">
-                        </ng-select>
-                        <!-- <input type="text" class="form-control" formControlName="Cuenta_Iva_Venta" /> -->
-                    </div>
-                </div>
-                <div class="col-3">
-                    <div class="form-group">
-                        <label>Cuenta Iva Compra</label>
-                        <ng-select [items]="accounts" required bindLabel="Nombre" bindValue="Id"
-                            placeholder="Seleccione " loadingText="loading" ngDefaultControl formControlName="Cuenta_Iva_Compra_Id">
-                        </ng-select>
-                        <!-- <input type="text" class="form-control" formControlName="Cuenta_Iva_Compra" /> -->
-                    </div>
-                </div>
-                <div class="col-3">
-                    <div class="form-group">
-                        <label>Cuenta Descuento Venta</label>
-                        <ng-select [items]="accounts" required bindLabel="Nombre" bindValue="Id"
-                            placeholder="Seleccione " loadingText="loading" ngDefaultControl formControlName="Cuenta_Descuento_Venta_Id">
-                        </ng-select>
-                        <!-- <input type="text" class="form-control" formControlName="Cuenta_Descuento_Venta" /> -->
-                    </div>
-                </div>
-                <div class="col-3">
-                    <div class="form-group">
-                        <label>Cuenta Descuento Compra</label>
-                        <ng-select [items]="accounts" required bindLabel="Nombre" bindValue="Id"
-                            placeholder="Seleccione " loadingText="loading" ngDefaultControl formControlName="Cuenta_Descuento_Compra_Id">
-                        </ng-select>
-                        <!-- <input type="text" class="form-control" formControlName="Cuenta_Descuento_Compra" /> -->
-                    </div>
-                </div>
-                <div class="col-3">
-                    <div class="form-group">
-                        <label>Cuenta Retefuente Venta</label>
-                        <ng-select [items]="accounts" required bindLabel="Nombre" bindValue="Id"
-                            placeholder="Seleccione " loadingText="loading" ngDefaultControl formControlName="Cuenta_Retefuente_Venta_Id">
-                        </ng-select>
-                        <!-- <input type="text" class="form-control" formControlName="Cuenta_Retefuente_Venta" /> -->
-                    </div>
-                </div>
-                <div class="col-3">
-                    <div class="form-group">
-                        <label>Cuenta Retefuente Venta</label>
-                        <ng-select [items]="accounts" required bindLabel="Nombre" bindValue="Id"
-                            placeholder="Seleccione " loadingText="loading" ngDefaultControl formControlName="Cuenta_Retefuente_Compra_Id">
-                        </ng-select>
-                        <!-- <input type="text" class="form-control" formControlName="Cuenta_Retefuente_Compra" /> -->
-                    </div>
-                </div>
-                <div class="col-3">
-                    <div class="form-group">
-                        <label>Cuenta ReteICA Venta</label>
-                        <ng-select [items]="accounts" required bindLabel="Nombre" bindValue="Id"
-                            placeholder="Seleccione " loadingText="loading" ngDefaultControl formControlName="Cuenta_Reteica_Venta_Id">
-                        </ng-select>
-                        <!-- <input type="text" class="form-control" formControlName="Cuenta_Reteica_Venta" /> -->
-                    </div>
-                </div>
-                <div class="col-3">
-                    <div class="form-group">
-                        <label>Cuenta ReteICA Compra</label>
-                        <ng-select [items]="accounts" required bindLabel="Nombre" bindValue="Id"
-                            placeholder="Seleccione " loadingText="loading" ngDefaultControl formControlName="Cuenta_Reteica_Compra_Id">
-                        </ng-select>
-                        <!-- <input type="text" class="form-control" formControlName="Cuenta_Reteica_Compra" /> -->
-                    </div>
-                </div>
-                <div class="col-3">
-                    <div class="form-group">
-                        <label>Cuenta ReteIVA Venta</label>
-                        <ng-select [items]="accounts" required bindLabel="Nombre" bindValue="Id"
-                            placeholder="Seleccione " loadingText="loading" ngDefaultControl formControlName="Cuenta_Reteiva_Venta_Id">
-                        </ng-select>
-                        <!-- <input type="text" class="form-control" formControlName="Cuenta_Reteiva_Venta" /> -->
-                    </div>
-                </div>
-                <div class="col-3">
-                    <div class="form-group">
-                        <label>Cuenta ReteIVA Compra</label>
-                        <ng-select [items]="accounts" required bindLabel="Nombre" bindValue="Id"
-                            placeholder="Seleccione " loadingText="loading" ngDefaultControl formControlName="Cuenta_Reteiva_Compra_Id">
-                        </ng-select>
-                        <!-- <input type="text" class="form-control" formControlName="Cuenta_Reteiva_Compra" /> -->
-                    </div>
-                </div>
-
-            </div>
-
-
-
-        </form>
-    </div>
-    <div class="app-modal-footer">
-        <div class="text-right">
-            <button type="button" class="btn btn-default btn-sm" (click)="closeModal()">
-                Cancelar
-            </button>
-            <button type="button" class="btn btn-primary btn-sm" [swal]="{
-            title: '¿Está Seguro?',
-            text: 'Se dispone a Guardar',
-            icon: 'warning',
-            showCancelButton: true,
-            confirmButtonText: 'Si, Guardar',
-            cancelButtonText: 'No,Dejame Comprobar!'
-          }" (confirm)="save()">
-                Guardar
-            </button>
+  <div class="app-modal-header">
+    <h4 class="modal-title">Cuenta Subcategoría</h4>
+    <button type="button" class="close basic-close" (click)="closeModal()">
+      <span aria-hidden="true">&times;</span>
+    </button>
+  </div>
+  <div class="app-modal-body">
+    <form [formGroup]="form">
+      <div class="row">
+        <div class="col-3">
+          <div class="form-group">
+            <label>Cuenta Ingreso</label>
+            <ng-select
+              [items]="accounts"
+              required
+              bindLabel="Nombre"
+              bindValue="Id"
+              placeholder="Seleccione "
+              loadingText="loading"
+              ngDefaultControl
+              formControlName="Cuenta_Ingreso_Id"
+            >
+            </ng-select>
+            <!--  <input type="text" class="form-control" formControlName="Cuenta_Ingreso" /> -->
+          </div>
         </div>
+        <div class="col-3">
+          <div class="form-group">
+            <label>Cuenta Inventario</label>
+            <ng-select
+              [items]="accounts"
+              required
+              bindLabel="Nombre"
+              bindValue="Id"
+              placeholder="Seleccione "
+              loadingText="loading"
+              ngDefaultControl
+              formControlName="Cuenta_Inventario_Id"
+            >
+            </ng-select>
+            <!-- <input type="text" class="form-control" formControlName="Cuenta_Inventario" /> -->
+          </div>
+        </div>
+        <div class="col-3">
+          <div class="form-group">
+            <label>Cuenta Gasto</label>
+            <ng-select
+              [items]="accounts"
+              required
+              bindLabel="Nombre"
+              bindValue="Id"
+              placeholder="Seleccione "
+              loadingText="loading"
+              ngDefaultControl
+              formControlName="Cuenta_Gasto_Id"
+            >
+            </ng-select>
+            <!-- <input type="text" class="form-control" formControlName="Cuenta_Gasto" /> -->
+          </div>
+        </div>
+        <div class="col-3">
+          <div class="form-group">
+            <label>Cuenta Costo</label>
+            <ng-select
+              [items]="accounts"
+              required
+              bindLabel="Nombre"
+              bindValue="Id"
+              placeholder="Seleccione "
+              loadingText="loading"
+              ngDefaultControl
+              formControlName="Cuenta_Costo_Id"
+            >
+            </ng-select>
+            <!-- <input type="text" class="form-control" formControlName="Cuenta_Costo" /> -->
+          </div>
+        </div>
+        <div class="col-3">
+          <div class="form-group">
+            <label>Cuenta Entrada</label>
+            <ng-select
+              [items]="accounts"
+              required
+              bindLabel="Nombre"
+              bindValue="Id"
+              placeholder="Seleccione "
+              loadingText="loading"
+              ngDefaultControl
+              formControlName="Cuenta_Entrada_Id"
+            >
+            </ng-select>
+            <!-- <input type="text" class="form-control" formControlName="Cuenta_Entrada" /> -->
+          </div>
+        </div>
+        <div class="col-3">
+          <div class="form-group">
+            <label>Cuenta Iva Venta</label>
+            <ng-select
+              [items]="accounts"
+              required
+              bindLabel="Nombre"
+              bindValue="Id"
+              placeholder="Seleccione "
+              loadingText="loading"
+              ngDefaultControl
+              formControlName="Cuenta_Iva_Venta_Id"
+            >
+            </ng-select>
+            <!-- <input type="text" class="form-control" formControlName="Cuenta_Iva_Venta" /> -->
+          </div>
+        </div>
+        <div class="col-3">
+          <div class="form-group">
+            <label>Cuenta Iva Compra</label>
+            <ng-select
+              [items]="accounts"
+              required
+              bindLabel="Nombre"
+              bindValue="Id"
+              placeholder="Seleccione "
+              loadingText="loading"
+              ngDefaultControl
+              formControlName="Cuenta_Iva_Compra_Id"
+            >
+            </ng-select>
+            <!-- <input type="text" class="form-control" formControlName="Cuenta_Iva_Compra" /> -->
+          </div>
+        </div>
+        <div class="col-3">
+          <div class="form-group">
+            <label>Cuenta Descuento Venta</label>
+            <ng-select
+              [items]="accounts"
+              required
+              bindLabel="Nombre"
+              bindValue="Id"
+              placeholder="Seleccione "
+              loadingText="loading"
+              ngDefaultControl
+              formControlName="Cuenta_Descuento_Venta_Id"
+            >
+            </ng-select>
+            <!-- <input type="text" class="form-control" formControlName="Cuenta_Descuento_Venta" /> -->
+          </div>
+        </div>
+        <div class="col-3">
+          <div class="form-group">
+            <label>Cuenta Descuento Compra</label>
+            <ng-select
+              [items]="accounts"
+              required
+              bindLabel="Nombre"
+              bindValue="Id"
+              placeholder="Seleccione "
+              loadingText="loading"
+              ngDefaultControl
+              formControlName="Cuenta_Descuento_Compra_Id"
+            >
+            </ng-select>
+            <!-- <input type="text" class="form-control" formControlName="Cuenta_Descuento_Compra" /> -->
+          </div>
+        </div>
+        <div class="col-3">
+          <div class="form-group">
+            <label>Cuenta Retefuente Venta</label>
+            <ng-select
+              [items]="accounts"
+              required
+              bindLabel="Nombre"
+              bindValue="Id"
+              placeholder="Seleccione "
+              loadingText="loading"
+              ngDefaultControl
+              formControlName="Cuenta_Retefuente_Venta_Id"
+            >
+            </ng-select>
+            <!-- <input type="text" class="form-control" formControlName="Cuenta_Retefuente_Venta" /> -->
+          </div>
+        </div>
+        <div class="col-3">
+          <div class="form-group">
+            <label>Cuenta Retefuente Venta</label>
+            <ng-select
+              [items]="accounts"
+              required
+              bindLabel="Nombre"
+              bindValue="Id"
+              placeholder="Seleccione "
+              loadingText="loading"
+              ngDefaultControl
+              formControlName="Cuenta_Retefuente_Compra_Id"
+            >
+            </ng-select>
+            <!-- <input type="text" class="form-control" formControlName="Cuenta_Retefuente_Compra" /> -->
+          </div>
+        </div>
+        <div class="col-3">
+          <div class="form-group">
+            <label>Cuenta ReteICA Venta</label>
+            <ng-select
+              [items]="accounts"
+              required
+              bindLabel="Nombre"
+              bindValue="Id"
+              placeholder="Seleccione "
+              loadingText="loading"
+              ngDefaultControl
+              formControlName="Cuenta_Reteica_Venta_Id"
+            >
+            </ng-select>
+            <!-- <input type="text" class="form-control" formControlName="Cuenta_Reteica_Venta" /> -->
+          </div>
+        </div>
+        <div class="col-3">
+          <div class="form-group">
+            <label>Cuenta ReteICA Compra</label>
+            <ng-select
+              [items]="accounts"
+              required
+              bindLabel="Nombre"
+              bindValue="Id"
+              placeholder="Seleccione "
+              loadingText="loading"
+              ngDefaultControl
+              formControlName="Cuenta_Reteica_Compra_Id"
+            >
+            </ng-select>
+            <!-- <input type="text" class="form-control" formControlName="Cuenta_Reteica_Compra" /> -->
+          </div>
+        </div>
+        <div class="col-3">
+          <div class="form-group">
+            <label>Cuenta ReteIVA Venta</label>
+            <ng-select
+              [items]="accounts"
+              required
+              bindLabel="Nombre"
+              bindValue="Id"
+              placeholder="Seleccione "
+              loadingText="loading"
+              ngDefaultControl
+              formControlName="Cuenta_Reteiva_Venta_Id"
+            >
+            </ng-select>
+            <!-- <input type="text" class="form-control" formControlName="Cuenta_Reteiva_Venta" /> -->
+          </div>
+        </div>
+        <div class="col-3">
+          <div class="form-group">
+            <label>Cuenta ReteIVA Compra</label>
+            <ng-select
+              [items]="accounts"
+              required
+              bindLabel="Nombre"
+              bindValue="Id"
+              placeholder="Seleccione "
+              loadingText="loading"
+              ngDefaultControl
+              formControlName="Cuenta_Reteiva_Compra_Id"
+            >
+            </ng-select>
+            <!-- <input type="text" class="form-control" formControlName="Cuenta_Reteiva_Compra" /> -->
+          </div>
+        </div>
+      </div>
+    </form>
+  </div>
+  <div class="app-modal-footer">
+    <div class="text-right">
+      <button
+        type="button"
+        class="btn btn-default btn-sm"
+        (click)="closeModal()"
+      >
+        Cancelar
+      </button>
+      <button
+        type="button"
+        class="btn btn-primary btn-sm"
+        [swal]="{
+          title: '¿Está Seguro?',
+          text: 'Se dispone a Guardar',
+          icon: 'warning',
+          showCancelButton: true,
+          confirmButtonText: 'Si, Guardar',
+          cancelButtonText: 'No,Dejame Comprobar!'
+        }"
+        (confirm)="save()"
+      >
+        Guardar
+      </button>
     </div>
+  </div>
 </app-modal-basic>
