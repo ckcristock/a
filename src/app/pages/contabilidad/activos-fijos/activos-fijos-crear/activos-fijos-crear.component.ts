@@ -43,14 +43,14 @@ export class ActivosFijosCrearComponent implements OnInit {
   public typeahead_Cuenta_Anticipo:any={
     placeholder:'Cta Anticipo',
     name:'Cta_Anticipo',
-    id:'Cta_Anticipo', 
+    id:'Cta_Anticipo',
     Requerido:false
   }
-  
+
   public typeahead_CuentaXPagar:any={
     placeholder:'Cta x Pagar',
     name:'CtaPorPagar',
-    id:'CtaPorPagar', 
+    id:'CtaPorPagar',
     Requerido:false
   }
   public typeahead_Rete_Ica:any={
@@ -106,15 +106,15 @@ export class ActivosFijosCrearComponent implements OnInit {
   private _rutaBase:string = environment.ruta+'php/terceros/';
   terceros:any[] = [];
   companies:any[] = [];
-  constructor( 
-              private route: ActivatedRoute, 
-              private http: HttpClient, 
-              private router: Router, 
+  constructor(
+              private route: ActivatedRoute,
+              private http: HttpClient,
+              private router: Router,
               private swalService: SwalService,
               private _terceroService: TerceroService,
               private _activoFijos: ActivosFijosService,
               private _company: PlanCuentasService
-              ) { 
+              ) {
 
     this.alertOption = {
       title: "¿Está Seguro?",
@@ -129,7 +129,7 @@ export class ActivosFijosCrearComponent implements OnInit {
       inputOptions: {
         Pcga: 'Imprimir en PCGA',
         Niif: 'Imprimir en NIIF'
-      }, 
+      },
       preConfirm: (value) => {
         return new Promise((resolve) => {
           this.GuardarActivoFijo(value);
@@ -137,7 +137,7 @@ export class ActivosFijosCrearComponent implements OnInit {
       },
       allowOutsideClick: () => !swal.isLoading()
     }
-    
+
   }
 
   ngOnInit() {
@@ -146,7 +146,7 @@ export class ActivosFijosCrearComponent implements OnInit {
     this.GetRetenciones();
     this.isAdicion();
     this.http.get(environment.ruta + 'php/comprobantes/lista_cuentas.php').subscribe((data: any) => {
-      this.Cuenta = data.Activo;        
+      this.Cuenta = data.Activo;
     });
     this.http.get(environment.ruta + this.Ruta_Nit).subscribe((data: any) => {
       this.Cliente = data;
@@ -174,7 +174,7 @@ export class ActivosFijosCrearComponent implements OnInit {
   .pipe(
     debounceTime(200),
     map(term => term.length < 4 ? []
-        : 
+        :
         this.terceros.filter(v => v.Nombre.toLowerCase().indexOf(term.toLowerCase()) > -1).slice(0, 10)
         )
     /* debounceTime(200),
@@ -187,23 +187,23 @@ export class ActivosFijosCrearComponent implements OnInit {
 formatter_tercero = (x: { Nombre_Tercero: string }) => x.Nombre_Tercero;
 
   AsignarTercero(){
-    
+
     if (typeof(this.TerceroSeleccionado) == 'object') {
 
-      this.ActivoFijoModel.Nit = this.TerceroSeleccionado.Nit;   
-      this.ActivoFijoModel.Tipo=this.TerceroSeleccionado.Tipo;   
+      this.ActivoFijoModel.Nit = this.TerceroSeleccionado.Nit;
+      this.ActivoFijoModel.Tipo=this.TerceroSeleccionado.Tipo;
     }else{
       this.ActivoFijoModel.Nit = '';
     }
   }
 
-  AsignarConcepto(){  
+  AsignarConcepto(){
     this.ActivoFijoModel.Concepto=(this.ActivoFijoModel.Documento+' '+this.ActivoFijoModel.Nombre).toUpperCase();
   }
 
   CapturarIdCentroCosto(id:string, tipo:string, pos?:number){
     if(tipo=='Centro'){
-      this.ActivoFijoModel.Id_Centro_Costo=id; 
+      this.ActivoFijoModel.Id_Centro_Costo=id;
     }else if (tipo=='Anticipo'){
       // this.ActivoFijoModel.Id_Cuenta_Anticipo=id;
       this.Ctas_Anticipo[pos].Id_Plan_Cuenta = id != '' ? id : '';
@@ -222,12 +222,12 @@ formatter_tercero = (x: { Nombre_Tercero: string }) => x.Nombre_Tercero;
     }else if (tipo=='CxP'){
       this.ActivoFijoModel.Id_Cuenta_Cuenta_Por_Pagar=id;
     }else if(tipo=='Rete_Ica'){
-      
+
       this.ActivoFijoModel.Id_Cuenta_Rete_Ica=parseInt(id);
       if (id!='') {
        let  pos=this.Retenciones.findIndex(x=> x.Id_Plan_Cuenta==id);
        if(pos>=0){
-         
+
          this.ActivoFijoModel.Costo_Rete_Ica=Math.round((parseFloat(this.Retenciones[pos].Porcentaje)/100)*this.ActivoFijoModel.Base);
          this.ActivoFijoModel.Costo_Rete_Ica_NIIF=Math.round((parseFloat(this.Retenciones[pos].Porcentaje)/100)*this.ActivoFijoModel.Base_NIIF);
 
@@ -243,17 +243,17 @@ formatter_tercero = (x: { Nombre_Tercero: string }) => x.Nombre_Tercero;
       this.ActivoFijoModel.Id_Cuenta_Rete_Fuente=parseInt(id);
       if (id!='') {
         let  pos=this.Retenciones.findIndex(x=> x.Id_Plan_Cuenta==id);
-        
+
         if(pos>=0){
-          
+
           this.ActivoFijoModel.Costo_Rete_Fuente=Math.round((parseFloat(this.Retenciones[pos].Porcentaje)/100)*this.ActivoFijoModel.Base);
           this.ActivoFijoModel.Costo_Rete_Fuente_NIIF=Math.round((parseFloat(this.Retenciones[pos].Porcentaje)/100)*this.ActivoFijoModel.Base_NIIF);
-          
+
           this.calcularTotales();
         }
        }
     }
-      
+
   }
 
   getCodigoActivo() {
@@ -281,7 +281,7 @@ formatter_tercero = (x: { Nombre_Tercero: string }) => x.Nombre_Tercero;
   RecalcularRetenciones(){
     if(parseFloat(this.ActivoFijoModel.Id_Cuenta_Rete_Fuente.toString())!=0){
       let  pos=this.Retenciones.findIndex(x=> x.Id_Plan_Cuenta===this.ActivoFijoModel.Id_Cuenta_Rete_Fuente);
-     
+
       if(pos>=0){
         this.ActivoFijoModel.Costo_Rete_Fuente=(this.Retenciones[pos].Porcentaje/100)*this.ActivoFijoModel.Base;
       }
@@ -289,19 +289,19 @@ formatter_tercero = (x: { Nombre_Tercero: string }) => x.Nombre_Tercero;
     if(parseFloat(this.ActivoFijoModel.Id_Cuenta_Rete_Ica.toString())!=0){
       let  pos=this.Retenciones.findIndex(x=> x.Id_Plan_Cuenta===this.ActivoFijoModel.Id_Cuenta_Rete_Ica);
       if(pos>=0){
-        
+
         this.ActivoFijoModel.Costo_Rete_Ica=(this.Retenciones[pos].Porcentaje/100)*this.ActivoFijoModel.Base;
       }
     }
-    
+
   }
-  
+
 
   GuardarActivoFijo(tipo){
     if (!this.ValidateBeforeSubmit()) {
       return;
     }
-    
+
     let data = new FormData();
     let modelo = this._activoFijos.normalize(JSON.stringify(this.ActivoFijoModel));
     let ctas_anticipo = this._activoFijos.normalize(JSON.stringify(this.Ctas_Anticipo));
@@ -330,7 +330,7 @@ formatter_tercero = (x: { Nombre_Tercero: string }) => x.Nombre_Tercero;
       this.http.post(environment.ruta+'php/activofijo/guardar_activo_fijo_adicion.php', data)
       .subscribe((data:any) => {
         if (data.codigo == 'success') {
-          
+
           if (tipo == 'Pcga') {
             // window.open(environment.ruta+'php/contabilidad/movimientoscontables/movimientos_activo_fijo_pdf.php?id_registro='+data.Id+'&activo=Adicion&id_funcionario_elabora='+this.ActivoFijoModel.Identificacion_Funcionario,'_blank');
           } else {
@@ -346,7 +346,7 @@ formatter_tercero = (x: { Nombre_Tercero: string }) => x.Nombre_Tercero;
         // this.ShowSwal(data.codigo, data.titulo, data.mensaje);
       })
     }
-    
+
 
   }
 
@@ -385,7 +385,7 @@ formatter_tercero = (x: { Nombre_Tercero: string }) => x.Nombre_Tercero;
     .subscribe((data:any) => {
       if (data.codigo = 'success') {
         this.TipoActivos = data.query_result;
-  
+
       }else{
         this.TipoActivos = [];
         this.ShowSwal(data.codigo, data.titulo, data.mensaje);
@@ -397,7 +397,7 @@ formatter_tercero = (x: { Nombre_Tercero: string }) => x.Nombre_Tercero;
     this.http.get(environment.ruta+'php/activofijo/retenciones.php')
     .subscribe((data:any) => {
       if (data.codigo = 'success') {
-        this.Retenciones = data;        
+        this.Retenciones = data;
       }else{
         this.Retenciones = [];
         this.ShowSwal(data.codigo, data.titulo, data.mensaje);
@@ -407,7 +407,7 @@ formatter_tercero = (x: { Nombre_Tercero: string }) => x.Nombre_Tercero;
 
   showFacturas(pos) {
     let nit = this.Ctas_Anticipo[pos].Nit;
-    
+
     if (nit != undefined && nit != '' && nit != null) {
       this.position_document = pos;
       let p:any = {nit: nit};
@@ -416,7 +416,7 @@ formatter_tercero = (x: { Nombre_Tercero: string }) => x.Nombre_Tercero;
       if (id_plan_cuenta != '') {
         p.id_plan_cuenta = id_plan_cuenta;
       }
-      
+
       this.http.get(environment.ruta + 'php/activofijo/lista_facturas.php', { params: p }).subscribe((data: any) => {
         this.Lista_Facturas = data.Facturas;
         this.Mostrar_Facturas = true;
@@ -441,11 +441,11 @@ formatter_tercero = (x: { Nombre_Tercero: string }) => x.Nombre_Tercero;
     let nit = this.Ctas_Anticipo[this.position_document].Nit;
     this.Ctas_Anticipo.splice(this.position_document, 1); // Eliminando una fila para introducir las nuevas cuentas.
     let count = this.Ctas_Anticipo.length; // Total de filas de las cuentas.
-    
+
     if (this.Ctas_Anticipo[(count-1)] != undefined) {
       if (this.Ctas_Anticipo[(count-1)].Nit == undefined || this.Ctas_Anticipo[(count-1)].Nit == '') {
         this.Ctas_Anticipo.splice((count-1), 1); // Eliminando ultima fila.
-        
+
       }
     }
 
@@ -487,7 +487,7 @@ formatter_tercero = (x: { Nombre_Tercero: string }) => x.Nombre_Tercero;
   getDatosTercero(nit) {
     let obj = this.Cliente.find(x => x.Id == nit);
     return obj;
-    
+
   }
 
   calcularTotales() {
@@ -512,9 +512,9 @@ formatter_tercero = (x: { Nombre_Tercero: string }) => x.Nombre_Tercero;
         this.ActivoFijoModel.Id_Centro_Costo=data.Id_Centro_Costo;
         this.ActivoFijoModel.Centro_Costo=data.Centro_Costo;
         this.Crear = false;
-  
+
       }else{
-        
+
         this.ShowSwal(data.codigo, data.titulo, data.mensaje);
       }
     })
@@ -563,7 +563,7 @@ formatter_tercero = (x: { Nombre_Tercero: string }) => x.Nombre_Tercero;
     if (fecha != undefined && fecha != null) {
       datos.Fecha = fecha;
     }
-    
+
     this.http.get(environment.ruta+'php/activofijo/get_codigo.php', {params: datos}).subscribe((data:any) => {
       this.datosCabecera.Codigo = data.consecutivo;
     })
