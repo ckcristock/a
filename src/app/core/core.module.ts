@@ -4,7 +4,7 @@ import { ImagePipe } from './pipes/image.pipe';
 import { HttpClientModule } from '@angular/common/http';
 
 @NgModule({
-  declarations: [ImagePipe],
+  declarations: [],
   imports:[
     CommonModule,
     HttpClientModule

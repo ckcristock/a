@@ -1,115 +1,292 @@
 <div class="card">
-    <div class="card-body">
-        <div class="card-title">
-            <h4 class="text-primary">Estructura de la empresa</h4>
-        </div>
-        <hr class="line">
-        <div class="row">
-            <div class="col-md-4">
-                <div class="">
-                    <div class="card-body pl-0">
-                        <div class="card-title d-flex justify-content-between">
-                            <h5 class="text-primary">Grupos</h5>
-                            <button class="btn btn-primary btn-sm" (click)="openModal('grupos')"><i
-                                    class="fa fa-plus"></i></button>
-                        </div>
-                        <hr class="line">
-                        <ul class="list-group list-group-flush">
-                            <li role="button" *ngFor="let grupo of grupos "
-                                [ngClass]="{'border border-primary': grupo.selected}"
-                                class="list-group-item d-flex justify-content-between align-items-center rounded"
-                                (click)="getDependencies(grupo.value);selected(grupos,grupo.value)">{{grupo.text}}
-                                <span ngbDropdown class="dropdown-primary">
-                                    <button ngbDropdownToggle class="btn btn-primary btn-sm waves-effect waves-light "
-                                        type="button">
-                                        <i class="mdi mdi-chevron-down "></i>
-                                    </button>
-                                    <div ngbDropdownMenu>
-                                        <a class="dropdown-item text-info  waves-light waves-effect caja-botones"
-                                            (click)="editar('grupos',grupo, add)">
-                                            <i class="fas fa-edit color-info"></i> Editar</a>
-                                        <a class="dropdown-item text-danger waves-light waves-effect caja-botones"
-                                            [swal]="anulacion" (confirm)="delete('grupos',grupo.value)">
-                                            <i class="fas fa-trash"></i> Eliminar</a>
-                                    </div>
-                                </span>
-                            </li>
-                        </ul>
-                    </div>
-                </div>
-
-            </div>
-            <div class="col-md-4">
-                <div class="">
-                    <div class="card-body px-1">
-                        <div class="card-title d-flex justify-content-between">
-                            <h5 class="text-primary">Dependencias</h5>
-                            <button class="btn btn-primary btn-sm" (click)="openModal('dependencias')"><i
-                                    class="fa fa-plus"></i></button>
-                        </div>
-                        <hr class="line">
-                        <ul class="list-group list-group-flush">
-                            <li role="button" *ngFor="let dependency of dependecies "
-                                [ngClass]="{'border border-primary': dependency.selected}"
-                                class="list-group-item d-flex justify-content-between align-items-center rounded"
-                                (click)="getPosition(dependency.value);selected(dependecies,dependency.value)">
-                                {{dependency.text}}
-                                <span ngbDropdown class="dropdown-primary">
-                                    <button ngbDropdownToggle class="btn btn-primary btn-sm waves-effect waves-light "
-                                        type="button">
-                                        <i class="mdi mdi-chevron-down "></i>
-                                    </button>
-                                    <div ngbDropdownMenu>
-                                        <a class="text-info dropdown-item waves-light waves-effect caja-botones"
-                                            (click)="editar('dependencias',dependency, add)">
-                                            <i class="fas fa-edit"></i> Editar</a>
-                                        <a class="text-danger dropdown-item waves-light waves-effect caja-botones"
-                                            [swal]="anulacion" (confirm)="delete('dependencias',dependency.value)">
-                                            <i class="fas fa-trash"></i> Eliminar</a>
-                                    </div>
-                                </span>
-                            </li>
-                        </ul>
-                    </div>
-                </div>
-            </div>
-            <div class="col-md-4">
-                <div class="">
-                    <div class="card-body pr-0">
-                        <div class="card-title d-flex justify-content-between">
-                            <h5 class="text-primary">Cargos</h5>
-                            <button class="btn btn-primary btn-sm" (click)="openModal('cargos')"><i
-                                    class="fa fa-plus"></i></button>
-                        </div>
-                        <hr class="line">
-                        <ul class="list-group list-group-flush">
-                            <li role="button" *ngFor="let position of positions"
-                                class="list-group-item d-flex justify-content-between align-items-center rounded">
-                                {{position.text}}
-                                <span ngbDropdown class="dropdown-primary">
-                                    <button ngbDropdownToggle class="btn btn-primary btn-sm waves-effect waves-light "
-                                        type="button">
-                                        <i class="mdi mdi-chevron-down "></i>
-                                    </button>
-                                    <div ngbDropdownMenu>
-                                        <a class="text-info dropdown-item waves-light waves-effect caja-botones"
-                                            (click)="editar('cargos',position, add)">
-                                            <i class="fas fa-edit"></i> Editar</a>
-                                        <a class="text-danger dropdown-item waves-light waves-effect caja-botones"
-                                            [swal]="anulacion" (confirm)="delete('cargos',position.value)">
-                                            <i class="fas fa-trash"></i> Eliminar</a>
-                                    </div>
-                                </span>
-                            </li>
-                        </ul>
-                    </div>
-                </div>
-            </div>
-        </div>
+  <div class="card-body">
+    <div class="card-title">
+      <h4 class="text-primary">Estructura de la empresa</h4>
     </div>
+    <hr class="line" />
+    <div class="row">
+      <div class="col-md-4">
+        <div class="card-body pl-0">
+          <ul class="list-group list-group-flush">
+            <li
+              class="rounded-top list-group-item list-group-item-primary d-flex justify-content-between"
+            >
+              <h5 class="text-primary">Grupos</h5>
+              <span>
+                <button
+                  class="btn btn-primary btn-sm"
+                  (click)="openModal('grupos', add)"
+                >
+                  <i class="mdi mdi-plus"></i>
+                </button>
+              </span>
+            </li>
+          </ul>
+          <ul
+            class="list-group list-group-flush"
+            *ngIf="!loading.grupos && grupos.length > 0; else notDataGrupos"
+          >
+            <li
+              role="button"
+              *ngFor="let grupo of grupos"
+              [ngClass]="{ 'shadow-inset-primary': grupo.selected }"
+              class="list-group-item d-flex justify-content-between align-items-center rounded"
+              (click)="
+                getDependencies(grupo.value); selected(grupos, grupo.value)
+              "
+            >
+              {{ grupo.text }}
+              <span ngbDropdown class="dropdown-primary">
+                <button
+                  ngbDropdownToggle
+                  class="btn btn-primary btn-sm"
+                  type="button"
+                >
+                  <i class="mdi mdi-chevron-down"></i>
+                </button>
+                <div ngbDropdownMenu>
+                  <a
+                    class="dropdown-item text-info"
+                    (click)="editar('grupos', grupo, add)"
+                  >
+                    <i class="fas fa-edit color-info"></i> Editar</a
+                  >
+                  <!-- <a class="dropdown-item text-danger waves-light  caja-botones"
+                                            [swal]="anulacion" (confirm)="delete('grupos',grupo.value)">
+                                            <i class="fas fa-trash"></i> Eliminar</a> -->
+                </div>
+              </span>
+            </li>
+          </ul>
+        </div>
+      </div>
+      <div class="col-md-4">
+        <div class="">
+          <div class="card-body px-1">
+            <ul class="list-group list-group-flush">
+              <li
+                class="rounded-top list-group-item list-group-item-primary d-flex justify-content-between align-items-center rounded"
+              >
+                <h5 class="text-primary">Dependencias</h5>
+                <span>
+                  <button
+                    class="btn btn-primary btn-sm"
+                    (click)="openModal('dependencias', add)"
+                  >
+                    <i class="mdi mdi-plus"></i>
+                  </button>
+                </span>
+              </li>
+            </ul>
+            <ul
+              class="list-group list-group-flush"
+              *ngIf="
+                !loading.dependencies && dependencies.length > 0;
+                else notDataDependencies
+              "
+            >
+              <li
+                role="button"
+                *ngFor="let dependency of dependencies"
+                [ngClass]="{ 'shadow-inset-primary': dependency.selected }"
+                class="list-group-item d-flex justify-content-between align-items-center rounded"
+                (click)="
+                  getPosition(dependency.value);
+                  selected(dependencies, dependency.value)
+                "
+              >
+                {{ dependency.text }}
+                <span ngbDropdown class="dropdown-primary">
+                  <button
+                    ngbDropdownToggle
+                    class="btn btn-primary btn-sm waves-light"
+                    type="button"
+                  >
+                    <i class="mdi mdi-chevron-down"></i>
+                  </button>
+                  <div ngbDropdownMenu>
+                    <a
+                      class="text-info dropdown-item waves-light caja-botones"
+                      (click)="editar('dependencias', dependency, add)"
+                    >
+                      <i class="fas fa-edit"></i> Editar</a
+                    >
+                    <!-- <a class="text-danger dropdown-item waves-light  caja-botones"
+                                            [swal]="anulacion" (confirm)="delete('dependencias',dependency.value)">
+                                            <i class="fas fa-trash"></i> Eliminar</a> -->
+                  </div>
+                </span>
+              </li>
+            </ul>
+          </div>
+        </div>
+      </div>
+      <div class="col-md-4">
+        <div class="">
+          <div class="card-body pr-0">
+            <ul class="list-group list-group-flush">
+              <li
+                class="rounded-top list-group-item list-group-item-primary d-flex justify-content-between align-items-center rounded"
+              >
+                <h5 class="text-primary">Cargos</h5>
+                <span>
+                  <button
+                    class="btn btn-primary btn-sm"
+                    (click)="openModal('cargos', add)"
+                  >
+                    <i class="mdi mdi-plus"></i>
+                  </button>
+                </span>
+              </li>
+            </ul>
+            <ul
+              class="list-group list-group-flush"
+              *ngIf="
+                !loading.positions && positions.length > 0;
+                else notDataPositions
+              "
+            >
+              <li
+                role="button"
+                *ngFor="let position of positions"
+                class="list-group-item d-flex justify-content-between align-items-center rounded"
+              >
+                {{ position.text }}
+                <span ngbDropdown class="dropdown-primary">
+                  <button
+                    ngbDropdownToggle
+                    class="btn btn-primary btn-sm waves-light"
+                    type="button"
+                  >
+                    <i class="mdi mdi-chevron-down"></i>
+                  </button>
+                  <div ngbDropdownMenu>
+                    <a
+                      class="text-info dropdown-item waves-light caja-botones"
+                      (click)="editar('cargos', position, add)"
+                    >
+                      <i class="fas fa-edit"></i> Editar</a
+                    >
+                    <!-- <a class="text-danger dropdown-item waves-light  caja-botones"
+                                            [swal]="anulacion" (confirm)="delete('cargos',position.value)">
+                                            <i class="fas fa-trash"></i> Eliminar</a> -->
+                  </div>
+                </span>
+              </li>
+            </ul>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
 </div>
 
-<app-modal-basic #modal [dialogClass]="'modal-md'">
+<!--
+<swal
+  #anulacion
+  title="Eliminando item. Presiona sí para continuar"
+  icon="warning"
+  showCancelButton="true"
+  confirmButtonText="Sí"
+  cancelButtonText="No"
+></swal>
+
+<swal #deleteSwal title="Item eliminado con éxito" icon="success"> </swal> -->
+<ng-template #add let-modal>
+  <div class="modal-header">
+    <h4 class="text-primary modal-title">
+      Nuevo elemento a la lista de {{ tipo }}
+    </h4>
+    <button
+      type="button"
+      class="close"
+      data-dismiss="modal"
+      aria-label="Close"
+      (click)="modal.dismiss('Cross click')"
+    >
+      <span aria-hidden="true">&times;</span>
+    </button>
+  </div>
+  <div class="modal-body">
+    <form #changeForm="ngForm">
+      <div class="row mt-3">
+        <div *ngIf="tipo != 'grupos'" class="col-md-12 px-0">
+          <mat-form-field appearance="outline" class="col-md-12">
+            <mat-label>Grupo</mat-label>
+            <mat-select
+              (selectionChange)="getDependencies($event.value)"
+              [(value)]="grupoSelected"
+            >
+              <mat-option
+                *ngFor="let item of grupos"
+                [value]="item.value"
+                (click)="selected(grupos, item.value)"
+                >{{ item.text }}</mat-option
+              >
+            </mat-select>
+          </mat-form-field>
+          <div *ngIf="tipo == 'cargos'">
+            <mat-form-field appearance="outline" class="col-md-12">
+              <mat-label>Dependencia</mat-label>
+              <mat-select [(value)]="dependenceSelected">
+                <mat-option
+                  *ngFor="let item of dependencies"
+                  [(value)]="item.value"
+                  (click)="selected(dependencies, item.value)"
+                  >{{ item.text }}
+                </mat-option>
+              </mat-select>
+            </mat-form-field>
+          </div>
+        </div>
+        <mat-form-field class="col-md-12" appearance="outline">
+          <mat-label>Nombre</mat-label>
+          <input
+            matInput
+            type="text"
+            name="name"
+            autocomplete="off"
+            [(ngModel)]="name"
+            placeholder="Ingrese el nombre"
+          />
+        </mat-form-field>
+      </div>
+    </form>
+  </div>
+  <div class="modal-footer">
+    <button
+      type="button"
+      class="btn btn-danger"
+      (click)="modal.dismiss('Cross click')"
+    >
+      Cancelar
+    </button>
+    <button
+      [disabled]="
+        name == '' ||
+        (tipo.includes(['dependencias', 'cargos']) && !grupos.length) ||
+        (tipo == 'cargos' && !dependencies.length)
+      "
+      type="button"
+      (click)="save()"
+      class="btn btn-primary"
+    >
+      Guardar
+    </button>
+  </div>
+</ng-template>
+
+<ng-template #notDataGrupos>
+  <app-not-data [loading]="loading.grupos"></app-not-data>
+</ng-template>
+<ng-template #notDataDependencies>
+  <app-not-data [loading]="loading.dependencies"></app-not-data>
+</ng-template>
+<ng-template #notDataPositions>
+  <app-not-data [loading]="loading.positions"></app-not-data>
+</ng-template>
+
+<!-- <app-modal-basic #modal [dialogClass]="'modal-md'">
     <div class="app-modal-header">
         <div class="row">
             <h5 class=" text text-center justify-content-center modal-title   p-1">Agregar nuevo a la lista de {{tipo}}
@@ -133,4 +310,4 @@
             <button type="button " class="btn btn-success btn-sm " (click)="save()">Guardar</button>
         </div>
     </div>
-</app-modal-basic>
+</app-modal-basic> -->

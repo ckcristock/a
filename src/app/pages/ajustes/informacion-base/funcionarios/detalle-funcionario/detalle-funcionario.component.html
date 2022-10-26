@@ -1,90 +1,167 @@
-<div class="col-12 mb-5">
-    <div class="card">
-        <div class="card-body">
-            <!-- <button type="button" class="btn btn-outline-primary btn-sm backButton" (click)="regresar()">
-                <i class="fas fa-arrow-left"></i>
-            </button> -->
-            <div class="card-title d-flex justify-content-between">
-                <div class="">
-                    <div class="card-horizontal">
-                        <div class="img-square-wrapper">
-                            <img [src]="funcionario.image | image" class="img-rounded" alt=""
-                                onerror="this.src='../../../../../../../assets/images/nofound.png'">
-                        </div>
-                        <div class="card-body">
-                            <h5 class="card-title">{{ funcionario.first_name }} {{ funcionario.second_name }}
-                                <br> {{ funcionario.first_surname }} {{ funcionario.second_surname }}
-                            </h5>
-                            <strong *ngIf="funcionario.title != 'null'">
-                                {{ funcionario.title }}
-                            </strong>
-                        </div>
-                    </div>
-                    <div class="card-footer bg-transparent">
-                        <strong>
-                            {{ funcionario.signature }}
-                        </strong>
-                    </div>
-                </div>
-                <div class="">
-                    <div class="card-horizontal">
-                        <div class="img-square-wrapper">
-                            <img src="../../../../../../../assets/images/coin-icon.svg" height="80" alt="">
-                        </div>
-                        <div class="card-body">
-                            <h5 class="card-title">Salario base</h5>
-                            <p>{{ funcionario.salary }}</p>
-                        </div>
-                    </div>
-                </div>
-                <div class="">
-                    <div class="card-horizontal">
-                        <div class="img-square-wrapper">
-                            <img height="80" src="../../../../../../../assets/images/vacations-icon.svg" alt="">
-                        </div>
-                        <div class="card-body">
-                            <h5 class="card-title">Vaciones acumuladas</h5>
-                            <p>22</p>
-                        </div>
-                    </div>
-                </div>
-            </div>
-            <hr class="line">
-            <div class="d-flex justify-content-end">
-                <div class="btn-group rounded">
-                    <button type="button" style="float: right;" class="btn btn-danger btn-sm"
-                        (click)="liquidar('PreLiquidado')">
-                        Preliquidar
-                    </button>
-                    <div ngbDropdown class="dropdown-primary">
-                        <button style="border-top-left-radius: 0px; border-bottom-left-radius: 0px;" ngbDropdownToggle class="btn btn-primary btn-sm waves-effect waves-light "
-                            type="button">
-                            Más opciones
-                            <i class="mdi mdi-chevron-down"></i>
-                        </button>
-                        <div ngbDropdownMenu>
-                            <a class="dropdown-item waves-light waves-effect caja-botones"
-                                (click)="verComponent('informacion')">
-                                <i class="fa fa-file-pdf-o"></i>Información Personal</a>
-                            <a class="dropdown-item waves-light waves-effect caja-botones"
-                                (click)="verComponent('documentos')">
-                                <i class="fa fa-pencil"></i>Documentos</a>
-                            <a class="dropdown-item waves-light waves-effect caja-botones"
-                                (click)="verComponent('privilegios')">
-                                <i class="fa fa-pencil"></i>Privilegios</a>
-                        </div>
-                    </div>
-                </div>
-            </div>
-            <div class="mt-4">
-                <app-ver-funcionario *ngIf="components === 'informacion'"></app-ver-funcionario>
-                <app-permissions *ngIf="components === 'privilegios'"></app-permissions>
-                <div *ngIf="components === 'documentos'">
-                    <iframe [src]="url | safe" style="width:100%;border:0;" height="400" scrolling="no"></iframe>
-                    <!-- <ejs-filemanager class="bg-white mb-3" id='default-filemanager' [ajaxSettings]='ajaxSettings'></ejs-filemanager> -->
-                </div>
-            </div>
-        </div>
+<div class="row card-title d-flex justify-content-between">
+  <div class="col-md-10 px-0">
+    <h4 class="text-dark">
+      {{ funcionario.first_name }} {{ funcionario.second_name }}
+      {{ funcionario.first_surname }}
+      {{ funcionario.second_surname }}
+    </h4>
+  </div>
+  <div class="col-md-2 px-0 text-right">
+    <div class="btn-group rounded w-sm-100">
+      <button
+        *ngIf="funcionario.status == 'Activo'"
+        type="button"
+        class="btn btn-warning btn-sm"
+        (click)="liquidar('PreLiquidado')"
+      >
+        <i class="fas fa-money-bill"></i>
+        Preliquidar
+      </button>
+      <button
+        *ngIf="funcionario.status == 'Activo'"
+        type="button"
+        class="btn btn-danger btn-sm"
+        (click)="bloquear('Inactivo')"
+      >
+        <i class="fas fa-ban"></i> Bloquear
+      </button>
+      <button
+        *ngIf="funcionario.status == 'Inactivo'"
+        type="button"
+        class="btn btn-success btn-sm"
+        (click)="bloquear('Activo')"
+      >
+        <i class="fas fa-check"></i> Activar
+      </button>
     </div>
+  </div>
 </div>
-
+<ul
+  ngbNav
+  #nav="ngbNav"
+  [(activeId)]="active"
+  class="nav nav-tabs justify-content-center"
+  role="tablist"
+>
+  <li [ngbNavItem]="1" class="nav-item flex-sm-fill">
+    <a
+      ngbNavLink
+      data-toggle="tab"
+      role="tab"
+      aria-controls="home"
+      aria-selected="true"
+      class="nav-link border-0 text-uppercase font-weight-bold"
+      >Información</a
+    >
+    <ng-template ngbNavContent>
+      <div class="row">
+        <div class="col-lg-6">
+          <div class="card">
+            <ng-container *ngIf="!loading && funcionario; else notData">
+              <img
+                class="mt-4 card-img-top img-rounded img-thumbnail rounded-circle mx-auto img-fluid"
+                [ngClass]="
+                  funcionario.status == 'Activo'
+                    ? 'bg-success'
+                    : funcionario.status == 'Inactivo'
+                    ? 'bg-danger'
+                    : funcionario.status == 'PreLiquidado'
+                    ? 'bg-warning'
+                    : 'bg-secondary'
+                "
+                [src]="funcionario.image | image: 'users'"
+                onerror="this.src='../../../../../../../assets/images/noprofile.png'"
+              />
+              <div class="card-body text-center">
+                <h5 class="card-title text-uppercase">
+                  {{ funcionario.first_name }} {{ funcionario.second_name }}
+                  {{ funcionario.first_surname }}
+                  {{ funcionario.second_surname }}
+                </h5>
+                <strong *ngIf="funcionario.title != 'null'">
+                  {{ funcionario.title }}
+                </strong>
+                <app-datos-basicos></app-datos-basicos>
+              </div>
+              <div class="card-footer">
+                <img
+                  [src]="funcionario.signature"
+                  onerror="this.src='../../../../assets/images/not-available.png'"
+                  class="mt-4 img-fluid signature-image"
+                  one
+                />
+              </div>
+            </ng-container>
+          </div>
+        </div>
+        <div class="col-lg-6">
+          <div class="row">
+            <div class="col-12">
+              <div class="card">
+                <div class="card-body">
+                  <app-datos-empresa></app-datos-empresa>
+                </div>
+              </div>
+            </div>
+            <div class="col-12">
+              <div class="card">
+                <div class="card-body">
+                  <app-afiliaciones></app-afiliaciones>
+                </div>
+              </div>
+            </div>
+            <div class="col-12">
+              <div class="card">
+                <div class="card-body">
+                  <app-salario></app-salario>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </ng-template>
+  </li>
+  <li [ngbNavItem]="2" class="nav-item flex-sm-fill">
+    <a
+      ngbNavLink
+      data-toggle="tab"
+      role="tab"
+      aria-controls="home"
+      aria-selected="true"
+      class="nav-link border-0 text-uppercase font-weight-bold"
+      >Privilegios</a
+    >
+    <ng-template ngbNavContent>
+      <div class="card">
+        <div class="card-body">
+          <app-permissions></app-permissions>
+        </div>
+      </div>
+    </ng-template>
+  </li>
+  <li [ngbNavItem]="3" class="nav-item flex-sm-fill">
+    <a
+      ngbNavLink
+      data-toggle="tab"
+      role="tab"
+      aria-controls="home"
+      aria-selected="true"
+      class="nav-link border-0 text-uppercase font-weight-bold"
+      >Documentos</a
+    >
+    <ng-template ngbNavContent>
+      <iframe
+        [src]="url | safe"
+        style="width: 100%; border: 0"
+        height="400"
+        scrolling="no"
+      ></iframe>
+      <!-- <ejs-filemanager class="bg-white mb-3" id='default-filemanager' [ajaxSettings]='ajaxSettings'></ejs-filemanager> -->
+    </ng-template>
+  </li>
+</ul>
+<div [ngbNavOutlet]="nav" class="mt-2"></div>
+<ng-template #notData>
+  <app-not-data [loading]="loading"></app-not-data>
+</ng-template>

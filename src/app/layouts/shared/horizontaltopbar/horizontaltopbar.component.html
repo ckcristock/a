@@ -22,7 +22,11 @@
         </a>
       </div>
 
-      <button type="button" class="btn btn-sm px-3 font-size-24 d-lg-none header-item" (click)="toggleMenubar()">
+      <button
+        type="button"
+        class="btn btn-sm px-3 font-size-24 d-lg-none header-item"
+        (click)="toggleMenubar()"
+      >
         <i class="ri-menu-2-line align-middle"></i>
       </button>
     </div>
@@ -38,13 +42,23 @@
 
       <!--Notifications-->
       <div class="dropdown d-inline-block" ngbDropdown>
-        <button type="button" ngbDropdownToggle class="btn header-item noti-icon waves-effect"
-          id="page-header-notifications-dropdown" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+        <button
+          type="button"
+          ngbDropdownToggle
+          class="btn header-item noti-icon waves-effect"
+          id="page-header-notifications-dropdown"
+          data-toggle="dropdown"
+          aria-haspopup="true"
+          aria-expanded="false"
+        >
           <i class="ri-notification-3-line"></i>
           <span class="noti-dot"></span>
         </button>
-        <div class="dropdown-menu dropdown-menu-lg dropdown-menu-right p-0" ngbDropdownMenu
-          aria-labelledby="page-header-notifications-dropdown">
+        <div
+          class="dropdown-menu dropdown-menu-lg dropdown-menu-right p-0"
+          ngbDropdownMenu
+          aria-labelledby="page-header-notifications-dropdown"
+        >
           <div class="p-3">
             <div class="row align-items-center">
               <div class="col">
@@ -55,16 +69,24 @@
               </div>
             </div>
           </div>
-          <perfect-scrollbar style="position: relative; height: 230px" [config]="configData">
+          <perfect-scrollbar
+            style="position: relative; height: 230px"
+            [config]="configData"
+          >
             <a href="" class="text-reset notification-item">
               <div class="media">
-                <img src="assets/images/users/avatar-4.jpg" class="mr-3 rounded-circle avatar-xs" alt="user-pic" />
+                <img
+                  src="assets/images/users/avatar-4.jpg"
+                  class="mr-3 rounded-circle avatar-xs"
+                  alt="user-pic"
+                />
                 <div class="media-body">
                   <h6 class="mt-0 mb-1">{{ "notification.tile" }}</h6>
                   <div class="font-size-12 text-muted">
                     <p class="mb-1">{{ "notification.detail" }}</p>
                     <p class="mb-0">
-                      <i class="mdi mdi-clock-outline"></i>{{ "notificaction.time" }}
+                      <i class="mdi mdi-clock-outline"></i
+                      >{{ "notificaction.time" }}
                     </p>
                   </div>
                 </div>
@@ -72,19 +94,38 @@
             </a>
           </perfect-scrollbar>
           <div class="p-2 border-top">
-            <a class="btn btn-sm btn-link font-size-14 btn-block text-center" href="javascript:void(0)">
+            <a
+              class="btn btn-sm btn-link font-size-14 btn-block text-center"
+              href="javascript:void(0)"
+            >
               <i class="mdi mdi-arrow-right-circle mr-1"></i> Ver Más
             </a>
           </div>
         </div>
       </div>
       <div class="dropdown d-inline-block" ngbDropdown>
-        <button type="button" ngbDropdownToggle class="btn header-item noti-icon waves-effect"
-          id="page-header-notifications-dropdown" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-          <img class="border rounded-pill" height="40" [src]="user.person.company_worked.logo | image: 'companies'" alt="user-pic" />
+        <button
+          type="button"
+          ngbDropdownToggle
+          class="btn header-item noti-icon waves-effect"
+          id="page-header-notifications-dropdown"
+          data-toggle="dropdown"
+          aria-haspopup="true"
+          aria-expanded="false"
+        >
+          <img
+            class="border rounded-pill"
+            height="40"
+            onerror="this.src='../../../../assets/images/not-available.png'"
+            [src]="user.person.company_worked.logo | image: 'companies'"
+            alt="user-pic"
+          />
         </button>
-        <div class="dropdown-menu dropdown-menu-lg dropdown-menu-right p-0" ngbDropdownMenu
-          aria-labelledby="page-header-notifications-dropdown">
+        <div
+          class="dropdown-menu dropdown-menu-lg dropdown-menu-right p-0"
+          ngbDropdownMenu
+          aria-labelledby="page-header-notifications-dropdown"
+        >
           <div class="p-3">
             <div class="row align-items-center">
               <div class="col">
@@ -94,12 +135,25 @@
               </div>
             </div>
           </div>
-          <perfect-scrollbar style="position: relative; height: 230px" [config]="configData">
+          <perfect-scrollbar
+            style="position: relative; height: 230px"
+            [config]="configData"
+          >
             <a class="text-reset notification-item">
-              <div (click)="changeCompany(company.id)" style="cursor: pointer;"
-                *ngFor="let company of user.person.companies" class="media d-flex flex-column align-items-center">
-                <img height="50" [alt]="company.short_name" [title]="company.short_name"
-                  [src]="company.logo | image: 'companies'" />
+              <div
+                (click)="changeCompany(company.id)"
+                style="cursor: pointer"
+                *ngFor="let company of user.person.companies"
+                class="media d-flex flex-column align-items-center"
+              >
+                <img
+                  height="50"
+                  [alt]="company.short_name"
+                  [title]="company.short_name"
+                  [src]="company.logo | image: 'companies'"
+                  onerror="this.src='../../../../assets/images/not-available.png'"
+
+                />
               </div>
             </a>
           </perfect-scrollbar>
@@ -108,27 +162,45 @@
 
       <!--USER-->
       <div class="dropdown d-inline-block user-dropdown" ngbDropdown>
-        <button type="button" ngbDropdownToggle class="btn header-item waves-effect" id="page-header-user-dropdown"
-          data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-          <img class="rounded-circle header-profile-user" [src]="user.imagenUrl | image: 'users'" onerror="this.src='../../../../assets/images/noprofile.png'" alt="Header Avatar" />
-          <span class="d-none d-xl-inline-block ml-1">{{ user.person.first_name }} {{ user.person.first_surname
-            }}</span>
+        <button
+          type="button"
+          ngbDropdownToggle
+          class="btn header-item waves-effect"
+          id="page-header-user-dropdown"
+          data-toggle="dropdown"
+          aria-haspopup="true"
+          aria-expanded="false"
+        >
+          <img
+            class="rounded-circle header-profile-user"
+            [src]="user.imagenUrl | image: 'users'"
+            onerror="this.src='../../../../assets/images/noprofile.png'"
+            alt="Header Avatar"
+          />
+          <span class="d-none d-xl-inline-block ml-1"
+            >{{ user.person.first_name }} {{ user.person.first_surname }}</span
+          >
           <i class="mdi mdi-chevron-down d-none d-xl-inline-block"></i>
         </button>
         <div class="dropdown-menu dropdown-menu-right" ngbDropdownMenu>
           <!-- item-->
-          <a class="dropdown-item" href="javascript: void(0);"><i class="ri-user-line align-middle mr-1"></i> Perfil</a>
+          <a class="dropdown-item" href="javascript: void(0);"
+            ><i class="ri-user-line align-middle mr-1"></i> Perfil</a
+          >
 
           <div class="dropdown-divider"></div>
-          <a role="button" class="dropdown-item text-danger" (click)="logout()"><i
-              class="ri-shut-down-line align-middle mr-1 text-danger"></i>
+          <a role="button" class="dropdown-item text-danger" (click)="logout()"
+            ><i class="ri-shut-down-line align-middle mr-1 text-danger"></i>
             Cerrar Sesión
           </a>
         </div>
       </div>
       <div class="dropdown d-inline-block">
-        <button type="button" class="btn header-item noti-icon right-bar-toggle waves-effect"
-          (click)="onSettingsButtonClicked()">
+        <button
+          type="button"
+          class="btn header-item noti-icon right-bar-toggle waves-effect"
+          (click)="onSettingsButtonClicked()"
+        >
           <i class="ri-todo-line"></i>
         </button>
       </div>

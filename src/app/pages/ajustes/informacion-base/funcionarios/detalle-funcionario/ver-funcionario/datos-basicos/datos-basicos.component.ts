@@ -21,21 +21,8 @@ export class DatosBasicosComponent implements OnInit {
 
   $person: Subscription;
   id: any;
-
-  funcionario: any = {
-    cell_phone: '',
-    birth_date: '',
-    address: '',
-    email: '',
-    first_name: '',
-    first_surname: '',
-    second_name: '',
-    second_surname: '',
-    sex: '',
-    identifier: '',
-    marital_status: '',
-    degree: ''
-  }
+  loading: boolean;
+  funcionario: any;
   subscriptions: Subscription = new Subscription();
 
   constructor(
@@ -59,11 +46,12 @@ export class DatosBasicosComponent implements OnInit {
   }
 
   getBasicsData() {
+    this.loading = true;
     this.basicDataService.getBasicsData(this.id)
       .subscribe((res: any) => {
+        this.loading = false;
         this.funcionario = res.data;
       })
-    this.person.image = this.funcionario.image;
   }
 
   ngOnDestroy(): void {

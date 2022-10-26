@@ -1,94 +1,122 @@
 <div class="card">
   <div class="card-body">
-    <div class="card-title d-flex justify-content-between">
-      <h4 class="text-primary">Empresas</h4>
-      <div class="btn-group rounded">
-        <button
-          class="btn btn-info btn-sm"
-          style="float: right"
-          (click)="openClose()"
-        >
-          <i class="fas fa-sliders-h"></i> Filtros
-        </button>
+    <div class="row card-title d-flex justify-content-between">
+      <div class="col-md-6 px-0">
+        <h4 class="text-primary">Empresas</h4>
+      </div>
+      <div class="col-md-6 px-0 text-right">
+        <div class="btn-group rounded w-sm-100">
+          <button class="btn btn-info btn-sm" (click)="openClose()">
+            <i class="fas fa-sliders-h"></i> Filtros
+          </button>
+        </div>
       </div>
     </div>
     <hr class="line" />
     <mat-accordion multi>
       <mat-expansion-panel class="mat-elevation-z0">
-        <mat-form-field class="col-md-3 pl-0" appearance="outline">
-          <mat-label>Nombre</mat-label>
-          <input
-            matInput
-            type="text"
-            placeholder="Busca por nombre"
-            name="name"
-            autocomplete="off"
-          />
-        </mat-form-field>
+        <div class="row">
+          <mat-form-field class="col" appearance="outline">
+            <mat-label>Nombre</mat-label>
+            <input
+              matInput
+              type="text"
+              placeholder="Busca por nombre"
+              [(ngModel)]="filtro.name"
+              (input)="getCompany()"
+              name="name"
+              autocomplete="off"
+            />
+          </mat-form-field>
+          <mat-form-field class="col" appearance="outline">
+            <mat-label>NIT</mat-label>
+            <input
+              matInput
+              type="text"
+              placeholder="Busca por NIT"
+              [(ngModel)]="filtro.tin"
+              (input)="getCompany()"
+              name="name"
+              autocomplete="off"
+            />
+          </mat-form-field>
+        </div>
       </mat-expansion-panel>
     </mat-accordion>
-    <table
-      class="table table-bordered table-striped table-sm table-responsive-sm"
-      style="font-size: small"
-      *ngIf="!loading && enterprises.length > 0; else notData"
-    >
-      <thead>
-        <tr>
-          <th>Logo</th>
-          <th>Nombre</th>
-          <th>Categoría</th>
-          <th>NIT</th>
-          <th>Estado</th>
-          <th class="text-center col-md-1">Acciones</th>
-        </tr>
-      </thead>
-      <tbody>
-        <tr *ngFor="let item of enterprises">
-          <td class="col-md-1">
-            <img [src]="item.logo" alt="" class="img-fluid"/>
-          </td>
-          <td>
-            <p class="font-size-14 mb-0">{{ item.name }}</p>
-          </td>
-          <td>
-            <p class="font-size-14 mb-0">{{ item.category }}</p>
-          </td>
-          <td>
-            <p class="font-size-14 mb-0">{{ item.tin }}</p>
-          </td>
-          <td *ngIf="item.state == 1">Activa</td>
-          <td *ngIf="item.state == 0">Inactiva</td>
-          <td class="col-md-1">
-            <div class="text-center">
-              <div ngbDropdown class="dropdown-primary">
+    <div class="rounded-top table-responsive">
+      <table
+        class="table table-bordered table-striped table-sm"
+        *ngIf="!loading && enterprises.length > 0; else notData"
+      >
+        <thead class="bg-light">
+          <tr class="text-center text-uppercase">
+            <th>Logo</th>
+            <th>Nombre</th>
+            <th>Categoría</th>
+            <th>NIT</th>
+            <th>Estado</th>
+            <th><i class="mdi mdi-chevron-down"></i></th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr class="text-center" *ngFor="let item of enterprises">
+            <td class="col-md-1 p-0">
+              <img
+                [src]="item.logo | image: 'companies'"
+                onerror="this.src='../../../../assets/images/not-available.png'"
+                class="img-fluid company-logo"
+              />
+            </td>
+            <td class="text-left">{{ item.name }}</td>
+            <td>{{ item.category }}</td>
+            <td>{{ item.tin }}</td>
+            <td>
+              <span
+                class="badge"
+                [ngClass]="item.state == 1 ? 'badge-success' : 'badge-danger'"
+              >
+                {{ item.state == 1 ? "Activa" : "Inactiva" }}
+              </span>
+            </td>
+            <td>
+              <div ngbDropdown container="body" class="dropdown-primary">
                 <button
                   ngbDropdownToggle
-                  class="btn btn-primary btn-sm waves-effect waves-light"
+                  class="btn btn-primary btn-sm waves-light"
                   type="button"
                 >
                   <i class="mdi mdi-chevron-down"></i>
                 </button>
                 <div ngbDropdownMenu>
                   <a
-                    class="dropdown-item text-info waves-light waves-effect caja-botones"
-                    [routerLink]="['/ajustes/configuracion/configuracion-empresa', item.id]"
+                    class="dropdown-item text-info waves-light caja-botones"
+                    [routerLink]="[
+                      '/ajustes/configuracion/configuracion-empresa',
+                      item.id, 'informacion'
+                    ]"
                   >
-                    <i class="fas fa-search-plus text-info"></i> Ver y editar</a
+                    <i class="fas fa-search-plus text-info"></i> Ver</a
                   >
                 </div>
               </div>
-            </div>
-          </td>
-        </tr>
-      </tbody>
-    </table>
-    <!-- <ngb-pagination
+            </td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+    <ngb-pagination
       class="d-flex justify-content-center pagination-rounded pagination-sm"
       [collectionSize]="pagination.collectionSize"
+      (pageChange)="getCompany($event)"
       [pageSize]="pagination.pageSize"
       [(page)]="pagination.page"
-      aria-label="Default pagination "
-    ></ngb-pagination> -->
+      aria-label="Default pagination"
+      maxSize="5"
+      rotate="true"
+      ellipses="false"
+      boundaryLinks="true"
+    >
+    </ngb-pagination>
   </div>
 </div>
 <ng-template #notData>
