@@ -32,7 +32,7 @@
           type="text"
           placeholder="Busca por nombre"
           [(ngModel)]="Filtros.nombre"
-          (change)="ConsultaFiltrada()"
+          (input)="ConsultaFiltrada()"
           name="name"
           autocomplete="off"
         />
@@ -44,7 +44,7 @@
           type="text"
           placeholder="Busca por categoría"
           [(ngModel)]="Filtros.categoria"
-          (change)="ConsultaFiltrada()"
+          (input)="ConsultaFiltrada()"
           name="name"
           autocomplete="off"
         />
@@ -54,9 +54,9 @@
         <input
           matInput
           type="text"
-          placeholder="Busca por vida útil"
+          placeholder="Busca por vida útil (Número de meses)"
           [(ngModel)]="Filtros.vida_util"
-          (change)="ConsultaFiltrada()"
+          (input)="ConsultaFiltrada()"
           name="name"
           autocomplete="off"
         />
@@ -66,9 +66,9 @@
         <input
           matInput
           type="text"
-          placeholder="Busca por depreciación"
+          placeholder="Busca por porcentaje de depreciación"
           [(ngModel)]="Filtros.depreciacion"
-          (change)="ConsultaFiltrada()"
+          (input)="ConsultaFiltrada()"
           name="name"
           autocomplete="off"
         />
@@ -134,7 +134,7 @@
                     gettipoActivosFijos(taf)
                   "
                   ><!-- EditarTipoActivo(taf.Id_Tipo_Activo_Fijo); -->
-                  <i class="ti-pencil"></i> Editar</a
+                  <i class="far fa-edit"></i> Editar</a
                 >
                 <a
                   *ngIf="taf.Estado == 'Activo'"
@@ -188,31 +188,6 @@
     boundaryLinks="true"
   >
   </ngb-pagination>
-  <!-- <div id="paginacion-container" *ngIf="TiposActivosFijos.length > 0">
-    <div class="row">
-      <div class="col-md-3">
-        <p>
-          <b
-            >Mostrando del {{ InformacionPaginacion.desde }} al
-            {{ InformacionPaginacion.hasta }} de
-            {{ InformacionPaginacion.total }}</b
-          >
-        </p>
-      </div>
-      <div class="col-md-9">
-        <ngb-pagination
-          class="pull-right"
-          [collectionSize]="TotalItems"
-          [(page)]="page"
-          [maxSize]="maxSize"
-          [pageSize]="pageSize"
-          size="sm"
-          (pageChange)="ConsultaFiltrada(true)"
-          [boundaryLinks]="true"
-        ></ngb-pagination>
-      </div>
-    </div>
-  </div> -->
 </div>
 
 <ng-template #add let-modal>
@@ -315,17 +290,18 @@
             matInput
             type="text"
             required
-            autocomplete="off"
             [(value)]="CuentaNiif"
             [ngbTypeahead]="search_cuenta_niif"
             [resultTemplate]="rt2"
             [inputFormatter]="formatter2"
             [resultFormatter]="formatter2"
+            [class.is-invalid]="busquedaCuentaFallida.planCuenta"
             (focus)="selCampoEnfocado('planCuenta')"
             (selectItem)="AsignarCuenta($event,'Id_Plan_Cuenta')"
           />
             <!-- value="{{tipoActivosFijos.Cuenta_Niif}}" -->
-          <mat-hint *ngIf="buscandoCuenta.planCuenta">Buscando</mat-hint>
+          <mat-hint *ngIf="buscandoCuenta.planCuenta">Buscando...</mat-hint>
+          <div *ngIf="busquedaCuentaFallida.planCuenta">Lo lamentamos, las opciones no pudieron ser cargadas.</div>
         </mat-form-field>
           <!-- <mat-form-field class="col" appearance="outline">
             <mat-label>Cuenta débito depreciación PCGA</mat-label>
@@ -353,10 +329,12 @@
               [resultTemplate]="rt2"
               [inputFormatter]="formatter2"
               [resultFormatter]="formatter2"
+              [class.is-invalid]="busquedaCuentaFallida.planCuentaDepreciacion"
               (focus)="selCampoEnfocado('planCuentaDepreciacion')"
               (selectItem)="AsignarCuenta($event,'Id_Plan_Cuenta_Depreciacion')"
             />
-            <mat-hint *ngIf="buscandoCuenta.planCuentaDepreciacion">Buscando</mat-hint>
+            <mat-hint *ngIf="buscandoCuenta.planCuentaDepreciacion">Buscando...</mat-hint>
+            <div *ngIf="busquedaCuentaFallida.planCuentaDepreciacion">Lo lamentamos, las opciones no pudieron ser cargadas.</div>
           </mat-form-field>
           <!-- <mat-form-field class="col" appearance="outline">
             <mat-label>Cuenta crédito depreciación PCGA</mat-label>
@@ -384,10 +362,13 @@
               [resultTemplate]="rt2"
               [inputFormatter]="formatter2"
               [resultFormatter]="formatter2"
+              typeahead-append-to-body="true"
+              [class.is-invalid]="busquedaCuentaFallida.planCuentaDepreciacionCredito"
               (focus)="selCampoEnfocado('planCuentaDepreciacionCredito')"
               (selectItem)="AsignarCuenta($event,'Id_Plan_Cuenta_Credito_Depreciacion')"
             />
-            <mat-hint *ngIf="buscandoCuenta.planCuentaDepreciacionCredito">Buscando</mat-hint>
+            <mat-hint *ngIf="buscandoCuenta.planCuentaDepreciacionCredito">Buscando...</mat-hint>
+            <div *ngIf="busquedaCuentaFallida.planCuentaDepreciacionCredito">Lo lamentamos, las opciones no pudieron ser cargadas.</div>
           </mat-form-field>
       </div>
     </form>
@@ -414,225 +395,6 @@
 <ng-template #notData>
   <app-not-data [loading]="Cargando"></app-not-data>
 </ng-template>
-
-<!-- <app-modal-basic
-  [dialogClass]="'modal-lg'"
-  id="ModalTipoActivo"
-  #ModalTipoActivo
->
-  <div class="app-modal-header">
-    <h4>Nuevo Tipo de Activo</h4>
-    <button
-      type="button"
-      class="close basic-close"
-      (click)="CerrarModalTipoActivo()"
-    >
-      <span aria-hidden="true">&times;</span>
-    </button>
-  </div>
-  <div
-    style="overflow-x: unset !important; overflow-y: unset !important"
-    class="app-modal-body"
-  >
-    <form #FormTipoActivo="ngForm">
-      <div class="form-row mb-2">
-        <div class="col-md-6">
-          <label>Nombre Tipo Activo</label>
-          <input
-            type="text"
-            class="form-control form-control-sm"
-            name="Nombre_Tipo_Activo"
-            required
-            [(ngModel)]="TipoActivoModel.Nombre_Tipo_Activo"
-          />
-        </div>
-        <div class="col-md-6">
-          <label>Categoría</label>
-          <select
-            name="Categoria"
-            id="Categoria"
-            class="form-control form-control-sm"
-            name="Categoria"
-            required
-            [(ngModel)]="TipoActivoModel.Categoria"
-          >
-            <option value="Tangible">Tangible</option>
-            <option value="Intangible">Intangible</option>
-          </select>
-        </div>
-      </div>
-      <div class="form-row mb-2">
-        <div class="col-md-6">
-          <label>Vida Util PCGA (Meses)</label>
-          <input
-            type="number"
-            class="form-control form-control-sm"
-            name="Vida_Util_Pcga"
-            required
-            [(ngModel)]="TipoActivoModel.Vida_Util_PCGA"
-            (change)="calcularPorcentajeDepreciacion('pcga')"
-          />
-        </div>
-
-        <div class="col-md-6">
-          <label>Vida Util NIIF (Meses)</label>
-          <input
-            type="number"
-            class="form-control form-control-sm"
-            name="Vida_Util"
-            required
-            [(ngModel)]="TipoActivoModel.Vida_Util"
-            (change)="calcularPorcentajeDepreciacion('niif')"
-          />
-        </div>
-
-        <div class="col-md-6">
-          <label>Porcentaje de Depreciación PCGA Mensual</label>
-          <input
-            type="number"
-            class="form-control form-control-sm"
-            name="Porcentaje_Depreciacion_Anual_Pcga"
-            required
-            [(ngModel)]="TipoActivoModel.Porcentaje_Depreciacion_Anual_PCGA"
-            readonly
-          />
-        </div>
-
-        <div class="col-md-6">
-          <label>Porcentaje de Depreciación NIIF Mensual</label>
-          <input
-            type="number"
-            class="form-control form-control-sm"
-            name="Porcentaje_Depreciacion_Anual"
-            required
-            [(ngModel)]="TipoActivoModel.Porcentaje_Depreciacion_Anual"
-            readonly
-          />
-        </div>
-
-        <div class="col-md-6">
-          <label>Cuenta Activo PCGA</label>
-          <input
-            type="text"
-            class="form-control form-control-sm"
-            name="Id_Plan_Cuenta_PCGA"
-            required
-            [ngbTypeahead]="search_cuenta"
-            [resultTemplate]="rt1"
-            [(ngModel)]="CuentaPcga"
-            [inputFormatter]="formatter1"
-            (change)="AsignarCuentaPcga(CuentaPcga)"
-          />
-        </div>
-
-        <div class="col-md-6">
-          <label>Cuenta Activo NIIF</label>
-          <input
-            type="text"
-            class="form-control form-control-sm"
-            name="Id_Plan_Cuenta_NIIF"
-            required
-            [ngbTypeahead]="search_cuenta_niif"
-            [resultTemplate]="rt2"
-            [(ngModel)]="CuentaNiif"
-            [inputFormatter]="formatter2"
-            (change)="AsignarCuentaNiif(CuentaNiif)"
-          />
-        </div>
-
-        <div class="col-md-6">
-          <label>Cuenta Debito Depreciacion PCGA</label>
-          <input
-            type="text"
-            class="form-control form-control-sm"
-            name="Id_Plan_Cuenta_Depreciacion_PCGA"
-            required
-            [ngbTypeahead]="search_cuenta"
-            [resultTemplate]="rt1"
-            [(ngModel)]="CuentaDepreciacionPcga"
-            [inputFormatter]="formatter1"
-            (change)="AsignarCuentaDepreciacion(CuentaDepreciacionPcga, 'pcga')"
-          />
-        </div>
-
-        <div class="col-md-6">
-          <label>Cuenta Debito Depreciacion NIIF</label>
-          <input
-            type="text"
-            class="form-control form-control-sm"
-            name="Id_Plan_Cuenta_Depreciacion_NIIF"
-            required
-            [ngbTypeahead]="search_cuenta_niif"
-            [resultTemplate]="rt2"
-            [(ngModel)]="CuentaDepreciacionNiif"
-            [inputFormatter]="formatter2"
-            (change)="AsignarCuentaDepreciacion(CuentaDepreciacionNiif, 'niif')"
-          />
-        </div>
-
-        <div class="col-md-6">
-          <label>Cuenta Credito Depreciacion PCGA</label>
-          <input
-            type="text"
-            class="form-control form-control-sm"
-            name="Id_Plan_Cuenta_Credito_Depreciacion_PCGA"
-            required
-            [ngbTypeahead]="search_cuenta"
-            [resultTemplate]="rt1"
-            [(ngModel)]="CuentaCreditoDepreciacionPcga"
-            [inputFormatter]="formatter1"
-            (change)="
-              AsignarCuentaCreditoDepreciacion(
-                CuentaCreditoDepreciacionPcga,
-                'pcga'
-              )
-            "
-          />
-        </div>
-
-        <div class="col-md-6">
-          <label>Cuenta Credito Depreciacion NIIF</label>
-          <input
-            type="text"
-            class="form-control form-control-sm"
-            name="Id_Plan_Cuenta_Credito_Depreciacion_NIIF"
-            required
-            [ngbTypeahead]="search_cuenta_niif"
-            [resultTemplate]="rt2"
-            [(ngModel)]="CuentaCreditoDepreciacionNiif"
-            [inputFormatter]="formatter2"
-            (change)="
-              AsignarCuentaCreditoDepreciacion(
-                CuentaCreditoDepreciacionNiif,
-                'niif'
-              )
-            "
-          />
-        </div>
-      </div>
-    </form>
-  </div>
-  <div class="app-modal-footer">
-    <div class="text-right">
-      <button
-        class="btn btn-primary btn-sm"
-        style="display: flex; align-items: center"
-        [swal]="{
-          title: '¿Está Seguro?',
-          text: 'Se dispone a guardar este tipo contrato',
-          type: 'warning',
-          showCancelButton: true,
-          confirmButtonText: 'Si, Guardar',
-          cancelButtonText: 'No, Comprobar!'
-        }"
-        (confirm)="GuardarTipoActivo()"
-        [disabled]="!FormTipoActivo.valid"
-      >
-        <i class="ti-save font-size-15 mr-2"></i> Guardar datos
-      </button>
-    </div>
-  </div>
-</app-modal-basic> -->
 
 <ng-template #rt1 let-r="result" let-t="term">
   <span class="f-9">{{ r.Codigo }} - {{ r.Nombre }} </span>

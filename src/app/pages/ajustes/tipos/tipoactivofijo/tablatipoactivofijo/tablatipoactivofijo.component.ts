@@ -28,33 +28,27 @@ export class TablatipoactivofijoComponent implements OnInit {
     planCuentaDepreciacion: false,
     planCuentaDepreciacionCredito: false
   };
-  busquedaCuentaFallida = false;
-  private campoEnfocado: string;
-
-  openClose(){
-    if (this.matPanel == false){
-      this.accordion.openAll()
-      this.matPanel = true;
-    } else {
-      this.accordion.closeAll()
-      this.matPanel = false;
-    }
-  }
+  busquedaCuentaFallida = {
+    planCuenta: false,
+    planCuentaDepreciacion: false,
+    planCuentaDepreciacionCredito: false
+  };
   title: any = '';
   form: FormGroup;
   accountPlan: any[] = [];
+
+  private campoEnfocado: string;
 
   public Cargando:boolean = false;
   public TiposActivosFijos:Array<any> = [];
   public tipoActivosFijos:any = {};
   // public Funcionario:any = JSON.parse(localStorage['User']);
-  public SwalDataObj:any = {
+ /*  public SwalDataObj:any = {
     icon: 'warning',
     title: 'Alerta',
     msg: 'Default'
-  };
-
-  public TipoActivoModel:any = {
+  }; */
+  /* public TipoActivoModel:any = {
     Nombre_Tipo_Activo: '',
     Categoria: '',
     Vida_Util: '',
@@ -67,21 +61,19 @@ export class TablatipoactivofijoComponent implements OnInit {
     Id_Plan_Cuenta_PCGA: '',
     Id_Plan_Cuenta_Credito_Depreciacion_PCGA: '',
     Id_Plan_Cuenta_Credito_Depreciacion_NIIF: ''
-  };
-
+  }; */
   public Filtros:any = {
     nombre:'',
     categoria:'',
     vida_util:'',
     depreciacion:''
   };
-  public CuentaCreditoDepreciacionPcga:any='';
+  //public CuentaCreditoDepreciacionPcga:any='';
   public CuentaCreditoDepreciacionNiif:any='';
-
   public CuentaDepreciacionNiif:any = '';
-  public CuentaDepreciacionPcga:any = '';
+  //public CuentaDepreciacionPcga:any = '';
   public CuentaNiif:any = '';
-  public CuentaPcga:any = '';
+  //public CuentaPcga:any = '';
 
   //Paginación
   public maxSize = 5;
@@ -103,7 +95,8 @@ export class TablatipoactivofijoComponent implements OnInit {
     private modalService: NgbModal,
     private http: HttpClient,
     private _test: TiposAnulacionService
-  ) { }
+  ) {
+  }
 
   ngOnInit() {
     this.ConsultaFiltrada();
@@ -128,6 +121,16 @@ export class TablatipoactivofijoComponent implements OnInit {
       //Id_Plan_Cuenta_Debito_Depreciacion_NIIF: ['', Validators.required],
       //Id_Plan_Cuenta_Debito_Depreciacion_PCGA: ['', Validators.required]
     });
+  }
+
+  openClose(){
+    if (this.matPanel == false){
+      this.accordion.openAll()
+      this.matPanel = true;
+    } else {
+      this.accordion.closeAll()
+      this.matPanel = false;
+    }
   }
 
   selCampoEnfocado(tipo){
@@ -183,13 +186,16 @@ export class TablatipoactivofijoComponent implements OnInit {
   }
 
   activateOrInactivate(tipoActivo,estado) {
-    tipoActivo.Estado = estado;
+    let dataEstadoTipo = {
+      Id_Tipo_Activo_Fijo: tipoActivo.Id_Tipo_Activo_Fijo,
+      Estado: estado
+    }
     let data = new FormData();
-    data.append("modelo", this.normalize(JSON.stringify(tipoActivo)));
+    data.append("modelo", this.normalize(JSON.stringify(dataEstadoTipo)));
 
     this._swal.show({
       title: '¿Estás seguro(a)?',
-      text: (tipoActivo.Estado == 'Activo' ? '¡El tipo de activo será activado!' : '¡El tipo de activo será desactivado'),
+      text: (tipoActivo.Estado == 'Activo' ? '¡El tipo de activo será desactivado!' : '¡El tipo de activo será activado'),
       icon: 'question',
       showCancel: true
     }).then((result) => {
@@ -198,7 +204,7 @@ export class TablatipoactivofijoComponent implements OnInit {
           this._swal.show({
             icon: 'success',
             title: 'Tarea completada con éxito!',
-            text: (tipoActivo.Estado == 'Activo' ? 'El tipo de activo ha sido activado con éxito.' : 'El tipo de activo ha sido desactivado con éxito.'),
+            text: (tipoActivo.Estado == 'Activo' ? 'El tipo de activo ha sido desactivado con éxito.' : 'El tipo de activo ha sido activado con éxito.'),
             timer: 1000,
             showCancel: false
           })
@@ -233,30 +239,6 @@ export class TablatipoactivofijoComponent implements OnInit {
 
   })();
 
-  /* searchNiif: OperatorFunction<string, readonly { niif_code }[]> = (
-    text$: Observable<string>
-  ) =>
-    text$.pipe(
-      debounceTime(200),
-      distinctUntilChanged(),
-      filter((term) => term.length >= 3),
-      map((term) =>
-        this.accountPlan
-          .filter((state) => new RegExp(term, 'mi').test(state.niif_code))
-          .slice(0, 10)
-      )
-    ); */
-
-  inputFormatListValueNiif(value: any) {
-    if (value.niif_code)
-      return value.niif_code
-    return value;
-  }
-
-  resultFormatListValueNiif(value: any) {
-    return value.niif_code;
-  }
-
   calcularPorcentajeDepreciacion() {
     let porcentaje = (100 / parseInt(this.form.value.Vida_Util)).toFixed(4);
       this.form.patchValue({
@@ -284,95 +266,6 @@ export class TablatipoactivofijoComponent implements OnInit {
         this.closeModal();
       }
     })
-  }
-
- /*  EditarTipoActivo(idTipoActivo:string){
-    let p = {id_tipo_activo:idTipoActivo};
-    this.http.get(environment.ruta+'php/tipoactivo/get_tipo_activo.php', {params:p}).subscribe((data:any) => {
-      if (data.codigo == 'success') {
-        this.TipoActivoModel = data.query_result;
-        this.CuentaDepreciacionNiif = data.query_result.cuenta_depreciacion_niif;
-        this.CuentaDepreciacionPcga = data.query_result.cuenta_depreciacion_pcga;
-        this.CuentaNiif = data.query_result.cuenta_niif;
-        this.CuentaPcga = data.query_result.cuenta_pcga;
-        this.CuentaCreditoDepreciacionNiif = data.query_result.cuenta_depreciacion_credito_niif;
-        this.CuentaCreditoDepreciacionPcga = data.query_result.cuenta_depreciacion_credito_pcga;
-        this.ModalTipoActivo.show();
-      }else{
-
-        this.CuentaDepreciacionNiif = '';
-        this.CuentaDepreciacionPcga = '';
-        this.CuentaCreditoDepreciacionNiif = '';
-        this.CuentaCreditoDepreciacionPcga = '';
-        this.CuentaNiif = '';
-        this.CuentaPcga = '';
-        this.SetDatosMensaje(data);
-        this.MostrarSwal.emit(this.SwalDataObj);
-        this.LimpiarModeloTipoActivo();
-      }
-
-    });
-  } */
-
-  ValidateBeforeSubmit():boolean{
-    if (parseInt(this.TipoActivoModel.Vida_Util) == 0)  {
-      this.SwalDataObj.icon = 'warning';
-      this.SwalDataObj.title = 'Alerta';
-      this.SwalDataObj.msg = 'La vida util no puede ser 0';
-      this.MostrarSwal.emit(this.SwalDataObj);
-      return false;
-
-    }else if (parseFloat(this.TipoActivoModel.Porcentaje_Depreciacion_Anual) == 0)  {
-      this.SwalDataObj.icon = 'warning';
-      this.SwalDataObj.title = 'Alerta';
-      this.SwalDataObj.msg = 'La depreciacion anual no puede ser 0';
-      this.MostrarSwal.emit(this.SwalDataObj);
-      return false;
-
-    }else if (this.TipoActivoModel.Id_Plan_Cuenta_Depreciacion_PCGA == '')  {
-      this.SwalDataObj.icon = 'warning';
-      this.SwalDataObj.title = 'Alerta';
-      this.SwalDataObj.msg = 'Escoja un plan cuenta válido para la depreciacion PCGA';
-      this.MostrarSwal.emit(this.SwalDataObj);
-      return false;
-
-    }else if (this.TipoActivoModel.Id_Plan_Cuenta_Depreciacion_NIIF == '')  {
-      this.SwalDataObj.icon = 'warning';
-      this.SwalDataObj.title = 'Alerta';
-      this.SwalDataObj.msg = 'Escoja un plan cuenta válido para la depreciacion NIIF';
-      this.MostrarSwal.emit(this.SwalDataObj);
-      return false;
-
-    }else if (this.TipoActivoModel.Id_Plan_Cuenta_NIIF == '')  {
-      this.SwalDataObj.icon = 'warning';
-      this.SwalDataObj.title = 'Alerta';
-      this.SwalDataObj.msg = 'Escoja un plan cuenta válido para el NIIF';
-      this.MostrarSwal.emit(this.SwalDataObj);
-      return false;
-
-    }else if (this.TipoActivoModel.Id_Plan_Cuenta_PCGA == '')  {
-      this.SwalDataObj.icon = 'warning';
-      this.SwalDataObj.title = 'Alerta';
-      this.SwalDataObj.msg = 'Escoja un plan cuenta válido para el PCGA';
-      this.MostrarSwal.emit(this.SwalDataObj);
-      return false;
-
-    }else if(this.TipoActivoModel.Id_Plan_Cuenta_Credito_Depreciacion_PCGA==''){
-      this.SwalDataObj.icon = 'warning';
-      this.SwalDataObj.title = 'Alerta';
-      this.SwalDataObj.msg = 'Escoja un plan cuenta válido para credito depreciacion  PCGA';
-      this.MostrarSwal.emit(this.SwalDataObj);
-      return false;
-    }else if(this.TipoActivoModel.Id_Plan_Cuenta_Credito_Depreciacion_NIIF==''){
-      this.SwalDataObj.icon = 'warning';
-      this.SwalDataObj.title = 'Alerta';
-      this.SwalDataObj.msg = 'Escoja un plan cuenta válido para credito depreciacion el NIIF';
-      this.MostrarSwal.emit(this.SwalDataObj);
-      return false;
-    } else{
-
-      return true;
-    }
   }
 
   SetFiltros(paginacion:boolean) {
@@ -450,58 +343,8 @@ export class TablatipoactivofijoComponent implements OnInit {
     this.InformacionPaginacion['total'] = this.TotalItems;
   }
 
-  /* LimpiarModeloTipoActivo(){
-    this.TipoActivoModel = {
-      Nombre_Tipo_Activo: '',
-      Categoria: '',
-      Vida_Util: '',
-      Porcentaje_Depreciacion_Anual: '',
-      Id_Plan_Cuenta_Depreciacion_PCGA: '',
-      Id_Plan_Cuenta_Depreciacion_NIIF: '',
-      Id_Plan_Cuenta_Credito_Depreciacion_PCGA: '',
-      Id_Plan_Cuenta_Credito_Depreciacion_NIIF: '',
-      Id_Plan_Cuenta_NIIF: '',
-      Id_Plan_Cuenta_PCGA: ''
-    };
-
-    this.CuentaDepreciacionNiif = '';
-    this.CuentaDepreciacionPcga = '';
-    this.CuentaNiif = '';
-    this.CuentaPcga = '';
-    this.CuentaCreditoDepreciacionNiif='';
-    this.CuentaCreditoDepreciacionPcga='';
-  } */
-
- /*  CerrarModalTipoActivo(){
-    this.ModalTipoActivo.hide();
-    this.LimpiarModeloTipoActivo();
-  } */
-
-  SetDatosMensaje(data:any){
-    this.SwalDataObj.type = data.codigo;
-    this.SwalDataObj.title = data.titulo;
-    this.SwalDataObj.msg = data.mensaje;
-  }
-
-  setParams(coincidencia, tipo) {
-    let p = {coincidencia: coincidencia, tipo: tipo}
-    return p;
-  }
-
-  search_cuenta = (text$: Observable<string>) =>
-  text$
-  .pipe(
-    debounceTime(200),
-    distinctUntilChanged(),
-    switchMap( term => term.length < 4 ? [] :
-      this.getCodigoCuentasFiltradas(term, 'pcga')
-      .map(response => response)
-    )
-  );
-
-  formatter1 = (x: { Nombre_Cuenta: string }) => x.Nombre_Cuenta;
+  //formatter1 = (x: { Nombre_Cuenta: string }) => x.Nombre_Cuenta;
   formatter2 = (x: { Nombre_Niif: string }) => x.Nombre_Niif;
-
   search_cuenta_niif = (text$: Observable<string>) =>
   text$.pipe(
     debounceTime(300),
@@ -509,105 +352,18 @@ export class TablatipoactivofijoComponent implements OnInit {
     tap(() => (this.buscandoCuenta[this.campoEnfocado] = true)),
     switchMap(term =>
       this.http.get<readonly string[]>(environment.ruta + "php/plancuentas/filtrar_cuentas.php", { params: { coincidencia: term, tipo: 'niif' }}).pipe(
+        tap(() => this.busquedaCuentaFallida[this.campoEnfocado] = false),
         catchError(() => {
+          this.busquedaCuentaFallida[this.campoEnfocado] = true;
           return of([]);
         })
       )
     ),
     tap(() => (this.buscandoCuenta[this.campoEnfocado] = false))
   );
-  /* .pipe(
-    debounceTime(200),
-    distinctUntilChanged(),
-    switchMap( term => term.length < 4 ? [] :
-      this.getCodigoCuentasFiltradas(term, 'niif')
-      .map(response => {
-        console.log(response)
-      })
-    )
-    ); */
-
-
-  getCodigoCuentasFiltradas(coincidencia:string,tipo:string):Observable<any>{
-    let p = {coincidencia:coincidencia,tipo:tipo};
-    return this.http.get(environment.ruta+'php/plancuentas/filtrar_cuentas.php', {params:p});
-  }
-
-  AsignarCuentaDepreciacion(model,tipo){
-
-    if (tipo == 'niif') {
-      if (typeof(model) == 'object') {
-
-        this.TipoActivoModel.Id_Plan_Cuenta_Depreciacion_NIIF = model.Id_Plan_Cuentas;
-      }else{
-        this.TipoActivoModel.Id_Plan_Cuenta_Depreciacion_NIIF = '';
-      }
-    } else {
-      if (typeof(model) == 'object') {
-
-        this.TipoActivoModel.Id_Plan_Cuenta_Depreciacion_PCGA = model.Id_Plan_Cuentas;
-      }else{
-        this.TipoActivoModel.Id_Plan_Cuenta_Depreciacion_PCGA = '';
-      }
-    }
-
-
-  }
-
-  AsignarCuentaCreditoDepreciacion(model,tipo){
-
-    if (tipo == 'niif') {
-      if (typeof(model) == 'object') {
-
-        this.TipoActivoModel.Id_Plan_Cuenta_Credito_Depreciacion_NIIF = model.Id_Plan_Cuentas;
-      }else{
-        this.TipoActivoModel.Id_Plan_Cuenta_Credito_Depreciacion_NIIF = '';
-      }
-    } else {
-      if (typeof(model) == 'object') {
-
-        this.TipoActivoModel.Id_Plan_Cuenta_Credito_Depreciacion_PCGA = model.Id_Plan_Cuentas;
-      }else{
-        this.TipoActivoModel.Id_Plan_Cuenta_Credito_Depreciacion_PCGA = '';
-      }
-    }
-
-
-  }
 
   AsignarCuenta(e: NgbTypeaheadSelectItemEvent,tipo: string) {
     this.form.get(tipo+'_NIIF').setValue(e.item.Id_Plan_Cuentas);
     this.form.get(tipo+'_PCGA').setValue(e.item.Id_Plan_Cuentas);
-    console.log(this.form.value);
   }
-
-  AsignarCuentaPcga(model){
-
-    if (typeof(model) == 'object') {
-
-      this.TipoActivoModel.Id_Plan_Cuenta_PCGA = model.Id_Plan_Cuentas;
-    }else{
-      this.TipoActivoModel.Id_Plan_Cuenta_PCGA = '';
-    }
-  }
-  /* EliminarTipoActivoFijo(modelo){
-    let data = new FormData();
-    let model = JSON.stringify(modelo);
-    data.append("modelo", model);
-    this.http.post(environment.ruta+'php/tipoactivo/eliminar_tipo_activo.php', data)
-    .subscribe((data:any) => {
-      if (data.codigo == 'success') {
-        this.LimpiarModeloTipoActivo();
-        this.ModalTipoActivo.hide();
-        this.ConsultaFiltrada();
-      }
-
-      this.SetDatosMensaje(data);
-      this.MostrarSwal.emit(this.SwalDataObj);
-
-    });
-
-  } */
-
-
 }
