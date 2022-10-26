@@ -30,6 +30,8 @@ import { MatExpansionModule } from '@angular/material/expansion';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatInputModule } from '@angular/material/input';
 import { MatSelectModule } from '@angular/material/select';
+import { StructureCompanyModule } from '../../structure-company/structure-company.module';
+import { ParametrosModule } from '../parametros/parametros.module';
 
 @NgModule({
   declarations: [
@@ -54,6 +56,8 @@ import { MatSelectModule } from '@angular/material/select';
   ],
   imports: [
     CommonModule,
+    StructureCompanyModule,
+    ParametrosModule,
     NgSelectModule,
     ComponentsModule,
     FormsModule,

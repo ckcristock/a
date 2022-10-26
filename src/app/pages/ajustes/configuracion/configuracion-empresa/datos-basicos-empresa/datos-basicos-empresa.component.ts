@@ -1,7 +1,10 @@
-import { Component, OnInit, ViewChild } from '@angular/core';
-import { FormBuilder, FormGroup } from '@angular/forms';
+import { Component, DoCheck, EventEmitter, OnInit, Output, ViewChild } from '@angular/core';
+import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { ModalService } from 'src/app/core/services/modal.service';
 import { functionsUtils } from 'src/app/core/utils/functionsUtils';
+import { DataDinamicService } from 'src/app/data-dinamic.service';
 import Swal from 'sweetalert2';
+import { SwalService } from '../../../informacion-base/services/swal.service';
 import { ConfiguracionEmpresaService } from '../configuracion-empresa.service';
 
 @Component({
@@ -10,38 +13,59 @@ import { ConfiguracionEmpresaService } from '../configuracion-empresa.service';
   styleUrls: ['./datos-basicos-empresa.component.scss']
 })
 
-
-export class DatosBasicosEmpresaComponent implements OnInit {
-  @ViewChild('modal') modal: any;
+export class DatosBasicosEmpresaComponent implements OnInit, DoCheck {
+  @Output() update = new EventEmitter
   public company: any = [];
   form: FormGroup;
   file: string;
+  loading: boolean = true;
+  differ: any;
   fileString: string | ArrayBuffer = "";
-  show: boolean = false;
+  documents_types: any = []
   constructor(
     private _configuracionEmpresaService: ConfiguracionEmpresaService,
-    private fb: FormBuilder
-  ) { }
+    private fb: FormBuilder,
+    private _modal: ModalService,
+    private _swal: SwalService,
+    private _data: DataDinamicService
+  ) { 
+  }
+  ngDoCheck() {
+    if (this.company.id) {
+      this.loading = false
+    }
+  }
 
   ngOnInit(): void {
     this.createForm();
-    this.getBasicData();
+    this.getDocumentsTypes()
+    /* this.getBasicData(); */
   }
 
-  openModal() {
-    this.modal.show();
+  getDocumentsTypes() {
+    this._data.getTypeDocuments().subscribe((res:any) => {
+      this.documents_types = res.data
+    })
+  }
+
+  updateData() {
+    this.update.emit()
+  }
+
+  openModal(modal) {
+    this._modal.open(modal, 'lg');
   }
 
   createForm() {
     this.form = this.fb.group({
       id: [this.company.id],
-      name: [''],
-      document_type: [''],
-      tin: [''],
-      dv: [''],
-      creation_date: [''],
-      email_contact: [''],
-      phone: [''],
+      name: ['', Validators.required],
+      document_type: ['', Validators.required],
+      tin: ['', Validators.required],
+      dv: ['', Validators.required],
+      creation_date: ['', Validators.required],
+      email_contact: ['', [Validators.required, Validators.email]],
+      phone: ['', Validators.required],
       logo: ['']
     });
 
@@ -63,7 +87,7 @@ export class DatosBasicosEmpresaComponent implements OnInit {
 
 
   getBasicData() {
-    if (this.company.id) this.show = true;
+
     this.form.patchValue({
       id: this.company.id,
       logo: this.company.logo,
@@ -75,6 +99,7 @@ export class DatosBasicosEmpresaComponent implements OnInit {
       email_contact: this.company.email_contact,
       phone: this.company.phone
     })
+    this.fileString = this.company.logo
   }
 
   saveBasicData() {
@@ -82,13 +107,16 @@ export class DatosBasicosEmpresaComponent implements OnInit {
     body['logo'] = this.file
     this._configuracionEmpresaService.saveCompanyData(body)
       .subscribe((res: any) => {
-        console.log(res);
-        this.modal.hide();
+        this._modal.close();
+        this.updateData();
         this.getBasicData();
-        Swal.fire({
+        this._swal.show({
           icon: 'success',
-          title: 'Actualizado Correctamente'
-        });
+          title: '¡Actualizado!',
+          text: 'Datos actualizados correctamente',
+          timer: 1000,
+          showCancel: false
+        })
       });
   }
 

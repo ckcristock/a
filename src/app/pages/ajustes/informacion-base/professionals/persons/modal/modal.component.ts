@@ -23,16 +23,16 @@ import { PersonService } from '../person.service';
   styleUrls: ['./modal.component.scss'],
 })
 export class ModalComponent implements OnInit {
-  searchEspecialidades:any
-  searchDepartamento:any
-  searchMunicipio:any
-  searchMiempresa:any
-  searchOtras:any
-  searchContrato:any
+  searchEspecialidades: any
+  searchDepartamento: any
+  searchMunicipio: any
+  searchMiempresa: any
+  searchOtras: any
+  searchContrato: any
   fileAvatar: string | ArrayBuffer =
-    'https://ui-avatars.com/api/?background=0D8ABC&color=fff&size=100';
+    'https://ui-avatars.com/api/?background=505D69&color=fff&size=1000&name=Dr';
   fileSgnature: string | ArrayBuffer =
-    'https://ui-avatars.com/api/?background=0D8ABC&color=fff&size=100&name=S';
+    'https://ui-avatars.com/api/?background=505D69&color=fff&size=1000&name=F';
 
   file: any = '';
   forma: FormGroup;
@@ -91,7 +91,7 @@ export class ModalComponent implements OnInit {
     { name: 'Casado(a)', value: 'Casado(a)' },
     { name: 'Viudo(a)', value: 'Viudo(a)' },
     { name: 'Divorciado(a)', value: 'Divorciado(a)' },
-    { name: 'Union Libre', value: 'Union Libre' },
+    { name: 'Union libre', value: 'Union Libre' },
   ];
 
   @Output()
@@ -99,27 +99,27 @@ export class ModalComponent implements OnInit {
 
   buildForm(): void {
     this.forma = this.fb.group({
+      id: [],
+      image_blob: [''],
+      signature_blob: [''],
       type_document_id: [, this._valReactive.required],
       identifier: ['', this._valReactive.required],
+      medical_record: ['', this._valReactive.required],
+      birth_date: ['', this._valReactive.required],
       first_name: ['', this._valReactive.required],
       second_name: [],
-      second_surname: [],
       first_surname: ['', this._valReactive.required],
-      birth_date: ['', this._valReactive.required],
+      second_surname: [],
       marital_status: ['', this._valReactive.required],
-      // company_id: [, this._valReactive.required],
-      // companies: ['', this._valReactive.required],
+      phone: ['', this._valReactive.required],
+      cell_phone: ['', this._valReactive.required],
+      email: ['', this._valReactive.required],
       department_id: ['', this._valReactive.required],
       municipality_id: ['', this._valReactive.required],
       specialities: ['', this._valReactive.required],
-      email: ['', this._valReactive.required],
-      cell_phone: ['', this._valReactive.required],
-      phone: ['', this._valReactive.required],
-      medical_record: ['', this._valReactive.required],
-      image_blob: ['', this._valReactive.required],
-      signature_blob: ['', this._valReactive.required],
       contract: this.fb.array([], Validators.required),
-      id: [],
+      // company_id: [, this._valReactive.required],
+      // companies: ['', this._valReactive.required],
     });
   }
 
@@ -131,16 +131,36 @@ export class ModalComponent implements OnInit {
         .getProfessional(this._person.id)
         .toPromise()
         .then((req: any) => {
-          this.person = Object.assign({}, req.data);
-          this.getCities();
+          this.person = req.data;          
           this.person.specialities = this.transformData(req.data.specialities);
           this.person.companies = this.transformData(req.data.companies);
           let restrictions = req.data.restriction;
           restrictions.forEach((element) => {
             this.newContractUpdate(element);
           });
-          this.forma.patchValue({ id: this._person.id });
+          this.forma.patchValue({
+            id: this._person.id,
+            image_blob: this.person.image_blob,
+            signature_blob: this.person.signature_blob,
+            type_document_id: this.person.type_document_id,
+            identifier: this.person.identifier,
+            medical_record: this.person.medical_record,
+            birth_date: this.person.birth_date,
+            first_name: this.person.first_name,
+            second_name: this.person.second_name,
+            first_surname: this.person.first_surname,
+            second_surname: this.person.second_surname,
+            marital_status: this.person.marital_status,
+            phone: this.person.phone,
+            cell_phone: this.person.cell_phone,
+            email: this.person.email,
+            department_id: this.person.department_id,
+            
+            specialities: this.person.specialities,
+            contract: this.person.contract,
+          });
         });
+        this.getCities();
     }
   };
 
@@ -216,15 +236,13 @@ export class ModalComponent implements OnInit {
   };
 
   guardar = () => {
-    console.log(this.forma.value);
     this.forma.markAllAsTouched();
-    if (this.forma.invalid) return false;
-    this._swal
-      .show({
-        title: '¿Desea Guardar?',
-        text: 'Se Dispone a guardar el nuevo ',
-        icon: 'warning',
-      })
+    /* if (this.forma.invalid) return false; */
+    this._swal.show({
+      title: '¿Desea Guardar?',
+      text: 'Se Dispone a guardar el nuevo ',
+      icon: 'warning',
+    })
       .then((r) => {
         if (r.isConfirmed) {
           if (this._person.id) {
@@ -247,12 +265,15 @@ export class ModalComponent implements OnInit {
   };
 
   getCities = () => {
-    if (this.person.department_id) {
+    if (this.forma.get('department_id').value) {
       this._dataDinamic
-        .getCities({ department_id: this.person.department_id })
+        .getCities({ department_id: this.forma.get('department_id').value })
         .subscribe((req: any) => {
           this.cities = req.data;
           this.cities.unshift({ text: 'Seleccione', value: '' });
+          this.forma.patchValue({
+            municipality_id: this.person.municipality_id,
+          })
         });
     }
   };

@@ -1,26 +1,36 @@
-import { Component, OnInit, ViewChild } from '@angular/core';
-import { FormBuilder, FormGroup } from '@angular/forms';
+import { Component, DoCheck, EventEmitter, OnInit, Output, ViewChild } from '@angular/core';
+import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import Swal from 'sweetalert2';
 import { ConfiguracionEmpresaService } from '../configuracion-empresa.service';
 import { configEmpresa } from '../configuracion';
+import { ModalService } from 'src/app/core/services/modal.service';
+import { SwalService } from '../../../informacion-base/services/swal.service';
 
 @Component({
   selector: 'app-datos-pila',
   templateUrl: './datos-pila.component.html',
   styleUrls: ['./datos-pila.component.scss']
 })
-export class DatosPilaComponent implements OnInit {
-  @ViewChild('modal') modal: any;
+export class DatosPilaComponent implements OnInit, DoCheck {
+  @Output() update = new EventEmitter
   form: FormGroup;
   arls: any = [];
   pilas: any = [];
   pay_operators = configEmpresa.pay_operator;
+  loading: boolean = true;
   arl: any;
   show: boolean = false;
   constructor(
     private _configuracionEmpresaService: ConfiguracionEmpresaService,
-    private fb: FormBuilder
+    private fb: FormBuilder,
+    private _modal: ModalService,
+    private _swal: SwalService,
   ) { }
+  ngDoCheck(): void {
+    if (this.pilas.id) {
+      this.loading = false
+    }
+  }
 
   ngOnInit(): void {
     this.createForm();
@@ -28,18 +38,22 @@ export class DatosPilaComponent implements OnInit {
     this.getArl();
   }
 
-  openModal() {
-    this.modal.show();
+  updateData() {
+    this.update.emit()
+  }
+
+  openModal(modal) {
+    this._modal.open(modal);
   }
 
   createForm() {
     this.form = this.fb.group({
       id: [this.pilas.id],
-      paid_operator: [''],
+      paid_operator: ['', Validators.required],
       law_1429: [''],
       law_590: [''],
       law_1607: [''],
-      arl_id: ['']
+      arl_id: ['', Validators.required]
     });
   }
 
@@ -70,11 +84,15 @@ export class DatosPilaComponent implements OnInit {
   savePilaData() {
     this._configuracionEmpresaService.saveCompanyData(this.form.value)
       .subscribe((res: any) => {
+        this._modal.close();
+        this.updateData();
         this.getPilaData();
-        this.modal.hide();
-        Swal.fire({
+        this._swal.show({
           icon: 'success',
-          title: 'Actualizado Correctamente'
+          title: '¡Actualizado!',
+          text: 'Datos actualizados correctamente',
+          timer: 1000,
+          showCancel: false
         })
       })
   }

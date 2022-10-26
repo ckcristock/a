@@ -1,6 +1,8 @@
 import { Component, OnInit, Output, ViewChild, EventEmitter } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { DomSanitizer } from '@angular/platform-browser';
 import { ActivatedRoute } from '@angular/router';
+import { ModalService } from 'src/app/core/services/modal.service';
 import { consts } from 'src/app/core/utils/consts';
 import { functionsUtils } from 'src/app/core/utils/functionsUtils';
 import { ValidatorsService } from 'src/app/pages/ajustes/informacion-base/services/reactive-validation/validators.service';
@@ -13,36 +15,22 @@ import { DatosBasicosService } from '../datos-basicos.service';
   styleUrls: ['./modal-datos-basicos.component.scss']
 })
 export class ModalDatosBasicosComponent implements OnInit {
-
   @ViewChild('modal') modal: any;
-
   estados = consts.maritalStatus;
   degrees = consts.degree;
   form: FormGroup;
   id: any;
   file: any = '';
   image: any = '';
-  funcionario: any = {
-    cell_phone: '',
-    birth_date: '',
-    address: '',
-    email: '',
-    first_name: '',
-    first_surname: '',
-    second_name: '',
-    second_surname: '',
-    sex: '',
-    identifier: '',
-    marital_status: '',
-    degree: ''
-  }
   data: any;
-  fileString: any =
-    'https://ui-avatars.com/api/?background=0D8ABC&color=fff&size=100';
+  fileString: any;
+  typeImage: any;
   constructor(
     private fb: FormBuilder,
     private basicDataService: DatosBasicosService,
-    private _val: ValidatorsService
+    private _val: ValidatorsService,
+    private _modal: ModalService,
+    private sanitizer: DomSanitizer
   ) { }
 
   ngOnInit() {
@@ -52,32 +40,87 @@ export class ModalDatosBasicosComponent implements OnInit {
   openModal(id: number = null) {
     this.id = id;
     this.getBasicsData();
-    this.modal.show();
+    this._modal.open(this.modal, 'xl')
   }
 
   createForm() {
     this.form = this.fb.group({
+      id: [''],
       image: [''],
       first_name: ['', Validators.required],
-      second_name: ['', Validators.required],
+      second_name: [''],
       first_surname: ['', Validators.required],
-      second_surname: ['', Validators.required],
+      second_surname: [''],
       identifier: ['', Validators.required],
       birth_date: ['', Validators.required],
       address: ['', Validators.required],
       degree: ['', Validators.required],
-      email: [
-        '',
-        [
-          Validators.required,
-          // Validators.pattern('[a-z0-9._%+-]+@[a-z0-9.-]+.[a-z]{2,4}$'),
-        ],
-      ],
+      email: ['', [Validators.required, Validators.email]],
       sex: ['', Validators.required],
       marital_status: ['', Validators.required],
       cell_phone: ['', [Validators.required]]
-      // this._val.minLength(5), this._val.maxLength(10)]]
     });
+  }
+
+  getBasicsData() {
+    this.basicDataService.getBasicsData(this.id)
+      .subscribe((res: any) => {
+        this.form.patchValue({
+          id: res.data.id,
+          image: res.data.image,
+          first_name: res.data.first_name ,
+          second_name: res.data.second_name ,
+          first_surname: res.data.first_surname ,
+          second_surname: res.data.second_surname ,
+          identifier: res.data.identifier ,
+          birth_date: res.data.birth_date ,
+          address: res.data.address ,
+          degree: res.data.degree ,
+          email: res.data.email ,
+          sex: res.data.sex ,
+          marital_status: res.data.marital_status ,
+          cell_phone: res.data.cell_phone ,
+        })
+        this.fileString = res.data.image
+      })
+
+    this.image = this.modal.image;
+
+  }
+  onFileChanged(event) {
+    if (event.target.files[0]) {
+      let file = event.target.files[0];
+      var reader = new FileReader();
+      reader.readAsDataURL(event.target.files[0]);
+      reader.onload = (event) => {
+        this.fileString = (<FileReader>event.target).result;
+        const type = { ext: this.fileString };
+        this.typeImage = type.ext.match(/[^:/]\w+(?=;|,)/)[0];
+      };
+      functionsUtils.fileToBase64(file).subscribe((base64) => {
+        this.file = base64;
+      });
+    }
+  }
+
+  guardar() {
+    this.form.markAllAsTouched();
+    if (this.form.invalid) { return false; }
+    this.form.patchValue({
+      image: this.fileString,
+    })
+    this.basicDataService.updateBasicData(this.form.value, this.id)
+      .subscribe(res => {
+        this._modal.close()
+        this.basicDataService.datos$.next();
+        Swal.fire({
+          icon: 'success',
+          title: 'Editado con éxito',
+          text: 'Se han actualizado los cambios correctamente'
+        })
+        this.basicDataService.datos$.emit()
+        this.image = res['image_blob'];
+      });
   }
 
   get first_name_valid() {
@@ -86,21 +129,9 @@ export class ModalDatosBasicosComponent implements OnInit {
     );
   }
 
-  get first_surname_valid() {
-    return (
-      this.form.get('first_surname').invalid && this.form.get('first_surname').touched
-    );
-  }
-
   get second_name_valid() {
     return (
       this.form.get('second_name').invalid && this.form.get('second_name').touched
-    );
-  }
-
-  get second_surname_valid() {
-    return (
-      this.form.get('second_surname').invalid && this.form.get('second_surname').touched
     );
   }
 
@@ -153,50 +184,5 @@ export class ModalDatosBasicosComponent implements OnInit {
   }
   get degree_valid() {
     return this.form.get('degree').invalid && this.form.get('degree').touched;
-  }
-
-  onFileChanged(event) {
-    if (event.target.files[0]) {
-      let file = event.target.files[0];
-      var reader = new FileReader();
-      reader.readAsDataURL(event.target.files[0]);
-      reader.onload = (event) => {
-        this.fileString = (<FileReader>event.target).result;
-      };
-      functionsUtils.fileToBase64(file).subscribe((base64) => {
-        this.file = base64;
-      });
-    }
-  }
-
-  getBasicsData() {
-    this.basicDataService.getBasicsData(this.id)
-      .subscribe((res: any) => {
-        this.funcionario = res.data;
-      })
-
-    this.image = this.modal.image;
-
-  }
-
-  guardar() {
-    this.form.markAllAsTouched();
-
-    if (this.form.invalid) { return false; }
-    if (this.form.get('image').dirty) this.funcionario.image = this.fileString
-    this.basicDataService.updateBasicData(this.funcionario, this.id)
-      .subscribe(res => {
-        this.modal.hide();
-        this.basicDataService.datos$.next();
-        Swal.fire({
-          icon: 'success',
-          title: 'Editado con éxito',
-          text: 'Se han actualizado los cambios correctamente'
-        })
-        this.basicDataService.datos$.emit()
-        this.image = res['image_blob'];
-      });
-
-
   }
 }

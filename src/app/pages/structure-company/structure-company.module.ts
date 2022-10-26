@@ -31,6 +31,7 @@ import { MatExpansionModule, MatFormFieldModule, MatInputModule, MatSelectModule
     MatInputModule,
     MatSelectModule
   ],
-  declarations: [EstructuraEmpresaComponent]
+  declarations: [EstructuraEmpresaComponent],
+  exports: [EstructuraEmpresaComponent]
 })
 export class StructureCompanyModule { }

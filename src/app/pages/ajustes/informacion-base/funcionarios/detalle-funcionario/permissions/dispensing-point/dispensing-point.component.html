@@ -1,24 +1,23 @@
 <div class="row">
-  <div class="col-5">
-    <label for="dependency_id" class="col-form-label text-left"
-      >Punto dispensación</label
-    >
+  <div class="col-12">
     <ng-select
       [items]="points"
       required
       bindLabel="text"
       bindValue="value"
+      appearance="outline"
+      [appendTo]="'body'"
+      placeholder="Punto de dispensación"
       [(ngModel)]="dispensing_point_id"
       placeholder="Seleccione "
       name="dispensing_point_id"
       loadingText="loading"
       ngDefaultControl
-
     >
     </ng-select>
   </div>
-  <div class="col-6 text-left d-flex align-items-end">
-    <button class="btn btn-primary" (click)="save()">
+  <div class="col-12">
+    <button class="btn btn-primary btn-sm btn-block mt-2" (click)="save()">
       <i
         class="fa"
         [ngClass]="{ 'fa-save': !saving, 'fa-sync fa-spin': saving == true }"
