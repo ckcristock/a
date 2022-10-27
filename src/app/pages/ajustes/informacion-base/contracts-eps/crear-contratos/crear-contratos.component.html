@@ -165,8 +165,7 @@
       </div>
       <div class="row">
         <div
-          class="col-md-6"
-          [ngClass]="dataForm.get('department_id').valid ? 'mb-0' : 'mb-4'"
+          class="col-md-6 mb-4"
         >
           <ng-select
             [items]="departments"
@@ -185,15 +184,14 @@
           </ng-select>
           <small>
             <app-show-errors
-              class="text-danger"
+              class="text-danger position-absolute"
               [ctrl]="dataForm.get('department_id')"
             >
             </app-show-errors>
           </small>
         </div>
         <div
-          class="col-md-6"
-          [ngClass]="dataForm.get('municipality_id').valid ? 'mb-0' : 'mb-4'"
+          class="col-md-6 mb-4"
         >
           <ng-select
             [items]="municipalities"
@@ -212,15 +210,14 @@
           </ng-select>
           <small>
             <app-show-errors
-              class="text-danger"
+              class="text-danger position-absolute"
               [ctrl]="dataForm.get('municipality_id')"
             >
             </app-show-errors>
           </small>
         </div>
         <div
-          class="col-md-6"
-          [ngClass]="dataForm.get('company_id').valid ? 'mb-0' : 'mb-4'"
+          class="col-md-6 mb-4"
         >
           <ng-select
             [items]="companys"
@@ -239,15 +236,14 @@
           </ng-select>
           <small>
             <app-show-errors
-              class="text-danger"
+              class="text-danger position-absolute"
               [ctrl]="dataForm.get('company_id')"
             >
             </app-show-errors>
           </small>
         </div>
         <div
-          class="col-md-6"
-          [ngClass]="dataForm.get('location_id').valid ? 'mb-0' : 'mb-4'"
+          class="col-md-6 mb-4"
         >
           <ng-select
             [items]="locations"
@@ -266,7 +262,7 @@
           </ng-select>
           <small>
             <app-show-errors
-              class="text-danger"
+              class="text-danger position-absolute"
               [ctrl]="dataForm.get('location_id')"
             >
             </app-show-errors>
