@@ -2,13 +2,13 @@
   <div class="card-body">
     <div class="row card-title d-flex justify-content-between">
       <div class="col-md-6 px-0">
-        <h4 class="text-primary">Fondo de pensión</h4>
+        <h5 class="text-primary">Fondo de pensión</h5>
       </div>
       <div class="col-md-6 px-0 text-right">
         <div class="btn-group rounded w-sm-100">
           <button
             class="btn btn-primary btn-sm"
-            (click)="openConfirm(add, 'Nuevo fondo de pensión', true )"
+            (click)="openConfirm(add, 'Nuevo fondo de pensión', true)"
           >
             <i class="fa fa-plus"></i> Agregar
           </button>
@@ -47,7 +47,7 @@
             <th>Nombre</th>
             <th>Código</th>
             <th>NIT</th>
-            <th ><i class="mdi mdi-chevron-down"></i></th>
+            <th><i class="mdi mdi-chevron-down"></i></th>
           </tr>
         </thead>
         <tbody>
@@ -103,23 +103,23 @@
         </tbody>
       </table>
     </div>
+    <ngb-pagination
+      class="d-flex justify-content-center pagination-rounded pagination-sm"
+      [collectionSize]="pagination.collectionSize"
+      [pageSize]="pagination.pageSize"
+      [(page)]="pagination.page"
+      (pageChange)="getPensionFunds($event)"
+      aria-label="Default pagination"
+      maxSize="5"
+      rotate="true"
+      ellipses="false"
+      boundaryLinks="true"
+      rotate="true"
+      ellipses="false"
+      boundaryLinks="true"
+    >
+    </ngb-pagination>
   </div>
-  <ngb-pagination
-    class="d-flex justify-content-center pagination-rounded pagination-sm"
-    [collectionSize]="pagination.collectionSize"
-    [pageSize]="pagination.pageSize"
-    [(page)]="pagination.page"
-    (pageChange)="getPensionFunds($event)"
-    aria-label="Default pagination"
-    maxSize="5"
-    rotate="true"
-    ellipses="false"
-    boundaryLinks="true"
-    rotate="true"
-    ellipses="false"
-    boundaryLinks="true"
-  >
-  </ngb-pagination>
 </div>
 
 <ng-template #add let-modal>
@@ -149,7 +149,11 @@
             required
           />
         </mat-form-field>
-        <mat-form-field class="col-md-6" *ngIf="boolNuevoFondo" appearance="outline">
+        <mat-form-field
+          class="col-md-6"
+          *ngIf="boolNuevoFondo"
+          appearance="outline"
+        >
           <mat-label>Código</mat-label>
           <input
             matInput
@@ -160,7 +164,11 @@
             required
           />
         </mat-form-field>
-        <mat-form-field class="col-md-6" *ngIf="boolNuevoFondo" appearance="outline">
+        <mat-form-field
+          class="col-md-6"
+          *ngIf="boolNuevoFondo"
+          appearance="outline"
+        >
           <mat-label>NIT</mat-label>
           <input
             matInput

@@ -9,7 +9,8 @@ import Swal from 'sweetalert2';
 import { FondoPensionService } from './fondo-pension.service';
 import { ValidatorsService } from '../services/reactive-validation/validators.service';
 import { MatAccordion } from '@angular/material/expansion';
-import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
+import { ModalService } from 'src/app/core/services/modal.service';
+import { SwalService } from '../services/swal.service';
 
 @Component({
   selector: 'app-fondo-pension',
@@ -41,8 +42,9 @@ export class FondoPensionComponent implements OnInit {
     private _fondoPensionService: FondoPensionService,
     private _validators: ValidatorsService,
     private fb: FormBuilder,
-    private modalService: NgbModal
-  ) {}
+    private _modal: ModalService,
+    private _swal: SwalService,
+  ) { }
 
   ngOnInit(): void {
     this.getPensionFunds();
@@ -60,30 +62,14 @@ export class FondoPensionComponent implements OnInit {
   }
 
   closeResult = '';
-  public openConfirm(confirm, titulo, nuevoFondo) {
+
+  openConfirm(confirm, titulo, nuevoFondo) {
     this.boolNuevoFondo = nuevoFondo;
     this.selected = titulo;
-    this.modalService
-      .open(confirm, {
-        ariaLabelledBy: 'modal-basic-title',
-        size: 'md',
-        scrollable: true,
-      })
-      .result.then(
-        (result) => {
-          this.closeResult = `Closed with: ${result}`;
-        },
-        (reason) => {
-          this.closeResult = `Dismissed ${this.getDismissReason(reason)}`;
-        }
-      );
-  }
-  private getDismissReason(reason: any) {
-    this.form.reset();
+    this._modal.open(confirm);
   }
 
   getData(data) {
-    this.selected = 'Actualizar Fondo de Pensión';
     this.pension = { ...data };
     this.form.patchValue({
       id: this.pension.id,
@@ -122,35 +108,31 @@ export class FondoPensionComponent implements OnInit {
       id: contract.id,
       status,
     };
-    Swal.fire({
-      title: '¿Estas seguro?',
-      text:
-        status === 'Inactivo'
-          ? 'El Fondo de pensión se inactivará!'
-          : 'El Fondo de pensión se activará',
-      icon: 'warning',
-      showCancelButton: true,
-      confirmButtonColor: '#3085d6',
-      cancelButtonColor: '#d33',
-      cancelButtonText: 'Cancelar',
-      confirmButtonText:
-        status === 'Inactivo' ? 'Si, Inhabilitar' : 'Si, activar',
+    this._swal.show({
+      icon: 'question',
+      title: '¿Estás seguro(a)?',
+      showCancel: true,
+      text: status === 'Inactivo'
+        ? '¡El fondo de pensión se inactivará!'
+        : '¡El fondo de pensión se activará!',
     }).then((result) => {
       if (result.isConfirmed) {
         this._fondoPensionService.createPensionFund(data).subscribe((res) => {
           this.getPensionFunds();
-          this.modalService.dismissAll();
-          Swal.fire({
+          this._modal.close();
+          this._swal.show({
+            icon: 'success',
             title:
               status === 'Inactivo'
-                ? 'Fondo de Pensión Inhabilitado!'
-                : 'Fondo de Pensión activado',
+                ? '¡Fondo de pensión nnhabilitado!'
+                : '¡Fondo de pensión activado!',
+            showCancel: false,
             text:
               status === 'Inactivo'
-                ? 'El Fondo de Pensión ha sido Inhabilitada con éxito.'
-                : 'El Fondo de Pensión ha sido activada con éxito.',
-            icon: 'success',
-          });
+                ? 'El fondo de pensión ha sido anulado con éxito.'
+                : 'El fondo de pensión ha sido activado con éxito.',
+            timer: 1000
+          })
         });
       }
     });
@@ -158,33 +140,35 @@ export class FondoPensionComponent implements OnInit {
 
   createPensionFund() {
     let data = {};
-    if(this.boolNuevoFondo){
+    if (this.boolNuevoFondo) {
       data = this.form.value;
-    }else{
+    } else {
       data = {
         id: this.form.get("id").value,
-        name: this.form.get("name").value      }
+        name: this.form.get("name").value
+      }
     }
     this._fondoPensionService.createPensionFund(data).subscribe(
-        (res: any) => {
-          this.getPensionFunds();
-          this.modalService.dismissAll();
-          Swal.fire({
-            icon: 'success',
-            title: res.data,
-            timer: 1000,
-            text: `Se ha ${this.boolNuevoFondo?'creado':'actualizado'} el fondo con éxito.`,
-          });
-        },
-        (err) => {
-          Swal.fire({
-            title: 'Ooops!',
-            html: err.error.errors.code + '<br>' + err.error.errors.nit,
-            icon: 'error',
-            allowOutsideClick: false,
-            allowEscapeKey: false,
-          });
-        }
-      )
+      (res: any) => {
+        this.getPensionFunds();
+        this._modal.close();
+        this._swal.show({
+          icon: 'success',
+          title: res.data,
+          showCancel: false,
+          text: `Se ha ${this.boolNuevoFondo ? 'creado' : 'actualizado'} el fondo con éxito.`,
+          timer: 1000
+        });
+      },
+      (err) => {
+        Swal.fire({
+          title: 'Ooops!',
+          html: err.error.errors.code + '<br>' + err.error.errors.nit,
+          icon: 'error',
+          allowOutsideClick: false,
+          allowEscapeKey: false,
+        });
+      }
+    )
   }
 }
