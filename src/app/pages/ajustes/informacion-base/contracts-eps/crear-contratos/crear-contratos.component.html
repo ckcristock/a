@@ -70,9 +70,9 @@
             id="payment_modality"
             formControlName="payment_modality"
           >
-            <mat-option value="Capita">Capita</mat-option>
-            <mat-option value="Evento">Evento</mat-option>
-            <mat-option value="Particular">Particular</mat-option>
+            <mat-option value="1">Capita</mat-option>
+            <mat-option value="2">Evento</mat-option>
+            <mat-option value="3">Particular</mat-option>
           </mat-select>
           <mat-error>
             <app-show-errors [ctrl]="dataForm.get('payment_modality')">
@@ -162,11 +162,21 @@
             </app-show-errors>
           </mat-error>
         </mat-form-field>
+        <mat-form-field class="col" appearance="outline">
+          <mat-label>Tipo de servicio</mat-label>
+          <mat-select multiple="true" formControlName="type_service_id">
+            <mat-option *ngFor="let item of typeService" [value]="item.value">{{
+              item.text
+            }}</mat-option>
+          </mat-select>
+          <mat-error>
+            <app-show-errors [ctrl]="dataForm.get('regimen_id')">
+            </app-show-errors>
+          </mat-error>
+        </mat-form-field>
       </div>
       <div class="row">
-        <div
-          class="col-md-6 mb-4"
-        >
+        <div class="col-md-6 mb-4">
           <ng-select
             [items]="departments"
             multiple="true"
@@ -190,9 +200,7 @@
             </app-show-errors>
           </small>
         </div>
-        <div
-          class="col-md-6 mb-4"
-        >
+        <div class="col-md-6 mb-4">
           <ng-select
             [items]="municipalities"
             multiple="true"
@@ -216,12 +224,9 @@
             </app-show-errors>
           </small>
         </div>
-        <div
-          class="col-md-6 mb-4"
-        >
+        <div class="col-md-6 mb-4">
           <ng-select
             [items]="companys"
-            [multiple]="true"
             required
             bindLabel="text"
             bindValue="value"
@@ -242,9 +247,7 @@
             </app-show-errors>
           </small>
         </div>
-        <div
-          class="col-md-6 mb-4"
-        >
+        <div class="col-md-6 mb-4">
           <ng-select
             [items]="locations"
             multiple="true"
