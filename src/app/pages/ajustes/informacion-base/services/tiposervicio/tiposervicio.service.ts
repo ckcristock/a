@@ -9,26 +9,30 @@ import { Observable } from 'rxjs';
 })
 export class TiposervicioService {
 
-  constructor(private client:HttpClient) { }
+  constructor(private client: HttpClient) { }
 
-  getTipos():Observable<any>{
-    return this.client.get(environment.ruta +'php/GENERALES/tiposervicio/get_tipos_servicio.php');
+  getTipos(): Observable<any> {
+    return this.client.get(environment.ruta + 'php/GENERALES/tiposervicio/get_tipos_servicio.php');
   }
 
-  getTiposAll():Observable<any>{
-    return this.client.get(environment.ruta +'php/GENERALES/tiposervicio/get_tipos_servicio_all.php');
+  getTypes(): Observable<any> {
+    return this.client.get(`${environment.base_url}/type-service`);
   }
 
-  getTiposServiciosNgSelect(idServicio:string):Observable<any>{
-    let p = {id_servicio:idServicio};
-    return this.client.get(environment.ruta +'php/GENERALES/tiposervicio/get_tipos_servicio_ng_select.php', {params:p});
+  getTiposAll(): Observable<any> {
+    return this.client.get(environment.ruta + 'php/GENERALES/tiposervicio/get_tipos_servicio_all.php');
   }
 
-  public GetServiciosTipoServicio():Observable<any>{
-    return this.client.get(environment.ruta +'php/dispensaciones/get_servicios.php');
+  getTiposServiciosNgSelect(idServicio: string): Observable<any> {
+    let p = { id_servicio: idServicio };
+    return this.client.get(environment.ruta + 'php/GENERALES/tiposervicio/get_tipos_servicio_ng_select.php', { params: p });
   }
-  public GetServicios():Observable<any>{
-    return this.client.get(environment.ruta +'php/dispensaciones/get_servicios_tipo_servicio.php');
+
+  public GetServiciosTipoServicio(): Observable<any> {
+    return this.client.get(environment.ruta + 'php/dispensaciones/get_servicios.php');
+  }
+  public GetServicios(): Observable<any> {
+    return this.client.get(environment.ruta + 'php/dispensaciones/get_servicios_tipo_servicio.php');
   }
 
 }
