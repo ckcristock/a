@@ -11,6 +11,8 @@ import { Observable, of, OperatorFunction, Subscription } from 'rxjs';
 import { catchError, debounceTime, distinctUntilChanged, map, switchMap, tap } from 'rxjs/operators';
 import { WarningMessage, showConfirmCancelWhitoutMessage, errorMessage, successMessage } from 'src/app/core/utils/confirmMessage';
 import { ActivatedRoute, Router } from '@angular/router';
+import { SwalService } from '../../services/swal.service';
+import { TiposervicioService } from '../../services/tiposervicio/tiposervicio.service';
 
 
 
@@ -36,6 +38,7 @@ export class CrearContratosComponent implements OnInit {
   public regimes: Array<object> = [];
   public companys: Array<object> = [];
   public specialities: Array<object> = [];
+  public typeService: Array<object> = [];
   public municipalities: Array<object> = [];
   public technicalNotes: Array<object> = [];
   public years: Array<any> = ['', 2018, 2019, 2020, 2021, 2022, 2023, 2024, 2025, 2026, 2027, 2028, 2029, 2030];
@@ -64,7 +67,9 @@ export class CrearContratosComponent implements OnInit {
     private _dataDinamicService: DataDinamicService,
     private _openAgendaService: OpenAgendaService,
     private router: Router,
-    private route: ActivatedRoute
+    private route: ActivatedRoute,
+    private _swal: SwalService,
+    private _typeService: TiposervicioService,
   ) { }
 
   ngOnInit() {
@@ -85,7 +90,6 @@ export class CrearContratosComponent implements OnInit {
 
   getData() {
     this._epsService.getInfoEpsContract(this.id).subscribe((data: Response) => {
-      console.log(data)
       this.Policies = data.data.policies;
       this.dataForm.patchValue(
         {
@@ -104,17 +108,14 @@ export class CrearContratosComponent implements OnInit {
           municipality_id: this.transformData2(data.data.municipalities),
           regimen_id: this.transformData2(data.data.regimentypes),
           location_id: this.transformData2(data.data.locations),
+          type_service_id: this.transformData2(data.data.type_service),
           company_id: data.data.company_id,
-          /*
-          company_id: this.transformData(data.data.companies),
-          // 
-          
           poliza: this.fillPolicies(data.data.policies),
-          technicalNote: this.fillTechnicalNotes(data.data.technic_notes) */
+          technicalNote: this.fillTechnicalNotes(data.data.technic_notes) 
+          //company_id: this.transformData(data.data.companies),
         }
       );
       console.log(this.dataForm.value)
-      /* console.log([this.dataForm.value, this.transformData(data.data.companies)]); */
     })
   }
 
@@ -128,9 +129,15 @@ export class CrearContratosComponent implements OnInit {
     this.getPaymentMethod()
     this.getBenefitsPlan()
     this.getRegimes()
+    this.getTypeServices();
     await this.getCompanies()
   }
 
+  getTypeServices() {
+    this._typeService.getTypes().subscribe((res: Response) => {
+      this.typeService = res.data
+    })
+  }
 
   getAdministrators = () => {
     this._epsService.getAllEps().subscribe((resp: Response) => {
@@ -379,17 +386,32 @@ export class CrearContratosComponent implements OnInit {
     }
 
     if (count == 0 || count >= 2) {
-      WarningMessage(undefined, 'Debe elegir una Nota tecnica a aplicar')
+      this._swal.show({
+        icon: 'error',
+        title: 'Operación denegada',
+        showCancel: false,
+        text: 'Debes seleccionar una nota técnica.',
+      })
       return false
     }
-
-    showConfirmCancelWhitoutMessage('Crear', 'Contrata').then((result: any) => {
+    this._swal.show({
+      icon: 'question',
+      title: '¿Estás seguro(a)?',
+      showCancel: true,
+      text: ''
+    }).then((result: any) => {
       if (result.isConfirmed) {
         this.subscription.add(
           this._epsService.createNewEpsContact(this.dataForm.value)
             .subscribe((res: Response) => {
               if (res.code === 200) {
-                successMessage(res.data)
+                this._swal.show({
+                  icon: 'success',
+                  title: res.data,
+                  showCancel: false,
+                  text: '',
+                  timer: 1000
+                })
                 this.router.navigateByUrl('/ajustes/informacion-base/contracts');
               }
               else {
@@ -440,23 +462,24 @@ export class CrearContratosComponent implements OnInit {
       name: ['', Validators.required],
       code: ['', Validators.required],
       number: ['', [Validators.required]],
+      payment_modality: [[], /* [Validators.required] */],
       administrator_id: [, [Validators.required]],
+      regimen_id: ['', [Validators.required]],
+      price: ['', [Validators.required]],
+      start_date: ['', [Validators.required, this.dateRangeValidator]],
+      end_date: ['', [Validators.required, this.dateRangeValidator]],
+      department_id: ['', [Validators.required]],
+      municipality_id: ['', [Validators.required]],
+      company_id: ['', [Validators.required]],
+      location_id: [[], [Validators.required]],
+      type_service_id:[[], [Validators.required]],
+      poliza: this.frmbuilder.array([], Validators.required),
+      technicalNote: this.frmbuilder.array([], /* Validators.required */)
       // contract_type: ['', Validators.required],
       // payment_method_id: ['', [Validators.required]],
       // benefits_plan_id: ['', [Validators.required]],
-      start_date: ['', [Validators.required, this.dateRangeValidator]],
-      end_date: ['', [Validators.required, this.dateRangeValidator]],
-      price: ['', [Validators.required]],
-      // price_list_id: ['', [Validators.required]],
       // variation: ['', [Validators.required, Validators.pattern(this.regexp)]],
-      company_id: ['', [Validators.required]],
-      department_id: ['', [Validators.required]],
-      municipality_id: ['', [Validators.required]],
-      regimen_id: ['', [Validators.required]],
-      location_id: [[], [Validators.required]],
-      payment_modality: [[], [Validators.required]],
-      poliza: this.frmbuilder.array([], Validators.required),
-      technicalNote: this.frmbuilder.array([], Validators.required)
+      // price_list_id: ['', [Validators.required]],
     });
   }
 

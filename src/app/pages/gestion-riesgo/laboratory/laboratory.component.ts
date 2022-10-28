@@ -20,6 +20,8 @@ import { SwalService } from '../../ajustes/informacion-base/services/swal.servic
 import { LaboratoryService } from './laboratory.service';
 import { Patient } from 'src/app/core/models/patient.model';
 import { Router } from '@angular/router';
+import { UserService } from 'src/app/core/services/user.service';
+
 
 @Component({
   selector: 'undefined-laboratory',
@@ -80,6 +82,7 @@ export class LaboratoryComponent implements OnInit {
   closeResult = '';
   motivos: any[] = [];
   tubes: any[] = [];
+  ips: any
   public existPtientForShow: boolean = false;
   public patient;
   public getDate;
@@ -91,8 +94,13 @@ export class LaboratoryComponent implements OnInit {
     private _swal: SwalService,
     private _validatorsService: ValidatorsService,
     private _queryPatient: QueryPatient,
-    private _router: Router
-  ) { }
+    private _router: Router,
+    private _user: UserService,
+  ) { 
+    this.ips = this._user.user.person.company_worked.id
+    this.filtros.company_id = this.ips
+    this.filtros.person_id = this._user.user.person.id
+  }
   ngOnInit() {
     this.getMotivos();
     this.getRange()

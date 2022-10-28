@@ -27,7 +27,7 @@
                 >No hemos encontrado resultados</mat-hint
               >
             </mat-form-field> -->
-            <mat-form-field class="col-lg-6" appearance="outline">
+            <mat-form-field class="col-lg-12" appearance="outline">
               <mat-label>Diagnóstico</mat-label>
               <input
                 matInput
@@ -45,7 +45,7 @@
               >
             </mat-form-field>
             <mat-form-field class="col-lg-6" appearance="outline">
-              <mat-label>Profesional</mat-label>
+              <mat-label>Profesional toma de muestras</mat-label>
               <mat-select formControlName="professional_id" required>
                 <mat-option
                   *ngFor="let option of profesionales"
@@ -67,7 +67,7 @@
               />
             </mat-form-field>
 
-            <mat-form-field class="col" appearance="outline">
+            <mat-form-field class="col-8" appearance="outline">
               <mat-label>Contrato</mat-label>
               <mat-select formControlName="contract_id" required>
                 <mat-option
