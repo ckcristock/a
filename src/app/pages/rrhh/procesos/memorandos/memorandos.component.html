@@ -206,7 +206,7 @@
       <tbody>
         <tr
           *ngFor="let type of types"
-          [ngClass]="{ 'bg-danger text-white': type.status === 'Inactivo' }"
+          [ngClass]="{ 'text-danger font-weight-bold': type.status === 'Inactivo' }"
         >
           <td scope="row">{{ type.text }}</td>
           <td class="text-center">
@@ -312,7 +312,7 @@
       <tbody>
         <tr
           *ngFor="let type of types"
-          [ngClass]="{ 'bg-danger text-white': type.status === 'Inactivo' }"
+          [ngClass]="{ 'text-danger font-weight-bold': type.status === 'Inactivo' }"
         >
           <td scope="row">{{ type.text }}</td>
           <td class="text-center">

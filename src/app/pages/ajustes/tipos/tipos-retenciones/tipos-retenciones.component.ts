@@ -152,9 +152,10 @@ export class TiposRetencionesComponent implements OnInit {
       this.getRetentionTypes();
       this._swal.show({
         icon: 'success',
-        title: 'Proceso Satisfactorio',
-        text: 'El tipo de Retención ha sido creado con éxito.',
-        showCancel: false
+        title: 'Proceso satisfactorio',
+        text: 'El tipo de retención ha sido creado con éxito.',
+        showCancel: false,
+        timer: 1000
       });
     })
   }
@@ -166,17 +167,18 @@ export class TiposRetencionesComponent implements OnInit {
     }
     this._swal.show({
       icon: 'question',
-      title: '¿Estas Seguro?',
-      text: (data.state == 'Inactivo' ? '¡El tipo de Retención de anulará!' : '¡El tipo de Retención de activará!')
+      title: '¿Estás seguro(a)?',
+      text: (data.state == 'Inactivo' ? '¡El tipo de retención de anulará!' : '¡El tipo de retención de activará!')
     }).then((r) => {
       if (r.isConfirmed) {
         this._retentionType.updateOrCreateRetentionType(data).subscribe((r) => {
           this.getRetentionTypes();
           this._swal.show({
             icon: 'success',
-            title: '¿Estas Seguro?',
-            text: (data.state == 'Inactivo' ? 'El tipo de Retención ha sido anulado con éxito.' : 'El tipo de Retención ha sido activado con éxito.'),
-            showCancel: false
+            title: 'Correcto',
+            text: (data.state == 'Inactivo' ? 'El tipo de retención ha sido anulado con éxito.' : 'El tipo de retención ha sido activado con éxito.'),
+            showCancel: false,
+            timer: 1000
           })
         })
       }

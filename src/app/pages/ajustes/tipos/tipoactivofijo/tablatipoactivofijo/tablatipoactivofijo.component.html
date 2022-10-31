@@ -12,11 +12,7 @@
           <i class="fa fa-plus"></i>
           Agregar<!--  (click)="ModalTipoActivo.show();" -->
         </button>
-        <button
-          class="btn btn-info btn-sm"
-          style="float: right"
-          (click)="openClose()"
-        >
+        <button class="btn btn-info btn-sm" (click)="openClose()">
           <i class="fas fa-sliders-h"></i> Filtros
         </button>
       </div>
@@ -25,59 +21,61 @@
   <hr class="line" />
   <mat-accordion multi>
     <mat-expansion-panel class="mat-elevation-z0">
-      <mat-form-field class="col-md-3 pl-0" appearance="outline">
-        <mat-label>Nombre</mat-label>
-        <input
-          matInput
-          type="text"
-          placeholder="Busca por nombre"
-          [(ngModel)]="Filtros.nombre"
-          (input)="ConsultaFiltrada()"
-          name="name"
-          autocomplete="off"
-        />
-      </mat-form-field>
-      <mat-form-field class="col-md-3 pl-0" appearance="outline">
-        <mat-label>Categoría</mat-label>
-        <input
-          matInput
-          type="text"
-          placeholder="Busca por categoría"
-          [(ngModel)]="Filtros.categoria"
-          (input)="ConsultaFiltrada()"
-          name="name"
-          autocomplete="off"
-        />
-      </mat-form-field>
-      <mat-form-field class="col-md-3 pl-0" appearance="outline">
-        <mat-label>Vida útil</mat-label>
-        <input
-          matInput
-          type="text"
-          placeholder="Busca por vida útil (Número de meses)"
-          [(ngModel)]="Filtros.vida_util"
-          (input)="ConsultaFiltrada()"
-          name="name"
-          autocomplete="off"
-        />
-      </mat-form-field>
-      <mat-form-field class="col-md-3 pl-0" appearance="outline">
-        <mat-label>Depreciación</mat-label>
-        <input
-          matInput
-          type="text"
-          placeholder="Busca por porcentaje de depreciación"
-          [(ngModel)]="Filtros.depreciacion"
-          (input)="ConsultaFiltrada()"
-          name="name"
-          autocomplete="off"
-        />
-      </mat-form-field>
+      <div class="row">
+        <mat-form-field class="col" appearance="outline">
+          <mat-label>Nombre</mat-label>
+          <input
+            matInput
+            type="text"
+            placeholder="Busca por nombre"
+            [(ngModel)]="Filtros.nombre"
+            (input)="ConsultaFiltrada()"
+            name="name"
+            autocomplete="off"
+          />
+        </mat-form-field>
+        <mat-form-field class="col" appearance="outline">
+          <mat-label>Categoría</mat-label>
+          <input
+            matInput
+            type="text"
+            placeholder="Busca por categoría"
+            [(ngModel)]="Filtros.categoria"
+            (input)="ConsultaFiltrada()"
+            name="name"
+            autocomplete="off"
+          />
+        </mat-form-field>
+        <mat-form-field class="col" appearance="outline">
+          <mat-label>Vida útil</mat-label>
+          <input
+            matInput
+            type="text"
+            placeholder="Busca por vida útil (Número de meses)"
+            [(ngModel)]="Filtros.vida_util"
+            (input)="ConsultaFiltrada()"
+            name="name"
+            autocomplete="off"
+          />
+        </mat-form-field>
+        <mat-form-field class="col" appearance="outline">
+          <mat-label>Depreciación</mat-label>
+          <input
+            matInput
+            type="text"
+            placeholder="Busca por porcentaje de depreciación"
+            [(ngModel)]="Filtros.depreciacion"
+            (input)="ConsultaFiltrada()"
+            name="name"
+            autocomplete="off"
+          />
+        </mat-form-field>
+      </div>
     </mat-expansion-panel>
   </mat-accordion>
   <div class="rounded-top table-responsive">
     <table
-      class="table table-bordered table-hover table-striped table-sm"
+      class="table table-bordered table-striped table-sm"
       *ngIf="!Cargando && TiposActivosFijos.length > 0; else notData"
     >
       <thead class="bg-light">
@@ -92,7 +90,7 @@
           <!-- <th class="align-middle">Cuenta PCGA</th> -->
           <!-- <th class="align-middle">Cuenta Credito PCGA</th> -->
           <th class="align-middle">Cuenta Credito</th>
-          <th class="align-middle col-1">Acciones</th>
+          <th class="align-middle col-1"><i class="mdi mdi-chevron-down"></i></th>
         </tr>
       </thead>
       <tbody>
@@ -128,7 +126,8 @@
               </button>
               <div ngbDropdownMenu>
                 <a
-                  class="dropdown-item waves-light waves-effect text-info caja-botones"
+                  class="dropdown-item waves-light text-info caja-botones"
+                  href="javascript: void(0);"
                   (click)="
                     openConfirm(add, 'Editar tipo de activo fijo');
                     gettipoActivosFijos(taf)
@@ -138,20 +137,22 @@
                 >
                 <a
                   *ngIf="taf.Estado == 'Activo'"
-                  class="dropdown-item waves-light waves-effect text-danger caja-botones"
+                  class="dropdown-item waves-light text-danger caja-botones"
+                  href="javascript: void(0);"
                   (click)="activateOrInactivate(taf, 'Inactivo')"
                 >
                   <i class="far fa-trash-alt"></i> Anular</a
                 >
                 <a
                   *ngIf="taf.Estado == 'Inactivo'"
-                  class="dropdown-item waves-light waves-effect text-success caja-botones"
+                  class="dropdown-item waves-light text-success caja-botones"
+                  href="javascript: void(0);"
                   (click)="activateOrInactivate(taf, 'Activo')"
                 >
                   <i class="fa fa-check"></i> Activar</a
                 >
                 <!-- <a
-                  class="dropdown-item waves-light waves-effect caja-botones"
+                  class="dropdown-item waves-light  caja-botones"
                   [swal]="{
                     title: '¿Está Seguro?',
                     text: 'Se dispone inactivar este tipo de activo fijo',
@@ -180,9 +181,6 @@
     (pageChange)="ConsultaFiltrada(true, $event)"
     aria-label="Default pagination"
     [maxSize]="maxSize"
-    rotate="true"
-    ellipses="false"
-    boundaryLinks="true"
     rotate="true"
     ellipses="false"
     boundaryLinks="true"
@@ -297,13 +295,15 @@
             [resultFormatter]="formatter2"
             [class.is-invalid]="busquedaCuentaFallida.planCuenta"
             (focus)="selCampoEnfocado('planCuenta')"
-            (selectItem)="AsignarCuenta($event,'Id_Plan_Cuenta')"
+            (selectItem)="AsignarCuenta($event, 'Id_Plan_Cuenta')"
           />
-            <!-- value="{{tipoActivosFijos.Cuenta_Niif}}" -->
+          <!-- value="{{tipoActivosFijos.Cuenta_Niif}}" -->
           <mat-hint *ngIf="buscandoCuenta.planCuenta">Buscando...</mat-hint>
-          <div *ngIf="busquedaCuentaFallida.planCuenta">Lo lamentamos, las opciones no pudieron ser cargadas.</div>
+          <div *ngIf="busquedaCuentaFallida.planCuenta">
+            Lo lamentamos, las opciones no pudieron ser cargadas.
+          </div>
         </mat-form-field>
-          <!-- <mat-form-field class="col" appearance="outline">
+        <!-- <mat-form-field class="col" appearance="outline">
             <mat-label>Cuenta débito depreciación PCGA</mat-label>
             <input
               matInput
@@ -317,26 +317,30 @@
               autocomplete="off"
             />
           </mat-form-field> -->
-          <mat-form-field class="col" appearance="outline">
-            <mat-label>Cuenta débito depreciación</mat-label>
-            <input
-              matInput
-              type="text"
-              required
-              autocomplete="off"
-              [(value)]="CuentaDepreciacionNiif"
-              [ngbTypeahead]="search_cuenta_niif"
-              [resultTemplate]="rt2"
-              [inputFormatter]="formatter2"
-              [resultFormatter]="formatter2"
-              [class.is-invalid]="busquedaCuentaFallida.planCuentaDepreciacion"
-              (focus)="selCampoEnfocado('planCuentaDepreciacion')"
-              (selectItem)="AsignarCuenta($event,'Id_Plan_Cuenta_Depreciacion')"
-            />
-            <mat-hint *ngIf="buscandoCuenta.planCuentaDepreciacion">Buscando...</mat-hint>
-            <div *ngIf="busquedaCuentaFallida.planCuentaDepreciacion">Lo lamentamos, las opciones no pudieron ser cargadas.</div>
-          </mat-form-field>
-          <!-- <mat-form-field class="col" appearance="outline">
+        <mat-form-field class="col" appearance="outline">
+          <mat-label>Cuenta débito depreciación</mat-label>
+          <input
+            matInput
+            type="text"
+            required
+            autocomplete="off"
+            [(value)]="CuentaDepreciacionNiif"
+            [ngbTypeahead]="search_cuenta_niif"
+            [resultTemplate]="rt2"
+            [inputFormatter]="formatter2"
+            [resultFormatter]="formatter2"
+            [class.is-invalid]="busquedaCuentaFallida.planCuentaDepreciacion"
+            (focus)="selCampoEnfocado('planCuentaDepreciacion')"
+            (selectItem)="AsignarCuenta($event, 'Id_Plan_Cuenta_Depreciacion')"
+          />
+          <mat-hint *ngIf="buscandoCuenta.planCuentaDepreciacion"
+            >Buscando...</mat-hint
+          >
+          <div *ngIf="busquedaCuentaFallida.planCuentaDepreciacion">
+            Lo lamentamos, las opciones no pudieron ser cargadas.
+          </div>
+        </mat-form-field>
+        <!-- <mat-form-field class="col" appearance="outline">
             <mat-label>Cuenta crédito depreciación PCGA</mat-label>
             <input
               matInput
@@ -350,26 +354,34 @@
               autocomplete="off"
             />
           </mat-form-field> -->
-          <mat-form-field class="col" appearance="outline">
-            <mat-label>Cuenta crédito depreciación</mat-label>
-            <input
-              matInput
-              type="text"
-              required
-              autocomplete="off"
-              [(value)]="CuentaCreditoDepreciacionNiif"
-              [ngbTypeahead]="search_cuenta_niif"
-              [resultTemplate]="rt2"
-              [inputFormatter]="formatter2"
-              [resultFormatter]="formatter2"
-              typeahead-append-to-body="true"
-              [class.is-invalid]="busquedaCuentaFallida.planCuentaDepreciacionCredito"
-              (focus)="selCampoEnfocado('planCuentaDepreciacionCredito')"
-              (selectItem)="AsignarCuenta($event,'Id_Plan_Cuenta_Credito_Depreciacion')"
-            />
-            <mat-hint *ngIf="buscandoCuenta.planCuentaDepreciacionCredito">Buscando...</mat-hint>
-            <div *ngIf="busquedaCuentaFallida.planCuentaDepreciacionCredito">Lo lamentamos, las opciones no pudieron ser cargadas.</div>
-          </mat-form-field>
+        <mat-form-field class="col" appearance="outline">
+          <mat-label>Cuenta crédito depreciación</mat-label>
+          <input
+            matInput
+            type="text"
+            required
+            autocomplete="off"
+            [(value)]="CuentaCreditoDepreciacionNiif"
+            [ngbTypeahead]="search_cuenta_niif"
+            [resultTemplate]="rt2"
+            [inputFormatter]="formatter2"
+            [resultFormatter]="formatter2"
+            typeahead-append-to-body="true"
+            [class.is-invalid]="
+              busquedaCuentaFallida.planCuentaDepreciacionCredito
+            "
+            (focus)="selCampoEnfocado('planCuentaDepreciacionCredito')"
+            (selectItem)="
+              AsignarCuenta($event, 'Id_Plan_Cuenta_Credito_Depreciacion')
+            "
+          />
+          <mat-hint *ngIf="buscandoCuenta.planCuentaDepreciacionCredito"
+            >Buscando...</mat-hint
+          >
+          <div *ngIf="busquedaCuentaFallida.planCuentaDepreciacionCredito">
+            Lo lamentamos, las opciones no pudieron ser cargadas.
+          </div>
+        </mat-form-field>
       </div>
     </form>
   </div>

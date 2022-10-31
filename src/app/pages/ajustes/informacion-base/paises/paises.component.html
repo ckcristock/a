@@ -29,7 +29,7 @@
                 </tr>
             </thead>
             <tbody>
-                <tr *ngFor="let pais of paises" [ngClass]="{'bg-danger text-white': (pais.state == 'Inactivo')}">
+                <tr *ngFor="let pais of paises" [ngClass]="{'text-danger font-weight-bold': (pais.state == 'Inactivo')}">
                     <td> {{ pais.name | titlecase }} </td>
                     <td>
                         <div class="text-center">

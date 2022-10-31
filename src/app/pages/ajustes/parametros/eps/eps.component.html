@@ -62,7 +62,7 @@
         <tbody>
           <tr
             *ngFor="let eps of epss"
-            [ngClass]="{ 'bg-danger text-white': eps.status === 'Inactivo' }"
+            [ngClass]="{ 'text-danger font-weight-bold': eps.status === 'Inactivo' }"
           >
             <td scope="row">{{ eps.name }}</td>
             <td class="text-center">{{ eps.code }}</td>

@@ -32,6 +32,7 @@ import { MatInputModule } from '@angular/material/input';
 import { MatSelectModule } from '@angular/material/select';
 import { StructureCompanyModule } from '../../structure-company/structure-company.module';
 import { ParametrosModule } from '../parametros/parametros.module';
+import { InformacionBaseModule } from '../informacion-base/informacion-base.module';
 
 @NgModule({
   declarations: [
@@ -57,6 +58,7 @@ import { ParametrosModule } from '../parametros/parametros.module';
   imports: [
     CommonModule,
     StructureCompanyModule,
+    InformacionBaseModule,
     ParametrosModule,
     NgSelectModule,
     ComponentsModule,

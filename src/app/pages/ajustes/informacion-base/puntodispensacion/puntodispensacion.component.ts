@@ -19,6 +19,7 @@ import { environment } from 'src/environments/environment';
 import Swal from 'sweetalert2';
 import { SwalService } from '../services/swal.service';
 import { MatAccordion } from '@angular/material/expansion';
+import { ModalService } from 'src/app/core/services/modal.service';
 
 @Component({
   selector: 'app-puntodispensacion',
@@ -39,14 +40,14 @@ export class PuntodispensacionComponent implements OnInit {
   //@ViewChild(DatatableComponent) table: DatatableComponent;
   @ViewChild(MatAccordion) accordion: MatAccordion;
   matPanel = false;
-  openClose(){
-    if (this.matPanel == false){
+  openClose() {
+    if (this.matPanel == false) {
       this.accordion.openAll()
       this.matPanel = true;
     } else {
       this.accordion.closeAll()
       this.matPanel = false;
-    }    
+    }
   }
 
   PuntoDispensacion: any = [];
@@ -100,7 +101,10 @@ export class PuntodispensacionComponent implements OnInit {
     private _swalService: SwalService,
     private _serviciosService: ServicioService,
     private _tipoServicioService: TiposervicioService,
-    private puntoDispesancionService: PuntodispensacionService /* private _swalService: SwalService,
+    private puntoDispesancionService: PuntodispensacionService,
+    private _swal: SwalService,
+    private _modal: ModalService
+    /* private _swalService: SwalService,
     private _toastService: ToastService*/
   ) {
     // this.fetchFilterData((data) => {
@@ -116,23 +120,12 @@ export class PuntodispensacionComponent implements OnInit {
   rowsFilter = [];
   tempFilter = [];
   columns = [];
-  loadingIndicator = true;
+  loadingIndicator: boolean;
   timeout: any;
 
   ngOnInit() {
     this.getBodegasDespacho();
-
-    this.http
-      .get(
-        environment.ruta +
-          'php/puntodispensacion/detalle_punto_dispensacion.php'
-      )
-      .subscribe((data: any) => {
-        this.puntodispensacion = data.query_result;
-        this.loadingIndicator = false;
-        this.TotalItems = data.numReg;
-      });
-
+    this.getPoints();
     this.http
       .get(environment.ruta + 'php/lista_generales.php', {
         params: { modulo: 'Departamento' },
@@ -161,7 +154,25 @@ export class PuntodispensacionComponent implements OnInit {
     ];
 
 
-    this.RecargarDatos();
+   /*  this.RecargarDatos(); */
+  }
+
+  openModal(content) {
+    this._modal.open(content, 'lg')
+  }
+
+  getPoints() {
+    this.loadingIndicator = true;
+    this.http
+      .get(
+        environment.ruta +
+        'php/puntodispensacion/detalle_punto_dispensacion.php'
+      )
+      .subscribe((data: any) => {
+        this.puntodispensacion = data.query_result;
+        this.loadingIndicator = false;
+        this.TotalItems = data.numReg;
+      });
   }
 
   Municipios_Departamento(Departamento) {
@@ -183,7 +194,7 @@ export class PuntodispensacionComponent implements OnInit {
       this.http
         .get(
           environment.ruta +
-            'php/GENERALES/tiposervicio/get_tipos_servicio_ng_select.php',
+          'php/GENERALES/tiposervicio/get_tipos_servicio_ng_select.php',
           { params: p }
         )
         .subscribe((data: any) => {
@@ -214,12 +225,12 @@ export class PuntodispensacionComponent implements OnInit {
     }
   }
 
-  GuardarPuntoDispensacion(formulario: NgForm, modal) {
+  GuardarPuntoDispensacion(formulario: NgForm) {
     let info = JSON.stringify(formulario.value);
     let datos = new FormData();
     datos.append('modulo', 'Punto_Dispensacion');
     datos.append('datos', info);
-    modal.hide();
+    this._modal.close();
     this.http
       .post(environment.ruta + 'php/genericos/guardar_generico.php', datos)
       .subscribe((data: any) => {
@@ -295,33 +306,33 @@ export class PuntodispensacionComponent implements OnInit {
   }
 
   EditarPuntoDispensacion(id) {
-  this.http.get(environment.ruta + 'php/genericos/detalle.php', {params: { modulo: 'Punto_Dispensacion', id: id },}).subscribe((data: any) => {
-        this.IdPuntoDispensacion = id;
-        this.Municipios_Departamento(data.Departamento);
-        this.PuntoDispensacion = data;
-        this.modalPuntoDispensacionEditar.show();
-      });
+    this.http.get(environment.ruta + 'php/genericos/detalle.php', { params: { modulo: 'Punto_Dispensacion', id: id }, }).subscribe((data: any) => {
+      this.IdPuntoDispensacion = id;
+      this.Municipios_Departamento(data.Departamento);
+      this.PuntoDispensacion = data;
+      this.modalPuntoDispensacionEditar.show();
+    });
   }
 
   EditarPuntoDispensacionNuevo(id) {
-    this.http.get(environment.ruta + 'php/puntodispensacion/get_detalle_punto_dispensacion.php', {params: { id: id }}).subscribe((data: any) => {
-    //this.puntoDispesancionService.GetDetallePuntoDispensacion(id).subscribe((data: any) => {
-        if (data.codigo == 'success') {
-          this.IdPuntoDispensacion = id;
-          this.Municipios_Departamento(data.query_result.Departamento);
-          this.PuntoDispensacion = data.query_result;
-          this.ServiciosEscogidos = data.servicios;
-          this.TipoServiciosEscogidos = data.tipos_servicio;
+    this.http.get(environment.ruta + 'php/puntodispensacion/get_detalle_punto_dispensacion.php', { params: { id: id } }).subscribe((data: any) => {
+      //this.puntoDispesancionService.GetDetallePuntoDispensacion(id).subscribe((data: any) => {
+      if (data.codigo == 'success') {
+        this.IdPuntoDispensacion = id;
+        this.Municipios_Departamento(data.query_result.Departamento);
+        this.PuntoDispensacion = data.query_result;
+        this.ServiciosEscogidos = data.servicios;
+        this.TipoServiciosEscogidos = data.tipos_servicio;
 
-          setTimeout(() => {
-            this.GetTipoServicioNgSelect();
-          }, 300);
+        setTimeout(() => {
+          this.GetTipoServicioNgSelect();
+        }, 300);
 
-          this.modalPuntoDispensacionEditar.show();
-        } else {
-          this._swalService.ShowMessage(data);
-        }
-      });
+        this.modalPuntoDispensacionEditar.show();
+      } else {
+        this._swalService.ShowMessage(data);
+      }
+    });
   }
 
   AsignacionDeGruposAndEstibas(id: Number) {
@@ -335,18 +346,29 @@ export class PuntodispensacionComponent implements OnInit {
     datos.append('modulo', 'Punto_Dispensacion');
     datos.append('estado', estado);
     datos.append('id', id);
-    this.http
-      .post(environment.ruta + 'php/genericos/eliminar_generico.php', datos)
-      .subscribe((data: any) => {
-        //  this.puntodispensacion = data;
-        //  this.rowsFilter= data;
-        //  this.tempFilter= [...data];
-        this.deleteSwal.type = data['type'];
-        this.deleteSwal.title = data['title'];
-        this.deleteSwal.text = data['message'];
-        this.deleteSwal.show();
-        this.limpiarFiltros();
-        this.filtros();
+    this._swal.show({
+      icon: 'question',
+      title: '¿Estás seguro(a)?',
+      showCancel: true,
+      text: (estado === 'Inactivo' ? 'El punto de aplicación se anulará' : 'El punto de aplicación se activará'),
+    })
+      .then((result) => {
+        if (result.isConfirmed) {
+          this.http
+            .post(environment.ruta + 'php/genericos/eliminar_generico.php', datos)
+            .subscribe(res => {
+              this.limpiarFiltros();
+              this.filtros();
+              this.getPoints();
+              this._swal.show({
+                icon: 'success',
+                title: (estado === 'Inactivo' ? 'Punto anulado' : 'Punto activado'),
+                showCancel: false,
+                text: (estado === 'Inactivo' ? 'El punto ha sido anulado con éxito.' : 'El punto ha sido activado con éxito.'),
+                timer: 1000
+              })
+            });
+        }
       });
   }
 
@@ -449,18 +471,18 @@ export class PuntodispensacionComponent implements OnInit {
 
   //Aplicar filtros en la tabla
   filtros(paginacion: boolean = false) {
+    this.loadingIndicator = true;
     var params = this.SetFiltros(paginacion);
-
     this.location.replaceState('/base/puntosdispensacion', params);
-
     this.http
       .get(
         environment.ruta +
-          'php/puntodispensacion/detalle_punto_dispensacion.php' +
-          params
+        'php/puntodispensacion/detalle_punto_dispensacion.php' +
+        params
       )
       .subscribe((data: any) => {
         this.puntodispensacion = data.query_result;
+        this.loadingIndicator = false;
         this.TotalItems = data.numReg;
         this.SetInformacionPaginacion();
       });

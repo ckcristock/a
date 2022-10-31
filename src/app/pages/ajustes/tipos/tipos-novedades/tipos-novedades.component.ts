@@ -4,6 +4,8 @@ import { TiposNovedadesService } from './tipos-novedades.service';
 import { consts } from '../../../../core/utils/consts';
 import Swal from 'sweetalert2';
 import { MatAccordion } from '@angular/material/expansion';
+import { SwalService } from '../../informacion-base/services/swal.service';
+import { ModalService } from 'src/app/core/services/modal.service';
 
 @Component({
   selector: 'app-tipos-novedades',
@@ -14,14 +16,14 @@ export class TiposNovedadesComponent implements OnInit {
   @ViewChild('modal') modal: any;
   @ViewChild(MatAccordion) accordion: MatAccordion;
   matPanel = false;
-  openClose(){
-    if (this.matPanel == false){
+  openClose() {
+    if (this.matPanel == false) {
       this.accordion.openAll()
       this.matPanel = true;
     } else {
       this.accordion.closeAll()
       this.matPanel = false;
-    }    
+    }
   }
   loading: boolean = false;
   selected: any;
@@ -38,24 +40,29 @@ export class TiposNovedadesComponent implements OnInit {
     novelty: '',
   }
   modalities = consts.modalities;
-  constructor(private _tiposNovedadesService: TiposNovedadesService, private fb: FormBuilder) { }
+  constructor(
+    private _tiposNovedadesService: TiposNovedadesService,
+    private fb: FormBuilder,
+    private _swal: SwalService,
+    private _modal: ModalService
+  ) { }
 
   ngOnInit(): void {
     this.getNovelties();
     this.createForm();
   }
 
-  openModal() {
+  openModal(content) {
     this.disabled = false;
-    this.modal.show();
+    this._modal.open(content);
     this.form.reset();
-    this.selected = 'Nuevo Tipo de Novedad';
+    this.selected = 'Nuevo tipo de novedad';
   }
 
   getData(data) {
     this.disabled = false;
     this.novelty = { ...data };
-    this.selected = 'Actualizar Tipo de Novedad';
+    this.selected = 'Actualizar tipo de novedad';
     this.form.patchValue({
       id: this.novelty.id,
       concept: this.novelty.concept,
@@ -93,12 +100,14 @@ export class TiposNovedadesComponent implements OnInit {
 
     this._tiposNovedadesService.createNovelty(this.form.value)
       .subscribe((res: any) => {
-        this.modal.hide();
+        this._modal.close();
         this.getNovelties();
-        Swal.fire({
+        this._swal.show({
           icon: 'success',
           title: res.data,
-          text: 'Proceso realizado satisfactoriamente'
+          showCancel: false,
+          text: '',
+          timer: 1000
         })
       })
   }
@@ -108,25 +117,23 @@ export class TiposNovedadesComponent implements OnInit {
       id: novelty.id,
       status
     }
-    Swal.fire({
-      title: '¿Estas seguro?',
-      text: (status === 'Inactivo' ? 'La novedad se inactivará!' : 'La novedad se activará'),
-      icon: 'warning',
-      showCancelButton: true,
-      confirmButtonColor: '#3085d6',
-      cancelButtonColor: '#d33',
-      cancelButtonText: 'Cancelar',
-      confirmButtonText: (status === 'Inactivo' ? 'Si, Inhabilitar' : 'Si, activar')
+    this._swal.show({
+      icon: 'question',
+      title: '¿Estás seguro(a)?',
+      showCancel: true,
+      text: (status === 'Inactivo' ? 'La novedad se anulará' : 'La novedad se activará'),
     }).then((result) => {
       if (result.isConfirmed) {
         this._tiposNovedadesService.createNovelty(data)
           .subscribe(res => {
             this.getNovelties();
-            Swal.fire({
-              title: (status === 'Inactivo' ? 'Novedad Inhabilitado!' : 'Novedad activado'),
-              text: (status === 'Inactivo' ? 'La novedad ha sido Inhabilitada con éxito.' : 'La novedad ha sido activada con éxito.'),
-              icon: 'success'
-            });
+            this._swal.show({
+              icon: 'success',
+              title: (status === 'Inactivo' ? 'Novedad anulada!' : 'Novedad activada'),
+              showCancel: false,
+              text: (status === 'Inactivo' ? 'La novedad ha sido anulada con éxito.' : 'La novedad ha sido activada con éxito.'),
+              timer: 1000
+            })
           });
       }
     });

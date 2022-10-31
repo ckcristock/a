@@ -27,7 +27,7 @@
                 </tr>
             </thead>
             <tbody>
-                <tr *ngFor="let profession of professions" [ngClass]="{'bg-danger text-white': (profession.state === 'Inactivo' )}">
+                <tr *ngFor="let profession of professions" [ngClass]="{'text-danger font-weight-bold': (profession.state === 'Inactivo' )}">
                     <td> {{ profession.name }} </td>
                     <td>
                         <div class="text-center">

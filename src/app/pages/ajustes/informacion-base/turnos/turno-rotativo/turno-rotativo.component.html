@@ -31,7 +31,7 @@
     </thead>
     <tbody>
       <tr *ngFor="let turno of turnosRotativo" [ngClass]="{
-          'bg-danger text-white': turno.state == 'Inactivo'
+          'text-danger font-weight-bold': turno.state == 'Inactivo'
         }">
         <td class="custom-label">{{ turno.text }}</td>
         <td class="text-center">
