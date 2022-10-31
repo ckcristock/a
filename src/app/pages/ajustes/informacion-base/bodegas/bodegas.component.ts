@@ -4,7 +4,6 @@ import { FormBuilder, FormControl, FormGroup, NgForm, Validators } from '@angula
 import { Location } from '@angular/common';
 import { MatAccordion } from '@angular/material/expansion';
 import { SwalService } from '../services/swal.service';
-import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { functionsUtils } from 'src/app/core/utils/functionsUtils';
 import { ModalService } from 'src/app/core/services/modal.service';
 import { BodegasService } from './bodegas.service';
@@ -80,12 +79,11 @@ export class BodegasComponent implements OnInit {
 
   public openConfirm(confirm, titulo) {
     this.selected = titulo;
-    this._modal.open( confirm,'md', () => {
-      this.formBodega.reset();
-      this.file="";
-      this.type="";
-      this.bodega = this.formBodega.value;
-    });
+    this._modal.open(confirm);
+    this.formBodega.reset();
+    this.file="";
+    this.type="";
+    this.bodega = this.formBodega.value;
   }
 
   onFileChanged(event) {
@@ -171,6 +169,7 @@ export class BodegasComponent implements OnInit {
   cambiarEstado(bodega, state) {
     let data = {
       id: bodega.Id_Bodega_Nuevo,
+      modulo: 'bodega',
       state
     }
     this._swal.show({

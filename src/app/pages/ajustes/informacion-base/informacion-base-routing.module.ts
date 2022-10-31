@@ -39,6 +39,7 @@ import { ClientesComponent } from './clientes/clientes.component';
 import { ClientecrearComponent } from './clientecrear/clientecrear.component';
 import { TableProductosCatalogoComponent } from "./catalogo/components/table-productos-catalogo/table-productos-catalogo.component";
 import { PuntodispensacionComponent } from "./puntodispensacion/puntodispensacion.component";
+import { CrearbodegaComponent } from "./bodegas/crearbodega/crearbodega.component";
 
 const routes: Routes = [
     { path: 'empresas', component: EmpresasComponent },
@@ -68,8 +69,8 @@ const routes: Routes = [
     { path: 'productos/ver/:id', component: ProductoComponent },
 
     { path: 'bodegas', component: BodegasComponent },
-    { path: 'estibas/:idBodega', component:  GrupoestibaComponent},
-    { path: 'estibas/:idBodega', component:  GrupoestibaComponent},
+    { path: 'bodegas/crear', component: CrearbodegaComponent },
+    { path: 'bodegas/grupoestiba/:id', component: GrupoestibaComponent },
 
     /**Proveedores */
     { path: 'proveedores', component:  ProveedoresComponent},
