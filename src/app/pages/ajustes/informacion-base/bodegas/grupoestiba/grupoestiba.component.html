@@ -100,7 +100,7 @@
                   getEstibas(grupo.Id_Grupo_Estiba);
                 "
                 [ngClass]="
-                  (grupo.selected && grupo.Estado === 'Activo')?'bg-secondary text-white font-weight-bold':
+                  (grupo.selected && grupo.Estado === 'Activo')?'bg-dark text-white font-weight-bold':
                   (grupo.selected && grupo.Estado === 'Inactivo')?'bg-danger text-white font-weight-bold':
                   (!grupo.selected && grupo.Estado === 'Inactivo')?'text-danger font-weight-bold ':''
                 "
