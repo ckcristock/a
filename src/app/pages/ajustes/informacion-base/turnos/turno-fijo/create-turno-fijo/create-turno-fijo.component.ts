@@ -1,6 +1,7 @@
 import { Component, OnInit, ViewChild } from '@angular/core';
 import { FormArray, FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
+import { ModalService } from 'src/app/core/services/modal.service';
 import { ValidatorsService } from '../../../services/reactive-validation/validators.service';
 import { SwalService } from '../../../services/swal.service';
 import { FixedTurnService } from '../turno-fijo.service';
@@ -11,7 +12,7 @@ import { FixedTurnService } from '../turno-fijo.service';
   styleUrls: ['./create-turno-fijo.component.scss'],
 })
 export class CreateTurnoFijoComponent implements OnInit {
-  @ViewChild('modal') modal: any;
+  //@ViewChild('modal') modal: any;
   forma: FormGroup;
   miniForm: FormGroup;
   constructor(
@@ -20,8 +21,13 @@ export class CreateTurnoFijoComponent implements OnInit {
     private _fixedTurn: FixedTurnService,
     private _swal: SwalService,
     private router: Router,
-    private route: ActivatedRoute
+    private route: ActivatedRoute,
+    private _modal: ModalService
   ) {}
+
+  public openConfirm(confirm) {
+    this._modal.open(confirm);
+  }
 
   week = [
     'Lunes',
@@ -73,12 +79,13 @@ export class CreateTurnoFijoComponent implements OnInit {
     if (this.forma.invalid) return false;
     this._swal
       .show({
-        title: this.id == undefined ? '¿Desea Guardar?' : '¿Desea Actulizar?',
+        title: this.id == undefined ? '¿Desea guardar?' : '¿Desea actulizar?',
         text:
           this.id == undefined
             ? 'Se Dispone a guardar el nuevo turno'
             : 'Se Dispone a actualizar el turno',
-        icon: 'warning',
+        icon: 'question',
+        showCancel: true,
       })
       .then((r) => {
         if (r.isConfirmed) {
@@ -120,6 +127,7 @@ export class CreateTurnoFijoComponent implements OnInit {
         title: 'Operación exitosa',
         text: 'Guardado Correctamente',
         icon: 'success',
+        timer: 1000,
         showCancel: false,
       });
       this.router.navigateByUrl('/ajustes/informacion-base/turnos');
@@ -144,7 +152,7 @@ export class CreateTurnoFijoComponent implements OnInit {
   createItem(d): FormGroup {
     const required = d == 'Sabado' || d == 'Domingo' ? false : true;
     let controls: any = this.getBasicControl(required);
-    controls.day = [d];
+    controls.day = [{ value: d, disabled: true }];
     return this.fb.group(controls);
   }
 
@@ -175,7 +183,7 @@ export class CreateTurnoFijoComponent implements OnInit {
       }
     });
 
-    this.modal.hide();
+    this._modal.close();
 
     /*  this.dayList. */
   }

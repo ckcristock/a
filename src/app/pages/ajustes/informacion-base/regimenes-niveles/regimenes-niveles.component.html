@@ -192,7 +192,7 @@
               <mat-form-field class="col" appearance="outline">
                 <mat-label>Cuota</mat-label>
                 <input
-                  type="text"
+                  type="number"
                   [(ngModel)]="filtrosLevels.cuote"
                   (input)="getLevels(regimeSelected.id)"
                   matInput
@@ -203,7 +203,7 @@
             </div>
           </mat-expansion-panel>
         </mat-accordion>
-        <h5 class="text-dark" *ngIf="regimeSelected.name">Grupo {{ regimeSelected.name | lowercase }}</h5>
+        <h5 class="text-dark" *ngIf="regimeSelected.name">Régimen {{ regimeSelected.name | lowercase }}</h5>
         <div class="rounded-top table-responsive">
           <table
             class="table table-bordered table-striped table-sm"
