@@ -1,4 +1,4 @@
-import { Component, OnInit, AfterViewInit, Input } from '@angular/core';
+import { Component, OnInit, AfterViewInit, Input, ViewChild, ElementRef, HostListener } from '@angular/core';
 import { Router, NavigationEnd } from '@angular/router';
 import { UserService } from 'src/app/core/services/user.service';
 
@@ -12,12 +12,18 @@ import { MenuItem } from './menu.model';
   styleUrls: ['./horizontalnavbar.component.scss']
 })
 export class HorizontalnavbarComponent implements OnInit, AfterViewInit {
+  @ViewChild('subMenu') subMenu: any;
   configData;
   menuItems = [];
   navItems = []
-
+  public innerWidth: any;
   // tslint:disable-next-line: max-line-length
-  constructor(private router: Router, private eventService: EventService, private userService: UserService) {
+  constructor(
+    private router: Router,
+    private eventService: EventService,
+    private userService: UserService,
+    private el: ElementRef
+  ) {
     this.navItems = userService.user.menu;
     //console.log(this.navItems)
     router.events.subscribe(event => {
@@ -27,10 +33,15 @@ export class HorizontalnavbarComponent implements OnInit, AfterViewInit {
     });
   }
 
+  @HostListener('window:resize', ['$event'])
+  onResize(event) {
+    this.innerWidth = window.innerWidth;
+  }
+
   ngOnInit(): void {
 
     this.initialize();
-
+    this.innerWidth = window.innerWidth;
     this.configData = {
       suppressScrollX: true,
       wheelSpeed: 0.3
@@ -40,21 +51,50 @@ export class HorizontalnavbarComponent implements OnInit, AfterViewInit {
   /**
    * On menu click
    */
-  onMenuClick(event: any) {
-    console.log(event)
+   onMenuClick(event: any) {
+
     const nextEl = event.target.nextSibling;
     const parent = event.target.parentNode;
-    if (nextEl.id !== 'navmenu') {
+
+    if (this.innerWidth < 990) {
+      if (event.target.nextSibling.id != 'navmenu') {
+        let p = event.target.nextSibling.style.display
+        if (p == null || p == '' || p == 'none') {
+          event.target.nextSibling.style.display = 'block'
+          //event.target.parentElement.style.display = 'block'
+          event.target.parentElement.parentElement.style.display = 'block'
+        } else {
+          event.target.nextSibling.style.display = 'none'
+
+        }
+      } else {
+        if (event.target.nextSibling.style.display == "block") {
+          event.target.nextSibling.style.display = 'none'
+        } else {
+          event.target.nextSibling.style.display = 'block'
+        }
+      }
+
+    } else if (nextEl.id !== 'navmenu') {
+      console.log(parent)
     } else if (nextEl && nextEl.classList.contains('show')) {
       const parentEl = event.target.parentNode;
       if (parentEl) { parentEl.classList.remove('show'); }
       nextEl.classList.toggle('show');
     }
     return false;
+
+
+    /* console.log(event)
+     */
   }
 
   ngAfterViewInit() {
     this.activateMenu();
+  }
+
+  hideMenu() {
+    document.getElementsByClassName('collapse navbar-collapse')[0].classList.remove('show')
   }
 
   /**

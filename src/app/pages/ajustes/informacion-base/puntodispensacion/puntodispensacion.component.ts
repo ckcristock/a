@@ -314,7 +314,7 @@ export class PuntodispensacionComponent implements OnInit {
     });
   }
 
-  EditarPuntoDispensacionNuevo(id) {
+  EditarPuntoDispensacionNuevo(id, edit) {
     this.http.get(environment.ruta + 'php/puntodispensacion/get_detalle_punto_dispensacion.php', { params: { id: id } }).subscribe((data: any) => {
       //this.puntoDispesancionService.GetDetallePuntoDispensacion(id).subscribe((data: any) => {
       if (data.codigo == 'success') {
@@ -328,7 +328,7 @@ export class PuntodispensacionComponent implements OnInit {
           this.GetTipoServicioNgSelect();
         }, 300);
 
-        this.modalPuntoDispensacionEditar.show();
+        this._modal.open(edit, 'lg');
       } else {
         this._swalService.ShowMessage(data);
       }

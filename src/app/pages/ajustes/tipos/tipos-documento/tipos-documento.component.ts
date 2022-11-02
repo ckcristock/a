@@ -68,7 +68,8 @@ export class TiposDocumentoComponent implements OnInit {
     this.form.patchValue({
       id: this.document.id,
       name: this.document.name,
-      code: this.document.code
+      code: this.document.code,
+      dian_code: this.document.dian_code
     });
   }
 
@@ -76,7 +77,8 @@ export class TiposDocumentoComponent implements OnInit {
     this.form = this.fb.group({
       id: [this.document.id],
       name: ['', this._reactiveValid.required],
-      code: ['', this._reactiveValid.required]
+      code: ['', this._reactiveValid.required],
+      dian_code: ['', this._reactiveValid.required],
     })
   }
 

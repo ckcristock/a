@@ -2,16 +2,16 @@
   <div class="card-body">
     <div class="row card-title d-flex justify-content-between">
       <div class="col-md-6 px-0">
-        <h4 class="text-primary">Términos del contrato</h4>
+        <h5 class="text-primary">Términos del contrato</h5>
       </div>
       <div class="col-md-6 px-0 text-right">
         <div class="btn-group rounded w-sm-100">
-          <button
+         <!--  <button
             class="btn btn-primary btn-sm"
             (click)="openConfirm(add, 'Nuevo tipo de término')"
           >
             <i class="fa fa-plus"></i> Agregar
-          </button>
+          </button> -->
           <button class="btn btn-info btn-sm" (click)="openClose()">
             <i class="fas fa-sliders-h"></i> Filtros
           </button>
@@ -50,7 +50,7 @@
         <thead class="bg-light">
           <tr class="text-center text-uppercase">
             <th>Tipos de Términos</th>
-            <th><i class="mdi mdi-chevron-down"></i></th>
+            <!-- <th><i class="mdi mdi-chevron-down"></i></th> -->
           </tr>
         </thead>
         <tbody>
@@ -62,7 +62,7 @@
             }"
           >
             <td class="align-middle">{{ term.name }}</td>
-            <td class="align-middle">
+            <!-- <td class="align-middle">
               <div ngbDropdown container="body" class="dropdown-primary">
                 <button
                   ngbDropdownToggle
@@ -99,7 +99,7 @@
                   >
                 </div>
               </div>
-            </td>
+            </td> -->
           </tr>
         </tbody>
       </table>

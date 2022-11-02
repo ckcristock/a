@@ -199,7 +199,7 @@
                     class="dropdown-item text-info waves-light caja-botones"
                     href="javascript: void(0);"
                     (click)="
-                      EditarPuntoDispensacionNuevo(punto.Id_Punto_Dispensacion)
+                      EditarPuntoDispensacionNuevo(punto.Id_Punto_Dispensacion, edit)
                     "
                   >
                     <i class="far fa-edit"></i> Editar</a
@@ -279,6 +279,17 @@
   <div class="modal-body">
     <form #FormPuntoDispensacion="ngForm">
       <div class="row">
+        <mat-form-field class="col" appearance="outline">
+          <mat-label>Nombre</mat-label>
+          <input
+            matInput
+            type="text"
+            placeholder="Ingresa el nombre"
+            formControlName="name"
+            required
+            autocomplete="off"
+          />
+        </mat-form-field>
         <div class="col-md-4">
           <div class="form-group">
             <label>Nombre Punto de dispensacion</label>
@@ -529,41 +540,39 @@
       Cancelar
     </button>
     <button
-        type="button"
-        [swal]="{
-          title: '¿Está Seguro?',
-          text: 'Se dispone a Guardar este punto de dispensación',
-          type: 'warning',
-          showCancelButton: true,
-          confirmButtonText: 'Si, Guardar',
-          cancelButtonText: 'No, Dejame Comprobar!'
-        }"
-        (confirm)="
-          GuardarPuntoDispensacionNuevo(
-            FormPuntoDispensacion          )
-        "
-        [disabled]="!FormPuntoDispensacion.valid"
-        class="btn btn-primary"
-      >
-        Guardar
-      </button>
+      type="button"
+      [swal]="{
+        title: '¿Está Seguro?',
+        text: 'Se dispone a Guardar este punto de dispensación',
+        type: 'warning',
+        showCancelButton: true,
+        confirmButtonText: 'Si, Guardar',
+        cancelButtonText: 'No, Dejame Comprobar!'
+      }"
+      (confirm)="GuardarPuntoDispensacionNuevo(FormPuntoDispensacion)"
+      [disabled]="!FormPuntoDispensacion.valid"
+      class="btn btn-primary"
+    >
+      Guardar
+    </button>
   </div>
 </ng-template>
 
-
-
-<app-modal-basic #modalPuntoDispensacionEditar [dialogClass]="'modal-lg'">
-  <div class="app-modal-header">
-    <h4 class="modal-title">Editar Punto de dispensacion</h4>
+<ng-template #edit let-modal>
+  <div class="modal-header">
+    <h4 class="text-primary modal-title">Editar punto</h4>
     <button
       type="button"
-      class="close basic-close"
-      (click)="modalPuntoDispensacionEditar.hide()"
+      class="close"
+      data-dismiss="modal"
+      aria-label="Close"
+      (click)="_modal.close()"
     >
       <span aria-hidden="true">&times;</span>
     </button>
   </div>
-  <div class="app-modal-body">
+
+  <div class="modal-body">
     <form #FormPuntoDispensacionEditar="ngForm">
       <input
         type="hidden"
@@ -851,17 +860,11 @@
       </div>
     </form>
   </div>
-
-  <div class="app-modal-footer">
-    <div class="text-right">
-      <button
-        type="button"
-        class="btn btn-default btn-sm"
-        (click)="modalPuntoDispensacionEditar.hide(); LimpiarVariablesEditar()"
-      >
-        Cancelar
-      </button>
-      <button
+  <div class="modal-footer">
+    <button type="button" class="btn btn-danger" (click)="_modal.close(); LimpiarVariablesEditar()">
+      Cancelar
+    </button>
+    <button
         type="button"
         [swal]="{
           title: '¿Está Seguro?',
@@ -878,13 +881,13 @@
           )
         "
         [disabled]="!FormPuntoDispensacionEditar.valid"
-        class="btn btn-primary btn-sm"
+        class="btn btn-primary"
       >
         Guardar
       </button>
-    </div>
   </div>
-</app-modal-basic>
+</ng-template>
+
 
 <swal #deleteSwal title="" text="" type="">
   <!-- <swal #deleteSwal title="Punto de dispensacion Eliminada" text="Se ha eliminado correctamente la bodega" type="success">
