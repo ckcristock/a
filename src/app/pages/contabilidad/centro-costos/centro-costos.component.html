@@ -80,10 +80,10 @@
         >
           <td class="align-middle">{{ item.Codigo }}</td>
           <td class="align-middle">{{ item.Nombre }}</td>
-          <td class="align-middle">{{ item.PadreCentro }}</td>
-          <td class="align-middle">{{ item.Tipo_Centro }}</td>
-          <td class="align-middle">{{ item.ValorTipoCentro }}</td>
-          <td class="align-middle">
+          <td class="align-middle text-center">{{ item.PadreCentro }}</td>
+          <td class="align-middle text-center">{{ (item.Tipo_Centro!="" ? item.Tipo_Centro : 'Sin Asignar' )  }}</td>
+          <td class="align-middle text-center">{{ (item.ValorTipoCentro!="" ? item.ValorTipoCentro : 'Sin Asignar' ) }}</td>
+          <td class="align-middle text-center">
             <span
               [ngClass]="
                 item.Estado == 'Activo'
@@ -193,27 +193,14 @@
       ></button>
     </div>
   </div>
-  <div class="modal-body">
+  <div class="modal-body row">
     <form #FormCentroCosto="ngForm">
       <input
         type="hidden"
         name="company_id"
         [(ngModel)]="CentroCostoModel.company_id"
       />
-      <mat-form-field class="col-md-4 pl-md-0" appearance="outline">
-        <mat-label>Nombre</mat-label>
-        <input
-          matInput
-          type="text"
-          placeholder="Ingresa el nombre"
-          [(ngModel)]="CentroCostoModel.Nombre"
-          id="Nombre_Centro"
-          name="Nombre"
-          autocomplete="off"
-          required
-        />
-      </mat-form-field>
-      <mat-form-field class="col-md-4" appearance="outline">
+      <mat-form-field class="col-md-3" appearance="outline">
         <mat-label>Código</mat-label>
         <input
           matInput
@@ -226,7 +213,21 @@
           required
         />
       </mat-form-field>
-      <mat-form-field class="col-md-4 pr-md-0" appearance="outline">
+      <mat-form-field class="col-md-9" appearance="outline">
+        <mat-label>Nombre</mat-label>
+        <input
+          matInput
+          type="text"
+          placeholder="Ingresa el nombre"
+          [(ngModel)]="CentroCostoModel.Nombre"
+          id="Nombre_Centro"
+          name="Nombre"
+          autocomplete="off"
+          required
+        />
+      </mat-form-field>
+      
+      <mat-form-field class="col-md-4" appearance="outline">
         <mat-label>Padre</mat-label>
         <mat-select
           id="Centro_Padre"
@@ -240,22 +241,7 @@
           >
         </mat-select>
       </mat-form-field>
-      <!-- <select
-        name="Padre"
-        id="Centro_Padre"
-        class="form-control"
-        [disabled]="CentroCostoModel.EsCentroPadre"
-        [(ngModel)]="CentroCostoModel.Id_Centro_Padre"
-      >
-        <option value="" selected>Escoja el centro padre</option>
-        <option *ngFor="let p of CentrosCostos" [value]="p.Id_Centro_Costo">
-          {{ p.Nombre }}
-        </option>
-        <ng-container
-          *ngTemplateOutlet="opcionesPadres; context: { $implicit: items }"
-        ></ng-container>
-      </select> -->
-      <mat-form-field class="col-md-4 pl-md-0" appearance="outline">
+      <mat-form-field class="col-md-4" appearance="outline">
         <mat-label>Tipo de centro</mat-label>
         <mat-select
           name="Tipo"
@@ -284,17 +270,6 @@
             {{ vtc.Nombre }}
           </option>
         </select>
-      </mat-form-field>
-      <mat-form-field class="col-md-4 pr-md-0" appearance="outline">
-        <mat-label>Movimiento</mat-label>
-        <mat-select
-          name="Movimiento"
-          id="Movimiento"
-          [(ngModel)]="CentroCostoModel.Movimiento"
-        >
-          <mat-option value="Si" selected>Sí</mat-option>
-          <mat-option value="No" selected>No</mat-option>
-        </mat-select>
       </mat-form-field>
     </form>
   </div>
@@ -341,14 +316,26 @@
       ></button>
     </div>
   </div>
-  <div class="modal-body">
+  <div class="modal-body row">
     <form #FormEditarCentroCosto="ngForm">
       <input
         type="hidden"
         name="company_id"
         [(ngModel)]="EditarCentroCostoModel.company_id"
       />
-      <mat-form-field class="col-md-4 pl-md-0" appearance="outline">
+      <mat-form-field class="col-md-3" appearance="outline">
+        <mat-label>Código</mat-label>
+        <input
+          matInput
+          type="text"
+          [placeholder]="CodigoPlaceholder"
+          [(ngModel)]="EditarCentroCostoModel.Codigo"
+          name="Codigo"
+          autocomplete="off"
+          required
+        />
+      </mat-form-field>
+      <mat-form-field class="col-md-9" appearance="outline">
         <mat-label>Nombre</mat-label>
         <input
           matInput
@@ -362,18 +349,6 @@
         />
       </mat-form-field>
       <mat-form-field class="col-md-4" appearance="outline">
-        <mat-label>Código</mat-label>
-        <input
-          matInput
-          type="text"
-          [placeholder]="CodigoPlaceholder"
-          [(ngModel)]="EditarCentroCostoModel.Codigo"
-          name="Codigo"
-          autocomplete="off"
-          required
-        />
-      </mat-form-field>
-      <mat-form-field class="col-md-4 pr-md-0" appearance="outline">
         <mat-label>Padre</mat-label>
         <mat-select
           id="Centro_Padre"
@@ -387,12 +362,7 @@
           >
         </mat-select>
       </mat-form-field>
-      <!--<select name="Padre" id="CentroPadre" class="form-control" [disabled]="EditarCentroCostoModel.EsCentroPadre" [(ngModel)]="EditarCentroCostoModel.Id_Centro_Padre">
-                <option value="" selected>Escoja el centro padre</option>
-                <option *ngFor="let p of CentrosCostosEditar" [value]="p.Id_Centro_Costo">{{p.Nombre}}</option>
-                <ng-container *ngTemplateOutlet="opcionesPadres; context:{ $implicit: items }"></ng-container>
-              </select>-->
-      <mat-form-field class="col-md-4 pl-md-0" appearance="outline">
+      <mat-form-field class="col-md-4" appearance="outline">
         <mat-label>Tipo de centro</mat-label>
         <mat-select
           name="Tipo"
@@ -421,17 +391,6 @@
             {{ vtc.Nombre }}
           </option>
         </select>
-      </mat-form-field>
-      <mat-form-field class="col-md-4 pr-md-0" appearance="outline">
-        <mat-label>Movimiento</mat-label>
-        <mat-select
-          name="Movimiento"
-          id="Movimiento_Editar"
-          [(ngModel)]="EditarCentroCostoModel.Movimiento"
-        >
-          <mat-option value="Si" selected>Sí</mat-option>
-          <mat-option value="No" selected>No</mat-option>
-        </mat-select>
       </mat-form-field>
     </form>
   </div>
