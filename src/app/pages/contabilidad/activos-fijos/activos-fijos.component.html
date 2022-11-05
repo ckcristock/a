@@ -7,7 +7,6 @@
           <div class="btn-group rounded">
             <button
               type="button"
-              style="float: right"
               class="btn btn-primary btn-sm"
               [routerLink]="['/contabilidad/activos-fijos-crear']"
             >
@@ -15,7 +14,6 @@
             </button>
             <button
               class="btn btn-info btn-sm"
-              style="float: right"
               (click)="openClose()"
             >
               <i class="fas fa-sliders-h"></i> Filtros
@@ -66,36 +64,16 @@
               </mat-select>
             </mat-form-field>
             <mat-form-field class="col-md-2 pl-0" appearance="outline">
-              <mat-label>Costo PCGA</mat-label>
+              <mat-label>Costo</mat-label>
               <input
                 matInput
                 type="text"
-                placeholder="Busca por costo PCGA"
-                [(ngModel)]="Filtros.costo_pcga"
-                (input)="ConsultaFiltrada()"
-                autocomplete="off"
-              />
-            </mat-form-field>
-            <mat-form-field class="col-md-2 pl-0" appearance="outline">
-              <mat-label>Costo NIIF</mat-label>
-              <input
-                matInput
-                type="text"
-                placeholder="Busca por costo NIIF"
+                placeholder="Busca por Costo"
                 [(ngModel)]="Filtros.costo_niif"
                 (input)="ConsultaFiltrada()"
                 autocomplete="off"
               />
             </mat-form-field>
-            <!-- <th>
-                                <select (change)="ConsultaFiltrada()" name="Id_Empresa" id="Id_Empresa"
-                                    [(ngModel)]="Filtros.Id_Empresa" class="form-control input-sm"
-                                    placeholder="Filtro Empresa" required>
-                                    <option *ngFor="let item of companies" [value]="item.value">
-                                        {{ item.text }}
-                                    </option>
-                                </select>
-                            </th> -->
           </mat-expansion-panel>
         </mat-accordion>
         <table
@@ -109,8 +87,7 @@
               <th class="align-middle">Nombre</th>
               <th class="align-middle">Tipo de Activo</th>
               <th class="align-middle">Centro Costo</th>
-              <th class="align-middle">Costo PCGA(Local)</th>
-              <th class="align-middle">Costo NIIF</th>
+              <th class="align-middle">Costo</th>
               <th class="col-md-1 align-middle">Acciones</th>
             </tr>
           </thead>
@@ -120,14 +97,11 @@
               [ngClass]="{ 'bg-danger': af.Estado == 'Anulada' }"
               class="text-center"
             >
-              <td class="align-middle">{{ af.Codigo }}</td>
-              <td class="align-middle">{{ af.Nombre }}</td>
+              <td class="align-middle text-left">{{ af.Codigo }}</td>
+              <td class="align-middle text-left">{{ af.Nombre }}</td>
               <td class="align-middle">{{ af.Tipo_Activo }}</td>
               <td class="align-middle">{{ af.Centro_Costo }}</td>
-              <td class="align-middle">
-                $ {{ af.Costo_PCGA | number | puntos }}
-              </td>
-              <td class="align-middle">
+              <td class="align-middle text-right" style="width:100px;">
                 $ {{ af.Costo_NIIF | number | puntos }}
               </td>
               <td class="align-middle">
@@ -140,12 +114,10 @@
                     >
                       <i class="mdi mdi-chevron-down"></i>
                     </button>
-                    <div ngbDropdownMenu>
-                      <!-- <a class="dropdown-item waves-light waves-effect caja-botones" href="{{generalService.Ruta_Principal}}/php/contabilidad/movimientoscontables/movimientos_activo_fijo_pdf.php?id_registro={{af.Id_Activo_Fijo}}&id_funcionario_elabora={{Identificacion_Funcionario}}"
-                                                              target="_blank"> <i class="fa fa-list-alt"></i>Ver Contabilizacion PCGA</a>
-
-                                                          <a class="dropdown-item waves-light waves-effect caja-botones" href="{{generalService.Ruta_Principal}}/php/contabilidad/movimientoscontables/movimientos_activo_fijo_pdf.php?id_registro={{af.Id_Activo_Fijo}}&id_funcionario_elabora={{Identificacion_Funcionario}}&tipo=Niif"
-                                                              target="_blank"> <i class="fa fa-list-alt"></i>Ver Contabilizacion NIIF</a> -->
+                    <div ngbDropdownMenu> 
+                      <a class="dropdown-item waves-light waves-effect caja-botones"  
+                        href="{{env.ruta}}php/contabilidad/movimientoscontables/movimientos_activo_fijo_pdf.php?id_registro={{af.Id_Activo_Fijo}}&id_funcionario_elabora={{Identificacion_Funcionario}}&tipo=Niif"
+                          target="_blank"> <i class="fa fa-list-alt"></i> Ver Contabilización</a>
                       <a
                         class="dropdown-item waves-light waves-effect caja-botones"
                         [routerLink]="['/contabilidad/activos-fijos-crear']"
@@ -166,14 +138,24 @@
                         <i class="fa fa-eye"></i> Ver</a
                       >
                       <a
-                        *ngIf="af.Estado != 'Anulada' && perfilUsuario == '27'"
-                        class="dropdown-item waves-light waves-effect caja-botones bg-danger"
-                        href="javascript:;"
-                        [swal]="confirmacionAnular"
-                        (click)="IdDocumento = af.Id_Activo_Fijo"
+                       *ngIf="af.Estado != 'Anulada'"
+                        class="dropdown-item text-danger waves-light waves-effect caja-botones"
+                        [swal]="{
+                          title: 'Cambio de estado',
+                          text: 'Se dispone a cambiar el estado de este Activo Fijo.',
+                          icon: 'warning',
+                          showCancelButton: true,
+                          confirmButtonText: 'Confirmar',
+                          cancelButtonText: 'Cancelar',
+                          reverseButtons: true
+                        }"
+                        (confirm)="CambiarEstado(af.Id_Activo_Fijo)"
                       >
-                        <i class="fa fa-close"></i> Anular</a
-                      >
+                        <span *ngIf="af.Estado == 'Activo'">
+                          <i class="fas fa-times"> </i> Anular
+                        </span>
+                      </a>
+                      
                     </div>
                   </div>
                 </div>

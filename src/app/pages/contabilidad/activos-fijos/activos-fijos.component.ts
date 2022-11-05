@@ -21,6 +21,7 @@ import { DateAdapter } from 'saturn-datepicker';
   styleUrls: ['./activos-fijos.component.scss']
 })
 export class ActivosFijosComponent implements OnInit {
+  env = environment
   datePipe = new DatePipe('es-CO');
   date: { year: number; month: number };
   @ViewChild('ModalActivoFijo') ModalActivoFijo:any;
@@ -48,7 +49,6 @@ export class ActivosFijosComponent implements OnInit {
     codigo:'',
     tipo:'',
     costo_niif:'',
-    costo_pcga:'',
     Id_Empresa: ''
   };
 
@@ -222,10 +222,6 @@ formatter_tercero = (x: { Nombre_Tercero: string }) => x.Nombre_Tercero;
       this.ShowSwal('warning', 'Alerta', 'El costo no puede ser 0, verifique el costo NIIF!');
       return false;
 
-    }else if (this.ActivoFijoModel.Costo_PCGA == 0) {
-      this.ShowSwal('warning', 'Alerta', 'El costo no puede ser 0, verifique el costo PCGA!');
-      return false;
-
     }else if (this.ActivoFijoModel.Id_Centro_Costo == '' ) {
       this.ShowSwal('warning', 'Alerta', 'No ha agregado un centro de costo!');
       return false;
@@ -316,9 +312,6 @@ formatter_tercero = (x: { Nombre_Tercero: string }) => x.Nombre_Tercero;
       params.costo_niif = this.Filtros.costo_niif;
     }
 
-    if (this.Filtros.costo_pcga.trim() != "") {
-      params.costo_pcga = this.Filtros.costo_pcga;
-    }
     let queryString = '?'+ Object.keys(params).map(key => key + '=' + params[key]).join('&');
 
 
@@ -339,7 +332,6 @@ formatter_tercero = (x: { Nombre_Tercero: string }) => x.Nombre_Tercero;
     .subscribe((data:any) => {
       if (data.codigo == 'success') {
         this.ActivosFijos = data.query_result;
-        console.log(data);
         this.TotalItems = data.numReg;
       }else{
         this.ActivosFijos = [];
@@ -443,7 +435,6 @@ formatter_tercero = (x: { Nombre_Tercero: string }) => x.Nombre_Tercero;
   AsignarValor(){
     let valor=parseFloat(this.ActivoFijoModel.Base.toString())+parseFloat(this.ActivoFijoModel.Iva.toString());
     this.ActivoFijoModel.Costo_NIIF=valor;
-    this.ActivoFijoModel.Costo_PCGA=valor;
     this.RecalcularRetenciones();
   }
   AdicionActivo(id){

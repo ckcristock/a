@@ -27,7 +27,8 @@ export class ActivosFijosCrearComponent implements OnInit {
   public datosCabecera:any = {
     Titulo: 'Nuevo Activo Fijo',
     Fecha: new Date(),
-    Codigo: ''
+    Codigo: '',
+    Empresa : {}
   }
   public alertOption:SweetAlertOptions = {};
   public TerceroSeleccionado:any = '';

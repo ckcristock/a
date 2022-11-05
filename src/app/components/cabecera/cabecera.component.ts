@@ -1,5 +1,6 @@
 import { Component, OnInit, Input, OnChanges, SimpleChanges } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
+import { UserService } from 'src/app/core/services/user.service';
 
 @Component({
   selector: 'app-cabecera',
@@ -9,10 +10,19 @@ import { HttpClient } from '@angular/common/http';
 export class CabeceraComponent implements OnInit, OnChanges {
 
   @Input() datosCabecera: any;
+  Empresa : {
+    logo:'',
+    tin:'',
+    name:'',
+    dv:''
+  };
 
-  constructor( private http: HttpClient) { }
+  constructor( private http: HttpClient, private _user: UserService) {
+    this.Empresa = this._user.user.person.company_worked;
+   }
 
   ngOnInit() {
+    
   }
 
   ngOnChanges(changes:SimpleChanges){
