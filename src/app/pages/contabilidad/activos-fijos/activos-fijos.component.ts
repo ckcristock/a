@@ -15,6 +15,7 @@ import { UserService } from 'src/app/core/services/user.service';
 import { MatAccordion } from '@angular/material';
 import { DatePipe } from '@angular/common';
 import { DateAdapter } from 'saturn-datepicker';
+
 @Component({
   selector: 'app-activos-fijos',
   templateUrl: './activos-fijos.component.html',
@@ -100,7 +101,8 @@ export class ActivosFijosComponent implements OnInit {
  public Codigo:any='';
   public TerceroSeleccionado:any='';
   public Retenciones:any=[];
-  // public Identificacion_Funcionario=(JSON.parse(localStorage.getItem("User"))).Identificacion_Funcionario;
+  public Identificacion_Funcionario=this._user.user.person.id;
+  public company_id: any = this._user.user.person.company_worked.id;
   IdDocumento: string = '';
   // id_funcionario: any = JSON.parse(localStorage.getItem('User')).Identificacion_Funcionario;
   alertOption: SweetAlertOptions;
@@ -302,7 +304,7 @@ formatter_tercero = (x: { Nombre_Tercero: string }) => x.Nombre_Tercero;
 
     if (this.Filtros.nombre.trim() != "") {
       params.nombre = this.Filtros.nombre;
-    }
+    } 
 
     if (this.Filtros.tipo.trim() != "") {
       params.tipo = this.Filtros.tipo;

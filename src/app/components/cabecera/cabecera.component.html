@@ -4,10 +4,10 @@
             <table class="table table-responsive invoice-table table-borderless mb-0">
                 <tbody>
                     <tr>
-                        <td>
-                            <img src="{{Empresa.logo}}" class="m-b-10" style="width:250px;">
-                            <br><br><strong>{{Empresa.name}}</strong>
-                            <br>{{Empresa.tin | number | puntos }}-{{Empresa.dv}}
+                        <td class="p-0">
+                            <img src="{{Empresa.logo}}" class="mb-1 img-thumbnail" style="width:250px;">
+                            <br><strong>{{Empresa.name}}</strong>
+                            <br><strong>NIT:</strong> {{Empresa.tin | number | puntos }}-{{Empresa.dv}}
                         </td>
                     </tr>
                 </tbody>

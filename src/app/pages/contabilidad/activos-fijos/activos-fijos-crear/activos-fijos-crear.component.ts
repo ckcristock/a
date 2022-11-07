@@ -14,6 +14,7 @@ import { TerceroService } from '../../../../core/services/tercero.service';
 import { environment } from 'src/environments/environment';
 import Swal from 'sweetalert2';
 import { PlanCuentasService } from '../../plan-cuentas/plan-cuentas.service';
+import { UserService } from 'src/app/core/services/user.service';
 type Person = {value: number, text: string};
 
 @Component({
@@ -114,9 +115,11 @@ export class ActivosFijosCrearComponent implements OnInit {
               private swalService: SwalService,
               private _terceroService: TerceroService,
               private _activoFijos: ActivosFijosService,
-              private _company: PlanCuentasService
-              ) { 
+              private _company: PlanCuentasService,
+              private _user : UserService
 
+              ) { 
+    this.ActivoFijoModel.company_id = this._user.user.person.company_worked.id;
     this.alertOption = {
       title: "¿Está Seguro?",
       text: "Se dispone a Guardar este Comprobante",
@@ -146,11 +149,11 @@ export class ActivosFijosCrearComponent implements OnInit {
     this.GetTipoActivos();
     this.GetRetenciones();
     this.isAdicion();
-    this.http.get(environment.ruta + 'php/comprobantes/lista_cuentas.php').subscribe((data: any) => {
+    this.http.get(environment.ruta + 'php/comprobantes/lista_cuentas.php',{ params: {company_id: this._user.user.person.company_worked.id } }).subscribe((data: any) => {
       this.Cuenta = data.Activo;        
     });
-    this.http.get(environment.ruta + this.Ruta_Nit).subscribe((data: any) => {
-      this.Cliente = data;
+    this.http.get(environment.ruta + this.Ruta_Nit,{ params: {company_id: this._user.user.person.company_worked.id } }).subscribe((data: any) => {
+      this.Cliente = data; 
     });
     this.FiltrarTerceros().subscribe((data:any) => {
       this.terceros = data;
@@ -160,7 +163,7 @@ export class ActivosFijosCrearComponent implements OnInit {
 
   FiltrarTerceros():Observable<any>{
     // let p = {coincidencia:match};
-    return this.http.get(this._rutaBase+'filtrar_terceros.php');
+    return this.http.get(this._rutaBase+'filtrar_terceros.php',{ params: {company_id: this._user.user.person.company_worked.id } });
   }
 
   ListasEmpresas(){
@@ -258,7 +261,7 @@ formatter_tercero = (x: { Nombre_Tercero: string }) => x.Nombre_Tercero;
   }
 
   getCodigoActivo() {
-    this.http.get(environment.ruta+'php/activofijo/get_codigo.php')
+    this.http.get(environment.ruta+'php/activofijo/get_codigo.php',{ params: {company_id: this._user.user.person.company_worked.id } })
     .subscribe((data:any)=>{
       this.datosCabecera.Codigo=data.consecutivo;
     })
