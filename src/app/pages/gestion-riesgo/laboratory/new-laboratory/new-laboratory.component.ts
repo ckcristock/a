@@ -72,13 +72,22 @@ export class NewLaboratoryComponent implements OnInit {
   ngOnInit() {
     this.createForm();
     this._queryPatient.patient.subscribe(async r => {
+      this.paciente = r.paciente
       if (!r.paciente.identifier || r.isNew) {
         this.form.patchValue({ patient: '' })
       } else if (!r.isNew) {
         this.form.patchValue({ patient: r.paciente })
       }
-    })
-    this.getContract();
+      this.form.patchValue({ contract_id: '' })
+      let params = {
+        eps_id: this.paciente.eps_id,
+        regimen_id: this.paciente.regimen_id,
+        department_id: this.paciente.department_id,
+        type_service: 8
+      }
+      this.getContract(params);
+    })   
+    
     this.getLaboratoriesPlace();
     this.getProfessional();
     //this.getPatients();
@@ -250,8 +259,8 @@ export class NewLaboratoryComponent implements OnInit {
     }
   }
 
-  getContract() {
-    this._laboratory.getContracts()
+  getContract(params) {
+    this._laboratory.getContracts(params)
       .subscribe((res: any) => {
         this.contratos = res.data
       })

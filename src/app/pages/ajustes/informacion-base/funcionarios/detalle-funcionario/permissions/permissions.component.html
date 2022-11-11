@@ -1,27 +1,39 @@
-<div>
-    <div class="mb-6">
-      <app-board-permissions [personId]="person_id"></app-board-permissions>
-    </div>
-    <div class="mb-6">
-      <app-companies-to-work [personId]="person_id"></app-companies-to-work>
-    </div>
-    <div class="mb-6">
-      <app-dispensing-point [personId]="person_id"></app-dispensing-point>
-    </div>
-    <hr>
-    <app-menu-child *ngIf="!loading && menues.length > 0; else notData" [navItems]="menues"></app-menu-child>
-    <div class="row" *ngIf="menues.length > 0">
-      <button [disabled]="saving" class="btn-block btn btn-sm btn-primary" (click)="save()">
-        <span *ngIf="!saving ;else status">Guardar Permisos</span>
-        <ng-template #status>
-          <span class="spinner-border spinner-border-sm" role="status" aria-hidden="true"></span>
-          Guardando permisos...
-        </ng-template>
-      </button>
-    </div>
+<div class="row">
+  <div class="col">
+    <app-board-permissions [personId]="person_id"></app-board-permissions>
   </div>
-  
-  <ng-template #notData>
-    <app-not-data [loading]="loading"></app-not-data>
-  </ng-template>
-  
+  <div class="col">
+    <app-companies-to-work [personId]="person_id"></app-companies-to-work>
+  </div>
+  <div class="col">
+    <app-dispensing-point [personId]="person_id"></app-dispensing-point>
+  </div>
+  <hr />
+  <div class="col-12 mt-4">
+    <app-menu-child
+      *ngIf="!loading && menues.length > 0; else notData"
+      [navItems]="menues"
+    ></app-menu-child>
+  </div>
+  <div class="col-12" *ngIf="menues.length > 0">
+    <button
+      [disabled]="saving"
+      class="btn-block btn btn-primary"
+      (click)="save()"
+    >
+      <span *ngIf="!saving; else status">Guardar</span>
+      <ng-template #status>
+        <span
+          class="spinner-border spinner-border-sm"
+          role="status"
+          aria-hidden="true"
+        ></span>
+        Guardando permisos...
+      </ng-template>
+    </button>
+  </div>
+</div>
+
+<ng-template #notData>
+  <app-not-data [loading]="loading"></app-not-data>
+</ng-template>

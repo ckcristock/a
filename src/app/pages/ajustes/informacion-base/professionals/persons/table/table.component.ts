@@ -59,7 +59,7 @@ export class TableComponent implements OnInit {
       this.pagination.collectionSize = res.data.total
       this.pagination.pageSize = res.data.per_page
       this.loading = false;
-      console.log(this.persons)
+      //console.log(this.persons)
     })
   }
 

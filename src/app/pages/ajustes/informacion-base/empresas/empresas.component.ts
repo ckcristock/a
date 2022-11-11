@@ -10,6 +10,22 @@ import { ConfiguracionEmpresaService } from '../../configuracion/configuracion-e
 export class EmpresasComponent implements OnInit {
   @ViewChild(MatAccordion) accordion: MatAccordion;
   matPanel = false;
+  pagination: any = {
+    page: 1,
+    pageSize: 10,
+    collectionSize: 0,
+  };
+  filtro: any = {
+    name: '',
+    tin: '',
+  };
+  loading: boolean = false
+  enterprises: any[] = [];
+  constructor(private _company: ConfiguracionEmpresaService) {}
+
+  ngOnInit(): void {
+    this.getCompany();
+  }
   openClose() {
     if (this.matPanel == false) {
       this.accordion.openAll();
@@ -19,20 +35,17 @@ export class EmpresasComponent implements OnInit {
       this.matPanel = false;
     }
   }
-  loading: boolean = false
-  enterprises: any[] = [];
-  constructor(private _company: ConfiguracionEmpresaService) {}
-
-  ngOnInit(): void {
-    this.getCompany();
-  }
-
-  getCompany() {
+  getCompany(page = 1) {
+    this.pagination.page = page;
+    let params = {
+      ...this.pagination,
+      ...this.filtro,
+    };
     this.loading = true
-    this._company.getCompanies().subscribe((res: any) => {
-      this.enterprises = res.data;
+    this._company.getCompanies(params).subscribe((res: any) => {
+      this.enterprises = res.data.data;
       this.loading = false
-      console.log(this.enterprises)
+      this.pagination.collectionSize = res.data.total;
     });
   }
 }

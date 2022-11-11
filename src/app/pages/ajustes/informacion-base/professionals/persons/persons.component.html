@@ -1,17 +1,24 @@
 <div class="card">
-    <div class="card-body">
-        <div class="card-title d-flex justify-content-between">
-            <h4 class="text-primary">Datos de profesionales</h4>
-            <div class="btn-group rounded">
-                <button (click)="createOrUpdated()" class="btn btn-primary btn-sm">
-                    <i class="fa fa-user-md"></i> Agregar
-                </button>
-                <button class="btn btn-info btn-sm" style="float: right;" (click)="table.openClose()">
-                    <i class="fas fa-sliders-h"></i> Filtros
-                </button>
-            </div>
+  <div class="card-body">
+    <div class="row card-title d-flex justify-content-between">
+      <div class="col-md-6 px-0">
+        <h4 class="text-primary">Profesionales</h4>
+      </div>
+      <div class="col-md-6 px-0 text-right">
+        <div class="btn-group rounded w-sm-100">
+          <button (click)="createOrUpdated()" class="btn btn-primary btn-sm">
+            <i class="fa fa-user-md"></i> Agregar
+          </button>
+          <button
+            class="btn btn-info btn-sm"
+            (click)="table.openClose()"
+          >
+            <i class="fas fa-sliders-h"></i> Filtros
+          </button>
         </div>
-        <hr class="line">
-        <app-table #table (edit)="createOrUpdated($event)"></app-table>
+      </div>
     </div>
+    <hr class="line" />
+    <app-table #table (edit)="createOrUpdated($event)"></app-table>
+  </div>
 </div>

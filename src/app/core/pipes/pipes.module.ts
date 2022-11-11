@@ -10,8 +10,28 @@ import { ObjToArraykeysPipe } from './obj-to-array-keys.pipe';
 import { PayrollStatusPipe } from "./payroll-status.pipe";
 
 @NgModule({
-    declarations: [ImagePipe, ObjToArrayPipe, PuntosPipe, TimePipe, MinWordsPipe, SafePipe, CustomcurrencyPipe,ObjToArraykeysPipe,PayrollStatusPipe],
-    exports: [ImagePipe, ObjToArrayPipe, PuntosPipe, TimePipe, MinWordsPipe, SafePipe, CustomcurrencyPipe,ObjToArraykeysPipe,PayrollStatusPipe]
+    declarations: [
+        ImagePipe, 
+        ObjToArrayPipe, 
+        PuntosPipe, 
+        TimePipe, 
+        MinWordsPipe, 
+        SafePipe, 
+        CustomcurrencyPipe,
+        ObjToArraykeysPipe,
+        PayrollStatusPipe
+    ],
+    exports: [
+        ImagePipe, 
+        ObjToArrayPipe, 
+        PuntosPipe, 
+        TimePipe, 
+        MinWordsPipe, 
+        SafePipe, 
+        CustomcurrencyPipe,
+        ObjToArraykeysPipe,
+        PayrollStatusPipe
+    ]
 })
 
 export class PipesModule { }

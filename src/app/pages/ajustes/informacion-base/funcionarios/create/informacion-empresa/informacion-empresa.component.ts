@@ -9,6 +9,7 @@ import { WorkContractTypesService } from '../../../services/workContractTypes.se
 import { consts } from '../../../../../../core/utils/consts';
 import { RotatingTurnsService } from '../../../services/rotating-turns.service';
 import { GroupService } from '../../../services/group.service';
+import { FixedTurnService } from '../../../turnos/turno-fijo/turno-fijo.service';
 
 @Component({
   selector: 'app-informacion-empresa',
@@ -23,6 +24,7 @@ export class InformacionEmpresaComponent implements OnInit {
   positions: any[];
   workContractTypes: any[];
   rotatingTurns: any[];
+  fixedTurns: any[];
   groups: any[];
 
   $person: Subscription;
@@ -38,6 +40,7 @@ export class InformacionEmpresaComponent implements OnInit {
     private _positions: PositionService,
     private _workContractTypes: WorkContractTypesService,
     private _rotatingTurns: RotatingTurnsService,
+    private _fixedTurns: FixedTurnService,
     private _group: GroupService,
 
   ) { }
@@ -48,6 +51,7 @@ export class InformacionEmpresaComponent implements OnInit {
     this.getCompanies();
     this.getworkContractTypes();
     this.getRotatingTurns();
+    this.getRotatingTurns2();
     this.getGroups();
     this.$person = this._person.person.subscribe((r) => {
       this.person = r
@@ -96,6 +100,12 @@ export class InformacionEmpresaComponent implements OnInit {
       this.rotatingTurns.unshift({ text: 'Seleccione una', value: '' });
     });
   }
+  getRotatingTurns2() {
+    this._fixedTurns.getFixedTurns().subscribe((r: any) => {
+      this.fixedTurns = r.data;
+      this.fixedTurns.unshift({ text: 'Seleccione una', value: '' });
+    });
+  }
   crearForm() {
     this.formCompany = this.fb.group({
       company_id: ['', Validators.required],
@@ -109,12 +119,11 @@ export class InformacionEmpresaComponent implements OnInit {
       rotating_turn_id: ['', Validators.required],
       date_end: ['', Validators.required],
     });
-    this.formCompany.get('rotating_turn_id').disable();
     this.formCompany.get('date_end').disable();
   }
 
   turnChanged(turno) {
-    if (turno == 'Rotativo') {
+    if (turno == 'Fijo') {
       this.formCompany.get('rotating_turn_id').enable();
     } else {
       this.formCompany.get('rotating_turn_id').disable();
@@ -122,6 +131,7 @@ export class InformacionEmpresaComponent implements OnInit {
   }
   conludeContract = false;
   workContractTypesChanged(conclude) {
+    console.log(conclude)
     if (conclude) {
       this.formCompany.get('date_end').enable();
       this.conludeContract = true;
