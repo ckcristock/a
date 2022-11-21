@@ -4,6 +4,7 @@ import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 @Injectable()
 export class ModalService {
   constructor(private modalService: NgbModal) { }
+
   open(content, size = 'md') {
     this.modalService.open(content, { ariaLabelledBy: 'modal-basic-title', size: size, scrollable: true });
   }

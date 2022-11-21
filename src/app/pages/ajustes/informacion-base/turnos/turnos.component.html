@@ -3,6 +3,23 @@
     <div class="card-title d-flex justify-content-between">
       <h4 class="text-primary">Turnos de la compañía</h4>
     </div>
+    <hr class="line" />
+    <div class="row">
+      <div class="col-lg-4">
+        <app-turno-fijo></app-turno-fijo>
+      </div>
+      <div class="col-lg-8">
+        <app-turno-rotativo></app-turno-rotativo>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- <div class="card">
+  <div class="card-body">
+    <div class="card-title d-flex justify-content-between">
+      <h4 class="text-primary">Turnos de la compañía</h4>
+    </div>
     <hr class="line">
     <ul ngbNav #nav="ngbNav" [(activeId)]="active" class="nav nav-pills nav-justified border border-primary rounded">
       <li [ngbNavItem]="1">
@@ -29,4 +46,4 @@
 
     <div [ngbNavOutlet]="nav"></div>
   </div>
-</div>
+</div> -->

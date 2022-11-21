@@ -1,20 +1,20 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 
-import { TurnoRotativoComponent } from './turno-rotativo.component';
+import { LocalidadesComponent } from './localidades.component';
 
-describe('TurnoRotativoComponent', () => {
-  let component: TurnoRotativoComponent;
-  let fixture: ComponentFixture<TurnoRotativoComponent>;
+describe('LocalidadesComponent', () => {
+  let component: LocalidadesComponent;
+  let fixture: ComponentFixture<LocalidadesComponent>;
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      declarations: [ TurnoRotativoComponent ]
+      declarations: [ LocalidadesComponent ]
     })
     .compileComponents();
   });
 
   beforeEach(() => {
-    fixture = TestBed.createComponent(TurnoRotativoComponent);
+    fixture = TestBed.createComponent(LocalidadesComponent);
     component = fixture.componentInstance;
     fixture.detectChanges();
   });

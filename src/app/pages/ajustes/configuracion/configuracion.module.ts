@@ -21,18 +21,17 @@ import { ParafiscalesConfigComponent } from './nomina/components/parafiscales-co
 import { IncapacidadesConfigComponent } from './nomina/components/incapacidades-config/incapacidades-config.component';
 import { FormatoHistoriaComponent } from './formato-historia/formato-historia.component';
 import { ContabilidadComponent } from './contabilidad/contabilidad.component';
-import {NgbNavModule, NgbPaginationModule} from '@ng-bootstrap/ng-bootstrap';
+import {NgbDropdownModule, NgbNavModule, NgbPaginationModule} from '@ng-bootstrap/ng-bootstrap';
 import { SubcategoriaContabilidadComponent } from './contabilidad/components/subcategoria-contabilidad/subcategoria-contabilidad.component';
 import { SweetAlert2Module } from '@sweetalert2/ngx-sweetalert2';
 import { CatalogoContabilidadComponent } from './contabilidad/components/catalogo-contabilidad/catalogo-contabilidad.component';
 import { TableCatalogoComponent } from './contabilidad/components/table-catalogo/table-catalogo.component';
-import { MatExpansionModule } from '@angular/material/expansion';
-import { MatFormFieldModule } from '@angular/material/form-field';
-import { MatInputModule } from '@angular/material/input';
-import { MatSelectModule } from '@angular/material/select';
+import { MatExpansionModule, MatFormFieldModule, MatInputModule, MatSelectModule, MatButtonModule, MatIconModule } from '@angular/material';
 import { StructureCompanyModule } from '../../structure-company/structure-company.module';
 import { ParametrosModule } from '../parametros/parametros.module';
 import { InformacionBaseModule } from '../informacion-base/informacion-base.module';
+import { LocalidadesComponent } from './localidades/localidades.component';
+
 
 @NgModule({
   declarations: [
@@ -53,7 +52,8 @@ import { InformacionBaseModule } from '../informacion-base/informacion-base.modu
     ContabilidadComponent,
     SubcategoriaContabilidadComponent,
     CatalogoContabilidadComponent,
-    TableCatalogoComponent
+    TableCatalogoComponent,
+    LocalidadesComponent
   ],
   imports: [
     CommonModule,
@@ -74,6 +74,9 @@ import { InformacionBaseModule } from '../informacion-base/informacion-base.modu
     MatFormFieldModule,
     MatInputModule,
     MatSelectModule,
+    MatButtonModule,
+    MatIconModule,
+    NgbDropdownModule,
   ]
 })
 export class ConfiguracionModule { }

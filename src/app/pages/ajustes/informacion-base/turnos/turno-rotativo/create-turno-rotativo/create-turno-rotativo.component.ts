@@ -7,6 +7,7 @@ import {
   ViewChild,
 } from '@angular/core';
 import { FormBuilder, FormGroup } from '@angular/forms';
+import { ModalService } from 'src/app/core/services/modal.service';
 import { log } from 'util';
 import { ValidatorsService } from '../../../services/reactive-validation/validators.service';
 import { SwalService } from '../../../services/swal.service';
@@ -30,7 +31,8 @@ export class CreateTurnoRotativoComponent implements OnInit {
     private fb: FormBuilder,
     private _valReactive: ValidatorsService,
     private _rotatingT: RotatingTurnService,
-    private _swal: SwalService
+    private _swal: SwalService,
+    private _modal: ModalService
   ) {}
 
   ngOnInit(): void {
@@ -45,11 +47,15 @@ export class CreateTurnoRotativoComponent implements OnInit {
         this.getTur(id);
       }
       this.show = true;
-      this.modal.show();
+      //this.modal.show();
+      this.openConfirm(this.modal)
     });
   }
+  public openConfirm(confirm) {
+    this._modal.open(confirm,"lg");
+  }
   getAll(){
-    this._rotatingT.getAll().subscribe((r:any)=>{
+    this._rotatingT.getAllCreate().subscribe((r:any)=>{
       this.turns = r.data
       this.turns.unshift({text:'Descanso', value:0})
     });
@@ -129,18 +135,18 @@ export class CreateTurnoRotativoComponent implements OnInit {
     let number = (Math.random()*15).toFixed(0);
     return letters[number];
   }
-    
+
   colorHex(){
     let color = "";
     for(let i = 0; i< 6; i++){
       color = color + this.generateLetters();
     }
     return "#" + color;
-    
+
   }
 
   save() {
-   
+
     this.forma.markAllAsTouched();
     if (this.forma.invalid) {
       return false;
@@ -174,8 +180,9 @@ export class CreateTurnoRotativoComponent implements OnInit {
         text: 'Se ha guardado correctamente el turno',
         icon: 'success',
         showCancel: false,
+        timer: 1000
       });
-      this.modal.hide();
+      this._modal.close();
       this.saved.emit();
     } else {
       this._swal.show({

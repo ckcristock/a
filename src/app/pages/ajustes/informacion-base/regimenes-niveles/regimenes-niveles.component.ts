@@ -1,5 +1,6 @@
 import { Component, OnInit, ViewChild } from '@angular/core';
 import { MatAccordion } from '@angular/material/expansion';
+import { RegimenesNivelesService } from './regimenes-niveles.service';
 
 @Component({
   selector: 'app-regimenes-niveles',
@@ -7,72 +8,96 @@ import { MatAccordion } from '@angular/material/expansion';
   styleUrls: ['./regimenes-niveles.component.scss']
 })
 export class RegimenesNivelesComponent implements OnInit {
-  @ViewChild('firstAccordion') firstAccordion: MatAccordion;
-  @ViewChild('secondAccordion') secondAccordion: MatAccordion;
-  matPanel = false;
-  openClose(){
-    if (this.matPanel == false){
-      this.firstAccordion.openAll();
-      this.matPanel = true;
-    } else {
-      this.firstAccordion.closeAll();
-      this.matPanel = false;
-    }    
-  }
-  matPanel2 = false;
-  openClose2(){
-    if (this.matPanel2 == false){
-      this.secondAccordion.openAll();
-      this.matPanel2 = true;
-    } else {
-      this.secondAccordion.closeAll();
-      this.matPanel2 = false;
-    }    
-  }
-  pagination = {
-    pageSize: 20,
-    page: 1,
-    collectionSize: 40,
 
+  @ViewChild('accordionRegime') accordionRegime: MatAccordion;
+  @ViewChild('accordionLevel') accordionLevel: MatAccordion;
+  matPanel: any = {
+    accordionRegime: false,
+    accordionLevel: false
+  };
+  dataFormRegime: any;
+  dataFormLevel: any;
+
+  openCloseRegime() {
+    (!this.matPanel.accordionRegime)?this.accordionRegime.openAll():this.accordionRegime.closeAll();
+    this.matPanel.accordionRegime=!this.matPanel.accordionRegime;
   }
-  filters: any = {
 
-    date: '',
-    institution: '',
-    patient: '',
-    speciality: '',
-
+  openCloseLevel() {
+    (!this.matPanel.accordionLevel)?this.accordionLevel.openAll():this.accordionLevel.closeAll();
+    this.matPanel.accordionLevel=!this.matPanel.accordionLevel;
   }
   searching = false;
   searchFailed = false;
-  regimes = [{
-    code: 'CO',
-    name: 'Contributivo',
+  regimes = [];
+  levels = [];
 
-  }, {
-    code: 'COD1',
-    name: 'Subsidiado',
-
+  public loadingRegimes = false;
+  public loadingLevels = false;
+  public filtrosRegimes = {
+    name: '',
+    code: ''
   }
-  ];
-  levels = [{
-    code: 'CO',
-    name: 'Contributivo',
-
-  }, {
-    code: 'COD1',
-    name: 'Subsidiado',
-
-  }, {
-    code: 'CO',
-    name: '	901.032.674-1',
+  public filtrosLevels = {
+    name: '',
+    code: '',
+    cuote: ''
   }
-  ];
+  public pagination: any = {
+    regimes: {
+      page: 1,
+      pageSize: 5,
+      collectionSize: 0
+    },
+    levels: {
+      page: 1,
+      pageSize: 5,
+      collectionSize: 0
+    }
+  }
+  public regimeSelected: any = {
+    id: null,
+    nombre: ''
+  };
 
-
-  constructor() { }
+  constructor(
+    private _regimesLevels: RegimenesNivelesService,
+  ) { }
 
   ngOnInit(): void {
+    this.getRegimes();
+  }
+
+  getRegimes(page = 1) {
+    this.pagination.regimes.page = page;
+    let params = {
+      ...this.pagination.regimes, ...this.filtrosRegimes
+    }
+    this.loadingRegimes = true;
+    this._regimesLevels.getRegimes(params).subscribe((res: any) => {
+      this.regimes = res.data.data;
+       this.loadingRegimes = false;
+      this.pagination.regimes.collectionSize = res.data.total;
+    })
+  }
+
+  selected(model, value) {
+    model = model.map(m => {
+      m.selected = m.id == value ? true : false;
+    })
+  }
+
+  getLevels(regime, page = 1) {
+    this.pagination.levels.page = page;
+    let params = {
+      ...this.pagination.levels, ...this.filtrosLevels
+    }
+    this.loadingLevels = true;
+    this._regimesLevels.getLevelsRegime(regime, params).subscribe((res: any) => {
+      this.levels = res.data.data;
+      this.loadingLevels = false;
+      this.pagination.levels.collectionSize = res.data.total;
+    })
   }
 
 }

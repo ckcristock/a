@@ -15,12 +15,14 @@ import { UserService } from 'src/app/core/services/user.service';
 import { MatAccordion } from '@angular/material';
 import { DatePipe } from '@angular/common';
 import { DateAdapter } from 'saturn-datepicker';
+
 @Component({
   selector: 'app-activos-fijos',
   templateUrl: './activos-fijos.component.html',
   styleUrls: ['./activos-fijos.component.scss']
 })
 export class ActivosFijosComponent implements OnInit {
+  env = environment
   datePipe = new DatePipe('es-CO');
   date: { year: number; month: number };
   @ViewChild('ModalActivoFijo') ModalActivoFijo:any;
@@ -48,7 +50,6 @@ export class ActivosFijosComponent implements OnInit {
     codigo:'',
     tipo:'',
     costo_niif:'',
-    costo_pcga:'',
     Id_Empresa: ''
   };
 
@@ -100,7 +101,8 @@ export class ActivosFijosComponent implements OnInit {
  public Codigo:any='';
   public TerceroSeleccionado:any='';
   public Retenciones:any=[];
-  // public Identificacion_Funcionario=(JSON.parse(localStorage.getItem("User"))).Identificacion_Funcionario;
+  public Identificacion_Funcionario=this._user.user.person.id;
+  public company_id: any = this._user.user.person.company_worked.id;
   IdDocumento: string = '';
   // id_funcionario: any = JSON.parse(localStorage.getItem('User')).Identificacion_Funcionario;
   alertOption: SweetAlertOptions;
@@ -222,10 +224,6 @@ formatter_tercero = (x: { Nombre_Tercero: string }) => x.Nombre_Tercero;
       this.ShowSwal('warning', 'Alerta', 'El costo no puede ser 0, verifique el costo NIIF!');
       return false;
 
-    }else if (this.ActivoFijoModel.Costo_PCGA == 0) {
-      this.ShowSwal('warning', 'Alerta', 'El costo no puede ser 0, verifique el costo PCGA!');
-      return false;
-
     }else if (this.ActivoFijoModel.Id_Centro_Costo == '' ) {
       this.ShowSwal('warning', 'Alerta', 'No ha agregado un centro de costo!');
       return false;
@@ -306,7 +304,7 @@ formatter_tercero = (x: { Nombre_Tercero: string }) => x.Nombre_Tercero;
 
     if (this.Filtros.nombre.trim() != "") {
       params.nombre = this.Filtros.nombre;
-    }
+    } 
 
     if (this.Filtros.tipo.trim() != "") {
       params.tipo = this.Filtros.tipo;
@@ -316,9 +314,6 @@ formatter_tercero = (x: { Nombre_Tercero: string }) => x.Nombre_Tercero;
       params.costo_niif = this.Filtros.costo_niif;
     }
 
-    if (this.Filtros.costo_pcga.trim() != "") {
-      params.costo_pcga = this.Filtros.costo_pcga;
-    }
     let queryString = '?'+ Object.keys(params).map(key => key + '=' + params[key]).join('&');
 
 
@@ -339,7 +334,6 @@ formatter_tercero = (x: { Nombre_Tercero: string }) => x.Nombre_Tercero;
     .subscribe((data:any) => {
       if (data.codigo == 'success') {
         this.ActivosFijos = data.query_result;
-        console.log(data);
         this.TotalItems = data.numReg;
       }else{
         this.ActivosFijos = [];
@@ -443,7 +437,6 @@ formatter_tercero = (x: { Nombre_Tercero: string }) => x.Nombre_Tercero;
   AsignarValor(){
     let valor=parseFloat(this.ActivoFijoModel.Base.toString())+parseFloat(this.ActivoFijoModel.Iva.toString());
     this.ActivoFijoModel.Costo_NIIF=valor;
-    this.ActivoFijoModel.Costo_PCGA=valor;
     this.RecalcularRetenciones();
   }
   AdicionActivo(id){

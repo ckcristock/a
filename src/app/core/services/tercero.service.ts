@@ -16,7 +16,7 @@ export class TerceroService {
 
   FiltrarTerceros(match:string):Observable<any>{
     let p = {coincidencia:match};
-    return this.client.get(this._rutaBase+'filtrar_terceros.php', {params:p});
+    return this.client.get(this._rutaBase+'filtrar_terceros2.php', {params:p});
   }
 
   GetEpss():Observable<any>{

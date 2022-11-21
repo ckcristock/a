@@ -1,135 +1,433 @@
 <div class="row">
-    <div class="col-6">
-        <div class="card">
-            <div class="card-body">
-                <div class="card-title d-flex justify-content-between">
-                    <h4 class="text-primary">Regímenes</h4>
-                    <div class="btn-group rounded">
-                        <button class="btn btn-info btn-sm" style="float: right;" (click)="openClose()">
-                            <i class="fas fa-sliders-h"></i> Filtros
-                        </button>
-                    </div>
-                </div>
-                <hr class="line">
-                <mat-accordion multi #firstAccordion="matAccordion">
-                    <mat-expansion-panel class="mat-elevation-z0">
-                        <mat-form-field class="col-md-6 pl-0" appearance="outline">
-                            <mat-label>Nombre</mat-label>
-                            <input matInput type="text" placeholder="Busca por nombre" name="name" autocomplete="off">
-                        </mat-form-field>
-                    </mat-expansion-panel>
-                </mat-accordion>
-                <table class="table table-hover mb-0 table-centered table-nowrap ">
-                    <thead class="thead-dark ">
-                        <tr>
-                            <th>Código</th>
-                            <th>Nombre</th>
-
-                            <th class="text-right "> </th>
-
-                        </tr>
-                    </thead>
-                    <tbody>
-                        <tr *ngFor="let item of regimes ">
-                            <td>
-                                <p class="font-size-14 mb-0 ">{{item.code}}</p>
-                            </td>
-                            <td>
-                                <p class="font-size-14 mb-0 ">{{item.name}}</p>
-                            </td>
-
-
-                            <td class="text-right ">
-
-                                <div class="btn-group " role="group " ngbDropdown>
-                                    <button id="btnGroupVerticalDrop1 " type="button "
-                                        class="btn btn-primary dropdown-toggle " ngbDropdownToggle>
-                                        Acciones <i class="mdi mdi-chevron-down "></i>
-                                    </button>
-                                    <div style="cursor: pointer; " class="dropdown-menu font-weight-bolder "
-                                        aria-labelledby="btnGroupVerticalDrop1 " ngbDropdownMenu>
-                                        <a class="dropdown-item "> <i class="fa fa-search mr-2 "></i>Ver más</a>
-                                        <a class="dropdown-item "> <i class="fa fa-edit mr-2 "></i>Editar </a>
-                                        <a class="dropdown-item "> <i class="fa fa-ban mr-2 "></i>Suspender </a>
-                                    </div>
-                                </div>
-                            </td>
-                        </tr>
-
-                    </tbody>
-                </table>
-                <ngb-pagination class="d-flex justify-content-center pagination-rounded pagination-sm"
-                    [collectionSize]="pagination.collectionSize " [pageSize]="pagination.pageSize "
-                    [(page)]="pagination.page " aria-label="Default pagination ">
-                </ngb-pagination>
+  <div class="col-lg-6">
+    <div class="card text-left">
+      <img class="card-img-top" alt="" />
+      <div class="card-body">
+        <div class="row card-title d-flex justify-content-between">
+          <div class="col-md-6 px-0">
+            <h4 class="text-primary">Regímenes</h4>
+          </div>
+          <div class="col-md-6 px-0 text-right">
+            <div class="btn-group rounded w-sm-100">
+              <!-- <button
+                class="btn btn-sm btn-primary"
+                (click)="openConfirm(addRegime, 'Agregar', 'regimen')"
+              >
+                <i class="fa fa-plus"></i> Agregar
+              </button> -->
+              <button class="btn btn-info btn-sm" (click)="openCloseRegime()">
+                <i class="fas fa-sliders-h"></i> Filtros
+              </button>
             </div>
+          </div>
         </div>
-    </div>
-    <div class="col-6">
-        <div class="card">
-            <div class="card-body">
-                <div class="card-title d-flex justify-content-between">
-                    <h4 class="text-primary">Niveles</h4>
-                    <div class="btn-group rounded">
-                        <button class="btn btn-info btn-sm" style="float: right;" (click)="openClose2()">
-                            <i class="fas fa-sliders-h"></i> Filtros
-                        </button>
-                    </div>
-                </div>
-                <hr class="line">
-                <mat-accordion multi #secondAccordion="matAccordion">
-                    <mat-expansion-panel class="mat-elevation-z0">
-                        <mat-form-field class="col-md-6 pl-0" appearance="outline">
-                            <mat-label>Nombre</mat-label>
-                            <input matInput type="text" placeholder="Busca por nombre" name="name" autocomplete="off">
-                        </mat-form-field>
-                    </mat-expansion-panel>
-                </mat-accordion>
-                <table class="table table-hover mb-0 table-centered table-nowrap ">
-                    <thead class="thead-dark ">
-                        <tr>
-                            <th>Código</th>
-                            <th>Nombre</th>
-
-                            <th class="text-right "> </th>
-
-                        </tr>
-                    </thead>
-                    <tbody>
-                        <tr *ngFor="let item of levels ">
-                            <td>
-                                <p class="font-size-14 mb-0 ">{{item.code}}</p>
-                            </td>
-                            <td>
-                                <p class="font-size-14 mb-0 ">{{item.name}}</p>
-                            </td>
-
-
-                            <td class="text-right ">
-
-                                <div class="btn-group " role="group " ngbDropdown>
-                                    <button id="btnGroupVerticalDrop1 " type="button "
-                                        class="btn btn-primary dropdown-toggle " ngbDropdownToggle>
-                                        Acciones <i class="mdi mdi-chevron-down "></i>
-                                    </button>
-                                    <div style="cursor: pointer; " class="dropdown-menu font-weight-bolder "
-                                        aria-labelledby="btnGroupVerticalDrop1 " ngbDropdownMenu>
-                                        <a class="dropdown-item "> <i class="fa fa-search mr-2 "></i>Ver más</a>
-                                        <a class="dropdown-item "> <i class="fa fa-edit mr-2 "></i>Editar </a>
-                                        <a class="dropdown-item "> <i class="fa fa-ban mr-2 "></i>Suspender </a>
-                                    </div>
-                                </div>
-                            </td>
-                        </tr>
-
-                    </tbody>
-                </table>
-                <ngb-pagination class="d-flex justify-content-center pagination-rounded pagination-sm"
-                    [collectionSize]="pagination.collectionSize " [pageSize]="pagination.pageSize "
-                    [(page)]="pagination.page " aria-label="Default pagination ">
-                </ngb-pagination>
+        <hr class="line" />
+        <mat-accordion multi #accordionRegime="matAccordion">
+          <mat-expansion-panel class="mat-elevation-z0">
+            <div class="row">
+              <mat-form-field class="col" appearance="outline">
+                <mat-label>Nombre</mat-label>
+                <input
+                  type="text"
+                  [(ngModel)]="filtrosRegimes.name"
+                  (input)="getRegimes()"
+                  matInput
+                  autocomplete="off"
+                  placeholder="Busca por nombre"
+                />
+              </mat-form-field>
+              <mat-form-field class="col" appearance="outline">
+                <mat-label>Código</mat-label>
+                <input
+                  (selectionChange)="getRegimes()"
+                  [(ngModel)]="filtrosRegimes.code"
+                  (input)="getRegimes()"
+                  matInput
+                  autocomplete="off"
+                  placeholder="Busca por código"
+                />
+              </mat-form-field>
             </div>
+          </mat-expansion-panel>
+        </mat-accordion>
+        <div class="rounded-top table-responsive">
+          <table
+            class="table table-bordered table-striped table-sm"
+            *ngIf="!loadingRegimes && regimes.length > 0; else notDataRegimes"
+          >
+            <thead class="bg-light">
+              <tr class="text-center text-uppercase">
+                <th>Nombre</th>
+                <th>Código</th>
+                <!-- <th class="col-1">Acciones</th> -->
+              </tr>
+            </thead>
+            <tbody>
+              <tr
+                role="button"
+                class="text-center"
+                #regimeLevel
+                *ngFor="let regime of regimes"
+                (click)="
+                  regimeSelected = {
+                    id: regime.id,
+                    name: regime.name
+                  };
+                  selected(regimes,regime.id);
+                  getLevels(regime.id);"
+                [ngClass]="regime.selected?'bg-dark text-white font-weight-bold':''"
+              >
+                <td class="align-middle">{{ regime.name }}</td>
+                <td class="align-middle">{{ regime.code }}</td>
+                <!-- <td class="align-middle">
+                  <div class="text-center">
+                    <div ngbDropdown container="body" class="dropdown-primary">
+                      <button
+                        ngbDropdownToggle
+                        class="btn btn-primary btn-sm waves-light"
+                        type="button"
+                      >
+                        <i class="mdi mdi-chevron-down"></i>
+                      </button>
+                      <div ngbDropdownMenu>
+                        <a
+                          role="button"
+                          class="dropdown-item waves-light caja-botones text-info"
+                          href="javascript: void(0);"
+                          (click)="openConfirm(addGrupo, 'Editar', 'regime'); getGrupo(regime);"
+                        >
+                          <i class="far fa-edit"></i> Editar</a
+                        >
+                        <a
+                          role="button"
+                          [ngClass]="{
+                            'text-danger': regime.state == 'Activo',
+                            'text-success': regime.state == 'Inactivo'
+                          }"
+                          class="dropdown-item waves-light caja-botones text-success"
+                          (click)=" cambiarstate(regime, regime.state == 'Activo' ? 'Inactivo' : 'Activo')"
+                        >
+                          <i
+                            class="fas"
+                            [ngClass]="{
+                              'fa-trash-alt': regime.state == 'Activo',
+                              'fa-check': regime.state == 'Inactivo'
+                            }"
+                          ></i>
+                          {{ regime.state == "Activo" ? " Inactivar" : " Activar" }}
+                        </a>
+                      </div>
+                    </div>
+                  </div>
+                </td> -->
+              </tr>
+            </tbody>
+          </table>
         </div>
+        <ngb-pagination *ngIf="pagination.regimes.collectionSize > 0"
+          #paginationGrupos
+          class="d-flex justify-content-center pagination-rounded pagination-sm"
+          [collectionSize]="pagination.regimes.collectionSize"
+          (pageChange)="getGrupos($event)"
+          maxSize="5"
+          rotate="true"
+          ellipses="false"
+          boundaryLinks="true"
+          [pageSize]="pagination.regimes.pageSize"
+          [(page)]="pagination.regimes.page"
+          aria-label="Default pagination"
+        >
+        </ngb-pagination>
+      </div>
     </div>
+  </div>
+  <div class="col-lg-6">
+    <div class="card text-left">
+      <img class="card-img-top" alt="" />
+      <div class="card-body">
+        <div class="row card-title d-flex justify-content-between">
+          <div class="col-md-6 px-0">
+            <h4 class="text-primary">Niveles</h4>
+          </div>
+          <div class="col-md-6 px-0 text-right" *ngIf="regimeSelected.id != null">
+            <div class="btn-group rounded w-sm-100">
+              <!-- <button
+                class="btn btn-sm btn-primary"
+                (click)="openConfirm(addLevel, 'Agregar', 'level')"
+              >
+                <i class="fa fa-plus"></i> Agregar
+              </button> -->
+              <button class="btn btn-info btn-sm" (click)="openCloseLevel()">
+                <i class="fas fa-sliders-h"></i> Filtros
+              </button>
+            </div>
+          </div>
+        </div>
+        <hr class="line" />
+        <mat-accordion multi #accordionLevel="matAccordion">
+          <mat-expansion-panel class="mat-elevation-z0">
+            <div class="row">
+              <mat-form-field class="col" appearance="outline">
+                <mat-label>Nombre</mat-label>
+                <input
+                  type="text"
+                  [(ngModel)]="filtrosLevels.name"
+                  (input)="getLevels(regimeSelected.id)"
+                  matInput
+                  autocomplete="off"
+                  placeholder="Busca por nombre"
+                />
+              </mat-form-field>
+              <mat-form-field class="col" appearance="outline">
+                <mat-label>Código</mat-label>
+                <input
+                  type="text"
+                  [(ngModel)]="filtrosLevels.code"
+                  (input)="getLevels(regimeSelected.id)"
+                  matInput
+                  autocomplete="off"
+                  placeholder="Busca por código"
+                />
+              </mat-form-field>
+              <mat-form-field class="col" appearance="outline">
+                <mat-label>Cuota</mat-label>
+                <input
+                  type="number"
+                  [(ngModel)]="filtrosLevels.cuote"
+                  (input)="getLevels(regimeSelected.id)"
+                  matInput
+                  autocomplete="off"
+                  placeholder="Busca por cuota"
+                />
+              </mat-form-field>
+            </div>
+          </mat-expansion-panel>
+        </mat-accordion>
+        <h5 class="text-dark" *ngIf="regimeSelected.name">Régimen {{ regimeSelected.name | lowercase }}</h5>
+        <div class="rounded-top table-responsive">
+          <table
+            class="table table-bordered table-striped table-sm"
+            *ngIf="!loadingLevels && levels.length > 0; else notDataLevels"
+          >
+            <thead class="bg-light">
+              <tr class="text-center text-uppercase">
+                <th>Nombre</th>
+                <th>Código</th>
+                <th>Cuota</th>
+                <!-- <th class="col-1">Acciones</th> -->
+              </tr>
+            </thead>
+            <tbody>
+              <tr
+                role="button"
+                class="text-center"
+                *ngFor="let level of levels"
+              >
+                <td class="align-middle">{{ level.name }}</td>
+                <td class="align-middle">{{ level.code }}</td>
+                <td class="align-right">$ {{ level.cuote }}</td>
+                <!-- <td class="align-middle">
+                  <div class="text-center">
+                    <div ngbDropdown container="body" class="dropdown-primary">
+                      <button
+                        ngbDropdownToggle
+                        class="btn btn-primary btn-sm waves-light"
+                        type="button"
+                      >
+                        <i class="mdi mdi-chevron-down"></i>
+                      </button>
+                      <div ngbDropdownMenu>
+                        <a
+                          role="button"
+                          class="dropdown-item waves-light caja-botones text-info"
+                          href="javascript: void(0);"
+                          (click)=" openConfirm(addLevel, 'Editar', 'level'); getLevel(level);"
+                        >
+                          <i class="far fa-edit"></i> Editar</a
+                        >
+                      </div>
+                    </div>
+                  </div>
+                </td> -->
+              </tr>
+            </tbody>
+          </table>
+        </div>
+        <ngb-pagination *ngIf="pagination.levels.collectionSize > 0"
+          #paginationLevels
+          class="d-flex justify-content-center pagination-rounded pagination-sm"
+          [collectionSize]="pagination.levels.collectionSize"
+          (pageChange)="getLevels(regimeSelected.id, $event)"
+          maxSize="5"
+          rotate="true"
+          ellipses="false"
+          boundaryLinks="true"
+          [pageSize]="pagination.levels.pageSize"
+          [(page)]="pagination.levels.page"
+          aria-label="Default pagination"
+        >
+        </ngb-pagination>
+      </div>
+    </div>
+  </div>
 
+  <!-- Modals -->
+
+  <!-- <ng-template #addGrupo let-modal>
+    <div class="modal-header">
+      <h4 class="text-primary modal-title">
+        {{ tituloFormulario }} régimen
+      </h4>
+      <button
+        type="button"
+        class="close"
+        data-dismiss="modal"
+        aria-label="Close"
+        (click)="modal.dismiss('Cross click')"
+      >
+        <span aria-hidden="true">&times;</span>
+      </button>
+    </div>
+    <div class="modal-body">
+      <form [formGroup]="formGrupo">
+        <div class="row">
+          <mat-form-field class="col" appearance="outline">
+            <mat-label>Nombre regime bodega</mat-label>
+            <input matInput
+              type="text"
+              formControlName="nombre"
+              placeholder="Nombre del regime de la bodega"
+              autocomplete="off"
+              required
+            />
+          </mat-form-field>
+          <mat-form-field class="col" appearance="outline">
+            <mat-label for="Aplica_Separacion_Categorias">Fecha de vencimiento?</mat-label>
+            <mat-select
+              formControlName="fechaVencimiento"
+              placeholder="Fecha de vencimiento?"
+              required
+            >
+              <mat-option value="Si">Sí</mat-option>
+              <mat-option value="No">No</mat-option>
+            </mat-select>
+          </mat-form-field>
+          <mat-form-field class="col" appearance="outline">
+            <mat-label for="Aplica_Separacion_Categorias">Presentación?</mat-label>
+            <mat-select
+              formControlName="presentacion"
+              placeholder="Presentación?"
+              required
+            >
+              <mat-option value="Si">Sí</mat-option>
+              <mat-option value="No">No</mat-option>
+            </mat-select>
+          </mat-form-field>
+        </div>
+      </form>
+    </div>
+    <div class="modal-footer">
+      <button
+        type="button"
+        class="btn btn-danger"
+        (click)="modal.dismiss('Cross click')"
+      >
+        Cancelar
+      </button>
+      <button
+        type="button"
+        (click)="createGrupo()"
+        [disabled]="formGrupo.invalid"
+        class="btn btn-primary"
+      >
+        Guardar
+      </button>
+    </div>
+  </ng-template>
+
+  <ng-template #addLevel let-modal>
+    <div class="modal-header">
+      <h4 class="text-primary modal-title">{{ tituloFormulario }} Level</h4>
+      <button
+        type="button"
+        class="close"
+        data-dismiss="modal"
+        aria-label="Close"
+        (click)="modal.dismiss('Cross click')"
+      >
+        <span aria-hidden="true">&times;</span>
+      </button>
+    </div>
+    <div class="modal-body">
+      <form [formGroup]="formLevel">
+        <div class="row">
+          <mat-form-field class="col" appearance="outline">
+            <mat-label>Nombre level</mat-label>
+            <input
+              type="text"
+              formControlName="nombre"
+              matInput
+              placeholder="Nombre de la level"
+              required
+              autocomplete="off"
+            />
+          </mat-form-field>
+          <mat-form-field class="col" appearance="outline">
+            <mat-label>Código de barras</mat-label>
+            <input
+              type="text"
+              formControlName="codigoBarras"
+              matInput
+              placeholder="Código de barras"
+              required
+              autocomplete="off"
+            />
+          </mat-form-field>
+          <mat-form-field class="col" appearance="outline">
+            <mat-label for="Aplica_Separacion_Categorias"
+              >state?</mat-label
+            >
+            <mat-select
+              formControlName="state"
+              id="state"
+              placeholder="state"
+              required
+            >
+              <mat-option value="Disponible">Disponible</mat-option>
+              <mat-option value="Inactiva">Inactiva</mat-option>
+              <mat-option value="Inventario">Inventario</mat-option>
+            </mat-select>
+          </mat-form-field>
+        </div>
+      </form>
+    </div>
+    <div class="modal-footer">
+      <button
+        type="button"
+        class="btn btn-danger"
+        (click)="modal.dismiss('Cross click')"
+      >
+        Cancelar
+      </button>
+      <button
+        type="button"
+        (click)="createLevel()"
+        [disabled]="formLevel.invalid"
+        class="btn btn-primary"
+      >
+        Guardar
+      </button>
+    </div>
+  </ng-template> -->
+
+ <!--  <swal #deleteSwal title="" text="" type=""> </swal> -->
+
+  <ng-template #notDataRegimes>
+    <app-not-data [loading]="loadingRegimes"></app-not-data>
+  </ng-template>
+
+  <ng-template #notDataLevels>
+    <app-not-data *ngIf="regimeSelected.id != null" [loading]="loadingLevels"></app-not-data>
+    <app-not-data *ngIf="regimeSelected.id == null" text="Seleccione un régimen para ver los niveles en ese régimen"></app-not-data>
+  </ng-template>
 </div>
