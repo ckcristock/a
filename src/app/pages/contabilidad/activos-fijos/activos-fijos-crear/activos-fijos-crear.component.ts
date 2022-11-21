@@ -115,15 +115,10 @@ export class ActivosFijosCrearComponent implements OnInit {
               private swalService: SwalService,
               private _terceroService: TerceroService,
               private _activoFijos: ActivosFijosService,
-<<<<<<< HEAD
               private _company: PlanCuentasService,
               private _user : UserService
-=======
-              private _company: PlanCuentasService
-              ) {
->>>>>>> 002365553a330fb1e3eda3798bb0133acb545dcf
 
-              ) { 
+              ) {
     this.ActivoFijoModel.company_id = this._user.user.person.company_worked.id;
     this.alertOption = {
       title: "¿Está Seguro?",
@@ -154,16 +149,11 @@ export class ActivosFijosCrearComponent implements OnInit {
     this.GetTipoActivos();
     this.GetRetenciones();
     this.isAdicion();
-<<<<<<< HEAD
     this.http.get(environment.ruta + 'php/comprobantes/lista_cuentas.php',{ params: {company_id: this._user.user.person.company_worked.id } }).subscribe((data: any) => {
-      this.Cuenta = data.Activo;        
-=======
-    this.http.get(environment.ruta + 'php/comprobantes/lista_cuentas.php').subscribe((data: any) => {
       this.Cuenta = data.Activo;
->>>>>>> 002365553a330fb1e3eda3798bb0133acb545dcf
     });
     this.http.get(environment.ruta + this.Ruta_Nit,{ params: {company_id: this._user.user.person.company_worked.id } }).subscribe((data: any) => {
-      this.Cliente = data; 
+      this.Cliente = data;
     });
     this.FiltrarTerceros().subscribe((data:any) => {
       this.terceros = data;
