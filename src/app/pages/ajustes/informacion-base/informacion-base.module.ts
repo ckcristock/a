@@ -176,6 +176,7 @@ import { MatAutocompleteModule } from '@angular/material/autocomplete';
         myModules.FondoCesantiasComponent,
         myModules.CajaCompensacionComponent,
         myModules.ArlComponent,
+        myModules.SedesComponent,
     ]
 })
 export class InformacionBaseModule { }

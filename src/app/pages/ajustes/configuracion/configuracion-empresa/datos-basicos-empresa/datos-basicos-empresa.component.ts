@@ -19,7 +19,6 @@ export class DatosBasicosEmpresaComponent implements OnInit, DoCheck {
   form: FormGroup;
   file: string;
   loading: boolean = true;
-  differ: any;
   fileString: string | ArrayBuffer = "";
   documents_types: any = []
   constructor(

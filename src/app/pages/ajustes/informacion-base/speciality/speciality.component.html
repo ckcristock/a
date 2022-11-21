@@ -62,7 +62,7 @@
           <tr
             *ngFor="let speciality of specialities"
             [ngClass]="{
-              'bg-danger text-white': speciality.status === 'Inactivo'
+              'text-danger font-weight-bold': speciality.status === 'Inactivo'
             }"
           >
             <td scope="row">{{ speciality.name }}</td>

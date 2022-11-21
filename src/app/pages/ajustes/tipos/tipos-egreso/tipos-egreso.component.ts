@@ -5,6 +5,8 @@ import { ValidatorsService } from '../../informacion-base/services/reactive-vali
 import Swal from 'sweetalert2';
 import { consts } from '../../../../core/utils/consts';
 import { MatAccordion } from '@angular/material/expansion';
+import { SwalService } from '../../informacion-base/services/swal.service';
+import { ModalService } from 'src/app/core/services/modal.service';
 
 @Component({
   selector: 'app-tipos-egreso',
@@ -12,58 +14,61 @@ import { MatAccordion } from '@angular/material/expansion';
   styleUrls: ['./tipos-egreso.component.scss']
 })
 export class TiposEgresoComponent implements OnInit {
-  @ViewChild('modal') modal:any;
+  @ViewChild('modal') modal: any;
   @ViewChild(MatAccordion) accordion: MatAccordion;
   matPanel = false;
-  openClose(){
-    if (this.matPanel == false){
+  openClose() {
+    if (this.matPanel == false) {
       this.accordion.openAll()
       this.matPanel = true;
     } else {
       this.accordion.closeAll()
       this.matPanel = false;
-    }    
+    }
   }
-  loading:boolean = false;
-  selected:any;
-  egresss:any[] = [];
-  egress:any = {};
-  pagination:any = {
+  loading: boolean = false;
+  selected: any;
+  egresss: any[] = [];
+  egress: any = {};
+  pagination: any = {
     page: 1,
     pageSize: 5,
     collectionSize: 0
   }
-  filtro:any = {
+  filtro: any = {
     name: ''
   }
   form: FormGroup;
   egressTypes = consts.Egresstypes;
-  constructor( 
-                private _egressTypeService: TiposEgresoService,
-                private _validators: ValidatorsService,
-                private fb: FormBuilder ) { }
+  constructor(
+    private _egressTypeService: TiposEgresoService,
+    private _validators: ValidatorsService,
+    private fb: FormBuilder,
+    private _swal: SwalService,
+    private _modal: ModalService,
+  ) { }
 
   ngOnInit(): void {
     this.getEgressType();
     this.createForm();
   }
 
-  openModal() {
-    this.modal.show();
+  openModal(content) {
+    this._modal.open(content);
     this.form.reset();
-    this.selected = 'Nuevo Tipo de Egreso';
+    this.selected = 'Nuevo tipo de egreso';
   }
-  
-    getEgress(  egress ) {
-      this.egress = {...egress}
-      this.selected = 'Actualizar Tipo de Egreso';
-      this.form.patchValue({
-        id: this.egress.id,
-        name: this.egress.name,
-        associated_account: this.egress.associated_account,
-        type: this.egress.type
-      });
-    }
+
+  getEgress(egress) {
+    this.egress = { ...egress }
+    this.selected = 'Actualizar tipo de egreso';
+    this.form.patchValue({
+      id: this.egress.id,
+      name: this.egress.name,
+      associated_account: this.egress.associated_account,
+      type: this.egress.type
+    });
+  }
 
   createForm() {
     this.form = this.fb.group({
@@ -74,30 +79,33 @@ export class TiposEgresoComponent implements OnInit {
     });
   }
 
-  getEgressType( page = 1 ) {
+  getEgressType(page = 1) {
     this.pagination.page = page;
     let params = {
       ...this.pagination, ...this.filtro
     }
     this.loading = true;
     this._egressTypeService.getEgresstype(params)
-    .subscribe( (res:any) =>{
-      this.egresss = res.data.data;
-      this.pagination.collectionSize = res.data.total;
-      this.loading = false;
-    });
+      .subscribe((res: any) => {
+        this.egresss = res.data.data;
+        this.pagination.collectionSize = res.data.total;
+        this.loading = false;
+      });
   }
 
   createEgressType() {
     this._egressTypeService.createEgressType(this.form.value)
-    .subscribe( (res:any) => {
-      this.modal.hide();
-      this.getEgressType();
-      Swal.fire({
-        icon: 'success',
-        title: res.data
+      .subscribe((res: any) => {
+        this._modal.close();
+        this.getEgressType();
+        this._swal.show({
+          icon: 'success',
+          title: res.data,
+          showCancel: false,
+          text: '',
+          timer: 1000
+        })
       })
-    })
   }
 
   activateOrInactivate(novelty, status) {
@@ -105,26 +113,24 @@ export class TiposEgresoComponent implements OnInit {
       id: novelty.id,
       status
     }
-    Swal.fire({
-      title: '¿Estas seguro?',
-      text: (status === 'Inactivo'? 'El Tipo Egreso se inactivará!' : 'El Tipo Egreso se activará'),
-      icon: 'warning',
-      showCancelButton: true,
-      confirmButtonColor: '#3085d6',
-      cancelButtonColor: '#d33',
-      cancelButtonText: 'Cancelar',
-      confirmButtonText: ( status === 'Inactivo' ? 'Si, Inhabilitar' : 'Si, activar' )
+    this._swal.show({
+      icon: 'question',
+      title: '¿Estás seguro(a)?',
+      showCancel: true,
+      text: (status === 'Inactivo' ? 'El tipo de egreso se anulará' : 'El tipo de egreso se activará'),
     }).then((result) => {
       if (result.isConfirmed) {
         this._egressTypeService.createEgressType(data)
-        .subscribe( res => {
-          this.getEgressType();
-          Swal.fire({
-            title: (status === 'Inactivo' ? 'Tipo de Egreso Inhabilitado!' : 'Tipo de Egreso activado' ),
-            text: (status === 'Inactivo' ? 'El Tipo de Egreso ha sido Inhabilitada con éxito.' : 'El tipo de Egreso ha sido activada con éxito.'),
-            icon: 'success'
+          .subscribe(res => {
+            this.getEgressType();
+            this._swal.show({
+              icon: 'success',
+              title: (status === 'Inactivo' ? 'Tipo de egreso anulado' : 'Tipo de egreso activado'),
+              showCancel: false,
+              text: (status === 'Inactivo' ? 'El tipo de egreso ha sido anulado con éxito.' : 'El tipo de egreso ha sido activado con éxito.'),
+              timer: 1000
+            })
           });
-        });
       }
     });
   }

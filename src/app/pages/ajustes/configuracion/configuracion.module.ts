@@ -29,7 +29,9 @@ import { TableCatalogoComponent } from './contabilidad/components/table-catalogo
 import { MatExpansionModule, MatFormFieldModule, MatInputModule, MatSelectModule, MatButtonModule, MatIconModule } from '@angular/material';
 import { StructureCompanyModule } from '../../structure-company/structure-company.module';
 import { ParametrosModule } from '../parametros/parametros.module';
+import { InformacionBaseModule } from '../informacion-base/informacion-base.module';
 import { LocalidadesComponent } from './localidades/localidades.component';
+
 
 @NgModule({
   declarations: [
@@ -56,6 +58,7 @@ import { LocalidadesComponent } from './localidades/localidades.component';
   imports: [
     CommonModule,
     StructureCompanyModule,
+    InformacionBaseModule,
     ParametrosModule,
     NgSelectModule,
     ComponentsModule,

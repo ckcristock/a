@@ -21,7 +21,7 @@
                 </tr>
             </thead>
             <tbody>
-                <tr *ngFor="let eps of epss" [ngClass]="{'bg-danger text-white': (eps.status === 'Inactivo' )}">
+                <tr *ngFor="let eps of epss" [ngClass]="{'text-danger font-weight-bold': (eps.status === 'Inactivo' )}">
                     <td scope="row"> {{ eps.name }} </td>
                     <td> {{ eps.code }} </td>
                     <td> {{ eps.nit }} </td>

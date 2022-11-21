@@ -50,7 +50,10 @@ export class ConfiguracionEmpresaComponent implements OnInit {
         : value == 'cuentas-bancarias'
           ? this.active = 3
           : value == 'categorias'
-            ? this.active = 4 : this.active = 1
+            ? this.active = 4 
+              : value == 'sedes' 
+                ? this.active = 5
+                 : this.active = 1
 
     this.currentCompany = this.rutaActiva.snapshot.params.id;
     this.createForm();

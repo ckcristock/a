@@ -37,7 +37,7 @@ export class TiposContratoComponent implements OnInit {
   selected: any;
   pagination: any = {
     page: 1,
-    pageSize: 10,
+    pageSize: 6,
     collectionSize: 0,
   };
   types = consts.contract_type;

@@ -18,52 +18,54 @@
     <hr class="line" />
     <mat-accordion multi>
       <mat-expansion-panel class="mat-elevation-z0">
-        <mat-form-field class="col-md-3 pl-0" appearance="outline">
-          <mat-label>Nombre</mat-label>
-          <input
-            matInput
-            type="text"
-            placeholder="Busca por nombre"
-            [(ngModel)]="filtros.nombre"
-            (input)="getRetentionTypes()"
-            autocomplete="off"
-          />
-        </mat-form-field>
-        <mat-form-field class="col-md-3 pl-0" appearance="outline">
-          <mat-label>Porcentaje</mat-label>
-          <input
-            matInput
-            type="text"
-            placeholder="Busca por porcentaje"
-            [(ngModel)]="filtros.porcentaje"
-            (input)="getRetentionTypes()"
-            autocomplete="off"
-          />
-        </mat-form-field>
-        <mat-form-field class="col-md-3 pl-0" appearance="outline">
-          <mat-label>Cuenta asociada</mat-label>
-          <input
-            matInput
-            type="text"
-            placeholder="Busca por cuenta asociada (Número de meses)"
-            [(ngModel)]="filtros.cuentaAsociada"
-            (input)="getRetentionTypes()"
-            autocomplete="off"
-          />
-        </mat-form-field>
-        <mat-form-field class="col-md-3 pl-0" appearance="outline">
-          <mat-label>Estado</mat-label>
-            <mat-select
+        <div class="row">
+          <mat-form-field class="col" appearance="outline">
+            <mat-label>Nombre</mat-label>
+            <input
               matInput
-              placeholder="Busca por estado"
-              [(ngModel)]="filtros.estado"
-              (selectionChange)="getRetentionTypes()"
-            >
-              <mat-option value="">Todos</mat-option>
-              <mat-option value="Activo">Activo</mat-option>
-              <mat-option value="Inactivo">Inactivo</mat-option>
-            </mat-select>
+              type="text"
+              placeholder="Busca por nombre"
+              [(ngModel)]="filtros.nombre"
+              (input)="getRetentionTypes()"
+              autocomplete="off"
+            />
           </mat-form-field>
+          <mat-form-field class="col" appearance="outline">
+            <mat-label>Porcentaje</mat-label>
+            <input
+              matInput
+              type="text"
+              placeholder="Busca por porcentaje"
+              [(ngModel)]="filtros.porcentaje"
+              (input)="getRetentionTypes()"
+              autocomplete="off"
+            />
+          </mat-form-field>
+          <mat-form-field class="col" appearance="outline">
+            <mat-label>Cuenta asociada</mat-label>
+            <input
+              matInput
+              type="text"
+              placeholder="Busca por cuenta asociada (Número de meses)"
+              [(ngModel)]="filtros.cuentaAsociada"
+              (input)="getRetentionTypes()"
+              autocomplete="off"
+            />
+          </mat-form-field>
+          <mat-form-field class="col" appearance="outline">
+            <mat-label>Estado</mat-label>
+              <mat-select
+                matInput
+                placeholder="Busca por estado"
+                [(ngModel)]="filtros.estado"
+                (selectionChange)="getRetentionTypes()"
+              >
+                <mat-option value="">Todos</mat-option>
+                <mat-option value="Activo">Activo</mat-option>
+                <mat-option value="Inactivo">Inactivo</mat-option>
+              </mat-select>
+            </mat-form-field>
+        </div>
       </mat-expansion-panel>
     </mat-accordion>
     <div class="rounded-top table-responsive">
@@ -77,7 +79,7 @@
             <th>Descripción</th>
             <th>Porcentaje</th>
             <th>Cuenta asociada</th>
-            <th>Acciones</th>
+            <th><i class="mdi mdi-chevron-down"></i></th>
           </tr>
         </thead>
         <tbody>
@@ -140,9 +142,6 @@
       (pageChange)="getRetentionTypes($event)"
       aria-label="Default pagination"
       maxSize="5"
-      rotate="true"
-      ellipses="false"
-      boundaryLinks="true"
       rotate="true"
       ellipses="false"
       boundaryLinks="true"
@@ -242,83 +241,6 @@
   </div>
 </ng-template>
 
-<!-- <app-modal-basic #modal [dialogClass]="'modal-lg'">
-  <div class="app-modal-header">
-    <h5 class="modal-title">{{ title }}</h5>
-    <button type="button" class="close basic-close" (click)="closeModal()">
-      <span aria-hidden="true">
-        <i class="fas fa-times" (click)="closeModal()"></i>
-      </span>
-    </button>
-  </div>
-  <div class="app-modal-body">
-    <form [formGroup]="form">
-      <div class="row">
-        <div class="col-12">
-          <div class="form-row">
-            <div class="form-group col-md-4">
-              <label for="">Nombre Retención</label>
-              <input
-                type="text"
-                class="form-control form-control-sm"
-                formControlName="name"
-              />
-            </div>
-            <div class="form-group col-md-4">
-              <label for="">Tipo Retención</label>
-              <input
-                type="text"
-                class="form-control form-control-sm"
-                formControlName="account_plan_id"
-                (change)="getTipo()"
-                [ngbTypeahead]="search"
-                [resultFormatter]="resultFormatBandListValue"
-                [inputFormatter]="inputFormatBandListValue"
-                [editable]="false"
-              />
-            </div>
-            <div class="form-group col-md-4">
-              <label for="">Porcentaje</label>
-              <input
-                type="number"
-                class="form-control form-control-sm"
-                formControlName="percentage"
-              />
-            </div>
-            <div class="form-group col-12">
-              <label for="">Descripción</label>
-              <textarea
-                class="form-control form-control-sm"
-                cols="30"
-                rows="4"
-                formControlName="description"
-              ></textarea>
-            </div>
-          </div>
-        </div>
-      </div>
-    </form>
-  </div>
-  <div class="app-modal-footer">
-    <div class="form-group text-right">
-      <button
-        (click)="closeModal()"
-        type="button"
-        class="btn btn-danger raised mr-2 btn-sm"
-      >
-        Cerrar
-      </button>
-      <button
-        type="submit"
-        class="btn btn-primary btn-sm raised"
-        (click)="save()"
-        [disabled]="!form.valid"
-      >
-        Guardar
-      </button>
-    </div>
-  </div>
-</app-modal-basic> -->
 <ng-template #notData>
   <app-not-data [loading]="loading"></app-not-data>
 </ng-template>

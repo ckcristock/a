@@ -22,7 +22,7 @@ export class CajaCompensacionComponent implements OnInit {
   caja: any = {}
   pagination: any = {
     page: 1,
-    pageSize: 10,
+    pageSize: 5,
     collectionSize: 0,
   };
   filtro: any = {

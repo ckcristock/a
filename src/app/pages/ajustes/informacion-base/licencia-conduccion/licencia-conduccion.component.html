@@ -16,7 +16,7 @@
                 </tr>
             </thead>
             <tbody>
-                <tr *ngFor="let license of licenses" [ngClass]="{'bg-danger text-white': (license.state == 'Inactivo')}">
+                <tr *ngFor="let license of licenses" [ngClass]="{'text-danger font-weight-bold': (license.state == 'Inactivo')}">
                     <td> {{ license.type }} </td>
                     <td> {{ license.description }} </td>
                     <td>
