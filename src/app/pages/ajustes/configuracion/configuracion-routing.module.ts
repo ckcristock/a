@@ -5,6 +5,7 @@ import { CamposTercerosComponent } from './campos-terceros/campos-terceros.compo
 import { NominaComponent } from './nomina/nomina.component';
 import { FormatoHistoriaComponent } from './formato-historia/formato-historia.component';
 import {ContabilidadComponent} from './contabilidad/contabilidad.component';
+import { LocalidadesComponent } from './localidades/localidades.component';
 
 const routes: Routes = [
   { path: 'configuracion-empresa', component: ConfiguracionEmpresaComponent },
@@ -13,6 +14,7 @@ const routes: Routes = [
   { path: 'configuracion-nomina', component: NominaComponent },
   { path: 'formato-historia', component: FormatoHistoriaComponent },
   { path: 'contabilidad', component: ContabilidadComponent },
+  { path: 'localidades', component: LocalidadesComponent },
 ];
 
 @NgModule({
