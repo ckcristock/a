@@ -32,7 +32,7 @@ export class CentroCostosComponent implements OnInit {
     }    
   }
   openInNewTab() {
-    window.open(this.enviromen.ruta + 'php/centroscostos/exportar.php', '_blank').focus();
+    window.open(this.enviromen.ruta + 'php/centroscostos/exportar.php?company='+this.company_id, '_blank').focus();
   }
   enviromen:any;
   public Cargando: boolean=false;
@@ -57,7 +57,6 @@ export class CentroCostosComponent implements OnInit {
     Id_Centro_Padre: '',
     Id_Tipo_Centro: '',
     Valor_Tipo_Centro: '',
-    Movimiento: 'No',
     company_id: ''
     //Nivel: 0
   };
@@ -69,7 +68,6 @@ export class CentroCostosComponent implements OnInit {
     Id_Tipo_Centro: '',
     Valor_Tipo_Centro: '',
     Id_Centro_Costo: '',
-    Movimiento : '',
     company_id: ''
   };
 
@@ -119,11 +117,12 @@ export class CentroCostosComponent implements OnInit {
               ) { }
 
   ngOnInit() {
+    this.enviromen = environment;
+    this.company_id = this._user.user.person.company_worked.id;
+
     this.filtrar();
     this.QueryTipoCentros();
    // this.QueryCentrosCostos();
-    this.enviromen = environment;
-    this.company_id = this._user.user.person.company_worked.id;
   }
 
   openModal(content){
@@ -163,6 +162,9 @@ export class CentroCostosComponent implements OnInit {
       pag: this.page
     };
 
+    if(this.company_id != '' ){
+      params.company = this.company_id;
+    }
     if (this.Filtros.Codigo != '') {
       params.cod = this.Filtros.Codigo;
     }
@@ -190,6 +192,7 @@ export class CentroCostosComponent implements OnInit {
     this.http.get(environment.ruta + '/php/centroscostos/lista_centros_costos.php?'+queryString).subscribe((data: any) => {
       this.items = data.Centros;
       this.TotalItems = data.numReg;
+      this.CentrosCostosPadre = data.CentrosCostosPadre;
 
     });
 
@@ -241,6 +244,7 @@ export class CentroCostosComponent implements OnInit {
       let data = this.normalize(JSON.stringify(this.CentroCostoModel));
       datos.append("Datos", data);
       datos.append("accion", funcion);
+      
       this.PeticionGuardarCentro(datos);
       //modalCentroCosto.hide();
       this._modal.close()
@@ -257,7 +261,7 @@ export class CentroCostosComponent implements OnInit {
       let data = this.normalize(JSON.stringify(this.EditarCentroCostoModel));
       datos.append("Datos", data);
       datos.append("accion", funcion);
-      console.log(datos);
+      
       this.PeticionGuardarCentro(datos);
       //modalCentroCosto.hide();
       this._modal.close()
@@ -279,13 +283,13 @@ export class CentroCostosComponent implements OnInit {
   }
 
   ValorTipoCentro(value:string){
-    console.log(value)
+    
     switch(value){
       case '1':
         this.CentroCostoModel.ValorTipo = 'Tercero';
         this.ValorTipo = 'Tercero';
 
-        this.http.get(environment.ruta + 'php/centroscostos/listar_valores_tipo_centro.php', {params: {id_tipo:value, tipo:'Tercero'}}).subscribe((data: any) => {
+        this.http.get(environment.ruta + 'php/centroscostos/listar_valores_tipo_centro.php', {params: {id_tipo:value, tipo:'Tercero', company : this.company_id}}).subscribe((data: any) => {
 
           this.ValoresTipoCentro = data;
         });
@@ -295,7 +299,7 @@ export class CentroCostosComponent implements OnInit {
         this.CentroCostoModel.ValorTipo = 'Departamento';
         this.ValorTipo = 'Departamento';
 
-        this.http.get(environment.ruta + 'php/centroscostos/listar_valores_tipo_centro.php', {params: {id_tipo:value, tipo:'Departamento'}}).subscribe((data: any) => {
+        this.http.get(environment.ruta + 'php/centroscostos/listar_valores_tipo_centro.php', {params: {id_tipo:value, tipo:'Departamento', company : this.company_id}}).subscribe((data: any) => {
 
           this.ValoresTipoCentro = data;
         });
@@ -305,7 +309,7 @@ export class CentroCostosComponent implements OnInit {
         this.CentroCostoModel.ValorTipo = 'Municipio';
         this.ValorTipo = 'Municipio';
 
-        this.http.get(environment.ruta + 'php/centroscostos/listar_valores_tipo_centro.php', {params: {id_tipo:value, tipo:'Municipio'}}).subscribe((data: any) => {
+        this.http.get(environment.ruta + 'php/centroscostos/listar_valores_tipo_centro.php', {params: {id_tipo:value, tipo:'Municipio', company : this.company_id}}).subscribe((data: any) => {
 
           this.ValoresTipoCentro = data;
         });
@@ -315,7 +319,7 @@ export class CentroCostosComponent implements OnInit {
         this.CentroCostoModel.ValorTipo = 'Zona';
         this.ValorTipo = 'Zona';
 
-        this.http.get(environment.ruta + 'php/centroscostos/listar_valores_tipo_centro.php', {params: {id_tipo:value, tipo:'Zonas'}}).subscribe((data: any) => {
+        this.http.get(environment.ruta + 'php/centroscostos/listar_valores_tipo_centro.php', {params: {id_tipo:value, tipo:'Zonas', company : this.company_id}}).subscribe((data: any) => {
 
           this.ValoresTipoCentro = data;
         });
@@ -330,7 +334,7 @@ export class CentroCostosComponent implements OnInit {
   }
 
   checkValue(event:any){
-    // console.log(event);
+    
     if(event){
       this.CodigoPlaceholder = 'Ej: 001';
       this.CentroCostoModel.Nivel = '';
@@ -370,9 +374,8 @@ export class CentroCostosComponent implements OnInit {
   EditarCentroCosto(idCentroCosto, content){
 
     this.http.get(environment.ruta + 'php/centroscostos/consultar_centro_costo.php', { params: {id_centro:idCentroCosto.toString(), opcion:'editar'} }).subscribe((data: any) => {
-      console.log(data);
+      
       this.ValorTipoCentro(data.Id_Tipo_Centro);
-
       this.QueryCentrosCostos(idCentroCosto);
 
       setTimeout(() => {
@@ -406,6 +409,7 @@ export class CentroCostosComponent implements OnInit {
   })();
 
   PeticionGuardarCentro(data){
+
     this.http.post(environment.ruta + 'php/centroscostos/guardar_centros_costos.php', data).subscribe((data: any) => {
       if (data.codigo == 'success') {
         Swal.fire({
