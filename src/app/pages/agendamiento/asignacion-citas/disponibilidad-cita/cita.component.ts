@@ -32,7 +32,7 @@ export class CitaComponent implements OnInit {
       value: any
     }
   ];
-
+  paciente: any
   @Output('siguiente') sigx = new EventEmitter();
   // @ViewChild(AsignarCalendarioComponent) calendar: AsignarCalendarioComponent;
 
@@ -41,10 +41,11 @@ export class CitaComponent implements OnInit {
       public _queryAvailabilitySpacesService: QueryAvailabilitySpacesService,
       private dataCitaToAssignService: dataCitaToAssignService,
       private _queryPatient: QueryPatient,
-      private _assingService: AssingService
+      private _assingService: AssingService,
     ) { }
 
   ngOnInit(): void {
+
 
     this.getTypeAppointment();
 

@@ -29,6 +29,7 @@ export class dataCitaToAssign {
         public subappointmentId?,
         public ipsId?,
         public currentAppointment?,
+        public contractId?,
 
     ) { }
 

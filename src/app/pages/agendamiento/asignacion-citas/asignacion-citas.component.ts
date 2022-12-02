@@ -38,7 +38,7 @@ export class AsignacionCitasComponent implements OnInit {
 
   public configComponent: any =
     {
-      'menu': 'Asignación de Citas',
+      'menu': 'Asignación de citas',
       'permissions': {
         'receive_calls': false
       }
@@ -72,7 +72,7 @@ export class AsignacionCitasComponent implements OnInit {
   public dataCitaToAssign = new dataCitaToAssign();
 
   constructor(
-    private http: HttpClient, 
+    private http: HttpClient,
     private _queryPatient: QueryPatient,
     private _tipification: TipificationService,
     private route: ActivatedRoute,

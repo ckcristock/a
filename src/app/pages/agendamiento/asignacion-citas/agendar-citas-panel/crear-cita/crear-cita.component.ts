@@ -11,6 +11,7 @@ import { formaterInput } from '../../../../../formaterInput'
 import Swal from 'sweetalert2';
 import { dataCitaToAssignService } from '../../../dataCitaToAssignService.service';
 import { diasSemana } from '../../../abrir-agendas/dias';
+import { LaboratoryService } from 'src/app/pages/gestion-riesgo/laboratory/laboratory.service';
 
 @Component({
   selector: 'app-crear-cita',
@@ -32,9 +33,10 @@ export class CrearCitaComponent implements OnInit {
   public tipification: any = {}
   public fromWailist: boolean = false
   public diasSemana = diasSemana
-
+  public contratos: any[] = []
   diagnosticoId: any;
   procedureId: any;
+  contractId: any;
   repeat: any;
   fechaInicioRecurrente: any;
   fechaFinRecurrente: any;
@@ -48,7 +50,7 @@ export class CrearCitaComponent implements OnInit {
   constructor(private _openAgendaService: OpenAgendaService,
     private _queryPatient: QueryPatient,
     private dataCitaToAssignService: dataCitaToAssignService,
-
+    private _laboratory: LaboratoryService,
   ) {
 
     this._queryPatient.infowailist.subscribe(res => {
@@ -89,8 +91,15 @@ export class CrearCitaComponent implements OnInit {
   ngOnInit(): void {
 
     this.$patient = this._queryPatient.patient.subscribe(r => {
+      this.contractId = ''
       this.call = r.llamada
       this.patient = r.paciente
+      let params = {
+        eps_id: this.patient.eps_id,
+        regimen_id: this.patient.regimen_id,
+        department_id: this.patient.department_id,
+      }
+      this.getContract(params);
     })
     /*  this.call = this.dataCitaToAssignService.dateCall.llamada
      this.patient = this.dataCitaToAssignService.dateCall.paciente */
@@ -105,6 +114,13 @@ export class CrearCitaComponent implements OnInit {
     this.$trSelct = this._queryPatient.tramiteSelected.subscribe(r => {
       this.tramiteSelected = r
     })
+  }
+
+  getContract(params) {
+    this._laboratory.getContracts(params)
+      .subscribe((res: any) => {
+        this.contratos = res.data
+      })
   }
 
   ngOnDestroy(): void {
