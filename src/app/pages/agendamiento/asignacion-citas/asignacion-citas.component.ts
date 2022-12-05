@@ -130,7 +130,7 @@ export class AsignacionCitasComponent implements OnInit {
 
   getCallPending() {
     this.asignacionCitas.getCallPending().subscribe((res: Response) => {
-      if (res.data) {
+      if (res && res.data) {
         this.Id_llamada = res.data.id
         this.mypatient.name = res.data.patient.firstname + ' ' + res.data.patient.surname
         this.mypatient.identifier = res.data.patient.identifier

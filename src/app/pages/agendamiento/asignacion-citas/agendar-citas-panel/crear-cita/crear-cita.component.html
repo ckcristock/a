@@ -1,168 +1,93 @@
 <form class="row mt-3" #registerCita="ngForm">
-  <div class="col-12 mt-12">
-    <div class="input-group mb-3">
-      <div class="input-group-prepend">
-        <span class="input-group-text" id="inputGroup-sizing-default">
-          <i class="fas fa-stethoscope"></i>
-        </span>
-      </div>
-      <input
-        id="typeahead-http"
-        type="text"
-        required
-        class="form-control"
-        [class.is-invalid]="searchFailedDiagnostic"
-        [(ngModel)]="diagnosticoId"
-        [ngbTypeahead]="search"
-        placeholder="Diagnostico del Paciente"
-        name="diagnosticoId"
-        ngDefaultControl
-        [resultTemplate]="diagnostic"
-        [inputFormatter]="Inputdiagnostic"
-      />
-      <small *ngIf="searchingDiagnostic" class="form-text text-muted"
-        >Buscando...</small
-      >
-      <div class="invalid-feedback" *ngIf="searchFailedDiagnostic">
-        No se ha podido encontrar.
-      </div>
-    </div>
-  </div>
+  <mat-form-field class="col-12" appearance="outline">
+    <mat-label>Diagnóstico</mat-label>
+    <input
+      matInput
+      type="text"
+      required
+      [(ngModel)]="diagnosticoId"
+      [ngbTypeahead]="search"
+      placeholder="Busca por diagnóstico"
+      name="diagnosticoId"
+      [resultTemplate]="diagnostic"
+      [inputFormatter]="Inputdiagnostic"
+    />
+    <mat-icon matSuffix><i class="fas fa-stethoscope"></i></mat-icon>
+    <mat-hint *ngIf="searchingDiagnostic">Buscando...</mat-hint>
+    <mat-hint *ngIf="searchFailedDiagnostic">Sin resultados</mat-hint>
+  </mat-form-field>
+  <mat-form-field class="col-lg-6" appearance="outline">
+    <mat-label>IPS Remisora</mat-label>
+    <input
+      matInput
+      type="text"
+      placeholder="Ingresa la IPS"
+      [(ngModel)]="cita.ips_remisor"
+      name="ips_remisor"
+      required
+      autocomplete="off"
+    />
+    <mat-icon matSuffix><i class="fas fa-hospital-alt"></i></mat-icon>
+  </mat-form-field>
+  <mat-form-field class="col-lg-6" appearance="outline">
+    <mat-label>Médico remisor</mat-label>
+    <input
+      matInput
+      type="text"
+      placeholder="Ingresa el nombre del médico"
+      [(ngModel)]="cita.person_remisor"
+      name="person_remisor"
+      required
+      autocomplete="off"
+    />
+    <mat-icon matSuffix><i class="fas fa-user-md"></i></mat-icon>
+  </mat-form-field>
+  <mat-form-field class="col-lg-6" appearance="outline">
+    <mat-label>Especialidad médico remisor</mat-label>
+    <input
+      matInput
+      type="text"
+      placeholder="Ingresa el nombre del médico"
+      name="especiality"
+      [(ngModel)]="cita.especiality"
+      required
+      autocomplete="off"
+    />
+    <mat-icon matSuffix><i class="fas fa-notes-medical"></i></mat-icon>
+  </mat-form-field>
 
-  <div class="col-6 mt-12">
-    <div class="input-group mb-3">
-      <div class="input-group-prepend">
-        <span class="input-group-text" id="inputGroup-sizing-default">
-          <i class="fas fa-hospital-alt"></i>
-        </span>
-      </div>
-
-      <input
-        type="text"
-        required
-        name="ips_remisor"
-        [(ngModel)]="cita.ips_remisor"
-        placeholder="IPS Remisora"
-        class="form-control"
-      />
-
-      <!-- <ng-select class="col-10" [items]="ips_remisors" bindLabel="text" bindValue="value"
-                        [(ngModel)]="cita.ips_remisor" placeholder="Seleccione " name="ips_remisor"
-                        loadingText="loading" ngDefaultControl>
-                    </ng-select> -->
-    </div>
-  </div>
-
-  <div class="col-6 mt-12">
-    <div class="input-group mb-3">
-      <div class="input-group-prepend">
-        <span class="input-group-text" id="inputGroup-sizing-default">
-          <i class="fas fa-user-md"></i>
-        </span>
-      </div>
-
-      <input
-        type="text"
-        required
-        name="person_remisor"
-        placeholder="Médico Remisor"
-        [(ngModel)]="cita.person_remisor"
-        class="form-control"
-      />
-
-      <!-- <ng-select class="col-10" [items]="persons_remisors" bindLabel="text" bindValue="value"
-                        [(ngModel)]="cita.person_remisor" placeholder="Seleccione "
-                        name="person_remisor" loadingText="loading" ngDefaultControl>
-                    </ng-select> -->
-    </div>
-  </div>
-
-  <div class="col-6 mt-12">
-    <div class="input-group mb-3">
-      <div class="input-group-prepend">
-        <span class="input-group-text" id="inputGroup-sizing-default">
-          <i class="fas fa-notes-medical"></i>
-        </span>
-      </div>
-
-      <input
-        type="text"
-        required
-        name="especiality"
-        placeholder="Especialidad de Médico Remisor"
-        [(ngModel)]="cita.especiality"
-        class="form-control form-control"
-      />
-
-      <!-- <ng-select class="col-10" [items]="procedurs_remisors" bindLabel="text" bindValue="value"
-                        [(ngModel)]="cita.especiality" placeholder="Seleccione " name="especiality"
-                        loadingText="loading" ngDefaultControl>
-                    </ng-select> -->
-    </div>
-  </div>
-
-  <div class="col-6 mt-12">
-    <div class="input-group mb-3">
-      <div class="input-group-prepend">
-        <span
-          class="input-group-text"
-          placeholder="Fecha Remitido Servicio"
-          id="inputGroup-sizing-default"
-        >
-          <i class="fas fa-calendar-alt"></i>
-        </span>
-      </div>
-
-      <input
-        type="date"
-        required
-        name="date_remisor"
-        [(ngModel)]="cita.date_remisor"
-        class="form-control form-control"
-      />
-    </div>
-  </div>
-
-  <div class="col-12 mt-12">
-    <div class="input-group mb-3">
-      <div class="input-group-prepend">
-        <span class="input-group-text" id="inputGroup-sizing-default">
-          <i class="fas fa-cogs"></i>
-        </span>
-      </div>
-
-      <input
-        type="text"
-        required
-        class="form-control"
-        [class.is-invalid]="searchFailedProcedure"
-        [(ngModel)]="procedureId"
-        [ngbTypeahead]="searchCustomProcedureByAppointment"
-        placeholder="Código CUPS Asignado"
-        name="procedureId"
-        ngDefaultControl
-        [resultTemplate]="procedure"
-        [inputFormatter]="InputProcedure"
-      />
-      <small *ngIf="searchingProcedure" class="form-text text-muted"
-        >Buscando...</small
-      >
-      <div class="invalid-feedback" *ngIf="searchFailedProcedure">
-        No se ha podido encontrar.
-      </div>
-    </div>
-  </div>
+  <mat-form-field class="col-lg-6" appearance="outline">
+    <mat-label>Fecha</mat-label>
+    <input
+      matInput
+      type="date"
+      name="date_remisor"
+      [(ngModel)]="cita.date_remisor"
+      required
+      autocomplete="off"
+    />
+  </mat-form-field>
+  <mat-form-field class="col-12" appearance="outline">
+    <mat-label>Código CUPS asignado</mat-label>
+    <input
+      matInput
+      type="text"
+      required
+      [(ngModel)]="procedureId"
+      [ngbTypeahead]="searchCustomProcedureByAppointment"
+      placeholder="Busca por CUP"
+      name="procedureId"
+      [resultTemplate]="procedure"
+      [inputFormatter]="InputProcedure"
+    />
+    <mat-icon matSuffix><i class="fas fa-cogs"></i></mat-icon>
+    <mat-hint *ngIf="searchingProcedure">Buscando...</mat-hint>
+    <mat-hint *ngIf="searchFailedProcedure">Sin resultados</mat-hint>
+  </mat-form-field>
   <mat-form-field class="col" appearance="outline">
     <mat-label>Contrato</mat-label>
-    <mat-select
-      [(ngModel)]="contractId"
-      name="contractId"
-      required
-    >
-      <mat-option
-        *ngFor="let option of contratos"
-        [value]="option.value"
-      >
+    <mat-select [(ngModel)]="contract_id" name="contract_id" required>
+      <mat-option *ngFor="let option of contratos" [value]="option.value">
         {{ option.text }}
       </mat-option>
     </mat-select>
@@ -174,83 +99,69 @@
   <input type="hidden" name="anotherData" [(ngModel)]="dataCitaToAssign" />
   <input type="hidden" name="tipification" [(ngModel)]="tipification" />
 
-  <div class="col-12 mt-12">
-    <div class="form-group">
-      <label for="observaciones">Observaciones</label>
-      <textarea
-        class="form-control"
-        required
-        id="observaciones"
-        name="observation"
-        [(ngModel)]="cita.observacion"
-        required
-        minlength="10"
-      ></textarea>
-    </div>
+  <mat-form-field
+    class="col-12 mat-form-field-no-padding textarea"
+    appearance="outline"
+  >
+    <mat-label>Observaciones</mat-label>
+    <textarea
+      matInput
+      placeholder="Ingresa las observaciones"
+      rows="5"
+      [(ngModel)]="cita.observacion"
+      id="observaciones"
+      name="observation"
+      required
+      minlength="10"
+      [cdkTextareaAutosize]="true"
+    ></textarea>
+  </mat-form-field>
+  <div class="col-12">
+    <mat-checkbox color="primary" value="" name="repeat" [(ngModel)]="repeat"
+      >¿ Agendar de manera recurrente ?</mat-checkbox
+    >
   </div>
 
-  <div class="col-md-3 my-2">
-    <div class="form-check">
+  <ng-container *ngIf="repeat">
+    <mat-form-field class="col" appearance="outline">
+      <mat-label>Inicio</mat-label>
       <input
-        class="form-check-input"
-        type="checkbox"
-        value=""
-        ngModel
-        name="repeat"
-        [(ngModel)]="repeat"
-        id="repeatbrand"
-      />
-      <label class="form-check-label" for="repeatbrand">
-        ¿ Agendar de manera recurrente ?
-      </label>
-    </div>
-  </div>
-
-  <div class="row p-3">
-    <div class="col-md-4 my-2" *ngIf="repeat">
-      <label>Inicio de Agendamiento</label>
-      <input
-        class="form-control"
+        matInput
         type="date"
-        name="date_startRecurrente"
-        value="2018-01-01"
         [(ngModel)]="fechaInicioRecurrente"
         required
+        name="date_startRecurrente"
+        autocomplete="off"
         #date_start="ngModel"
       />
-    </div>
-
-    <div class="col-md-4 my-2" *ngIf="repeat">
-      <label>Fin de Agendamiento</label>
+    </mat-form-field>
+    <mat-form-field class="col" appearance="outline">
+      <mat-label>Fin</mat-label>
       <input
-        class="form-control"
-        required
+        matInput
         type="date"
-        name="date_endRecurrente"
         [(ngModel)]="fechaFinRecurrente"
-      />
-    </div>
-
-    <div class="col-md-4 my-2" *ngIf="repeat">
-      <label>Dias</label>
-      <ng-select
-        [items]="diasSemana"
         required
-        multiple="true"
-        bindLabel="text"
-        bindValue="value"
-        ngModel
-        placeholder="Seleccione "
+        name="date_endRecurrente"
+        autocomplete="off"
+      />
+    </mat-form-field>
+    <mat-form-field class="col" appearance="outline">
+      <mat-label>Días</mat-label>
+      <mat-select
         [(ngModel)]="daysRecurrente"
         name="daysRecurrente"
-        loadingText="loading"
-        ngDefaultControl
+        multiple="true"
+        required
       >
-      </ng-select>
-    </div>
-  </div>
+        <mat-option *ngFor="let item of diasSemana" [value]="item.value">{{
+          item.text
+        }}</mat-option>
+      </mat-select>
+    </mat-form-field>
+  </ng-container>
 
-  <div class="col-12 mt-12">
+  <div class="col-12">
     <button
       class="btn btn-success btn-block"
       [disabled]="registerCita.invalid || loading"
@@ -281,3 +192,42 @@
     <strong>{{ r.text }}</strong>
   </span>
 </ng-template>
+
+<!-- <ng-select
+  class="col-10"
+  [items]="ips_remisors"
+  bindLabel="text"
+  bindValue="value"
+  [(ngModel)]="cita.ips_remisor"
+  placeholder="Seleccione "
+  name="ips_remisor"
+  loadingText="loading"
+  ngDefaultControl
+>
+</ng-select>
+
+<ng-select
+  class="col-10"
+  [items]="persons_remisors"
+  bindLabel="text"
+  bindValue="value"
+  [(ngModel)]="cita.person_remisor"
+  placeholder="Seleccione "
+  name="person_remisor"
+  loadingText="loading"
+  ngDefaultControl
+>
+</ng-select>
+
+<ng-select
+  class="col-10"
+  [items]="procedurs_remisors"
+  bindLabel="text"
+  bindValue="value"
+  [(ngModel)]="cita.especiality"
+  placeholder="Seleccione "
+  name="especiality"
+  loadingText="loading"
+  ngDefaultControl
+>
+</ng-select> -->

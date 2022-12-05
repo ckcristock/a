@@ -22,6 +22,7 @@ import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatInputModule } from '@angular/material/input';
 import { MatSelectModule } from '@angular/material/select';
 import { SearchPipe } from "./search.pipe";
+import { MatCheckboxModule, MatIconModule } from "@angular/material";
 
 @NgModule({
     declarations: [
@@ -50,6 +51,8 @@ import { SearchPipe } from "./search.pipe";
         MatFormFieldModule,
         MatInputModule,
         MatSelectModule,
+        MatIconModule,
+        MatCheckboxModule
 
     ],
     exports: [

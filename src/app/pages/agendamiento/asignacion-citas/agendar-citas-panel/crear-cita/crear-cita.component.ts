@@ -36,7 +36,7 @@ export class CrearCitaComponent implements OnInit {
   public contratos: any[] = []
   diagnosticoId: any;
   procedureId: any;
-  contractId: any;
+  contract_id: any;
   repeat: any;
   fechaInicioRecurrente: any;
   fechaFinRecurrente: any;
@@ -91,15 +91,11 @@ export class CrearCitaComponent implements OnInit {
   ngOnInit(): void {
 
     this.$patient = this._queryPatient.patient.subscribe(r => {
-      this.contractId = ''
+      this.contract_id = ''
       this.call = r.llamada
       this.patient = r.paciente
-      let params = {
-        eps_id: this.patient.eps_id,
-        regimen_id: this.patient.regimen_id,
-        department_id: this.patient.department_id,
-      }
-      this.getContract(params);
+
+      this.getContract(this.tipification.type_service_id);
     })
     /*  this.call = this.dataCitaToAssignService.dateCall.llamada
      this.patient = this.dataCitaToAssignService.dateCall.paciente */
@@ -109,6 +105,7 @@ export class CrearCitaComponent implements OnInit {
 
     this.$tipif = this._queryPatient.tipificationData.subscribe(r => {
       this.tipification = r
+      this.getContract(this.tipification.type_service_id)
     })
 
     this.$trSelct = this._queryPatient.tramiteSelected.subscribe(r => {
@@ -116,7 +113,13 @@ export class CrearCitaComponent implements OnInit {
     })
   }
 
-  getContract(params) {
+  getContract(type_service_id) {
+    let params = {
+      eps_id: this.patient.eps_id,
+      regimen_id: this.patient.regimen_id,
+      department_id: this.patient.department_id,
+      type_service: type_service_id
+    }
     this._laboratory.getContracts(params)
       .subscribe((res: any) => {
         this.contratos = res.data

@@ -20,35 +20,35 @@
                             </li>
                         </ul>
                     </aw-wizard-step>
-    
+
                     <aw-wizard-step stepTitle="Detalles">
                         <ng-template awWizardStepSymbol>2</ng-template>
-    
+
                         <app-crear-cita (siguiente)="siguiente($event)"></app-crear-cita>
-    
-                        <ul class="list-inline wizard mb-0">
-                            <li style="visibility: hidden;" class="previous list-inline-item"><button
+
+                        <ul class="list-inline wizard mb-0 d-none">
+                            <li class="previous list-inline-item"><button
                                     class="btn btn-primary" awPreviousStep>Previous</button>
                             </li>
-                            <li style="visibility: hidden;" class="next list-inline-item float-right"><button #next
+                            <li class="next list-inline-item float-right"><button #next
                                     class="btn btn-primary">Next</button>
                             </li>
-                            <li style="visibility: hidden;" class="next list-inline-item float-right"><button #customStep
+                            <li class="next list-inline-item float-right"><button #customStep
                                     class="btn btn-primary" [awGoToStep]="{stepIndex: 0}">CustomStep</button>
                             </li>
                         </ul>
                     </aw-wizard-step>
-    
-    
+
+
                     <aw-wizard-step stepTitle="Finalizar">
-    
+
                         <ng-template awWizardStepSymbol *ngIf="dataCita">3</ng-template>
-    
+
                         <app-resumen [dataCita]="dataCita"></app-resumen>
-    
+
                     </aw-wizard-step>
-    
-    
+
+
                 </aw-wizard>
             </div>
         </div>

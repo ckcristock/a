@@ -18,6 +18,7 @@ import { QueryPerson } from '../query-person.service';
 import { concat, Observable, of, OperatorFunction, Subject } from 'rxjs';
 import { Router } from '@angular/router';
 import { MatAccordion } from '@angular/material';
+import { UserService } from 'src/app/core/services/user.service';
 
 @Component({
   selector: 'app-abrir-agendas',
@@ -125,6 +126,7 @@ export class AbrirAgendasComponent implements OnInit, AfterViewInit {
   hour_end: any = '18:00';
   long: any = 15;
   days = [];
+  company_id:any
 
   public diasSemana = diasSemana;
   public searchingProcedure = false;
@@ -134,10 +136,12 @@ export class AbrirAgendasComponent implements OnInit, AfterViewInit {
   constructor(
     private _openAgendaService: OpenAgendaService,
     public _queryPerson: QueryPerson,
-    private router: Router
+    private router: Router,
+    private _user: UserService
   ) {}
 
   ngOnInit(): void {
+    this.company_id = this._user.user.person.company_worked.id
     this.share = this.optionesShare[0].value;
     this.getDurations();
     this.getTypeAppointment();
