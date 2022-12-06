@@ -15,8 +15,8 @@ export class TiposervicioService {
     return this.client.get(environment.ruta + 'php/GENERALES/tiposervicio/get_tipos_servicio.php');
   }
 
-  getTypes(): Observable<any> {
-    return this.client.get(`${environment.base_url}/type-service`);
+  getTypes(params = {}): Observable<any> {
+    return this.client.get(`${environment.base_url}/type-service`, {params});
   }
 
   getTiposAll(): Observable<any> {

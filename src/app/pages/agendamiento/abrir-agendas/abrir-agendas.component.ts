@@ -126,7 +126,7 @@ export class AbrirAgendasComponent implements OnInit, AfterViewInit {
   hour_end: any = '18:00';
   long: any = 15;
   days = [];
-  company_id:any
+  company_id: any
 
   public diasSemana = diasSemana;
   public searchingProcedure = false;
@@ -138,7 +138,7 @@ export class AbrirAgendasComponent implements OnInit, AfterViewInit {
     public _queryPerson: QueryPerson,
     private router: Router,
     private _user: UserService
-  ) {}
+  ) { }
 
   ngOnInit(): void {
     this.company_id = this._user.user.person.company_worked.id
@@ -310,7 +310,7 @@ export class AbrirAgendasComponent implements OnInit, AfterViewInit {
 
   getProfesionals() {
     this.subappointment['procedure'] ? this.getcups() : '';
-    let restrictions = { 'type-appointment': this.appointment.value };
+    let restrictions = { 'type-appointment': this.appointment.value, company_id: this.company_id };
     this._openAgendaService
       .getProfesionals(this.ips.value, String(this.speciality), restrictions)
       .subscribe((resp: any) => {
@@ -380,14 +380,14 @@ export class AbrirAgendasComponent implements OnInit, AfterViewInit {
         term.length < 3
           ? []
           : this._openAgendaService
-              .searchProcedure(term, String(this.speciality))
-              .pipe(
-                tap(() => (this.searchFailedProcedure = false)),
-                catchError(() => {
-                  this.searchFailedProcedure = true;
-                  return of([]);
-                })
-              )
+            .searchProcedure(term, String(this.speciality))
+            .pipe(
+              tap(() => (this.searchFailedProcedure = false)),
+              catchError(() => {
+                this.searchFailedProcedure = true;
+                return of([]);
+              })
+            )
       ),
       tap(() => (this.searchingProcedure = false))
     );

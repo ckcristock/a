@@ -11,7 +11,7 @@ import interactionPlugin from '@fullcalendar/interaction';
 import bootstrapPlugin from '@fullcalendar/bootstrap';
 import { EventInput } from '@fullcalendar/core';
 
-
+import esLocale from '@fullcalendar/core/locales/es';
 import { Event } from './event.model';
 import { OpenAgendaService } from '../open-agenda.service';
 import { QueryPerson } from '../query-person.service';
@@ -29,7 +29,7 @@ export class CallendarComponent implements OnInit {
   public myperson: any
   // bread crumb items
   breadCrumbItems: Array<{}>;
-
+  locales = [esLocale];
   // event form
   formData: FormGroup;
   formEditData: FormGroup;

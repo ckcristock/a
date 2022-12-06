@@ -20,12 +20,9 @@ import bootstrapPlugin from '@fullcalendar/bootstrap';
 import esLocale from '@fullcalendar/core/locales/es';
 import { EventInput } from '@fullcalendar/core';
 import { TaskService } from '../ajustes/informacion-base/services/task.service';
-import { RightsidebarComponent } from 'src/app/layouts/shared/rightsidebar/rightsidebar.component';
 import { Router } from '@angular/router';
-import { NgbModal, ModalDismissReasons } from '@ng-bootstrap/ng-bootstrap';
-import { FormControl, Validators } from '@angular/forms';
-import { FormBuilder, FormGroup } from '@angular/forms';
-import { HttpClient } from '@angular/common/http';
+import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
+import { FormBuilder } from '@angular/forms';
 import { TexteditorService } from '../ajustes/informacion-base/services/texteditor.service';
 import { DomSanitizer } from '@angular/platform-browser';
 
@@ -41,6 +38,7 @@ export class TasksComponent implements OnInit {
   ejecucion: [];
   espera: [];
   finalizado: [];
+  locales = [esLocale];
   public events: Array<EventInput> = [];
   calendarPlugins = [
     dayGridPlugin,
@@ -67,10 +65,10 @@ export class TasksComponent implements OnInit {
 
   ngOnInit(): void {
     this._task.getPerson();
-    this.getPersonTask(); 
-    
+    this.getPersonTask();
+
     /*    vthis.getTask();
-    this.getTaskFor();    
+    this.getTaskFor();
     this.getArchivadas(); */
   }
 
@@ -96,10 +94,10 @@ export class TasksComponent implements OnInit {
   }
   loading: boolean = false;
   getTask() {
-    
+
     this._task.personTask(this._user.user.person.id).subscribe((d: any) => {
       this.task2 = d.data;
-      
+
     });
   }
   loading2: boolean = false

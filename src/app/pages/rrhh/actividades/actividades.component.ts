@@ -20,6 +20,7 @@ import timeGrigPlugin from '@fullcalendar/timegrid';
 import interactionPlugin from '@fullcalendar/interaction';
 import bootstrapPlugin from '@fullcalendar/bootstrap';
 import { EventInput } from '@fullcalendar/core';
+import esLocale from '@fullcalendar/core/locales/es';
 
 // import { FormGroup, FormControl} from '@angular/forms';
 
@@ -54,7 +55,7 @@ export class ActividadesComponent {
 
   daysOfWeek = consts.diasSemana;
   Id_Dependencia = 1;
-
+  locales = [esLocale];
   Departamentos: any = [];
   Municipios: any = [];
   Actividades: Array<any> = [];
@@ -143,7 +144,7 @@ export class ActividadesComponent {
     } else if (y ==2){
       this._modal.open(content)
     }
-    
+
   }
   GetActividadesMes() {
     this._actividad.getActivities().subscribe((r: any) => {

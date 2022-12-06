@@ -27,9 +27,7 @@
             required
             autocomplete="off"
           />
-          <mat-error>
-            <app-show-errors [ctrl]="dataForm.get('name')"> </app-show-errors>
-          </mat-error>
+          <mat-error> Campo obligatorio </mat-error>
         </mat-form-field>
         <mat-form-field class="col" appearance="outline">
           <mat-label>Código</mat-label>
@@ -43,9 +41,7 @@
             required
             autocomplete="off"
           />
-          <mat-error>
-            <app-show-errors [ctrl]="dataForm.get('code')"> </app-show-errors>
-          </mat-error>
+          <mat-error> Campo obligatorio </mat-error>
         </mat-form-field>
         <mat-form-field class="col" appearance="outline">
           <mat-label>Número</mat-label>
@@ -59,25 +55,16 @@
             required
             autocomplete="off"
           />
-          <mat-error>
-            <app-show-errors [ctrl]="dataForm.get('number')"> </app-show-errors>
-          </mat-error>
+          <mat-error> Campo obligatorio </mat-error>
         </mat-form-field>
         <mat-form-field class="col" appearance="outline">
           <mat-label>Modalidad de pago</mat-label>
-          <mat-select
-            name="payment_modality"
-            id="payment_modality"
-            formControlName="payment_modality"
-          >
-            <mat-option value="1">Capita</mat-option>
-            <mat-option value="2">Evento</mat-option>
-            <mat-option value="3">Particular</mat-option>
+          <mat-select formControlName="payment_method_id" required>
+            <mat-option [value]="1">Capita</mat-option>
+            <mat-option [value]="2">Evento</mat-option>
+            <mat-option [value]="3">PGP</mat-option>
           </mat-select>
-          <mat-error>
-            <app-show-errors [ctrl]="dataForm.get('payment_modality')">
-            </app-show-errors>
-          </mat-error>
+          <mat-error> Campo obligatorio </mat-error>
         </mat-form-field>
         <mat-form-field class="col" appearance="outline">
           <mat-label>Aseguradora</mat-label>
@@ -92,10 +79,7 @@
               >{{ item.text }}</mat-option
             >
           </mat-select>
-          <mat-error>
-            <app-show-errors [ctrl]="dataForm.get('administrator_id')">
-            </app-show-errors>
-          </mat-error>
+          <mat-error> Campo obligatorio </mat-error>
         </mat-form-field>
         <mat-form-field class="col" appearance="outline">
           <mat-label>Regimen</mat-label>
@@ -109,10 +93,7 @@
               item.text
             }}</mat-option>
           </mat-select>
-          <mat-error>
-            <app-show-errors [ctrl]="dataForm.get('regimen_id')">
-            </app-show-errors>
-          </mat-error>
+          <mat-error> Campo obligatorio </mat-error>
         </mat-form-field>
         <mat-form-field class="col" appearance="outline">
           <mat-label>Precio global</mat-label>
@@ -126,9 +107,7 @@
             required
             autocomplete="off"
           />
-          <mat-error>
-            <app-show-errors [ctrl]="dataForm.get('price')"> </app-show-errors>
-          </mat-error>
+          <mat-error> Campo obligatorio </mat-error>
         </mat-form-field>
         <mat-form-field class="col" appearance="outline">
           <mat-label>Fecha inicial</mat-label>
@@ -141,10 +120,7 @@
             required
             autocomplete="off"
           />
-          <mat-error>
-            <app-show-errors [ctrl]="dataForm.get('start_date')">
-            </app-show-errors>
-          </mat-error>
+          <mat-error> Campo obligatorio </mat-error>
         </mat-form-field>
         <mat-form-field class="col" appearance="outline">
           <mat-label>Fecha final</mat-label>
@@ -157,10 +133,7 @@
             required
             autocomplete="off"
           />
-          <mat-error>
-            <app-show-errors [ctrl]="dataForm.get('end_date')">
-            </app-show-errors>
-          </mat-error>
+          <mat-error> Campo obligatorio </mat-error>
         </mat-form-field>
         <mat-form-field class="col" appearance="outline">
           <mat-label>Tipo de servicio</mat-label>
@@ -169,10 +142,7 @@
               item.text
             }}</mat-option>
           </mat-select>
-          <mat-error>
-            <app-show-errors [ctrl]="dataForm.get('regimen_id')">
-            </app-show-errors>
-          </mat-error>
+          <mat-error> Campo obligatorio </mat-error>
         </mat-form-field>
       </div>
       <div class="row">
@@ -234,6 +204,7 @@
             [appendTo]="'body'"
             placeholder="Empresas"
             name="company_id"
+            (change)="dataForm.get('location_id').reset()"
             loadingText="loading"
             formControlName="company_id"
             [closeOnSelect]="false"
@@ -275,12 +246,16 @@
       <hr />
       <div class="row card-title d-flex justify-content-between">
         <div class="col-md-6 px-0">
-          <h4>Polizas</h4>
+          <h4>Pólizas</h4>
         </div>
         <div class="col-md-6 px-0 text-right">
           <div class="btn-group rounded w-sm-100">
-            <button class="btn btn-info btn-sm" (click)="newPoliza()">
-              <i class="fas fa-plus"></i> Agregar
+            <button
+              class="btn btn-info btn-sm"
+              type="button"
+              (click)="newPoliza()"
+            >
+              <i class="fas fa-plus"></i> Agregar póliza
             </button>
           </div>
         </div>
@@ -288,7 +263,23 @@
 
       <ng-container *ngIf="polizaList.controls.length; else notData">
         <ng-container *ngFor="let poliz of polizaList.controls; let c = index">
-          <h6>Póliza {{ c + 1 }}</h6>
+          <div class="row my-2">
+            <div class="col-md-6">
+              <h6>Póliza {{ c + 1 }}</h6>
+            </div>
+            <div class="col-md-6 text-right">
+              <div class="btn-group rounded w-sm-100">
+                <button
+                  class="btn btn-danger btn-sm"
+                  type="button"
+                  (click)="deletePoliza($event.target.value)"
+                >
+                  <i class="fas fa-trash-alt"></i> Elimina póliza
+                </button>
+              </div>
+            </div>
+          </div>
+
           <div formArrayName="poliza">
             <div class="row" [formGroupName]="c">
               <mat-form-field class="col-md-6" appearance="outline">
@@ -301,10 +292,7 @@
                   required
                   autocomplete="off"
                 />
-                <mat-error>
-                  <app-show-errors [ctrl]="poliz.get('nombrepoliza')">
-                  </app-show-errors>
-                </mat-error>
+                <mat-error> Campo obligatorio </mat-error>
               </mat-form-field>
               <mat-form-field class="col" appearance="outline">
                 <mat-label>Código</mat-label>
@@ -316,10 +304,7 @@
                   required
                   autocomplete="off"
                 />
-                <mat-error>
-                  <app-show-errors [ctrl]="poliz.get('codigopoliza')">
-                  </app-show-errors>
-                </mat-error>
+                <mat-error> Campo obligatorio </mat-error>
               </mat-form-field>
 
               <mat-form-field class="col" appearance="outline">
@@ -332,10 +317,7 @@
                   required
                   autocomplete="off"
                 />
-                <mat-error>
-                  <app-show-errors [ctrl]="poliz.get('coberturapoliza')">
-                  </app-show-errors>
-                </mat-error>
+                <mat-error> Campo obligatorio </mat-error>
               </mat-form-field>
               <mat-form-field class="col" appearance="outline">
                 <mat-label>Fecha inicio</mat-label>
@@ -346,10 +328,7 @@
                   required
                   autocomplete="off"
                 />
-                <mat-error>
-                  <app-show-errors [ctrl]="poliz.get('iniciopoliza')">
-                  </app-show-errors>
-                </mat-error>
+                <mat-error> Campo obligatorio </mat-error>
               </mat-form-field>
               <mat-form-field class="col" appearance="outline">
                 <mat-label>Fecha fin</mat-label>
@@ -360,19 +339,8 @@
                   required
                   autocomplete="off"
                 />
-                <mat-error>
-                  <app-show-errors [ctrl]="poliz.get('finpoliza')">
-                  </app-show-errors>
-                </mat-error>
+                <mat-error> Campo obligatorio </mat-error>
               </mat-form-field>
-            </div>
-            <div class="d-flex justify-content-end mb-4">
-              <button
-                class="btn btn-danger btn-sm"
-                (click)="deletePoliza($event.target.value)"
-              >
-                <i class="fas fa-trash-alt"></i>
-              </button>
             </div>
           </div>
         </ng-container>
@@ -386,8 +354,12 @@
         </div>
         <div class="col-md-6 px-0 text-right">
           <div class="btn-group rounded w-sm-100">
-            <button class="btn btn-success btn-sm" (click)="newtechnicalNote()">
-              <i class="fas fa-plus"></i> Agregar
+            <button
+              class="btn btn-success btn-sm"
+              type="button"
+              (click)="newtechnicalNote()"
+            >
+              <i class="fas fa-plus"></i> Agregar nota técnica
             </button>
           </div>
         </div>
@@ -396,8 +368,24 @@
         <ng-container
           *ngFor="let item of technicalNoteList.controls; let i = index"
         >
-          <hr />
-          <h6>Nota técnica {{ i + 1 }}</h6>
+          <hr class="text-primary" />
+          <div class="row">
+            <div class="col-md-6">
+              <h6>Nota técnica {{ i + 1 }}</h6>
+            </div>
+            <div class="col-md-6 text-right">
+              <div class="btn-group rounded w-sm-100">
+                <button
+                  class="btn btn-danger btn-sm"
+                  type="button"
+                  (click)="deleteTaxi($event.target.value)"
+                >
+                  <i class="fas fa-trash-alt"></i> Eliminar nota técnica
+                </button>
+              </div>
+            </div>
+          </div>
+
           <div formArrayName="technicalNote">
             <div class="row" [formGroupName]="i">
               <mat-form-field class="col" appearance="outline">
@@ -411,10 +399,7 @@
                   required
                   autocomplete="off"
                 />
-                <mat-error>
-                  <app-show-errors [ctrl]="item.get('techn_note_date_init')">
-                  </app-show-errors>
-                </mat-error>
+                <mat-error> Campo obligatorio </mat-error>
               </mat-form-field>
               <mat-form-field class="col" appearance="outline">
                 <mat-label>Fecha fin</mat-label>
@@ -427,33 +412,17 @@
                   required
                   autocomplete="off"
                 />
-                <mat-error>
-                  <app-show-errors [ctrl]="item.get('techn_note_date_end')">
-                  </app-show-errors>
-                </mat-error>
+                <mat-error> Campo obligatorio </mat-error>
               </mat-form-field>
-              <div class="col">
-                <ng-select
-                  [items]="years"
-                  required
-                  bindLabel="text"
-                  bindValue="value"
-                  appearance="outline"
-                  [appendTo]="'body'"
-                  placeholder="Año versión"
-                  name="techn_note_year_cups"
-                  loadingText="loading"
-                  formControlName="techn_note_year_cups"
-                >
-                </ng-select>
-                <small>
-                  <app-show-errors
-                    class="text-danger"
-                    [ctrl]="item.get('techn_note_year_cups')"
-                  >
-                  </app-show-errors>
-                </small>
-              </div>
+              <mat-form-field class="col" appearance="outline">
+                <mat-label>Año versión</mat-label>
+                <mat-select formControlName="techn_note_year_cups" required>
+                  <mat-option *ngFor="let item of years" [value]="item">{{
+                    item
+                  }}</mat-option>
+                </mat-select>
+                <mat-error> Campo obligatorio </mat-error>
+              </mat-form-field>
               <div class="col-md-12 col-12">
                 <div class="form-group">
                   <label>¿Nota tecnica activa?</label>
@@ -464,15 +433,7 @@
                   />
                 </div>
               </div>
-              <div class="col-12 d-flex-justify-content-end">
-                <button
-                  class="btn btn-danger btn-sm btn-block"
-                  (click)="deleteTaxi($event.target.value)"
-                >
-                  <i class="fas fa-trash-alt"></i> Eliminar nota técnica
-                </button>
-              </div>
-              <div class="col-12 mt-4">
+              <div class="col-12">
                 <div class="row card-title d-flex justify-content-between">
                   <div class="col-md-6 px-0">
                     <h5 class="font-italic"><u>Servicios asociados</u></h5>
@@ -482,8 +443,10 @@
                       <button
                         class="btn btn-info btn-sm"
                         (click)="newCups(item)"
+                        type="button"
                       >
-                        <i class="fas fa-plus"></i>
+                        <i class="fas fa-plus"></i> Agregar servicio asociado
+                        (NT{{ i + 1 }})
                       </button>
                     </div>
                   </div>
@@ -493,125 +456,153 @@
                 <ng-container
                   *ngIf="item.controls['cups'].controls.length; else notData"
                 >
-                  <ng-container
-                    *ngFor="
-                      let cup of item.controls['cups'].controls;
-                      let c = index
-                    "
-                  >
-                    <h6>Servicio asociado {{ c + 1 }}</h6>
-                    <div formArrayName="cups">
-                      <div class="row" [formGroupName]="c">
-                        <mat-form-field class="col" appearance="outline">
-                          <mat-label>Servicio</mat-label>
-                          <input
-                            matInput
-                            type="text"
-                            placeholder="Busca código CUPS asignado"
-                            required
-                            [ngbTypeahead]="search"
-                            formControlName="namec"
-                            name="namec"
-                            [resultTemplate]="namecup"
-                            [inputFormatter]="InputProcedure"
-                            autocomplete="off"
-                          />
-                          <mat-error>
-                            <app-show-errors
-                              class="text-danger"
-                              [ctrl]="item.get('codec')"
-                            >
-                            </app-show-errors>
-                          </mat-error>
-                        </mat-form-field>
-                        <div class="col">
-                          <ng-select
-                            [items]="cup.get('specialityList').value"
-                            multiple="true"
-                            bindLabel="text"
-                            bindValue="value"
-                            name="speciality"
-                            loadingText="loading"
-                            appearance="outline"
-                            [appendTo]="'body'"
-                            placeholder="Especialidad"
-                            formControlName="speciality"
-                          >
-                          </ng-select>
-                          <small>
-                            <app-show-errors
-                              class="text-danger"
-                              [ctrl]="item.get('speciality')"
-                            >
-                            </app-show-errors>
-                          </small>
-                        </div>
-                        <div class="col">
-                          <ng-select
-                            [items]="centrosDeCosto"
-                            required
-                            bindLabel="text"
-                            bindValue="value"
-                            placeholder="Seleccione "
-                            name="centro_costo_id"
-                            appearance="outline"
-                            [appendTo]="'body'"
-                            placeholder="Centro de costo"
-                            loadingText="loading"
-                            formControlName="centro_costo_id"
-                          >
-                          </ng-select>
-                          <small>
-                            <app-show-errors
-                              class="text-danger"
-                              [ctrl]="item.get('centro_costo_id')"
-                            >
-                            </app-show-errors>
-                          </small>
-                        </div>
-                        <mat-form-field class="col" appearance="outline">
-                          <mat-label>Frecuencia</mat-label>
-                          <input
-                            matInput
-                            type="text"
-                            placeholder="Ingresa la frecuencia"
-                            id="code"
-                            formControlName="frequency"
-                            required
-                            autocomplete="off"
-                          />
-                          <mat-error>
-                            <app-show-errors [ctrl]="item.get('frequency')">
-                            </app-show-errors>
-                          </mat-error>
-                        </mat-form-field>
-                        <mat-form-field class="col" appearance="outline">
-                          <mat-label>Costo</mat-label>
-                          <input
-                            matInput
-                            type="text"
-                            placeholder="Ingresa el costo"
-                            id="code"
-                            formControlName="valor"
-                            required
-                            autocomplete="off"
-                          />
-                          <mat-error>
-                            <app-show-errors [ctrl]="item.get('valor')">
-                            </app-show-errors>
-                          </mat-error>
-                        </mat-form-field>
-                      </div>
-                    </div>
-                    <div class="d-flex justify-content-end">
-                      <button
-                        class="btn btn-danger btn-sm"
-                        (click)="deleteCups(item, $event.target.value)"
-                      >
-                        <i class="fas fa-trash-alt"></i>
-                      </button>
-                    </div>
-                  </ng-container>
+                  <div class="rounded-top table-responsive">
+                    <table class="table table-bordered table-striped table-sm">
+                      <thead class="bg-light">
+                        <tr class="text-center text-uppercase">
+                          <th>#</th>
+                          <th>Servicio</th>
+                          <th>Especialidad</th>
+                          <th>Centro de costo</th>
+                          <th>Ruta</th>
+                          <th>Frecuencia</th>
+                          <th>Costo</th>
+                          <th></th>
+                        </tr>
+                      </thead>
+                      <tbody>
+                        <ng-container
+                          *ngFor="
+                            let cup of item.controls['cups'].controls;
+                            let c = index
+                          "
+                        >
+                          <ng-container formArrayName="cups">
+                            <ng-container [formGroupName]="c">
+                              <tr>
+                                <td>{{ c + 1 }}</td>
+                                <td>
+                                  <mat-form-field
+                                    class="pb-0 mat-sm"
+                                    appearance="outline"
+                                  >
+                                    <input
+                                      matInput
+                                      type="text"
+                                      placeholder="Busca código CUPS asignado"
+                                      required
+                                      [ngbTypeahead]="search"
+                                      formControlName="namec"
+                                      name="namec"
+                                      [resultTemplate]="namecup"
+                                      [inputFormatter]="InputProcedure"
+                                      autocomplete="off"
+                                    />
+                                  </mat-form-field>
+                                </td>
+                                <td>
+                                  <mat-form-field
+                                    class="pb-0 mat-sm"
+                                    appearance="outline"
+                                  >
+                                    <mat-select
+                                      formControlName="speciality_id"
+                                      required
+                                    >
+                                      <mat-option
+                                        *ngFor="
+                                          let item of cup.controls
+                                            .specialityList.value
+                                        "
+                                        [value]="item.value"
+                                        >{{ item.text }}</mat-option
+                                      >
+                                    </mat-select>
+                                  </mat-form-field>
+                                </td>
+                                <td>
+                                  <mat-form-field
+                                    class="pb-0 mat-sm"
+                                    appearance="outline"
+                                  >
+                                    <mat-select
+                                      formControlName="centro_costo_id"
+                                      required
+                                    >
+                                      <mat-option
+                                        *ngFor="let item of centrosDeCosto"
+                                        [value]="item.value"
+                                        >{{ item.text }}</mat-option
+                                      >
+                                    </mat-select>
+                                  </mat-form-field>
+                                </td>
+                                <td>
+                                  <mat-form-field
+                                    class="pb-0 mat-sm"
+                                    appearance="outline"
+                                  >
+                                    <mat-select
+                                      formControlName="route_id"
+                                    >
+                                      <mat-option
+                                        *ngFor="let item of routes"
+                                        [value]="item.value"
+                                        >{{ item.text }}</mat-option
+                                      >
+                                    </mat-select>
+                                  </mat-form-field>
+                                </td>
+                                <td>
+                                  <mat-form-field
+                                    class="pb-0 mat-sm"
+                                    appearance="outline"
+                                  >
+                                    <input
+                                      matInput
+                                      type="text"
+                                      placeholder="Ingresa la frecuencia"
+                                      id="code"
+                                      formControlName="frequency"
+                                      required
+                                      autocomplete="off"
+                                    />
+                                  </mat-form-field>
+                                </td>
+                                <td>
+                                  <mat-form-field
+                                    class="pb-0 mat-sm"
+                                    appearance="outline"
+                                  >
+                                    <input
+                                      matInput
+                                      type="text"
+                                      placeholder="Ingresa el costo"
+                                      id="code"
+                                      formControlName="valor"
+                                      required
+                                      autocomplete="off"
+                                    />
+                                  </mat-form-field>
+                                </td>
+                                <td>
+                                  <button
+                                    class="btn btn-danger btn-sm"
+                                    type="button"
+                                    (click)="
+                                      deleteCups(item, c)
+                                    "
+                                  >
+                                    <i class="fas fa-trash-alt"></i>
+                                  </button>
+                                </td>
+                              </tr>
+                            </ng-container>
+                          </ng-container>
+                        </ng-container>
+                      </tbody>
+                    </table>
+                  </div>
                 </ng-container>
               </div>
             </div>

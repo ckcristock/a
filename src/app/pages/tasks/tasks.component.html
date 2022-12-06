@@ -13,13 +13,9 @@
                     <hr style="border-color: #ef476f" />
                   </div>
                   <div class="card-body py-0" *ngIf="pendientes.length == 0">
-                      <div
-                        
-                        class="alert alert-primary"
-                        role="alert"
-                      >
-                        No existen tareas para esta lista
-                      </div>
+                    <div class="alert alert-primary" role="alert">
+                      No existen tareas para esta lista
+                    </div>
                   </div>
                   <div
                     #list
@@ -83,10 +79,9 @@
                         </div>
                       </div>
                     </div>
-                    
                   </div>
                   <div class="card-footer">
-                      <h6 class="text-center">{{pendientes.length}} tareas</h6>
+                    <h6 class="text-center">{{ pendientes.length }} tareas</h6>
                   </div>
                 </div>
               </div>
@@ -301,8 +296,7 @@
     </li>
     <li [ngbNavItem]="2">
       <a ngbNavLink>Calendario</a>
-      <ng-template ngbNavContent>    
-
+      <ng-template ngbNavContent>
         <div class="col-md-8 mx-auto">
           <div class="card">
             <div class="card-body">
@@ -349,7 +343,7 @@
                   themeSystem="bootstrap"
                   [bootstrapFontAwesome]="true"
                   deepChangeDetection="true"
-                  locale="es"
+                  [locales]="locales"
                   [eventTimeFormat]="{
                     hour: '2-digit',
                     minute: '2-digit',
@@ -483,7 +477,7 @@
                   *ngFor="let item of archivadas"
                   [routerLink]="['/task', item.id]"
                 >
-                  <div class="card bg-light " role="button">
+                  <div class="card bg-light" role="button">
                     <div class="p-3 col-12">
                       <div
                         class="d-flex justify-content-start align-items-center"
