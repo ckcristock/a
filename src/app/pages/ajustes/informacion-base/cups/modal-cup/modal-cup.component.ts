@@ -51,16 +51,21 @@ export class ModalCupComponent implements OnInit {
     this.createForm();
 
   }
-
+  tube_view: boolean = false
   createForm() {
     this.form = this.fb.group({
       id: [],
       description: ['', Validators.required],
       code: ['', [Validators.required, Validators.pattern('^[0-9]{6}$')]],
       specialities: ['', Validators.required],
-      cup_type_id: [''],
+      type_service_id: [''],
       color_id: [''],
     });
+    this.form.controls.type_service_id.valueChanges.subscribe(r => {
+      r.forEach(element => {
+        element == 8 ? this.tube_view = true : this.tube_view = false
+      });
+    })
   }
 
   closeResult = '';
@@ -84,14 +89,18 @@ export class ModalCupComponent implements OnInit {
         this.openConfirm(this.add)
         this.cup = Object.assign({}, req.data)
         this.cup.specialities = this.transformData(req.data.specialities)
+        this.cup.type_service = this.transformData(req.data.type_service)
         this.form.patchValue({
           id: this.cup.id,
           description: req.data.description,
           code: req.data.code,
           specialities: this.cup.specialities,
-          cup_type_id: req.data.cup_type_id,
+          type_service_id: this.cup.type_service,
           color_id: req.data.color_id,
         })
+        this.form.controls.type_service_id.value.forEach(element => {
+          element == 8 ? this.tube_view = true : this.tube_view = false
+        });
       })
     }
   }

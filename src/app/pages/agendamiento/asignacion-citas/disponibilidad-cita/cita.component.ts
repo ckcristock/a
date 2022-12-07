@@ -1,5 +1,6 @@
 import { Component, EventEmitter, OnInit, Output, ViewChild } from '@angular/core';
 import { NgForm } from '@angular/forms';
+import { Subscription } from 'rxjs';
 import { dataCitaToAssign } from 'src/app/core/interfaces/dataCitaToAssign.model';
 import { AssingService } from 'src/app/services/assign.service';
 import { dataCitaToAssignService } from '../../dataCitaToAssignService.service';
@@ -14,13 +15,15 @@ import { AsignarCalendarioComponent } from '../agendar-citas-panel/asignar-calen
   styleUrls: ['./cita.component.scss']
 })
 export class CitaComponent implements OnInit {
-  searchEspecialidad:any
-  searchProfesional:any
-  searchIPS:any
-  searchSede:any
+  searchEspecialidad: any
+  searchProfesional: any
+  searchIPS: any
+  searchSede: any
   public dataCitaToAssign = new dataCitaToAssign();
   public type_appointments: [];
   public regimeIdFromService: any;
+  public $tramiteData: Subscription;
+  tramiteData: any = {}
   public contratcIdFromService: any;
   public specialties: [];
   public infowailist: any
@@ -45,12 +48,15 @@ export class CitaComponent implements OnInit {
     ) { }
 
   ngOnInit(): void {
-
+    this.$tramiteData = this._queryPatient.tipificationData.subscribe(r => {
+      this.tramiteData = r;
+      this.getSpecialtiesService(this.tramiteData.type_service_id)
+    })
 
     this.getTypeAppointment();
 
     this._queryPatient.infowailist.subscribe(res => {
-
+      console.log(res)
       if (res.anotherData) {
         this.infowailist = res.anotherData
         this.dataCitaToAssign.speciality = this.infowailist.speciality_id
@@ -105,7 +111,7 @@ export class CitaComponent implements OnInit {
       if (this.dataCitaToAssign.appointment.face_to_face) {
         this.getIps()
       }
-      this.getSpecialties()
+      //this.getSpecialties()
       this.dispatchPerson(form)
     });
 
@@ -118,7 +124,7 @@ export class CitaComponent implements OnInit {
       if (this.dataCitaToAssign.appointment.face_to_face) {
         this.getIps()
       }
-      this.getSpecialties()
+      //this.getSpecialties()
       this.getProfesionals()
       //TODO:Implementar dispacth
       // this.dispatchPerson(form)
@@ -151,11 +157,15 @@ export class CitaComponent implements OnInit {
     });
   }
 
-  getSpecialties() {
-    this._openAgendaService.getSpecialties(String(this.dataCitaToAssign.sede), this.dataCitaToAssign.subappointment.procedure).subscribe((resp: any) => {
-      this.specialties = resp.data;
-    });
+  getSpecialtiesService(type_service_id) {
+    let data = {
+      type_service_id: type_service_id
+    }
+    this._openAgendaService.getSpecialtiesForType(data).subscribe((res: any) => {
+      this.specialties = res.data;
+    })
   }
+
 
   getProfesionals() {
 

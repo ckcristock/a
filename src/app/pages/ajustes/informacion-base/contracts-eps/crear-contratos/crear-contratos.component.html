@@ -58,7 +58,7 @@
           <mat-error> Campo obligatorio </mat-error>
         </mat-form-field>
         <mat-form-field class="col" appearance="outline">
-          <mat-label>Modalidad de pago</mat-label>
+          <mat-label>Tipo de contrato</mat-label>
           <mat-select formControlName="payment_method_id" required>
             <mat-option [value]="1">Capita</mat-option>
             <mat-option [value]="2">Evento</mat-option>
@@ -133,6 +133,24 @@
             required
             autocomplete="off"
           />
+          <mat-error> Campo obligatorio </mat-error>
+        </mat-form-field>
+        <mat-form-field class="col" appearance="outline">
+          <mat-label>Plan de beneficios</mat-label>
+          <mat-select formControlName="benefits_plans_id">
+            <mat-option *ngFor="let item of benefitsPlan" [value]="item.value">{{
+              item.text
+            }}</mat-option>
+          </mat-select>
+          <mat-error> Campo obligatorio </mat-error>
+        </mat-form-field>
+        <mat-form-field class="col" appearance="outline">
+          <mat-label>Modalidad de pago</mat-label>
+          <mat-select formControlName="payment_methods_contracts_id">
+            <mat-option *ngFor="let item of payment_methods_contracts" [value]="item.value">{{
+              item.text
+            }}</mat-option>
+          </mat-select>
           <mat-error> Campo obligatorio </mat-error>
         </mat-form-field>
         <mat-form-field class="col" appearance="outline">
@@ -456,8 +474,8 @@
                 <ng-container
                   *ngIf="item.controls['cups'].controls.length; else notData"
                 >
-                  <div class="rounded-top table-responsive">
-                    <table class="table table-bordered table-striped table-sm">
+                  <div class="rounded-top ">
+                    <table class="table table-bordered table-striped table-sm table-services">
                       <thead class="bg-light">
                         <tr class="text-center text-uppercase">
                           <th>#</th>
@@ -480,7 +498,7 @@
                           <ng-container formArrayName="cups">
                             <ng-container [formGroupName]="c">
                               <tr>
-                                <td>{{ c + 1 }}</td>
+                                <td class="align-middle text-center">{{ c + 1 }}</td>
                                 <td>
                                   <mat-form-field
                                     class="pb-0 mat-sm"
@@ -546,7 +564,7 @@
                                       formControlName="route_id"
                                     >
                                       <mat-option
-                                        *ngFor="let item of routes"
+                                        *ngFor="let item of attention_routes"
                                         [value]="item.value"
                                         >{{ item.text }}</mat-option
                                       >
@@ -585,7 +603,7 @@
                                     />
                                   </mat-form-field>
                                 </td>
-                                <td>
+                                <td class="align-middle text-center">
                                   <button
                                     class="btn btn-danger btn-sm"
                                     type="button"

@@ -1,15 +1,27 @@
-.alert-danger{
-color: #721c24;
-background: #f8d7da;
-border-color: #f5c6cb;
-margin-bottom: 5px;
-padding:3px;
+.alert-danger {
+  color: #721c24;
+  background: #f8d7da;
+  border-color: #f5c6cb;
+  margin-bottom: 5px;
+  padding: 3px;
 }
 
 input[type="date"]::-webkit-inner-spin-button,
 input[type="date"]::-webkit-calendar-picker-indicator {
-    position: absolute;
-    right: 0;
-    height: 15px;
-    width: 15px;
+  position: absolute;
+  right: 0;
+  height: 15px;
+  width: 15px;
 }
+.table-services {
+  td {
+    padding: 0.1rem;
+  }
+}
+
+.table-responsive-custom {
+  overflow-x: auto;
+}
+ngb-typeahead-window {
+  display: block!important;
+ }

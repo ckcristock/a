@@ -46,7 +46,7 @@
           <mat-form-field class="col" appearance="outline">
             <mat-label>Tipo</mat-label>
             <mat-select
-              [(ngModel)]="filtros.cup_type_id"
+              [(ngModel)]="filtros.type_service_id"
               (selectionChange)="getAllCups()"
             >
               <mat-option value="">Todos</mat-option>
@@ -83,8 +83,8 @@
               {{ cup.description }}
             </td>
             <td class="align-middle">{{ cup.code }}</td>
-            <td class="align-middle" *ngIf="cup.type_cup; else noType">
-              {{ cup.type_cup.name }}
+            <td class="align-middle" *ngIf="cup.type_service.length > 0; else noType">
+              <span *ngFor="let item of cup.type_service">{{ item.name }}. </span>
             </td>
             <ng-template #noType>
               <td class="align-middle">Sin tipo</td>

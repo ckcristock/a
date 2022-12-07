@@ -12,6 +12,7 @@ import Swal from 'sweetalert2';
 import { dataCitaToAssignService } from '../../../dataCitaToAssignService.service';
 import { diasSemana } from '../../../abrir-agendas/dias';
 import { LaboratoryService } from 'src/app/pages/gestion-riesgo/laboratory/laboratory.service';
+import { EpssService } from 'src/app/pages/ajustes/informacion-base/services/epss.service';
 
 @Component({
   selector: 'app-crear-cita',
@@ -37,6 +38,7 @@ export class CrearCitaComponent implements OnInit {
   diagnosticoId: any;
   procedureId: any;
   contract_id: any;
+  route_id: any;
   repeat: any;
   fechaInicioRecurrente: any;
   fechaFinRecurrente: any;
@@ -51,6 +53,7 @@ export class CrearCitaComponent implements OnInit {
     private _queryPatient: QueryPatient,
     private dataCitaToAssignService: dataCitaToAssignService,
     private _laboratory: LaboratoryService,
+    private _eps: EpssService
   ) {
 
     this._queryPatient.infowailist.subscribe(res => {
@@ -92,10 +95,12 @@ export class CrearCitaComponent implements OnInit {
 
     this.$patient = this._queryPatient.patient.subscribe(r => {
       this.contract_id = ''
+      this.route_id = ''
       this.call = r.llamada
       this.patient = r.paciente
 
       this.getContract(this.tipification.type_service_id);
+      this.getRoutes(this.patient)
     })
     /*  this.call = this.dataCitaToAssignService.dateCall.llamada
      this.patient = this.dataCitaToAssignService.dateCall.paciente */
@@ -110,6 +115,16 @@ export class CrearCitaComponent implements OnInit {
 
     this.$trSelct = this._queryPatient.tramiteSelected.subscribe(r => {
       this.tramiteSelected = r
+    })
+  }
+  routes: any[] = []
+  getRoutes(patient) {
+    let data = {
+      gender: patient.gener,
+      birthday: patient.date_of_birth
+    }
+    this._eps.getAttentionRoutesCustom(data).subscribe((res: any) => {
+      this.routes = res.data
     })
   }
 

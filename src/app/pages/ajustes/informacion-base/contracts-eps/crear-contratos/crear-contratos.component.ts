@@ -56,6 +56,7 @@ export class CrearContratosComponent implements OnInit {
   public searchingProcedure: boolean;
   public searchFailedProcedure: boolean;
   public namecupmodel: any;
+  public attention_routes: any[] =[]
 
   constructor(
     private fb: FormBuilder,
@@ -85,6 +86,20 @@ export class CrearContratosComponent implements OnInit {
     }
   }
 
+  payment_methods_contracts: any[] = []
+  getPaymentMethodsContracts() {
+    this._epsService.getPaymentMethodsContracts().subscribe((res: any) => {
+      this.payment_methods_contracts = res.data
+    })
+  }
+
+  getAttentionRoutes() {
+    this._epsService.getAttentionRoutes().subscribe((res: Response) => {
+      this.attention_routes = res.data
+    })
+  }
+
+
   getData() {
     this._epsService.getInfoEpsContract(this.id).subscribe((data: Response) => {
       this.Policies = data.data.policies;
@@ -96,6 +111,8 @@ export class CrearContratosComponent implements OnInit {
           number: data.data.number,
           //Revisar
           payment_method_id: data.data.payment_method_id,
+          payment_methods_contracts_id: data.data.payment_methods_contracts_id,
+          benefits_plans_id: data.data.benefits_plans_id,
           /************************ */
           administrator_id: data.data.administrator_id,
           price: data.data.price,
@@ -113,7 +130,7 @@ export class CrearContratosComponent implements OnInit {
         }
       );
       data.data.type_service.forEach(element => {
-        this.centrosDeCosto.push({value: element.id, text: element.name})
+        this.centrosDeCosto.push({ value: element.id, text: element.name })
       });
     })
   }
@@ -129,6 +146,8 @@ export class CrearContratosComponent implements OnInit {
     this.getBenefitsPlan()
     this.getRegimes()
     this.getTypeServices();
+    this.getAttentionRoutes();
+    this.getPaymentMethodsContracts();
     await this.getCompanies()
   }
 
@@ -179,8 +198,6 @@ export class CrearContratosComponent implements OnInit {
   getBenefitsPlan() {
     this._dataDinamicService.getBenefitsPlan().subscribe((req: any) => {
       this.benefitsPlan = req.data
-      this.benefitsPlan.unshift({ text: 'Anexo planes', value: '1' })
-      this.benefitsPlan.unshift({ text: 'Seleccione', value: '' })
     })
   }
 
@@ -189,6 +206,7 @@ export class CrearContratosComponent implements OnInit {
       this.regimes = req.data
     })
   }
+
   getCompanies = async () => {
     await this._dataDinamicService.getCompanies().toPromise().then((req: any) => {
       this.companys = req.data
@@ -227,7 +245,6 @@ export class CrearContratosComponent implements OnInit {
   subItemsToDelete: Array<number> = [];
 
   deleteCups(item: FormGroup, i: number) {
-    console.log(item)
     let cups = item.get('cups') as FormArray
     cups.removeAt(i)
   }
@@ -333,18 +350,20 @@ export class CrearContratosComponent implements OnInit {
         speciality_id: data.speciality_id,
         specialityList: [data.cup.specialities],
         centro_costo_id: [data.centro_costo_id, Validators.required],
-        route_id: [data.route],
+        route_id: [data.route_id],
         frequency: [Number(data.frequency), Validators.required]
       }
     );
-    if(group.controls.centro_costo_id.value != 5){
+    if (group.controls.centro_costo_id.value != 5) {
       group.controls.route_id.disable()
+      group.controls.route_id.reset()
     }
     group.controls.centro_costo_id.valueChanges.subscribe(r => {
-      if (r == 5){
+      if (r == 5) {
         group.controls.route_id.enable()
       } else {
         group.controls.route_id.disable()
+        group.controls.route_id.reset()
       }
     })
     group.get('namec').valueChanges.subscribe((term) => {
@@ -487,6 +506,8 @@ export class CrearContratosComponent implements OnInit {
       technicalNote: this.frmbuilder.array([], /* Validators.required */),
       // contract_type: ['', Validators.required],
       payment_method_id: ['', [Validators.required]],
+      payment_methods_contracts_id: ['', [Validators.required]],
+      benefits_plans_id: ['', [Validators.required]],
       // benefits_plan_id: ['', [Validators.required]],
       // variation: ['', [Validators.required, Validators.pattern(this.regexp)]],
       // price_list_id: ['', [Validators.required]],
@@ -516,13 +537,13 @@ export class CrearContratosComponent implements OnInit {
         // performance: ['', Validators.required],
         // capacity: ['', Validators.required],
         centro_costo_id: ['', Validators.required],
-        route_id: [{value:'', disabled: true}],
+        route_id: [{ value: '', disabled: true }],
         // resource: ['', Validators.required],
         frequency: ['', Validators.required]
       }
     );
     group.controls.centro_costo_id.valueChanges.subscribe(r => {
-      if (r == 5){
+      if (r == 5) {
         group.controls.route_id.enable()
       } else {
         group.controls.route_id.disable()
