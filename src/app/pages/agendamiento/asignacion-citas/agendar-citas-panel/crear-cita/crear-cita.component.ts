@@ -119,9 +119,13 @@ export class CrearCitaComponent implements OnInit {
   }
   routes: any[] = []
   getRoutes(patient) {
+    let dob:any = new Date(patient.date_of_birth);
+    let today:any = new Date();
+    let timediff = Math.abs(today - dob);
+    let age = Math.floor((timediff / (1000 * 3600 * 24)) / 365);
     let data = {
       gender: patient.gener,
-      birthday: patient.date_of_birth
+      birthday: age
     }
     this._eps.getAttentionRoutesCustom(data).subscribe((res: any) => {
       this.routes = res.data

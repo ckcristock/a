@@ -82,55 +82,54 @@
 </div>
 
 <ng-template #presential>
-  <div class="col-12">
+  <div class="col-lg-4 mx-auto">
     <div class="card">
       <div class="card-body">
         <div class="card-title">
-          <h4 class="text-primary">Asignación de Citas</h4>
+          <h4 class="text-primary">Asignación de citas</h4>
         </div>
         <hr class="line" />
-        <div class="row">
-          <div class="col">
-            <app-tipificacion></app-tipificacion>
+        <app-tipificacion [sizeCol]="true"></app-tipificacion>
+
+        <form #formD="ngForm">
+          <div class="row">
+            <input name="type" class="d-none" [(ngModel)]="typeCall" />
+            <input
+              name="Ambito"
+              class="d-none"
+              required
+              [(ngModel)]="tramiteData.ambit_id"
+            />
+            <input
+              name="Tipo_Tramite"
+              class="d-none"
+              required
+              [(ngModel)]="tramiteData.formality_id"
+            />
+            <input
+              name="Tipo_Servicio"
+              class="d-none"
+              required
+              [(ngModel)]="tramiteData.type_service_id"
+            />
+            <mat-form-field class="col-md-12" appearance="outline">
+              <mat-label>Documento del paciente</mat-label>
+              <input
+                required
+                matInput
+                type="number"
+                ngModel
+                pattern="\d+"
+                step="1"
+                placeholder="Ingresa el documento"
+                autocomplete="off"
+                name="Identificacion_Paciente"
+              />
+            </mat-form-field>
           </div>
-          <div class="col-md-3 px-0">
-            <form #formD="ngForm">
-              <input name="type" class="d-none" [(ngModel)]="typeCall" />
-              <input
-                name="Ambito"
-                class="d-none"
-                [(ngModel)]="tramiteData.ambit_id"
-              />
-              <input
-                name="Tipo_Tramite"
-                class="d-none"
-                [(ngModel)]="tramiteData.formality_id"
-              />
-              <input
-                name="Tipo_Servicio"
-                class="d-none"
-                [(ngModel)]="tramiteData.type_service_id"
-              />
-              <mat-form-field class="col-md-12 pl-0" appearance="outline">
-                <mat-label>Documento del paciente</mat-label>
-                <input
-                  required
-                  matInput
-                  type="number"
-                  ngModel
-                  pattern="\d+"
-                  step="1"
-                  placeholder="Ingresa el documento"
-                  autocomplete="off"
-                  name="Identificacion_Paciente"
-                />
-              </mat-form-field>
-            </form>
-          </div>
-        </div>
+        </form>
         <button
           class="btn btn-primary btn-block"
-          [disabled]="formD.invalid"
           (click)="newCall(formD)"
         >
           Iniciar gestión

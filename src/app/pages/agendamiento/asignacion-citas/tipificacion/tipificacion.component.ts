@@ -13,6 +13,7 @@ import Swal from 'sweetalert2';
 export class TipificacionComponent implements OnInit {
   //@Output('tramite') tramite = new EventEmitter();
   @Input() tramitex: any;
+  @Input() sizeCol: boolean = false;
   data: any = {
     Id_Llamada: '',
     Id_Funcionario: '',
