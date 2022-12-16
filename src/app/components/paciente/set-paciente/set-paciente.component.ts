@@ -46,7 +46,8 @@ export class SetPacienteComponent implements OnInit {
   changeDepartment = new EventEmitter<any>();
 
   constructor(
-    private _queryPatient: QueryPatient, private _dataDinamicService: DataDinamicService,
+    private _queryPatient: QueryPatient,
+    private _dataDinamicService: DataDinamicService,
     private dataCitaToAssignService: dataCitaToAssignService,
     private _openAgenda: OpenAgendaService,
     private _assingService: AssingService
