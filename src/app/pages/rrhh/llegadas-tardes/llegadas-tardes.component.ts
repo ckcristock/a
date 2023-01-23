@@ -10,6 +10,7 @@ import { GroupService } from '../../ajustes/informacion-base/services/group.serv
 import { DependenciesService } from '../../ajustes/informacion-base/services/dependencies.service';
 import { PersonService } from '../../ajustes/informacion-base/persons/person.service';
 import { MatAccordion } from '@angular/material';
+import { DatePipe } from '@angular/common';
 @Component({
   selector: 'app-llegadas-tardes',
   templateUrl: './llegadas-tardes.component.html',
@@ -17,6 +18,7 @@ import { MatAccordion } from '@angular/material';
 })
 export class LlegadasTardesComponent implements OnInit {
   @ViewChild(MatAccordion) accordion: MatAccordion;
+  datePipe = new DatePipe('es-CO');
   matPanel = false;
   openClose() {
     if (this.matPanel == false) {
@@ -77,7 +79,7 @@ export class LlegadasTardesComponent implements OnInit {
   };
   firstDay: any;
   lastDay: any;
-
+  date: any;
   people: any[];
 
   constructor(
@@ -103,7 +105,26 @@ export class LlegadasTardesComponent implements OnInit {
     this.getLinearDataset();
     this.getStatisticsByDays();
   }
+
+  selectedDate(fecha) {
+    if (fecha.value) {
+      this.firstDay = this.datePipe.transform(fecha.value.begin._d, 'yyyy-MM-dd');
+      this.lastDay = this.datePipe.transform(fecha.value.end._d, 'yyyy-MM-dd');
+    } else {
+      this.firstDay = '';
+      this.lastDay = '';
+    }
+    this.filtrar();
+  }
+
   getData() { }
+
+  filtrar() {
+    this.getLateArrivals();
+    this.getLinearDataset()
+    this.getStatisticsByDays();
+  }
+
   getLateArrivals() {
     let params = this.getParams();
     this.loading = true;

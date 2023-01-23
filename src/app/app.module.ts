@@ -1,4 +1,4 @@
-import { NgModule } from '@angular/core';
+import { LOCALE_ID, NgModule } from '@angular/core';
 import { BrowserModule } from '@angular/platform-browser';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 
@@ -26,7 +26,10 @@ import { ModalService } from './core/services/modal.service';
 export function createTranslateLoader(http: HttpClient): any {
   return new TranslateHttpLoader(http, 'assets/i18n/', '.json');
 }
-
+import localeEs from '@angular/common/locales/es';
+import { registerLocaleData } from '@angular/common';
+import { MatPaginatorIntl } from '@angular/material';
+registerLocaleData(localeEs, 'es');
 @NgModule({
   declarations: [
     AppComponent,
@@ -57,6 +60,7 @@ export function createTranslateLoader(http: HttpClient): any {
   ],
   providers: [
     { provide: HTTP_INTERCEPTORS, useClass: AuthInterceptor, multi: true },
+    { provide: LOCALE_ID, useValue: 'es' },
     // { provide: HTTP_INTERCEPTORS, useClass: CacheInterceptor, multi: true },
     ModalService
   ],
