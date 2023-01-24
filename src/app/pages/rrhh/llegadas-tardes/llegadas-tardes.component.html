@@ -105,7 +105,15 @@
         </div>
       </mat-expansion-panel>
     </mat-accordion>
-
+    <div class="alert alert-info" *ngIf="active_filters" role="alert">
+      <strong
+        >Hay filtros de búsqueda activos, para mostrar todos los resultados haz
+        click
+      </strong>
+      <a href="javascript: void(0)" (click)="resetFiltros()" class="alert-link"
+        >aquí</a
+      >
+    </div>
     <div *ngIf="companies.length && !loading; else notData">
       F
       <div class="row">
