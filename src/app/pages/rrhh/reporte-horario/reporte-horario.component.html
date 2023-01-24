@@ -34,8 +34,19 @@
       <mat-expansion-panel class="mat-elevation-z0">
         <form [formGroup]="forma">
           <div class="row">
+            <mat-form-field class="col-md-6" appearance="outline">
+              <mat-label>Funcionario</mat-label>
+              <mat-select
+                formControlName="person_id"
+                (selectionChange)="getDiaries()"
+              >
+                <mat-option *ngFor="let item of people" [value]="item.value">{{
+                  item.text
+                }}</mat-option>
+              </mat-select>
+            </mat-form-field>
             <mat-form-field
-              class="col"
+              class="col-md-6"
               appearance="outline"
               *ngIf="companies.length > 2"
             >
@@ -48,7 +59,7 @@
                 >
               </mat-select>
             </mat-form-field>
-            <mat-form-field class="col" appearance="outline">
+            <mat-form-field class="col-md-3" appearance="outline">
               <mat-label>Grupo</mat-label>
               <mat-select
                 formControlName="group_id"
@@ -61,7 +72,7 @@
                 >
               </mat-select>
             </mat-form-field>
-            <mat-form-field class="col" appearance="outline">
+            <mat-form-field class="col-md-3" appearance="outline">
               <mat-label>Dependencia</mat-label>
               <mat-select
                 formControlName="dependency_id"
@@ -74,8 +85,19 @@
                 >
               </mat-select>
             </mat-form-field>
-
-            <mat-form-field appearance="outline" class="col">
+            <mat-form-field class="col-md-3" appearance="outline">
+              <mat-label>Tipo de turno</mat-label>
+              <mat-select
+                formControlName="turn_type"
+                name="tipo_turno"
+                (selectionChange)="getDiaries()"
+              >
+                <mat-option value="">Todos</mat-option>
+                <mat-option value="Rotativo">Rotativo</mat-option>
+                <mat-option value="Fijo">Fijo</mat-option>
+              </mat-select>
+            </mat-form-field>
+            <mat-form-field appearance="outline" class="col-md-3">
               <mat-label>Rango de fechas</mat-label>
               <input
                 matInput
@@ -90,30 +112,6 @@
                 matSuffix
                 [for]="picker"
               ></sat-datepicker-toggle>
-            </mat-form-field>
-
-            <mat-form-field class="col" appearance="outline">
-              <mat-label>Funcionario</mat-label>
-              <mat-select
-                formControlName="person_id"
-                (selectionChange)="getDiaries()"
-              >
-                <mat-option *ngFor="let item of people" [value]="item.value">{{
-                  item.text
-                }}</mat-option>
-              </mat-select>
-            </mat-form-field>
-            <mat-form-field class="col" appearance="outline">
-              <mat-label>Tipo de turno</mat-label>
-              <mat-select
-                formControlName="turn_type"
-                name="tipo_turno"
-                (selectionChange)="getDiaries()"
-              >
-                <mat-option value="">Todos</mat-option>
-                <mat-option value="Rotativo">Rotativo</mat-option>
-                <mat-option value="Fijo">Fijo</mat-option>
-              </mat-select>
             </mat-form-field>
           </div>
         </form>

@@ -155,7 +155,6 @@ export class TaskService {
 
   person = [];
   getPerson() {
-    console.log(this._user)
     this.personCompany(this._user.user.person.company_worked.id).subscribe(
       (d: any) => {
         this.person = d.data;

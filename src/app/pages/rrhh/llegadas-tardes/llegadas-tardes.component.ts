@@ -1,4 +1,4 @@
-import { Component, OnInit, ViewChild, ElementRef } from '@angular/core';
+import { Component, OnInit, ViewChild } from '@angular/core';
 
 import { donutChart } from './data';
 import { ChartDataSets } from 'chart.js';
@@ -9,8 +9,14 @@ import { CompanyService } from '../../ajustes/informacion-base/services/company.
 import { GroupService } from '../../ajustes/informacion-base/services/group.service';
 import { DependenciesService } from '../../ajustes/informacion-base/services/dependencies.service';
 import { PersonService } from '../../ajustes/informacion-base/persons/person.service';
-import { MatAccordion } from '@angular/material';
+import { MatAccordion, PageEvent } from '@angular/material';
 import { DatePipe } from '@angular/common';
+import { FormBuilder, FormGroup } from '@angular/forms';
+import { Permissions } from 'src/app/core/interfaces/permissions-interface';
+import { PermissionService } from 'src/app/core/services/permission.service';
+import { Router } from '@angular/router';
+import { debounceTime } from 'rxjs/operators';
+import { HttpParams } from '@angular/common/http';
 @Component({
   selector: 'app-llegadas-tardes',
   templateUrl: './llegadas-tardes.component.html',
@@ -19,21 +25,11 @@ import { DatePipe } from '@angular/common';
 export class LlegadasTardesComponent implements OnInit {
   @ViewChild(MatAccordion) accordion: MatAccordion;
   datePipe = new DatePipe('es-CO');
-  matPanel = false;
-  openClose() {
-    if (this.matPanel == false) {
-      this.accordion.openAll()
-      this.matPanel = true;
-    } else {
-      this.accordion.closeAll()
-      this.matPanel = false;
-    }
-  }
+
   donutChart = donutChart;
   group_id: any;
   people_id = '';
   dependency_id: any;
-  loading = false;
   donwloading = false;
 
   public lineChartData: ChartDataSets[] = [
@@ -79,32 +75,111 @@ export class LlegadasTardesComponent implements OnInit {
   };
   firstDay: any;
   lastDay: any;
-  date: any;
   people: any[];
+
+  loading: boolean;
+  matPanel: boolean;
+  date: any;
+  formFilters: FormGroup;
+  orderObj: any
+  active_filters: boolean = false
+  permission: Permissions = {
+    menu: 'Llegadas tarde',
+    permissions: {
+      show: true,
+      add: true
+    }
+  };
+  paginationMaterial: any;
+  pagination: any = {
+    page: '',
+    pageSize: '',
+  }
 
   constructor(
     private _lateArrivals: LateArrivalsService,
     private _companies: CompanyService,
     private _grups: GroupService,
     private _dependencies: DependenciesService,
-    private _people: PersonService
+    private _people: PersonService,
+    private fb: FormBuilder,
+    private _permission: PermissionService,
+    public router: Router
   ) {
     this.getGroup();
     this.getPeople();
     this.getCompanies();
+    this.permission = this._permission.validatePermissions(this.permission);
   }
 
   ngOnInit() {
-    let fecha = new Date();
-    let hoy = fecha.toISOString().split('T')[0];
-    this.lastDay = hoy;
-    this.firstDay = new Date(fecha.setDate(fecha.getDate() - 2))
-      .toISOString()
-      .split('T')[0];
-    this.getLateArrivals();
-    this.getLinearDataset();
-    this.getStatisticsByDays();
+    if(this.permission.permissions.show) {
+      let fecha = new Date();
+      let hoy = fecha.toISOString().split('T')[0];
+      this.lastDay = hoy;
+      this.firstDay = new Date(fecha.setDate(fecha.getDate() - 2))
+        .toISOString()
+        .split('T')[0];
+      this.getLateArrivals();
+      this.getLinearDataset();
+      this.getStatisticsByDays();
+    } else {
+      this.router.navigate(['/notautorized']);
+    }
   }
+
+  openClose() {
+    this.matPanel = !this.matPanel;
+    this.matPanel ? this.accordion.openAll() : this.accordion.closeAll();
+  }
+
+  handlePageEvent(event: PageEvent) {
+    this.pagination.pageSize = event.pageSize
+    this.pagination.page = event.pageIndex + 1
+    this.getLateArrivals()
+  }
+
+  resetFiltros() {
+    for (const controlName in this.formFilters.controls) {
+      this.formFilters.get(controlName).setValue('');
+    }
+    this.active_filters = false
+  }
+
+  SetFiltros(paginacion) {
+    let params = new HttpParams;
+    params = params.set('pag', paginacion)
+    params = params.set('pageSize', this.pagination.pageSize)
+    for (const controlName in this.formFilters.controls) {
+      const control = this.formFilters.get(controlName);
+      if (control.value) {
+        params = params.set(controlName, control.value);
+      }
+    }
+    return params;
+  }
+
+  createFormFilters() {
+    this.formFilters = this.fb.group({
+      code: '',
+      start_date: '',
+      end_date: '',
+      city: '',
+      client: '',
+      description: '',
+      observation: '',
+      start_delivery_date: '',
+      end_delivery_date: '',
+      status: 'todos_sin_terminadas'
+    })
+    this.formFilters.valueChanges.pipe(
+      debounceTime(500),
+    ).subscribe(r => {
+      this.getLateArrivals();
+    })
+  }
+  /////////////////////////////////
+
 
   selectedDate(fecha) {
     if (fecha.value) {
