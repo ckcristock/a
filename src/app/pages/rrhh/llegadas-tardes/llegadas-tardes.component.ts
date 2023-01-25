@@ -10,13 +10,15 @@ import { GroupService } from '../../ajustes/informacion-base/services/group.serv
 import { DependenciesService } from '../../ajustes/informacion-base/services/dependencies.service';
 import { PersonService } from '../../ajustes/informacion-base/persons/person.service';
 import { MatAccordion, PageEvent } from '@angular/material';
-import { DatePipe } from '@angular/common';
+import { DatePipe, Location } from '@angular/common';
 import { FormBuilder, FormGroup } from '@angular/forms';
 import { Permissions } from 'src/app/core/interfaces/permissions-interface';
 import { PermissionService } from 'src/app/core/services/permission.service';
-import { Router } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 import { debounceTime } from 'rxjs/operators';
 import { HttpParams } from '@angular/common/http';
+import { UserService } from '../../../core/services/user.service';
+import { User } from 'src/app/core/models/users.model';
 @Component({
   selector: 'app-llegadas-tardes',
   templateUrl: './llegadas-tardes.component.html',
@@ -28,7 +30,7 @@ export class LlegadasTardesComponent implements OnInit {
 
   donutChart = donutChart;
   group_id: any;
-  people_id = '';
+  people_id: any;
   dependency_id: any;
   donwloading = false;
 
@@ -95,6 +97,7 @@ export class LlegadasTardesComponent implements OnInit {
     page: '',
     pageSize: '',
   }
+  public user : User;
 
   constructor(
     private _lateArrivals: LateArrivalsService,
@@ -104,8 +107,12 @@ export class LlegadasTardesComponent implements OnInit {
     private _people: PersonService,
     private fb: FormBuilder,
     private _permission: PermissionService,
-    public router: Router
+    private location: Location,
+    public router: Router,
+    public route: ActivatedRoute,
+    public _user: UserService
   ) {
+    this.user = _user.user;
     this.getGroup();
     this.getPeople();
     this.getCompanies();
@@ -114,18 +121,43 @@ export class LlegadasTardesComponent implements OnInit {
 
   ngOnInit() {
     if(this.permission.permissions.show) {
-      let fecha = new Date();
-      let hoy = fecha.toISOString().split('T')[0];
-      this.lastDay = hoy;
-      this.firstDay = new Date(fecha.setDate(fecha.getDate() - 2))
-        .toISOString()
-        .split('T')[0];
-      this.getLateArrivals();
-      this.getLinearDataset();
-      this.getStatisticsByDays();
+      this.createFormFilters();
+
+      this.route.queryParamMap.subscribe((params: any)=>{
+        if (params.params.pageSize) {
+          this.pagination.pageSize = params.params.pageSize
+        } else {
+          this.pagination.pageSize = 10
+        }
+        if (params.params.pag) {
+          this.pagination.page = params.params.pag
+        } else {
+          this.pagination.page = 1
+        }
+        this.orderObj = { ...params.keys, ...params }
+
+        if (Object.keys(this.orderObj).length > 4) {
+          this.active_filters = true
+          const formValues = {};
+          for (const param in params) {
+            formValues[param] = params[param];
+          }
+          this.formFilters.patchValue(formValues['params']);
+        }
+        let fecha = new Date();
+        let hoy = fecha.toISOString().split('T')[0];
+        this.lastDay = hoy;
+        this.firstDay = new Date(fecha.setDate(fecha.getDate() - 2))
+          .toISOString()
+          .split('T')[0];
+        this.getLateArrivals();
+        this.getLinearDataset();
+        this.getStatisticsByDays();
+      })
     } else {
       this.router.navigate(['/notautorized']);
     }
+    console.log('formfilter', this.formFilters);
   }
 
   openClose() {
@@ -161,16 +193,12 @@ export class LlegadasTardesComponent implements OnInit {
 
   createFormFilters() {
     this.formFilters = this.fb.group({
-      code: '',
-      start_date: '',
-      end_date: '',
-      city: '',
-      client: '',
-      description: '',
-      observation: '',
-      start_delivery_date: '',
-      end_delivery_date: '',
-      status: 'todos_sin_terminadas'
+      company_id: [0],
+      group_id: [0],
+      dependency_id: [0],
+      people_id: [0],
+      date_from: [''],
+      date_to: [''],
     })
     this.formFilters.valueChanges.pipe(
       debounceTime(500),
@@ -180,42 +208,60 @@ export class LlegadasTardesComponent implements OnInit {
   }
   /////////////////////////////////
 
-
   selectedDate(fecha) {
     if (fecha.value) {
-      this.firstDay = this.datePipe.transform(fecha.value.begin._d, 'yyyy-MM-dd');
-      this.lastDay = this.datePipe.transform(fecha.value.end._d, 'yyyy-MM-dd');
+      this.formFilters.patchValue({
+        date_from: this.datePipe.transform(fecha.value.begin._d, 'yyyy-MM-dd'),
+        date_to: this.datePipe.transform(fecha.value.end._d, 'yyyy-MM-dd')
+      })
     } else {
-      this.firstDay = '';
-      this.lastDay = '';
+      this.formFilters.patchValue({
+        date_from: '',
+        date_to: ''
+      });
     }
-    this.filtrar();
-  }
-
-  getData() { }
-
-  filtrar() {
-    this.getLateArrivals();
-    this.getLinearDataset()
-    this.getStatisticsByDays();
   }
 
   getLateArrivals() {
-    let params = this.getParams();
     this.loading = true;
+    let params = {
+      ...this.pagination,
+      ...this.formFilters.value
+    }
+    var paramsurl = this.SetFiltros(this.pagination.page);
+    this.location.replaceState('/rrhh/llegadas-tarde', paramsurl.toString());
+    const fecha_ini = this.formFilters.controls.date_from.value == ''
+                        ? moment().format('YYYY-MM-DD')
+                        : this.formFilters.controls.date_from.value
+    const fecha_fin = this.formFilters.controls.date_to.value == ''
+                        ? moment().format('YYYY-MM-DD')
+                        : this.formFilters.controls.date_to.value
     this._lateArrivals
-      .getLateArrivals(this.firstDay, this.lastDay, params)
-      .subscribe((r: any) => {
-        this.companies = r.data;
+      .getLateArrivals(fecha_ini, fecha_fin, params)
+      .subscribe((res: any) => {
+        this.companies = res.data;
         this.loading = false;
+        this.paginationMaterial = res.data
+        if (this.paginationMaterial.last_page < this.pagination.page) {
+          this.paginationMaterial.current_page = 1
+          this.pagination.page = 1
+          this.getLateArrivals()
+        }
         this.transformData();
       });
   }
+
   downloadLateArrivals() {
-    let params = this.getParams();
+    let params = this.SetFiltros(this.pagination.page);
     this.donwloading = true;
+    const fecha_ini = this.formFilters.controls.date_from.value == ''
+                        ? moment().format('YYYY-MM-DD')
+                        : this.formFilters.controls.date_from.value
+    const fecha_fin = this.formFilters.controls.date_to.value == ''
+                        ? moment().format('YYYY-MM-DD')
+                        : this.formFilters.controls.date_to.value
     this._lateArrivals
-      .downloadLateArrivals(this.firstDay, this.lastDay, params)
+      .downloadLateArrivals(fecha_ini, fecha_fin, params)
       .subscribe((response: BlobPart) => {
         let blob = new Blob([response], { type: 'application/excel' });
         let link = document.createElement('a');
@@ -226,7 +272,7 @@ export class LlegadasTardesComponent implements OnInit {
         this.donwloading = false;
       }),
       (error) => {
-        console.log('Error downloading the file');
+        console.log('Error downloading the file', error);
         this.donwloading = false;
       },
       () => {
@@ -242,16 +288,12 @@ export class LlegadasTardesComponent implements OnInit {
     });
   }
   getCompanies() {
-    this._companies.getCompanies({ owner: '1' }).subscribe((r: any) => {
-      this.companyList = r.data;
-      if (this.companyList.length > 1) {
-        this.companyList.unshift({ text: 'Todas', value: '0' });
-        this.company_id = 0;
-      } else {
-        this.company_id = this.companyList[0].value;
-      }
-    });
+    //no necesito consultar las companies porque se encuentran en el servicio de user,
+    //solo las formateo para que puedan ser mostradas en el select
+    this.companyList = this.user.person.companies.map((ele)=>({ value: ele.id, text: ele.short_name }))
+    console.log('company', this.companyList);
   }
+
   getGroup() {
     this._grups.getGroup().subscribe((r: any) => {
       this.groupList = r.data;
@@ -263,16 +305,13 @@ export class LlegadasTardesComponent implements OnInit {
   getDependencies(group_id) {
     this._dependencies.getDependencies({ group_id }).subscribe((r: any) => {
       this.dependencyList = r.data;
-      this.addElement();
+      this.dependencyList.unshift({ value: 0, text: 'Todas' });
+      this.dependency_id = 0;
     });
   }
-  addElement() {
-    this.dependencyList.unshift({ value: 0, text: 'Todas' });
-    this.dependency_id = 0;
-  }
-  getLinearDataset() {
-    let params = this.getParams();
 
+  getLinearDataset() {
+    let params = this.SetFiltros(this.pagination.page);
     let fecha_inicio = moment().subtract(15, 'days').format('YYYY-MM-DD');
     let fecha_final = moment().format('YYYY-MM-DD');
     this._lateArrivals
@@ -282,15 +321,15 @@ export class LlegadasTardesComponent implements OnInit {
       });
   }
 
-  getParams() {
+ /*  getParams() {
     let params: any = {};
     this.company_id != '0' && this.company_id
       ? (params.company_id = this.company_id)
       : '';
 
     this.group_id && this.group_id != '0'
+    : '';
       ? (params.group_id = this.group_id)
-      : '';
 
     this.dependency_id != '0' && this.dependency_id
       ? (params.dependency_id = this.dependency_id)
@@ -300,7 +339,7 @@ export class LlegadasTardesComponent implements OnInit {
       : '';
 
     return params;
-  }
+  } */
 
   getLast15Days(lates: any[]) {
     this.lineChartData = [{ data: [], label: 'Llegadas tardes' }];
@@ -314,34 +353,47 @@ export class LlegadasTardesComponent implements OnInit {
     }
   }
   getStatisticsByDays() {
-    let params: any = this.getParams();
+    let params: any = this.SetFiltros(this.pagination.page);
     params.type = 'diary';
+    const fecha_ini = this.formFilters.controls.date_from.value == ''
+                        ? moment().format('YYYY-MM-DD')
+                        : this.formFilters.controls.date_from.value
+    const fecha_fin = this.formFilters.controls.date_to.value == ''
+                        ? moment().format('YYYY-MM-DD')
+                        : this.formFilters.controls.date_to.value
 
     this._lateArrivals
-      .getStatistcs(this.firstDay, this.lastDay, params)
+      .getStatistcs(fecha_ini, fecha_fin, params)
       .subscribe((r: any) => {
-        this.dataDiary.total = r.data.lates.total;
-        this.dataDiary.time_diff_total = r.data.lates.time_diff_total;
-        this.dataDiary.percentage = r.data.percentage;
+        if (r.data.lates.length>0) {
+          this.dataDiary.total = r.data.lates.total;
+          if (r.data.lates.time_diff_total != null) {
+            this.dataDiary.time_diff_total = r.data.lates.time_diff_total;
+          }
+          this.dataDiary.percentage = r.data.percentage;
+          //let d = r.data?.allByDependency.reduce(
+          let d = r.data.lates.reduce(
+            (acc, el) => {
+              return {
+                labels: [...acc.labels, el.day],
+                datasets: [...acc.datasets, el.total],
+              };
+            },
+            { labels: [], datasets: [] }
+          );
 
-        let d = r.data.allByDependency.reduce(
-          (acc, el) => {
-            return {
-              labels: [...acc.labels, el.name],
-              datasets: [...acc.datasets, el.total],
-            };
-          },
-          { labels: [], datasets: [] }
-        );
-
-        this.donutChart.datasets[0].data = d.datasets;
-        this.donutChart.labels = d.labels;
+          this.donutChart.datasets[0].data = d.datasets;
+          this.donutChart.labels = d.labels;
+        }
       });
   }
 
   transformData() {
     this.companies.forEach((c) => {
       c.groups.forEach((g) => {
+        if(!Array.isArray(g.dependencies)){
+          g.dependencies = Object.values(g.dependencies)
+        }
         g.dependencies.forEach((d) => {
           d.people.forEach((pr) => {
             pr.averageTime = this.tiempoTotal(pr.late_arrivals);
