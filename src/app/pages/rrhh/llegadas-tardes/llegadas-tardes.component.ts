@@ -199,6 +199,7 @@ export class LlegadasTardesComponent implements OnInit {
       people_id: [0],
       date_from: [''],
       date_to: [''],
+      date: [{begin: new Date(2018, 7, 5), end: new Date(2018, 7, 25)}]
     })
     this.formFilters.valueChanges.pipe(
       debounceTime(500),
@@ -291,7 +292,6 @@ export class LlegadasTardesComponent implements OnInit {
     //no necesito consultar las companies porque se encuentran en el servicio de user,
     //solo las formateo para que puedan ser mostradas en el select
     this.companyList = this.user.person.companies.map((ele)=>({ value: ele.id, text: ele.short_name }))
-    console.log('company', this.companyList);
   }
 
   getGroup() {
