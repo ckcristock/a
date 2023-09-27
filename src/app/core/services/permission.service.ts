@@ -18,8 +18,12 @@ export class PermissionService {
     this.findMenuItem(this._user.user.menu);
     if (this.itemFinded) {
       for (const iterator in perms.permissions) {
-         let finded = this.itemFinded.permissions.some(d => (d.name == iterator && d.Activo) )
-         perms.permissions[iterator] = finded;
+        if (this.itemFinded?.name){
+          let finded = this.itemFinded.permissions.some(d => (d.name == iterator && d.Activo) )
+          perms.permissions[iterator] = finded;
+        } else {
+          perms.permissions[iterator] = false;
+        }
       }
     }
     return perms

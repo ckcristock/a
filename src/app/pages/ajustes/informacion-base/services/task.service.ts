@@ -76,7 +76,7 @@ export class TaskService {
       .catch(error => console.error('Error:', error))
       .then(response => {
         console.log('Success:', response),
-        this.taskRedirect = response.data    
+        this.taskRedirect = response.data
       });
     //return this.http.post(`${environment.base_url}/newtask/${task}`, body)
   }
@@ -144,8 +144,8 @@ export class TaskService {
       }
       this.taskjson = JSON.stringify(this.tasksave)
       this.newTask(this.taskjson, this.file)
-      this.modalService.dismissAll(); 
-               
+      this.modalService.dismissAll();
+
     } catch (error) {
       console.log('error', error)
       this.errorSubida = true;

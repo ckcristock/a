@@ -13,7 +13,7 @@ import {
 import { MyDateRangePickerModule } from 'mydaterangepicker';
 import { VacantesCrearComponent } from './vacantes/vacantes-crear/vacantes-crear.component';
 import { PipesModule } from '../../core/pipes/pipes.module';
-import { CommonModule } from '@angular/common';
+import { CommonModule, CurrencyPipe } from '@angular/common';
 
 import { LlegadasTardesComponent } from './llegadas-tardes/llegadas-tardes.component';
 
@@ -74,6 +74,19 @@ import { SearchPipe } from './search.pipe';
 import { MatAutocompleteModule } from '@angular/material/autocomplete';
 import { MatIconModule } from '@angular/material/icon';
 import { MatButtonModule } from '@angular/material/button';
+import { DateAdapter, MAT_DATE_FORMATS, MAT_DATE_LOCALE, SatDatepickerModule, SatNativeDateModule } from 'saturn-datepicker';
+import { MomentDateAdapter } from '@angular/material-moment-adapter';
+export const MY_FORMATS = {
+  parse: {
+    dateInput: 'DD/MM/YYYY'
+  },
+  display: {
+    dateInput: 'DD/MM/YYYY',
+    monthYearLabel: 'MMM YYYY',
+    dateA11yLabel: 'LL',
+    monthYearA11yLabel: 'MMMM YYYY'
+  }
+};
 @NgModule({
   declarations: [
     VacantesComponent,
@@ -149,8 +162,25 @@ import { MatButtonModule } from '@angular/material/button';
     MatAutocompleteModule,
     MatIconModule,
     MatButtonModule,
+    SatDatepickerModule,
+    SatNativeDateModule,
   ],
-  providers: [{ provide: DEFAULT_CURRENCY_CODE, useValue: 'COP' }],
+  providers: [
+    {
+      provide: DEFAULT_CURRENCY_CODE,
+      useValue: 'COP'
+    },
+    CurrencyPipe,
+    {
+      provide: DateAdapter,
+      useClass: MomentDateAdapter,
+      deps: [MAT_DATE_LOCALE],
+    },
+    {
+      provide: MAT_DATE_FORMATS,
+      useValue: MY_FORMATS
+    }
+  ],
   exports: [],
 })
 export class RrhhModule { }
