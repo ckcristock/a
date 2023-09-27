@@ -5,4 +5,5 @@ export class Cup {
     specialities: [];
     cup_type_id: [];
     color_id: [];
+    type_service: [];
 }

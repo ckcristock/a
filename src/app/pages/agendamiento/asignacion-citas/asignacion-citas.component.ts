@@ -19,6 +19,7 @@ import { newCallService } from 'src/app/services/newCallService';
 import { AsignacionCitasService } from './tipificacion/asignacion-citas.service';
 import { Response } from 'src/app/core/response.model';
 import { TipificacionComponent } from './tipificacion/tipificacion.component';
+import { SwalService } from '../../ajustes/informacion-base/services/swal.service';
 
 
 @Component({
@@ -38,7 +39,7 @@ export class AsignacionCitasComponent implements OnInit {
 
   public configComponent: any =
     {
-      'menu': 'Asignación de Citas',
+      'menu': 'Asignación de citas',
       'permissions': {
         'receive_calls': false
       }
@@ -72,7 +73,7 @@ export class AsignacionCitasComponent implements OnInit {
   public dataCitaToAssign = new dataCitaToAssign();
 
   constructor(
-    private http: HttpClient, 
+    private http: HttpClient,
     private _queryPatient: QueryPatient,
     private _tipification: TipificationService,
     private route: ActivatedRoute,
@@ -80,7 +81,8 @@ export class AsignacionCitasComponent implements OnInit {
     private _appointment: AppointmentService,
     private _openAgenda: OpenAgendaService,
     private _newCallService: newCallService,
-    private asignacionCitas: AsignacionCitasService
+    private asignacionCitas: AsignacionCitasService,
+    private _swal: SwalService
   ) {
 
     if (this.route.snapshot.params.id) {
@@ -130,7 +132,7 @@ export class AsignacionCitasComponent implements OnInit {
 
   getCallPending() {
     this.asignacionCitas.getCallPending().subscribe((res: Response) => {
-      if (res.data) {
+      if (res && res.data) {
         this.Id_llamada = res.data.id
         this.mypatient.name = res.data.patient.firstname + ' ' + res.data.patient.surname
         this.mypatient.identifier = res.data.patient.identifier
@@ -174,20 +176,29 @@ export class AsignacionCitasComponent implements OnInit {
   }
 
   newCall(form) {
-    this.dataCitaToAssign.resetData()
-    // this.http.post(`${environment.base_url}/presentianCall`, JSON.stringify(form.value))
-    this._newCallService.newCall(form).subscribe((req: any) => {
-      if (req.code == 200) {
-        let data = req.data;
-        if (req.data.isNew) {
-          data = this.newPatient(data, req)
+    if (!form.valid){
+      this._swal.show({
+        icon: 'error',
+        title: 'Formulario incompleto',
+        text: 'Llena todos los datos para poder continuar',
+        showCancel: false
+      })
+    } else {
+      this.dataCitaToAssign.resetData()
+      // this.http.post(`${environment.base_url}/presentianCall`, JSON.stringify(form.value))
+      this._newCallService.newCall(form).subscribe((req: any) => {
+        if (req.code == 200) {
+          let data = req.data;
+          if (req.data.isNew) {
+            data = this.newPatient(data, req)
+          }
+          this.patient = data;
+          this._queryPatient.patient.next(data);
+          this.existPtientForShow = true;
+          clearInterval(this.getDate);
         }
-        this.patient = data;
-        this._queryPatient.patient.next(data);
-        this.existPtientForShow = true;
-        clearInterval(this.getDate);
-      }
-    })
+      })
+    }
   }
 
   newCallByWaitingList() {

@@ -86,8 +86,8 @@ export class NewLaboratoryComponent implements OnInit {
         type_service: 8
       }
       this.getContract(params);
-    })   
-    
+    })
+
     this.getLaboratoriesPlace();
     this.getProfessional();
     //this.getPatients();
@@ -122,7 +122,7 @@ export class NewLaboratoryComponent implements OnInit {
       distinctUntilChanged(),
       tap(() => (this.searchingCups = true)),
       switchMap((term) =>
-        this._laboratory.getCups({ search: term, type: 1 }).pipe(
+        this._laboratory.getCups({ search: term, type: 8 }).pipe(
           tap(() => (this.searchFailedCups = false)),
           catchError(() => {
             this.searchFailedCups = true;

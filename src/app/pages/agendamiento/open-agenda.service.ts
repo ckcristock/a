@@ -37,7 +37,7 @@ export class OpenAgendaService {
    * getIps
    */
   public getIps(value: string, params = {}) {
-    return this.clientHttp.get(`${environment.base_url}/get-companys/${value}`, {params})
+    return this.clientHttp.get(`${environment.base_url}/get-companys/${value}`, { params })
   }
 
   /**
@@ -61,6 +61,10 @@ export class OpenAgendaService {
       procedure = '0'
     }
     return this.clientHttp.get(`${environment.base_url}/get-specialties/${sede}/${procedure}`)
+  }
+
+  public getSpecialtiesForType(data) {
+    return this.clientHttp.post(`${environment.base_url}/get-specialties-type-service`, data)
   }
   /**
    * getProfesionals

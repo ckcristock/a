@@ -73,15 +73,14 @@
         </mat-form-field>
         <mat-form-field class="col" appearance="outline">
           <mat-label>Tipo</mat-label>
-          <mat-select formControlName="cup_type_id">
-            <mat-option value="">Sin tipo</mat-option>
+          <mat-select multiple="true" formControlName="type_service_id">
             <mat-option *ngFor="let item of cups_type" [value]="item.value">{{
               item.text
             }}</mat-option>
           </mat-select>
         </mat-form-field>
         <mat-form-field
-          *ngIf="form.get('cup_type_id').value == 1"
+          *ngIf="form.get('type_service_id').value == 8"
           class="col"
           appearance="outline"
         >

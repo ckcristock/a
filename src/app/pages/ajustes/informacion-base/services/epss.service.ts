@@ -41,4 +41,19 @@ export class EpssService {
     return this.http.get(`${environment.base_url}/contracts-for-select`, data);
   }
 
+  getPaymentMethodsContracts() {
+    return this.http.get(`${environment.base_url}/get-payment-methods-contracts`);
+  }
+
+  getAttentionRoutes() {
+    return this.http.get(`${environment.base_url}/get-attention-routes`);
+  }
+
+  getAttentionRoutesCustom(data) {
+    return this.http.post(`${environment.base_url}/get-attention-routes-custom`, data);
+  }
+
+
+
+
 }

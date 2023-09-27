@@ -22,14 +22,14 @@ export class CupsComponent implements OnInit {
     } else {
       this.accordion.closeAll()
       this.matPanel = false;
-    }    
+    }
   }
   cups: any = [];
   cup: any = {};
   filtros: any = {
     description: '',
     code: '',
-    cup_type_id: ''
+    type_service_id: ''
   }
 
   pagination = {

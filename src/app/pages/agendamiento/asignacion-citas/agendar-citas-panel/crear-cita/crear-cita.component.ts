@@ -11,6 +11,8 @@ import { formaterInput } from '../../../../../formaterInput'
 import Swal from 'sweetalert2';
 import { dataCitaToAssignService } from '../../../dataCitaToAssignService.service';
 import { diasSemana } from '../../../abrir-agendas/dias';
+import { LaboratoryService } from 'src/app/pages/gestion-riesgo/laboratory/laboratory.service';
+import { EpssService } from 'src/app/pages/ajustes/informacion-base/services/epss.service';
 
 @Component({
   selector: 'app-crear-cita',
@@ -32,9 +34,11 @@ export class CrearCitaComponent implements OnInit {
   public tipification: any = {}
   public fromWailist: boolean = false
   public diasSemana = diasSemana
-
+  public contratos: any[] = []
   diagnosticoId: any;
   procedureId: any;
+  contract_id: any;
+  route_id: any;
   repeat: any;
   fechaInicioRecurrente: any;
   fechaFinRecurrente: any;
@@ -48,7 +52,8 @@ export class CrearCitaComponent implements OnInit {
   constructor(private _openAgendaService: OpenAgendaService,
     private _queryPatient: QueryPatient,
     private dataCitaToAssignService: dataCitaToAssignService,
-
+    private _laboratory: LaboratoryService,
+    private _eps: EpssService
   ) {
 
     this._queryPatient.infowailist.subscribe(res => {
@@ -89,8 +94,13 @@ export class CrearCitaComponent implements OnInit {
   ngOnInit(): void {
 
     this.$patient = this._queryPatient.patient.subscribe(r => {
+      this.contract_id = ''
+      this.route_id = ''
       this.call = r.llamada
       this.patient = r.paciente
+
+      this.getContract(this.tipification.type_service_id);
+      this.getRoutes(this.patient)
     })
     /*  this.call = this.dataCitaToAssignService.dateCall.llamada
      this.patient = this.dataCitaToAssignService.dateCall.paciente */
@@ -100,11 +110,39 @@ export class CrearCitaComponent implements OnInit {
 
     this.$tipif = this._queryPatient.tipificationData.subscribe(r => {
       this.tipification = r
+      this.getContract(this.tipification.type_service_id)
     })
 
     this.$trSelct = this._queryPatient.tramiteSelected.subscribe(r => {
       this.tramiteSelected = r
     })
+  }
+  routes: any[] = []
+  getRoutes(patient) {
+    let dob:any = new Date(patient.date_of_birth);
+    let today:any = new Date();
+    let timediff = Math.abs(today - dob);
+    let age = Math.floor((timediff / (1000 * 3600 * 24)) / 365);
+    let data = {
+      gender: patient.gener,
+      birthday: age
+    }
+    this._eps.getAttentionRoutesCustom(data).subscribe((res: any) => {
+      this.routes = res.data
+    })
+  }
+
+  getContract(type_service_id) {
+    let params = {
+      eps_id: this.patient.eps_id,
+      regimen_id: this.patient.regimen_id,
+      department_id: this.patient.department_id,
+      type_service: type_service_id
+    }
+    this._laboratory.getContracts(params)
+      .subscribe((res: any) => {
+        this.contratos = res.data
+      })
   }
 
   ngOnDestroy(): void {

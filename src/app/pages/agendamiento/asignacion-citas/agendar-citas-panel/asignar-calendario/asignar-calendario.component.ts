@@ -15,6 +15,7 @@ import { QueryPatient } from '../../../query-patient.service';
 import { QueryAvailabilitySpacesService } from '../../../query-availability-spaces.service';
 import { dataCitaToAssignService } from '../../../dataCitaToAssignService.service';
 import { AssingService } from 'src/app/services/assign.service';
+import esLocale from '@fullcalendar/core/locales/es';
 
 @Component({
   selector: 'app-asignar-calendario',
@@ -25,7 +26,7 @@ export class AsignarCalendarioComponent implements OnInit {
 
   breadCrumbItems: Array<{}>;
   @Output('siguiente') siguiente = new EventEmitter();
-
+  locales = [esLocale];
   public speciality: Number;
   public person: Number;
 

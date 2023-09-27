@@ -11,6 +11,7 @@ import { EventInput } from '@fullcalendar/core';
 import { ListaTrabajoService } from '../lista-trabajo.service';
 import Swal from 'sweetalert2';
 import { DetalleAgendaService } from '../detalle-agenda.service';
+import esLocale from '@fullcalendar/core/locales/es';
 
 @Component({
   selector: 'app-ver-agenda',
@@ -21,7 +22,7 @@ export class VerAgendaComponent implements OnInit {
   agenda: any = {};
   notOverride = false;
   id: any;
-
+  locales = [esLocale];
   public fechaInicio: any;
   public fechaFin: any;
 

@@ -55,7 +55,7 @@ export class QueryPatient {
     if (!patient.gener) throw ({ title, message: 'Es necesario el género' })
     if (!patient.department_id) throw ({ title, message: 'Es necesario el departamento' })
     if (!patient.municipality_id) throw ({ title, message: 'Es necesario el municipio' })
-    if (!patient.contract_id) throw ({ title, message: 'Es necesario el contrato' })
+    //if (!patient.contract_id) throw ({ title, message: 'Es necesario el contrato' })
     if (!patient.company_id) throw ({ title, message: 'Es necesario la empresa' })
     if (!patient.location_id) throw ({ title, message: 'Es necesaria la sede' })
     if (!patient.email) throw ({ title, message: 'Es necesario el email' })
