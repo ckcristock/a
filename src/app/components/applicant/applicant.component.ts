@@ -9,9 +9,9 @@ import { JobService } from '../../pages/rrhh/vacantes/job.service';
 export class ApplicantComponent implements OnInit {
   @ViewChild('applicantM') applicantM;
   data: any = {};
-  constructor(  private _job: JobService ) {}
+  constructor(private _job: JobService) { }
 
-  ngOnInit(): void {}
+  ngOnInit(): void { }
 
   show(data) {
     this.data = data;
@@ -26,14 +26,14 @@ export class ApplicantComponent implements OnInit {
       link.href = window.URL.createObjectURL(blob);
       link.download = `${filename}.pdf`;
       link.click();
-     
+
     }),
       (error) => {
-        console.log('Error downloading the file');
-      
+        //console.log('Error downloading the file');
+
       },
       () => {
-        console.info('File downloaded successfully');
+        //console.info('File downloaded successfully');
       };
   }
 }

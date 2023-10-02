@@ -32,11 +32,16 @@ export class RightsidebarComponent implements OnInit {
     private http: HttpClient,
     private sanitizer: DomSanitizer,
     public fb: FormBuilder,
-    private _texteditor: TexteditorService,) {}
+    private _texteditor: TexteditorService,) { }
 
   ngOnInit(): void {
     this.getPersonTaskPendiente();
     this._task.getPerson();
+  }
+
+  init() {
+    document.body.classList.toggle('right-bar-enabled');
+    this.getPersonTaskPendiente();
   }
 
   getPersonTaskPendiente() {
@@ -45,7 +50,7 @@ export class RightsidebarComponent implements OnInit {
       .subscribe(
         (d: any) => {
           this.pendientes = d.data;
-          for (let i in d.data){
+          for (let i in d.data) {
             this.pendientes[i].descripcion = this.sanitizer.bypassSecurityTrustHtml(atob(this.pendientes[i].descripcion))
           }
         });

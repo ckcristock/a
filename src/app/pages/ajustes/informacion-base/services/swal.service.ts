@@ -15,6 +15,11 @@ export class SwalService {
     html: ''
   };
 
+  public buttonColor = {
+    confirm: '#3849CA',
+    cancel: '#d33'
+  }
+
   constructor() { }
 
   public ShowMessage(data: any) {
@@ -39,30 +44,39 @@ export class SwalService {
   }
 
 
-  show({ title, text, icon, timer = 0, showCancel = true,
-
-  },  preConfirm ?  ) {
+  show(
+    {
+      title,
+      text = '',
+      icon,
+      timer = 0,
+      showCancel = true,
+      confirmButtonColor = null,
+      html = ''
+    }, preConfirm?) {
     let swal: any = {
       title,
       text,
       icon,
       timer,
-      allowOutsideClick: false,
-      allowEscapeKey: false,
+      allowOutsideClick: true,
+      allowEscapeKey: true,
       showCancelButton: showCancel,
-      confirmButtonColor: '#3085d6',
+      confirmButtonColor: icon == 'error' ? this.buttonColor.cancel : (confirmButtonColor || this.buttonColor.confirm),
       confirmButtonText: showCancel ? '¡Sí, confirmar!' : 'OK',
-      cancelButtonColor: '#d33',
+      cancelButtonColor: this.buttonColor.cancel,
       cancelButtonText: 'Cancelar',
-      reverseButtons: true
+      reverseButtons: true,
+      html: html
 
     };
     if (preConfirm) {
-      swal = {...swal,
+      swal = {
+        ...swal,
         preConfirm,
-        allowOutsideClick : () => !Swal.isLoading(),
+        allowOutsideClick: () => !Swal.isLoading(),
         showLoaderOnConfirm: true
-        }
+      }
     }
     return Swal.fire(swal)
   }

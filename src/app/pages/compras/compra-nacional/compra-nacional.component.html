@@ -1,59 +1,103 @@
 <div class="card">
   <div class="card-body">
     <div class="card-title d-flex justify-content-between">
-      <h4 class="text-primary">Órdenes de Compras</h4>
-      <div class="btn-group rounded">
-        <button class="btn btn-primary btn-sm" style="float: right;" [routerLink]="['/compras/crear-nacional']">
-          <i class="fa fa-plus"></i> Agregar
-        </button>
-        <button class="btn btn-info btn-sm" style="float: right;" (click)="openClose()">
-          <i class="fas fa-sliders-h"></i> Filtros
-        </button>
+      <div class="col-md-6 px-0">
+        <h4 class="text-primary">Órdenes de compra</h4>
+      </div>
+      <div class="col-md-6 px-0 text-right">
+        <div class="btn-group rounded w-sm-100">
+          <button
+            class="btn btn-primary btn-sm"
+            [routerLink]="['/compras/crear-nacional']"
+          >
+            <i class="fa fa-plus"></i> Agregar
+          </button>
+          <button class="btn btn-info btn-sm" (click)="openClose()">
+            <i class="fas fa-sliders-h"></i> Filtros
+          </button>
+        </div>
       </div>
     </div>
-    <hr class="line">
+    <hr class="line" />
     <mat-accordion multi>
-      <mat-expansion-panel class="mat-elevation-z0">
-        <mat-form-field class="col-lg-2 col-md-3 col-sm-4 pl-0" appearance="outline">
-          <mat-label>Funcionario</mat-label>
-          <input type="text" matInput name="nit" [(ngModel)]="filtro_func" autocomplete="off"
-            placeholder="Busca por funcionario" (input)="filtros()">
-        </mat-form-field>
-        <mat-form-field class="col-lg-2 col-md-3 col-sm-4 pl-0" appearance="outline">
-          <mat-label>Fecha de inicio</mat-label>
-          <input matInput type="date" [(ngModel)]="fechita" (input)="fechitaF($event)" autocomplete="off"
-            placeholder="Busca por fecha">
-        </mat-form-field>
-        <mat-form-field class="col-lg-2 col-md-3 col-sm-4 pl-0" appearance="outline">
-          <mat-label>Fecha de fin</mat-label>
-          <input matInput type="date" [(ngModel)]="fechita2" (input)="fechitaF2($event)" autocomplete="off"
-            placeholder="Busca por fecha">
-        </mat-form-field>
-        <mat-form-field class="col-lg-2 col-md-3 col-sm-4 pl-0" appearance="outline">
-          <mat-label>Código</mat-label>
-          <input matInput type="text" [(ngModel)]="filtro_cod" (blur)="filtros()" autocomplete="off"
-            placeholder="Busca por código">
-        </mat-form-field>
-        <mat-form-field class="col-lg-2 col-md-3 col-sm-4 pl-0" appearance="outline">
-          <mat-label>Proveedor</mat-label>
-          <input type="text" matInput name="nit" [(ngModel)]="filtro_prov" (blur)="filtros()" autocomplete="off"
-            placeholder="Busca por proveedor">
-        </mat-form-field>
-        <mat-form-field class="col-md-2 pl-0" appearance="outline">
-          <mat-label>Estado</mat-label>
-          <mat-select [(ngModel)]="filtro_est" (selectionChange)="filtros()">
-            <mat-option value="">Todos</mat-option>
-            <mat-option value="Pendiente">Pendiente</mat-option>
-            <mat-option value="No conforme">No Conforme</mat-option>
-            <mat-option value="Anulada">Anulada</mat-option>
-            <mat-option value="Recibida">Recibida</mat-option>
-            <mat-option value="Devuelta">Devuelta</mat-option>
-          </mat-select>
-        </mat-form-field>
+      <mat-expansion-panel #matPanel class="mat-elevation-z0">
+        <div class="row">
+          <mat-form-field class="col" appearance="outline">
+            <mat-label>Funcionario</mat-label>
+            <input
+              type="text"
+              matInput
+              name="nit"
+              [(ngModel)]="filtro_func"
+              autocomplete="off"
+              placeholder="Busca por funcionario"
+              (input)="filtros()"
+            />
+          </mat-form-field>
+          <mat-form-field class="col" appearance="outline">
+            <mat-label>Fecha de inicio</mat-label>
+            <input
+              matInput
+              type="date"
+              [(ngModel)]="fechita"
+              (input)="fechitaF($event)"
+              autocomplete="off"
+              placeholder="Busca por fecha"
+            />
+          </mat-form-field>
+          <mat-form-field class="col" appearance="outline">
+            <mat-label>Fecha de fin</mat-label>
+            <input
+              matInput
+              type="date"
+              [(ngModel)]="fechita2"
+              (input)="fechitaF2($event)"
+              autocomplete="off"
+              placeholder="Busca por fecha"
+            />
+          </mat-form-field>
+          <mat-form-field class="col" appearance="outline">
+            <mat-label>Código</mat-label>
+            <input
+              matInput
+              type="text"
+              [(ngModel)]="filtro_cod"
+              (blur)="filtros()"
+              autocomplete="off"
+              placeholder="Busca por código"
+            />
+          </mat-form-field>
+          <mat-form-field class="col" appearance="outline">
+            <mat-label>Proveedor</mat-label>
+            <input
+              type="text"
+              matInput
+              name="nit"
+              [(ngModel)]="filtro_prov"
+              (blur)="filtros()"
+              autocomplete="off"
+              placeholder="Busca por proveedor"
+            />
+          </mat-form-field>
+          <mat-form-field class="col" appearance="outline">
+            <mat-label>Estado</mat-label>
+            <mat-select [(ngModel)]="filtro_est" (selectionChange)="filtros()">
+              <mat-option value="">Todos</mat-option>
+              <mat-option value="Pendiente">Pendiente</mat-option>
+              <mat-option value="No conforme">No Conforme</mat-option>
+              <mat-option value="Anulada">Anulada</mat-option>
+              <mat-option value="Recibida">Recibida</mat-option>
+              <mat-option value="Devuelta">Devuelta</mat-option>
+            </mat-select>
+          </mat-form-field>
+        </div>
       </mat-expansion-panel>
     </mat-accordion>
-    <table class="table table-bordered table-striped table-sm table-responsive-sm" style="font-size: small;"
-      *ngIf="!loading && comprasnacionales.length > 0; else notData">
+    <table
+      class="table table-bordered table-striped table-sm table-responsive-sm"
+      style="font-size: small"
+      *ngIf="!loading && comprasnacionales.length > 0; else notData"
+    >
       <thead>
         <tr>
           <th></th>
@@ -68,10 +112,14 @@
       <tbody>
         <tr *ngFor="let compra of comprasnacionales">
           <td>
-            <img [src]="compra.Imagen | image: 'users'" style="width: 15px;" class="img-radius imagen" />
-            {{compra.Funcionario}}
+            <img
+              [src]="compra.Imagen | image : 'users'"
+              style="width: 15px"
+              class="img-radius imagen"
+            />
+            {{ compra.Funcionario }}
           </td>
-          <td>{{ compra.Fecha | date: "dd/MM/yyyy" }}</td>
+          <td>{{ compra.Fecha | date : "dd/MM/yyyy" }}</td>
           <td>{{ compra.Codigo }}</td>
 
           <td>
@@ -81,56 +129,57 @@
           </td>
           <td>
             <div class="text-center">
-              <span class="label {{
-                            compra.Estado == 'Anulada' ? 'label-danger' : ''
-                          }} {{
-                            compra.Estado == 'Recibida' ? 'label-inverse' : ''
-                          }} {{
-                            compra.Estado == 'Pendiente' ? 'label-warning' : ''
-                          }}">{{ compra.Estado }}
+              <span
+                class="label {{
+                  compra.Estado == 'Anulada' ? 'label-danger' : ''
+                }} {{ compra.Estado == 'Recibida' ? 'label-inverse' : '' }} {{
+                  compra.Estado == 'Pendiente' ? 'label-warning' : ''
+                }}"
+                >{{ compra.Estado }}
               </span>
             </div>
           </td>
           <td>
             <div class="text-center">
-              <span class="label label-success">{{
-                compra.Aprobacion
-                }}</span>
+              <span class="label label-success">{{ compra.Aprobacion }}</span>
             </div>
           </td>
           <td>
             <div class="text-center">
               <div ngbDropdown class="dropdown-primary">
-                <button ngbDropdownToggle class="
-                              btn-sm
-                              btn btn-secondary btn-mini
-                              waves-effect waves-light
-                            " type="button">
+                <button
+                  ngbDropdownToggle
+                  class="btn-sm btn btn-secondary btn-mini waves-effect waves-light"
+                  type="button"
+                >
                   Acciones
                 </button>
                 <div ngbDropdownMenu>
-                  <a *ngIf="
-                                compra.Estado != 'Anulada' &&
-                                compra.Estado != 'Recibida' &&
-                                compra.Estado_Aprobacion == 'Rechazada'
-                              " class="
-                                dropdown-item
-                                waves-light waves-effect
-                                caja-botones
-                              " href="" [routerLink]="[
-                                '/comprasnacionaleseditar',
-                                compra.Id_Orden_Compra_Nacional
-                              ]">
-                    <i class="ti-pencil"></i>Editar</a>
-                  <a class="
-                                dropdown-item
-                                waves-light waves-effect
-                                caja-botones
-                              " href="" [routerLink]="[
-                                '/compras/ver-nacional',
-                                compra.Id_Orden_Compra_Nacional
-                              ]">
-                    <i class="ti-eye"></i>Ver</a>
+                  <a
+                    *ngIf="
+                      compra.Estado != 'Anulada' &&
+                      compra.Estado != 'Recibida' &&
+                      compra.Estado_Aprobacion == 'Rechazada'
+                    "
+                    class="dropdown-item waves-light waves-effect caja-botones"
+                    href=""
+                    [routerLink]="[
+                      '/comprasnacionaleseditar',
+                      compra.Id_Orden_Compra_Nacional
+                    ]"
+                  >
+                    <i class="ti-pencil"></i>Editar</a
+                  >
+                  <a
+                    class="dropdown-item waves-light waves-effect caja-botones"
+                    href=""
+                    [routerLink]="[
+                      '/compras/ver-nacional',
+                      compra.Id_Orden_Compra_Nacional
+                    ]"
+                  >
+                    <i class="ti-eye"></i>Ver</a
+                  >
                   <!-- TODO Imprimir Orden Compra -->
                   <!--  <a
                               class="
@@ -147,17 +196,17 @@
                             >
                               <i class="ti-printer"></i>Imprimir</a
                             > -->
-                  <a *ngIf="compra.Estado != 'Anulada'" class="
-                                dropdown-item
-                                waves-light waves-effect
-                                caja-botones
-                              " href="" [swal]="anulacion" (confirm)="
-                                anularCompra(
-                                  compra.Id_Orden_Compra_Nacional,
-                                  $event
-                                )
-                              ">
-                    <i class="fa fa-times"></i>Anular</a>
+                  <a
+                    *ngIf="compra.Estado != 'Anulada'"
+                    class="dropdown-item waves-light waves-effect caja-botones"
+                    href=""
+                    [swal]="anulacion"
+                    (confirm)="
+                      anularCompra(compra.Id_Orden_Compra_Nacional, $event)
+                    "
+                  >
+                    <i class="fa fa-times"></i>Anular</a
+                  >
                 </div>
               </div>
             </div>
@@ -168,8 +217,17 @@
 
     <!-- {{ page * maxSize - maxSize + 1 }} al {{ page * maxSize }} de
     {{ TotalItems }} -->
-    <ngb-pagination *ngIf="comprasnacionales.length > 0" class="pull-right" [collectionSize]="TotalItems"
-      [(page)]="page" [maxSize]="maxSize" [pageSize]="20" size="sm" (pageChange)="paginacion()" [boundaryLinks]="true">
+    <ngb-pagination
+      *ngIf="comprasnacionales.length > 0"
+      class="pull-right"
+      [collectionSize]="TotalItems"
+      [(page)]="page"
+      [maxSize]="maxSize"
+      [pageSize]="20"
+      size="sm"
+      (pageChange)="paginacion()"
+      [boundaryLinks]="true"
+    >
     </ngb-pagination>
   </div>
 </div>
@@ -178,10 +236,23 @@
   <app-not-data [loading]="loading"></app-not-data>
 </ng-template>
 
-<swal #anulacion title="¿Está Seguro?" text="Ingrese la causal de anulación" input="text" type="warning"
-  showCancelButton="true" confirmButtonText="Si, Eliminar" cancelButtonText="No, Dejame Comprobar!"></swal>
+<swal
+  #anulacion
+  title="¿Está Seguro?"
+  text="Ingrese la causal de anulación"
+  input="text"
+  type="warning"
+  showCancelButton="true"
+  confirmButtonText="Si, Eliminar"
+  cancelButtonText="No, Dejame Comprobar!"
+></swal>
 
-<swal #deleteSwal title="Orden de Compra Anulada" text="Se ha Anulado Correctamente la Orden de Compra" type="success">
+<swal
+  #deleteSwal
+  title="Orden de Compra Anulada"
+  text="Se ha Anulado Correctamente la Orden de Compra"
+  type="success"
+>
 </swal>
 
 <swal #infoSwal title="" text="" type=""> </swal>
@@ -191,7 +262,11 @@
 <app-modal-basic #configuracion>
   <div class="app-modal-header">
     <h4>Configuración</h4>
-    <button type="button" class="close basic-close" (click)="configuracion.hide()">
+    <button
+      type="button"
+      class="close basic-close"
+      (click)="configuracion.hide()"
+    >
       <span aria-hidden="true">&times;</span>
     </button>
   </div>
@@ -206,15 +281,27 @@
       <div class="col-sm-6">
         <div class="form-group">
           <label for="dias"> Modifique los dias: </label>
-          <input type="number" pattern="[0-9]+" [(ngModel)]="dias_anulacion" placeholder="numero de días"
-            class="form-control mb-4" />
+          <input
+            type="number"
+            pattern="[0-9]+"
+            [(ngModel)]="dias_anulacion"
+            placeholder="numero de días"
+            class="form-control mb-4"
+          />
         </div>
       </div>
       <div class="col-sm-6">
         <div class="form-group">
           <label for="responsable"> Modifique el responsable: </label>
-          <select class="form-control" [(ngModel)]="funcionario_anulacion" id="responsable">
-            <option *ngFor="let func of funcionarios_anulacion" [value]="func.Identificacion_Funcionario">
+          <select
+            class="form-control"
+            [(ngModel)]="funcionario_anulacion"
+            id="responsable"
+          >
+            <option
+              *ngFor="let func of funcionarios_anulacion"
+              [value]="func.Identificacion_Funcionario"
+            >
               {{ func.Funcionario }}
             </option>
           </select>
