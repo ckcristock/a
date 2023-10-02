@@ -1,23 +1,20 @@
 <div class="row">
+  <mat-form-field class="col" appearance="outline">
+    <mat-label>Tablero permitido</mat-label>
+    <mat-select [(ngModel)]="boardsSelected" name="boardsSelected">
+      <mat-option [value]="0">Sin asignar</mat-option>
+      <mat-option *ngFor="let item of boards" [value]="item.id">{{
+        item.name_board
+      }}</mat-option>
+    </mat-select>
+  </mat-form-field>
   <div class="col-12">
-    <ng-select
-      [items]="boards"
-      bindLabel="name_board"
-      appearance="outline"
-      [appendTo]="'body'"
-      placeholder="Tablero permitido"
-      [(ngModel)]="boardsSelected"
-      ngDefaultControl
-      name="boardsSelected"
-    >
-    </ng-select>
-  </div>
-  <div class="col-12">
-    <button class="btn btn-primary btn-sm btn-block mt-2" (click)="save()">
+    <button class="btn btn-primary btn-sm btn-block" (click)="save()">
       <i
         class="fa"
         [ngClass]="{ 'fa-save': !saving, 'fa-sync fa-spin': saving == true }"
       ></i>
+      Guardar
     </button>
   </div>
 </div>

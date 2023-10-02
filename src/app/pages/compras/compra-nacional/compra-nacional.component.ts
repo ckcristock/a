@@ -176,7 +176,7 @@ export class CompraNacionalComponent implements OnInit {
       }
       let queryString = Object.keys(params).map(key => key + '=' + params[key]).join('&');
 
-      this.location.replaceState('/comprasnacionales', queryString); // actualizando URL
+      this.location.replaceState('/compras/nacional', queryString); // actualizando URL
 
       this.http.get(environment.ruta + '/php/comprasnacionales/lista_compras.php?' + queryString, this.requiredParams).subscribe((data: any) => {
         this.comprasnacionales = data.compras;
@@ -184,7 +184,7 @@ export class CompraNacionalComponent implements OnInit {
         this.loading = false;
       });
     } else {
-      this.location.replaceState('/comprasnacionales', '');
+      this.location.replaceState('/compras/nacional', '');
       this.loading = true;
       this.page = 1;
       this.filtro_cod = '';

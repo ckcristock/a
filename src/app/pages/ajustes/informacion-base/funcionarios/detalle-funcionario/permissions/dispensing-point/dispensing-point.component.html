@@ -1,5 +1,13 @@
 <div class="row">
-  <div class="col-12">
+  <mat-form-field class="col" appearance="outline">
+    <mat-label>Tablero permitido</mat-label>
+    <mat-select [(ngModel)]="dispensing_point_id" name="boardsSelected">
+      <mat-option *ngFor="let item of points" [value]="item.value">{{
+        item.text
+      }}</mat-option>
+    </mat-select>
+  </mat-form-field>
+  <!-- <div class="col-12">
     <ng-select
       [items]="points"
       required
@@ -15,13 +23,14 @@
       ngDefaultControl
     >
     </ng-select>
-  </div>
+  </div> -->
   <div class="col-12">
-    <button class="btn btn-primary btn-sm btn-block mt-2" (click)="save()">
+    <button class="btn btn-primary btn-sm btn-block" (click)="save()">
       <i
         class="fa"
         [ngClass]="{ 'fa-save': !saving, 'fa-sync fa-spin': saving == true }"
       ></i>
+      Guardar
     </button>
   </div>
 </div>

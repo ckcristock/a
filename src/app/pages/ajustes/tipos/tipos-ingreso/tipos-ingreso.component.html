@@ -19,18 +19,18 @@
     <mat-accordion multi>
       <mat-expansion-panel class="mat-elevation-z0">
         <div class="row">
-            <mat-form-field class="col" appearance="outline">
-              <mat-label>Nombre</mat-label>
-              <input
-                type="text"
-                matInput
-                [(ngModel)]="filtro.name"
-                (input)="getIngressType()"
-                name="name"
-                autocomplete="off"
-                placeholder="Busca por nombre"
-              />
-            </mat-form-field>
+          <mat-form-field class="col" appearance="outline">
+            <mat-label>Nombre</mat-label>
+            <input
+              type="text"
+              matInput
+              [(ngModel)]="filtro.name"
+              (input)="getIngressType()"
+              name="name"
+              autocomplete="off"
+              placeholder="Busca por nombre"
+            />
+          </mat-form-field>
         </div>
       </mat-expansion-panel>
     </mat-accordion>
@@ -55,7 +55,7 @@
               'text-danger font-weight-bold': ingress.status == 'Inactivo'
             }"
           >
-            <td class="text-left">{{ ingress.name }}</td>
+            <td class="text-left">{{ ingress.name | uppercase }}</td>
             <td>{{ ingress.associated_account }}</td>
             <td>{{ ingress.type }}</td>
             <td>

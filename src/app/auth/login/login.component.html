@@ -13,17 +13,21 @@
               <div class="col-lg-9">
                 <div>
                   <div class="text-center">
-                    <div>
-                      <a routerLink="" class="logo"
-                        ><img
+                    <div class="row justify-content-center">
+                      <div class="col-sm-8 col-lg-12">
+                        <img
                           src="assets/images/logo-dark.svg"
-                          height="50"
+                          class="w-100"
                           alt="logo"
-                      /></a>
+                        />
+                        <!--  <a routerLink="" class="logo"
+                          ></a> -->
+                      </div>
+                      <div class="col-12 text-center">
+                        <h4 class="font-size-18 mt-4">Bienvenido(a)</h4>
+                        <p class="text-muted">Inicia sesión para continuar</p>
+                      </div>
                     </div>
-
-                    <h4 class="font-size-18 mt-4">Bienvenido</h4>
-                    <p class="text-muted">Inicia sesión para continuar</p>
                   </div>
 
                   <div class="p-2 mt-5">
@@ -46,37 +50,38 @@
                           formControlName="user"
                           class="form-control"
                           id="user"
-                          placeholder="Ingrese Identificacion"
+                          placeholder="Ingresa tu identificación"
+                          [ngClass]="{
+                            'is-invalid': submitted && f.user.invalid
+                          }"
                         />
                         <div
-                          *ngIf="submitted && f.user.errors"
+                          *ngIf="submitted && f.user.invalid"
                           class="invalid-feedback"
                         >
-                          <div *ngIf="f.email.errors.required">
-                            El campo usuario es obligatorio
-                          </div>
+                          <div *ngIf="f.user.errors">Campo obligatorio</div>
                         </div>
                       </div>
 
                       <div class="form-group auth-form-group-custom mb-4">
                         <i class="ri-lock-2-line auti-custom-input-icon"></i>
-                        <label for="password">Password</label>
+                        <label for="password">Contraseña</label>
                         <input
-                          type="password"
+                          [type]="show ? 'text' : 'password'"
                           formControlName="password"
                           class="form-control"
                           id="password"
                           [ngClass]="{
                             'is-invalid': submitted && f.password.errors
                           }"
-                          placeholder="Ingrese Contraseña"
+                          placeholder="Ingresa tu contraseña"
                         />
                         <div
-                          *ngIf="submitted && f.password.errors"
+                          *ngIf="submitted && f.password.invalid"
                           class="invalid-feedback"
                         >
-                          <div *ngIf="f.password.errors.required">
-                            PEl campo password es obligatorio
+                          <div *ngIf="f.password.invalid">
+                            Campo obligatorio
                           </div>
                         </div>
                       </div>
@@ -99,13 +104,14 @@
                           type="submit"
                         >
                           <span
-                            class="spinner-border spinner-border-sm"
-                            role="status"
-                            aria-hidden="true"
-                            *ngIf="log_in"
-                          ></span>
-                          <span class="sr-only">Loading...</span>
-                          Iniciar Sesión
+                            ><i
+                              class="fas"
+                              [class]="!log_in ? '' : 'fa-spinner fa-spin'"
+                            ></i>
+                            {{
+                              !log_in ? "Iniciar sesión" : "Iniciando sesión"
+                            }}</span
+                          >
                         </button>
                       </div>
 
@@ -114,7 +120,7 @@
                           routerLink="/account/reset-password"
                           class="text-muted"
                           ><i class="mdi mdi-lock mr-1"></i> Recuperar
-                          Contraseña</a
+                          contraseña</a
                         >
                       </div>
                       <div class="mt-5 text-center">

@@ -89,7 +89,7 @@ export class DataDinamicService {
 
   public getSpecialtiesByProcedure(procedure: string) {
 
-    console.log(procedure);
+    //console.log(procedure);
 
     if (!procedure) {
       procedure = '0'
