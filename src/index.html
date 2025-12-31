@@ -11,6 +11,15 @@
 </head>
 
 <body>
+    <script>
+  (function () {
+    const params = new URLSearchParams(window.location.search);
+    const baseHref = document.querySelector('base').getAttribute('href');
+if (redirect) {
+  history.replaceState(null, '', baseHref + redirect);
+}
+  })();
+</script>
     <app-root></app-root>
 </body>
 

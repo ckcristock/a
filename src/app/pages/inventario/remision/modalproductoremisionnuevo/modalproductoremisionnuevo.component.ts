@@ -22,7 +22,7 @@ import { Observable } from 'rxjs';
 // import { DispensacionService } from '../../services/dispensacion/dispensacion.service';
 // import { RemisionnuevoService } from '../../services/remisionnuevo/remisionnuevo.service';
 // import { RemisionModelNuevo } from '../../modelos/RemisonModelNuevo';
-import { stringify } from 'querystring';
+// import { stringify } from 'querystring';
 import { RemisionModelNuevo } from '../RemisonModelNuevo';
 import { ProductoRemisionModel } from '../ProductoRemisionModel';
 import { SwalService } from 'src/app/pages/ajustes/informacion-base/services/swal.service';
