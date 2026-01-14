@@ -10,4 +10,7 @@ RUN npm install
 
 COPY . .
 
+# Aumentar heap de Node a 4GB
+ENV NODE_OPTIONS="--max-old-space-size=4096"
+
 CMD ["npm", "start"]
