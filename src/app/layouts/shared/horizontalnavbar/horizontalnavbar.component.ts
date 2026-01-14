@@ -1,4 +1,12 @@
-import { Component, OnInit, AfterViewInit, Input, ViewChild, ElementRef, HostListener } from '@angular/core';
+import {
+  Component,
+  OnInit,
+  AfterViewInit,
+  Input,
+  ViewChild,
+  ElementRef,
+  HostListener,
+} from '@angular/core';
 import { Router, NavigationEnd } from '@angular/router';
 import { UserService } from 'src/app/core/services/user.service';
 
@@ -9,13 +17,13 @@ import { MenuItem } from './menu.model';
 @Component({
   selector: 'app-horizontalnavbar',
   templateUrl: './horizontalnavbar.component.html',
-  styleUrls: ['./horizontalnavbar.component.scss']
+  styleUrls: ['./horizontalnavbar.component.scss'],
 })
 export class HorizontalnavbarComponent implements OnInit, AfterViewInit {
   @ViewChild('subMenu') subMenu: any;
   configData;
   menuItems = [];
-  navItems = []
+  navItems = [];
   public innerWidth: any;
   // tslint:disable-next-line: max-line-length
   constructor(
@@ -24,9 +32,28 @@ export class HorizontalnavbarComponent implements OnInit, AfterViewInit {
     private userService: UserService,
     private el: ElementRef
   ) {
-    this.navItems = userService.user.menu;
+    this.navItems = [
+      {
+        name: 'Dashboard',
+        icon: 'dashboard',
+        url: '/dashboard',
+        permissions: [],
+      },
+      {
+        name: 'Usuarios',
+        icon: 'users',
+        url: '/users',
+        permissions: [],
+      },
+      {
+        name: 'Configuración',
+        icon: 'settings',
+        url: '/settings',
+        permissions: [],
+      },
+    ];
     //console.log(this.navItems)
-    router.events.subscribe(event => {
+    router.events.subscribe((event) => {
       if (event instanceof NavigationEnd) {
         this.activateMenu();
       }
@@ -39,51 +66,48 @@ export class HorizontalnavbarComponent implements OnInit, AfterViewInit {
   }
 
   ngOnInit(): void {
-
     this.initialize();
     this.innerWidth = window.innerWidth;
     this.configData = {
       suppressScrollX: true,
-      wheelSpeed: 0.3
+      wheelSpeed: 0.3,
     };
   }
 
   /**
    * On menu click
    */
-   onMenuClick(event: any) {
-
+  onMenuClick(event: any) {
     const nextEl = event.target.nextSibling;
     const parent = event.target.parentNode;
 
     if (this.innerWidth < 990) {
       if (event.target.nextSibling.id != 'navmenu') {
-        let p = event.target.nextSibling.style.display
+        let p = event.target.nextSibling.style.display;
         if (p == null || p == '' || p == 'none') {
-          event.target.nextSibling.style.display = 'block'
+          event.target.nextSibling.style.display = 'block';
           //event.target.parentElement.style.display = 'block'
-          event.target.parentElement.parentElement.style.display = 'block'
+          event.target.parentElement.parentElement.style.display = 'block';
         } else {
-          event.target.nextSibling.style.display = 'none'
-
+          event.target.nextSibling.style.display = 'none';
         }
       } else {
-        if (event.target.nextSibling.style.display == "block") {
-          event.target.nextSibling.style.display = 'none'
+        if (event.target.nextSibling.style.display == 'block') {
+          event.target.nextSibling.style.display = 'none';
         } else {
-          event.target.nextSibling.style.display = 'block'
+          event.target.nextSibling.style.display = 'block';
         }
       }
-
     } else if (nextEl.id !== 'navmenu') {
-      console.log(parent)
+      console.log(parent);
     } else if (nextEl && nextEl.classList.contains('show')) {
       const parentEl = event.target.parentNode;
-      if (parentEl) { parentEl.classList.remove('show'); }
+      if (parentEl) {
+        parentEl.classList.remove('show');
+      }
       nextEl.classList.toggle('show');
     }
     return false;
-
 
     /* console.log(event)
      */
@@ -94,7 +118,9 @@ export class HorizontalnavbarComponent implements OnInit, AfterViewInit {
   }
 
   hideMenu() {
-    document.getElementsByClassName('collapse navbar-collapse')[0].classList.remove('show')
+    document
+      .getElementsByClassName('collapse navbar-collapse')[0]
+      .classList.remove('show');
   }
 
   /**
@@ -119,7 +145,6 @@ export class HorizontalnavbarComponent implements OnInit, AfterViewInit {
    * Activates the menu
    */
   private activateMenu() {
-
     const resetParent = (el: any) => {
       const parent = el.parentElement;
       if (parent) {
@@ -228,5 +253,4 @@ export class HorizontalnavbarComponent implements OnInit, AfterViewInit {
   hasItems(item) {
     return item.child !== undefined ? item.child.length > 0 : false;
   }
-
 }
